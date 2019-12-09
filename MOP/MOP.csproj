@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2CEAE666-CBA5-4FA6-AEE3-D6C5CFB2DE20}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MOP</RootNamespace>
+    <AssemblyName>MOP</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="MSCLoader">
+      <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\MSCLoader.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayMaker">
+      <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\PlayMaker.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="src\GameObjects\Items\CashRegisterHook.cs" />
+    <Compile Include="src\GameObjects\Items\Items.cs" />
+    <Compile Include="src\GameObjects\Items\ObjectHook.cs" />
+    <Compile Include="src\GameObjects\Places\Yard.cs" />
+    <Compile Include="src\GameObjects\Vehicles\AdoptableObject.cs" />
+    <Compile Include="src\GameObjects\Vehicles\Satsuma.cs" />
+    <Compile Include="src\GameObjects\WorldObject.cs" />
+    <Compile Include="src\GameObjects\Places\RepairShop.cs" />
+    <Compile Include="src\GameObjects\Places\Place.cs" />
+    <Compile Include="src\GameObjects\Places\Teimo.cs" />
+    <Compile Include="src\GameObjects\Vehicles\Gifu.cs" />
+    <Compile Include="src\GameObjects\Vehicles\Vehicle.cs" />
+    <Compile Include="src\Misc\CustomExtensions.cs" />
+    <Compile Include="src\Misc\MopSettings.cs" />
+    <Compile Include="src\WorldManager.cs" />
+    <Compile Include="src\MOP.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\whitelist_satsuma.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\changelog.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if "$(ConfigurationName)" == "Debug" (
+copy $(TargetPath) "C:\Users\aathl\Documents\MySummerCar\Mods" /y
+copy "$(TargetDir)$(TargetName).pdb" "C:\Users\aathl\Documents\MySummerCar\Mods\mods"
+call "C:\Users\aathl\Documents\MySummerCar\Mods\debug.bat"
+) ELSE (
+copy $(TargetPath) "C:\Users\aathl\Documents\MySummerCar\Mods" /y
+)</PostBuildEvent>
+  </PropertyGroup>
+</Project>
