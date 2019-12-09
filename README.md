@@ -1,5 +1,7 @@
 # Modern Optimization Plugin
 
+<img src="icon.png" alt="icon" width=128/>
+
 MOP (Modern Optimization Plugin) is a project which aims to make the My Summer Car game run better. It is in large part based of [KruFPS](https://github.com/Krutonium/KruFPS), but with the core of it rewritten from scratch.
 
 ## Performance
