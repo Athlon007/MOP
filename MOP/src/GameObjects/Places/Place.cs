@@ -35,6 +35,7 @@ namespace MOP
         public Place(string placeName)
         {
             Object = GameObject.Find(placeName);
+            Object.AddComponent<OcclusionObject>();
         }
 
         /// <summary>

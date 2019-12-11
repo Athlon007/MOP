@@ -33,6 +33,9 @@ namespace MOP
         {
             this.GameObject = GameObject.Find(gameObjectName);
             this.Distance = distance;
+
+            if (this.GameObject.GetComponent<OcclusionObject>() == null)
+                this.GameObject.AddComponent<OcclusionObject>();
         }
 
         /// <summary>

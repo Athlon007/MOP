@@ -61,13 +61,26 @@ namespace MOP.Properties {
         }
         
         /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu Beta 1.0:
-        ///
-        ///- Initial release.
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu - Initial release.
         /// </summary>
         internal static string changelog {
             get {
                 return ResourceManager.GetString("changelog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;World&gt;
+        ///  &lt;Object name=&quot;MAP&quot;&gt;
+        ///      &lt;Object name=&quot;PierDancehall&quot;/&gt;&gt;
+        ///  &lt;/Object&gt;
+        ///  &lt;Object name=&quot;STORE&quot;/&gt;
+        ///&lt;/World&gt;.
+        /// </summary>
+        internal static string occlusiontable {
+            get {
+                return ResourceManager.GetString("occlusiontable", resourceCulture);
             }
         }
         

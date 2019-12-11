@@ -13,7 +13,7 @@ namespace MOP
     {
         public static WorldManager instance;
 
-        Transform player;
+        public static Transform player;
 
         // Vehicles
         List<Vehicle> vehicles;

@@ -65,6 +65,8 @@ namespace MOP
             carDynamics = gm.GetComponent<CarDynamics>();
             axles = gm.GetComponent<Axles>();
             rb = gm.GetComponent<Rigidbody>();
+
+            gm.AddComponent<OcclusionObject>();
         }
 
         /// <summary>

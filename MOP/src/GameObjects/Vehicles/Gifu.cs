@@ -14,6 +14,7 @@ namespace MOP
 
         Transform BeaconsParent;
         Transform Beacons;
+        Transform WorkLightsSwitch;
 
         /// <summary>
         /// Initialize class
@@ -28,6 +29,7 @@ namespace MOP
 
             BeaconSwitch = BeaconSwitchParent.transform.Find("KnobBeacon");
             Beacons = BeaconsParent.transform.Find("Beacon");
+            WorkLightsSwitch = BeaconSwitchParent.transform.Find("KnobWorkLights");
         }
 
         /// <summary>
@@ -50,6 +52,7 @@ namespace MOP
                 }
                 SetParentForChild(BeaconSwitch, TemporaryParent);
                 SetParentForChild(Beacons, TemporaryParent);
+                SetParentForChild(WorkLightsSwitch, TemporaryParent);
 
                 Position = gm.transform.localPosition;
                 Rotation = gm.transform.localRotation;
@@ -71,6 +74,7 @@ namespace MOP
                 }
                 SetParentForChild(BeaconSwitch, BeaconSwitchParent.gameObject);
                 SetParentForChild(Beacons, BeaconsParent.gameObject);
+                SetParentForChild(WorkLightsSwitch, BeaconSwitchParent.gameObject);
             }
         }
     }
