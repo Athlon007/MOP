@@ -39,5 +39,8 @@ This program is distributed under GNU General Public License v3. Feel free to us
 
 ## Credits
 
-- Est_Nbmstr - for clever name ide
+- [Krutonium](https://github.com/Krutonium) - original [KruFPS](https://github.com/Krutonium/KruFPS) creator, and the KruFPS contributors:
+  - RedJohn260
+  - EPS
+- Est_Nbmstr - for clever name idea
 - Icon made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](www.flaticon.com)
