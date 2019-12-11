@@ -9,7 +9,7 @@
 
         public static int OcclusionSamples = 120;
         public static int ViewDistance = 400;
-        public static float OcclusionSampleDelay = 1;
+        public static int OcclusionSampleDelay = 1;
         public static int OcclusionHideDelay = 3;
         public static int MinOcclusionDistance = 50;
 
@@ -19,11 +19,11 @@
             ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
 
             EnableObjectOcclusion = (bool)MOP.enableObjectOcclusion.GetValue();
-            OcclusionSamples = (int)MOP.occlusionSamples.GetValue();
-            ViewDistance = (int)MOP.occlusionDistance.GetValue();
-            OcclusionSampleDelay = (float)MOP.occlusionSampleDelay.GetValue();
-            OcclusionHideDelay = (int)MOP.occlusionHideDelay.GetValue();
-            MinOcclusionDistance = (int)MOP.minOcclusionDistance.GetValue();
+            OcclusionSamples = int.Parse(MOP.occlusionSamples.GetValue().ToString());
+            ViewDistance = int.Parse(MOP.occlusionDistance.GetValue().ToString());
+            OcclusionSampleDelay = int.Parse(MOP.occlusionSampleDelay.GetValue().ToString());
+            OcclusionHideDelay = int.Parse(MOP.occlusionHideDelay.GetValue().ToString());
+            MinOcclusionDistance = int.Parse(MOP.minOcclusionDistance.GetValue().ToString());
         }
 
         static float GetActiveDistanceMultiplicationValue()

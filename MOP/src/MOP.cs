@@ -60,7 +60,7 @@ namespace MOP
             Settings.AddSlider(this, occlusionSamples, 1, 120);
             Settings.AddText(this, "How many samples of the screen will be checked for visible objects. " +
                 "Lower values mean more detail, but may cause significant performance impact.");
-            Settings.AddSlider(this, occlusionSampleDelay, 0.01f, 10.0f);
+            Settings.AddSlider(this, occlusionSampleDelay, 1, 10);
             Settings.AddText(this, "How often the program will objects check if they're visible.");
             Settings.AddSlider(this, occlusionHideDelay, 1, 10);
             Settings.AddText(this, "After how long the objects will hide, when not visible anymore.");

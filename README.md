@@ -14,7 +14,7 @@ MOP aims for the maximum performance. Compared to KruFPS, it has the object load
 | Driving Satsuma | 23 FPS  | 33 FPS | 39 FPS |
 | Away from house | 29 FPS  | 43 FPS | 55 FPS |
 
-Note: tested on Xiaomi Mi Notebook Air latop with Intel Core i5-8250U, 8 GB RAM and Nvidia MX150.
+Note: tested on Xiaomi Mi Notebook Air latop with Intel Core i5-8250U, 8 GB RAM and Nvidia MX150 (without Occlusion Culling).
 
 **Results may vary!**
 
