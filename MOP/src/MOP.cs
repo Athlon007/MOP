@@ -25,6 +25,7 @@ namespace MOP
         {
             MopSettings.UpdateValues();
             
+            // Disable the mod, if KruFPS is present
             if (ModLoader.IsModPresent("KruFPS"))
             {
                 ModConsole.Error("MOP is not compatbile with KruFPS. Please remove KruFPS first!");
@@ -34,6 +35,7 @@ namespace MOP
             // Initialize the WorldManager class
             GameObject worldManager = new GameObject("WorldManager");
 
+            // Add Occlusion
             if ((bool)enableObjectOcclusion.GetValue() == true)
                 worldManager.AddComponent<Occlusion>();
 
@@ -71,8 +73,8 @@ namespace MOP
             Settings.AddButton(this, openLastLog);
             Settings.AddButton(this, generateReport);
             Settings.AddHeader(this, "Activating Objects", new Color32(29, 29, 29, 255));
-            Settings.AddSlider(this, activeDistance, 0, 2);
-            Settings.AddText(this, "From how far objects are disabled.\n - 0: Close\n - 1: Normal (Default)\n - 2: Far");
+            Settings.AddSlider(this, activeDistance, 0, 3);
+            Settings.AddText(this, "From how far objects are disabled.\n - 0: Close (0.5x)\n - 1: Normal (Default)\n - 2: Far (2x)\n - 3: Very far(4x)");
             Settings.AddText(this, "Toggled Objects:");
             Settings.AddCheckBox(this, toggleVehicles);
             Settings.AddCheckBox(this, toggleItems);

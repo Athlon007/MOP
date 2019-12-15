@@ -43,11 +43,13 @@
             switch (ActiveDistance)
             {
                 default:
-                    return 1f;
+                    return 1;
                 case 0:
                     return 0.5f;
                 case 2:
-                    return 2f;
+                    return 2;
+                case 3:
+                    return 4;
             }
         }
 

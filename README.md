@@ -1,6 +1,6 @@
 # Modern Optimization Plugin
 
-<img src="icon.png" alt="icon" width=128/>
+<img align="right" src="images/icon.png" alt="icon" width=128/>
 
 MOP (Modern Optimization Plugin) is a project which aims to make the My Summer Car game run better. It is in large part based of [KruFPS](https://github.com/Krutonium/KruFPS), but with the core of it rewritten from scratch. All that hasn't been signed by me, has been rewritten.
 
@@ -8,7 +8,7 @@ MOP (Modern Optimization Plugin) is a project which aims to make the My Summer C
 
 MOP aims for the maximum performance. Compared to KruFPS, it has the object loading lag reduced to minimum.
 
-|                 | Vanilla | KruFPS |  MOP |
+|                 | Vanilla | KruFPS v3 |  MOP Beta 1.0 |
 |:---------------:|---------|--------|--------|
 |       Home      | 25 FPS  | 35 FPS | 46 FPS |
 | Driving Satsuma | 23 FPS  | 33 FPS | 39 FPS |
@@ -25,7 +25,7 @@ Note: tested on Xiaomi Mi Notebook Air latop with Intel Core i5-8250U, 8 GB RAM 
 
 ## Installation
 
-Grab the mod from [NexusMods](https://www.nexusmods.com/mysummercar/mods/146/), or [HERE](download.zip), paste it in MSC Mod Loader Mods folder (ex. C:\Users\Athlon\Documents\MySummerCar\Mods) and start the game - that's it!
+Grab the mod from [NexusMods](https://www.nexusmods.com/mysummercar/mods/146/), or [releases page](https://github.com/Athlon007/MOP/releases), paste it in MSC Mod Loader Mods folder (ex. C:\Users\Athlon\Documents\MySummerCar\Mods) and start the game - that's it!
 
 ## Mod compatibility
 
