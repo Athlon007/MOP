@@ -17,7 +17,7 @@ namespace MOP
         public string[] whiteList = { "grille gt" };
 
         // List of ObjectHooks attached to minor objects
-        public List<ObjectHook> ObjectHooks = new List<ObjectHook>();
+        public List<ItemHook> ObjectHooks = new List<ItemHook>();
 
         public static Items instance;
 
@@ -35,7 +35,7 @@ namespace MOP
         /// Add object hook to the list
         /// </summary>
         /// <param name="newHook"></param>
-        public void Add(ObjectHook newHook)
+        public void Add(ItemHook newHook)
         {
             ObjectHooks.Add(newHook);
         }
@@ -44,7 +44,7 @@ namespace MOP
         /// Remove object hook from the list
         /// </summary>
         /// <param name="objectHook"></param>
-        public void Remove(ObjectHook objectHook)
+        public void Remove(ItemHook objectHook)
         {
             if (ObjectHooks.Contains(objectHook))
             {
@@ -67,7 +67,7 @@ namespace MOP
 
             for (int i = 0; i < minorObjects.Length; i++)
             {
-                minorObjects[i].AddComponent<ObjectHook>();
+                minorObjects[i].AddComponent<ItemHook>();
             }
         }
 

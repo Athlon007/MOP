@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace MOP
 {
-    class ObjectHook : MonoBehaviour
+    class ItemHook : MonoBehaviour
     {
         // This MonoBehaviour hooks to all minor objects.
         // ObjectHook class by Konrad "Athlon" Figura
@@ -35,7 +35,12 @@ namespace MOP
         /// </summary>
         bool isBeerCase;
 
-        public ObjectHook()
+        /// <summary>
+        /// If true, the fix for position will be applied, similiar to the beer case one
+        /// </summary>
+        bool usePositionFix;
+
+        public ItemHook()
         {
             // Add self to the MinorObjects.objectHooks list
             Items.instance.Add(this);
@@ -79,6 +84,7 @@ namespace MOP
             }
 
             isBeerCase = gm.name.Contains("beer case");
+            usePositionFix = gm.name.ContainsAny("kilju", "empty plastic can", "juice");
         }
 
         // Triggered before the object is destroyed.
@@ -95,6 +101,17 @@ namespace MOP
 
             currentState = enabled;
 
+            // Fix for Carry More mod
+            // Similiar to the one with beer cases, but this time related to kilju =
+            if (enabled && usePositionFix)
+            {
+                if (currentBeerCasePositionFix != null)
+                    return;
+
+                currentBeerCasePositionFix = BeerCasePositionFix();
+                StartCoroutine(currentBeerCasePositionFix);
+            }
+
             // Beer cases are treated differently.
             // Instead of disabling entire object, change it's rigibdody values, to prevent them from landing under vehicles.
             // It fixes the problems with bottles in beer cases disappearing.
@@ -106,18 +123,6 @@ namespace MOP
 
                 rb.detectCollisions = enabled;
                 rb.isKinematic = !enabled;
-
-                // Fix for Carry More mod
-                // Beer cases for some reason tend to have detectCollisions disabled uppon reenabling.
-                // This code launches the BeerCasePositionFix() coroutine, in order to fix that, if the object is reenabled
-                if (enabled)
-                {
-                    if (currentBeerCasePositionFix != null)
-                        return;
-
-                    currentBeerCasePositionFix = BeerCasePositionFix();
-                    StartCoroutine(currentBeerCasePositionFix);
-                }
 
                 return;
             }

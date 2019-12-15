@@ -345,3 +345,5 @@ MigrationBackup/
 
 # Visual Studio Code directory
 .vscode/
+
+build/

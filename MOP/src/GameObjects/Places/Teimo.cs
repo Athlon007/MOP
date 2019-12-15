@@ -26,7 +26,7 @@
                                 "PRODUCST", "Microwave", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "WoodSheetStore", "WoodSheetPub",
                                 "Bolt", "Pin", "pin", "Handle", "Explosion", "Fire", "GasolineFire", "Smoke", "Trail", "Fireball",
                                 "Shower", "Dust", "Shockwave", "Force", "Sound", "Point light", "smoke", "Flame", "Dynamics", "bottle",
-                                "needle", "Parts", "_gfx"};
+                                "needle", "Parts", "_gfx", "LookTarget", "Speak" };
 
         /// <summary>
         /// Initialize the Store class

@@ -15,7 +15,7 @@
       </Object>
       <Object name="TrafficSigns"/>
       <Object name="StreetLights"/>
-      <Object name="BusStop1"/>
+      <Object name="BusStop 1"/>
       <Object name="HayBales"/>
       <Object name="PierHome"/>
       <Object name="MESH" exception="true">
@@ -37,15 +37,9 @@
       <Object name="BirdTower"/>
       <Object name="SkijumpHill"/>
       <Object name="RadioMast"/>
-      <Object name="LakeNice"/>
       <Object name="PierRiver"/>
       <Object name="BusStop"/>
       <Object name="Factory"/>
-  </Object>
-  <Object name="DRAGRACE" exception="true">
-    <Object name="LOD" exception="true">
-      <Object name="DRAGSTRIP"/>
-    </Object>
   </Object>
   <Object name="RYKIPOHJA" exception="true">
       <Object name="BarnOld"/>
@@ -81,4 +75,7 @@
       <Object name="MailBox"/>
       <Object name="HouseOld5"/>
   </Object>
+  <Object name="HAYOSIKO(1500kg, 250)" exception="true">
+    <Object name="LOD"/>
+  </Object>>
 </World>

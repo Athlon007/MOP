@@ -61,7 +61,7 @@
     </Compile>
     <Compile Include="src\GameObjects\Items\CashRegisterHook.cs" />
     <Compile Include="src\GameObjects\Items\Items.cs" />
-    <Compile Include="src\GameObjects\Items\ObjectHook.cs" />
+    <Compile Include="src\GameObjects\Items\ItemHook.cs" />
     <Compile Include="src\GameObjects\Places\Yard.cs" />
     <Compile Include="src\GameObjects\Vehicles\AdoptableObject.cs" />
     <Compile Include="src\GameObjects\Vehicles\Satsuma.cs" />
@@ -72,6 +72,7 @@
     <Compile Include="src\GameObjects\Vehicles\Gifu.cs" />
     <Compile Include="src\GameObjects\Vehicles\Vehicle.cs" />
     <Compile Include="src\Misc\CustomExtensions.cs" />
+    <Compile Include="src\Misc\ErrorHandler.cs" />
     <Compile Include="src\Misc\MopSettings.cs" />
     <Compile Include="src\Occlusion\Occlusion.cs" />
     <Compile Include="src\Occlusion\OcclusionBase.cs" />
@@ -96,9 +97,7 @@
   <ItemGroup>
     <None Include="Resources\occlusiontable.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\Misc\Debug\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if "$(ConfigurationName)" == "Debug" (

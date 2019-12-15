@@ -74,7 +74,7 @@ namespace MOP
 
         public void Toggle()
         {
-            PlayerDistance = Vector3.Distance(WorldManager.player.transform.position, transform.position);
+            PlayerDistance = Vector3.Distance(WorldManager.instance.player.position, transform.position);
             bool visible = (isVisible) || (PlayerDistance < MopSettings.MinOcclusionDistance);
 
             for (int i = 0; i < renderers.Count; i++)

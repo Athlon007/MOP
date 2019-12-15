@@ -25,8 +25,8 @@ If applicable, add screenshots to help explain your problem.
 
 **Game Version:** [e.g. 15.11.2019/Experimental]
 
-**Mod list (please complete the following information):**
- [e.g. - CarryMore]
+**Mod Report:**
+ [Go into mod settings and click "Generate mod report", and paste the content here]
 
 **Additional context**
 Add any other context about the problem here.

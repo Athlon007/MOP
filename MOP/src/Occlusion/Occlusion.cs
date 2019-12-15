@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
-using System.Xml.Linq;
 using System.Xml;
 
 namespace MOP
 {
     class Occlusion : MonoBehaviour
     {
+        // This class reads through occlusiontable.xml file for files that need to be injected with OcclusionObject script.
+
         public Occlusion()
         {
             XmlDocument doc = new XmlDocument();
@@ -25,41 +23,35 @@ namespace MOP
 
         void ReadChildNode(XmlNodeList nodeList, string path)
         {
-            try
+            for (int i = 0; i < nodeList.Count; i++)
             {
-                foreach (XmlNode node in nodeList)
+                XmlNode node = nodeList[i];
+                string name = node.Attributes["name"].Value;
+                string pathToSelf = path != "" ? path + "/" + name : name;
+                //MSCLoader.ModConsole.Print(pathToSelf);
+
+                if (node.Attributes["exception"] == null)
                 {
-                    string name = node.Attributes["name"].Value;
-                    string pathToSelf = path != "" ? path + "/" + name : name;
-                    MSCLoader.ModConsole.Print(pathToSelf);
+                    GameObject gm = GameObject.Find(pathToSelf);
 
-                    if (node.Attributes["exception"] == null)
+                    if (gm == null)
                     {
-                        GameObject gm = GameObject.Find(pathToSelf);
-
-                        if (gm == null)
-                        {
-                            MSCLoader.ModConsole.Error("[MOP] Object not found: " + pathToSelf);
-                            continue;
-                        }                
-
-                        if (gm.GetComponent<OcclusionObject>() == null)
-                            gm.AddComponent<OcclusionObject>();
-                    }
-                    else
-                    {
-                        MSCLoader.ModConsole.Print("Skipped...");
+                        MSCLoader.ModConsole.Error("[MOP] Object not found: " + pathToSelf);
+                        continue;
                     }
 
-                    if (node.ChildNodes.Count > 0)
-                    {
-                        ReadChildNode(node.SelectNodes("Object"), pathToSelf);
-                    }
+                    if (gm.GetComponent<OcclusionObject>() == null)
+                        gm.AddComponent<OcclusionObject>();
                 }
-            }
-            catch (Exception ex)
-            {
-                MSCLoader.ModConsole.Error(ex.ToString());
+                else
+                {
+                    MSCLoader.ModConsole.Print("Skipped...");
+                }
+
+                if (node.ChildNodes.Count > 0)
+                {
+                    ReadChildNode(node.SelectNodes("Object"), pathToSelf);
+                }
             }
         }
     }

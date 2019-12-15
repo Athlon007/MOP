@@ -26,7 +26,7 @@ namespace MOP
 
         // List of unloadable objects
         internal Transform[] AudioObjects;
-        internal Transform FuelTank;
+        internal Transform FuelTank;    
 
         // Overwrites the "Component.transform", to prevent eventual mod crashes caused by missuse of Vehicle.transform.
         // Technically, you should use Vehicle.Object.transform (ex. GIFU.Object.Transform), this here just lets you use Vehicle.transform
@@ -66,7 +66,8 @@ namespace MOP
             axles = gm.GetComponent<Axles>();
             rb = gm.GetComponent<Rigidbody>();
 
-            gm.AddComponent<OcclusionObject>();
+            if (!gm.name.StartsWith("HAYOSIKO"))
+                gm.AddComponent<OcclusionObject>();
         }
 
         /// <summary>

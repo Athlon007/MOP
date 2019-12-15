@@ -61,10 +61,10 @@ namespace MOP
                 for (int i = 0; i < items.Length; i++)
                 {
                     // Object already ObjectHook attached? Ignore it.
-                    if (items[i].GetComponent<ObjectHook>() != null)
+                    if (items[i].GetComponent<ItemHook>() != null)
                         continue;
 
-                    items[i].AddComponent<ObjectHook>();
+                    items[i].AddComponent<ItemHook>();
 
                     // Hook the TriggerMinorObjectRefresh to Confirm and Spawn all actions
                     if (items[i].name.Contains("shopping bag"))
