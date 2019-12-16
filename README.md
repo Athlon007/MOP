@@ -25,7 +25,7 @@ Note: tested on Xiaomi Mi Notebook Air latop with Intel Core i5-8250U, 8 GB RAM 
 
 ## Installation
 
-Grab the mod from [NexusMods](https://www.nexusmods.com/mysummercar/mods/146/), or [releases page](https://github.com/Athlon007/MOP/releases), paste it in MSC Mod Loader Mods folder (ex. C:\Users\Athlon\Documents\MySummerCar\Mods) and start the game - that's it!
+Grab the mod from [NexusMods](https://www.nexusmods.com/mysummercar/mods/146/), [RaceDepartment](https://www.racedepartment.com/downloads/mop-modern-optimization-project.30073/) or [releases page](https://github.com/Athlon007/MOP/releases), paste it in MSC Mod Loader Mods folder (ex. C:\Users\Athlon\Documents\MySummerCar\Mods) and start the game - that's it!
 
 ## Mod compatibility
 

@@ -4,6 +4,7 @@
 
 ### Added
 
+- MOP is now available on RaceDepartment!
 - Added "Very Far" active distance (4x the Normal value)
 
 ### Changes
