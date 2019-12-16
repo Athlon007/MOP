@@ -27,6 +27,8 @@ namespace MOP
         // World Objects
         List<WorldObject> worldObjects;
 
+        SatsumaInAreaCheck inspectionArea;
+
         public WorldManager()
         {
             instance = this;
@@ -51,10 +53,10 @@ namespace MOP
 
             // World Objects
             worldObjects.Add(new WorldObject("CABIN", 200));
-            worldObjects.Add(new WorldObject("COTTAGE", 200));
+            worldObjects.Add(new WorldObject("COTTAGE", 400));
             worldObjects.Add(new WorldObject("DANCEHALL", 200));
             worldObjects.Add(new WorldObject("INSPECTION", 200));
-            worldObjects.Add(new WorldObject("LANDFILL", 200));
+            //worldObjects.Add(new WorldObject("LANDFILL", 200));
             worldObjects.Add(new WorldObject("PERAJARVI", 200));
             worldObjects.Add(new WorldObject("RYKIPOHJA", 200));
             worldObjects.Add(new WorldObject("SOCCER", 200));
@@ -120,18 +122,25 @@ namespace MOP
 
             // Possible fix for Jokke.
             // Needs testing
+            /*
             Transform[] kiljuGuyChilds = GameObject.Find("KILJUGUY").transform.GetComponentsInChildren<Transform>();
             for (int i = 0; i < kiljuGuyChilds.Length; i++)
             {
                 worldObjects.Add(new WorldObject(kiljuGuyChilds[i].gameObject));
             }
+            */
 
             // Removes the mansion from the Buildings, so the tires will not land under the mansion.
             GameObject.Find("autiotalo").transform.parent = null;
 
+            // Fix for cottage items disappearing when moved
+            GameObject.Find("coffee pan(itemx)").transform.parent = null;
+            GameObject.Find("lantern(itemx)").transform.parent = null;
+            GameObject.Find("coffee cup(itemx)").transform.parent = null;
+
             //Things that should be enabled when out of proximity of the house
             worldObjects.Add(new WorldObject("NPC_CARS", awayFromHouse: true));
-            worldObjects.Add(new WorldObject("RALLY", awayFromHouse: true));
+            //worldObjects.Add(new WorldObject("RALLY", awayFromHouse: true));
             worldObjects.Add(new WorldObject("TRAFFIC", awayFromHouse: true));
             worldObjects.Add(new WorldObject("TRAIN", awayFromHouse: true));
             worldObjects.Add(new WorldObject("Buildings", awayFromHouse: true));
@@ -149,7 +158,16 @@ namespace MOP
             worldObjects.Add(new WorldObject("RAILROAD", true));
             worldObjects.Add(new WorldObject("AIRPORT", true));
 
-            new Items();
+            // Adding area check if Satsuma is in the inspection's area
+            inspectionArea = GameObject.Find("INSPECTION").AddComponent<SatsumaInAreaCheck>();
+            inspectionArea.Initialize(new Vector3(20, 20, 20));
+
+            // Check for when Satsuma is on the lifter
+            SatsumaInAreaCheck lifterArea = GameObject.Find("REPAIRSHOP/Lifter/Platform").AddComponent<SatsumaInAreaCheck>();
+            lifterArea.Initialize(new Vector3(5, 5, 5));
+
+            // Initialize Items class
+            new Items();            
 
             HookPreSaveGame();
 
@@ -218,7 +236,6 @@ namespace MOP
                 int half = worldObjects.Count / 2;
                 int i = 0;
 
-
                 try
                 {
                     // Go through the list worldObjects list
@@ -230,6 +247,11 @@ namespace MOP
                             worldObjects[i].ToggleActive(player.Distance(yard.transform) > 100);
                             continue;
                         }
+
+                        // Fix for inspection area being unloaded after the successfull inspection,
+                        // making game not save the car inspection status.
+                        if (worldObjects[i].GameObject.name == "INSPECTION" && inspectionArea.InspectionPreventUnload)
+                            continue;
 
                         // The object will be disables, if the player is in the range of that object.
                         worldObjects[i].ToggleActive(ToEnable(worldObjects[i].transform, worldObjects[i].Distance));
@@ -252,6 +274,11 @@ namespace MOP
                             worldObjects[i].ToggleActive(player.Distance(yard.transform) > 100);
                             continue;
                         }
+
+                        // Fix for inspection area being unloaded after the successfull inspection,
+                        // making game not save the car inspection status.
+                        if (worldObjects[i].GameObject.name == "INSPECTION" && inspectionArea.InspectionPreventUnload)
+                            continue;
 
                         // The object will be disables, if the player is in the range of that object.
                         worldObjects[i].ToggleActive(ToEnable(worldObjects[i].transform, worldObjects[i].Distance));
@@ -333,7 +360,6 @@ namespace MOP
                             if (vehicles[i].satsumaScript != null)
                             {
                                 vehicles[i].satsumaScript.ToggleActive(ToEnable(distance));
-                                continue;
                             }
 
                             vehicles[i].ToggleActive(ToEnable(distance));
@@ -391,7 +417,7 @@ namespace MOP
                 try
                 {
                     teimo.ToggleActive(ToEnable(teimo.transform));
-                    repairShop.ToggleActive(ToEnable(repairShop.transform));
+                    repairShop.ToggleActive(ToEnable(repairShop.transform, 400));
                     yard.ToggleActive(ToEnable(yard.transform, 300));
                 }
                 catch (Exception ex)

@@ -123,7 +123,7 @@ namespace MOP
 
         public void ToggleUnityCar(bool enabled)
         {
-            if (gm == null || carDynamics.enabled == enabled) return;
+            if (gm == null || carDynamics.enabled == enabled || (satsumaScript != null && satsumaScript.IsSatsumaInInspectionArea)) return;
 
             carDynamics.enabled = enabled;
             axles.enabled = enabled;

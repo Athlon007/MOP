@@ -15,9 +15,11 @@ namespace MOP
             if (File.Exists("mop_err.txt"))
                 File.Delete("mop_err.txt");
 
+            string gameInfo = GetGameInfo();
+
             using (StreamWriter sw = new StreamWriter("MOP_LOG.txt"))
             {
-                sw.Write(ex.ToString());
+                sw.Write(gameInfo + "\n\n" + ex.ToString());
                 sw.Close();
             }
 
@@ -34,9 +36,10 @@ namespace MOP
         }
 
         /// <summary>
-        /// Dumps the info about the mod and lists all installed mods into MOP_REPORT.txt
+        /// Generates the report about mod's settings and list of installed mods
         /// </summary>
-        public static void GenerateReport()
+        /// <returns></returns>
+        static string GetGameInfo()
         {
             string output = "";
             output += "ActiveDistance: " + MopSettings.ActiveDistance + "\n";
@@ -66,9 +69,19 @@ namespace MOP
                 output += $"{mod.Name} ({mod.ID}/{mod.Version})\n";
             }
 
+            return output;
+        }
+
+        /// <summary>
+        /// Dumps the info about the mod and lists all installed mods into MOP_REPORT.txt
+        /// </summary>
+        public static void GenerateReport()
+        {
+            string gameInfo = GetGameInfo();
+
             using (StreamWriter sw = new StreamWriter("MOP_REPORT.txt"))
             {
-                sw.Write(output);
+                sw.Write(gameInfo);
                 sw.Close();
             }
 

@@ -10,8 +10,12 @@ namespace MOP
         // This class extends the functionality of Vehicle class, which is tailored for Gifu.
         // It fixes the issue with Gifu's beams being turned on after respawn.
 
+        public static Satsuma instance;
+
         Transform[] disableableObjects;
         string[] whiteList;
+
+        public bool IsSatsumaInInspectionArea { get; set; }
 
         /// <summary>
         /// Initialize class
@@ -19,6 +23,7 @@ namespace MOP
         /// <param name="gameObject"></param>
         public Satsuma(string gameObject) : base(gameObject)
         {
+            instance = this;
             satsumaScript = this;
 
             whiteList = Properties.Resources.whitelist_satsuma.Replace("\n", "").Split(',');

@@ -27,7 +27,8 @@ namespace MOP
                                 "Valve", "Telephone", "Cord", "Socket", "Logic", "Phone", "table", "MAP", "Darts", "Booze",
                                 "Shit", "Wood", "Grandma", "SAVEGAME", "Shelf", "shelf", "Garage", "Building", "LIVINGROOM",
                                 "BEDROOM1", "Table", "boybed", "KITCHEN", "Fridge", "bench", "wood", "Pantry", "Glass",
-                                "closet", "Numbers", "Ring", "log" };
+                                "closet", "Numbers", "Ring", "log", "washingmachine", "lauteet", "MIDDLEROOM", "BeerCamp",
+                                "Chair", "TablePlastic", "LOD_middleroom", "hotwaterkeeper", "house_roof" };
 
         /// <summary>
         /// Initialize the RepairShop class
@@ -41,6 +42,10 @@ namespace MOP
 
             GameObjectBlackList = blackList;
             DisableableChilds = GetDisableableChilds();
+
+            // Remove fridge mesh from the list of disabled objects
+            Transform fridgeMesh = DisableableChilds.Find(w => w.name == "mesh" && w.transform.parent.name == "Fridge");
+            DisableableChilds.Remove(fridgeMesh);
         }
     }
 }

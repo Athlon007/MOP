@@ -1,4 +1,4 @@
-=== Modern Optimization Project ===
+=== Modern Optimization Plugin ===
 
 Visit our GitHub repository! https://github.com/Athlon007/MOP
 

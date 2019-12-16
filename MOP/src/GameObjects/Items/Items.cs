@@ -12,7 +12,7 @@ namespace MOP
         "empty plastic can", "fire extinguisher", "gasoline", "grill", "grill charcoal", "ground coffee", "juice", "kilju", "lamp", "macaronbox", "milk",
         "moosemeat", "mosquito spray", "motor oil", "oilfilter", "pike", "pizza", "ratchet set", "potato chips", "sausages", "sugar", "spanner set",
         "spray can", "two stroke fuel", "wiring mess", "wood carrier", "yeast", "shopping bag", "flashlight", "beer case", 
-        "fireworks bag"};
+        "fireworks bag", "lantern", "dipper", "coffee pan", "fireworks bag", "camera", "water bucket" };
 
         public string[] whiteList = { "grille gt" };
 
@@ -28,7 +28,7 @@ namespace MOP
         {
             instance = this;
             InitializeList();
-            HookCashRegister();
+            GameObject.Find("STORE/StoreCashRegister/Register").AddComponent<CashRegisterHook>();
         }
 
         /// <summary>
@@ -69,14 +69,6 @@ namespace MOP
             {
                 minorObjects[i].AddComponent<ItemHook>();
             }
-        }
-
-        /// <summary>
-        /// Hooks CashRegisterHook to Register GameObject
-        /// </summary>
-        private void HookCashRegister()
-        {
-            GameObject.Find("STORE/StoreCashRegister/Register").AddComponent<CashRegisterHook>();
         }
     }
 }

@@ -26,11 +26,6 @@ namespace MOP
         Rigidbody rb;
 
         /// <summary>
-        /// Stores the current state of an object.
-        /// </summary>
-        bool currentState;
-
-        /// <summary>
         /// Special fixes are applied for beer cases
         /// </summary>
         bool isBeerCase;
@@ -38,7 +33,9 @@ namespace MOP
         /// <summary>
         /// If true, the fix for position will be applied, similiar to the beer case one
         /// </summary>
-        bool usePositionFix;
+        bool isPlasticCan;
+
+        bool isShoppingBag;
 
         public ItemHook()
         {
@@ -70,21 +67,23 @@ namespace MOP
                     case "Destroy 2":
                         FsmHook.FsmInject(this.gameObject, "Destroy 2", RemoveSelf);
                         break;
-                    // These two are supposed to be attached to shopping bags. Currently doesn't work
-                    // TODO: Fix this
-                    /*
-                    case "Confirm":
-                        FsmHook.FsmInject(this.gameObject, "Confirm", RemoveSelf);
-                        break;
-                    case "Spawn all":
-                        FsmHook.FsmInject(this.gameObject, "Spawn all", RemoveSelf);
-                        break;
-                    */
                 }
             }
 
             isBeerCase = gm.name.Contains("beer case");
-            usePositionFix = gm.name.ContainsAny("kilju", "empty plastic can", "juice");
+            isPlasticCan = gm.name.ContainsAny("kilju", "empty plastic can", "juice");
+            isShoppingBag = gm.name.Contains("shopping bag");
+
+            if (isPlasticCan)
+            {
+                FsmHook.FsmInject(this.gameObject, "State 3", RemoveSelf);
+            }
+
+            // If the item is a shopping bag, hook the RemoveSelf to "Is garbage" FsmState
+            if (isShoppingBag)
+            {
+                FsmHook.FsmInject(this.gameObject, "Is garbage", RemoveSelf);
+            }
         }
 
         // Triggered before the object is destroyed.
@@ -96,14 +95,12 @@ namespace MOP
 
         public void ToggleActive(bool enabled)
         {
-            if (gm == null || this.currentState == enabled)
+            if (gm == null || gm.activeSelf == enabled)
                 return;
-
-            currentState = enabled;
 
             // Fix for Carry More mod
             // Similiar to the one with beer cases, but this time related to kilju =
-            if (enabled && usePositionFix)
+            if (enabled && isPlasticCan)
             {
                 if (currentBeerCasePositionFix != null)
                     return;

@@ -1,6 +1,4 @@
 ﻿using MSCLoader;
-using System.Diagnostics;
-using System.IO;
 using UnityEngine;
 
 namespace MOP
@@ -10,18 +8,17 @@ namespace MOP
         public override string ID => "MOP"; //Your mod ID (unique)
         public override string Name => "Modern Optimization Plugin (BETA)"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "1.1.0"; //Version
+        public override string Version => "1.1.1"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
         public override bool UseAssetsFolder => false;
-
         public override bool SecondPass => true;
 
         /// <summary>
         /// Called once, when mod is loading after game is fully loaded.
         /// </summary>
-        public override void OnLoad()
+        public override void SecondPassOnLoad()
         {
             MopSettings.UpdateValues();
             

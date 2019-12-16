@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace MOP
@@ -20,7 +21,7 @@ namespace MOP
         /// <summary>
         /// List of childs that are allowed to be disabled
         /// </summary>
-        internal Transform[] DisableableChilds;
+        internal List<Transform> DisableableChilds;
 
         public Transform transform => Object.transform;
 
@@ -48,7 +49,7 @@ namespace MOP
             lastValue = enabled;
 
             // Load and unload only the objects that aren't on the whitelist.
-            for (int i = 0; i < DisableableChilds.Length; i++)
+            for (int i = 0; i < DisableableChilds.Count; i++)
             {
                 DisableableChilds[i].gameObject.SetActive(enabled);
             }
@@ -58,9 +59,9 @@ namespace MOP
         /// Returns all childs of the object.
         /// </summary>
         /// <returns></returns>
-        internal Transform[] GetDisableableChilds()
+        internal List<Transform> GetDisableableChilds()
         {
-            return Object.transform.GetComponentsInChildren<Transform>(true).Where(trans => !trans.gameObject.name.ContainsAny(GameObjectBlackList)).ToArray();
+            return Object.transform.GetComponentsInChildren<Transform>(true).Where(trans => !trans.gameObject.name.ContainsAny(GameObjectBlackList)).ToList();
         }
     }
 }
