@@ -4,15 +4,27 @@
 
 ### Added
 
+- Added full support for Drivable Fury!
 - Added MSC Mod Loader info to "Generate mod info"
 - Mod will check if the MSC Mod Loader version is newer than 1.1.5
 - Added boat to the lisf of hidden objects
 - Occlusion Hide Delay will now be automagically calculated
+- You can now change how many traffic vehicles will spawn!
 
 ### Changes
 
 - Simplified Occlusion Sample Detail settings - now it consists of 5 checkboxes
 - Occlusion Culling leaves the experimental stage and now is in Beta!
+
+### Bug Fixes
+
+- Fixed some lights getting switched back on after house reload
+
+## Beta 1.1.3 (17.12.2019)
+
+### Bug Fixes
+
+- Fix related to 1.1.2
 
 ## Beta 1.1.2 (17.12.2019)
 

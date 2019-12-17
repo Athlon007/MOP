@@ -1,2 +1,2 @@
 Bug Fixes:
-- Fixed beer cases falling through the ground
+- Fixed related to the 1.1.2
