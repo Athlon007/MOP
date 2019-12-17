@@ -1,5 +1,19 @@
 # Changelog
 
+## Beta 1.2 (xx.12.2019)
+
+### Added
+
+- Added MSC Mod Loader info to "Generate mod info"
+- Mod will check if the MSC Mod Loader version is newer than 1.1.5
+- Added boat to the lisf of hidden objects
+- Occlusion Hide Delay will now be automagically calculated
+
+### Changes
+
+- Simplified Occlusion Sample Detail settings - now it consists of 5 checkboxes
+- Occlusion Culling leaves the experimental stage and now is in Beta!
+
 ## Beta 1.1.1 (16.12.2019)
 
 ### Added

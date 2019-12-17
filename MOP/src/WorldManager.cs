@@ -27,6 +27,9 @@ namespace MOP
         // World Objects
         List<WorldObject> worldObjects;
 
+        // Traffic
+        Traffic traffic;
+
         SatsumaInAreaCheck inspectionArea;
 
         public WorldManager()
@@ -65,6 +68,7 @@ namespace MOP
             worldObjects.Add(new WorldObject("TREES2_COLL", 200));
             worldObjects.Add(new WorldObject("TREES3_COLL", 200));
             worldObjects.Add(new WorldObject("DRAGRACE", 1100));
+            worldObjects.Add(new WorldObject("BOAT", 200));
 
             // Initialize shops
             teimo = new Teimo();
@@ -141,7 +145,7 @@ namespace MOP
             //Things that should be enabled when out of proximity of the house
             worldObjects.Add(new WorldObject("NPC_CARS", awayFromHouse: true));
             //worldObjects.Add(new WorldObject("RALLY", awayFromHouse: true));
-            worldObjects.Add(new WorldObject("TRAFFIC", awayFromHouse: true));
+            //worldObjects.Add(new WorldObject("TRAFFIC", awayFromHouse: true));
             worldObjects.Add(new WorldObject("TRAIN", awayFromHouse: true));
             worldObjects.Add(new WorldObject("Buildings", awayFromHouse: true));
             worldObjects.Add(new WorldObject("TrafficSigns", awayFromHouse: true));
@@ -157,6 +161,9 @@ namespace MOP
             worldObjects.Add(new WorldObject("ROCKS", true));
             worldObjects.Add(new WorldObject("RAILROAD", true));
             worldObjects.Add(new WorldObject("AIRPORT", true));
+
+            // Traffic
+            traffic = new Traffic();
 
             // Adding area check if Satsuma is in the inspection's area
             inspectionArea = GameObject.Find("INSPECTION").AddComponent<SatsumaInAreaCheck>();
@@ -423,6 +430,19 @@ namespace MOP
                 catch (Exception ex)
                 {
                     ErrorHandler.New(ex);
+                }
+
+                // Traffic
+                if (MopSettings.TrafficLimit == -1)
+                {
+                    traffic.ToggledVehicles[0].SetActive(Vector3.Distance(player.transform.position, yard.Object.transform.position) > 200);
+                }
+                else
+                {
+                    for (i = 0; i < traffic.ToggledVehicles.Count; i++)
+                    {
+                        traffic.Toggle(traffic.ToggledVehicles[i], !(Vector3.Distance(player.transform.position, yard.Object.transform.position) > 200));
+                    }
                 }
 
                 yield return new WaitForSeconds(1);

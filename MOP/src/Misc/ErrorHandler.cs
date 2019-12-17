@@ -42,11 +42,14 @@ namespace MOP
         static string GetGameInfo()
         {
             string output = "";
+            output += "MSC Mod Loader Version: " + MSCLoader.ModLoader.MSCLoader_Ver + "\n";
+            output += "My Summer Car version: " + UnityEngine.Application.version + "\n\n";
             output += "ActiveDistance: " + MopSettings.ActiveDistance + "\n";
             output += "ActiveDistanceMultiplicationValue: " + MopSettings.ActiveDistanceMultiplicationValue + "\n";
             output += "SafeMode: " + MopSettings.SafeMode.ToString() + "\n";
             output += "ToggleVehicles: " + MopSettings.ToggleVehicles.ToString() + "\n";
             output += "ToggleItems: " + MopSettings.ToggleItems.ToString() + "\n";
+            output += "TrafficLimit: " + MopSettings.TrafficLimit.ToString() + "\n";
             output += "EnableObjectOcclusion: " + MopSettings.EnableObjectOcclusion.ToString() + "\n";
             if (MopSettings.EnableObjectOcclusion)
             {

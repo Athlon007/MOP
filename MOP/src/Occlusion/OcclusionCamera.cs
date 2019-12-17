@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using System.Diagnostics;
 
 namespace MOP
 {
     class OcclusionCamera : MonoBehaviour
     {
+        bool occlusionHideDelayCalculated;
+        int calculationDelayStep = 0;
+        const int delayEnd = 2;
+
         void Start()
         {
             if (!MopSettings.EnableObjectOcclusion)
@@ -32,10 +37,29 @@ namespace MOP
             MSCLoader.ModConsole.Print("OcclusionCamera initialized");
         }
 
+        /// <summary>
+        /// Calculates how long it takes for the occlusion loop to end, and sets OcclusionHideDelay by this value
+        /// </summary>
+        /// <param name="elapsedTime"></param>
+        void SetOcclusionHideDelayTime(long elapsedTime)
+        {
+            float toFloat = Mathf.Round(float.Parse((elapsedTime * 0.001).ToString()));
+            int toInt = int.Parse(toFloat.ToString());
+            MopSettings.OcclusionHideDelay = toInt;
+        }
+
         IEnumerator FirstView()
         {
             while (MopSettings.IsModActive)
             {
+                Stopwatch stopwatch = new Stopwatch();
+                if (!occlusionHideDelayCalculated)
+                {
+                    calculationDelayStep += 1;
+                    if (calculationDelayStep > delayEnd)
+                        stopwatch = Stopwatch.StartNew();
+                }
+
                 ticks += 1;
                 if (ticks > 1000)
                     ticks = 0;
@@ -76,6 +100,14 @@ namespace MOP
                 }
 
                 yield return null;
+
+                if (!occlusionHideDelayCalculated && calculationDelayStep > delayEnd)
+                {
+                    stopwatch.Stop();
+                    occlusionHideDelayCalculated = true;
+                    long time = stopwatch.ElapsedMilliseconds * 2;
+                    SetOcclusionHideDelayTime(time);
+                }
             }
         }
 
@@ -132,6 +164,14 @@ namespace MOP
         {
             while (MopSettings.IsModActive)
             {
+                Stopwatch stopwatch = new Stopwatch();
+                if (!occlusionHideDelayCalculated)
+                {
+                    calculationDelayStep += 1;
+                    if (calculationDelayStep > delayEnd)
+                        stopwatch = Stopwatch.StartNew();
+                }
+
                 ticks += 1;
                 if (ticks > 100)
                     ticks = 0;
@@ -204,6 +244,14 @@ namespace MOP
 
                     yield return null;
                 }
+
+                if (!occlusionHideDelayCalculated && calculationDelayStep > delayEnd)
+                {
+                    stopwatch.Stop();
+                    occlusionHideDelayCalculated = true;
+                    long time = stopwatch.ElapsedMilliseconds;
+                    SetOcclusionHideDelayTime(time);
+                }
             }
         }
 
@@ -215,6 +263,14 @@ namespace MOP
         {
             while (true)
             {
+                Stopwatch stopwatch = new Stopwatch();
+                if (!occlusionHideDelayCalculated)
+                {
+                    calculationDelayStep += 1;
+                    if (calculationDelayStep > delayEnd)
+                        stopwatch = Stopwatch.StartNew();
+                }
+
                 ticks += 1;
                 if (ticks > 1000)
                     ticks = 0;
@@ -350,6 +406,14 @@ namespace MOP
                             }
                         }
                     }
+                }
+
+                if (!occlusionHideDelayCalculated && calculationDelayStep > delayEnd)
+                {
+                    stopwatch.Stop();
+                    occlusionHideDelayCalculated = true;
+                    long time = stopwatch.ElapsedMilliseconds;
+                    SetOcclusionHideDelayTime(time);
                 }
             }
         }

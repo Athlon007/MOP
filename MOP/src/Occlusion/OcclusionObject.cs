@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -26,10 +27,24 @@ namespace MOP
             if (renderers != null || renderers.Count == 0)
             {
                 InvokeRepeating("Toggle", MopSettings.OcclusionSampleDelay, MopSettings.OcclusionSampleDelay);
-                InvokeRepeating("Hide", MopSettings.OcclusionSampleDelay, MopSettings.OcclusionHideDelay);
+                StartCoroutine(WaitForHideDelayCalculation());
             }
 
             isVisible = true;
+        }
+
+        /// <summary>
+        /// Before the OcclusionCamera calculates the OcclusionHideDelay, wait for that value, then initialzie the Hide void
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator WaitForHideDelayCalculation()
+        {
+            while (MopSettings.OcclusionHideDelay == -1)
+            {
+                yield return new WaitForSeconds(1);
+            }
+
+            InvokeRepeating("Hide", MopSettings.OcclusionSampleDelay, MopSettings.OcclusionHideDelay);
         }
 
         public void Hide()
