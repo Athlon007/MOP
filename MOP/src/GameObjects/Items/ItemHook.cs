@@ -149,7 +149,7 @@ namespace MOP
             // Uppon reenabling, load position from saved value
             if (enabled)
             {
-                // Only teleport object to the last known position, 
+                // Only teleport object to the last known position,
                 // if the differenc between current and last known position is larger than 2 units.
                 if (Vector3.Distance(gm.transform.position, position) < 2)
                     return;
