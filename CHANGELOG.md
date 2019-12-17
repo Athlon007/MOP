@@ -1,5 +1,11 @@
 # Changelog
 
+## Beta 1.1.2 (17.12.2019)
+
+### Bug Fixes
+
+- Fixed beer cases falling through the ground
+
 ## Beta 1.1.1 (16.12.2019)
 
 ### Added

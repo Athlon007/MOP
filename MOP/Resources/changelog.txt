@@ -1,26 +1,2 @@
-Added:
-- Added "Very Far" active distance (4x the Normal value)
-
-Changes:
-- Removed landfill from the list of disabled objects, in order to fix issue with empty plastic containers not respwaning on the landfill
-- General improvements in regard of shop items
-
 Bug Fixes:
-- The mod will not disable the Satsuma physics, when the car is in the inspection area
-- Properly implemented SecondPassOnLoad (thanks piotrulos!)
-- Fixed Teimo holding beer and sausages with fries in left palm after respawn
-- Fixed second Teimo appearing on the bike, after store respawn
-- Empty plastic containers now respawn at the landfill
-- Fixed cottage items (like coffee pot) landing under the cottage, making them unnaccessible (you may need to use noclip if you used the earlier versions of the mod to get them back. Sorry!)
-- Fixed some cottage items disappearing after being moved from the cottage and saving the game
-- Fixed rally not working properly
-- Shopping bags should despawn after being used
-- Sauna items should not fall through the sauna benches anymore
-- Items left on washing machine should not fall through it
-- Items left on terrace should not fall through it
-- Fixed a bug in which the player would suddenly stand up while driving cars and approaching the Satsuma
-- Fxied an issue with car inspected status not being saved after the save, if the player just passed the inspection
-
-Removed:
-- Removed Rally from list of disabled objects, because it broke it, and the performance improvement wasn't that significant
-- Removed Jokke (Kilju Guy) from the list of disabled objects, for the same reason as the rally issues
+- Fixed beer cases falling through the ground
