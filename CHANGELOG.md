@@ -1,5 +1,11 @@
 # Changelog
 
+## Beta 1.1.3 (17.12.2019)
+
+### Bug Fixes
+
+- Fix related to 1.1.2
+
 ## Beta 1.1.2 (17.12.2019)
 
 ### Bug Fixes
