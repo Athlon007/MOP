@@ -96,15 +96,14 @@ namespace MOP
         public void ToggleActive(bool enabled)
         {
             if (gm == null)
-            {
-                if (!isBeerCase || gm.activeSelf == enabled)
-                    return;
+                return;
 
-                // Fix for beer cases falling through the ground
+            if (!isBeerCase && gm.activeSelf == enabled)
+                return;
 
-                if (rb.detectCollisions == enabled)
-                    return;
-            }
+            // Fix for beer cases falling through the ground
+            if (isBeerCase && rb.detectCollisions == enabled)
+                return;
 
             // Fix for Carry More mod
             // Similiar to the one with beer cases, but this time related to kilju
