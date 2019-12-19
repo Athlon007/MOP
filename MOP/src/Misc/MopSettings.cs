@@ -11,7 +11,7 @@
         public static bool ToggleVehicles { get; set; }
         public static bool ToggleItems { get; set; }
 
-        public static int TrafficLimit { get; set; }
+        public static float TrafficLimit { get; set; }
 
         public static bool EnableObjectOcclusion { get; set; }
         public static int OcclusionSamples = 120;
@@ -30,8 +30,7 @@
             ToggleVehicles = (bool)MOP.toggleVehicles.GetValue();
             ToggleItems = (bool)MOP.toggleItems.GetValue();
 
-            TrafficLimit = GetVehicleLimit();
-            MSCLoader.ModConsole.Print(TrafficLimit);
+            //TrafficLimit = GetVehicleLimit();
 
             EnableObjectOcclusion = (bool)MOP.enableObjectOcclusion.GetValue();
             OcclusionSamples = GetOcclusionSamples();
@@ -91,21 +90,22 @@
             return 120;
         }
 
-        static int GetVehicleLimit()
+        /*
+        static float GetVehicleLimit()
         {
-            if ((bool)MOP.highwayTrafficDensityAll.GetValue())
-                return -1;
-
+            // How big percent of the vehicles will be disabled
             if ((bool)MOP.highwayTrafficDensityMost.GetValue())
-                return 7;
+                return 0.25f;
 
             if ((bool)MOP.highwayTrafficDensityHalf.GetValue())
-                return 5;
+                return 0.5f;
 
             if ((bool)MOP.highwayTrafficDensityQuarter.GetValue())
-                return 3;
+                return 0.75f;
 
+            // All vehicles will be loaded
             return -1;
         }
+        */
     }
 }

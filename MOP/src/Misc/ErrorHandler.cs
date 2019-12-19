@@ -36,20 +36,35 @@ namespace MOP
         }
 
         /// <summary>
+        /// Dumps the info about the mod and lists all installed mods into MOP_REPORT.txt
+        /// </summary>
+        public static void GenerateReport()
+        {
+            string gameInfo = GetGameInfo();
+
+            using (StreamWriter sw = new StreamWriter("MOP_REPORT.txt"))
+            {
+                sw.Write(gameInfo);
+                sw.Close();
+            }
+
+            MSCLoader.ModConsole.Print("Mod report has been generated.");
+            Process.Start("MOP_REPORT.txt");
+        }
+
+        /// <summary>
         /// Generates the report about mod's settings and list of installed mods
         /// </summary>
         /// <returns></returns>
         static string GetGameInfo()
         {
             string output = "";
-            output += "MSC Mod Loader Version: " + MSCLoader.ModLoader.MSCLoader_Ver + "\n";
-            output += "My Summer Car version: " + UnityEngine.Application.version + "\n\n";
+            output += "MSC Mod Loader Version: " + MSCLoader.ModLoader.MSCLoader_Ver + "\n\n";
             output += "ActiveDistance: " + MopSettings.ActiveDistance + "\n";
             output += "ActiveDistanceMultiplicationValue: " + MopSettings.ActiveDistanceMultiplicationValue + "\n";
             output += "SafeMode: " + MopSettings.SafeMode.ToString() + "\n";
             output += "ToggleVehicles: " + MopSettings.ToggleVehicles.ToString() + "\n";
             output += "ToggleItems: " + MopSettings.ToggleItems.ToString() + "\n";
-            output += "TrafficLimit: " + MopSettings.TrafficLimit.ToString() + "\n";
             output += "EnableObjectOcclusion: " + MopSettings.EnableObjectOcclusion.ToString() + "\n";
             if (MopSettings.EnableObjectOcclusion)
             {
@@ -73,23 +88,6 @@ namespace MOP
             }
 
             return output;
-        }
-
-        /// <summary>
-        /// Dumps the info about the mod and lists all installed mods into MOP_REPORT.txt
-        /// </summary>
-        public static void GenerateReport()
-        {
-            string gameInfo = GetGameInfo();
-
-            using (StreamWriter sw = new StreamWriter("MOP_REPORT.txt"))
-            {
-                sw.Write(gameInfo);
-                sw.Close();
-            }
-
-            MSCLoader.ModConsole.Print("Mod report has been generated.");
-            Process.Start("MOP_REPORT.txt");
         }
     }
 }

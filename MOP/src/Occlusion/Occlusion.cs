@@ -13,7 +13,7 @@ namespace MOP
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(Properties.Resources.occlusiontable);
             XmlNodeList root = doc.SelectNodes("World/Object");
-            MSCLoader.ModConsole.Print("Initializing..");
+            MSCLoader.ModConsole.Print("Initializing occlusion...");
             ReadChildNode(root, "");
 
             Camera.main.gameObject.AddComponent<OcclusionCamera>();
@@ -28,7 +28,6 @@ namespace MOP
                 XmlNode node = nodeList[i];
                 string name = node.Attributes["name"].Value;
                 string pathToSelf = path != "" ? path + "/" + name : name;
-                //MSCLoader.ModConsole.Print(pathToSelf);
 
                 if (node.Attributes["exception"] == null)
                 {
@@ -42,10 +41,6 @@ namespace MOP
 
                     if (gm.GetComponent<OcclusionObject>() == null)
                         gm.AddComponent<OcclusionObject>();
-                }
-                else
-                {
-                    MSCLoader.ModConsole.Print("Skipped...");
                 }
 
                 if (node.ChildNodes.Count > 0)

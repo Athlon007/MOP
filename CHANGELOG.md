@@ -1,15 +1,17 @@
 # Changelog
 
-## Beta 1.2 (xx.12.2019)
+## Beta 1.2 (19.12.2019)
 
 ### Added
 
 - Added full support for Drivable Fury!
+- Added support for Second Ferndale!
+- Both vehicles get toggled - just vanilla vehicles!
 - Added MSC Mod Loader info to "Generate mod info"
 - Mod will check if the MSC Mod Loader version is newer than 1.1.5
-- Added boat to the lisf of hidden objects
+- Added boat to the list of hidden objects
 - Occlusion Hide Delay will now be automagically calculated
-- You can now change how many traffic vehicles will spawn!
+- Added car jack and warning triangle to list of toggled items
 
 ### Changes
 
@@ -19,12 +21,25 @@
 ### Bug Fixes
 
 - Fixed some lights getting switched back on after house reload
+- Fixed legacy culling throwing an error on game save
+- Fixed an error related to uncle's beer case
+- Fixed PreSaveHook not being triggered in some save points
+- Fixed tires landing under the repair shop, when they were left for change
+- Fixed Satsuma possibly clipping through the floor at repair shop
+- Fixed tree collisions not working
+- Fixed an issues related to saving the game
+
+### Removed
+
+- Removed electricity poles from the list of removed objects
+- Removed unused code
+- Removed Herobrine
 
 ## Beta 1.1.3 (17.12.2019)
 
 ### Bug Fixes
 
-- Fix related to 1.1.2
+- Fix related to beta 1.1.2
 
 ## Beta 1.1.2 (17.12.2019)
 
@@ -41,7 +56,7 @@
 
 ### Changes
 
-- Removed landfill from the list of disabled objects, in order to fix issue with empty plastic containers not respwaning on the landfill
+- Removed landfill from the list of disabled objects, in order to fix issue with empty plastic containers not respawning on the landfill
 - General improvements in regard of shop items
 
 ### Bug Fixes
@@ -59,7 +74,7 @@
 - Items left on washing machine should not fall through it
 - Items left on terrace should not fall through it
 - Fixed a bug in which the player would suddenly stand up while driving cars and approaching the Satsuma
-- Fxied an issue with car inspected status not being saved after the save, if the player just passed the inspection
+- Fixed an issue with car inspected status not being saved after the save, if the player just passed the inspection
 
 ### Removed
 
@@ -67,8 +82,6 @@
 - Removed Jokke (Kilju Guy) from the list of disabled objects, for the same reason as the rally issues
 
 ## Beta 1.1 (15.12.2019)
-
-### WARNING: The mop is now named zzzMOP.dll. Please remove the old MOP.dll first
 
 ### Added
 

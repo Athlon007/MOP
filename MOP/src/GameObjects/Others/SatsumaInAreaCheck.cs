@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MOP
 {
@@ -15,6 +11,7 @@ namespace MOP
         BoxCollider collider;
 
         bool isInspection;
+        
         bool inspectionPreventUnload;
         public bool InspectionPreventUnload { get => inspectionPreventUnload; }
 
@@ -34,7 +31,6 @@ namespace MOP
             if (other.gameObject.name.StartsWith("gearbox"))
             {
                 Satsuma.instance.IsSatsumaInInspectionArea = true;
-                MSCLoader.ModConsole.Print("Satsuma in area");
 
                 if (isInspection)
                     inspectionPreventUnload = true;
@@ -46,7 +42,6 @@ namespace MOP
             if (other.gameObject.name.StartsWith("gearbox"))
             {
                 Satsuma.instance.IsSatsumaInInspectionArea = false;
-                MSCLoader.ModConsole.Print("Satsuma left area");
             }
         }
     }

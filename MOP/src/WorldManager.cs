@@ -28,7 +28,7 @@ namespace MOP
         List<WorldObject> worldObjects;
 
         // Traffic
-        Traffic traffic;
+        //Traffic traffic;
 
         SatsumaInAreaCheck inspectionArea;
 
@@ -54,6 +54,18 @@ namespace MOP
             vehicles.Add(new Vehicle("FLATBED"));
             vehicles.Add(new Gifu("GIFU(750/450psi)"));
 
+            // Drivable Fury mod
+            if (CompatibilityManager.instance.DrivableFury)
+            {
+                vehicles.Add(new Fury("FURY(1630kg)"));
+            }
+
+            // Second Ferndale
+            if (CompatibilityManager.instance.SecondFerndale)
+            {
+                vehicles.Add(new Vehicle("SECONDFERNDALE(1630kg)"));
+            }
+
             // World Objects
             worldObjects.Add(new WorldObject("CABIN", 200));
             worldObjects.Add(new WorldObject("COTTAGE", 400));
@@ -64,9 +76,6 @@ namespace MOP
             worldObjects.Add(new WorldObject("RYKIPOHJA", 200));
             worldObjects.Add(new WorldObject("SOCCER", 200));
             worldObjects.Add(new WorldObject("WATERFACILITY", 200));
-            worldObjects.Add(new WorldObject("TREES1_COLL", 200));
-            worldObjects.Add(new WorldObject("TREES2_COLL", 200));
-            worldObjects.Add(new WorldObject("TREES3_COLL", 200));
             worldObjects.Add(new WorldObject("DRAGRACE", 1100));
             worldObjects.Add(new WorldObject("BOAT", 200));
 
@@ -124,16 +133,6 @@ namespace MOP
                 }
             }
 
-            // Possible fix for Jokke.
-            // Needs testing
-            /*
-            Transform[] kiljuGuyChilds = GameObject.Find("KILJUGUY").transform.GetComponentsInChildren<Transform>();
-            for (int i = 0; i < kiljuGuyChilds.Length; i++)
-            {
-                worldObjects.Add(new WorldObject(kiljuGuyChilds[i].gameObject));
-            }
-            */
-
             // Removes the mansion from the Buildings, so the tires will not land under the mansion.
             GameObject.Find("autiotalo").transform.parent = null;
 
@@ -145,11 +144,11 @@ namespace MOP
             //Things that should be enabled when out of proximity of the house
             worldObjects.Add(new WorldObject("NPC_CARS", awayFromHouse: true));
             //worldObjects.Add(new WorldObject("RALLY", awayFromHouse: true));
-            //worldObjects.Add(new WorldObject("TRAFFIC", awayFromHouse: true));
+            worldObjects.Add(new WorldObject("TRAFFIC", awayFromHouse: true));
             worldObjects.Add(new WorldObject("TRAIN", awayFromHouse: true));
             worldObjects.Add(new WorldObject("Buildings", awayFromHouse: true));
             worldObjects.Add(new WorldObject("TrafficSigns", awayFromHouse: true));
-            worldObjects.Add(new WorldObject("ELEC_POLES", awayFromHouse: true));
+            //worldObjects.Add(new WorldObject("ELEC_POLES", awayFromHouse: true));
             worldObjects.Add(new WorldObject("StreetLights", awayFromHouse: true));
             worldObjects.Add(new WorldObject("HUMANS", awayFromHouse: true));
             worldObjects.Add(new WorldObject("HayBales", true));
@@ -161,9 +160,6 @@ namespace MOP
             worldObjects.Add(new WorldObject("ROCKS", true));
             worldObjects.Add(new WorldObject("RAILROAD", true));
             worldObjects.Add(new WorldObject("AIRPORT", true));
-
-            // Traffic
-            traffic = new Traffic();
 
             // Adding area check if Satsuma is in the inspection's area
             inspectionArea = GameObject.Find("INSPECTION").AddComponent<SatsumaInAreaCheck>();
@@ -188,12 +184,35 @@ namespace MOP
         /// </summary>
         void HookPreSaveGame()
         {
-            GameObject[] saveGames = FindObjectsOfType<GameObject>().Where(obj => obj.name.Contains("SAVEGAME")).ToArray();
+            GameObject[] saveGames = (Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
+                .Where(obj => obj.name.Contains("SAVEGAME") && obj.transform.parent.gameObject.name != "JAIL").ToArray();
 
-            //foreach (var obj in shitHouses)
-            for (int i = 0; i < saveGames.Length; i++)
+            try
             {
-                FsmHook.FsmInject(saveGames[i], "Mute audio", PreSaveGame);
+                for (int i = 0; i < saveGames.Length; i++)
+                {
+                    bool useInnactiveFix = false;
+
+                    if (!saveGames[i].activeSelf)
+                    {
+                        useInnactiveFix = true;
+                        saveGames[i].SetActive(true);
+                    }
+
+                    FsmHook.FsmInject(saveGames[i], "Mute audio", PreSaveGame);
+                    GameObject newSavePivot = new GameObject("NewSavePivot");
+                    newSavePivot.transform.position = saveGames[i].transform.position;
+                    newSavePivot.transform.parent = saveGames[i].transform;
+
+                    if (useInnactiveFix)
+                    {
+                        saveGames[i].SetActive(false);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ModConsole.Error(ex.ToString());
             }
         }
 
@@ -203,7 +222,7 @@ namespace MOP
         void PreSaveGame()
         {
             MopSettings.IsModActive = false;
-
+ 
             // World objects
             for (int i = 0; i < worldObjects.Count; i++)
             {
@@ -213,13 +232,34 @@ namespace MOP
             // Vehicles
             for (int i = 0; i < vehicles.Count; i++)
             {
+                // If the vehicle is Gifu, execute the ToggleActive from gifuScript
+                if (vehicles[i].gifuScript != null)
+                {
+                    vehicles[i].gifuScript.ToggleActive(true);
+                    continue;
+                }
+
+                // If the vehicle is Satsuma, execute the ToggleActive from satsumaScript
+                if (vehicles[i].satsumaScript != null)
+                {
+                    vehicles[i].satsumaScript.ToggleActive(true);
+                    continue;
+                }
+
+                // Fury
+                if (vehicles[i].furyScript != null)
+                {
+                    vehicles[i].furyScript.ToggleActive(true);
+                    continue;
+                }
+
                 vehicles[i].ToggleActive(true);
             }
 
             // Items
-            for (int i = 0; i < Items.instance.ObjectHooks.Count; i++)
+            for (int i = 0; i < Items.instance.ItemsHooks.Count; i++)
             {
-                Items.instance.ObjectHooks[i].ToggleActive(true);
+                Items.instance.ItemsHooks[i].ToggleActive(true);
             }
 
             // Stores
@@ -333,6 +373,13 @@ namespace MOP
                                 continue;
                             }
 
+                            // Fury
+                            if (vehicles[i].furyScript != null)
+                            {
+                                vehicles[i].furyScript.ToggleActive(ToEnable(distance));
+                                continue;
+                            }
+
                             vehicles[i].ToggleActive(ToEnable(distance));
                         }
                     }
@@ -367,6 +414,14 @@ namespace MOP
                             if (vehicles[i].satsumaScript != null)
                             {
                                 vehicles[i].satsumaScript.ToggleActive(ToEnable(distance));
+                                continue;
+                            }
+
+                            // Fury
+                            if (vehicles[i].furyScript != null)
+                            {
+                                vehicles[i].furyScript.ToggleActive(ToEnable(distance));
+                                continue;
                             }
 
                             vehicles[i].ToggleActive(ToEnable(distance));
@@ -383,16 +438,16 @@ namespace MOP
                 {
                     try
                     {
-                        half = Items.instance.ObjectHooks.Count / 2;
+                        half = Items.instance.ItemsHooks.Count / 2;
                         for (i = 0; i < half; ++i)
                         {
-                            if (Items.instance.ObjectHooks[i] == null || Items.instance.ObjectHooks[i].gm == null)
+                            if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gm == null)
                             {
                                 ModConsole.Print("One minor object has been skipped");
                                 continue;
                             }
 
-                            Items.instance.ObjectHooks[i].ToggleActive(ToEnable(Items.instance.ObjectHooks[i].gm.transform));
+                            Items.instance.ItemsHooks[i].ToggleActive(ToEnable(Items.instance.ItemsHooks[i].gm.transform));
                         }
                     }
                     catch (Exception ex)
@@ -404,15 +459,15 @@ namespace MOP
 
                     try
                     {
-                        for (; i < Items.instance.ObjectHooks.Count; ++i)
+                        for (; i < Items.instance.ItemsHooks.Count; ++i)
                         {
-                            if (Items.instance.ObjectHooks[i] == null || Items.instance.ObjectHooks[i].gm == null)
+                            if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gm == null)
                             {
                                 ModConsole.Print("One minor object has been skipped");
                                 continue;
                             }
 
-                            Items.instance.ObjectHooks[i].ToggleActive(ToEnable(Items.instance.ObjectHooks[i].gm.transform));
+                            Items.instance.ItemsHooks[i].ToggleActive(ToEnable(Items.instance.ItemsHooks[i].gm.transform));
                         }
                     }
                     catch (Exception ex)
@@ -430,19 +485,6 @@ namespace MOP
                 catch (Exception ex)
                 {
                     ErrorHandler.New(ex);
-                }
-
-                // Traffic
-                if (MopSettings.TrafficLimit == -1)
-                {
-                    traffic.ToggledVehicles[0].SetActive(Vector3.Distance(player.transform.position, yard.Object.transform.position) > 200);
-                }
-                else
-                {
-                    for (i = 0; i < traffic.ToggledVehicles.Count; i++)
-                    {
-                        traffic.Toggle(traffic.ToggledVehicles[i], !(Vector3.Distance(player.transform.position, yard.Object.transform.position) > 200));
-                    }
                 }
 
                 yield return new WaitForSeconds(1);

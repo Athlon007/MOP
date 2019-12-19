@@ -35,6 +35,7 @@ namespace MOP
 
         public Gifu gifuScript;
         public Satsuma satsumaScript;
+        public Fury furyScript;
 
         internal CarDynamics carDynamics;
         internal Axles axles;

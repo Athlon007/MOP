@@ -12,12 +12,12 @@ namespace MOP
         "empty plastic can", "fire extinguisher", "gasoline", "grill", "grill charcoal", "ground coffee", "juice", "kilju", "lamp", "macaronbox", "milk",
         "moosemeat", "mosquito spray", "motor oil", "oilfilter", "pike", "pizza", "ratchet set", "potato chips", "sausages", "sugar", "spanner set",
         "spray can", "two stroke fuel", "wiring mess", "wood carrier", "yeast", "shopping bag", "flashlight", "beer case", 
-        "fireworks bag", "lantern", "dipper", "coffee pan", "fireworks bag", "camera", "water bucket" };
+        "fireworks bag", "lantern", "dipper", "coffee pan", "fireworks bag", "camera", "water bucket", "car jack", "warning triangle" };
 
         public string[] whiteList = { "grille gt" };
 
         // List of ObjectHooks attached to minor objects
-        public List<ItemHook> ObjectHooks = new List<ItemHook>();
+        public List<ItemHook> ItemsHooks = new List<ItemHook>();
 
         public static Items instance;
 
@@ -37,7 +37,7 @@ namespace MOP
         /// <param name="newHook"></param>
         public void Add(ItemHook newHook)
         {
-            ObjectHooks.Add(newHook);
+            ItemsHooks.Add(newHook);
         }
 
         /// <summary>
@@ -46,9 +46,9 @@ namespace MOP
         /// <param name="objectHook"></param>
         public void Remove(ItemHook objectHook)
         {
-            if (ObjectHooks.Contains(objectHook))
+            if (ItemsHooks.Contains(objectHook))
             {
-                ObjectHooks.Remove(objectHook);
+                ItemsHooks.Remove(objectHook);
             }
         }
 

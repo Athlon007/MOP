@@ -261,7 +261,7 @@ namespace MOP
         /// <returns></returns>
         IEnumerator CheckView()
         {
-            while (true)
+            while (MopSettings.IsModActive)
             {
                 Stopwatch stopwatch = new Stopwatch();
                 if (!occlusionHideDelayCalculated)

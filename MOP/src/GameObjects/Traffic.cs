@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using MSCLoader;
 
 namespace MOP
 {
@@ -29,13 +28,17 @@ namespace MOP
                 highwayChilds.Add(highwayTraffic.transform.GetChild(i).gameObject);
             }
 
+            // Get random traffic cars from list
             System.Random rnd = new System.Random();
-            ToggledVehicles.AddRange(highwayChilds.OrderBy(x => rnd.Next()).Take(MopSettings.TrafficLimit));
+            int howManyvehicles = Mathf.CeilToInt(highwayChilds.Count * MopSettings.TrafficLimit);
+            MSCLoader.ModConsole.Print(howManyvehicles);
+            ToggledVehicles.AddRange(highwayChilds.OrderBy(x => rnd.Next()).Take(howManyvehicles));
         }
 
-        public void Toggle(GameObject gm, bool enabled)
+        public void ToggleActive(GameObject gm, bool enabled)
         {
-            if (gm != null || gm.activeSelf == enabled) return;
+            if (gm != null || gm.activeSelf == enabled) 
+                return;
 
             gm.SetActive(enabled);
         }

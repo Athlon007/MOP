@@ -28,7 +28,8 @@ namespace MOP
                                 "Shit", "Wood", "Grandma", "SAVEGAME", "Shelf", "shelf", "Garage", "Building", "LIVINGROOM",
                                 "BEDROOM1", "Table", "boybed", "KITCHEN", "Fridge", "bench", "wood", "Pantry", "Glass",
                                 "closet", "Numbers", "Ring", "log", "washingmachine", "lauteet", "MIDDLEROOM", "BeerCamp",
-                                "Chair", "TablePlastic", "LOD_middleroom", "hotwaterkeeper", "house_roof", "BATHROOM", "lamp" };
+                                "Chair", "TablePlastic", "LOD_middleroom", "hotwaterkeeper", "house_roof",
+                                "WC", "Hallway", "Entry" };
 
         /// <summary>
         /// Initialize the RepairShop class

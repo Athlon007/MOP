@@ -9,7 +9,7 @@ namespace MOP
         // This MonoBehaviour hooks to all minor objects.
         // ObjectHook class by Konrad "Athlon" Figura
 
-        public GameObject gm => this.gameObject;
+        public GameObject gm;
 
         /// <summary>
         /// PlayMakerFSM script of the object
@@ -17,8 +17,8 @@ namespace MOP
         PlayMakerFSM playMakerFSM;
 
         // Saved rotation and position of the object, before it is disabled
-        Vector3 position;
-        Quaternion rotation;
+        Vector3 lastPosition;
+        Quaternion lastRotation;
 
         /// <summary>
         /// Rigidbody of this object.
@@ -39,18 +39,20 @@ namespace MOP
 
         public ItemHook()
         {
+            gm = this.gameObject;
+
             // Add self to the MinorObjects.objectHooks list
             Items.instance.Add(this);
 
             // Get the current rotation and position.
-            position = gm.transform.position;
-            rotation = gm.transform.rotation;
-
-            // Get PlayMakerFSM
-            playMakerFSM = gm.GetComponent<PlayMakerFSM>();
+            lastPosition = gm.transform.position;
+            lastRotation = gm.transform.rotation;
 
             // Get rigidbody
             rb = GetComponent<Rigidbody>();
+
+            // Get PlayMakerFSM
+            playMakerFSM = gm.GetComponent<PlayMakerFSM>();
 
             // From PlayMakerFSM, find states that contain one of the names that relate to destroying object,
             // and inject RemoveSelf void.
@@ -101,6 +103,10 @@ namespace MOP
             if (!isBeerCase && gm.activeSelf == enabled)
                 return;
 
+            // Fix for uncle's beer case
+            if (isBeerCase && rb == null)
+                return;
+
             // Fix for beer cases falling through the ground
             if (isBeerCase && rb.detectCollisions == enabled)
                 return;
@@ -139,8 +145,8 @@ namespace MOP
             // Uppon disabling, save position and rotation
             if (!enabled)
             {
-                position = gm.transform.position;
-                rotation = gm.transform.rotation;
+                lastPosition = gm.transform.position;
+                lastRotation = gm.transform.rotation;
             }
 
             gm.SetActive(enabled);
@@ -148,13 +154,14 @@ namespace MOP
             // Uppon reenabling, load position from saved value
             if (enabled)
             {
-                // Only teleport object to the last known position,
+                // Only teleport object to the last known position, 
                 // if the differenc between current and last known position is larger than 2 units.
-                if (Vector3.Distance(gm.transform.position, position) < 2)
+
+                if (Vector3.Distance(gm.transform.position, lastPosition) < 2)
                     return;
 
-                gm.transform.position = position;
-                gm.transform.rotation = rotation;
+                gm.transform.position = lastPosition;
+                gm.transform.rotation = lastRotation;
             }
         }
 
