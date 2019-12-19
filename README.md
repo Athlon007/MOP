@@ -2,7 +2,7 @@
 
 <img align="right" src="images/icon.png" alt="icon" width=128/>
 
-MOP (Modern Optimization Plugin) is a project which aims to make the My Summer Car game run better. It is in large part based of [KruFPS](https://github.com/Krutonium/KruFPS), but with the core of it rewritten from scratch. All that hasn't been signed by me, has been rewritten.
+MOP (Modern Optimization Plugin) is currently the ultimate performance enchancing project for My Summer Car. It is partially based off of [KruFPS](https://github.com/Krutonium/KruFPS), but optimized for even more performacne. It is also the only mod, that includes [oclusion culling](https://en.wikipedia.org/wiki/Hidden-surface_determination#Occlusion_culling) feature, that aims to improve the performance on low-end computers even more!
 
 ## Performance
 
@@ -29,9 +29,15 @@ Grab the mod from [NexusMods](https://www.nexusmods.com/mysummercar/mods/146/), 
 
 ## Mod compatibility
 
-I do not guarantee compatibility with **any** mods out there, although that doesn't mean it won't work. If there are issues with your favorite mod, you can report it.
+MOP officially supports following mods:
 
-**DO NOT USE THAT MOD WITH KRUFPS!** Use only one of the mods.
+- CarryMore
+- Drivable Fury
+- Second Ferndale
+
+The mod will also work with other mods whic are not on the list. If it isn't, please report that on GitHub, or one of the official mod hosting websites.
+
+**THIS MOD IS NOT COMPATIBLE WITH KRUFPS!** Use only one of the mods.
 
 ## License
 
