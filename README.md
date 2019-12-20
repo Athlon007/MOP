@@ -35,7 +35,7 @@ MOP officially supports following mods:
 - Drivable Fury
 - Second Ferndale
 
-The mod will also work with other mods whic are not on the list. If it isn't, please report that on GitHub, or one of the official mod hosting websites.
+The mod will also work with other mods which are not on the list. If it isn't, please report that on GitHub, or one of the official mod hosting websites.
 
 **THIS MOD IS NOT COMPATIBLE WITH KRUFPS!** Use only one of the mods.
 
