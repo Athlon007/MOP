@@ -1,5 +1,27 @@
 # Changelog
 
+## Beta 1.2.1 (22.12.2019)
+
+### Added
+
+- Added error tracing to PreSaveGame function
+- Added some Christmas Spirit
+
+### Changes
+
+- Fundamental changes in how store items are getting disabled and enabled
+  - Items shouldn't now change their position, or teleport to each others after respawn
+  - Items should now be saved correctly
+  - Note: because of that, there FPS boost with the mod may be a bit smaller than it used to be
+
+### Bug Fixes
+
+- Fixed a bug in which there would spawn random money at Fleetari's
+
+### Removed
+
+- Removed unused code
+
 ## Beta 1.2 (19.12.2019)
 
 ### Added

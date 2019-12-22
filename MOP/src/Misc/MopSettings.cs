@@ -30,8 +30,6 @@
             ToggleVehicles = (bool)MOP.toggleVehicles.GetValue();
             ToggleItems = (bool)MOP.toggleItems.GetValue();
 
-            //TrafficLimit = GetVehicleLimit();
-
             EnableObjectOcclusion = (bool)MOP.enableObjectOcclusion.GetValue();
             OcclusionSamples = GetOcclusionSamples();
             ViewDistance = int.Parse(MOP.occlusionDistance.GetValue().ToString());
@@ -89,23 +87,5 @@
 
             return 120;
         }
-
-        /*
-        static float GetVehicleLimit()
-        {
-            // How big percent of the vehicles will be disabled
-            if ((bool)MOP.highwayTrafficDensityMost.GetValue())
-                return 0.25f;
-
-            if ((bool)MOP.highwayTrafficDensityHalf.GetValue())
-                return 0.5f;
-
-            if ((bool)MOP.highwayTrafficDensityQuarter.GetValue())
-                return 0.75f;
-
-            // All vehicles will be loaded
-            return -1;
-        }
-        */
     }
 }

@@ -222,50 +222,56 @@ namespace MOP
         void PreSaveGame()
         {
             MopSettings.IsModActive = false;
- 
-            // World objects
-            for (int i = 0; i < worldObjects.Count; i++)
+            try
             {
-                worldObjects[i].ToggleActive(true);
-            }
-
-            // Vehicles
-            for (int i = 0; i < vehicles.Count; i++)
-            {
-                // If the vehicle is Gifu, execute the ToggleActive from gifuScript
-                if (vehicles[i].gifuScript != null)
+                // World objects
+                for (int i = 0; i < worldObjects.Count; i++)
                 {
-                    vehicles[i].gifuScript.ToggleActive(true);
-                    continue;
+                    worldObjects[i].ToggleActive(true);
                 }
 
-                // If the vehicle is Satsuma, execute the ToggleActive from satsumaScript
-                if (vehicles[i].satsumaScript != null)
+                // Vehicles
+                for (int i = 0; i < vehicles.Count; i++)
                 {
-                    vehicles[i].satsumaScript.ToggleActive(true);
-                    continue;
+                    // If the vehicle is Gifu, execute the ToggleActive from gifuScript
+                    if (vehicles[i].gifuScript != null)
+                    {
+                        vehicles[i].gifuScript.ToggleActive(true);
+                        continue;
+                    }
+
+                    // If the vehicle is Satsuma, execute the ToggleActive from satsumaScript
+                    if (vehicles[i].satsumaScript != null)
+                    {
+                        vehicles[i].satsumaScript.ToggleActive(true);
+                        continue;
+                    }
+
+                    // Fury
+                    if (vehicles[i].furyScript != null)
+                    {
+                        vehicles[i].furyScript.ToggleActive(true);
+                        continue;
+                    }
+
+                    vehicles[i].ToggleActive(true);
                 }
 
-                // Fury
-                if (vehicles[i].furyScript != null)
+                // Items
+                for (int i = 0; i < Items.instance.ItemsHooks.Count; i++)
                 {
-                    vehicles[i].furyScript.ToggleActive(true);
-                    continue;
+                    Items.instance.ItemsHooks[i].ToggleActive(true);
                 }
 
-                vehicles[i].ToggleActive(true);
+                // Stores
+                teimo.ToggleActive(true);
+                repairShop.ToggleActive(true);
+                yard.ToggleActive(true);
             }
-
-            // Items
-            for (int i = 0; i < Items.instance.ItemsHooks.Count; i++)
+            catch (Exception ex)
             {
-                Items.instance.ItemsHooks[i].ToggleActive(true);
+                ErrorHandler.New(ex);
             }
-
-            // Stores
-            teimo.ToggleActive(true);
-            repairShop.ToggleActive(true);
-            yard.ToggleActive(true);
         }
 
         /// <summary>

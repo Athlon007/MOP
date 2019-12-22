@@ -12,7 +12,6 @@ from array import array
 import shutil
 
 print("=== Building the release... ===\n")
-print("Collecting locale files...")
 
 BASE_DIR = os.getcwd()
 

@@ -8,14 +8,12 @@ namespace MOP
         public override string ID => "MOP"; //Your mod ID (unique)
         public override string Name => "Modern Optimization Plugin (BETA)"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "1.2.0"; //Version
+        public override string Version => "1.2.1"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
         public override bool UseAssetsFolder => false;
         public override bool SecondPass => true;
-
-        WorldManager worldManager;
 
         /// <summary>
         /// Called once, when mod is loading after game is fully loaded.
@@ -59,7 +57,7 @@ namespace MOP
             if ((bool)enableObjectOcclusion.GetValue() == true)
                 worldManager.AddComponent<Occlusion>();
 
-            this.worldManager = worldManager.AddComponent<WorldManager>();
+            worldManager.AddComponent<WorldManager>();
         }
 
         //
@@ -77,16 +75,6 @@ namespace MOP
         public static Settings safeMode = new Settings("safeMode", "Safe Mode (Requires restart)", false, MopSettings.UpdateValues);
         public static Settings toggleVehicles = new Settings("toggleVehicles", "Vehicles", true, MopSettings.UpdateValues);
         public static Settings toggleItems = new Settings("toggleItems", "Shop Items", true, MopSettings.UpdateValues);
-
-        //
-        // TRAFFIC DENSITY
-        //
-        /*
-        public static Settings highwayTrafficDensityQuarter = new Settings("highwayTrafficDensityHalf", "Quarter", true, MopSettings.UpdateValues);
-        public static Settings highwayTrafficDensityHalf = new Settings("highwayTrafficDensityHalf", "Half", true, MopSettings.UpdateValues);
-        public static Settings highwayTrafficDensityMost = new Settings("highwayTrafficDensityMost", "Most (3/4)", true, MopSettings.UpdateValues);
-        public static Settings highwayTrafficDensityAll = new Settings("highwayTrafficDensityAll", "All", true, MopSettings.UpdateValues);
-        */
 
         // 
         // OCCLUSION
@@ -128,15 +116,6 @@ namespace MOP
             Settings.AddText(this, "If unchecked, the following objects will not get disabled.\n");
             Settings.AddCheckBox(this, safeMode);
             Settings.AddText(this, "Safe mode will only toggle objects that are known to not cause any issues.");
-
-            // Traffic density
-            /*
-            Settings.AddHeader(this, "Traffic Density", new Color32(29, 29, 29, 255));
-            Settings.AddCheckBox(this, highwayTrafficDensityQuarter, "highwayTrafficDensity");
-            Settings.AddCheckBox(this, highwayTrafficDensityHalf, "highwayTrafficDensity");
-            Settings.AddCheckBox(this, highwayTrafficDensityMost, "highwayTrafficDensity");
-            Settings.AddCheckBox(this, highwayTrafficDensityAll, "highwayTrafficDensity");
-            */
 
             // Occlusion
             Settings.AddHeader(this, "(BETA) Occlusion Culling", new Color32(29, 29, 29, 255));

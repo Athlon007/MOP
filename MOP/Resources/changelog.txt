@@ -1,28 +1,15 @@
 Added:
-- Added full support for Drivable Fury!
-- Added support for Second Ferndale!
-- Both vehicles get toggled - just vanilla vehicles!
-- Added MSC Mod Loader info to "Generate mod info"
-- Mod will check if the MSC Mod Loader version is newer than 1.1.5
-- Added boat to the list of hidden objects
-- Occlusion Hide Delay will now be automagically calculated
-- Added car jack and warning triangle to list of toggled items
+- Added error tracing to PreSaveGame function
+- Added some Christmas Spirit
 
 Changes:
-- Simplified Occlusion Sample Detail settings - now it consists of 5 checkboxes
-- Occlusion Culling leaves the experimental stage and now is in Beta!
+- Fundamental changes in how store items are getting disabled and enabled
+  - Items shouldn't now change their position, or teleport to each others after respawn
+  - Items should now be saved correctly
+  - Note: because of that, there FPS boost with the mod may be a bit smaller than it used to be
 
 Bug Fixes:
-- Fixed some lights getting switched back on after house reload
-- Fixed legacy culling throwing an error on game save
-- Fixed an error related to uncle's beer case
-- Fixed PreSaveHook not being triggered in some save points
-- Fixed tires landing under the repair shop, when they were left for change
-- Fixed Satsuma possibly clipping through the floor at repair shop
-- Fixed tree collisions not working
-- Fixed an issues related to saving the game
+- Fixed a bug in which there would spawn random money at Fleetari's
 
 Removed:
-- Removed electricity poles from the list of removed objects
 - Removed unused code
-- Removed Herobrine

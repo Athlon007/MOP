@@ -26,16 +26,9 @@ namespace MOP
         Rigidbody rb;
 
         /// <summary>
-        /// Special fixes are applied for beer cases
+        /// Object's renderer
         /// </summary>
-        bool isBeerCase;
-
-        /// <summary>
-        /// If true, the fix for position will be applied, similiar to the beer case one
-        /// </summary>
-        bool isPlasticCan;
-
-        bool isShoppingBag;
+        Renderer renderer;
 
         public ItemHook()
         {
@@ -48,11 +41,10 @@ namespace MOP
             lastPosition = gm.transform.position;
             lastRotation = gm.transform.rotation;
 
-            // Get rigidbody
+            // Get object's components
             rb = GetComponent<Rigidbody>();
-
-            // Get PlayMakerFSM
-            playMakerFSM = gm.GetComponent<PlayMakerFSM>();
+            playMakerFSM = GetComponent<PlayMakerFSM>();
+            renderer = GetComponent<Renderer>();
 
             // From PlayMakerFSM, find states that contain one of the names that relate to destroying object,
             // and inject RemoveSelf void.
@@ -72,17 +64,14 @@ namespace MOP
                 }
             }
 
-            isBeerCase = gm.name.Contains("beer case");
-            isPlasticCan = gm.name.ContainsAny("kilju", "empty plastic can", "juice");
-            isShoppingBag = gm.name.Contains("shopping bag");
-
-            if (isPlasticCan)
+            // Object is plastic can
+            if (gm.name.ContainsAny("kilju", "empty plastic can", "juice"))
             {
                 FsmHook.FsmInject(this.gameObject, "State 3", RemoveSelf);
             }
 
             // If the item is a shopping bag, hook the RemoveSelf to "Is garbage" FsmState
-            if (isShoppingBag)
+            if (gm.name.Contains("shopping bag"))
             {
                 FsmHook.FsmInject(this.gameObject, "Is garbage", RemoveSelf);
             }
@@ -95,78 +84,44 @@ namespace MOP
             Items.instance.Remove(this);
         }
 
+        /// <summary>
+        /// Doesn't toggle object itself, rather the Rigidbody and Renderer.
+        /// </summary>
+        /// <param name="enabled"></param>
         public void ToggleActive(bool enabled)
         {
-            if (gm == null)
-                return;
-
-            if (!isBeerCase && gm.activeSelf == enabled)
-                return;
-
-            // Fix for uncle's beer case
-            if (isBeerCase && rb == null)
-                return;
-
-            // Fix for beer cases falling through the ground
-            if (isBeerCase && rb.detectCollisions == enabled)
-                return;
-
-            // Fix for Carry More mod
-            // Similiar to the one with beer cases, but this time related to kilju
-            if (enabled && (isPlasticCan || isBeerCase))
+            try
             {
-                if (currentBeerCasePositionFix != null)
+                if (rb == null || rb.detectCollisions == enabled)
                     return;
 
-                currentBeerCasePositionFix = BeerCasePositionFix();
-                StartCoroutine(currentBeerCasePositionFix);
-            }
+                // If enabled, activate the position fixer (for CarryMore mod)
+                if (enabled)
+                {
+                    if (currentPositionFix != null)
+                        return;
 
-            // Beer cases are treated differently.
-            // Instead of disabling entire object, change it's rigibdody values, to prevent them from landing under vehicles.
-            // It fixes the problems with bottles in beer cases disappearing.
-            if (isBeerCase)
-            {
-                // Fix for uncle's beer case
-                if (rb == null)
-                    return;
+                    currentPositionFix = PositionFix();
+                    StartCoroutine(currentPositionFix);
+                }
 
                 rb.detectCollisions = enabled;
                 rb.isKinematic = !enabled;
 
-                return;
+                // If occlusion culling is not enabled, disable object's renderer on distance.
+                if (!MopSettings.EnableObjectOcclusion && renderer != null)
+                {
+                    renderer.enabled = enabled;
+                }
             }
-
-            // Fix for Carry More mod.
-            // Carry More mod enables the Rigidbody.isKinematic value, when the object is added to the inventory.
-            if (rb != null && rb.isKinematic)
-                return;
-
-            // Uppon disabling, save position and rotation
-            if (!enabled)
+            catch (System.Exception ex)
             {
-                lastPosition = gm.transform.position;
-                lastRotation = gm.transform.rotation;
-            }
-
-            gm.SetActive(enabled);
-
-            // Uppon reenabling, load position from saved value
-            if (enabled)
-            {
-                // Only teleport object to the last known position, 
-                // if the differenc between current and last known position is larger than 2 units.
-
-                if (Vector3.Distance(gm.transform.position, lastPosition) < 2)
-                    return;
-
-                gm.transform.position = lastPosition;
-                gm.transform.rotation = lastRotation;
+                ErrorHandler.New(ex);
             }
         }
 
         // Current instance of BeerCasePositionFix
-        private IEnumerator currentBeerCasePositionFix;
+        private IEnumerator currentPositionFix;
 
         /// <summary>
         /// A fix for when the beer case may sometimes clip through the floor.
@@ -174,7 +129,7 @@ namespace MOP
         /// teleport the object to the saved position.
         /// </summary>
         /// <returns></returns>
-        IEnumerator BeerCasePositionFix()
+        IEnumerator PositionFix()
         {
             Vector3 pos = gm.transform.position;
             Quaternion rot = gm.transform.rotation;
@@ -188,7 +143,7 @@ namespace MOP
                 gm.transform.rotation = rot;
             }
 
-            currentBeerCasePositionFix = null;
+            currentPositionFix = null;
         }
     }
 }
