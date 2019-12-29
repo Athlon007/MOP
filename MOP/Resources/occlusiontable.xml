@@ -75,7 +75,4 @@
       <Object name="MailBox"/>
       <Object name="HouseOld5"/>
   </Object>
-  <Object name="HAYOSIKO(1500kg, 250)" exception="true">
-    <Object name="LOD"/>
-  </Object>>
 </World>

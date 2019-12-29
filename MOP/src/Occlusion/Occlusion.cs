@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Xml;
 
 namespace MOP
@@ -13,12 +12,9 @@ namespace MOP
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(Properties.Resources.occlusiontable);
             XmlNodeList root = doc.SelectNodes("World/Object");
-            MSCLoader.ModConsole.Print("Initializing occlusion...");
             ReadChildNode(root, "");
 
             Camera.main.gameObject.AddComponent<OcclusionCamera>();
-
-            MSCLoader.ModConsole.Print("Occlusion Done!");
         }
 
         void ReadChildNode(XmlNodeList nodeList, string path)
@@ -28,8 +24,9 @@ namespace MOP
                 XmlNode node = nodeList[i];
                 string name = node.Attributes["name"].Value;
                 string pathToSelf = path != "" ? path + "/" + name : name;
+                bool exception = node.Attributes["exception"] != null;
 
-                if (node.Attributes["exception"] == null)
+                if (!exception)
                 {
                     GameObject gm = GameObject.Find(pathToSelf);
 
@@ -40,7 +37,9 @@ namespace MOP
                     }
 
                     if (gm.GetComponent<OcclusionObject>() == null)
+                    {
                         gm.AddComponent<OcclusionObject>();
+                    }
                 }
 
                 if (node.ChildNodes.Count > 0)

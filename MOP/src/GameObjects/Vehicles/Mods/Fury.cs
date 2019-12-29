@@ -16,15 +16,17 @@ namespace MOP
         public Fury(string gameObject) : base(gameObject)
         {
             furyScript = this;
+
+            Toggle = ToggleActive;
         }
 
         /// <summary>
         /// Enable or disable car
         /// </summary>
-        public new void ToggleActive(bool enabled)
+        void ToggleActive(bool enabled)
         {
             // Don't run the code, if the value is the same
-            if (gm == null || carDynamics.enabled == enabled) return;
+            if (gameObject == null || carDynamics.enabled == enabled) return;
 
             carDynamics.enabled = enabled;
             axles.enabled = enabled;

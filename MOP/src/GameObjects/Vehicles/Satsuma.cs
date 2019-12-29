@@ -28,15 +28,17 @@ namespace MOP
 
             whiteList = Properties.Resources.whitelist_satsuma.Replace("\n", "").Split(',');
             disableableObjects = GetDisableableChilds();
+
+            Toggle = ToggleActive;
         }
 
         /// <summary>
         /// Enable or disable car
         /// </summary>
-        public new void ToggleActive(bool enabled)
+        void ToggleActive(bool enabled)
         {
             // Don't run the code, if the value is the same
-            if (gm == null || disableableObjects[0].gameObject.activeSelf == enabled) return;
+            if (gameObject == null || disableableObjects[0].gameObject.activeSelf == enabled) return;
 
             carDynamics.enabled = enabled;
             axles.enabled = enabled;
@@ -55,7 +57,7 @@ namespace MOP
         /// <returns></returns>
         internal Transform[] GetDisableableChilds()
         {
-            return gm.GetComponentsInChildren<Transform>(true)
+            return gameObject.GetComponentsInChildren<Transform>(true)
                 .Where(trans => trans.gameObject.name.ContainsAny(whiteList)).ToArray();
         }
     }

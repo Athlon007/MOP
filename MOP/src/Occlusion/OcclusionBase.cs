@@ -7,7 +7,7 @@ namespace MOP
 {
     class OcclusionBase : MonoBehaviour
     {
-        public bool isVisible { get; set; }
-        public DateTime lastSeen { get; set; }
+        public bool IsVisible { get; set; }
+        public DateTime LastSeen { get; set; }
     }
 }

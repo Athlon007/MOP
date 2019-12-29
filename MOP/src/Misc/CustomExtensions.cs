@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MOP
 {
@@ -35,7 +31,7 @@ namespace MOP
         /// <param name="player"></param>
         /// <param name="target"></param>
         /// <returns></returns>
-        public static float Distance(this Transform player, Transform target)
+        public static float GetDistance(this Transform player, Transform target)
         {
             //Gets Distance.
             return Vector3.Distance(player.position, target.position);

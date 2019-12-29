@@ -1,27 +1,50 @@
 ﻿namespace MOP
 {
+    public enum OcclusionMethods { Legacy, Chequered, Double }
+
     class MopSettings
     {
+        // This is the master switch of MOP. If deactivated, all functions will freeze.
         public static bool IsModActive { get; set; }
 
+        //
+        // ACTIVATING OBJECTS
+        //
         public static int ActiveDistance { get; set; }
         public static float ActiveDistanceMultiplicationValue { get; set; }
-        
+
         public static bool SafeMode { get; set; }
         public static bool ToggleVehicles { get; set; }
         public static bool ToggleItems { get; set; }
 
-        public static float TrafficLimit { get; set; }
-
+        //
+        // OCCLUSION CULLING
+        //
         public static bool EnableObjectOcclusion { get; set; }
-        public static int OcclusionSamples = 120;
-        public static int ViewDistance = 400;
-        public static int OcclusionSampleDelay = 1;
-        public static int OcclusionHideDelay = -1;
-        public static int MinOcclusionDistance = 50;
-        public static int OcclusionMethod = 1;
 
-        public static void UpdateValues()
+        static int occlusionSamples = 120;
+        public static int OcclusionSamples { get => occlusionSamples; }
+        
+        static int viewDistance = 400;
+        public static int ViewDistance { get => viewDistance; }
+
+        static int occlusionSampleDelay = 1;
+        public static int OcclusionSampleDelay { get => occlusionSampleDelay; }
+
+        public static int OcclusionHideDelay = -1;
+
+
+        static int minOcclusionDistance = 50;
+        public static int MinOcclusionDistance { get => minOcclusionDistance; }
+
+        static OcclusionMethods occlusionMethod = OcclusionMethods.Chequered;
+        public static OcclusionMethods OcclusionMethod { get => occlusionMethod; }
+
+        // others
+        static bool warningShowed;
+        public static int UnityCarActiveDistance { get => 5; }
+
+        public static void UpdateAll()
         {
             ActiveDistance = int.Parse(MOP.activeDistance.GetValue().ToString());
             ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
@@ -30,13 +53,23 @@
             ToggleVehicles = (bool)MOP.toggleVehicles.GetValue();
             ToggleItems = (bool)MOP.toggleItems.GetValue();
 
-            EnableObjectOcclusion = (bool)MOP.enableObjectOcclusion.GetValue();
-            OcclusionSamples = GetOcclusionSamples();
-            ViewDistance = int.Parse(MOP.occlusionDistance.GetValue().ToString());
-            OcclusionSampleDelay = int.Parse(MOP.occlusionSampleDelay.GetValue().ToString());
-            MinOcclusionDistance = int.Parse(MOP.minOcclusionDistance.GetValue().ToString());
+            if (viewDistance < minOcclusionDistance && !warningShowed)
+            {
+                MOP.occlusionDistance.Value = 400;
+                MOP.minOcclusionDistance.Value = 50;
 
-            OcclusionMethod = GetOcclusionMethod();
+                MSCLoader.ModUI.ShowMessage("Occlusion Distance cannot be lower than Minimum Occlusion Distance." +
+                    "\n\nBoth values will be reset.");
+
+                warningShowed = true;
+            }
+
+            EnableObjectOcclusion = (bool)MOP.enableObjectOcclusion.GetValue();
+            occlusionSamples = GetOcclusionSamples();
+            viewDistance = int.Parse(MOP.occlusionDistance.GetValue().ToString());
+            minOcclusionDistance = int.Parse(MOP.minOcclusionDistance.GetValue().ToString());
+
+            occlusionMethod = GetOcclusionMethod();
         }
 
         static float GetActiveDistanceMultiplicationValue()
@@ -54,18 +87,15 @@
             }
         }
 
-        static int GetOcclusionMethod()
+        static OcclusionMethods GetOcclusionMethod()
         {
             if ((bool)MOP.occlusionNormal.GetValue())
-                return 0;
-
-            if ((bool)MOP.occlusionChequered.GetValue())
-                return 1;
+                return OcclusionMethods.Legacy;
 
             if ((bool)MOP.occlusionDouble.GetValue())
-                return 2;
+                return OcclusionMethods.Double;
 
-            return 1;
+            return OcclusionMethods.Chequered;
         }
 
         static int GetOcclusionSamples()
@@ -79,9 +109,6 @@
             if ((bool)MOP.occlusionSamplesLow.GetValue())
                 return 60;
 
-            if ((bool)MOP.occlusionSamplesDetailed.GetValue())
-                return 120;
-
             if ((bool)MOP.occlusionSamplesVeryDetailed.GetValue())
                 return 240;
 
@@ -89,3 +116,4 @@
         }
     }
 }
+ 

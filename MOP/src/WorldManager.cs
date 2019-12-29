@@ -27,9 +27,7 @@ namespace MOP
         // World Objects
         List<WorldObject> worldObjects;
 
-        // Traffic
-        //Traffic traffic;
-
+        // Area Checks
         SatsumaInAreaCheck inspectionArea;
 
         public WorldManager()
@@ -97,7 +95,7 @@ namespace MOP
             Transform playerChickenHouse = GameObject.Find("Buildings").transform.Find("ChickenHouse");
             playerChickenHouse.parent = null;
 
-            // Fix for church wall. Changing it's parent ot NULL, so it will not be loaded or unloaded.
+            // Fix for church wall. Changing it's parent to NULL, so it will not be loaded or unloaded.
             // It used to be changed to CHURCH gameobject, 
             // but the Amis cars (yellow and grey cars) used to end up in the graveyard area.
             GameObject.Find("CHURCHWALL").transform.parent = null;
@@ -140,15 +138,15 @@ namespace MOP
             GameObject.Find("coffee pan(itemx)").transform.parent = null;
             GameObject.Find("lantern(itemx)").transform.parent = null;
             GameObject.Find("coffee cup(itemx)").transform.parent = null;
+            GameObject.Find("camera(itemx)").transform.parent = null;
+            GameObject.Find("fireworks bag(itemx)").transform.parent = null;
 
             //Things that should be enabled when out of proximity of the house
             worldObjects.Add(new WorldObject("NPC_CARS", awayFromHouse: true));
-            //worldObjects.Add(new WorldObject("RALLY", awayFromHouse: true));
             worldObjects.Add(new WorldObject("TRAFFIC", awayFromHouse: true));
             worldObjects.Add(new WorldObject("TRAIN", awayFromHouse: true));
             worldObjects.Add(new WorldObject("Buildings", awayFromHouse: true));
             worldObjects.Add(new WorldObject("TrafficSigns", awayFromHouse: true));
-            //worldObjects.Add(new WorldObject("ELEC_POLES", awayFromHouse: true));
             worldObjects.Add(new WorldObject("StreetLights", awayFromHouse: true));
             worldObjects.Add(new WorldObject("HUMANS", awayFromHouse: true));
             worldObjects.Add(new WorldObject("HayBales", true));
@@ -169,6 +167,23 @@ namespace MOP
             SatsumaInAreaCheck lifterArea = GameObject.Find("REPAIRSHOP/Lifter/Platform").AddComponent<SatsumaInAreaCheck>();
             lifterArea.Initialize(new Vector3(5, 5, 5));
 
+            // Jokke's furnitures.
+            // Only renderers will be toggled
+            if (GameObject.Find("tv(Clo01)") != null)
+            {
+                worldObjects.Add(new WorldObject("tv(Clo01)", 200, true));
+                worldObjects.Add(new WorldObject("chair(Clo02)", 200, true));
+                worldObjects.Add(new WorldObject("chair(Clo05)", 200, true));
+                worldObjects.Add(new WorldObject("bench(Clo01)", 200, true));
+                worldObjects.Add(new WorldObject("bench(Clo02)", 200, true));
+                worldObjects.Add(new WorldObject("table(Clo02)", 200, true));
+                worldObjects.Add(new WorldObject("table(Clo03)", 200, true));
+                worldObjects.Add(new WorldObject("table(Clo04)", 200, true));
+                worldObjects.Add(new WorldObject("table(Clo05)", 200, true));
+                worldObjects.Add(new WorldObject("desk(Clo01)", 200, true));
+                worldObjects.Add(new WorldObject("arm chair(Clo01)", 200, true));
+            }
+
             // Initialize Items class
             new Items();            
 
@@ -177,6 +192,8 @@ namespace MOP
             // Initialize the coroutines
             StartCoroutine(LoopRoutine());
             StartCoroutine(ControlCoroutine());
+
+            ModConsole.Print("[MOP] Mod loaded succesfully!");
         }
 
         /// <summary>
@@ -209,6 +226,10 @@ namespace MOP
                         saveGames[i].SetActive(false);
                     }
                 }
+
+                // fix for jail savegame
+                if (GameObject.Find("JAIL") != null)
+                    FsmHook.FsmInject(GameObject.Find("JAIL/SAVEGAME"), "Mute audio", PreSaveGame);
             }
             catch (Exception ex)
             {
@@ -227,34 +248,13 @@ namespace MOP
                 // World objects
                 for (int i = 0; i < worldObjects.Count; i++)
                 {
-                    worldObjects[i].ToggleActive(true);
+                    worldObjects[i].Toggle(true);
                 }
 
                 // Vehicles
                 for (int i = 0; i < vehicles.Count; i++)
                 {
-                    // If the vehicle is Gifu, execute the ToggleActive from gifuScript
-                    if (vehicles[i].gifuScript != null)
-                    {
-                        vehicles[i].gifuScript.ToggleActive(true);
-                        continue;
-                    }
-
-                    // If the vehicle is Satsuma, execute the ToggleActive from satsumaScript
-                    if (vehicles[i].satsumaScript != null)
-                    {
-                        vehicles[i].satsumaScript.ToggleActive(true);
-                        continue;
-                    }
-
-                    // Fury
-                    if (vehicles[i].furyScript != null)
-                    {
-                        vehicles[i].furyScript.ToggleActive(true);
-                        continue;
-                    }
-
-                    vehicles[i].ToggleActive(true);
+                    vehicles[i].Toggle(true);
                 }
 
                 // Items
@@ -297,17 +297,17 @@ namespace MOP
                         // Should the object be disabled when the player leaves the house?
                         if (worldObjects[i].AwayFromHouse)
                         {
-                            worldObjects[i].ToggleActive(player.Distance(yard.transform) > 100);
+                            worldObjects[i].Toggle(player.GetDistance(yard.transform) > 100);
                             continue;
                         }
 
                         // Fix for inspection area being unloaded after the successfull inspection,
                         // making game not save the car inspection status.
-                        if (worldObjects[i].GameObject.name == "INSPECTION" && inspectionArea.InspectionPreventUnload)
+                        if (worldObjects[i].gameObject.name == "INSPECTION" && inspectionArea.InspectionPreventUnload)
                             continue;
 
                         // The object will be disables, if the player is in the range of that object.
-                        worldObjects[i].ToggleActive(ToEnable(worldObjects[i].transform, worldObjects[i].Distance));
+                        worldObjects[i].Toggle(IsEnabled(worldObjects[i].transform, worldObjects[i].Distance));
                     }
                 }
                 catch (Exception ex)
@@ -324,17 +324,17 @@ namespace MOP
                         // Should the object be disabled when the player leaves the house?
                         if (worldObjects[i].AwayFromHouse)
                         {
-                            worldObjects[i].ToggleActive(player.Distance(yard.transform) > 100);
+                            worldObjects[i].Toggle(player.GetDistance(yard.transform) > 100);
                             continue;
                         }
 
                         // Fix for inspection area being unloaded after the successfull inspection,
                         // making game not save the car inspection status.
-                        if (worldObjects[i].GameObject.name == "INSPECTION" && inspectionArea.InspectionPreventUnload)
+                        if (worldObjects[i].gameObject.name == "INSPECTION" && inspectionArea.InspectionPreventUnload)
                             continue;
 
                         // The object will be disables, if the player is in the range of that object.
-                        worldObjects[i].ToggleActive(ToEnable(worldObjects[i].transform, worldObjects[i].Distance));
+                        worldObjects[i].Toggle(IsEnabled(worldObjects[i].transform, worldObjects[i].Distance));
                     }
                 }
                 catch (Exception ex)
@@ -356,37 +356,16 @@ namespace MOP
                         half = vehicles.Count / 2;
                         for (i = 0; i < half; i++)
                         {
-                            if (vehicles[i] == null || vehicles[i].gm == null)
+                            if (vehicles[i] == null || vehicles[i].gameObject == null)
                             {
                                 ModConsole.Print("Vehicle " + i + " has been skipped, because an error occured.");
                                 continue;
                             }
 
-                            float distance = player.Distance(vehicles[i].transform);
-                            vehicles[i].ToggleUnityCar(ToEnable(distance, 5));
+                            float distance = player.GetDistance(vehicles[i].transform);
+                            vehicles[i].ToggleUnityCar(IsEnabled(distance, MopSettings.UnityCarActiveDistance));
 
-                            // If the vehicle is Gifu, execute the ToggleActive from gifuScript
-                            if (vehicles[i].gifuScript != null)
-                            {
-                                vehicles[i].gifuScript.ToggleActive(ToEnable(distance));
-                                continue;
-                            }
-
-                            // If the vehicle is Satsuma, execute the ToggleActive from satsumaScript
-                            if (vehicles[i].satsumaScript != null)
-                            {
-                                vehicles[i].satsumaScript.ToggleActive(ToEnable(distance));
-                                continue;
-                            }
-
-                            // Fury
-                            if (vehicles[i].furyScript != null)
-                            {
-                                vehicles[i].furyScript.ToggleActive(ToEnable(distance));
-                                continue;
-                            }
-
-                            vehicles[i].ToggleActive(ToEnable(distance));
+                            vehicles[i].Toggle(IsEnabled(distance));
                         }
                     }
                     catch (Exception ex)
@@ -400,37 +379,16 @@ namespace MOP
                     {
                         for (; i < vehicles.Count; i++)
                         {
-                            if (vehicles[i] == null || vehicles[i].gm == null)
+                            if (vehicles[i] == null || vehicles[i].gameObject == null)
                             {
                                 ModConsole.Print("Vehicle " + i + " has been skipped, because an error occured.");
                                 continue;
                             }
 
-                            float distance = player.Distance(vehicles[i].transform);
-                            vehicles[i].ToggleUnityCar(ToEnable(distance, 5));
+                            float distance = player.GetDistance(vehicles[i].transform);
+                            vehicles[i].ToggleUnityCar(IsEnabled(distance, MopSettings.UnityCarActiveDistance));
 
-                            // If the vehicle is Gifu, execute the ToggleActive from gifuScript
-                            if (vehicles[i].gifuScript != null)
-                            {
-                                vehicles[i].gifuScript.ToggleActive(ToEnable(distance));
-                                continue;
-                            }
-
-                            // If the vehicle is Satsuma, execute the ToggleActive from satsumaScript
-                            if (vehicles[i].satsumaScript != null)
-                            {
-                                vehicles[i].satsumaScript.ToggleActive(ToEnable(distance));
-                                continue;
-                            }
-
-                            // Fury
-                            if (vehicles[i].furyScript != null)
-                            {
-                                vehicles[i].furyScript.ToggleActive(ToEnable(distance));
-                                continue;
-                            }
-
-                            vehicles[i].ToggleActive(ToEnable(distance));
+                            vehicles[i].Toggle(IsEnabled(distance));
                         }
                     }
                     catch (Exception ex)
@@ -447,13 +405,13 @@ namespace MOP
                         half = Items.instance.ItemsHooks.Count / 2;
                         for (i = 0; i < half; ++i)
                         {
-                            if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gm == null)
+                            if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
                             {
                                 ModConsole.Print("One minor object has been skipped");
                                 continue;
                             }
 
-                            Items.instance.ItemsHooks[i].ToggleActive(ToEnable(Items.instance.ItemsHooks[i].gm.transform));
+                            Items.instance.ItemsHooks[i].ToggleActive(IsEnabled(Items.instance.ItemsHooks[i].gameObject.transform));
                         }
                     }
                     catch (Exception ex)
@@ -467,13 +425,13 @@ namespace MOP
                     {
                         for (; i < Items.instance.ItemsHooks.Count; ++i)
                         {
-                            if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gm == null)
+                            if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
                             {
                                 ModConsole.Print("One minor object has been skipped");
                                 continue;
                             }
 
-                            Items.instance.ItemsHooks[i].ToggleActive(ToEnable(Items.instance.ItemsHooks[i].gm.transform));
+                            Items.instance.ItemsHooks[i].ToggleActive(IsEnabled(Items.instance.ItemsHooks[i].gameObject.transform));
                         }
                     }
                     catch (Exception ex)
@@ -484,9 +442,9 @@ namespace MOP
 
                 try
                 {
-                    teimo.ToggleActive(ToEnable(teimo.transform));
-                    repairShop.ToggleActive(ToEnable(repairShop.transform, 400));
-                    yard.ToggleActive(ToEnable(yard.transform, 300));
+                    teimo.ToggleActive(IsEnabled(teimo.transform));
+                    repairShop.ToggleActive(IsEnabled(repairShop.transform, 400));
+                    yard.ToggleActive(IsEnabled(yard.transform, 300));
                 }
                 catch (Exception ex)
                 {
@@ -502,19 +460,19 @@ namespace MOP
         /// </summary>
         /// <param name="target">Target object.</param>
         /// <param name="toggleDistance">Distance below which the object should be enabled (default 200 units).</param>
-        bool ToEnable(Transform target, float toggleDistance = 200)
+        private bool IsEnabled(Transform target, float toggleDistance = 200)
         {
-            return player.Distance(target) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
+            return player.GetDistance(target) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
 
-        bool ToEnable(float distance, float toggleDistance = 200)
+        private bool IsEnabled(float distance, float toggleDistance = 200)
         {
             return distance < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
 
         int ticks;
         int lastTick;
-        bool restartRetried;
+        bool restartTried;
 
         /// <summary>
         /// Every 10 seconds check if the coroutine is still active.
@@ -532,22 +490,22 @@ namespace MOP
                 
                 if (lastTick == ticks)
                 {
-                    if (restartRetried)
+                    if (restartTried)
                     {
-                        ModConsole.Print("Restart attempt failed. Safe Mode will be enabled this time.\n\n" +
+                        ModConsole.Print("[MOP] Restart attempt failed. Safe Mode will be enabled this time.\n\n" +
                             "You can try and disable some objects (like Vehicles and Store Items) from being disabled.");
                         MopSettings.SafeMode = true;
                     }
 
-                    restartRetried = true;
-                    ModConsole.Error("MOP has stopped working. Trying to restart the now...\n\n" +
+                    restartTried = true;
+                    ModConsole.Error("[MOP] MOP has stopped working. Trying to restart the now...\n\n" +
                         "If the issue will still occure, please turn on output_log.txt in MSC Mod Loader settings, " +
                         "and check output_log.txt in MSC folder.\n\noutput_log.txt is located in mysummercar_Data " +
                         "in My Summer Car folder.");
                     StartCoroutine(LoopRoutine());
                 }
 
-                restartRetried = false;
+                restartTried = false;
                 lastTick = ticks;
             }
         }

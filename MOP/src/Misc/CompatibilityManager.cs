@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using MSCLoader;
 
 namespace MOP
 {
@@ -25,13 +26,13 @@ namespace MOP
             drivableFury = GameObject.Find("FURY(1630kg)") != null;
             if (drivableFury)
             {
-                MSCLoader.ModConsole.Print("[MOP] Drivable Fury has been found!");
+                ModConsole.Print("[MOP] Drivable Fury has been found!");
             }
 
             secondFerndale = GameObject.Find("SECONDFERNDALE(1630kg)") != null;
             if (secondFerndale)
             {
-                MSCLoader.ModConsole.Print("[MOP] Second Ferndale has been found!");
+                ModConsole.Print("[MOP] Second Ferndale has been found!");
             }
         }
     }

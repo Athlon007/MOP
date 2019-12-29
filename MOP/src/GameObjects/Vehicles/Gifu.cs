@@ -9,72 +9,78 @@ namespace MOP
         // This class extends the functionality of Vehicle class, which is tailored for Gifu.
         // It fixes the issue with Gifu's beams being turned on after respawn.
 
-        Transform BeaconSwitchParent;
-        Transform BeaconSwitch;
+        Transform beaconSwitchParent;
+        Transform beaconSwitch;
 
-        Transform BeaconsParent;
-        Transform Beacons;
-        Transform WorkLightsSwitch;
+        Transform beaconsParent;
+        Transform beacons;
+        Transform workLightsSwitch;
 
         /// <summary>
         /// Initialize class
         /// </summary>
         /// <param name="gameObject"></param>
-        public Gifu(string gameObject) : base(gameObject)
+        public Gifu(string gameObjectName) : base(gameObjectName)
         {
             gifuScript = this;
 
-            BeaconSwitchParent = gm.transform.Find("Dashboard").Find("Knobs");
-            BeaconsParent = gm.transform.Find("LOD");
+            beaconSwitchParent = gameObject.transform.Find("Dashboard").Find("Knobs");
+            beaconsParent = gameObject.transform.Find("LOD");
 
-            BeaconSwitch = BeaconSwitchParent.transform.Find("KnobBeacon");
-            Beacons = BeaconsParent.transform.Find("Beacon");
-            WorkLightsSwitch = BeaconSwitchParent.transform.Find("KnobWorkLights");
+            beaconSwitch = beaconSwitchParent.transform.Find("KnobBeacon");
+            beacons = beaconsParent.transform.Find("Beacon");
+            workLightsSwitch = beaconSwitchParent.transform.Find("KnobWorkLights");
+
+            Toggle = ToggleActive;
         }
 
         /// <summary>
         /// Enable or disable car
         /// </summary>
-        public new void ToggleActive(bool enabled)
+        void ToggleActive(bool enabled)
         {
-            if (gm == null) return;
+            if (gameObject == null) return;
             // Don't run the code, if the value is the same
-            if (gm.activeSelf == enabled) return;
+            if (gameObject.activeSelf == enabled) return;
 
             // If we're disabling a car, set the audio child parent to TemporaryAudioParent, and save the position and rotation.
             // We're doing that BEFORE we disable the object.
             if (!enabled)
             {
                 SetParentForChilds(AudioObjects, TemporaryParent);
+                
                 if (FuelTank != null)
                 {
                     SetParentForChild(FuelTank, TemporaryParent);
                 }
-                SetParentForChild(BeaconSwitch, TemporaryParent);
-                SetParentForChild(Beacons, TemporaryParent);
-                SetParentForChild(WorkLightsSwitch, TemporaryParent);
 
-                Position = gm.transform.localPosition;
-                Rotation = gm.transform.localRotation;
+                SetParentForChild(beaconSwitch, TemporaryParent);
+                SetParentForChild(beacons, TemporaryParent);
+                SetParentForChild(workLightsSwitch, TemporaryParent);
+
+                Position = gameObject.transform.localPosition;
+                Rotation = gameObject.transform.localRotation;
             }
 
-            gm.SetActive(enabled);
+            gameObject.SetActive(enabled);
 
             // Uppon enabling the file, set the localPosition and localRotation to the object's transform, and change audio source parents to Object
             // We're doing that AFTER we enable the object.
             if (enabled)
             {
-                gm.transform.localPosition = Position;
-                gm.transform.localRotation = Rotation;
+                gameObject.transform.localPosition = Position;
+                gameObject.transform.localRotation = Rotation;
 
-                SetParentForChilds(AudioObjects, gm);
+                SetParentForChilds(AudioObjects, gameObject);
+
                 if (FuelTank != null)
                 {
-                    SetParentForChild(FuelTank, gm);
+                    SetParentForChild(FuelTank, gameObject);
                 }
-                SetParentForChild(BeaconSwitch, BeaconSwitchParent.gameObject);
-                SetParentForChild(Beacons, BeaconsParent.gameObject);
-                SetParentForChild(WorkLightsSwitch, BeaconSwitchParent.gameObject);
+
+                SetParentForChild(beaconSwitch, beaconSwitchParent.gameObject);
+                SetParentForChild(beacons, beaconsParent.gameObject);
+                SetParentForChild(workLightsSwitch, beaconSwitchParent.gameObject);
             }
         }
     }

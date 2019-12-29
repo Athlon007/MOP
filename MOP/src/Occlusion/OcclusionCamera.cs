@@ -7,34 +7,30 @@ namespace MOP
 {
     class OcclusionCamera : MonoBehaviour
     {
-        bool occlusionHideDelayCalculated;
-        int calculationDelayStep = 0;
-        const int delayEnd = 2;
+        private bool isOcclusionHideDelayCalculated;
+        private int calculationDelayStep = 0;
+        private const int DelayEnd = 2;
 
         void Start()
         {
             if (!MopSettings.EnableObjectOcclusion)
                 return;
 
-            //Camera camera = gameObject.GetComponent<Camera>();
-            //camera.farClipPlane = MopSettings.ViewDistance;
-
             switch (MopSettings.OcclusionMethod)
             {
                 default:
                     StartCoroutine(ChequeredView());
                     break;
-                case 0:
+                case OcclusionMethods.Legacy:
                     StartCoroutine(CheckView());
                     break;
-                case 2:
+                case OcclusionMethods.Double:
                     StartCoroutine(FirstView());
                     StartCoroutine(SecondView());
                     break;
             }
 
             StartCoroutine(ControlCoroutine());
-            MSCLoader.ModConsole.Print("OcclusionCamera initialized");
         }
 
         /// <summary>
@@ -53,10 +49,10 @@ namespace MOP
             while (MopSettings.IsModActive)
             {
                 Stopwatch stopwatch = new Stopwatch();
-                if (!occlusionHideDelayCalculated)
+                if (!isOcclusionHideDelayCalculated)
                 {
                     calculationDelayStep += 1;
-                    if (calculationDelayStep > delayEnd)
+                    if (calculationDelayStep > DelayEnd)
                         stopwatch = Stopwatch.StartNew();
                 }
 
@@ -89,8 +85,8 @@ namespace MOP
 
                                 if (thisTargetScript != null)
                                 {
-                                    thisTargetScript.lastSeen = DateTime.Now;
-                                    thisTargetScript.isVisible = true;
+                                    thisTargetScript.LastSeen = DateTime.Now;
+                                    thisTargetScript.IsVisible = true;
                                 }
                             }
                         }
@@ -101,10 +97,10 @@ namespace MOP
 
                 yield return null;
 
-                if (!occlusionHideDelayCalculated && calculationDelayStep > delayEnd)
+                if (!isOcclusionHideDelayCalculated && calculationDelayStep > DelayEnd)
                 {
                     stopwatch.Stop();
-                    occlusionHideDelayCalculated = true;
+                    isOcclusionHideDelayCalculated = true;
                     long time = stopwatch.ElapsedMilliseconds * 2;
                     SetOcclusionHideDelayTime(time);
                 }
@@ -144,8 +140,8 @@ namespace MOP
 
                                 if (thisTargetScript != null)
                                 {
-                                    thisTargetScript.lastSeen = DateTime.Now;
-                                    thisTargetScript.isVisible = true;
+                                    thisTargetScript.LastSeen = DateTime.Now;
+                                    thisTargetScript.IsVisible = true;
                                 }
                             }
                         }
@@ -165,10 +161,10 @@ namespace MOP
             while (MopSettings.IsModActive)
             {
                 Stopwatch stopwatch = new Stopwatch();
-                if (!occlusionHideDelayCalculated)
+                if (!isOcclusionHideDelayCalculated)
                 {
                     calculationDelayStep += 1;
-                    if (calculationDelayStep > delayEnd)
+                    if (calculationDelayStep > DelayEnd)
                         stopwatch = Stopwatch.StartNew();
                 }
 
@@ -201,8 +197,8 @@ namespace MOP
 
                                 if (thisTargetScript != null)
                                 {
-                                    thisTargetScript.lastSeen = DateTime.Now;
-                                    thisTargetScript.isVisible = true;
+                                    thisTargetScript.LastSeen = DateTime.Now;
+                                    thisTargetScript.IsVisible = true;
                                 }
                             }
                         }
@@ -235,8 +231,8 @@ namespace MOP
 
                                 if (thisTargetScript != null)
                                 {
-                                    thisTargetScript.lastSeen = DateTime.Now;
-                                    thisTargetScript.isVisible = true;
+                                    thisTargetScript.LastSeen = DateTime.Now;
+                                    thisTargetScript.IsVisible = true;
                                 }
                             }
                         }
@@ -245,10 +241,10 @@ namespace MOP
                     yield return null;
                 }
 
-                if (!occlusionHideDelayCalculated && calculationDelayStep > delayEnd)
+                if (!isOcclusionHideDelayCalculated && calculationDelayStep > DelayEnd)
                 {
                     stopwatch.Stop();
-                    occlusionHideDelayCalculated = true;
+                    isOcclusionHideDelayCalculated = true;
                     long time = stopwatch.ElapsedMilliseconds;
                     SetOcclusionHideDelayTime(time);
                 }
@@ -264,10 +260,10 @@ namespace MOP
             while (MopSettings.IsModActive)
             {
                 Stopwatch stopwatch = new Stopwatch();
-                if (!occlusionHideDelayCalculated)
+                if (!isOcclusionHideDelayCalculated)
                 {
                     calculationDelayStep += 1;
-                    if (calculationDelayStep > delayEnd)
+                    if (calculationDelayStep > DelayEnd)
                         stopwatch = Stopwatch.StartNew();
                 }
 
@@ -305,8 +301,8 @@ namespace MOP
 
                                 if (thisTargetScript != null)
                                 {
-                                    thisTargetScript.lastSeen = DateTime.Now;
-                                    thisTargetScript.isVisible = true;
+                                    thisTargetScript.LastSeen = DateTime.Now;
+                                    thisTargetScript.IsVisible = true;
                                 }
                             }
                         }
@@ -335,8 +331,8 @@ namespace MOP
 
                                 if (thisTargetScript != null)
                                 {
-                                    thisTargetScript.lastSeen = DateTime.Now;
-                                    thisTargetScript.isVisible = true;
+                                    thisTargetScript.LastSeen = DateTime.Now;
+                                    thisTargetScript.IsVisible = true;
                                 }
                             }
                         }
@@ -370,8 +366,8 @@ namespace MOP
 
                                 if (thisTargetScript != null)
                                 {
-                                    thisTargetScript.lastSeen = DateTime.Now;
-                                    thisTargetScript.isVisible = true;
+                                    thisTargetScript.LastSeen = DateTime.Now;
+                                    thisTargetScript.IsVisible = true;
                                 }
                             }
                         }
@@ -400,26 +396,26 @@ namespace MOP
 
                                 if (thisTargetScript != null)
                                 {
-                                    thisTargetScript.lastSeen = DateTime.Now;
-                                    thisTargetScript.isVisible = true;
+                                    thisTargetScript.LastSeen = DateTime.Now;
+                                    thisTargetScript.IsVisible = true;
                                 }
                             }
                         }
                     }
                 }
 
-                if (!occlusionHideDelayCalculated && calculationDelayStep > delayEnd)
+                if (!isOcclusionHideDelayCalculated && calculationDelayStep > DelayEnd)
                 {
                     stopwatch.Stop();
-                    occlusionHideDelayCalculated = true;
+                    isOcclusionHideDelayCalculated = true;
                     long time = stopwatch.ElapsedMilliseconds;
                     SetOcclusionHideDelayTime(time);
                 }
             }
         }
 
-        int ticks;
-        int lastTick;
+        private int ticks;
+        private int lastTick;
 
         /// <summary>
         /// Every 10 seconds check if the coroutine is still active.
@@ -446,10 +442,10 @@ namespace MOP
                         default:
                             StartCoroutine(ChequeredView());
                             break;
-                        case 0:
+                        case OcclusionMethods.Legacy:
                             StartCoroutine(CheckView());
                             break;
-                        case 2:
+                        case OcclusionMethods.Double:
                             StartCoroutine(FirstView());
                             StartCoroutine(SecondView());
                             break;

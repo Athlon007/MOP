@@ -8,8 +8,8 @@ namespace MOP
 {
     class OcclusionObject : OcclusionBase
     {
-        List<Renderer> renderers { get; set; }
-        List<Light> lights { get; set; }
+        List<Renderer> Renderers { get; set; }
+        List<Light> Lights { get; set; }
         float PlayerDistance { get; set; }
 
         void Start()
@@ -17,20 +17,21 @@ namespace MOP
             if (!enabled || !MopSettings.EnableObjectOcclusion) 
                 return; 
             
-            renderers = GetChildRenderers(gameObject);
-            lights = GetChildLights(gameObject);
+            Renderers = GetChildRenderers(gameObject);
+            Lights = GetChildLights(gameObject);
             
             Renderer thisRenderer = gameObject.GetComponent<Renderer>();
+            
             if (thisRenderer != null)
-                renderers.Add(thisRenderer);
+                Renderers.Add(thisRenderer);
 
-            if (renderers != null || renderers.Count == 0)
+            if (Renderers != null || Renderers.Count == 0)
             {
                 InvokeRepeating("Toggle", MopSettings.OcclusionSampleDelay, MopSettings.OcclusionSampleDelay);
                 StartCoroutine(WaitForHideDelayCalculation());
             }
 
-            isVisible = true;
+            IsVisible = true;
         }
 
         /// <summary>
@@ -49,9 +50,9 @@ namespace MOP
 
         public void Hide()
         {
-            if (((DateTime.Now - lastSeen).TotalSeconds > MopSettings.OcclusionHideDelay) && (PlayerDistance > MopSettings.MinOcclusionDistance))
+            if (((DateTime.Now - LastSeen).TotalSeconds > MopSettings.OcclusionHideDelay) && (PlayerDistance > MopSettings.MinOcclusionDistance))
             {
-                isVisible = false;
+                IsVisible = false;
             }
         }
 
@@ -70,7 +71,7 @@ namespace MOP
             {
                 GameObject thisChild = toSearch.transform.GetChild(i).gameObject;
 
-                // Fix for sleeping pivots in cars
+                // Fix for sleeping pivots in cars, because for whatever reason, they have their own mesh models
                 if (thisChild.name.Contains("Sleep")) continue;
 
                 if (thisChild.GetComponent<OcclusionObject>() == null)
@@ -90,19 +91,20 @@ namespace MOP
         public void Toggle()
         {
             PlayerDistance = Vector3.Distance(WorldManager.instance.player.position, transform.position);
-            bool visible = (isVisible) || (PlayerDistance < MopSettings.MinOcclusionDistance);
+            bool visible = (IsVisible) || (PlayerDistance < MopSettings.MinOcclusionDistance);
 
-            for (int i = 0; i < renderers.Count; i++)
+            for (int i = 0; i < Renderers.Count; i++)
             {
-                if (renderers[i].enabled == isVisible)
+                // We're assuming that all childs are the same
+                if (Renderers[i].enabled == IsVisible)
                     return;
 
-                renderers[i].enabled = visible;
+                Renderers[i].enabled = visible;
             }
 
-            for (int i = 0; i < lights.Count; i++)
+            for (int i = 0; i < Lights.Count; i++)
             {
-                lights[i].enabled = visible;
+                Lights[i].enabled = visible;
             }
         }
     }

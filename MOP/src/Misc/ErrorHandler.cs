@@ -12,8 +12,8 @@ namespace MOP
         /// <param name="ex"></param>
         public static void New(Exception ex)
         {
-            if (File.Exists("mop_err.txt"))
-                File.Delete("mop_err.txt");
+            if (File.Exists("MOP_LOG.txt"))
+                File.Delete("MOP_LOG.txt");
 
             string gameInfo = GetGameInfo();
 

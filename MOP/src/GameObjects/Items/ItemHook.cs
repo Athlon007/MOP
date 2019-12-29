@@ -9,16 +9,10 @@ namespace MOP
         // This MonoBehaviour hooks to all minor objects.
         // ObjectHook class by Konrad "Athlon" Figura
 
-        public GameObject gm;
-
         /// <summary>
         /// PlayMakerFSM script of the object
         /// </summary>
         PlayMakerFSM playMakerFSM;
-
-        // Saved rotation and position of the object, before it is disabled
-        Vector3 lastPosition;
-        Quaternion lastRotation;
 
         /// <summary>
         /// Rigidbody of this object.
@@ -32,14 +26,8 @@ namespace MOP
 
         public ItemHook()
         {
-            gm = this.gameObject;
-
             // Add self to the MinorObjects.objectHooks list
             Items.instance.Add(this);
-
-            // Get the current rotation and position.
-            lastPosition = gm.transform.position;
-            lastRotation = gm.transform.rotation;
 
             // Get object's components
             rb = GetComponent<Rigidbody>();
@@ -64,14 +52,14 @@ namespace MOP
                 }
             }
 
-            // Object is plastic can
-            if (gm.name.ContainsAny("kilju", "empty plastic can", "juice"))
+            // Object is plastic can, or juice container
+            if (gameObject.name.ContainsAny("kilju", "empty plastic can", "juice"))
             {
                 FsmHook.FsmInject(this.gameObject, "State 3", RemoveSelf);
             }
 
             // If the item is a shopping bag, hook the RemoveSelf to "Is garbage" FsmState
-            if (gm.name.Contains("shopping bag"))
+            if (gameObject.name.Contains("shopping bag"))
             {
                 FsmHook.FsmInject(this.gameObject, "Is garbage", RemoveSelf);
             }
@@ -131,16 +119,16 @@ namespace MOP
         /// <returns></returns>
         IEnumerator PositionFix()
         {
-            Vector3 pos = gm.transform.position;
-            Quaternion rot = gm.transform.rotation;
+            Vector3 pos = gameObject.transform.position;
+            Quaternion rot = gameObject.transform.rotation;
 
             yield return new WaitForSeconds(1);
 
-            if (Vector3.Distance(pos, gm.transform.position) > 2)
+            if (Vector3.Distance(pos, gameObject.transform.position) > 2)
             {
                 pos.y += 3; // add 3 units to the Y value, to prevent the item from appearing in the same place again.
-                gm.transform.position = pos;
-                gm.transform.rotation = rot;
+                gameObject.transform.position = pos;
+                gameObject.transform.rotation = rot;
             }
 
             currentPositionFix = null;

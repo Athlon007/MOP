@@ -12,7 +12,7 @@ namespace MOP
         //
         // NOTE: That script DOES NOT disable the store itself, rather some of its childrens.
 
-        public GameObject Object { get; set; }
+        public GameObject gameObject { get; set; }
 
         // Objects from that whitelist will not be disabled
         // It is so to prevent from restock script and Teimo's bike routine not working
@@ -23,7 +23,7 @@ namespace MOP
         /// </summary>
         internal List<Transform> DisableableChilds;
 
-        public Transform transform => Object.transform;
+        public Transform transform => gameObject.transform;
 
         /// <summary>
         /// Saves what value has been last used, to prevent unnescesary launch of loop.
@@ -35,8 +35,8 @@ namespace MOP
         /// </summary>
         public Place(string placeName)
         {
-            Object = GameObject.Find(placeName);
-            Object.AddComponent<OcclusionObject>();
+            gameObject = GameObject.Find(placeName);
+            gameObject.AddComponent<OcclusionObject>();
         }
 
         /// <summary>
@@ -51,6 +51,10 @@ namespace MOP
             // Load and unload only the objects that aren't on the whitelist.
             for (int i = 0; i < DisableableChilds.Count; i++)
             {
+                // If the object is missing, continue.
+                if (DisableableChilds[i].gameObject == null)
+                    continue;
+
                 DisableableChilds[i].gameObject.SetActive(enabled);
             }
         }
@@ -61,7 +65,8 @@ namespace MOP
         /// <returns></returns>
         internal List<Transform> GetDisableableChilds()
         {
-            return Object.transform.GetComponentsInChildren<Transform>(true).Where(trans => !trans.gameObject.name.ContainsAny(GameObjectBlackList)).ToList();
+            return transform.GetComponentsInChildren<Transform>(true)
+                .Where(trans => !trans.gameObject.name.ContainsAny(GameObjectBlackList)).ToList();
         }
     }
 }

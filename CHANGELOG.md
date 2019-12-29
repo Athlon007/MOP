@@ -1,5 +1,35 @@
 # Changelog
 
+## Beta 1.3 (xx.01.2020)
+
+### Added
+
+- Added check for when the Occlusion Distance is lower than Minimum Occlusion Distance
+- Added save game hook to jail save spot
+- Jokke's furnitures are now toggled on and off!
+
+### Changes
+
+- Changed occlusion culling info
+- Renamed "Occlusion Distance" to "Maximum Occlusion Distance"
+- Changes in settings order
+- Minor changes under the hood
+  - Unified some variable names
+  - Code optimization and improvements
+  - Code refactoring
+
+### Bug Fixes
+
+- Fixed a typo in the settings
+- Excluded Hayoshiko from the occlusion
+- Fixed camera and fireworks bag from clipping through the cottage
+- Fixed bug in which the game would show error when toggling places
+- Fixed an issue with Hayosiko staying between tree walls even after uncle is available
+
+### Removed
+
+- Removed Occlusion Sample Delay from the settings
+
 ## Beta 1.2.1 (22.12.2019)
 
 ### Added

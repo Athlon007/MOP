@@ -15,7 +15,7 @@ namespace MOP
         // by simply saving the Transform.position and Transform.rotation parameters just before disabling the object, and then loading these values,
         // just after loading them.
 
-        public GameObject gm { get; set; }
+        public GameObject gameObject { get; set; }
 
         // Values that are being saved or loaded
         public Vector3 Position { get; set; }
@@ -31,7 +31,7 @@ namespace MOP
         // Overwrites the "Component.transform", to prevent eventual mod crashes caused by missuse of Vehicle.transform.
         // Technically, you should use Vehicle.Object.transform (ex. GIFU.Object.Transform), this here just lets you use Vehicle.transform
         // (ex. GIFU.transform).
-        public Transform transform => gm.transform;
+        public Transform transform => gameObject.transform;
 
         public Gifu gifuScript;
         public Satsuma satsumaScript;
@@ -41,21 +41,23 @@ namespace MOP
         internal Axles axles;
         internal Rigidbody rb;
 
+        bool isHayosiko;
+
         /// <summary>
         /// Initialize class
         /// </summary>
-        /// <param name="gameObject"></param>
-        public Vehicle(string gameObject)
+        /// <param name="gameObjectName"></param>
+        public Vehicle(string gameObjectName)
         {
             // Find the object by name
-            gm = GameObject.Find(gameObject);
+            gameObject = GameObject.Find(gameObjectName);
 
             // Dump the object position and rotation
-            Position = gm.transform.localPosition;
-            Rotation = gm.transform.localRotation;
+            Position = gameObject.transform.localPosition;
+            Rotation = gameObject.transform.localRotation;
 
             // Creates a new gameobject that is names after the original file + '_TEMP' (ex. "SATSUMA(557kg, 248)_TEMP")
-            TemporaryParent = new GameObject(gm.name + "_TEMP");
+            TemporaryParent = new GameObject(gameObject.name + "_TEMP");
 
             // Get the object's child which are responsible for audio
             AudioObjects = GetAudioObjects();
@@ -63,12 +65,16 @@ namespace MOP
             // Fix for fuel level resetting after respawn
             FuelTank = FindFuelTank();
 
-            carDynamics = gm.GetComponent<CarDynamics>();
-            axles = gm.GetComponent<Axles>();
-            rb = gm.GetComponent<Rigidbody>();
+            carDynamics = gameObject.GetComponent<CarDynamics>();
+            axles = gameObject.GetComponent<Axles>();
+            rb = gameObject.GetComponent<Rigidbody>();
 
-            if (!gm.name.StartsWith("HAYOSIKO"))
-                gm.AddComponent<OcclusionObject>();
+            if (!gameObject.name.Contains("HAYOSIKO"))
+                gameObject.AddComponent<OcclusionObject>();
+
+            Toggle = ToggleActive;
+
+            isHayosiko = gameObject.name.Contains("HAYOSIKO");
         }
 
         /// <summary>
@@ -78,18 +84,32 @@ namespace MOP
         /// <returns></returns>
         internal Transform[] GetAudioObjects()
         {
-            Transform[] childs = gm.transform.GetComponentsInChildren<Transform>();
+            Transform[] childs = gameObject.transform.GetComponentsInChildren<Transform>();
             return childs.Where(obj => obj.gameObject.name.Contains("audio") || obj.gameObject.name.Contains("SoundSrc")).ToArray();
         }
+
+        public delegate void ToggleHandler(bool enabled);
+        public ToggleHandler Toggle;
 
         /// <summary>
         /// Enable or disable car
         /// </summary>
-        public void ToggleActive(bool enabled)
+        void ToggleActive(bool enabled)
         {
-            if (gm == null) return;
+            if (gameObject == null) return;
             // Don't run the code, if the value is the same
-            if (gm.activeSelf == enabled) return;
+            if (gameObject.activeSelf == enabled) return;
+
+            // Fix for when the player doesn't have keys for Hayosiko.
+            // Van will NOT be toggled
+            if (isHayosiko)
+            {
+                if (FsmGlobals.PlayerHasHayosikoKey() == false)
+                {
+                    MSCLoader.ModConsole.Print("Player DOESN'T have Hayosiko keys!");
+                    return;
+                }
+            }
 
             // If we're disabling a car, set the audio child parent to TemporaryAudioParent, and save the position and rotation.
             // We're doing that BEFORE we disable the object.
@@ -101,30 +121,30 @@ namespace MOP
                     SetParentForChild(FuelTank, TemporaryParent);
                 }
 
-                Position = gm.transform.localPosition;
-                Rotation = gm.transform.localRotation;
+                Position = gameObject.transform.localPosition;
+                Rotation = gameObject.transform.localRotation;
             }
 
-            gm.SetActive(enabled);
+            gameObject.SetActive(enabled);
 
             // Uppon enabling the file, set the localPosition and localRotation to the object's transform, and change audio source parents to Object
             // We're doing that AFTER we enable the object.
             if (enabled)
             {
-                gm.transform.localPosition = Position;
-                gm.transform.localRotation = Rotation;
+                gameObject.transform.localPosition = Position;
+                gameObject.transform.localRotation = Rotation;
 
-                SetParentForChilds(AudioObjects, gm);
+                SetParentForChilds(AudioObjects, gameObject);
                 if (FuelTank != null)
                 {
-                    SetParentForChild(FuelTank, gm);
+                    SetParentForChild(FuelTank, gameObject);
                 }
             }
         }
 
         public void ToggleUnityCar(bool enabled)
         {
-            if (gm == null || carDynamics.enabled == enabled || (satsumaScript != null && satsumaScript.IsSatsumaInInspectionArea)) return;
+            if (gameObject == null || carDynamics.enabled == enabled || (satsumaScript != null && satsumaScript.IsSatsumaInInspectionArea)) return;
 
             carDynamics.enabled = enabled;
             axles.enabled = enabled;
@@ -161,9 +181,9 @@ namespace MOP
         /// </summary>
         internal Transform FindFuelTank()
         {
-            if (gm.transform.Find("FuelTank") != null)
+            if (gameObject.transform.Find("FuelTank") != null)
             {
-                return gm.transform.Find("FuelTank");
+                return gameObject.transform.Find("FuelTank");
             }
 
             return null;
