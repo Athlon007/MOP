@@ -6,7 +6,7 @@
 
 - Added check for when the Occlusion Distance is lower than Minimum Occlusion Distance
 - Added save game hook to jail save spot
-- Jokke's furnitures are now toggled on and off!
+- Jokke's furnitures are now toggled on and off
 
 ### Changes
 
@@ -23,7 +23,6 @@
 - Fixed a typo in the settings
 - Excluded Hayoshiko from the occlusion
 - Fixed camera and fireworks bag from clipping through the cottage
-- Fixed bug in which the game would show error when toggling places
 - Fixed an issue with Hayosiko staying between tree walls even after uncle is available
 
 ### Removed

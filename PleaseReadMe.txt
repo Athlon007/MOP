@@ -15,7 +15,7 @@ or from NexusMods (https://www.nexusmods.com/mysummercar/mods/146)
   - EPS
 - Est_Nbmstr - for clever name idea
 - Icon made by Freepik from www.flaticon.com
-
+- u/mrjackspede (from r/Unity3D) - free dynamic object occlusion script
 
 # CONTACT #
 Discord: Athlon#5974

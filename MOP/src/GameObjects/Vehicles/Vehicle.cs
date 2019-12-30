@@ -42,6 +42,7 @@ namespace MOP
         internal Rigidbody rb;
 
         bool isHayosiko;
+        bool hayosikoCheckLastValue;
 
         /// <summary>
         /// Initialize class
@@ -106,7 +107,7 @@ namespace MOP
             {
                 if (FsmGlobals.PlayerHasHayosikoKey() == false)
                 {
-                    MSCLoader.ModConsole.Print("Player DOESN'T have Hayosiko keys!");
+                    hayosikoCheckLastValue = enabled;
                     return;
                 }
             }

@@ -34,6 +34,8 @@ namespace MOP
             {
                 ModConsole.Print("[MOP] Second Ferndale has been found!");
             }
+
+            ModConsole.Print("[MOP] Compatibility Manager done");
         }
     }
 }

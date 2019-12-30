@@ -24,6 +24,9 @@ namespace MOP
 
         public Transform transform => gameObject.transform;
 
+        /// <summary>
+        /// Object's renderer
+        /// </summary>
         Renderer renderer;
 
         /// <summary>
@@ -47,10 +50,16 @@ namespace MOP
                 renderer = ren;
             }
 
-            // If rendererOnly is truge, the Toggle will be set to ToggleMesh.
+            // If rendererOnly is true, the Toggle will be set to ToggleMesh.
             if (rendererOnly)
             {
-                Toggle = ToggleMesh;
+                if (renderer == null)
+                {
+                    MSCLoader.ModConsole.Error("[MOP] Couldn't set the Toggle for " + 
+                        this.gameObject.name + " because renderer hasn't been found.");
+                    return;
+                }
+                Toggle = ToggleRenderer;
             }
             else
             {
@@ -68,10 +77,23 @@ namespace MOP
             this.gameObject = GameObject.Find(gameObjectName);
             this.AwayFromHouse = awayFromHouse;
 
-            // If rendererOnly is truge, the Toggle will be set to ToggleMesh.
+            // Get object's renderer
+            Renderer ren = this.gameObject.GetComponent<Renderer>();
+            if (ren != null)
+            {
+                renderer = ren;
+            }
+
+            // If rendererOnly is true, the Toggle will be set to ToggleMesh.
             if (rendererOnly)
             {
-                Toggle = ToggleMesh;
+                if (renderer == null)
+                {
+                    MSCLoader.ModConsole.Error("[MOP] Couldn't set the Toggle for " + 
+                        this.gameObject.name + " because renderer hasn't been found.");
+                    return;
+                }
+                Toggle = ToggleRenderer;
             }
             else
             {
@@ -92,7 +114,7 @@ namespace MOP
                 this.gameObject.SetActive(enabled);
         }
 
-        void ToggleMesh(bool enabled)
+        void ToggleRenderer(bool enabled)
         {
             if (renderer.enabled != enabled)
             {

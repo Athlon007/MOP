@@ -50,6 +50,7 @@ This program is distributed under GNU General Public License v3. Feel free to us
   - EPS
 - Est_Nbmstr - for clever name idea
 - Icon made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](www.flaticon.com)
+- [u/mrjackspede (from r/Unity3D)](https://www.reddit.com/r/Unity3D/comments/5k1gqv/free_dynamic_run_time_object_occlusion_scripts/) - free dynamic object occlusion script
 
 ## Contact
 

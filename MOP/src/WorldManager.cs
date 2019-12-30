@@ -14,7 +14,7 @@ namespace MOP
     {
         public static WorldManager instance;
 
-        public Transform player;
+        public Transform Player { get; private set; }
 
         // Vehicles
         List<Vehicle> vehicles;
@@ -25,7 +25,7 @@ namespace MOP
         Yard yard;
 
         // World Objects
-        List<WorldObject> worldObjects;
+        WorldObjects worldObjects;
 
         // Area Checks
         SatsumaInAreaCheck inspectionArea;
@@ -35,10 +35,10 @@ namespace MOP
             instance = this;
 
             // Initialize the worldObjects list
-            worldObjects = new List<WorldObject>();
+            worldObjects = new WorldObjects();
 
             // Looking for player and yard
-            player = GameObject.Find("PLAYER").transform;
+            Player = GameObject.Find("PLAYER").transform;
 
             // Loading vehicles
             vehicles = new List<Vehicle>();
@@ -65,22 +65,26 @@ namespace MOP
             }
 
             // World Objects
-            worldObjects.Add(new WorldObject("CABIN", 200));
-            worldObjects.Add(new WorldObject("COTTAGE", 400));
-            worldObjects.Add(new WorldObject("DANCEHALL", 200));
-            worldObjects.Add(new WorldObject("INSPECTION", 200));
+            worldObjects.Add("CABIN", 200);
+            worldObjects.Add("COTTAGE", 400);
+            worldObjects.Add("DANCEHALL", 200);
+            worldObjects.Add("INSPECTION", 200);
             //worldObjects.Add(new WorldObject("LANDFILL", 200));
-            worldObjects.Add(new WorldObject("PERAJARVI", 200));
-            worldObjects.Add(new WorldObject("RYKIPOHJA", 200));
-            worldObjects.Add(new WorldObject("SOCCER", 200));
-            worldObjects.Add(new WorldObject("WATERFACILITY", 200));
-            worldObjects.Add(new WorldObject("DRAGRACE", 1100));
-            worldObjects.Add(new WorldObject("BOAT", 200));
+            worldObjects.Add("PERAJARVI", 200);
+            worldObjects.Add("RYKIPOHJA", 200);
+            worldObjects.Add("SOCCER", 200);
+            worldObjects.Add("WATERFACILITY", 200);
+            worldObjects.Add("DRAGRACE", 1100);
+            worldObjects.Add("BOAT", 200);
+
+            ModConsole.Print("[MOP] Main world objects loaded");
 
             // Initialize shops
             teimo = new Teimo();
             repairShop = new RepairShop();
             yard = new Yard();
+
+            ModConsole.Print("[MOP] Initialized places");
 
             Transform buildings = GameObject.Find("Buildings").transform;
 
@@ -141,23 +145,27 @@ namespace MOP
             GameObject.Find("camera(itemx)").transform.parent = null;
             GameObject.Find("fireworks bag(itemx)").transform.parent = null;
 
+            ModConsole.Print("[MOP] Finished applying fixes");
+
             //Things that should be enabled when out of proximity of the house
-            worldObjects.Add(new WorldObject("NPC_CARS", awayFromHouse: true));
-            worldObjects.Add(new WorldObject("TRAFFIC", awayFromHouse: true));
-            worldObjects.Add(new WorldObject("TRAIN", awayFromHouse: true));
-            worldObjects.Add(new WorldObject("Buildings", awayFromHouse: true));
-            worldObjects.Add(new WorldObject("TrafficSigns", awayFromHouse: true));
-            worldObjects.Add(new WorldObject("StreetLights", awayFromHouse: true));
-            worldObjects.Add(new WorldObject("HUMANS", awayFromHouse: true));
-            worldObjects.Add(new WorldObject("HayBales", true));
-            worldObjects.Add(new WorldObject("TRACKFIELD", true));
-            worldObjects.Add(new WorldObject("SkijumpHill", true));
-            worldObjects.Add(new WorldObject("Factory", true));
-            worldObjects.Add(new WorldObject("SWAMP", true));
-            worldObjects.Add(new WorldObject("WHEAT", true));
-            worldObjects.Add(new WorldObject("ROCKS", true));
-            worldObjects.Add(new WorldObject("RAILROAD", true));
-            worldObjects.Add(new WorldObject("AIRPORT", true));
+            worldObjects.Add("NPC_CARS", awayFromHouse: true);
+            worldObjects.Add("TRAFFIC", awayFromHouse: true);
+            worldObjects.Add("TRAIN", awayFromHouse: true);
+            worldObjects.Add("Buildings", awayFromHouse: true);
+            worldObjects.Add("TrafficSigns", awayFromHouse: true);
+            worldObjects.Add("StreetLights", awayFromHouse: true);
+            worldObjects.Add("HUMANS", awayFromHouse: true);
+            worldObjects.Add("HayBales", true);
+            worldObjects.Add("TRACKFIELD", true);
+            worldObjects.Add("SkijumpHill", true);
+            worldObjects.Add("Factory", true);
+            worldObjects.Add("SWAMP", true);
+            worldObjects.Add("WHEAT", true);
+            worldObjects.Add("ROCKS", true);
+            worldObjects.Add("RAILROAD", true);
+            worldObjects.Add("AIRPORT", true);
+
+            ModConsole.Print("[MOP] Away from house world objects loaded");
 
             // Adding area check if Satsuma is in the inspection's area
             inspectionArea = GameObject.Find("INSPECTION").AddComponent<SatsumaInAreaCheck>();
@@ -167,27 +175,35 @@ namespace MOP
             SatsumaInAreaCheck lifterArea = GameObject.Find("REPAIRSHOP/Lifter/Platform").AddComponent<SatsumaInAreaCheck>();
             lifterArea.Initialize(new Vector3(5, 5, 5));
 
+            ModConsole.Print("[MOP] Satsuma Area Checks loaded");
+
             // Jokke's furnitures.
             // Only renderers will be toggled
             if (GameObject.Find("tv(Clo01)") != null)
             {
-                worldObjects.Add(new WorldObject("tv(Clo01)", 200, true));
-                worldObjects.Add(new WorldObject("chair(Clo02)", 200, true));
-                worldObjects.Add(new WorldObject("chair(Clo05)", 200, true));
-                worldObjects.Add(new WorldObject("bench(Clo01)", 200, true));
-                worldObjects.Add(new WorldObject("bench(Clo02)", 200, true));
-                worldObjects.Add(new WorldObject("table(Clo02)", 200, true));
-                worldObjects.Add(new WorldObject("table(Clo03)", 200, true));
-                worldObjects.Add(new WorldObject("table(Clo04)", 200, true));
-                worldObjects.Add(new WorldObject("table(Clo05)", 200, true));
-                worldObjects.Add(new WorldObject("desk(Clo01)", 200, true));
-                worldObjects.Add(new WorldObject("arm chair(Clo01)", 200, true));
+                worldObjects.Add("tv(Clo01)", 200, true);
+                worldObjects.Add("chair(Clo02)", 200, true);
+                worldObjects.Add("chair(Clo05)", 200, true);
+                worldObjects.Add("bench(Clo01)", 200, true);
+                worldObjects.Add("bench(Clo02)", 200, true);
+                worldObjects.Add("table(Clo02)", 200, true);
+                worldObjects.Add("table(Clo03)", 200, true);
+                worldObjects.Add("table(Clo04)", 200, true);
+                worldObjects.Add("table(Clo05)", 200, true);
+                worldObjects.Add("desk(Clo01)", 200, true);
+                worldObjects.Add("arm chair(Clo01)", 200, true);
+
+                ModConsole.Print("[MOP] Jokke's furnitures found and loaded");
             }
 
             // Initialize Items class
-            new Items();            
+            new Items();
+
+            ModConsole.Print("[MOP] Items class loaded");
 
             HookPreSaveGame();
+
+            ModConsole.Print("[MOP] Pre Save Game Hook done");
 
             // Initialize the coroutines
             StartCoroutine(LoopRoutine());
@@ -248,7 +264,7 @@ namespace MOP
                 // World objects
                 for (int i = 0; i < worldObjects.Count; i++)
                 {
-                    worldObjects[i].Toggle(true);
+                    worldObjects.Get(i).Toggle(true);
                 }
 
                 // Vehicles
@@ -295,19 +311,19 @@ namespace MOP
                     for (i = 0; i < half; i++)
                     {
                         // Should the object be disabled when the player leaves the house?
-                        if (worldObjects[i].AwayFromHouse)
+                        if (worldObjects.Get(i).AwayFromHouse)
                         {
-                            worldObjects[i].Toggle(player.GetDistance(yard.transform) > 100);
+                            worldObjects.Get(i).Toggle(Player.GetDistance(yard.transform) > 100);
                             continue;
                         }
 
                         // Fix for inspection area being unloaded after the successfull inspection,
                         // making game not save the car inspection status.
-                        if (worldObjects[i].gameObject.name == "INSPECTION" && inspectionArea.InspectionPreventUnload)
+                        if (worldObjects.Get(i).gameObject.name == "INSPECTION" && inspectionArea.InspectionPreventUnload)
                             continue;
 
                         // The object will be disables, if the player is in the range of that object.
-                        worldObjects[i].Toggle(IsEnabled(worldObjects[i].transform, worldObjects[i].Distance));
+                        worldObjects.Get(i).Toggle(IsEnabled(worldObjects.Get(i).transform, worldObjects.Get(i).Distance));
                     }
                 }
                 catch (Exception ex)
@@ -322,19 +338,19 @@ namespace MOP
                     for (; i < worldObjects.Count; i++)
                     {
                         // Should the object be disabled when the player leaves the house?
-                        if (worldObjects[i].AwayFromHouse)
+                        if (worldObjects.Get(i).AwayFromHouse)
                         {
-                            worldObjects[i].Toggle(player.GetDistance(yard.transform) > 100);
+                            worldObjects.Get(i).Toggle(Player.GetDistance(yard.transform) > 100);
                             continue;
                         }
 
                         // Fix for inspection area being unloaded after the successfull inspection,
                         // making game not save the car inspection status.
-                        if (worldObjects[i].gameObject.name == "INSPECTION" && inspectionArea.InspectionPreventUnload)
+                        if (worldObjects.Get(i).gameObject.name == "INSPECTION" && inspectionArea.InspectionPreventUnload)
                             continue;
 
                         // The object will be disables, if the player is in the range of that object.
-                        worldObjects[i].Toggle(IsEnabled(worldObjects[i].transform, worldObjects[i].Distance));
+                        worldObjects.Get(i).Toggle(IsEnabled(worldObjects.Get(i).transform, worldObjects.Get(i).Distance));
                     }
                 }
                 catch (Exception ex)
@@ -362,7 +378,7 @@ namespace MOP
                                 continue;
                             }
 
-                            float distance = player.GetDistance(vehicles[i].transform);
+                            float distance = Player.GetDistance(vehicles[i].transform);
                             vehicles[i].ToggleUnityCar(IsEnabled(distance, MopSettings.UnityCarActiveDistance));
 
                             vehicles[i].Toggle(IsEnabled(distance));
@@ -385,7 +401,7 @@ namespace MOP
                                 continue;
                             }
 
-                            float distance = player.GetDistance(vehicles[i].transform);
+                            float distance = Player.GetDistance(vehicles[i].transform);
                             vehicles[i].ToggleUnityCar(IsEnabled(distance, MopSettings.UnityCarActiveDistance));
 
                             vehicles[i].Toggle(IsEnabled(distance));
@@ -462,7 +478,7 @@ namespace MOP
         /// <param name="toggleDistance">Distance below which the object should be enabled (default 200 units).</param>
         private bool IsEnabled(Transform target, float toggleDistance = 200)
         {
-            return player.GetDistance(target) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
+            return Player.GetDistance(target) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
 
         private bool IsEnabled(float distance, float toggleDistance = 200)

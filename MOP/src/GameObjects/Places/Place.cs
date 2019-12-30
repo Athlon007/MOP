@@ -51,7 +51,7 @@ namespace MOP
             // Load and unload only the objects that aren't on the whitelist.
             for (int i = 0; i < DisableableChilds.Count; i++)
             {
-                // If the object is missing, continue.
+                // If the object is missing, skip and continue.
                 if (DisableableChilds[i].gameObject == null)
                     continue;
 
