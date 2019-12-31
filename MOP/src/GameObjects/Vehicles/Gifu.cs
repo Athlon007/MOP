@@ -9,11 +9,9 @@ namespace MOP
         // This class extends the functionality of Vehicle class, which is tailored for Gifu.
         // It fixes the issue with Gifu's beams being turned on after respawn.
 
-        Transform beaconSwitchParent;
+        Transform switchParent;
+        
         Transform beaconSwitch;
-
-        Transform beaconsParent;
-        Transform beacons;
         Transform workLightsSwitch;
 
         /// <summary>
@@ -24,12 +22,10 @@ namespace MOP
         {
             gifuScript = this;
 
-            beaconSwitchParent = gameObject.transform.Find("Dashboard").Find("Knobs");
-            beaconsParent = gameObject.transform.Find("LOD");
+            switchParent = gameObject.transform.Find("Dashboard").Find("Knobs");
 
-            beaconSwitch = beaconSwitchParent.transform.Find("KnobBeacon");
-            beacons = beaconsParent.transform.Find("Beacon");
-            workLightsSwitch = beaconSwitchParent.transform.Find("KnobWorkLights");
+            beaconSwitch = switchParent.transform.Find("KnobBeacon");
+            workLightsSwitch = switchParent.transform.Find("KnobWorkLights");
 
             Toggle = ToggleActive;
         }
@@ -55,7 +51,6 @@ namespace MOP
                 }
 
                 SetParentForChild(beaconSwitch, TemporaryParent);
-                SetParentForChild(beacons, TemporaryParent);
                 SetParentForChild(workLightsSwitch, TemporaryParent);
 
                 Position = gameObject.transform.localPosition;
@@ -78,9 +73,8 @@ namespace MOP
                     SetParentForChild(FuelTank, gameObject);
                 }
 
-                SetParentForChild(beaconSwitch, beaconSwitchParent.gameObject);
-                SetParentForChild(beacons, beaconsParent.gameObject);
-                SetParentForChild(workLightsSwitch, beaconSwitchParent.gameObject);
+                SetParentForChild(beaconSwitch, switchParent.gameObject);
+                SetParentForChild(workLightsSwitch, switchParent.gameObject);
             }
         }
     }

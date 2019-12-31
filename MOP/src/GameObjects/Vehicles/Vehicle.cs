@@ -42,7 +42,6 @@ namespace MOP
         internal Rigidbody rb;
 
         bool isHayosiko;
-        bool hayosikoCheckLastValue;
 
         /// <summary>
         /// Initialize class
@@ -103,13 +102,9 @@ namespace MOP
 
             // Fix for when the player doesn't have keys for Hayosiko.
             // Van will NOT be toggled
-            if (isHayosiko)
+            if (isHayosiko && FsmGlobals.PlayerHasHayosikoKey() == false)
             {
-                if (FsmGlobals.PlayerHasHayosikoKey() == false)
-                {
-                    hayosikoCheckLastValue = enabled;
-                    return;
-                }
+                return;
             }
 
             // If we're disabling a car, set the audio child parent to TemporaryAudioParent, and save the position and rotation.

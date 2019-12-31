@@ -149,12 +149,12 @@ namespace MOP
 
             //Things that should be enabled when out of proximity of the house
             worldObjects.Add("NPC_CARS", awayFromHouse: true);
-            worldObjects.Add("TRAFFIC", awayFromHouse: true);
-            worldObjects.Add("TRAIN", awayFromHouse: true);
-            worldObjects.Add("Buildings", awayFromHouse: true);
-            worldObjects.Add("TrafficSigns", awayFromHouse: true);
-            worldObjects.Add("StreetLights", awayFromHouse: true);
-            worldObjects.Add("HUMANS", awayFromHouse: true);
+            worldObjects.Add("TRAFFIC", true);
+            worldObjects.Add("TRAIN", true);
+            worldObjects.Add("Buildings", true);
+            worldObjects.Add("TrafficSigns", true);
+            worldObjects.Add("StreetLights", true);
+            worldObjects.Add("HUMANS", true);
             worldObjects.Add("HayBales", true);
             worldObjects.Add("TRACKFIELD", true);
             worldObjects.Add("SkijumpHill", true);
@@ -181,17 +181,17 @@ namespace MOP
             // Only renderers will be toggled
             if (GameObject.Find("tv(Clo01)") != null)
             {
-                worldObjects.Add("tv(Clo01)", 200, true);
-                worldObjects.Add("chair(Clo02)", 200, true);
-                worldObjects.Add("chair(Clo05)", 200, true);
-                worldObjects.Add("bench(Clo01)", 200, true);
-                worldObjects.Add("bench(Clo02)", 200, true);
-                worldObjects.Add("table(Clo02)", 200, true);
-                worldObjects.Add("table(Clo03)", 200, true);
-                worldObjects.Add("table(Clo04)", 200, true);
-                worldObjects.Add("table(Clo05)", 200, true);
-                worldObjects.Add("desk(Clo01)", 200, true);
-                worldObjects.Add("arm chair(Clo01)", 200, true);
+                worldObjects.Add("tv(Clo01)", 100, true);
+                worldObjects.Add("chair(Clo02)", 100, true);
+                worldObjects.Add("chair(Clo05)", 100, true);
+                worldObjects.Add("bench(Clo01)", 100, true);
+                worldObjects.Add("bench(Clo02)", 100, true);
+                worldObjects.Add("table(Clo02)", 100, true);
+                worldObjects.Add("table(Clo03)", 100, true);
+                worldObjects.Add("table(Clo04)", 100, true);
+                worldObjects.Add("table(Clo05)", 100, true);
+                worldObjects.Add("desk(Clo01)", 100, true);
+                worldObjects.Add("arm chair(Clo01)", 100, true);
 
                 ModConsole.Print("[MOP] Jokke's furnitures found and loaded");
             }
@@ -209,7 +209,7 @@ namespace MOP
             StartCoroutine(LoopRoutine());
             StartCoroutine(ControlCoroutine());
 
-            ModConsole.Print("[MOP] Mod loaded succesfully!");
+            ModConsole.Print("[MOP] MOD LOADED SUCCESFULLY!");
         }
 
         /// <summary>
@@ -243,7 +243,8 @@ namespace MOP
                     }
                 }
 
-                // fix for jail savegame
+                // Fix for jail savegame.
+                // Attach savegame to jail if it's loaded.
                 if (GameObject.Find("JAIL") != null)
                     FsmHook.FsmInject(GameObject.Find("JAIL/SAVEGAME"), "Mute audio", PreSaveGame);
             }
@@ -259,35 +260,7 @@ namespace MOP
         void PreSaveGame()
         {
             MopSettings.IsModActive = false;
-            try
-            {
-                // World objects
-                for (int i = 0; i < worldObjects.Count; i++)
-                {
-                    worldObjects.Get(i).Toggle(true);
-                }
-
-                // Vehicles
-                for (int i = 0; i < vehicles.Count; i++)
-                {
-                    vehicles[i].Toggle(true);
-                }
-
-                // Items
-                for (int i = 0; i < Items.instance.ItemsHooks.Count; i++)
-                {
-                    Items.instance.ItemsHooks[i].ToggleActive(true);
-                }
-
-                // Stores
-                teimo.ToggleActive(true);
-                repairShop.ToggleActive(true);
-                yard.ToggleActive(true);
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.New(ex);
-            }
+            ToggleActiveAll();
         }
 
         /// <summary>
@@ -374,13 +347,12 @@ namespace MOP
                         {
                             if (vehicles[i] == null || vehicles[i].gameObject == null)
                             {
-                                ModConsole.Print("Vehicle " + i + " has been skipped, because an error occured.");
+                                ModConsole.Print("[MOP] Vehicle " + i + " has been skipped, because an error occured.");
                                 continue;
                             }
 
                             float distance = Player.GetDistance(vehicles[i].transform);
                             vehicles[i].ToggleUnityCar(IsEnabled(distance, MopSettings.UnityCarActiveDistance));
-
                             vehicles[i].Toggle(IsEnabled(distance));
                         }
                     }
@@ -397,13 +369,12 @@ namespace MOP
                         {
                             if (vehicles[i] == null || vehicles[i].gameObject == null)
                             {
-                                ModConsole.Print("Vehicle " + i + " has been skipped, because an error occured.");
+                                ModConsole.Print("[MOP] Vehicle " + i + " has been skipped, because an error occured.");
                                 continue;
                             }
 
                             float distance = Player.GetDistance(vehicles[i].transform);
                             vehicles[i].ToggleUnityCar(IsEnabled(distance, MopSettings.UnityCarActiveDistance));
-
                             vehicles[i].Toggle(IsEnabled(distance));
                         }
                     }
@@ -423,7 +394,7 @@ namespace MOP
                         {
                             if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
                             {
-                                ModConsole.Print("One minor object has been skipped");
+                                ModConsole.Print("[MOP] One minor object has been skipped");
                                 continue;
                             }
 
@@ -443,7 +414,7 @@ namespace MOP
                         {
                             if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
                             {
-                                ModConsole.Print("One minor object has been skipped");
+                                ModConsole.Print("[MOP] One minor object has been skipped");
                                 continue;
                             }
 
@@ -511,6 +482,7 @@ namespace MOP
                         ModConsole.Print("[MOP] Restart attempt failed. Safe Mode will be enabled this time.\n\n" +
                             "You can try and disable some objects (like Vehicles and Store Items) from being disabled.");
                         MopSettings.SafeMode = true;
+                        ToggleActiveAll();
                     }
 
                     restartTried = true;
@@ -523,6 +495,42 @@ namespace MOP
 
                 restartTried = false;
                 lastTick = ticks;
+            }
+        }
+
+        /// <summary>
+        /// Toggles on all objects.
+        /// </summary>
+        void ToggleActiveAll()
+        {
+            try
+            {
+                // World objects
+                for (int i = 0; i < worldObjects.Count; i++)
+                {
+                    worldObjects.Get(i).Toggle(true);
+                }
+
+                // Vehicles
+                for (int i = 0; i < vehicles.Count; i++)
+                {
+                    vehicles[i].Toggle(true);
+                }
+
+                // Items
+                for (int i = 0; i < Items.instance.ItemsHooks.Count; i++)
+                {
+                    Items.instance.ItemsHooks[i].ToggleActive(true);
+                }
+
+                // Stores
+                teimo.ToggleActive(true);
+                repairShop.ToggleActive(true);
+                yard.ToggleActive(true);
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.New(ex);
             }
         }
     }

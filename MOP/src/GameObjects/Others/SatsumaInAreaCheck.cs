@@ -7,14 +7,17 @@ namespace MOP
         // Attaches to gameobject. This script checks if the Satsuma is in the object's area,
         // and sends the info to it about it.
 
+        // Trigger collider
         BoxCollider collider;
 
         bool isInspection;
         
+        // If true, the inspection gameobject will not be unloaded.
+        // isInspection MUST BE set to True
         bool inspectionPreventUnload;
         public bool InspectionPreventUnload { get => inspectionPreventUnload; }
 
-        const string REFERENCE_ITEM = "gearbox";
+        const string ReferenceItem = "gearbox";
 
         public void Initialize(Vector3 size)
         {
@@ -28,7 +31,7 @@ namespace MOP
 
         void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.name.StartsWith(REFERENCE_ITEM))
+            if (other.gameObject.name.StartsWith(ReferenceItem))
             {
                 Satsuma.instance.IsSatsumaInInspectionArea = true;
 
@@ -39,7 +42,7 @@ namespace MOP
 
         void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.name.StartsWith(REFERENCE_ITEM))
+            if (other.gameObject.name.StartsWith(ReferenceItem))
             {
                 Satsuma.instance.IsSatsumaInInspectionArea = false;
             }

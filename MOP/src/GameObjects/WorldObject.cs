@@ -34,9 +34,10 @@ namespace MOP
         /// </summary>
         /// <param name="gameObjectName">Name of game object that this instance controls.</param>
         /// <param name="renderDistance">From how far should that object be enabled (default 200).</param>
-        public WorldObject(string gameObjectName, int distance = 200, bool rendererOnly = false)
+        public WorldObject(GameObject gameObject, int distance = 200, bool rendererOnly = false)
         {
-            this.gameObject = GameObject.Find(gameObjectName);
+            //this.gameObject = GameObject.Find(gameObjectName);
+            this.gameObject = gameObject;
             this.Distance = distance;
 
             if (this.gameObject.GetComponent<OcclusionObject>() == null)
@@ -72,9 +73,10 @@ namespace MOP
         /// </summary>
         /// <param name="gameObjectName">Name of game object that this instance controls.</param>
         /// <param name="awayFromHouse">If true, the object will be enabled, when the player leaves the house area.</param>
-        public WorldObject(string gameObjectName, bool awayFromHouse, bool rendererOnly = false)
+        public WorldObject(GameObject gameObject, bool awayFromHouse, bool rendererOnly = false)
         {
-            this.gameObject = GameObject.Find(gameObjectName);
+            //this.gameObject = GameObject.Find(gameObjectName);
+            this.gameObject = gameObject;
             this.AwayFromHouse = awayFromHouse;
 
             // Get object's renderer

@@ -59,7 +59,7 @@
                 MOP.minOcclusionDistance.Value = 50;
 
                 MSCLoader.ModUI.ShowMessage("Occlusion Distance cannot be lower than Minimum Occlusion Distance." +
-                    "\n\nBoth values will be reset.");
+                    "\n\nBoth values will be reset.", "Error");
 
                 warningShowed = true;
             }

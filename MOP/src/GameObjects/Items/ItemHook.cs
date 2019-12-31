@@ -52,12 +52,6 @@ namespace MOP
                 }
             }
 
-            // Object is plastic can, or juice container
-            if (gameObject.name.ContainsAny("kilju", "empty plastic can", "juice"))
-            {
-                FsmHook.FsmInject(this.gameObject, "State 3", RemoveSelf);
-            }
-
             // If the item is a shopping bag, hook the RemoveSelf to "Is garbage" FsmState
             if (gameObject.name.Contains("shopping bag"))
             {

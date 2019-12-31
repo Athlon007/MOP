@@ -1,15 +1,26 @@
 Added:
-- Added error tracing to PreSaveGame function
-- Added some Christmas Spirit
+- Added check for when the Occlusion Distance is lower than Minimum Occlusion Distance
+- Added save game hook to jail save spot
+- Jokke's furnitures are now toggled on and off
+- Added spirit to the list of toggled items
 
 Changes:
-- Fundamental changes in how store items are getting disabled and enabled
-  - Items shouldn't now change their position, or teleport to each others after respawn
-  - Items should now be saved correctly
-  - Note: because of that, there FPS boost with the mod may be a bit smaller than it used to be
+- Changed occlusion culling info
+- Renamed "Occlusion Distance" to "Maximum Occlusion Distance"
+- Improved emergency safe mode scrip
+- Changes in settings order
+- Improvements related to plastic cans/juice cointaners/kilju
+- Unified the console messages
+- Minor changes under the hood
+  - Unified some variable names
+  - Code optimization and improvements
+  - Code refactoring
 
 Bug Fixes:
-- Fixed a bug in which there would spawn random money at Fleetari's
+- Fixed a typo in the settings
+- Excluded Hayoshiko from the occlusion
+- Fixed camera and fireworks bag from clipping through the cottage
+- Fixed an issue with Hayosiko staying between tree walls even after it should be at the uncle's
 
 Removed:
-- Removed unused code
+- Removed Occlusion Sample Delay from the settings

@@ -26,19 +26,19 @@ namespace MOP
             // Check Minor number
             if (int.Parse(mscLoaderVersion[1]) < 1)
             {
-                ModConsole.Error("[MOP] MOP requires MSC Mod Loader version 1.1.5 or newer. Please update now!");
+                ModUI.ShowMessage("MOP requires MSC Mod Loader version 1.1.5 or newer. Please update now!", "[MOP] Error");
             }
 
             // Check Build number
-            if (mscLoaderVersion[2] != null && int.Parse(mscLoaderVersion[2]) < 5)
+            if (mscLoaderVersion[2] == null || int.Parse(mscLoaderVersion[2]) < 5)
             {
-                ModConsole.Error("[MOP] MOP requires MSC Mod Loader version 1.1.5 or newer. Please update now!");
+                ModUI.ShowMessage("MOP requires MSC Mod Loader version 1.1.5 or newer. Please update now!", "[MOP] Error");
             }
 
             // Disable the mod, if KruFPS is present
             if (ModLoader.IsModPresent("KruFPS"))
             {
-                ModConsole.Error("[MOP] MOP is not compatbile with KruFPS. Please remove KruFPS first!");
+                ModUI.ShowMessage("MOP is not compatbile with KruFPS. Please remove KruFPS first!", "[MOP] Error");
                 return;
             }
         }
@@ -57,7 +57,7 @@ namespace MOP
             new CompatibilityManager();
 
             // Add Occlusion
-            if ((bool)enableObjectOcclusion.GetValue() == true)
+            if (MopSettings.EnableObjectOcclusion)
                 worldManager.AddComponent<Occlusion>();
 
             // Add WorldManager class

@@ -1,18 +1,24 @@
 # Changelog
 
-## Beta 1.3 (xx.01.2020)
+## Beta 1.3 (01.01.2020)
+
+Happy New Year and welcome to 2020!
 
 ### Added
 
 - Added check for when the Occlusion Distance is lower than Minimum Occlusion Distance
 - Added save game hook to jail save spot
 - Jokke's furnitures are now toggled on and off
+- Added spirit to the list of toggled items
 
 ### Changes
 
 - Changed occlusion culling info
 - Renamed "Occlusion Distance" to "Maximum Occlusion Distance"
+- Improved emergency safe mode scrip
 - Changes in settings order
+- Improvements related to plastic cans/juice cointaners/kilju
+- Unified the console messages
 - Minor changes under the hood
   - Unified some variable names
   - Code optimization and improvements
@@ -23,7 +29,7 @@
 - Fixed a typo in the settings
 - Excluded Hayoshiko from the occlusion
 - Fixed camera and fireworks bag from clipping through the cottage
-- Fixed an issue with Hayosiko staying between tree walls even after uncle is available
+- Fixed an issue with Hayosiko staying between tree walls even after it should be at the uncle's
 
 ### Removed
 

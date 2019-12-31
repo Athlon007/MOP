@@ -16,7 +16,7 @@ namespace MOP
 
             Camera.main.gameObject.AddComponent<OcclusionCamera>();
 
-            MSCLoader.ModConsole.Print("[MOP] Occlusion List done.");
+            MSCLoader.ModConsole.Print("[MOP] Occlusion listing done.");
         }
 
         void ReadChildNode(XmlNodeList nodeList, string path)
