@@ -2,7 +2,7 @@
 
 ## Beta 1.3 (01.01.2020)
 
-Happy New Year and welcome to 2020!
+Happy New Year and welcome in 2020!
 
 ### Added
 
