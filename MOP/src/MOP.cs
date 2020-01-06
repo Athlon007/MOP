@@ -9,7 +9,7 @@ namespace MOP
         public override string ID => "MOP"; //Your mod ID (unique)
         public override string Name => "Modern Optimization Plugin (BETA)"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "1.3.0"; //Version
+        public override string Version => "1.4.0"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
@@ -80,6 +80,11 @@ namespace MOP
         public static Settings toggleVehicles = new Settings("toggleVehicles", "Vehicles", true, MopSettings.UpdateAll);
         public static Settings toggleItems = new Settings("toggleItems", "Shop Items", true, MopSettings.UpdateAll);
 
+        //
+        // OTHERS
+        //
+        public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Remove Empty Beer Bottles", false);
+
         // 
         // OCCLUSION
         //
@@ -94,11 +99,10 @@ namespace MOP
         public static Settings minOcclusionDistance = new Settings("minOcclusionDistance", "Minimum Occlusion Distance", 50, MopSettings.UpdateAll);
         public static Settings occlusionDistance = new Settings("occlusionDistance", "Maximum Occlusion Distance", 400, MopSettings.UpdateAll);
         // Occlusion Method
-        public static Settings occlusionNormal = new Settings("occlusionNormal", "Legacy", false, MopSettings.UpdateAll);
-        public static Settings occlusionChequered = new Settings("occlusionChequered", "Chequered (Default)", true, MopSettings.UpdateAll);
-        public static Settings occlusionDouble = new Settings("occlusionDouble", "Double Occlusion (Most detailed, CPU heavy)", false, MopSettings.UpdateAll);
+        public static Settings occlusionChequered = new Settings("occlusionChequered", "Fast (Default)", true, MopSettings.UpdateAll);
+        public static Settings occlusionDouble = new Settings("occlusionDouble", "Fancy", false, MopSettings.UpdateAll);
 
-        static Color32 headerColor = new Color32(29, 29, 29, 255);
+        readonly Color32 headerColor = new Color32(29, 29, 29, 255);
 
         /// <summary>
         /// All settings should be created here. 
@@ -118,9 +122,15 @@ namespace MOP
             Settings.AddText(this, "Toggled Objects (requires restart):");
             Settings.AddCheckBox(this, toggleVehicles);
             Settings.AddCheckBox(this, toggleItems);
-            Settings.AddText(this, "If unchecked, the following objects will not get disabled.\n");
+            Settings.AddText(this, "If unchecked, the following objects will not get disabled.\n" +
+                "WARNING: Disabling Vehicles without disabling toggled items may cause items to fall through on the car. " +
+                "DO NOT disable any of these, unless you REALLY need to!");
             Settings.AddCheckBox(this, safeMode);
             Settings.AddText(this, "Safe mode will only toggle objects that are known to not cause any issues.");
+
+            // Others
+            Settings.AddHeader(this, "Other", headerColor);
+            Settings.AddCheckBox(this, removeEmptyBeerBottles);
 
             // Occlusion
             Settings.AddHeader(this, "(BETA) Occlusion Culling", headerColor);
@@ -141,7 +151,6 @@ namespace MOP
             Settings.AddCheckBox(this, occlusionSamplesDetailed, "occlusionSampleDetail");
             Settings.AddCheckBox(this, occlusionSamplesVeryDetailed, "occlusionSampleDetail");
             Settings.AddText(this, "Occlusion Method");
-            Settings.AddCheckBox(this, occlusionNormal, "occlusionMethod");
             Settings.AddCheckBox(this, occlusionChequered, "occlusionMethod");
             Settings.AddCheckBox(this, occlusionDouble, "occlusionMethod");
 

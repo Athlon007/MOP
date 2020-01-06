@@ -13,6 +13,7 @@ namespace MOP
         bool isInspection;
         
         // If true, the inspection gameobject will not be unloaded.
+        // It is so the car inspection state will be saved.
         // isInspection MUST BE set to True
         bool inspectionPreventUnload;
         public bool InspectionPreventUnload { get => inspectionPreventUnload; }

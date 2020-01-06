@@ -64,6 +64,18 @@ namespace MOP
                 vehicles.Add(new Vehicle("SECONDFERNDALE(1630kg)"));
             }
 
+            // GAZ 24 Volga
+            if (CompatibilityManager.instance.Gaz)
+            {
+                vehicles.Add(new Vehicle("GAZ24(1420kg)"));
+            }
+
+            // Police Ferndale
+            if (CompatibilityManager.instance.PoliceFerndale)
+            {
+                vehicles.Add(new Fury("POLICEFERNDALE(1630kg)"));
+            }
+
             // World Objects
             worldObjects.Add("CABIN", 200);
             worldObjects.Add("COTTAGE", 400);
@@ -96,8 +108,7 @@ namespace MOP
             perajarvi.transform.Find("ChickenHouse").parent = buildings;
 
             // Chicken house (barn) close to player's house
-            Transform playerChickenHouse = GameObject.Find("Buildings").transform.Find("ChickenHouse");
-            playerChickenHouse.parent = null;
+            GameObject.Find("Buildings").transform.Find("ChickenHouse").parent = null;
 
             // Fix for church wall. Changing it's parent to NULL, so it will not be loaded or unloaded.
             // It used to be changed to CHURCH gameobject, 
@@ -106,6 +117,10 @@ namespace MOP
 
             // Fix for old house on the way from Perajarvi to Ventti's house (HouseOld5)
             perajarvi.transform.Find("HouseOld5").parent = buildings;
+
+            // Fix for houses behind Teimo's
+            perajarvi.transform.Find("HouseRintama3").parent = buildings;
+            perajarvi.transform.Find("HouseSmall3").parent = buildings;
 
             // Perajarvi fixes for multiple objects with the same name.
             // Instead of being the part of Perajarvi, we're changing it to be the part of Buildings.
@@ -144,6 +159,12 @@ namespace MOP
             GameObject.Find("coffee cup(itemx)").transform.parent = null;
             GameObject.Find("camera(itemx)").transform.parent = null;
             GameObject.Find("fireworks bag(itemx)").transform.parent = null;
+
+            // Fix for fishing areas
+            GameObject.Find("FishAreaAVERAGE").transform.parent = null;
+            GameObject.Find("FishAreaBAD").transform.parent = null;
+            GameObject.Find("FishAreaGOOD").transform.parent = null;
+            GameObject.Find("FishAreaGOOD2").transform.parent = null;
 
             ModConsole.Print("[MOP] Finished applying fixes");
 
@@ -203,8 +224,6 @@ namespace MOP
 
             HookPreSaveGame();
 
-            ModConsole.Print("[MOP] Pre Save Game Hook done");
-
             // Initialize the coroutines
             StartCoroutine(LoopRoutine());
             StartCoroutine(ControlCoroutine());
@@ -217,14 +236,16 @@ namespace MOP
         /// </summary>
         void HookPreSaveGame()
         {
-            GameObject[] saveGames = (Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
-                .Where(obj => obj.name.Contains("SAVEGAME") && obj.transform.parent.gameObject.name != "JAIL").ToArray();
+            GameObject[] saveGames = Resources.FindObjectsOfTypeAll<GameObject>()
+                .Where(obj => obj.name == "SAVEGAME").ToArray();
 
             try
             {
-                for (int i = 0; i < saveGames.Length; i++)
+                int i = 0;
+                for (; i < saveGames.Length; i++)
                 {
                     bool useInnactiveFix = false;
+                    bool isJail = false;
 
                     if (!saveGames[i].activeSelf)
                     {
@@ -232,21 +253,27 @@ namespace MOP
                         saveGames[i].SetActive(true);
                     }
 
+                    if (saveGames[i].transform.parent.name == "JAIL" && saveGames[i].transform.parent.gameObject.activeSelf == false)
+                    {
+                        useInnactiveFix = true;
+                        isJail = true;
+                        saveGames[i].transform.parent.gameObject.SetActive(true);
+                    }
+
                     FsmHook.FsmInject(saveGames[i], "Mute audio", PreSaveGame);
-                    GameObject newSavePivot = new GameObject("NewSavePivot");
-                    newSavePivot.transform.position = saveGames[i].transform.position;
-                    newSavePivot.transform.parent = saveGames[i].transform;
 
                     if (useInnactiveFix)
                     {
                         saveGames[i].SetActive(false);
+
+                        if (isJail)
+                        {
+                            saveGames[i].transform.parent.gameObject.SetActive(false);
+                        }
                     }
                 }
 
-                // Fix for jail savegame.
-                // Attach savegame to jail if it's loaded.
-                if (GameObject.Find("JAIL") != null)
-                    FsmHook.FsmInject(GameObject.Find("JAIL/SAVEGAME"), "Mute audio", PreSaveGame);
+                ModConsole.Print($"[MOP] Hooked {i} save points!");
             }
             catch (Exception ex)
             {
@@ -286,7 +313,7 @@ namespace MOP
                         // Should the object be disabled when the player leaves the house?
                         if (worldObjects.Get(i).AwayFromHouse)
                         {
-                            worldObjects.Get(i).Toggle(Player.GetDistance(yard.transform) > 100);
+                            worldObjects.Get(i).Toggle(Vector3.Distance(Player.position, yard.transform.position) > 100);
                             continue;
                         }
 
@@ -313,7 +340,7 @@ namespace MOP
                         // Should the object be disabled when the player leaves the house?
                         if (worldObjects.Get(i).AwayFromHouse)
                         {
-                            worldObjects.Get(i).Toggle(Player.GetDistance(yard.transform) > 100);
+                            worldObjects.Get(i).Toggle(Vector3.Distance(Player.transform.position, yard.transform.position) > 100);
                             continue;
                         }
 
@@ -351,7 +378,7 @@ namespace MOP
                                 continue;
                             }
 
-                            float distance = Player.GetDistance(vehicles[i].transform);
+                            float distance = Vector3.Distance(Player.transform.position, vehicles[i].transform.position);
                             vehicles[i].ToggleUnityCar(IsEnabled(distance, MopSettings.UnityCarActiveDistance));
                             vehicles[i].Toggle(IsEnabled(distance));
                         }
@@ -373,7 +400,7 @@ namespace MOP
                                 continue;
                             }
 
-                            float distance = Player.GetDistance(vehicles[i].transform);
+                            float distance = Vector3.Distance(Player.transform.position, vehicles[i].transform.position);
                             vehicles[i].ToggleUnityCar(IsEnabled(distance, MopSettings.UnityCarActiveDistance));
                             vehicles[i].Toggle(IsEnabled(distance));
                         }
@@ -449,7 +476,7 @@ namespace MOP
         /// <param name="toggleDistance">Distance below which the object should be enabled (default 200 units).</param>
         private bool IsEnabled(Transform target, float toggleDistance = 200)
         {
-            return Player.GetDistance(target) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
+            return Vector3.Distance(Player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
 
         private bool IsEnabled(float distance, float toggleDistance = 200)

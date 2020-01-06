@@ -71,5 +71,19 @@ namespace MOP
                 minorObjects[i].AddComponent<ItemHook>();
             }
         }
+
+        /// <summary>
+        /// Finds active game objects named "empty bottle(Clone)" and destroys them.
+        /// </summary>
+        public void DestroyBeerBottles()
+        {
+            GameObject[] beerBottles = Object.FindObjectsOfType<GameObject>()
+                .Where(gm => gm.activeSelf && gm.name == "empty bottle(Clone)").ToArray();
+
+            for (int i = 0; i < beerBottles.Length; i++)
+            {
+                GameObject.Destroy(beerBottles[i]);
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 namespace MOP
 {
@@ -12,7 +13,7 @@ namespace MOP
         //
         // NOTE: That script DOES NOT disable the yard itself, rather some of its childrens.
 
-        // Objects from that blaclklist will not be disabled
+        // Objects from that blacklist will NOT be disabled
         string[] blackList = { "YARD", "Spawn", "VenttiPigHouse", "Capsule", "Target", "Pivot", "skeleton", "bodymesh",
                                 "COPS", "Trigger", "Cop", "Collider", "thig", "pelvis", "knee", "ankle", "spine",
                                 "PlayerMailBox", "mailbox", "envelope", "Envelope", "Letter", "Ad", "UNCLE",
@@ -31,6 +32,8 @@ namespace MOP
                                 "Chair", "TablePlastic", "LOD_middleroom", "hotwaterkeeper", "house_roof",
                                 "WC", "Hallway", "Entry" };
 
+        string[] vhsPlayerBlackList = { "tvtable", "VHS_Screen", "tv_table(Clone)", "scart_con" };
+
         /// <summary>
         /// Initialize the RepairShop class
         /// </summary>
@@ -41,7 +44,16 @@ namespace MOP
             if (GameObject.Find("COMPUTER") != null)
                 GameObject.Find("COMPUTER").transform.parent = null;
 
-            GameObjectBlackList = blackList;
+            List<string> newBlackList = new List<string>();
+            newBlackList.AddRange(blackList);
+
+            if (CompatibilityManager.instance.VhsPlayer)
+            {
+                newBlackList.AddRange(vhsPlayerBlackList);
+            }
+
+            GameObjectBlackList = newBlackList.ToArray();
+
             DisableableChilds = GetDisableableChilds();
 
             // Remove fridge mesh from the list of disabled objects

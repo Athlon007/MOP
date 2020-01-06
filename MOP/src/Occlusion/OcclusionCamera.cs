@@ -21,9 +21,6 @@ namespace MOP
                 default:
                     StartCoroutine(ChequeredView());
                     break;
-                case OcclusionMethods.Legacy:
-                    StartCoroutine(CheckView());
-                    break;
                 case OcclusionMethods.Double:
                     StartCoroutine(FirstView());
                     StartCoroutine(SecondView());
@@ -75,20 +72,24 @@ namespace MOP
                             GameObject target = hit.transform.gameObject;
                             OcclusionBase thisTargetScript = target.GetComponent<OcclusionBase>();
 
-                            while (thisTargetScript == null && target.transform.parent != null)
+                            try
                             {
-                                if (target.transform.parent != null)
+                                while (thisTargetScript == null && target.transform.parent != null)
                                 {
-                                    target = target.transform.parent.gameObject;
-                                    thisTargetScript = target.GetComponent<OcclusionBase>();
-                                };
+                                    if (target.transform.parent != null)
+                                    {
+                                        target = target.transform.parent.gameObject;
+                                        thisTargetScript = target.GetComponent<OcclusionBase>();
+                                    };
 
-                                if (thisTargetScript != null)
-                                {
-                                    thisTargetScript.LastSeen = DateTime.Now;
-                                    thisTargetScript.IsVisible = true;
+                                    if (thisTargetScript != null)
+                                    {
+                                        thisTargetScript.LastSeen = DateTime.Now;
+                                        thisTargetScript.IsVisible = true;
+                                    }
                                 }
                             }
+                            catch { }
                         }
                     }
 
@@ -130,20 +131,24 @@ namespace MOP
                             GameObject target = hit.transform.gameObject;
                             OcclusionBase thisTargetScript = target.GetComponent<OcclusionBase>();
 
-                            while (thisTargetScript == null && target.transform.parent != null)
+                            try
                             {
-                                if (target.transform.parent != null)
+                                while (thisTargetScript == null && target.transform.parent != null)
                                 {
-                                    target = target.transform.parent.gameObject;
-                                    thisTargetScript = target.GetComponent<OcclusionBase>();
-                                };
+                                    if (target.transform.parent != null)
+                                    {
+                                        target = target.transform.parent.gameObject;
+                                        thisTargetScript = target.GetComponent<OcclusionBase>();
+                                    };
 
-                                if (thisTargetScript != null)
-                                {
-                                    thisTargetScript.LastSeen = DateTime.Now;
-                                    thisTargetScript.IsVisible = true;
+                                    if (thisTargetScript != null)
+                                    {
+                                        thisTargetScript.LastSeen = DateTime.Now;
+                                        thisTargetScript.IsVisible = true;
+                                    }
                                 }
                             }
+                            catch { }
                         }
                     }
 
@@ -187,20 +192,24 @@ namespace MOP
                             GameObject target = hit.transform.gameObject;
                             OcclusionBase thisTargetScript = target.GetComponent<OcclusionBase>();
 
-                            while (thisTargetScript == null && target.transform.parent != null)
+                            try
                             {
-                                if (target.transform.parent != null)
+                                while (thisTargetScript == null && target.transform.parent != null)
                                 {
-                                    target = target.transform.parent.gameObject;
-                                    thisTargetScript = target.GetComponent<OcclusionBase>();
-                                };
+                                    if (target.transform.parent != null)
+                                    {
+                                        target = target.transform.parent.gameObject;
+                                        thisTargetScript = target.GetComponent<OcclusionBase>();
+                                    };
 
-                                if (thisTargetScript != null)
-                                {
-                                    thisTargetScript.LastSeen = DateTime.Now;
-                                    thisTargetScript.IsVisible = true;
+                                    if (thisTargetScript != null)
+                                    {
+                                        thisTargetScript.LastSeen = DateTime.Now;
+                                        thisTargetScript.IsVisible = true;
+                                    }
                                 }
                             }
+                            catch { }
                         }
                     }
 
@@ -221,187 +230,28 @@ namespace MOP
                             GameObject target = hit.transform.gameObject;
                             OcclusionBase thisTargetScript = target.GetComponent<OcclusionBase>();
 
-                            while (thisTargetScript == null && target.transform.parent != null)
+                            try
                             {
-                                if (target.transform.parent != null)
+                                while (thisTargetScript == null && target.transform.parent != null)
                                 {
-                                    target = target.transform.parent.gameObject;
-                                    thisTargetScript = target.GetComponent<OcclusionBase>();
-                                };
+                                    if (target.transform.parent != null)
+                                    {
+                                        target = target.transform.parent.gameObject;
+                                        thisTargetScript = target.GetComponent<OcclusionBase>();
+                                    };
 
-                                if (thisTargetScript != null)
-                                {
-                                    thisTargetScript.LastSeen = DateTime.Now;
-                                    thisTargetScript.IsVisible = true;
+                                    if (thisTargetScript != null)
+                                    {
+                                        thisTargetScript.LastSeen = DateTime.Now;
+                                        thisTargetScript.IsVisible = true;
+                                    }
                                 }
                             }
+                            catch { }
                         }
                     }
 
                     yield return null;
-                }
-
-                if (!isOcclusionHideDelayCalculated && calculationDelayStep > DelayEnd)
-                {
-                    stopwatch.Stop();
-                    isOcclusionHideDelayCalculated = true;
-                    long time = stopwatch.ElapsedMilliseconds;
-                    SetOcclusionHideDelayTime(time);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Classic method of checking occlusion by lineary checking areas of the screen.
-        /// </summary>
-        /// <returns></returns>
-        IEnumerator CheckView()
-        {
-            while (MopSettings.IsModActive)
-            {
-                Stopwatch stopwatch = new Stopwatch();
-                if (!isOcclusionHideDelayCalculated)
-                {
-                    calculationDelayStep += 1;
-                    if (calculationDelayStep > DelayEnd)
-                        stopwatch = Stopwatch.StartNew();
-                }
-
-                ticks += 1;
-                if (ticks > 1000)
-                    ticks = 0;
-
-                int step = Math.Max(Screen.width, Screen.height) / MopSettings.OcclusionSamples;
-
-                int xHalf = Screen.width / 2;
-                int x;
-
-                for (x = 0; x <= xHalf; x += step)
-                {
-                    int yHalf = Screen.height / 2;
-                    int y;
-                    for (y = 0; y <= yHalf; y += step)
-                    {
-                        Ray SampleRay = Camera.main.ScreenPointToRay(new Vector3(x, y, 0f));
-                        RaycastHit hit;
-
-                        if (Physics.Raycast(SampleRay, out hit, MopSettings.ViewDistance))
-                        {
-                            GameObject target = hit.transform.gameObject;
-                            OcclusionBase thisTargetScript = target.GetComponent<OcclusionBase>();
-
-                            while (thisTargetScript == null && target.transform.parent != null)
-                            {
-                                if (target.transform.parent != null)
-                                {
-                                    target = target.transform.parent.gameObject;
-
-                                    thisTargetScript = target.GetComponent<OcclusionBase>();
-                                };
-
-                                if (thisTargetScript != null)
-                                {
-                                    thisTargetScript.LastSeen = DateTime.Now;
-                                    thisTargetScript.IsVisible = true;
-                                }
-                            }
-                        }
-                    }
-
-                    yield return null;
-
-                    for (; y <= Screen.height; y += step)
-                    {
-                        Ray SampleRay = Camera.main.ScreenPointToRay(new Vector3(x, y, 0f));
-                        RaycastHit hit;
-
-                        if (Physics.Raycast(SampleRay, out hit, MopSettings.ViewDistance))
-                        {
-                            GameObject target = hit.transform.gameObject;
-                            OcclusionBase thisTargetScript = target.GetComponent<OcclusionBase>();
-
-                            while (thisTargetScript == null && target.transform.parent != null)
-                            {
-                                if (target.transform.parent != null)
-                                {
-                                    target = target.transform.parent.gameObject;
-
-                                    thisTargetScript = target.GetComponent<OcclusionBase>();
-                                };
-
-                                if (thisTargetScript != null)
-                                {
-                                    thisTargetScript.LastSeen = DateTime.Now;
-                                    thisTargetScript.IsVisible = true;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                yield return null;
-
-                for (; x <= Screen.width; x += step)
-                {
-                    int yHalf = Screen.height / 2;
-                    int y;
-                    for (y = 0; y <= yHalf; y += step)
-                    {
-                        Ray SampleRay = Camera.main.ScreenPointToRay(new Vector3(x, y, 0f));
-                        RaycastHit hit;
-
-                        if (Physics.Raycast(SampleRay, out hit, MopSettings.ViewDistance))
-                        {
-                            GameObject target = hit.transform.gameObject;
-                            OcclusionBase thisTargetScript = target.GetComponent<OcclusionBase>();
-
-                            while (thisTargetScript == null && target.transform.parent != null)
-                            {
-                                if (target.transform.parent != null)
-                                {
-                                    target = target.transform.parent.gameObject;
-
-                                    thisTargetScript = target.GetComponent<OcclusionBase>();
-                                };
-
-                                if (thisTargetScript != null)
-                                {
-                                    thisTargetScript.LastSeen = DateTime.Now;
-                                    thisTargetScript.IsVisible = true;
-                                }
-                            }
-                        }
-                    }
-
-                    yield return null;
-
-                    for (; y <= Screen.height; y += step)
-                    {
-                        Ray SampleRay = Camera.main.ScreenPointToRay(new Vector3(x, y, 0f));
-                        RaycastHit hit;
-
-                        if (Physics.Raycast(SampleRay, out hit, MopSettings.ViewDistance))
-                        {
-                            GameObject target = hit.transform.gameObject;
-                            OcclusionBase thisTargetScript = target.GetComponent<OcclusionBase>();
-
-                            while (thisTargetScript == null && target.transform.parent != null)
-                            {
-                                if (target.transform.parent != null)
-                                {
-                                    target = target.transform.parent.gameObject;
-
-                                    thisTargetScript = target.GetComponent<OcclusionBase>();
-                                };
-
-                                if (thisTargetScript != null)
-                                {
-                                    thisTargetScript.LastSeen = DateTime.Now;
-                                    thisTargetScript.IsVisible = true;
-                                }
-                            }
-                        }
-                    }
                 }
 
                 if (!isOcclusionHideDelayCalculated && calculationDelayStep > DelayEnd)
@@ -441,9 +291,6 @@ namespace MOP
                     {
                         default:
                             StartCoroutine(ChequeredView());
-                            break;
-                        case OcclusionMethods.Legacy:
-                            StartCoroutine(CheckView());
                             break;
                         case OcclusionMethods.Double:
                             StartCoroutine(FirstView());

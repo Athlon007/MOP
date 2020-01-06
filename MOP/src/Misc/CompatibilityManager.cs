@@ -19,6 +19,18 @@ namespace MOP
         bool secondFerndale;
         public bool SecondFerndale { get => secondFerndale; }
 
+        // GAZ 24 Volga
+        //
+        bool gaz;
+        public bool Gaz { get => gaz; }
+
+        // Police Ferndale
+        bool policeFerndale;
+        public bool PoliceFerndale { get => policeFerndale; }
+
+        // VHS mod
+        bool vhsPlayer;
+        public bool VhsPlayer { get => vhsPlayer; }
         public CompatibilityManager()
         {
             instance = this;
@@ -33,6 +45,24 @@ namespace MOP
             if (secondFerndale)
             {
                 ModConsole.Print("[MOP] Second Ferndale has been found!");
+            }
+
+            gaz = GameObject.Find("GAZ24(1420kg)") != null;
+            if (gaz)
+            {
+                ModConsole.Print("[MOP] GAZ 24 Volga has been found!");
+            }
+
+            policeFerndale = GameObject.Find("POLICEFERNDALE(1630kg)") != null;
+            if (policeFerndale)
+            {
+                ModConsole.Print("[MOP] Police Ferndale has been found!");
+            }
+
+            vhsPlayer = ModLoader.IsModPresent("VHSPlayer");
+            if (vhsPlayer)
+            {
+                ModConsole.Print("[MOP] VHS Player mod has been found!");
             }
 
             ModConsole.Print("[MOP] Compatibility Manager done");

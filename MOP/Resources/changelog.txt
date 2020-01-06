@@ -1,26 +1,19 @@
 Added:
-- Added check for when the Occlusion Distance is lower than Minimum Occlusion Distance
-- Added save game hook to jail save spot
-- Jokke's furnitures are now toggled on and off
-- Added spirit to the list of toggled items
+- Empty beer bottles can now be removed automatically, right after you drink the beer. Wouldn't that be neat IRL? (You can enable it in the mod settings)
+- Added support for GAZ 24 Volga mod, so you can now feel like KGB agent
+- Added support for Police Ferndale mod, so you can now feel like police officer
+- Added support for VHS Player mod, so you can watch movies about KGB agents and police officers
 
 Changes:
-- Changed occlusion culling info
-- Renamed "Occlusion Distance" to "Maximum Occlusion Distance"
-- Improved emergency safe mode scrip
-- Changes in settings order
-- Improvements related to plastic cans/juice cointaners/kilju
-- Unified the console messages
-- Minor changes under the hood
-  - Unified some variable names
-  - Code optimization and improvements
-  - Code refactoring
+- Improved save game hook, so now now it hooks into jail savegame, even when you're not in jail (which may eventually be a thing)
+- Minor changes in the settings
 
 Bug Fixes:
-- Fixed a typo in the settings
-- Excluded Hayoshiko from the occlusion
-- Fixed camera and fireworks bag from clipping through the cottage
-- Fixed an issue with Hayosiko staying between tree walls even after it should be at the uncle's
+- Excluded Fury from Drivable Fury mod from occlusion culling
+- Fixed two shy houses that would disappear when player tried to approach them. We gave them some confindence boost, so they won't disappear :)
+- Fishes should now fish properly
+- Occlusion shouldn't crash anymore
 
 Removed:
-- Removed Occlusion Sample Delay from the settings
+- Removed legacy occlusion method, because it was sooo last season
+- Does anyone read these? Hello?

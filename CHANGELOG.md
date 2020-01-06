@@ -1,5 +1,31 @@
 # Changelog
 
+## Beta 1.4 (06.01.2020)
+
+### Added
+
+- Empty beer bottles can now be removed automatically, right after you drink the beer. Wouldn't that be neat IRL? (You can enable it in the mod settings)
+- Added support for GAZ 24 Volga mod, so you can now feel like KGB agent
+- Added support for Police Ferndale mod, so you can now feel like police officer
+- Added support for VHS Player mod, so you can watch movies about KGB agents and police officers
+
+### Changes
+
+- Improved save game hook, so now now it hooks into jail savegame, even when you're not in jail (which may eventually be a thing)
+- Minor changes in the settings
+
+### Bug Fixes
+
+- Excluded Fury from Drivable Fury mod from occlusion culling
+- Fixed two shy houses that would disappear when player tried to approach them. We gave them some confindence boost, so they won't disappear :)
+- Fishes should now fish properly
+- Occlusion shouldn't crash anymore
+
+### Removed
+
+- Removed legacy occlusion method, because it was sooo last season
+- Does anyone read these? Hello?
+
 ## Beta 1.3 (01.01.2020)
 
 Happy New Year and welcome in 2020!

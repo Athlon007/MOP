@@ -69,7 +69,7 @@ namespace MOP
             axles = gameObject.GetComponent<Axles>();
             rb = gameObject.GetComponent<Rigidbody>();
 
-            if (!gameObject.name.Contains("HAYOSIKO"))
+            if (!gameObject.name.ContainsAny("HAYOSIKO", "FURY"))
                 gameObject.AddComponent<OcclusionObject>();
 
             Toggle = ToggleActive;
@@ -102,10 +102,7 @@ namespace MOP
 
             // Fix for when the player doesn't have keys for Hayosiko.
             // Van will NOT be toggled
-            if (isHayosiko && FsmGlobals.PlayerHasHayosikoKey() == false)
-            {
-                return;
-            }
+            if (isHayosiko && FsmGlobals.PlayerHasHayosikoKey() == false) return;
 
             // If we're disabling a car, set the audio child parent to TemporaryAudioParent, and save the position and rotation.
             // We're doing that BEFORE we disable the object.
@@ -146,7 +143,6 @@ namespace MOP
             axles.enabled = enabled;
             rb.isKinematic = !enabled;
         }
-
 
         /// <summary>
         /// Changes audio childs parent

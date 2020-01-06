@@ -24,17 +24,5 @@ namespace MOP
             // Nothing has been found? Return false.
             return false;
         }
-
-        /// <summary>
-        /// Returns the distance between point A and B.
-        /// </summary>
-        /// <param name="player"></param>
-        /// <param name="target"></param>
-        /// <returns></returns>
-        public static float GetDistance(this Transform player, Transform target)
-        {
-            //Gets Distance.
-            return Vector3.Distance(player.position, target.position);
-        }
     }
 }

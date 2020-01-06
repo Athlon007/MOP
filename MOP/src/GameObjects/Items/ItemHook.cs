@@ -57,6 +57,12 @@ namespace MOP
             {
                 FsmHook.FsmInject(this.gameObject, "Is garbage", RemoveSelf);
             }
+
+            // If the item is beer case, hook the DestroyBeerBottles void uppon removing a bottle.
+            if (gameObject.name.StartsWith("beer case"))
+            {
+                FsmHook.FsmInject(this.gameObject, "Remove bottle", DestroyBeerBottles);
+            }
         }
 
         // Triggered before the object is destroyed.
@@ -78,11 +84,8 @@ namespace MOP
                     return;
 
                 // If enabled, activate the position fixer (for CarryMore mod)
-                if (enabled)
+                if (enabled && (currentPositionFix == null))
                 {
-                    if (currentPositionFix != null)
-                        return;
-
                     currentPositionFix = PositionFix();
                     StartCoroutine(currentPositionFix);
                 }
@@ -91,7 +94,7 @@ namespace MOP
                 rb.isKinematic = !enabled;
 
                 // If occlusion culling is not enabled, disable object's renderer on distance.
-                if (!MopSettings.EnableObjectOcclusion && renderer != null)
+                if (!MopSettings.EnableObjectOcclusion && (renderer != null))
                 {
                     renderer.enabled = enabled;
                 }
@@ -126,6 +129,32 @@ namespace MOP
             }
 
             currentPositionFix = null;
+        }
+
+        /// <summary>
+        /// Used when this item is a beer case.
+        /// Starts the coroutine that initializes Items.DestroyEmptyBottles after 7 seconds.
+        /// </summary>
+        void DestroyBeerBottles()
+        {
+            // If the setting is not enabled, return.
+            if (!MopSettings.RemoveEmptyBeerBottles)
+                return;
+
+            if (currentBeerBottleRoutine != null)
+            {
+                StopCoroutine(currentBeerBottleRoutine);
+            }
+
+            currentBeerBottleRoutine = BeerBottlesRoutine();
+            StartCoroutine(currentBeerBottleRoutine);
+        }
+
+        private IEnumerator currentBeerBottleRoutine;
+        IEnumerator BeerBottlesRoutine()
+        {
+            yield return new WaitForSeconds(7);
+            Items.instance.DestroyBeerBottles();
         }
     }
 }

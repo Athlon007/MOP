@@ -34,6 +34,9 @@ MOP officially supports following mods:
 - CarryMore
 - Drivable Fury
 - Second Ferndale
+- GAZ 24 Volga
+- Police Ferndale
+- VHS Player Mod
 
 The mod will also work with other mods which are not on the list. If it isn't, please report that on GitHub, or one of the official mod hosting websites.
 

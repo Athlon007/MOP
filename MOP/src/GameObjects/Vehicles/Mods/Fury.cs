@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Linq;
-
-namespace MOP
+﻿namespace MOP
 {
     class Fury : Vehicle
     {
@@ -16,21 +13,7 @@ namespace MOP
         public Fury(string gameObject) : base(gameObject)
         {
             furyScript = this;
-
-            Toggle = ToggleActive;
+            Toggle = ToggleUnityCar;
         }
-
-        /// <summary>
-        /// Enable or disable car
-        /// </summary>
-        void ToggleActive(bool enabled)
-        {
-            // Don't run the code, if the value is the same
-            if (gameObject == null || carDynamics.enabled == enabled) return;
-
-            carDynamics.enabled = enabled;
-            axles.enabled = enabled;
-            rb.isKinematic = !enabled;
-        } 
     }
 }

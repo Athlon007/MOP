@@ -23,7 +23,7 @@ namespace MOP
                 sw.Close();
             }
 
-            MSCLoader.ModConsole.Print("An error has occured. " +
+            MSCLoader.ModConsole.Print("[MOP] An error has occured. " +
                 "Log has been saved in My Summer Car folder into MOP_LOG.txt\n\n" + ex.ToString());
         }
 
@@ -48,7 +48,7 @@ namespace MOP
                 sw.Close();
             }
 
-            MSCLoader.ModConsole.Print("Mod report has been generated.");
+            MSCLoader.ModConsole.Print("[MOP] Mod report has been generated.");
             Process.Start("MOP_REPORT.txt");
         }
 
@@ -65,6 +65,7 @@ namespace MOP
             output += "SafeMode: " + MopSettings.SafeMode.ToString() + "\n";
             output += "ToggleVehicles: " + MopSettings.ToggleVehicles.ToString() + "\n";
             output += "ToggleItems: " + MopSettings.ToggleItems.ToString() + "\n";
+            output += "RemoveEmptyBeerBottles: " + MopSettings.RemoveEmptyBeerBottles.ToString() + "\n";
             output += "EnableObjectOcclusion: " + MopSettings.EnableObjectOcclusion.ToString() + "\n";
             if (MopSettings.EnableObjectOcclusion)
             {

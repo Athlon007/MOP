@@ -1,6 +1,6 @@
 ﻿namespace MOP
 {
-    public enum OcclusionMethods { Legacy, Chequered, Double }
+    public enum OcclusionMethods { Chequered, Double }
 
     class MopSettings
     {
@@ -18,6 +18,12 @@
         public static bool ToggleItems { get; set; }
 
         //
+        // OTHERS
+        //
+        static bool removeEmptyBeerBottles = false;
+        public static bool RemoveEmptyBeerBottles { get; }
+
+        //
         // OCCLUSION CULLING
         //
         public static bool EnableObjectOcclusion { get; set; }
@@ -31,8 +37,8 @@
         static int occlusionSampleDelay = 1;
         public static int OcclusionSampleDelay { get => occlusionSampleDelay; }
 
+        // OcclusionHideDelay is calculated automatically
         public static int OcclusionHideDelay = -1;
-
 
         static int minOcclusionDistance = 50;
         public static int MinOcclusionDistance { get => minOcclusionDistance; }
@@ -42,7 +48,7 @@
 
         // others
         static bool warningShowed;
-        public static int UnityCarActiveDistance { get => 5; }
+        public const int UnityCarActiveDistance = 5; 
 
         public static void UpdateAll()
         {
@@ -53,15 +59,20 @@
             ToggleVehicles = (bool)MOP.toggleVehicles.GetValue();
             ToggleItems = (bool)MOP.toggleItems.GetValue();
 
-            if (viewDistance < minOcclusionDistance && !warningShowed)
+            removeEmptyBeerBottles = (bool)MOP.removeEmptyBeerBottles.GetValue();
+
+            if (viewDistance < minOcclusionDistance)
             {
                 MOP.occlusionDistance.Value = 400;
                 MOP.minOcclusionDistance.Value = 50;
 
-                MSCLoader.ModUI.ShowMessage("Occlusion Distance cannot be lower than Minimum Occlusion Distance." +
-                    "\n\nBoth values will be reset.", "Error");
+                if (!warningShowed)
+                {
+                    MSCLoader.ModUI.ShowMessage("Occlusion Distance cannot be lower than Minimum Occlusion Distance." +
+                        "\n\nIf you don't change it, both values will be reset to default!", "Error");
 
-                warningShowed = true;
+                    warningShowed = true;
+                }
             }
 
             EnableObjectOcclusion = (bool)MOP.enableObjectOcclusion.GetValue();
@@ -89,9 +100,6 @@
 
         static OcclusionMethods GetOcclusionMethod()
         {
-            if ((bool)MOP.occlusionNormal.GetValue())
-                return OcclusionMethods.Legacy;
-
             if ((bool)MOP.occlusionDouble.GetValue())
                 return OcclusionMethods.Double;
 

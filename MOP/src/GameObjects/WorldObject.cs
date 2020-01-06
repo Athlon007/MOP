@@ -34,7 +34,7 @@ namespace MOP
         /// </summary>
         /// <param name="gameObjectName">Name of game object that this instance controls.</param>
         /// <param name="renderDistance">From how far should that object be enabled (default 200).</param>
-        public WorldObject(GameObject gameObject, int distance = 200, bool rendererOnly = false)
+        public WorldObject(GameObject gameObject, int distance = 200, bool useRendererOnly = false)
         {
             //this.gameObject = GameObject.Find(gameObjectName);
             this.gameObject = gameObject;
@@ -45,14 +45,10 @@ namespace MOP
                 this.gameObject.AddComponent<OcclusionObject>();
             }
 
-            Renderer ren = this.gameObject.GetComponent<Renderer>();
-            if (ren != null)
-            {
-                renderer = ren;
-            }
+            renderer = this.gameObject.GetComponent<Renderer>();
 
             // If rendererOnly is true, the Toggle will be set to ToggleMesh.
-            if (rendererOnly)
+            if (useRendererOnly)
             {
                 if (renderer == null)
                 {
@@ -60,6 +56,7 @@ namespace MOP
                         this.gameObject.name + " because renderer hasn't been found.");
                     return;
                 }
+
                 Toggle = ToggleRenderer;
             }
             else
@@ -73,21 +70,17 @@ namespace MOP
         /// </summary>
         /// <param name="gameObjectName">Name of game object that this instance controls.</param>
         /// <param name="awayFromHouse">If true, the object will be enabled, when the player leaves the house area.</param>
-        public WorldObject(GameObject gameObject, bool awayFromHouse, bool rendererOnly = false)
+        public WorldObject(GameObject gameObject, bool awayFromHouse, bool useRendererOnly = false)
         {
             //this.gameObject = GameObject.Find(gameObjectName);
             this.gameObject = gameObject;
             this.AwayFromHouse = awayFromHouse;
 
             // Get object's renderer
-            Renderer ren = this.gameObject.GetComponent<Renderer>();
-            if (ren != null)
-            {
-                renderer = ren;
-            }
+            renderer = this.gameObject.GetComponent<Renderer>();
 
             // If rendererOnly is true, the Toggle will be set to ToggleMesh.
-            if (rendererOnly)
+            if (useRendererOnly)
             {
                 if (renderer == null)
                 {
@@ -95,6 +88,7 @@ namespace MOP
                         this.gameObject.name + " because renderer hasn't been found.");
                     return;
                 }
+
                 Toggle = ToggleRenderer;
             }
             else
