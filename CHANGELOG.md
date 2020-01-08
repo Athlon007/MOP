@@ -1,5 +1,12 @@
 # Changelog
 
+## Beta 1.5 (tba)
+
+### Added
+
+- Added auto update system
+  - Note: Windows 10 Redstone 4 (build 1803) is required
+
 ## Beta 1.4.1 (08.01.2020)
 
 ### Bug Fixes

@@ -1,6 +1,7 @@
 ﻿using MSCLoader;
 using UnityEngine;
 using System.Diagnostics;
+using System.IO;
 
 namespace MOP
 {
@@ -9,12 +10,32 @@ namespace MOP
         public override string ID => "MOP"; //Your mod ID (unique)
         public override string Name => "Modern Optimization Plugin (BETA)"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "1.4.1"; //Version
+        public override string Version => "1.5.0"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
         public override bool UseAssetsFolder => false;
         public override bool SecondPass => true;
+        public override bool LoadInMenu => true;
+
+        public static string ModsFolderPath;
+
+        public override void OnMenuLoad()
+        {
+            ModsFolderPath = ModLoader.GetModConfigFolder(this).Replace("Config\\Mod Settings\\MOP", "");
+
+            //Cleaning junks
+            if (File.Exists(ModsFolderPath + "mop.zip"))
+                File.Delete(ModsFolderPath + "mop.zip");
+
+            if (File.Exists(ModsFolderPath + "updater.bat"))
+                File.Delete(ModsFolderPath + "updater.bat");
+
+            if (Directory.Exists(ModsFolderPath + "mopupdate"))
+                Directory.Delete(ModsFolderPath + "mopupdate");
+
+            Misc.Update.CheckForUpdate();
+        }
 
         /// <summary>
         /// Called once, when mod is loading after game is fully loaded.
@@ -84,6 +105,7 @@ namespace MOP
         // OTHERS
         //
         public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Remove Empty Beer Bottles", false);
+        public static Settings enableAutoUpdate = new Settings("enableAutoUpdate", "Enable Auto Update", true);
 
         // 
         // OCCLUSION
@@ -131,6 +153,15 @@ namespace MOP
             // Others
             Settings.AddHeader(this, "Other", headerColor);
             Settings.AddCheckBox(this, removeEmptyBeerBottles);
+            if (Misc.Update.IsAutoUpdateCompatible())
+            {
+                Settings.AddCheckBox(this, enableAutoUpdate);
+            }
+            else
+            {
+                ModConsole.Print("[MOP] Your system is not compatible with automatic updates");
+                enableAutoUpdate.Value = false;
+            }
 
             // Occlusion
             Settings.AddHeader(this, "(BETA) Occlusion Culling", headerColor);
