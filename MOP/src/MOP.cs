@@ -34,7 +34,8 @@ namespace MOP
             if (Directory.Exists(ModsFolderPath + "mopupdate"))
                 Directory.Delete(ModsFolderPath + "mopupdate");
 
-            Misc.Update.CheckForUpdate();
+            if ((bool)enableAutoUpdate.GetValue() == true)
+                Misc.Update.CheckForUpdate();
         }
 
         /// <summary>
