@@ -1,16 +1,24 @@
 ﻿using HutongGames.PlayMaker;
+using UnityEngine;
 
 namespace MOP
 {
     class FsmGlobals
     {
+        static PlayMakerFSM unclePlaymaker;
+
         /// <summary>
         /// Checks if the player has the keys to the Hayosiko.
         /// </summary>
         /// <returns></returns>
         public static bool PlayerHasHayosikoKey()
         {
-            return FsmVariables.GlobalVariables.GetFsmInt("PlayerKeyHayosiko").Value == 1;
+            if (unclePlaymaker == null)
+            {
+                unclePlaymaker = GameObject.Find("UNCLE").GetComponent<PlayMakerFSM>();
+            }
+
+            return unclePlaymaker.FsmVariables.GetFsmInt("UncleStage").Value == 5;
         }
     }
 }

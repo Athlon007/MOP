@@ -1,5 +1,13 @@
 # Changelog
 
+## Beta 1.4.1 (08.01.2020)
+
+### Bug Fixes
+
+- Fixed how Hayosiko despawning is managed. From now on, Uncle Stage has to be set to 5, in order for van to fully despawn. Else, only car's physics will get toggled
+- Fixed Gifu diff lock, pump and rear axle being turned on after Gifu respawn
+- Fixed flatbed firewood level being reset after it was filled and then the flatbed got respawned
+
 ## Beta 1.4 (06.01.2020)
 
 ### Added

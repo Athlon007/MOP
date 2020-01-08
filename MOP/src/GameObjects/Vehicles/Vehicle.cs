@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using MSCLoader;
+using System.Linq;
 using UnityEngine;
 
 namespace MOP
@@ -43,6 +44,8 @@ namespace MOP
 
         bool isHayosiko;
 
+        bool flatbedScriptActivated;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -75,6 +78,10 @@ namespace MOP
             Toggle = ToggleActive;
 
             isHayosiko = gameObject.name.Contains("HAYOSIKO");
+
+            // Vehicle is flatbed
+            if (gameObject.name == "FLATBED")
+                FsmHook.FsmInject(transform.Find("Bed/LogTrigger").gameObject, "Add scale", FlatbedSwitchToggleMethod);
         }
 
         /// <summary>
@@ -102,7 +109,11 @@ namespace MOP
 
             // Fix for when the player doesn't have keys for Hayosiko.
             // Van will NOT be toggled
-            if (isHayosiko && FsmGlobals.PlayerHasHayosikoKey() == false) return;
+            if (isHayosiko && FsmGlobals.PlayerHasHayosikoKey() == false)
+            {
+                ToggleUnityCar(enabled);
+                return;
+            }
 
             // If we're disabling a car, set the audio child parent to TemporaryAudioParent, and save the position and rotation.
             // We're doing that BEFORE we disable the object.
@@ -179,6 +190,18 @@ namespace MOP
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Toggled uppon firewood being placed on the bed of flatbed.
+        /// Switches the toggling method to UnityCar only, so the flatbed won't be unloaded completly.
+        /// </summary>
+        internal void FlatbedSwitchToggleMethod()
+        {
+            if (flatbedScriptActivated) return;
+            flatbedScriptActivated = true;
+
+            Toggle = ToggleUnityCar;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 namespace MOP
 {
@@ -9,10 +10,8 @@ namespace MOP
         // This class extends the functionality of Vehicle class, which is tailored for Gifu.
         // It fixes the issue with Gifu's beams being turned on after respawn.
 
-        Transform switchParent;
-        
-        Transform beaconSwitch;
-        Transform workLightsSwitch;
+        Transform knobs;
+        Transform knobsParent;
 
         /// <summary>
         /// Initialize class
@@ -22,10 +21,8 @@ namespace MOP
         {
             gifuScript = this;
 
-            switchParent = gameObject.transform.Find("Dashboard").Find("Knobs");
-
-            beaconSwitch = switchParent.transform.Find("KnobBeacon");
-            workLightsSwitch = switchParent.transform.Find("KnobWorkLights");
+            knobs = gameObject.transform.Find("Dashboard").Find("Knobs");
+            knobsParent = knobs.parent;
 
             Toggle = ToggleActive;
         }
@@ -50,8 +47,7 @@ namespace MOP
                     SetParentForChild(FuelTank, TemporaryParent);
                 }
 
-                SetParentForChild(beaconSwitch, TemporaryParent);
-                SetParentForChild(workLightsSwitch, TemporaryParent);
+                SetParentForChild(knobs, TemporaryParent);
 
                 Position = gameObject.transform.localPosition;
                 Rotation = gameObject.transform.localRotation;
@@ -73,8 +69,7 @@ namespace MOP
                     SetParentForChild(FuelTank, gameObject);
                 }
 
-                SetParentForChild(beaconSwitch, switchParent.gameObject);
-                SetParentForChild(workLightsSwitch, switchParent.gameObject);
+                SetParentForChild(knobs, knobsParent.gameObject);
             }
         }
     }
