@@ -32,7 +32,7 @@ namespace MOP
                 File.Delete(ModsFolderPath + "updater.bat");
 
             if (Directory.Exists(ModsFolderPath + "mopupdate"))
-                Directory.Delete(ModsFolderPath + "mopupdate");
+                Directory.Delete(ModsFolderPath + "mopupdate", true);
 
             if ((bool)enableAutoUpdate.GetValue() == true)
                 Misc.Update.CheckForUpdate();

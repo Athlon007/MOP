@@ -46,6 +46,8 @@ namespace MOP
 
         bool flatbedScriptActivated;
 
+        internal bool isRopeHooked { get; set; }
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -82,6 +84,24 @@ namespace MOP
             // Vehicle is flatbed
             if (gameObject.name == "FLATBED")
                 FsmHook.FsmInject(transform.Find("Bed/LogTrigger").gameObject, "Add scale", FlatbedSwitchToggleMethod);
+
+            // Hook HookFront and HookRear
+            Transform hookFront = transform.Find("HookFront");
+            Transform hookRear = transform.Find("HookRear");
+
+            if (hookFront != null)
+            {
+                FsmHook.FsmInject(hookFront.gameObject, "Activate cable", RopeHookUp);
+                FsmHook.FsmInject(hookFront.gameObject, "Activate cable 2", RopeHookUp);
+                FsmHook.FsmInject(hookFront.gameObject, "Remove rope", RopeUnhook);
+            }
+
+            if (hookRear != null)
+            {
+                FsmHook.FsmInject(hookRear.gameObject, "Activate cable", RopeHookUp);
+                FsmHook.FsmInject(hookRear.gameObject, "Activate cable 2", RopeHookUp);
+                FsmHook.FsmInject(hookRear.gameObject, "Remove rope", RopeUnhook);
+            }
         }
 
         /// <summary>
@@ -150,6 +170,8 @@ namespace MOP
         {
             if (gameObject == null || carDynamics.enabled == enabled || (satsumaScript != null && satsumaScript.IsSatsumaInInspectionArea)) return;
 
+            if (isRopeHooked && gameObject.activeSelf == true) return;
+
             carDynamics.enabled = enabled;
             axles.enabled = enabled;
             rb.isKinematic = !enabled;
@@ -202,6 +224,16 @@ namespace MOP
             flatbedScriptActivated = true;
 
             Toggle = ToggleUnityCar;
+        }
+
+        internal void RopeHookUp()
+        {
+            isRopeHooked = true;
+        }
+
+        internal void RopeUnhook()
+        {
+            isRopeHooked = false;
         }
     }
 }

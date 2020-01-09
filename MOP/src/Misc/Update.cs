@@ -12,8 +12,10 @@ namespace MOP.Misc
     class Update
     {
 #if DEBUG
-        const string ReleaseInfo = "file://C:/Users/aathl/source/repos/YAOS/releaseinfo.txt";
-        const string UpdateDownloadUrl = "file://C:/Users/aathl/source/repos/YAOS/update.zip";
+        //const string ReleaseInfo = "file://C:/Users/aathl/source/repos/YAOS/releaseinfo.txt";
+        //const string UpdateDownloadUrl = "file://C:/Users/aathl/source/repos/YAOS/update.zip";
+        const string ReleaseInfo = "https://raw.githubusercontent.com/Athlon007/MOP/development/releaseinfo.txt";
+        const string UpdateDownloadUrl = "https://raw.githubusercontent.com/Athlon007/MOP/development/update.zip";
 #else
         const string ReleaseInfo = "https://raw.githubusercontent.com/Athlon007/MOP/releaseinfo.txt";
         const string UpdateDownloadUrl = "https://raw.githubusercontent.com/Athlon007/MOP/update.zip";
@@ -55,7 +57,7 @@ namespace MOP.Misc
             {
                 using (WebClient client = new WebClient())
                 {
-                    string latestString = client.DownloadString(new Uri(ReleaseInfo));
+                    string latestString = client.DownloadString(ReleaseInfo);
                     List<int> latest = new List<int>();
                     foreach (string str in latestString.Split('.'))
                         latest.Add(int.Parse(str));
