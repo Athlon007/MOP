@@ -24,7 +24,6 @@
         public static bool RemoveEmptyBeerBottles { get; }
 
         static bool enableAutoUpdate = true;
-        public static bool EnableAutoUpdate { get; }
 
         //
         // OCCLUSION CULLING
@@ -84,7 +83,6 @@
             minOcclusionDistance = int.Parse(MOP.minOcclusionDistance.GetValue().ToString());
 
             occlusionMethod = GetOcclusionMethod();
-            enableAutoUpdate = (bool)MOP.enableAutoUpdate.GetValue();
         }
 
         static float GetActiveDistanceMultiplicationValue()

@@ -16,27 +16,6 @@ namespace MOP
         // This will create subfolder in Assets folder for your mod.
         public override bool UseAssetsFolder => false;
         public override bool SecondPass => true;
-        public override bool LoadInMenu => true;
-
-        public static string ModsFolderPath;
-
-        public override void OnMenuLoad()
-        {
-            ModsFolderPath = ModLoader.GetModConfigFolder(this).Replace("Config\\Mod Settings\\MOP", "");
-
-            //Cleaning junks
-            if (File.Exists(ModsFolderPath + "mop.zip"))
-                File.Delete(ModsFolderPath + "mop.zip");
-
-            if (File.Exists(ModsFolderPath + "updater.bat"))
-                File.Delete(ModsFolderPath + "updater.bat");
-
-            if (Directory.Exists(ModsFolderPath + "mopupdate"))
-                Directory.Delete(ModsFolderPath + "mopupdate", true);
-
-            if ((bool)enableAutoUpdate.GetValue() == true)
-                Misc.Update.CheckForUpdate();
-        }
 
         /// <summary>
         /// Called once, when mod is loading after game is fully loaded.
@@ -106,7 +85,6 @@ namespace MOP
         // OTHERS
         //
         public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Remove Empty Beer Bottles", false);
-        public static Settings enableAutoUpdate = new Settings("enableAutoUpdate", "Enable Auto Update", true);
 
         // 
         // OCCLUSION
@@ -154,15 +132,6 @@ namespace MOP
             // Others
             Settings.AddHeader(this, "Other", headerColor);
             Settings.AddCheckBox(this, removeEmptyBeerBottles);
-            if (Misc.Update.IsAutoUpdateCompatible())
-            {
-                Settings.AddCheckBox(this, enableAutoUpdate);
-            }
-            else
-            {
-                ModConsole.Print("[MOP] Your system is not compatible with automatic updates");
-                enableAutoUpdate.Value = false;
-            }
 
             // Occlusion
             Settings.AddHeader(this, "(BETA) Occlusion Culling", headerColor);

@@ -2,11 +2,6 @@
 
 ## Beta 1.5 (tba)
 
-### Added
-
-- Added auto update system
-  - Note: Windows 10 Redstone 4 (build 1803) is required
-
 ### Bug Fixes
 
 - Fixed towed cars not moving when trying to tow them
