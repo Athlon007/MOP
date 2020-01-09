@@ -31,6 +31,10 @@ namespace MOP
         // VHS mod
         bool vhsPlayer;
         public bool VhsPlayer { get => vhsPlayer; }
+
+        bool offroadHayosiko;
+        public bool OffroadHayosiko { get => offroadHayosiko; }
+
         public CompatibilityManager()
         {
             instance = this;
@@ -63,6 +67,12 @@ namespace MOP
             if (vhsPlayer)
             {
                 ModConsole.Print("[MOP] VHS Player mod has been found!");
+            }
+
+            offroadHayosiko = ModLoader.IsModPresent("OffroadHayosiko");
+            if (offroadHayosiko)
+            {
+                ModConsole.Print("[MOP] Offroad Hayosiko has been found!");
             }
 
             ModConsole.Print("[MOP] Compatibility Manager done");

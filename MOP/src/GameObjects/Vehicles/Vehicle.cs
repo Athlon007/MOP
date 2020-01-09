@@ -81,6 +81,11 @@ namespace MOP
 
             isHayosiko = gameObject.name.Contains("HAYOSIKO");
 
+            if (isHayosiko && CompatibilityManager.instance.OffroadHayosiko)
+            {
+                Toggle = ToggleUnityCar;
+            }
+
             // Vehicle is flatbed
             if (gameObject.name == "FLATBED")
                 FsmHook.FsmInject(transform.Find("Bed/LogTrigger").gameObject, "Add scale", FlatbedSwitchToggleMethod);

@@ -127,7 +127,7 @@ namespace MOP
                 "WARNING: Disabling Vehicles without disabling toggled items may cause items to fall through on the car. " +
                 "DO NOT disable any of these, unless you REALLY need to!");
             Settings.AddCheckBox(this, safeMode);
-            Settings.AddText(this, "Safe mode will only toggle objects that are known to not cause any issues.");
+            Settings.AddText(this, "Safe mode will only toggle objects that are known to not cause any issues.\nNote: framerate boost will be very small.");
 
             // Others
             Settings.AddHeader(this, "Other", headerColor);

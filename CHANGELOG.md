@@ -2,9 +2,15 @@
 
 ## Beta 1.5 (tba)
 
+### Added
+
+- Added support for Offroad Hayosiko mod
+
 ### Bug Fixes
 
 - Fixed towed cars not moving when trying to tow them
+- Fixed in some cases disappearing RPM gauge
+- Fixed garage doors getting stuck (because yes)
 
 ## Beta 1.4.1 (08.01.2020)
 
