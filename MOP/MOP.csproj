@@ -62,7 +62,7 @@
     <Compile Include="src\GameObjects\Items\CashRegisterHook.cs" />
     <Compile Include="src\GameObjects\Items\Items.cs" />
     <Compile Include="src\GameObjects\Items\ItemHook.cs" />
-    <Compile Include="src\GameObjects\Others\FsmGlobals.cs" />
+    <Compile Include="src\GameObjects\Others\MopFsmManager.cs" />
     <Compile Include="src\GameObjects\Others\SatsumaInAreaCheck.cs" />
     <Compile Include="src\GameObjects\Places\Yard.cs" />
     <Compile Include="src\GameObjects\Vehicles\Mods\Fury.cs" />

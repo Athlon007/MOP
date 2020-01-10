@@ -44,6 +44,8 @@ namespace MOP
             if (GameObject.Find("COMPUTER") != null)
                 GameObject.Find("COMPUTER").transform.parent = null;
 
+            GameObject.Find("GarageDoors").transform.parent = null;
+
             List<string> newBlackList = new List<string>();
             newBlackList.AddRange(blackList);
 

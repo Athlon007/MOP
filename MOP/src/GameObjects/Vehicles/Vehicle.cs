@@ -46,7 +46,8 @@ namespace MOP
 
         bool flatbedScriptActivated;
 
-        internal bool isRopeHooked { get; set; }
+        // Prevents MOP from disabling car's physics when the car has rope hooked
+        internal bool IsRopeHooked { get; set; }
 
         /// <summary>
         /// Initialize class
@@ -91,9 +92,11 @@ namespace MOP
                 FsmHook.FsmInject(transform.Find("Bed/LogTrigger").gameObject, "Add scale", FlatbedSwitchToggleMethod);
 
             // Hook HookFront and HookRear
+            // Get hooks first
             Transform hookFront = transform.Find("HookFront");
             Transform hookRear = transform.Find("HookRear");
 
+            // If hooks exists, attach the RopeHookUp and RopeUnhook to appropriate states
             if (hookFront != null)
             {
                 FsmHook.FsmInject(hookFront.gameObject, "Activate cable", RopeHookUp);
@@ -134,7 +137,7 @@ namespace MOP
 
             // Fix for when the player doesn't have keys for Hayosiko.
             // Van will NOT be toggled
-            if (isHayosiko && FsmGlobals.PlayerHasHayosikoKey() == false)
+            if (isHayosiko && MopFsmManager.PlayerHasHayosikoKey() == false)
             {
                 ToggleUnityCar(enabled);
                 return;
@@ -171,11 +174,16 @@ namespace MOP
             }
         }
 
+        /// <summary>
+        /// Toggle car physics only.
+        /// </summary>
+        /// <param name="enabled"></param>
         public void ToggleUnityCar(bool enabled)
         {
             if (gameObject == null || carDynamics.enabled == enabled || (satsumaScript != null && satsumaScript.IsSatsumaInInspectionArea)) return;
 
-            if (isRopeHooked && gameObject.activeSelf == true) return;
+            // Prevent disabling car physics if the rope is hooked
+            if (IsRopeHooked && gameObject.activeSelf == true) return;
 
             carDynamics.enabled = enabled;
             axles.enabled = enabled;
@@ -233,12 +241,12 @@ namespace MOP
 
         internal void RopeHookUp()
         {
-            isRopeHooked = true;
+            IsRopeHooked = true;
         }
 
         internal void RopeUnhook()
         {
-            isRopeHooked = false;
+            IsRopeHooked = false;
         }
     }
 }

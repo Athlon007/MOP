@@ -10,20 +10,21 @@
         //
         // ACTIVATING OBJECTS
         //
-        public static int ActiveDistance { get; set; }
-        public static float ActiveDistanceMultiplicationValue { get; set; }
+        public static int ActiveDistance { get; private set; }
+        public static float ActiveDistanceMultiplicationValue { get; private set; }
 
         public static bool SafeMode { get; set; }
-        public static bool ToggleVehicles { get; set; }
-        public static bool ToggleItems { get; set; }
+        public static bool ToggleVehicles { get; private set; }
+        public static bool ToggleItems { get; private set; }
 
         //
         // OTHERS
         //
         static bool removeEmptyBeerBottles = false;
-        public static bool RemoveEmptyBeerBottles { get; }
+        public static bool RemoveEmptyBeerBottles { get => removeEmptyBeerBottles; }
 
-        static bool enableAutoUpdate = true;
+        static bool satsumaTogglePhysicsOnly = false;
+        public static bool SatsumaTogglePhysicsOnly { get => satsumaTogglePhysicsOnly; }
 
         //
         // OCCLUSION CULLING
@@ -62,6 +63,7 @@
             ToggleItems = (bool)MOP.toggleItems.GetValue();
 
             removeEmptyBeerBottles = (bool)MOP.removeEmptyBeerBottles.GetValue();
+            satsumaTogglePhysicsOnly = (bool)MOP.satsumaTogglePhysicsOnly.GetValue();
 
             if (viewDistance < minOcclusionDistance)
             {

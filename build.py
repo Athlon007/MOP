@@ -36,7 +36,6 @@ os.chdir("build")
 
 FILES = []
 FILES.extend(["MOP.dll"])
-make_zip(FILES, "update.zip")
 FILES.extend(["PleaseReadme.txt"])
 make_zip(FILES, "MOP.zip")
 

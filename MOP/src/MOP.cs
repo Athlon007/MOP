@@ -1,7 +1,6 @@
 ﻿using MSCLoader;
 using UnityEngine;
 using System.Diagnostics;
-using System.IO;
 
 namespace MOP
 {
@@ -30,7 +29,7 @@ namespace MOP
                 ModUI.ShowMessage("MOP requires MSC Mod Loader version 1.1.5 or newer. Please update now!", "[MOP] Error");
             }
 
-            // Check Build number
+            // Check Build number 
             if (mscLoaderVersion[2] == null || int.Parse(mscLoaderVersion[2]) < 5)
             {
                 ModUI.ShowMessage("MOP requires MSC Mod Loader version 1.1.5 or newer. Please update now!", "[MOP] Error");
@@ -77,7 +76,7 @@ namespace MOP
         //
         public static Settings activeDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
         // toggles
-        public static Settings safeMode = new Settings("safeMode", "Safe Mode (Requires restart)", false, MopSettings.UpdateAll);
+        public static Settings safeMode = new Settings("safeMode", "Safe Mode (requires restart)", false, MopSettings.UpdateAll);
         public static Settings toggleVehicles = new Settings("toggleVehicles", "Vehicles", true, MopSettings.UpdateAll);
         public static Settings toggleItems = new Settings("toggleItems", "Shop Items", true, MopSettings.UpdateAll);
 
@@ -85,17 +84,18 @@ namespace MOP
         // OTHERS
         //
         public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Remove Empty Beer Bottles", false);
+        public static Settings satsumaTogglePhysicsOnly = new Settings("satsumaTogglePhysicsOnly", "SATSUMA: Toggle Physics Only", false);
 
         // 
         // OCCLUSION
         //
-        public static Settings enableObjectOcclusion = new Settings("enableObjectOcclusion", "Object Occlusion (Requires restart)", false, MopSettings.UpdateAll);
+        public static Settings enableObjectOcclusion = new Settings("enableObjectOcclusion", "Object Occlusion (requires restart)", false, MopSettings.UpdateAll);
         // Occlussion Sample Detail
-        public static Settings occlusionSamplesLowest = new Settings("occlusionSamplesLowest", "Least (Fastest)", false, MopSettings.UpdateAll);
+        public static Settings occlusionSamplesLowest = new Settings("occlusionSamplesLowest", "Least (fastest)", false, MopSettings.UpdateAll);
         public static Settings occlusionSamplesLower = new Settings("occlusionSamplesLow", "Less", false, MopSettings.UpdateAll);
         public static Settings occlusionSamplesLow = new Settings("occlusionSamplesLow", "Average", false, MopSettings.UpdateAll);
-        public static Settings occlusionSamplesDetailed = new Settings("occlusionSamplesDetailed", "Detailed (Default)", true, MopSettings.UpdateAll);
-        public static Settings occlusionSamplesVeryDetailed = new Settings("occlusionSamplesVeryDetailed", "Very Detailed (Slowest)", false, MopSettings.UpdateAll);
+        public static Settings occlusionSamplesDetailed = new Settings("occlusionSamplesDetailed", "Detailed (default)", true, MopSettings.UpdateAll);
+        public static Settings occlusionSamplesVeryDetailed = new Settings("occlusionSamplesVeryDetailed", "Very Detailed (slowest)", false, MopSettings.UpdateAll);
         // Delay and Range
         public static Settings minOcclusionDistance = new Settings("minOcclusionDistance", "Minimum Occlusion Distance", 50, MopSettings.UpdateAll);
         public static Settings occlusionDistance = new Settings("occlusionDistance", "Maximum Occlusion Distance", 400, MopSettings.UpdateAll);
@@ -132,11 +132,15 @@ namespace MOP
             // Others
             Settings.AddHeader(this, "Other", headerColor);
             Settings.AddCheckBox(this, removeEmptyBeerBottles);
+            Settings.AddCheckBox(this, satsumaTogglePhysicsOnly);
+            Settings.AddText(this, "May fix issues with disappearing body panels in some cases.\n" +
+                "Note: this will decrease the performance boost.");
 
             // Occlusion
             Settings.AddHeader(this, "(BETA) Occlusion Culling", headerColor);
-            Settings.AddText(this, "Occlusion Culling at current stage is in beta. A minor graphical glitches " +
-                "may occure!");
+            Settings.AddText(this, "Occlusion Culling disables rendering of objects not visible by camera.");
+            Settings.AddText(this, "Note: Occlusion Culling at current stage is in beta. A minor graphical glitches " +
+                "may occure!\n");
             Settings.AddCheckBox(this, enableObjectOcclusion);
             Settings.AddSlider(this, minOcclusionDistance, 10, 500);
             Settings.AddText(this, "Minimum distance after which the object's visiblity in camera is checked." +
