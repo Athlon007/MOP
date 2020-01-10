@@ -1,7 +1,5 @@
 # Changelog
 
-<<<<<<< Updated upstream
-=======
 ## Beta 1.5 (10.01.2020)
 
 ### Added
@@ -22,7 +20,6 @@
 - Fixed CD radio switches disappearing
 - Fixed "remove empty beer bottles" setting not working properly
 
->>>>>>> Stashed changes
 ## Beta 1.4.1 (08.01.2020)
 
 ### Bug Fixes

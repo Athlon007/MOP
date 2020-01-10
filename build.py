@@ -37,7 +37,7 @@ os.chdir("build")
 FILES = []
 FILES.extend(["MOP.dll"])
 FILES.extend(["PleaseReadme.txt"])
-make_zip(FILES, "download.zip")
+make_zip(FILES, "MOP.zip")
 
 print("Done!\nQuitting...")
 quit()

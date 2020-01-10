@@ -32,6 +32,17 @@ namespace MOP
 
         public WorldManager()
         {
+            StartCoroutine(DelayedInitializaitonRoutine());
+        }
+
+        IEnumerator DelayedInitializaitonRoutine()
+        {
+            yield return new WaitForSeconds(1);
+            StartListing();
+        }
+
+        void StartListing()
+        {
             instance = this;
 
             // Initialize the worldObjects list
@@ -88,7 +99,8 @@ namespace MOP
             worldObjects.Add("SOCCER", 200);
             worldObjects.Add("WATERFACILITY", 200);
             worldObjects.Add("DRAGRACE", 1100);
-            worldObjects.Add("BOAT", 200);
+            if (CompatibilityManager.instance.JetSky == false)
+                worldObjects.Add("BOAT", 200);
 
             ModConsole.Print("[MOP] Main world objects loaded");
 
@@ -380,7 +392,7 @@ namespace MOP
                             }
 
                             float distance = Vector3.Distance(Player.transform.position, vehicles[i].transform.position);
-                            vehicles[i].ToggleUnityCar(IsEnabled(distance, MopSettings.UnityCarActiveDistance));
+                            vehicles[i].ToggleUnityCar(IsEnabled(distance, MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue));
                             vehicles[i].Toggle(IsEnabled(distance));
                         }
                     }
@@ -402,7 +414,7 @@ namespace MOP
                             }
 
                             float distance = Vector3.Distance(Player.transform.position, vehicles[i].transform.position);
-                            vehicles[i].ToggleUnityCar(IsEnabled(distance, MopSettings.UnityCarActiveDistance));
+                            vehicles[i].ToggleUnityCar(IsEnabled(distance, MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue));
                             vehicles[i].Toggle(IsEnabled(distance));
                         }
                     }
