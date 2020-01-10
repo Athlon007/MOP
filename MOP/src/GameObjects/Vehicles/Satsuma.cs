@@ -44,6 +44,8 @@ namespace MOP
             axles.enabled = enabled;
             rb.isKinematic = !enabled;
 
+            if (MopSettings.SatsumaTogglePhysicsOnly) return;
+
             for (int i = 0; i < disableableObjects.Length; i++)
             {
                 disableableObjects[i].gameObject.SetActive(enabled);

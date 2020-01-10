@@ -46,6 +46,9 @@ namespace MOP
 
         bool flatbedScriptActivated;
 
+        // Prevents MOP from disabling car's physics when the car has rope hooked
+        internal bool IsRopeHooked { get; set; }
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -79,9 +82,34 @@ namespace MOP
 
             isHayosiko = gameObject.name.Contains("HAYOSIKO");
 
+            if (isHayosiko && CompatibilityManager.instance.OffroadHayosiko)
+            {
+                Toggle = ToggleUnityCar;
+            }
+
             // Vehicle is flatbed
             if (gameObject.name == "FLATBED")
                 FsmHook.FsmInject(transform.Find("Bed/LogTrigger").gameObject, "Add scale", FlatbedSwitchToggleMethod);
+
+            // Hook HookFront and HookRear
+            // Get hooks first
+            Transform hookFront = transform.Find("HookFront");
+            Transform hookRear = transform.Find("HookRear");
+
+            // If hooks exists, attach the RopeHookUp and RopeUnhook to appropriate states
+            if (hookFront != null)
+            {
+                FsmHook.FsmInject(hookFront.gameObject, "Activate cable", RopeHookUp);
+                FsmHook.FsmInject(hookFront.gameObject, "Activate cable 2", RopeHookUp);
+                FsmHook.FsmInject(hookFront.gameObject, "Remove rope", RopeUnhook);
+            }
+
+            if (hookRear != null)
+            {
+                FsmHook.FsmInject(hookRear.gameObject, "Activate cable", RopeHookUp);
+                FsmHook.FsmInject(hookRear.gameObject, "Activate cable 2", RopeHookUp);
+                FsmHook.FsmInject(hookRear.gameObject, "Remove rope", RopeUnhook);
+            }
         }
 
         /// <summary>
@@ -109,7 +137,7 @@ namespace MOP
 
             // Fix for when the player doesn't have keys for Hayosiko.
             // Van will NOT be toggled
-            if (isHayosiko && FsmGlobals.PlayerHasHayosikoKey() == false)
+            if (isHayosiko && MopFsmManager.PlayerHasHayosikoKey() == false)
             {
                 ToggleUnityCar(enabled);
                 return;
@@ -146,9 +174,16 @@ namespace MOP
             }
         }
 
+        /// <summary>
+        /// Toggle car physics only.
+        /// </summary>
+        /// <param name="enabled"></param>
         public void ToggleUnityCar(bool enabled)
         {
             if (gameObject == null || carDynamics.enabled == enabled || (satsumaScript != null && satsumaScript.IsSatsumaInInspectionArea)) return;
+
+            // Prevent disabling car physics if the rope is hooked
+            if (IsRopeHooked && gameObject.activeSelf == true) return;
 
             carDynamics.enabled = enabled;
             axles.enabled = enabled;
@@ -202,6 +237,16 @@ namespace MOP
             flatbedScriptActivated = true;
 
             Toggle = ToggleUnityCar;
+        }
+
+        internal void RopeHookUp()
+        {
+            IsRopeHooked = true;
+        }
+
+        internal void RopeUnhook()
+        {
+            IsRopeHooked = false;
         }
     }
 }

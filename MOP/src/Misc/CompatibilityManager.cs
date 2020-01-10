@@ -31,6 +31,15 @@ namespace MOP
         // VHS mod
         bool vhsPlayer;
         public bool VhsPlayer { get => vhsPlayer; }
+
+        // Offroad Hayosiko
+        bool offroadHayosiko;
+        public bool OffroadHayosiko { get => offroadHayosiko; }
+
+        // JetSky mod
+        bool jetSky;
+        public bool JetSky { get => jetSky; }
+
         public CompatibilityManager()
         {
             instance = this;
@@ -63,6 +72,18 @@ namespace MOP
             if (vhsPlayer)
             {
                 ModConsole.Print("[MOP] VHS Player mod has been found!");
+            }
+
+            offroadHayosiko = ModLoader.IsModPresent("OffroadHayosiko");
+            if (offroadHayosiko)
+            {
+                ModConsole.Print("[MOP] Offroad Hayosiko has been found!");
+            }
+
+            jetSky = ModLoader.IsModPresent("JetSky");
+            if (jetSky)
+            {
+                ModConsole.Print("[MOP] JetSky has been found!");
             }
 
             ModConsole.Print("[MOP] Compatibility Manager done");

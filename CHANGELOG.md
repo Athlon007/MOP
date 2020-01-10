@@ -1,5 +1,25 @@
 # Changelog
 
+## Beta 1.5 (10.01.2020)
+
+### Added
+
+- A 1 second delay before mod initialization has been added, in order to fix bugs related to GT items and CD radio
+- Added "SATSUMA: Toggle Physics Only" in the settings. Enabling it will prevent MOP from toggling car's body elements. Use it only if you experience issues with Satsuma
+- Vehicle physics toggling now respect the Active Distance setting
+- New mods supported:
+  - Offroad Hayosiko mod
+  - Jet Sky mod
+
+### Bug Fixes
+
+- Fixed towed cars not moving when trying to tow them
+- Fixed in some cases disappearing RPM gauge and GT grille
+- Fixed garage doors getting stuck (because yes)
+- Garage doors will now work properly
+- Fixed CD radio switches disappearing
+- Fixed "remove empty beer bottles" setting not working properly
+
 ## Beta 1.4.1 (08.01.2020)
 
 ### Bug Fixes

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MOP
 {
-    class FsmGlobals
+    class MopFsmManager
     {
         static PlayMakerFSM unclePlaymaker;
 
