@@ -9,7 +9,7 @@ namespace MOP
         public override string ID => "MOP"; //Your mod ID (unique)
         public override string Name => "Modern Optimization Plugin (BETA)"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "1.5.0"; //Version
+        public override string Version => "1.6.0"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
@@ -74,7 +74,7 @@ namespace MOP
         //
         // ACTIVATING OBJECTS
         //
-        public static Settings activeDistance = new Settings("activeDistance", "e", 1, MopSettings.UpdateAll);
+        public static Settings activeDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
         // toggles
         public static Settings safeMode = new Settings("safeMode", "Safe Mode (requires restart)", false, MopSettings.UpdateAll);
         public static Settings toggleVehicles = new Settings("toggleVehicles", "Vehicles", true, MopSettings.UpdateAll);

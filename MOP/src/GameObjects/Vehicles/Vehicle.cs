@@ -180,7 +180,7 @@ namespace MOP
         /// <param name="enabled"></param>
         public void ToggleUnityCar(bool enabled)
         {
-            if (gameObject == null || carDynamics.enabled == enabled || (satsumaScript != null && satsumaScript.IsSatsumaInInspectionArea)) return;
+            if (gameObject == null || carDynamics.enabled == enabled || (satsumaScript != null && satsumaScript.IsSatsumaInInspectionArea && enabled == false)) return;
 
             // Prevent disabling car physics if the rope is hooked
             if (IsRopeHooked && gameObject.activeSelf == true) return;

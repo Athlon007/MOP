@@ -321,6 +321,7 @@ namespace MOP
             ToggleActiveAll();
         }
 
+
         /// <summary>
         /// This coroutine runs
         /// </summary>
@@ -410,7 +411,8 @@ namespace MOP
                             }
 
                             float distance = Vector3.Distance(Player.transform.position, vehicles[i].transform.position);
-                            vehicles[i].ToggleUnityCar(MopSettings.OverridePhysicsToggling ? true : IsEnabled(distance, MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue));
+                            float toggleDistance = MopSettings.ActiveDistance == 0 ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
+                            vehicles[i].ToggleUnityCar(MopSettings.OverridePhysicsToggling ? true : IsEnabled(distance, toggleDistance));
                             vehicles[i].Toggle(IsEnabled(distance));
                         }
                     }
@@ -494,6 +496,9 @@ namespace MOP
                 catch (Exception ex)
                 {
                     ErrorHandler.New(ex);
+
+                    if (yard == null)
+                        ModConsole.Error("YARD IS NULL");
                 }
 
                 yield return new WaitForSeconds(1);
@@ -559,7 +564,7 @@ namespace MOP
         /// <summary>
         /// Toggles on all objects.
         /// </summary>
-        void ToggleActiveAll()
+        public void ToggleActiveAll()
         {
             try
             {

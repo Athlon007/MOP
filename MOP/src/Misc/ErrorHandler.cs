@@ -23,7 +23,7 @@ namespace MOP
                 sw.Close();
             }
 
-            MSCLoader.ModConsole.Print("[MOP] An error has occured. " +
+            MSCLoader.ModConsole.Error("[MOP] An error has occured. " +
                 "Log has been saved in My Summer Car folder into MOP_LOG.txt\n\n" + ex.ToString());
         }
 

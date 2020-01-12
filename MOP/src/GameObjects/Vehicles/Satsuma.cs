@@ -48,6 +48,9 @@ namespace MOP
 
             for (int i = 0; i < disableableObjects.Length; i++)
             {
+                if (disableableObjects[i] == null)
+                    continue;
+
                 disableableObjects[i].gameObject.SetActive(enabled);
             }
         }

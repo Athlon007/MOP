@@ -58,12 +58,14 @@
         {
             ActiveDistance = int.Parse(MOP.activeDistance.GetValue().ToString());
             ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
-            
+
             SafeMode = (bool)MOP.safeMode.GetValue();
+
             ToggleVehicles = (bool)MOP.toggleVehicles.GetValue();
             ToggleItems = (bool)MOP.toggleItems.GetValue();
 
             removeEmptyBeerBottles = (bool)MOP.removeEmptyBeerBottles.GetValue();
+
             satsumaTogglePhysicsOnly = (bool)MOP.satsumaTogglePhysicsOnly.GetValue();
 
             if (viewDistance < minOcclusionDistance)
@@ -126,6 +128,12 @@
                 return 240;
 
             return 120;
+        }
+
+        static bool IsInGameScene()
+        {
+            MSCLoader.ModConsole.Print(MSCLoader.ModLoader.GetCurrentScene() == MSCLoader.CurrentScene.Game);
+            return MSCLoader.ModLoader.GetCurrentScene() == MSCLoader.CurrentScene.Game;
         }
     }
 }
