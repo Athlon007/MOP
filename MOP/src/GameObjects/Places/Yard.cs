@@ -30,7 +30,8 @@ namespace MOP
                                 "BEDROOM1", "Table", "boybed", "KITCHEN", "Fridge", "bench", "wood", "Pantry", "Glass",
                                 "closet", "Numbers", "Ring", "log", "washingmachine", "lauteet", "MIDDLEROOM", "BeerCamp",
                                 "Chair", "TablePlastic", "LOD_middleroom", "hotwaterkeeper", "house_roof",
-                                "WC", "Hallway", "Entry", "ContactPivot", "DoorRight", "DoorLeft", "GarageDoors" };
+                                "WC", "Hallway", "Entry", "ContactPivot", "DoorRight", "DoorLeft", "GarageDoors", "BatteryCharger",
+                                "Clamps", "ChargerPivot", "Clamp", "BatteryPivot", "battery_charger", "Wire", "cable", "TriggerCharger" };
 
         string[] vhsPlayerBlackList = { "tvtable", "VHS_Screen", "tv_table(Clone)", "scart_con" };
 

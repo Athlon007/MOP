@@ -51,7 +51,8 @@
 
         // others
         static bool warningShowed;
-        public const int UnityCarActiveDistance = 5; 
+        public const int UnityCarActiveDistance = 5;
+        public static bool OverridePhysicsToggling = false;
 
         public static void UpdateAll()
         {

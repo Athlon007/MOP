@@ -88,6 +88,8 @@ namespace MOP
                 output += $"{mod.Name} ({mod.ID}/{mod.Version})\n";
             }
 
+            output = DateTime.Now.ToString("ddd, dd.MM.yyyy H:mm") + "\n\n" + output;
+
             return output;
         }
     }

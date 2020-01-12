@@ -50,7 +50,7 @@ namespace MOP
             {
                 disableableObjects[i].gameObject.SetActive(enabled);
             }
-        } 
+        }
 
         /// <summary>
         /// Get list of disableable childs.

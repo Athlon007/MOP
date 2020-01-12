@@ -32,16 +32,32 @@ namespace MOP
 
         public WorldManager()
         {
+            // Start the delayed initialization routine
             StartCoroutine(DelayedInitializaitonRoutine());
         }
 
         IEnumerator DelayedInitializaitonRoutine()
         {
-            yield return new WaitForSeconds(1);
-            StartListing();
+            yield return new WaitForSeconds(2);
+
+            // If the GT grille is attached, perform extra delay, until the "grille gt(Clone)" parent isn't "pivot_grille".
+            // Or until 5 seconds have passed.
+            int ticks = 0;
+            Transform gtGrilleTransform = GameObject.Find("grille gt(Clone)").transform;
+            while (MopFsmManager.IsGTGrilleInstalled() && gtGrilleTransform.parent.name != "pivot_grille")
+            {
+                yield return new WaitForSeconds(1);
+                
+                // Escape the loop after 5 retries
+                ticks++;
+                if (ticks > 5)
+                    break;
+            }
+
+            Initialize();
         }
 
-        void StartListing()
+        void Initialize()
         {
             instance = this;
 
@@ -56,7 +72,7 @@ namespace MOP
             vehicles.Add(new Satsuma("SATSUMA(557kg, 248)"));
             vehicles.Add(new Vehicle("HAYOSIKO(1500kg, 250)"));
             vehicles.Add(new Vehicle("JONNEZ ES(Clone)"));
-            vehicles.Add(new Vehicle("HAYOSIKO(1500kg, 250)"));
+            //vehicles.Add(new Vehicle("HAYOSIKO(1500kg, 250)"));
             vehicles.Add(new Vehicle("KEKMET(350-400psi)"));
             vehicles.Add(new Vehicle("RCO_RUSCKO12(270)"));
             vehicles.Add(new Vehicle("FERNDALE(1630kg)"));
@@ -241,6 +257,8 @@ namespace MOP
             StartCoroutine(LoopRoutine());
             StartCoroutine(ControlCoroutine());
 
+            MopSettings.OverridePhysicsToggling = false;
+
             ModConsole.Print("[MOP] MOD LOADED SUCCESFULLY!");
         }
 
@@ -392,7 +410,7 @@ namespace MOP
                             }
 
                             float distance = Vector3.Distance(Player.transform.position, vehicles[i].transform.position);
-                            vehicles[i].ToggleUnityCar(IsEnabled(distance, MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue));
+                            vehicles[i].ToggleUnityCar(MopSettings.OverridePhysicsToggling ? true : IsEnabled(distance, MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue));
                             vehicles[i].Toggle(IsEnabled(distance));
                         }
                     }
@@ -414,7 +432,7 @@ namespace MOP
                             }
 
                             float distance = Vector3.Distance(Player.transform.position, vehicles[i].transform.position);
-                            vehicles[i].ToggleUnityCar(IsEnabled(distance, MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue));
+                            vehicles[i].ToggleUnityCar(MopSettings.OverridePhysicsToggling ? true : IsEnabled(distance, MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue));
                             vehicles[i].Toggle(IsEnabled(distance));
                         }
                     }

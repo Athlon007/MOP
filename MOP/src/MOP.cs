@@ -74,7 +74,7 @@ namespace MOP
         //
         // ACTIVATING OBJECTS
         //
-        public static Settings activeDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
+        public static Settings activeDistance = new Settings("activeDistance", "e", 1, MopSettings.UpdateAll);
         // toggles
         public static Settings safeMode = new Settings("safeMode", "Safe Mode (requires restart)", false, MopSettings.UpdateAll);
         public static Settings toggleVehicles = new Settings("toggleVehicles", "Vehicles", true, MopSettings.UpdateAll);
@@ -85,6 +85,7 @@ namespace MOP
         //
         public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Remove Empty Beer Bottles", false);
         public static Settings satsumaTogglePhysicsOnly = new Settings("satsumaTogglePhysicsOnly", "SATSUMA: Toggle Physics Only", false);
+        Settings temporarilyDisablePhysicsToggling = new Settings("temporarilyDisablePhysicsToggling", "Temporarily Disable Physics Toggling", DisablePhysicsToggling);
 
         // 
         // OCCLUSION
@@ -135,12 +136,13 @@ namespace MOP
             Settings.AddCheckBox(this, satsumaTogglePhysicsOnly);
             Settings.AddText(this, "May fix issues with disappearing body panels in some cases.\n" +
                 "Note: this will decrease the performance boost.");
+            Settings.AddButton(this, temporarilyDisablePhysicsToggling, "If your car is stuck in the air (for some reason), " +
+                "you can use that button to temporarily disable physics toggling, so it will fall back to the ground.");
 
             // Occlusion
             Settings.AddHeader(this, "(BETA) Occlusion Culling", headerColor);
             Settings.AddText(this, "Occlusion Culling disables rendering of objects not visible by camera.");
-            Settings.AddText(this, "Note: Occlusion Culling at current stage is in beta. A minor graphical glitches " +
-                "may occure!\n");
+            Settings.AddText(this, "Note: Occlusion Culling at current stage is in beta. A minor graphical glitches may occure!\n");
             Settings.AddCheckBox(this, enableObjectOcclusion);
             Settings.AddSlider(this, minOcclusionDistance, 10, 500);
             Settings.AddText(this, "Minimum distance after which the object's visiblity in camera is checked." +
@@ -167,6 +169,12 @@ namespace MOP
         static void OpenFAQ()
         {
             Process.Start("https://github.com/Athlon007/MOP/blob/master/FAQ.md");
+        }
+
+        static void DisablePhysicsToggling()
+        {
+            ModConsole.Print("With dedication to James ;)");
+            MopSettings.OverridePhysicsToggling = true;
         }
     }
 }
