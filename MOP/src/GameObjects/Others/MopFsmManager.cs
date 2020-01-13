@@ -20,5 +20,15 @@ namespace MOP
 
             return unclePlaymaker.FsmVariables.GetFsmInt("UncleStage").Value == 5;
         }
+
+        static PlayMakerFSM databaseGTGrille;
+
+        public static bool IsGTGrilleInstalled()
+        {
+            if (databaseGTGrille == null)
+                databaseGTGrille = GameObject.Find("Database").transform.Find("DatabaseOrders/GrilleGT").gameObject.GetComponent<PlayMakerFSM>();
+            
+            return databaseGTGrille.FsmVariables.GetFsmBool("Installed").Value == true;
+        }
     }
 }

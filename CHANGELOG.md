@@ -1,5 +1,27 @@
 # Changelog
 
+## Beta 1.6 (13.01.2020)
+
+### Added
+
+- Added "Temporarily Disable Physics Toggling" button in the settings. If your vehicle gets stuck in the air, you can temporarily disable physics toggling. Physics toggling will be enabled back next time you restart the game
+- Added the date of report generation to mod report
+- Strawberry field now is disabled when player is far away from it
+- Piers and railroad tunnels are also disabled
+
+### Changes
+
+- Changed the initialization delay to 2 seconds
+- Code optimization and enchancements
+
+### Bug Fixes
+
+- Fixed battery charger cables connecting themselves, after leaving and getting back to home
+- Changed how GT grille is checked on initial loading. GT grille should not disappear anymore (at least, I hope so)
+- Fixed house toggling sometimes breaking and causing MOP to not turn on the yard back on
+- Fixed Satsuma physics not toggling back on, after leaving it on the Fleetari's lift and going back to it after save
+- Fixed lift at Fleetari resetting back after respawn
+
 ## Beta 1.5 (10.01.2020)
 
 ### Added

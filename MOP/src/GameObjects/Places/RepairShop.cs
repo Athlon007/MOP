@@ -21,7 +21,8 @@ namespace MOP
                                 "Adjust", "GearLinkage", "Paintjob", "Windshield", "ToeAdjust", "Brakes", "Lifter", "Audio", "roll",
                                 "TireCatcher", "Ropes", "Note", "note", "inspection_desk 1", "LOD", "Office", "Furniture",
                                 "Building", "office_floor", "coll", "wall_base", "JunkYardJob", "PayMoney", "100mk", "GaugeMeshTach",
-                                "gauge_glass_fbx", "Pivot", "needle", "Bolt", "bolt", "grille", "wheel_steel5", "gear_stick" };
+                                "gauge_glass_fbx", "Pivot", "needle", "Bolt", "bolt", "grille", "wheel_steel5", "gear_stick",
+                                "Platform", "Coll" };
 
         /// <summary>
         /// Initialize the RepairShop class

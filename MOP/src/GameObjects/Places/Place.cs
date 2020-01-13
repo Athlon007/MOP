@@ -52,7 +52,7 @@ namespace MOP
             for (int i = 0; i < DisableableChilds.Count; i++)
             {
                 // If the object is missing, skip and continue.
-                if (DisableableChilds[i].gameObject == null)
+                if (DisableableChilds[i] == null)
                     continue;
 
                 DisableableChilds[i].gameObject.SetActive(enabled);

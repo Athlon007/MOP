@@ -30,18 +30,36 @@ namespace MOP
         // Area Checks
         SatsumaInAreaCheck inspectionArea;
 
+        bool IsPlayerInHouse { get; set; }
+
         public WorldManager()
         {
+            // Start the delayed initialization routine
             StartCoroutine(DelayedInitializaitonRoutine());
         }
 
         IEnumerator DelayedInitializaitonRoutine()
         {
-            yield return new WaitForSeconds(1);
-            StartListing();
+            yield return new WaitForSeconds(2);
+
+            // If the GT grille is attached, perform extra delay, until the "grille gt(Clone)" parent isn't "pivot_grille".
+            // Or until 5 seconds have passed.
+            int ticks = 0;
+            Transform gtGrilleTransform = GameObject.Find("grille gt(Clone)").transform;
+            while (MopFsmManager.IsGTGrilleInstalled() && gtGrilleTransform.parent.name != "pivot_grille")
+            {
+                yield return new WaitForSeconds(1);
+                
+                // Escape the loop after 5 retries
+                ticks++;
+                if (ticks > 5)
+                    break;
+            }
+
+            Initialize();
         }
 
-        void StartListing()
+        void Initialize()
         {
             instance = this;
 
@@ -56,7 +74,6 @@ namespace MOP
             vehicles.Add(new Satsuma("SATSUMA(557kg, 248)"));
             vehicles.Add(new Vehicle("HAYOSIKO(1500kg, 250)"));
             vehicles.Add(new Vehicle("JONNEZ ES(Clone)"));
-            vehicles.Add(new Vehicle("HAYOSIKO(1500kg, 250)"));
             vehicles.Add(new Vehicle("KEKMET(350-400psi)"));
             vehicles.Add(new Vehicle("RCO_RUSCKO12(270)"));
             vehicles.Add(new Vehicle("FERNDALE(1630kg)"));
@@ -89,18 +106,18 @@ namespace MOP
             }
 
             // World Objects
-            worldObjects.Add("CABIN", 200);
+            worldObjects.Add("CABIN");
             worldObjects.Add("COTTAGE", 400);
-            worldObjects.Add("DANCEHALL", 200);
-            worldObjects.Add("INSPECTION", 200);
-            //worldObjects.Add(new WorldObject("LANDFILL", 200));
-            worldObjects.Add("PERAJARVI", 200);
-            worldObjects.Add("RYKIPOHJA", 200);
-            worldObjects.Add("SOCCER", 200);
-            worldObjects.Add("WATERFACILITY", 200);
+            worldObjects.Add("DANCEHALL");
+            worldObjects.Add("INSPECTION");
+            worldObjects.Add("PERAJARVI");
+            worldObjects.Add("RYKIPOHJA");
+            worldObjects.Add("SOCCER");
+            worldObjects.Add("WATERFACILITY");
             worldObjects.Add("DRAGRACE", 1100);
             if (CompatibilityManager.instance.JetSky == false)
-                worldObjects.Add("BOAT", 200);
+                worldObjects.Add("BOAT");
+            worldObjects.Add("StrawberryField");
 
             ModConsole.Print("[MOP] Main world objects loaded");
 
@@ -198,6 +215,10 @@ namespace MOP
             worldObjects.Add("ROCKS", true);
             worldObjects.Add("RAILROAD", true);
             worldObjects.Add("AIRPORT", true);
+            worldObjects.Add("RAILROAD_TUNNEL", true);
+            worldObjects.Add("PierDancehall", true);
+            worldObjects.Add("PierRiver", true);
+            worldObjects.Add("PierStore", true);
 
             ModConsole.Print("[MOP] Away from house world objects loaded");
 
@@ -240,6 +261,8 @@ namespace MOP
             // Initialize the coroutines
             StartCoroutine(LoopRoutine());
             StartCoroutine(ControlCoroutine());
+
+            MopSettings.ResetPhysicsToggling();
 
             ModConsole.Print("[MOP] MOD LOADED SUCCESFULLY!");
         }
@@ -303,6 +326,7 @@ namespace MOP
             ToggleActiveAll();
         }
 
+
         /// <summary>
         /// This coroutine runs
         /// </summary>
@@ -315,6 +339,8 @@ namespace MOP
                 if (ticks > 100)
                     ticks = 0;
 
+                IsPlayerInHouse = Vector3.Distance(Player.position, yard.transform.position) < 100;
+
                 int half = worldObjects.Count / 2;
                 int i = 0;
 
@@ -326,7 +352,7 @@ namespace MOP
                         // Should the object be disabled when the player leaves the house?
                         if (worldObjects.Get(i).AwayFromHouse)
                         {
-                            worldObjects.Get(i).Toggle(Vector3.Distance(Player.position, yard.transform.position) > 100);
+                            worldObjects.Get(i).Toggle(!IsPlayerInHouse);
                             continue;
                         }
 
@@ -353,7 +379,7 @@ namespace MOP
                         // Should the object be disabled when the player leaves the house?
                         if (worldObjects.Get(i).AwayFromHouse)
                         {
-                            worldObjects.Get(i).Toggle(Vector3.Distance(Player.transform.position, yard.transform.position) > 100);
+                            worldObjects.Get(i).Toggle(!IsPlayerInHouse);
                             continue;
                         }
 
@@ -392,7 +418,8 @@ namespace MOP
                             }
 
                             float distance = Vector3.Distance(Player.transform.position, vehicles[i].transform.position);
-                            vehicles[i].ToggleUnityCar(IsEnabled(distance, MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue));
+                            float toggleDistance = MopSettings.ActiveDistance == 0 ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
+                            vehicles[i].ToggleUnityCar(MopSettings.OverridePhysicsToggling ? true : IsEnabled(distance, toggleDistance));
                             vehicles[i].Toggle(IsEnabled(distance));
                         }
                     }
@@ -414,7 +441,8 @@ namespace MOP
                             }
 
                             float distance = Vector3.Distance(Player.transform.position, vehicles[i].transform.position);
-                            vehicles[i].ToggleUnityCar(IsEnabled(distance, MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue));
+                            float toggleDistance = MopSettings.ActiveDistance == 0 ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
+                            vehicles[i].ToggleUnityCar(MopSettings.OverridePhysicsToggling ? true : IsEnabled(distance, toggleDistance));
                             vehicles[i].Toggle(IsEnabled(distance));
                         }
                     }
@@ -476,6 +504,9 @@ namespace MOP
                 catch (Exception ex)
                 {
                     ErrorHandler.New(ex);
+
+                    if (yard == null)
+                        ModConsole.Error("YARD IS NULL");
                 }
 
                 yield return new WaitForSeconds(1);
@@ -541,7 +572,7 @@ namespace MOP
         /// <summary>
         /// Toggles on all objects.
         /// </summary>
-        void ToggleActiveAll()
+        public void ToggleActiveAll()
         {
             try
             {

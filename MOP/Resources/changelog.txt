@@ -1,15 +1,16 @@
 Added:
-- A 1 second delay before mod initialization has been added, in order to fix bugs related to GT items and CD radio
-- Added "SATSUMA: Toggle Physics Only" in the settings. Enabling it will prevent MOP from toggling car's body elements. Use it only if you experience issues with Satsuma
-- Vehicle physics toggling now respect the Active Distance setting
-- New mods supported:
-  - Offroad Hayosiko mod
-  - Jet Sky mod
+- Added "Temporarily Disable Physics Toggling" button in the settings. If your vehicle gets stuck in the air, you can temporarily disable physics toggling. Physics toggling will be enabled back next time you restart the game
+- Added the date of report generation to mod report
+- Strawberry field now is disabled when player is far away from it
+- Piers and railroad tunnels are also disabled
+
+Changes:
+- Changed the initialization delay to 2 seconds
+- Code optimization and enchancements
 
 Bug Fixes:
-- Fixed towed cars not moving when trying to tow them
-- Fixed in some cases disappearing RPM gauge and GT grille
-- Fixed garage doors getting stuck (because yes)
-- Garage doors will now work properly
-- Fixed CD radio switches disappearing
-- Fixed "remove empty beer bottles" setting not working properly
+- Fixed battery charger cables connecting themselves, after leaving and getting back to home
+- Changed how GT grille is checked on initial loading. GT grille should not disappear anymore (at least, I hope so)
+- Fixed house toggling sometimes breaking and causing MOP to not turn on the yard back on
+- Fixed Satsuma physics not toggling back on, after leaving it on the Fleetari's lift and going back to it after save
+- Fixed lift at Fleetari resetting back after respawn

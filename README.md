@@ -1,12 +1,12 @@
 # Modern Optimization Plugin
 
-[![](https://img.shields.io/github/downloads/Athlon007/MOP/total?style=for-the-badge)](#)
-[![](https://img.shields.io/github/v/release/Athlon007/MOP?include_prereleases&style=for-the-badge)](#)
-[![](https://img.shields.io/github/license/Athlon007/MOP?style=for-the-badge)](#)
+[![](https://img.shields.io/github/downloads/Athlon007/MOP/total?style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
+[![](https://img.shields.io/github/v/release/Athlon007/MOP?include_prereleases&style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
+[![](https://img.shields.io/github/license/Athlon007/MOP?style=for-the-badge)](LICENSE.md)
 
-<img align="right" src="images/icon.png" alt="icon" width=128/>
+<img align="right" src="images/icon.png" alt="icon" width=128 />
 
-MOP (Modern Optimization Plugin) is currently the ultimate performance enchancing project for My Summer Car. It is partially based off of [KruFPS](https://github.com/Krutonium/KruFPS), but optimized for even more performance. It is also the only mod, that includes [oclusion culling](https://en.wikipedia.org/wiki/Hidden-surface_determination#Occlusion_culling) feature, that aims to improve the performance on low-end computers even more!
+MOP (Modern Optimization Plugin) is currently the ultimate performance enchancing project for My Summer Car. It is partially based off of [KruFPS](https://github.com/Krutonium/KruFPS), but optimized for even more performance. It is also the only mod, that includes [occlusion culling](https://en.wikipedia.org/wiki/Hidden-surface_determination#Occlusion_culling) feature, that aims to improve the performance even more on low-end computers!
 
 ## Performance
 
