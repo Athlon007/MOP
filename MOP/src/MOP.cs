@@ -69,7 +69,8 @@ namespace MOP
         //
         Settings openLastLog = new Settings("openLastLog", "Open last log", ErrorHandler.Open);
         Settings generateReport = new Settings("generateReport", "Generate mod report", ErrorHandler.GenerateReport);
-        Settings faq = new Settings("faq", "FAQ", OpenFAQ);
+        Settings faq = new Settings("faq", "FAQ", OpenFAQDialog);
+        Settings wiki = new Settings("wiki", "Go to MOP wiki", OpenWikiDialog);
 
         //
         // ACTIVATING OBJECTS
@@ -115,6 +116,7 @@ namespace MOP
             Settings.AddButton(this, openLastLog);
             Settings.AddButton(this, generateReport);
             Settings.AddButton(this, faq);
+            Settings.AddButton(this, wiki);
 
             // Activating Objects
             Settings.AddHeader(this, "Activating Objects", headerColor);
@@ -164,9 +166,24 @@ namespace MOP
             Settings.AddText(this, Properties.Resources.changelog);
         }
 
-        static void OpenFAQ()
+        static void OpenFAQDialog()
         {
+            ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenFAQ);
+        }
+
+        static void OpenFAQ()
+        {   
             Process.Start("https://github.com/Athlon007/MOP/blob/master/FAQ.md");
+        }
+
+        static void OpenWikiDialog()
+        {
+            ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenWiki);
+        }
+
+        static void OpenWiki()
+        {
+            Process.Start("https://github.com/Athlon007/MOP/wiki");
         }
     }
 }

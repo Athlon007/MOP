@@ -1,5 +1,11 @@
 # Changelog
 
+## Beta 1.x (tba)
+
+### Added
+
+- Added "Go to MOP wiki"
+
 ## Beta 1.6 (13.01.2020)
 
 ### Added
