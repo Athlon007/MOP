@@ -85,21 +85,20 @@ namespace MOP
         //
         public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Remove Empty Beer Bottles", false);
         public static Settings satsumaTogglePhysicsOnly = new Settings("satsumaTogglePhysicsOnly", "SATSUMA: Toggle Physics Only", false);
-        Settings temporarilyDisablePhysicsToggling = new Settings("temporarilyDisablePhysicsToggling", "Temporarily Disable Physics Toggling", DisablePhysicsToggling);
+        Settings temporarilyDisablePhysicsToggling = new Settings("temporarilyDisablePhysicsToggling", "Temporarily Disable Physics Toggling", MopSettings.DisablePhysicsToggling);
 
         // 
         // OCCLUSION
         //
         public static Settings enableObjectOcclusion = new Settings("enableObjectOcclusion", "Object Occlusion (requires restart)", false, MopSettings.UpdateAll);
         // Occlussion Sample Detail
-        public static Settings occlusionSamplesLowest = new Settings("occlusionSamplesLowest", "Least (fastest)", false, MopSettings.UpdateAll);
-        public static Settings occlusionSamplesLower = new Settings("occlusionSamplesLow", "Less", false, MopSettings.UpdateAll);
-        public static Settings occlusionSamplesLow = new Settings("occlusionSamplesLow", "Average", false, MopSettings.UpdateAll);
-        public static Settings occlusionSamplesDetailed = new Settings("occlusionSamplesDetailed", "Detailed (default)", true, MopSettings.UpdateAll);
-        public static Settings occlusionSamplesVeryDetailed = new Settings("occlusionSamplesVeryDetailed", "Very Detailed (slowest)", false, MopSettings.UpdateAll);
+        public static Settings occlusionSamplesLower = new Settings("occlusionSamplesLow", "Lowest (fastest)", false, MopSettings.UpdateAll);
+        public static Settings occlusionSamplesLow = new Settings("occlusionSamplesLow", "Low", false, MopSettings.UpdateAll);
+        public static Settings occlusionSamplesDetailed = new Settings("occlusionSamplesDetailed", "High (default)", true, MopSettings.UpdateAll);
+        public static Settings occlusionSamplesVeryDetailed = new Settings("occlusionSamplesVeryDetailed", "Very High (slowest)", false, MopSettings.UpdateAll);
         // Delay and Range
-        public static Settings minOcclusionDistance = new Settings("minOcclusionDistance", "Minimum Occlusion Distance", 50, MopSettings.UpdateAll);
-        public static Settings occlusionDistance = new Settings("occlusionDistance", "Maximum Occlusion Distance", 400, MopSettings.UpdateAll);
+        public static Settings minOcclusionDistance = new Settings("minOcclusionDistance", "Minimum Distance", 50, MopSettings.UpdateAll);
+        public static Settings occlusionDistance = new Settings("occlusionDistance", "Maximum Distance", 400, MopSettings.UpdateAll);
         // Occlusion Method
         public static Settings occlusionChequered = new Settings("occlusionChequered", "Fast (Default)", true, MopSettings.UpdateAll);
         public static Settings occlusionDouble = new Settings("occlusionDouble", "Fancy", false, MopSettings.UpdateAll);
@@ -152,7 +151,6 @@ namespace MOP
                 "Objects that are further than that value will not be checked.\nWARNING: large values" +
                 " may cause lag.");
             Settings.AddText(this, "Occlusion Sampling Level of Detail");
-            Settings.AddCheckBox(this, occlusionSamplesLowest, "occlusionSampleDetail");
             Settings.AddCheckBox(this, occlusionSamplesLower, "occlusionSampleDetail");
             Settings.AddCheckBox(this, occlusionSamplesLow, "occlusionSampleDetail");
             Settings.AddCheckBox(this, occlusionSamplesDetailed, "occlusionSampleDetail");
@@ -169,12 +167,6 @@ namespace MOP
         static void OpenFAQ()
         {
             Process.Start("https://github.com/Athlon007/MOP/blob/master/FAQ.md");
-        }
-
-        static void DisablePhysicsToggling()
-        {
-            ModConsole.Print("With dedication to James ;)");
-            MopSettings.OverridePhysicsToggling = true;
         }
     }
 }

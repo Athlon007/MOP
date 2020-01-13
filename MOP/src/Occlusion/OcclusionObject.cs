@@ -96,8 +96,8 @@ namespace MOP
             for (int i = 0; i < Renderers.Count; i++)
             {
                 // We're assuming that all childs are the same
-                if (Renderers[i].enabled == IsVisible)
-                    return;
+                if (Renderers[i] == null || Renderers[i].enabled == IsVisible)
+                    continue;
 
                 Renderers[i].enabled = visible;
             }
