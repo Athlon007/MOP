@@ -26,7 +26,7 @@
 
 ### Added
 
-- A 1 second delay before mod initialization has been added, in order to fix bugs related to GT items and CD radio
+- A 1 second delay before mod initialization to mod loading, in order to fix bugs related to GT items and CD radio
 - Added "SATSUMA: Toggle Physics Only" in the settings. Enabling it will prevent MOP from toggling car's body elements. Use it only if you experience issues with Satsuma
 - Vehicle physics toggling now respect the Active Distance setting
 - New mods supported:
