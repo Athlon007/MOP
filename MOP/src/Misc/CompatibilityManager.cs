@@ -62,14 +62,16 @@ namespace MOP
         {
             bool isModPresent = ModLoader.IsModPresent(modID);
 
-            string modName = modID;
-
             if (isModPresent)
+            {
+                string modName = modID;
+
                 foreach (var mod in ModLoader.LoadedMods)
                     if (mod.ID == modID)
                         modName = mod.Name;
 
-            ModConsole.Print($"[MOP] {modName} has been found!");
+                ModConsole.Print($"[MOP] {modName} has been found!");
+            }
 
             return isModPresent;
         }

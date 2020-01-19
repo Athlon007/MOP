@@ -19,6 +19,7 @@ Here's what's new compared to the last Beta:
 - Changed the layout of mod report
 - Minor changes related to occlusion culling
 - Moved vehicles and shop items toggling to Advanced settings
+- Compatibility Manager rewrite
 
 ## Beta 1.6 (13.01.2020)
 
