@@ -10,7 +10,6 @@ import zipfile
 from zipfile import ZipFile
 from array import array
 import shutil
-
 print("=== Building the release... ===\n")
 
 BASE_DIR = os.getcwd()

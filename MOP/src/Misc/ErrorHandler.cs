@@ -16,15 +16,16 @@ namespace MOP
                 File.Delete("MOP_LOG.txt");
 
             string gameInfo = GetGameInfo();
+            string errorInfo = ex.Message + "\n" + ex.StackTrace + "\nTarget Site: " + ex.TargetSite;
 
             using (StreamWriter sw = new StreamWriter("MOP_LOG.txt"))
             {
-                sw.Write(gameInfo + "\n\n" + ex.ToString());
+                sw.Write(gameInfo + "\n=== ERROR ===\n\n" + errorInfo);
                 sw.Close();
             }
 
             MSCLoader.ModConsole.Error("[MOP] An error has occured. " +
-                "Log has been saved in My Summer Car folder into MOP_LOG.txt\n\n" + ex.ToString());
+                "Log has been saved in My Summer Car folder into MOP_LOG.txt\n\n" + errorInfo);
         }
 
         public static void Open()
@@ -59,13 +60,19 @@ namespace MOP
         static string GetGameInfo()
         {
             string output = "";
-            output += "MSC Mod Loader Version: " + MSCLoader.ModLoader.MSCLoader_Ver + "\n\n";
+            output += "MSC Mod Loader Version: " + MSCLoader.ModLoader.MSCLoader_Ver + "\n";
+            output += "Date and Time: " + DateTime.Now.ToString("ddd, dd.MM.yyyy H:mm") + "\n\n";
+
+            output += "=== MOP SETTINGS ===\n\n";
+
             output += "ActiveDistance: " + MopSettings.ActiveDistance + "\n";
             output += "ActiveDistanceMultiplicationValue: " + MopSettings.ActiveDistanceMultiplicationValue + "\n";
-            output += "SafeMode: " + MopSettings.SafeMode.ToString() + "\n";
+            output += "SafeMode: " + MopSettings.SafeMode.ToString() + (MopSettings.PlayerIsNotAPirateScum == false ? "n't" : "") + "\n";
             output += "ToggleVehicles: " + MopSettings.ToggleVehicles.ToString() + "\n";
             output += "ToggleItems: " + MopSettings.ToggleItems.ToString() + "\n";
             output += "RemoveEmptyBeerBottles: " + MopSettings.RemoveEmptyBeerBottles.ToString() + "\n";
+            output += "SatsumaTogglePhysicsOnly: " + MopSettings.SatsumaTogglePhysicsOnly.ToString() + "\n";
+            output += "OverridePhysicsToggling: " + MopSettings.OverridePhysicsToggling.ToString() + "\n";
             output += "EnableObjectOcclusion: " + MopSettings.EnableObjectOcclusion.ToString() + "\n";
             if (MopSettings.EnableObjectOcclusion)
             {
@@ -77,7 +84,8 @@ namespace MOP
                 output += "OcclusionMethod: " + MopSettings.OcclusionMethod + "\n";
             }
 
-            output += "\nMODS:\n";
+            // List installed mods
+            output += "\n=== MODS ====\n\n";
             foreach (var mod in MSCLoader.ModLoader.LoadedMods)
             {
                 if (mod.ID == "MOP")
@@ -85,10 +93,11 @@ namespace MOP
                     output = $"{mod.Name}\nVersion: {mod.Version}\n" + output;
                     continue;
                 }
-                output += $"{mod.Name} ({mod.ID}/{mod.Version})\n";
-            }
 
-            output = DateTime.Now.ToString("ddd, dd.MM.yyyy H:mm") + "\n\n" + output;
+                if (mod.ID == "MSCLoader_Console" || mod.ID == "MSCLoader_Settings") continue;
+
+                output += $"{mod.Name}:\n  ID: {mod.ID}\n  Version: {mod.Version}\n  Author: {mod.Author}\n\n";
+            }
 
             return output;
         }

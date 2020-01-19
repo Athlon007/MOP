@@ -115,7 +115,7 @@ namespace MOP
             worldObjects.Add("SOCCER");
             worldObjects.Add("WATERFACILITY");
             worldObjects.Add("DRAGRACE", 1100);
-            if (CompatibilityManager.instance.JetSky == false)
+            if (!CompatibilityManager.instance.JetSky && !CompatibilityManager.instance.Moonshinestill)
                 worldObjects.Add("BOAT");
             worldObjects.Add("StrawberryField");
 
@@ -256,9 +256,17 @@ namespace MOP
 
             ModConsole.Print("[MOP] Items class loaded");
 
+#if (!DEBUG)
+            if (MopSettings.PlayerIsNotAPirateScum == false)
+            {
+                ModConsole.Error("Catastrophic Failure! Flux capacitor broken!");
+                return;
+            }
+#endif
+
             HookPreSaveGame();
 
-            // Initialize the coroutines
+            // Initialize the coroutines 
             StartCoroutine(LoopRoutine());
             StartCoroutine(ControlCoroutine());
 
@@ -326,7 +334,6 @@ namespace MOP
             ToggleActiveAll();
         }
 
-
         /// <summary>
         /// This coroutine runs
         /// </summary>
@@ -336,10 +343,11 @@ namespace MOP
             while (MopSettings.IsModActive)
             {
                 ticks += 1;
-                if (ticks > 100)
+                if (ticks > 1000)
                     ticks = 0;
 
-                IsPlayerInHouse = Vector3.Distance(Player.position, yard.transform.position) < 100;
+                IsPlayerInHouse = MopSettings.ActiveDistance == 0 ? Vector3.Distance(Player.position, yard.transform.position) < 100 
+                    : Vector3.Distance(Player.position, yard.transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 
                 int half = worldObjects.Count / 2;
                 int i = 0;
@@ -504,9 +512,6 @@ namespace MOP
                 catch (Exception ex)
                 {
                     ErrorHandler.New(ex);
-
-                    if (yard == null)
-                        ModConsole.Error("YARD IS NULL");
                 }
 
                 yield return new WaitForSeconds(1);

@@ -20,11 +20,12 @@ namespace MOP
         public bool SecondFerndale { get => secondFerndale; }
 
         // GAZ 24 Volga
-        //
+        // https://www.racedepartment.com/downloads/plugin-gaz-24-volga.28653/
         bool gaz;
         public bool Gaz { get => gaz; }
 
         // Police Ferndale
+        // https://www.racedepartment.com/downloads/police-ferndale.30338/
         bool policeFerndale;
         public bool PoliceFerndale { get => policeFerndale; }
 
@@ -40,29 +41,33 @@ namespace MOP
         bool jetSky;
         public bool JetSky { get => jetSky; }
 
+        // Moonshine still mod
+        bool moonshinestill;
+        public bool Moonshinestill { get => moonshinestill; }
+
         public CompatibilityManager()
         {
             instance = this;
 
-            drivableFury = GameObject.Find("FURY(1630kg)") != null;
+            drivableFury = ModLoader.IsModPresent("FURY");
             if (drivableFury)
             {
                 ModConsole.Print("[MOP] Drivable Fury has been found!");
             }
 
-            secondFerndale = GameObject.Find("SECONDFERNDALE(1630kg)") != null;
+            secondFerndale = ModLoader.IsModPresent("SecondFerndale");
             if (secondFerndale)
             {
                 ModConsole.Print("[MOP] Second Ferndale has been found!");
             }
 
-            gaz = GameObject.Find("GAZ24(1420kg)") != null;
+            gaz = ModLoader.IsModPresent("GAZ24");
             if (gaz)
             {
                 ModConsole.Print("[MOP] GAZ 24 Volga has been found!");
             }
 
-            policeFerndale = GameObject.Find("POLICEFERNDALE(1630kg)") != null;
+            policeFerndale = ModLoader.IsModPresent("Police_Ferndale");
             if (policeFerndale)
             {
                 ModConsole.Print("[MOP] Police Ferndale has been found!");
@@ -86,7 +91,24 @@ namespace MOP
                 ModConsole.Print("[MOP] JetSky has been found!");
             }
 
+            moonshinestill = ModLoader.IsModPresent("MSCStill");
+            if (moonshinestill)
+            {
+                ModConsole.Print("[MOP] Moonshine Still has been found!");
+            }
+
             ModConsole.Print("[MOP] Compatibility Manager done");
+        }
+
+        static bool IsModPresent(string modID)
+        {
+            bool isModPresent = ModLoader.IsModPresent(modID);
+            if (isModPresent)
+                foreach (var mod in ModLoader.LoadedMods)
+                    if (mod.ID == modID)
+                        ModConsole.Print($"[MOP] {mod.Name} has been found!");
+
+            return isModPresent;
         }
     }
 }

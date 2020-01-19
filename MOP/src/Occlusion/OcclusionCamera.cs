@@ -69,11 +69,11 @@ namespace MOP
 
                         if (Physics.Raycast(sampleRay, out hit, MopSettings.ViewDistance))
                         {
+                            try
+                            {
                             GameObject target = hit.transform.gameObject;
                             OcclusionBase thisTargetScript = target.GetComponent<OcclusionBase>();
 
-                            try
-                            {
                                 while (thisTargetScript == null && target.transform.parent != null)
                                 {
                                     if (target.transform.parent != null)
@@ -128,11 +128,11 @@ namespace MOP
 
                         if (Physics.Raycast(sampleRay, out hit, MopSettings.ViewDistance))
                         {
-                            GameObject target = hit.transform.gameObject;
-                            OcclusionBase thisTargetScript = target.GetComponent<OcclusionBase>();
-
                             try
                             {
+                                GameObject target = hit.transform.gameObject;
+                                OcclusionBase thisTargetScript = target.GetComponent<OcclusionBase>();
+                            
                                 while (thisTargetScript == null && target.transform.parent != null)
                                 {
                                     if (target.transform.parent != null)
@@ -189,11 +189,11 @@ namespace MOP
 
                         if (Physics.Raycast(sampleRay, out hit, MopSettings.ViewDistance))
                         {
-                            GameObject target = hit.transform.gameObject;
-                            OcclusionBase thisTargetScript = target.GetComponent<OcclusionBase>();
-
                             try
                             {
+                                GameObject target = hit.transform.gameObject;
+                                OcclusionBase thisTargetScript = target.GetComponent<OcclusionBase>();
+                            
                                 while (thisTargetScript == null && target.transform.parent != null)
                                 {
                                     if (target.transform.parent != null)
@@ -227,11 +227,11 @@ namespace MOP
 
                         if (Physics.Raycast(sampleRay, out hit, MopSettings.ViewDistance))
                         {
-                            GameObject target = hit.transform.gameObject;
-                            OcclusionBase thisTargetScript = target.GetComponent<OcclusionBase>();
-
                             try
                             {
+                                GameObject target = hit.transform.gameObject;
+                                OcclusionBase thisTargetScript = target.GetComponent<OcclusionBase>();
+                            
                                 while (thisTargetScript == null && target.transform.parent != null)
                                 {
                                     if (target.transform.parent != null)
