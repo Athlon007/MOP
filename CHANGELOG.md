@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0 (tba)
+## Releace Candidate 1 (20.01.2020)
 
 Welcome to first stable release of MOP!
 
@@ -13,6 +13,7 @@ Here's what's new compared to the last Beta:
 - SATSUMA: Toggle Physics Only is now displayed in mod report
 - Temporarily Disable Physics Toggling is now displayed in mod report
 - Added "Advanced" settings
+- Added support for Moonshine Still mod (thanks to Hawk031)
 
 ### Changes
 

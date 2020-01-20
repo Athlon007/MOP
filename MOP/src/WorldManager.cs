@@ -30,7 +30,7 @@ namespace MOP
         // Area Checks
         SatsumaInAreaCheck inspectionArea;
 
-        bool IsPlayerInHouse { get; set; }
+        bool IsPlayerOnYard { get; set; }
 
         public WorldManager()
         {
@@ -342,11 +342,11 @@ namespace MOP
             MopSettings.IsModActive = true;
             while (MopSettings.IsModActive)
             {
-                ticks += 1;
+                ticks++;
                 if (ticks > 1000)
                     ticks = 0;
 
-                IsPlayerInHouse = MopSettings.ActiveDistance == 0 ? Vector3.Distance(Player.position, yard.transform.position) < 100 
+                IsPlayerOnYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(Player.position, yard.transform.position) < 100 
                     : Vector3.Distance(Player.position, yard.transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 
                 int half = worldObjects.Count / 2;
@@ -360,7 +360,7 @@ namespace MOP
                         // Should the object be disabled when the player leaves the house?
                         if (worldObjects.Get(i).AwayFromHouse)
                         {
-                            worldObjects.Get(i).Toggle(!IsPlayerInHouse);
+                            worldObjects.Get(i).Toggle(!IsPlayerOnYard);
                             continue;
                         }
 
@@ -387,7 +387,7 @@ namespace MOP
                         // Should the object be disabled when the player leaves the house?
                         if (worldObjects.Get(i).AwayFromHouse)
                         {
-                            worldObjects.Get(i).Toggle(!IsPlayerInHouse);
+                            worldObjects.Get(i).Toggle(!IsPlayerOnYard);
                             continue;
                         }
 

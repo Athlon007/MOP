@@ -94,7 +94,8 @@ namespace MOP
                     continue;
                 }
 
-                if (mod.ID == "MSCLoader_Console" || mod.ID == "MSCLoader_Settings") continue;
+                if (mod.ID == "MSCLoader_Console" || mod.ID == "MSCLoader_Settings") 
+                    continue;
 
                 output += $"{mod.Name}:\n  ID: {mod.ID}\n  Version: {mod.Version}\n  Author: {mod.Author}\n\n";
             }

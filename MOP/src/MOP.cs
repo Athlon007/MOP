@@ -7,9 +7,9 @@ namespace MOP
     public class MOP : Mod
     {
         public override string ID => "MOP"; //Your mod ID (unique)
-        public override string Name => "Modern Optimization Plugin"; //You mod name
+        public override string Name => "Modern Optimization Plugin (RC 1)"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "2.0"; //Version
+        public override string Version => "1.7.0"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
