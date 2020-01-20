@@ -20,7 +20,6 @@ namespace MOP
         /// <summary>
         /// Initialize class
         /// </summary>
-        /// <param name="gameObject"></param>
         public Satsuma(string gameObject) : base(gameObject)
         {
             instance = this;

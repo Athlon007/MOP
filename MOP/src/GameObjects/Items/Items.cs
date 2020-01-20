@@ -8,12 +8,14 @@ namespace MOP
     {
         // List of all whitelisted objects that can appear on the minorObjects list
         // Note: batteries aren't included
-        public string[] blackList = { "ax", "booze", "brake fluid", "cigarettes", "coffee pan", "coffee cup", "coolant", "diesel",
-        "empty plastic can", "fire extinguisher", "gasoline", "grill", "grill charcoal", "ground coffee", "juice", "kilju", "lamp", 
-        "macaronbox", "milk", "moosemeat", "mosquito spray", "motor oil", "oilfilter", "pike", "pizza", "ratchet set", "potato chips", 
-        "sausages", "sugar", "spanner set", "spray can", "two stroke fuel", "wiring mess", "wood carrier", "yeast", "shopping bag", 
-        "flashlight", "beer case", "fireworks bag", "lantern", "dipper", "coffee pan", "fireworks bag", "camera", "water bucket", 
-        "car jack", "warning triangle", "spirit" };
+        public string[] blackList = { 
+        "ax", "booze", "brake fluid", "cigarettes", "coffee pan", "coffee cup", "coolant", "diesel",
+        "empty plastic can", "fire extinguisher", "gasoline", "grill", "grill charcoal", "ground coffee", 
+        "juice", "kilju", "lamp", "macaronbox", "milk", "moosemeat", "mosquito spray", "motor oil", 
+        "oilfilter", "pike", "pizza", "ratchet set", "potato chips", "sausages", "sugar", "spanner set", 
+        "spray can", "two stroke fuel", "wiring mess", "wood carrier", "yeast", "shopping bag", "flashlight", 
+        "beer case", "fireworks bag", "lantern", "dipper", "coffee pan", "fireworks bag", "camera", 
+        "water bucket", "car jack", "warning triangle", "spirit" };
 
         public string[] whiteList = { "grille gt" };
 

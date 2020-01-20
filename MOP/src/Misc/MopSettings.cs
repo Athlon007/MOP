@@ -1,6 +1,6 @@
 ﻿namespace MOP
 {
-    public enum OcclusionMethods { Chequered, Double }
+    internal enum OcclusionMethods { Chequered, Double }
 
     class MopSettings
     {
@@ -66,6 +66,9 @@
         static bool overridePhysicsToggling = false;
         public static bool OverridePhysicsToggling { get => overridePhysicsToggling; }
 
+        static bool playerIsNotAPirateScum = false;
+        public static bool PlayerIsNotAPirateScum { get => playerIsNotAPirateScum; }
+
         public static void UpdateAll()
         {
             // Activating Objects
@@ -99,6 +102,7 @@
             viewDistance = int.Parse(MOP.occlusionDistance.GetValue().ToString());
             minOcclusionDistance = int.Parse(MOP.minOcclusionDistance.GetValue().ToString());
             occlusionMethod = GetOcclusionMethod();
+            playerIsNotAPirateScum = MSCLoader.ModLoader.CheckSteam();
         }
 
         /// <summary>

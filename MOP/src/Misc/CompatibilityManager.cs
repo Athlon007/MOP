@@ -11,82 +11,69 @@ namespace MOP
 
         // Drivable Fury
         // https://www.racedepartment.com/downloads/drivable-fury.29885/
-        bool drivableFury;
-        public bool DrivableFury { get => drivableFury; }
+        public bool DrivableFury { get; private set; }
 
         // Second Ferndale
         // https://www.racedepartment.com/downloads/plugin-second-ferndale.28407/
-        bool secondFerndale;
-        public bool SecondFerndale { get => secondFerndale; }
+        public bool SecondFerndale { get; private set; }
 
         // GAZ 24 Volga
-        //
-        bool gaz;
-        public bool Gaz { get => gaz; }
+        // https://www.racedepartment.com/downloads/plugin-gaz-24-volga.28653/
+        public bool Gaz { get; private set; }
 
         // Police Ferndale
-        bool policeFerndale;
-        public bool PoliceFerndale { get => policeFerndale; }
+        // https://www.racedepartment.com/downloads/police-ferndale.30338/
+        public bool PoliceFerndale { get; private set; }
 
         // VHS mod
-        bool vhsPlayer;
-        public bool VhsPlayer { get => vhsPlayer; }
+        public bool VhsPlayer { get; private set; }
 
         // Offroad Hayosiko
-        bool offroadHayosiko;
-        public bool OffroadHayosiko { get => offroadHayosiko; }
+        public bool OffroadHayosiko { get; private set; }
 
         // JetSky mod
-        bool jetSky;
-        public bool JetSky { get => jetSky; }
+        public bool JetSky { get; private set; }
+
+        // Moonshine still mod
+        public bool Moonshinestill { get; private set; }
 
         public CompatibilityManager()
         {
             instance = this;
 
-            drivableFury = GameObject.Find("FURY(1630kg)") != null;
-            if (drivableFury)
-            {
-                ModConsole.Print("[MOP] Drivable Fury has been found!");
-            }
-
-            secondFerndale = GameObject.Find("SECONDFERNDALE(1630kg)") != null;
-            if (secondFerndale)
-            {
-                ModConsole.Print("[MOP] Second Ferndale has been found!");
-            }
-
-            gaz = GameObject.Find("GAZ24(1420kg)") != null;
-            if (gaz)
-            {
-                ModConsole.Print("[MOP] GAZ 24 Volga has been found!");
-            }
-
-            policeFerndale = GameObject.Find("POLICEFERNDALE(1630kg)") != null;
-            if (policeFerndale)
-            {
-                ModConsole.Print("[MOP] Police Ferndale has been found!");
-            }
-
-            vhsPlayer = ModLoader.IsModPresent("VHSPlayer");
-            if (vhsPlayer)
-            {
-                ModConsole.Print("[MOP] VHS Player mod has been found!");
-            }
-
-            offroadHayosiko = ModLoader.IsModPresent("OffroadHayosiko");
-            if (offroadHayosiko)
-            {
-                ModConsole.Print("[MOP] Offroad Hayosiko has been found!");
-            }
-
-            jetSky = ModLoader.IsModPresent("JetSky");
-            if (jetSky)
-            {
-                ModConsole.Print("[MOP] JetSky has been found!");
-            }
+            DrivableFury = IsModPresent("FURY");
+            SecondFerndale = IsModPresent("SecondFerndale");
+            Gaz = IsModPresent("GAZ24");
+            PoliceFerndale = IsModPresent("Police_Ferndale");
+            VhsPlayer = IsModPresent("VHSPlayer");
+            OffroadHayosiko = IsModPresent("OffroadHayosiko");
+            JetSky = IsModPresent("JetSky");
+            Moonshinestill = ModLoader.IsModPresent("MSCStill");
 
             ModConsole.Print("[MOP] Compatibility Manager done");
+        }
+
+        /// <summary>
+        /// Checks if mod is present by modID using ModLoader.IsModPresent.
+        /// </summary>
+        /// <param name="modID"></param>
+        /// <returns></returns>
+        static bool IsModPresent(string modID)
+        {
+            bool isModPresent = ModLoader.IsModPresent(modID);
+
+            if (isModPresent)
+            {
+                string modName = modID;
+
+                foreach (var mod in ModLoader.LoadedMods)
+                    if (mod.ID == modID)
+                        modName = mod.Name;
+
+                ModConsole.Print($"[MOP] {modName} has been found!");
+            }
+
+            return isModPresent;
         }
     }
 }

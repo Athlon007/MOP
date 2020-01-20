@@ -7,9 +7,9 @@ namespace MOP
     public class MOP : Mod
     {
         public override string ID => "MOP"; //Your mod ID (unique)
-        public override string Name => "Modern Optimization Plugin (BETA)"; //You mod name
+        public override string Name => "Modern Optimization Plugin (RC 1)"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "1.6.0"; //Version
+        public override string Version => "1.7.0"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
@@ -50,7 +50,7 @@ namespace MOP
         {
             MopSettings.UpdateAll();
 
-            // Create WorldManage game object
+            // Create WorldManager game object
             GameObject worldManager = new GameObject("WorldManager");
 
             // Initialize CompatibiliyManager
@@ -69,7 +69,8 @@ namespace MOP
         //
         Settings openLastLog = new Settings("openLastLog", "Open last log", ErrorHandler.Open);
         Settings generateReport = new Settings("generateReport", "Generate mod report", ErrorHandler.GenerateReport);
-        Settings faq = new Settings("faq", "FAQ", OpenFAQ);
+        Settings faq = new Settings("faq", "FAQ", OpenFAQDialog);
+        Settings wiki = new Settings("wiki", "Go to MOP wiki", OpenWikiDialog);
 
         //
         // ACTIVATING OBJECTS
@@ -77,8 +78,6 @@ namespace MOP
         public static Settings activeDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
         // toggles
         public static Settings safeMode = new Settings("safeMode", "Safe Mode (requires restart)", false, MopSettings.UpdateAll);
-        public static Settings toggleVehicles = new Settings("toggleVehicles", "Vehicles", true, MopSettings.UpdateAll);
-        public static Settings toggleItems = new Settings("toggleItems", "Shop Items", true, MopSettings.UpdateAll);
 
         //
         // OTHERS
@@ -103,6 +102,12 @@ namespace MOP
         public static Settings occlusionChequered = new Settings("occlusionChequered", "Fast (Default)", true, MopSettings.UpdateAll);
         public static Settings occlusionDouble = new Settings("occlusionDouble", "Fancy", false, MopSettings.UpdateAll);
 
+        //
+        // CHANGELOG
+        //
+        public static Settings toggleVehicles = new Settings("toggleVehicles", "Vehicles", true, MopSettings.UpdateAll);
+        public static Settings toggleItems = new Settings("toggleItems", "Shop Items", true, MopSettings.UpdateAll);
+
         readonly Color32 headerColor = new Color32(29, 29, 29, 255);
 
         /// <summary>
@@ -115,19 +120,15 @@ namespace MOP
             Settings.AddButton(this, openLastLog);
             Settings.AddButton(this, generateReport);
             Settings.AddButton(this, faq);
+            Settings.AddButton(this, wiki);
 
             // Activating Objects
             Settings.AddHeader(this, "Activating Objects", headerColor);
             Settings.AddSlider(this, activeDistance, 0, 3);
             Settings.AddText(this, "From how far objects are disabled.\n - 0: Close (0.5x)\n - 1: Normal (Default)\n - 2: Far (2x)\n - 3: Very Far (4x)");
-            Settings.AddText(this, "Toggled Objects (requires restart):");
-            Settings.AddCheckBox(this, toggleVehicles);
-            Settings.AddCheckBox(this, toggleItems);
-            Settings.AddText(this, "If unchecked, the following objects will not get disabled.\n" +
-                "WARNING: Disabling Vehicles without disabling toggled items may cause items to fall through on the car. " +
-                "DO NOT disable any of these, unless you REALLY need to!");
             Settings.AddCheckBox(this, safeMode);
-            Settings.AddText(this, "Safe mode will only toggle objects that are known to not cause any issues.\nNote: framerate boost will be very small.");
+            Settings.AddText(this, "Safe Mode will only allow to toggle objects that are known to not to cause any issues.\n" +
+                "Note: framerate boost will be dramatically decreased!");
 
             // Others
             Settings.AddHeader(this, "Other", headerColor);
@@ -159,14 +160,38 @@ namespace MOP
             Settings.AddCheckBox(this, occlusionChequered, "occlusionMethod");
             Settings.AddCheckBox(this, occlusionDouble, "occlusionMethod");
 
+            // Advanced
+            Settings.AddHeader(this, "Advanced", headerColor);
+            Settings.AddText(this, "Toggled Objects (requires restart):");
+            Settings.AddCheckBox(this, toggleVehicles);
+            Settings.AddCheckBox(this, toggleItems);
+            Settings.AddText(this, "If unchecked, the following objects will not get disabled.\n" +
+                "WARNING: Disabling Vehicles without disabling toggled items may cause items to fall through on the ground. " +
+                "DO NOT disable any of these, unless you REALLY need to!");
+
             // Changelog
             Settings.AddHeader(this, "Changelog", headerColor);
             Settings.AddText(this, Properties.Resources.changelog);
         }
 
-        static void OpenFAQ()
+        static void OpenFAQDialog()
         {
+            ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenFAQ);
+        }
+
+        static void OpenFAQ()
+        {   
             Process.Start("https://github.com/Athlon007/MOP/blob/master/FAQ.md");
+        }
+
+        static void OpenWikiDialog()
+        {
+            ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenWiki);
+        }
+
+        static void OpenWiki()
+        {
+            Process.Start("https://github.com/Athlon007/MOP/wiki");
         }
     }
 }

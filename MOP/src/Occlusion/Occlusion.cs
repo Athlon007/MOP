@@ -19,6 +19,11 @@ namespace MOP
             MSCLoader.ModConsole.Print("[MOP] Occlusion listing done.");
         }
 
+        /// <summary>
+        /// Reads the occlusiontable.xml file
+        /// </summary>
+        /// <param name="nodeList"></param>
+        /// <param name="path"></param>
         void ReadChildNode(XmlNodeList nodeList, string path)
         {
             for (int i = 0; i < nodeList.Count; i++)
