@@ -1,7 +1,5 @@
 # Changelog
 
-<<<<<<< Updated upstream
-=======
 ## Releace Candidate 1 (20.01.2020)
 
 This is the last Beta release and first Release Candidate!
@@ -24,7 +22,6 @@ Here's what's new compared to the last Beta:
 - Moved vehicles and shop items toggling to Advanced settings
 - Compatibility Manager rewrite
 
->>>>>>> Stashed changes
 ## Beta 1.6 (13.01.2020)
 
 ### Added
