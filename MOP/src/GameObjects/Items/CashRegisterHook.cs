@@ -15,7 +15,7 @@ namespace MOP
         public CashRegisterHook()
         {
             FsmHook.FsmInject(this.gameObject, "Purchase", TriggerMinorObjectRefresh);
-            InjectNewItems();
+            TriggerMinorObjectRefresh();
         }
 
         /// <summary>
@@ -40,16 +40,6 @@ namespace MOP
         {
             // Wait for few seconds to let all objects to spawn, and then inject the objects.
             yield return new WaitForSeconds(2);
-            InjectNewItems();
-            currentRoutine = null;
-        }
-
-        /// <summary>
-        /// Find all new objects, and add ObjectHook to them.
-        /// Also, find shopping bags, inject TriggerMinorObjectRefresh into them.
-        /// </summary>
-        void InjectNewItems()
-        {
             // Find shopping bags in the list
             GameObject[] items = FindObjectsOfType<GameObject>()
                 .Where(gm => gm.name.ContainsAny(Items.instance.blackList)
@@ -60,6 +50,9 @@ namespace MOP
             {
                 for (int i = 0; i < items.Length; i++)
                 {
+                    if (i == items.Length / 2)
+                        yield return null;
+
                     // Object already ObjectHook attached? Ignore it.
                     if (items[i].GetComponent<ItemHook>() != null)
                         continue;
@@ -74,6 +67,7 @@ namespace MOP
                     }
                 }
             }
+            currentRoutine = null;
         }
     }
 }

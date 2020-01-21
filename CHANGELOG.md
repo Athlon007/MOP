@@ -2,6 +2,10 @@
 
 ## Release Candidate 2 (xx.01.2020)
 
+### Changes
+
+- Cash Register script optimization
+
 ### Bug Fixes
 
 - Fixed bugs related to wristwatch guy in pub
