@@ -13,11 +13,11 @@ MOP (Modern Optimization Plugin) is currently the ultimate performance enchancin
 
 MOP aims for the maximum performance. Compared to KruFPS, it has the object loading lag reduced to minimum.
 
-|                 | Vanilla | KruFPS v3 |  MOP Beta 1.0 |
+|                 | Vanilla | KruFPS v3 |  MOP 1.0 |
 |:---------------:|---------|--------|--------|
-|       Home      | 25 FPS  | 35 FPS | 46 FPS |
-| Driving Satsuma | 23 FPS  | 33 FPS | 39 FPS |
-| Away from house | 29 FPS  | 43 FPS | 55 FPS |
+|       Home      | 25 FPS  | 35 FPS | 45 FPS |
+| Driving Satsuma | 23 FPS  | 33 FPS | 40 FPS |
+| Away from house | 29 FPS  | 43 FPS | 60 FPS |
 
 Note: tested on Xiaomi Mi Notebook Air latop with Intel Core i5-8250U, 8 GB RAM and Nvidia MX150 (without Occlusion Culling).
 

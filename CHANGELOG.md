@@ -1,6 +1,6 @@
 # Changelog
 
-## Release Candidate 2 (xx.01.2020)
+## Release Candidate 2 (21.01.2020)
 
 ### Changes
 
