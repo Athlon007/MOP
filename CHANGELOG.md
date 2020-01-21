@@ -1,5 +1,15 @@
 # Changelog
 
+## Release Candidate 2 (21.01.2020)
+
+### Changes
+
+- Cash Register script optimization
+
+### Bug Fixes
+
+- Fixed bugs related to wristwatch guy in pub
+
 ## Releace Candidate 1 (20.01.2020)
 
 This is the last Beta release and first Release Candidate!
