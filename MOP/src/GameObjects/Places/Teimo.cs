@@ -15,7 +15,7 @@
         // Objects from that whitelist will not be disabled
         // It is so to prevent from restock script and Teimo's bike routine not working
 
-        string[] blackList = { 
+        readonly string[] blackList = { 
             "STORE", "SpawnToStore", "BikeStore", "BikeHome", "Inventory", "Collider", "TeimoInShop", "Bicycle",
             "bicycle_pedals", "Pedal", "Teimo", "bodymesh", "skeleton", "pelvs", "spine", "collar", "shoulder",
             "hand", "ItemPivot", "finger", "collar", "arm", "fingers", "HeadPivot", "head", "eye_glasses_regular",
@@ -28,7 +28,9 @@
             "Bolt", "Pin", "pin", "Handle", "Explosion", "Fire", "GasolineFire", "Smoke", "Trail", "Fireball",
             "Shower", "Dust", "Shockwave", "Force", "Sound", "Point light", "smoke", "Flame", "Dynamics", "bottle",
             "needle", "Parts", "_gfx", "LookTarget", "Speak", "Functions", "Bottle", "GrillBox", "Food",
-            "BeerBottle", "VodkaShot", "CoffeeCup", "Cigarettes" };
+            "BeerBottle", "VodkaShot", "CoffeeCup", "Cigarettes", "Fighter2", "TargetPoint", "RayPivot",
+            "TargetSelf", "AudioClips", "HitPosition", "HumanCol", "Ray", "bodymesh_fighter", "Char", "ThrowBody",
+            "PlayerRigid" };
 
         /// <summary>
         /// Initialize the Store class

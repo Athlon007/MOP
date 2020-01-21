@@ -1,5 +1,11 @@
 # Changelog
 
+## Release Candidate 2 (xx.01.2020)
+
+### Bug Fixes
+
+- Fixed bugs related to wristwatch guy in pub
+
 ## Releace Candidate 1 (20.01.2020)
 
 Welcome to first stable release of MOP!

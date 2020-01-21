@@ -1,7 +1,8 @@
 # Modern Optimization Plugin
 
 [![](https://img.shields.io/github/downloads/Athlon007/MOP/total?style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
-[![](https://img.shields.io/github/v/release/Athlon007/MOP?include_prereleases&style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
+[![](https://img.shields.io/github/v/release/Athlon007/MOP?style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
+[![](https://img.shields.io/github/v/release/Athlon007/MOP?include_prereleases&label=Pre-Release&style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
 [![](https://img.shields.io/github/license/Athlon007/MOP?style=for-the-badge)](LICENSE.md)
 
 <img align="right" src="images/icon.png" alt="icon" width=128 />
@@ -43,6 +44,7 @@ MOP officially supports following mods:
 - VHS Player Mod
 - Offroad Hayosiko
 - Jet Sky
+- Moonshine Still Revived
 
 The mod will also work with other mods which are not on the list. If it isn't, please report that on GitHub, or one of the official mod hosting websites.
 
@@ -60,7 +62,7 @@ This program is distributed under GNU General Public License v3. Feel free to us
 - Est_Nbmstr - for clever name idea
 - Icon made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](www.flaticon.com)
 - [u/mrjackspede (from r/Unity3D)](https://www.reddit.com/r/Unity3D/comments/5k1gqv/free_dynamic_run_time_object_occlusion_scripts/) - free dynamic object occlusion script
-- Hawk031
+- Hawk031 - Moonshine Still Revived mod support
 
 ## Support
 
