@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0 (tba)
+## 2.0 (24.01.2020)
 
 Welcome to the first official stable release of MOP!
 
