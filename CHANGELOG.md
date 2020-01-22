@@ -1,5 +1,34 @@
 # Changelog
 
+## 2.0 (tba)
+
+Welcome to the first official stable release of MOP!
+
+What's new compared to Beta 1.6:
+
+### Added
+
+- Added "Go to MOP wiki"
+- Added a dialog window when opening an external link
+- SATSUMA: Toggle Physics Only is now displayed in mod report
+- Temporarily Disable Physics Toggling is now displayed in mod report
+- Added "Advanced" settings
+- Added support for Moonshine Still mod (thanks to Hawk031)
+
+### Changes
+
+- Changed the layout of mod report
+- Minor changes related to occlusion culling
+- Moved vehicles and shop items toggling to Advanced settings
+- Compatibility Manager rewrite
+- Cash Register script optimization
+- Renamed "(Beta) Occlusion Culling" to "Occlusion Culling - Experimental"
+
+### Bug Fixes
+
+- Fixed bugs related to wristwatch guy the in pub
+- Fixed possible future issues with MSCLoader
+
 ## Release Candidate 2 (21.01.2020)
 
 ### Changes
@@ -8,11 +37,15 @@
 
 ### Bug Fixes
 
-- Fixed bugs related to wristwatch guy in pub
+- Fixed bugs related to wristwatch guy in the pub
 
 ## Releace Candidate 1 (20.01.2020)
 
+<<<<<<< Updated upstream
 This is the last Beta release and first Release Candidate!
+=======
+Welcome to last beta and the first RC release of MOP!
+>>>>>>> Stashed changes
 
 Here's what's new compared to the last Beta:
 

@@ -7,9 +7,9 @@ namespace MOP
     public class MOP : Mod
     {
         public override string ID => "MOP"; //Your mod ID (unique)
-        public override string Name => "Modern Optimization Plugin (RC 2)"; //You mod name
+        public override string Name => "Modern Optimization Plugin"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "1.7.1"; //Version
+        public override string Version => "2.0.0"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
@@ -21,20 +21,6 @@ namespace MOP
         /// </summary>
         public override void OnLoad()
         {
-            string[] mscLoaderVersion = ModLoader.MSCLoader_Ver.Split('.');
-
-            // Check Minor number
-            if (int.Parse(mscLoaderVersion[1]) < 1)
-            {
-                ModUI.ShowMessage("MOP requires MSC Mod Loader version 1.1.5 or newer. Please update now!", "[MOP] Error");
-            }
-
-            // Check Build number 
-            if (mscLoaderVersion[2] == null || int.Parse(mscLoaderVersion[2]) < 5)
-            {
-                ModUI.ShowMessage("MOP requires MSC Mod Loader version 1.1.5 or newer. Please update now!", "[MOP] Error");
-            }
-
             // Disable the mod, if KruFPS is present
             if (ModLoader.IsModPresent("KruFPS"))
             {
@@ -140,9 +126,9 @@ namespace MOP
                 "you can use that button to temporarily disable physics toggling, so it will fall back to the ground.");
 
             // Occlusion
-            Settings.AddHeader(this, "(BETA) Occlusion Culling", headerColor);
+            Settings.AddHeader(this, "Occlusion Culling - Experimental", headerColor);
             Settings.AddText(this, "Occlusion Culling disables rendering of objects not visible by camera.");
-            Settings.AddText(this, "Note: Occlusion Culling at current stage is in beta. A minor graphical glitches may occure!\n");
+            Settings.AddText(this, "Note: Occlusion Culling is the experimental feature that may cause bigger or smaller graphical glitches!\n");
             Settings.AddCheckBox(this, enableObjectOcclusion);
             Settings.AddSlider(this, minOcclusionDistance, 10, 500);
             Settings.AddText(this, "Minimum distance after which the object's visiblity in camera is checked." +
