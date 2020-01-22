@@ -41,11 +41,7 @@ What's new compared to Beta 1.6:
 
 ## Releace Candidate 1 (20.01.2020)
 
-<<<<<<< Updated upstream
 This is the last Beta release and first Release Candidate!
-=======
-Welcome to last beta and the first RC release of MOP!
->>>>>>> Stashed changes
 
 Here's what's new compared to the last Beta:
 
