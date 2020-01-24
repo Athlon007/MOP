@@ -82,7 +82,7 @@ namespace MOP
 
             isHayosiko = gameObject.name.Contains("HAYOSIKO");
 
-            if (isHayosiko && CompatibilityManager.instance.OffroadHayosiko)
+            if (isHayosiko && (CompatibilityManager.instance.OffroadHayosiko || CompatibilityManager.instance.HayosikoColorfulGauges))
             {
                 Toggle = ToggleUnityCar;
             }
