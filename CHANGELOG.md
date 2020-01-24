@@ -43,11 +43,11 @@ What's new compared to Beta 1.6:
 
 ### Bug Fixes
 
-- Fixed bugs related to wristwatch guy in pub
+- Fixed bugs related to wristwatch guy in the pub
 
 ## Releace Candidate 1 (20.01.2020)
 
-Welcome to first stable release of MOP!
+This is the last Beta release and first Release Candidate!
 
 Here's what's new compared to the last Beta:
 
