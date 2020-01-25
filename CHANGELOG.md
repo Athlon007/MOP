@@ -8,6 +8,11 @@
 - Added option to allow MOP to toggle vehicles physics only for vehicles
 - Added option to ignore mod vehicles
 
+### Changes
+
+- Changed how time is displayed in crash logs and mod report to ISO 8601
+- Code optimization and improvements
+
 ## 2.0 (24.01.2020)
 
 Welcome to the first official stable release of MOP!

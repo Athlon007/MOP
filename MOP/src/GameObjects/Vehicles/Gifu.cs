@@ -18,8 +18,6 @@ namespace MOP
         /// <param name="gameObject"></param>
         public Gifu(string gameObjectName) : base(gameObjectName)
         {
-            gifuScript = this;
-
             knobs = gameObject.transform.Find("Dashboard").Find("Knobs");
             knobsParent = knobs.parent;
 

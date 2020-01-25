@@ -1,6 +1,7 @@
 ﻿using MSCLoader;
 using System.Linq;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace MOP
 {
@@ -25,7 +26,7 @@ namespace MOP
         // All objects that cannot be unloaded (because it causes problems) land under that object
         internal GameObject TemporaryParent;
 
-        // List of unloadable objects
+        // List of non unloadable objects
         internal Transform[] AudioObjects;
         internal Transform FuelTank;    
 
@@ -34,9 +35,7 @@ namespace MOP
         // (ex. GIFU.transform).
         public Transform transform => gameObject.transform;
 
-        public Gifu gifuScript;
         public Satsuma satsumaScript;
-        public Fury furyScript;
 
         internal CarDynamics carDynamics;
         internal Axles axles;
@@ -66,7 +65,7 @@ namespace MOP
             TemporaryParent = new GameObject(gameObject.name + "_TEMP");
 
             // Get the object's child which are responsible for audio
-            AudioObjects = GetAudioObjects();
+            AudioObjects = FindAudioObjects();
 
             // Fix for fuel level resetting after respawn
             FuelTank = FindFuelTank();
@@ -77,19 +76,6 @@ namespace MOP
 
             if (!gameObject.name.ContainsAny("HAYOSIKO", "FURY"))
                 gameObject.AddComponent<OcclusionObject>();
-
-            Toggle = ToggleActive;
-
-            isHayosiko = gameObject.name.Contains("HAYOSIKO");
-
-            if (isHayosiko && (CompatibilityManager.instance.OffroadHayosiko || CompatibilityManager.instance.HayosikoColorfulGauges))
-            {
-                Toggle = ToggleUnityCar;
-            }
-
-            // Vehicle is flatbed
-            if (gameObject.name == "FLATBED")
-                FsmHook.FsmInject(transform.Find("Bed/LogTrigger").gameObject, "Add scale", FlatbedSwitchToggleMethod);
 
             // Hook HookFront and HookRear
             // Get hooks first
@@ -110,23 +96,37 @@ namespace MOP
                 FsmHook.FsmInject(hookRear.gameObject, "Activate cable 2", RopeHookUp);
                 FsmHook.FsmInject(hookRear.gameObject, "Remove rope", RopeUnhook);
             }
+            
+            // If vehicle is flatbed, hook SwitchToggleMethod to Add scale script
+            if (gameObject.name == "FLATBED")
+            {
+                FsmHook.FsmInject(transform.Find("Bed/LogTrigger").gameObject, "Add scale", FlatbedSwitchToggleMethod);
+            }
 
+            // Set default toggling method - that is entire vehicle
+            Toggle = ToggleActive;
+
+            isHayosiko = gameObject.name.Contains("HAYOSIKO");
+
+            // Fix for Offroad Hayosiko and HayosikoColorfulGauges
+            if (isHayosiko && (CompatibilityManager.instance.OffroadHayosiko || CompatibilityManager.instance.HayosikoColorfulGauges))
+            {
+                Toggle = ToggleUnityCar;
+            }
+
+            // If the vehicle is Fury
+            if (gameObject.name == "FURY(1630kg)" || gameObject.name == "POLICEFERNDALE(1630kg)")
+            {
+                Toggle = ToggleUnityCar;
+            }
+
+            // If the user selected to toggle vehicle's physics only, it overrided any previous set for Toggle method
             if (MopSettings.ToggleVehiclePhysicsOnly)
             {
                 Toggle = ToggleUnityCar;
             }
         }
 
-        /// <summary>
-        /// Retrieves the child audio objects from parent object.
-        /// Basically looks for files with "audio" and "SoundSrc" name in it
-        /// </summary>
-        /// <returns></returns>
-        internal Transform[] GetAudioObjects()
-        {
-            Transform[] childs = gameObject.transform.GetComponentsInChildren<Transform>();
-            return childs.Where(obj => obj.gameObject.name.Contains("audio") || obj.gameObject.name.Contains("SoundSrc")).ToArray();
-        }
 
         public delegate void ToggleHandler(bool enabled);
         public ToggleHandler Toggle;
@@ -219,10 +219,21 @@ namespace MOP
         }
 
         /// <summary>
+        /// Retrieves the child audio objects from parent object.
+        /// Basically looks for files with "audio" and "SoundSrc" name in it
+        /// </summary>
+        /// <returns></returns>
+        Transform[] FindAudioObjects()
+        {
+            Transform[] childs = gameObject.transform.GetComponentsInChildren<Transform>();
+            return childs.Where(obj => obj.gameObject.name.Contains("audio") || obj.gameObject.name.Contains("SoundSrc")).ToArray();
+        }
+
+        /// <summary>
         /// Looks for FuelTank object.
         /// Returns null if it hasn't been found.
         /// </summary>
-        internal Transform FindFuelTank()
+        Transform FindFuelTank()
         {
             if (gameObject.transform.Find("FuelTank") != null)
             {
@@ -236,7 +247,7 @@ namespace MOP
         /// Toggled uppon firewood being placed on the bed of flatbed.
         /// Switches the toggling method to UnityCar only, so the flatbed won't be unloaded completly.
         /// </summary>
-        internal void FlatbedSwitchToggleMethod()
+        void FlatbedSwitchToggleMethod()
         {
             if (flatbedScriptActivated) return;
             flatbedScriptActivated = true;
@@ -244,12 +255,12 @@ namespace MOP
             Toggle = ToggleUnityCar;
         }
 
-        internal void RopeHookUp()
+        void RopeHookUp()
         {
             IsRopeHooked = true;
         }
 
-        internal void RopeUnhook()
+        void RopeUnhook()
         {
             IsRopeHooked = false;
         }

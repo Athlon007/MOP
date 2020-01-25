@@ -65,7 +65,6 @@
     <Compile Include="src\GameObjects\Others\MopFsmManager.cs" />
     <Compile Include="src\GameObjects\Others\SatsumaInAreaCheck.cs" />
     <Compile Include="src\GameObjects\Places\Yard.cs" />
-    <Compile Include="src\GameObjects\Vehicles\Mods\Fury.cs" />
     <Compile Include="src\GameObjects\Vehicles\Satsuma.cs" />
     <Compile Include="src\GameObjects\WorldObject.cs" />
     <Compile Include="src\GameObjects\Places\RepairShop.cs" />

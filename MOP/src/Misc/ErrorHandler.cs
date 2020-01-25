@@ -59,28 +59,30 @@ namespace MOP
         /// <returns></returns>
         static string GetGameInfo()
         {
-            string output = "";
-            output += "MSC Mod Loader Version: " + MSCLoader.ModLoader.MSCLoader_Ver + "\n";
-            output += "Date and Time: " + DateTime.Now.ToString("ddd, dd.MM.yyyy H:mm") + "\n\n";
+            string output = "MSC Mod Loader Version: " + MSCLoader.ModLoader.MSCLoader_Ver + "\n";
+            output += "Date and Time: " + DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ") + "\n\n";
 
             output += "=== MOP SETTINGS ===\n\n";
 
             output += "ActiveDistance: " + MopSettings.ActiveDistance + "\n";
             output += "ActiveDistanceMultiplicationValue: " + MopSettings.ActiveDistanceMultiplicationValue + "\n";
             output += "SafeMode: " + MopSettings.SafeMode.ToString() + (MopSettings.PlayerIsNotAPirateScum == false ? "n't" : "") + "\n";
-            output += "ToggleVehicles: " + MopSettings.ToggleVehicles.ToString() + "\n";
-            output += "ToggleItems: " + MopSettings.ToggleItems.ToString() + "\n";
             output += "RemoveEmptyBeerBottles: " + MopSettings.RemoveEmptyBeerBottles.ToString() + "\n";
             output += "SatsumaTogglePhysicsOnly: " + MopSettings.SatsumaTogglePhysicsOnly.ToString() + "\n";
             output += "OverridePhysicsToggling: " + MopSettings.OverridePhysicsToggling.ToString() + "\n";
+            output += "ToggleVehicles: " + MopSettings.ToggleVehicles.ToString() + "\n";
+            output += "ToggleItems: " + MopSettings.ToggleItems.ToString() + "\n";
+            output += "ToggleVehiclePhysicsOnly: " + MopSettings.ToggleVehiclePhysicsOnly.ToString() + "\n";
+            output += "IgnoreModVehicles: " + MopSettings.IgnoreModVehicles.ToString() + "\n";
+
             output += "EnableObjectOcclusion: " + MopSettings.EnableObjectOcclusion.ToString() + "\n";
             if (MopSettings.EnableObjectOcclusion)
             {
                 output += "OcclusionSamples: " + MopSettings.OcclusionSamples + "\n";
-                output += "ViewDistance: " + MopSettings.ViewDistance + "\n";
                 output += "OcclusionSampleDelay: " + MopSettings.OcclusionSampleDelay + "\n";
                 output += "OcclusionHideDelay: " + MopSettings.OcclusionHideDelay + "\n";
                 output += "MinOcclusionDistance: " + MopSettings.MinOcclusionDistance + "\n";
+                output += "ViewDistance: " + MopSettings.ViewDistance + "\n";
                 output += "OcclusionMethod: " + MopSettings.OcclusionMethod + "\n";
             }
 
@@ -94,6 +96,7 @@ namespace MOP
                     continue;
                 }
 
+                // Ignore MSCLoader components
                 if (mod.ID == "MSCLoader_Console" || mod.ID == "MSCLoader_Settings") 
                     continue;
 
