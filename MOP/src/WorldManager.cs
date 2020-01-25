@@ -78,7 +78,7 @@ namespace MOP
             vehicles.Add(new Vehicle("RCO_RUSCKO12(270)"));
             vehicles.Add(new Vehicle("FERNDALE(1630kg)"));
             vehicles.Add(new Vehicle("FLATBED"));
-            vehicles.Add(new Gifu("GIFU(750/450psi)"));
+            vehicles.Add(new Vehicle("GIFU(750/450psi)"));
 
             if (!MopSettings.IgnoreModVehicles)
             {

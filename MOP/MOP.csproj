@@ -66,11 +66,11 @@
     <Compile Include="src\GameObjects\Others\SatsumaInAreaCheck.cs" />
     <Compile Include="src\GameObjects\Places\Yard.cs" />
     <Compile Include="src\GameObjects\Vehicles\Satsuma.cs" />
+    <Compile Include="src\GameObjects\Vehicles\UnloadableObject.cs" />
     <Compile Include="src\GameObjects\WorldObject.cs" />
     <Compile Include="src\GameObjects\Places\RepairShop.cs" />
     <Compile Include="src\GameObjects\Places\Place.cs" />
     <Compile Include="src\GameObjects\Places\Teimo.cs" />
-    <Compile Include="src\GameObjects\Vehicles\Gifu.cs" />
     <Compile Include="src\GameObjects\Vehicles\Vehicle.cs" />
     <Compile Include="src\GameObjects\WorldObjects.cs" />
     <Compile Include="src\Misc\CompatibilityManager.cs" />

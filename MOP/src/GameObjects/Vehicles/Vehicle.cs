@@ -24,11 +24,12 @@ namespace MOP
         public Quaternion Rotation { get; set; }
 
         // All objects that cannot be unloaded (because it causes problems) land under that object
-        internal GameObject TemporaryParent;
+        Transform TemporaryParent;
 
         // List of non unloadable objects
-        internal Transform[] AudioObjects;
-        internal Transform FuelTank;    
+        List<UnloadableObject> unloadableObjects;
+        //internal Transform[] AudioObjects;
+        //internal Transform FuelTank;    
 
         // Overwrites the "Component.transform", to prevent eventual mod crashes caused by missuse of Vehicle.transform.
         // Technically, you should use Vehicle.Object.transform (ex. GIFU.Object.Transform), this here just lets you use Vehicle.transform
@@ -54,76 +55,100 @@ namespace MOP
         /// <param name="gameObjectName"></param>
         public Vehicle(string gameObjectName)
         {
-            // Find the object by name
-            gameObject = GameObject.Find(gameObjectName);
-
-            // Dump the object position and rotation
-            Position = gameObject.transform.localPosition;
-            Rotation = gameObject.transform.localRotation;
-
-            // Creates a new gameobject that is names after the original file + '_TEMP' (ex. "SATSUMA(557kg, 248)_TEMP")
-            TemporaryParent = new GameObject(gameObject.name + "_TEMP");
-
-            // Get the object's child which are responsible for audio
-            AudioObjects = FindAudioObjects();
-
-            // Fix for fuel level resetting after respawn
-            FuelTank = FindFuelTank();
-
-            carDynamics = gameObject.GetComponent<CarDynamics>();
-            axles = gameObject.GetComponent<Axles>();
-            rb = gameObject.GetComponent<Rigidbody>();
-
-            if (!gameObject.name.ContainsAny("HAYOSIKO", "FURY"))
-                gameObject.AddComponent<OcclusionObject>();
-
-            // Hook HookFront and HookRear
-            // Get hooks first
-            Transform hookFront = transform.Find("HookFront");
-            Transform hookRear = transform.Find("HookRear");
-
-            // If hooks exists, attach the RopeHookUp and RopeUnhook to appropriate states
-            if (hookFront != null)
+            try
             {
-                FsmHook.FsmInject(hookFront.gameObject, "Activate cable", RopeHookUp);
-                FsmHook.FsmInject(hookFront.gameObject, "Activate cable 2", RopeHookUp);
-                FsmHook.FsmInject(hookFront.gameObject, "Remove rope", RopeUnhook);
+                // Find the object by name
+                gameObject = GameObject.Find(gameObjectName);
+
+                // Dump the object position and rotation
+                Position = gameObject.transform.localPosition;
+                Rotation = gameObject.transform.localRotation;
+
+                // Creates a new gameobject that is names after the original file + '_TEMP' (ex. "SATSUMA(557kg, 248)_TEMP")
+                TemporaryParent = new GameObject(gameObject.name + "_TEMP").transform;
+
+                unloadableObjects = new List<UnloadableObject>();
+
+                // Get the object's child which are responsible for audio
+                foreach (Transform audioObject in FindAudioObjects())
+                {
+                    unloadableObjects.Add(new UnloadableObject(audioObject));
+                }
+
+                // Fix for fuel level resetting after respawn
+                Transform fuelTank = gameObject.transform.Find("FuelTank");
+                if (fuelTank != null)
+                {
+                    unloadableObjects.Add(new UnloadableObject(fuelTank));
+                }
+
+                // If the vehicle is Gifu, find knobs and add them to list of unloadableObjects
+                if (gameObject.name == "GIFU(750/450psi)")
+                {
+                    unloadableObjects.Add(new UnloadableObject(gameObject.transform.Find("Dashboard").Find("Knobs")));
+                }
+
+                carDynamics = gameObject.GetComponent<CarDynamics>();
+                axles = gameObject.GetComponent<Axles>();
+                rb = gameObject.GetComponent<Rigidbody>();
+
+                if (!gameObject.name.ContainsAny("HAYOSIKO", "FURY"))
+                {
+                    gameObject.AddComponent<OcclusionObject>();
+                }
+
+                // Hook HookFront and HookRear
+                // Get hooks first
+                Transform hookFront = transform.Find("HookFront");
+                Transform hookRear = transform.Find("HookRear");
+
+                // If hooks exists, attach the RopeHookUp and RopeUnhook to appropriate states
+                if (hookFront != null)
+                {
+                    FsmHook.FsmInject(hookFront.gameObject, "Activate cable", RopeHookUp);
+                    FsmHook.FsmInject(hookFront.gameObject, "Activate cable 2", RopeHookUp);
+                    FsmHook.FsmInject(hookFront.gameObject, "Remove rope", RopeUnhook);
+                }
+
+                if (hookRear != null)
+                {
+                    FsmHook.FsmInject(hookRear.gameObject, "Activate cable", RopeHookUp);
+                    FsmHook.FsmInject(hookRear.gameObject, "Activate cable 2", RopeHookUp);
+                    FsmHook.FsmInject(hookRear.gameObject, "Remove rope", RopeUnhook);
+                }
+
+                // If vehicle is flatbed, hook SwitchToggleMethod to Add scale script
+                if (gameObject.name == "FLATBED")
+                {
+                    FsmHook.FsmInject(transform.Find("Bed/LogTrigger").gameObject, "Add scale", FlatbedSwitchToggleMethod);
+                }
+
+                // Set default toggling method - that is entire vehicle
+                Toggle = ToggleActive;
+
+                isHayosiko = gameObject.name.Contains("HAYOSIKO");
+
+                // Fix for Offroad Hayosiko and HayosikoColorfulGauges
+                if (isHayosiko && (CompatibilityManager.instance.OffroadHayosiko || CompatibilityManager.instance.HayosikoColorfulGauges))
+                {
+                    Toggle = ToggleUnityCar;
+                }
+
+                // If the vehicle is Fury
+                if (gameObject.name == "FURY(1630kg)" || gameObject.name == "POLICEFERNDALE(1630kg)")
+                {
+                    Toggle = ToggleUnityCar;
+                }
+
+                // If the user selected to toggle vehicle's physics only, it overrided any previous set for Toggle method
+                if (MopSettings.ToggleVehiclePhysicsOnly)
+                {
+                    Toggle = ToggleUnityCar;
+                }
             }
-
-            if (hookRear != null)
+            catch (System.Exception e)
             {
-                FsmHook.FsmInject(hookRear.gameObject, "Activate cable", RopeHookUp);
-                FsmHook.FsmInject(hookRear.gameObject, "Activate cable 2", RopeHookUp);
-                FsmHook.FsmInject(hookRear.gameObject, "Remove rope", RopeUnhook);
-            }
-            
-            // If vehicle is flatbed, hook SwitchToggleMethod to Add scale script
-            if (gameObject.name == "FLATBED")
-            {
-                FsmHook.FsmInject(transform.Find("Bed/LogTrigger").gameObject, "Add scale", FlatbedSwitchToggleMethod);
-            }
-
-            // Set default toggling method - that is entire vehicle
-            Toggle = ToggleActive;
-
-            isHayosiko = gameObject.name.Contains("HAYOSIKO");
-
-            // Fix for Offroad Hayosiko and HayosikoColorfulGauges
-            if (isHayosiko && (CompatibilityManager.instance.OffroadHayosiko || CompatibilityManager.instance.HayosikoColorfulGauges))
-            {
-                Toggle = ToggleUnityCar;
-            }
-
-            // If the vehicle is Fury
-            if (gameObject.name == "FURY(1630kg)" || gameObject.name == "POLICEFERNDALE(1630kg)")
-            {
-                Toggle = ToggleUnityCar;
-            }
-
-            // If the user selected to toggle vehicle's physics only, it overrided any previous set for Toggle method
-            if (MopSettings.ToggleVehiclePhysicsOnly)
-            {
-                Toggle = ToggleUnityCar;
+                ModConsole.Error(gameObject.name);
             }
         }
 
@@ -152,11 +177,8 @@ namespace MOP
             // We're doing that BEFORE we disable the object.
             if (!enabled)
             {
-                SetParentForChilds(AudioObjects, TemporaryParent);
-                if (FuelTank != null)
-                {
-                    SetParentForChild(FuelTank, TemporaryParent);
-                }
+                for (int i = 0; i < unloadableObjects.Count; i++)
+                    SetParentForChild(unloadableObjects[i].ObjectTransform, TemporaryParent);
 
                 Position = gameObject.transform.localPosition;
                 Rotation = gameObject.transform.localRotation;
@@ -171,11 +193,8 @@ namespace MOP
                 gameObject.transform.localPosition = Position;
                 gameObject.transform.localRotation = Rotation;
 
-                SetParentForChilds(AudioObjects, gameObject);
-                if (FuelTank != null)
-                {
-                    SetParentForChild(FuelTank, gameObject);
-                }
+                for (int i = 0; i < unloadableObjects.Count; i++)
+                    SetParentForChild(unloadableObjects[i].ObjectTransform, unloadableObjects[i].Parent);
             }
         }
 
@@ -196,26 +215,13 @@ namespace MOP
         }
 
         /// <summary>
-        /// Changes audio childs parent
-        /// </summary>
-        /// <param name="childs"></param>
-        /// <param name="newParent"></param>
-        internal void SetParentForChilds(Transform[] childs, GameObject newParent)
-        {
-            for (int i = 0; i < childs.Length; i++)
-            {
-                childs[i].parent = newParent.transform;
-            }
-        }
-
-        /// <summary>
         /// Changes parent for single child
         /// </summary>
         /// <param name="child"></param>
         /// <param name="newParent"></param>
-        internal void SetParentForChild(Transform child, GameObject newParent)
+        internal void SetParentForChild(Transform child, Transform newParent)
         {
-            child.transform.parent = newParent.transform;
+            child.transform.parent = newParent;
         }
 
         /// <summary>
