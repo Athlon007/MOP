@@ -19,6 +19,9 @@
 
         public static bool ToggleItems { get; private set; }
 
+        static bool ignoreModVehicles = false;
+        public static bool IgnoreModVehicles { get => ignoreModVehicles; }
+
         //
         // OTHERS
         //
@@ -27,6 +30,9 @@
 
         static bool satsumaTogglePhysicsOnly = false;
         public static bool SatsumaTogglePhysicsOnly { get => satsumaTogglePhysicsOnly; }
+
+        static bool toggleVehiclePhysicsOnly = false;
+        public static bool ToggleVehiclePhysicsOnly { get => toggleVehiclePhysicsOnly; }
 
         //
         // OCCLUSION CULLING
@@ -77,10 +83,12 @@
             SafeMode = (bool)MOP.safeMode.GetValue();
             ToggleVehicles = (bool)MOP.toggleVehicles.GetValue();
             ToggleItems = (bool)MOP.toggleItems.GetValue();
+            ignoreModVehicles = (bool)MOP.ignoreModVehicles.GetValue();
 
             // Others
             removeEmptyBeerBottles = (bool)MOP.removeEmptyBeerBottles.GetValue();
             satsumaTogglePhysicsOnly = (bool)MOP.satsumaTogglePhysicsOnly.GetValue();
+            toggleVehiclePhysicsOnly = (bool)MOP.toggleVehiclePhysicsOnly.GetValue();
             
             // Occlusion Culling
             if (viewDistance < minOcclusionDistance)

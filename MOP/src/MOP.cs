@@ -64,12 +64,14 @@ namespace MOP
         public static Settings activeDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
         // toggles
         public static Settings safeMode = new Settings("safeMode", "Safe Mode (requires restart)", false, MopSettings.UpdateAll);
+        public static Settings ignoreModVehicles = new Settings("ignoreModVehicles", "Ignore Mod Vehicles", false);
 
         //
         // OTHERS
         //
         public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Remove Empty Beer Bottles", false);
         public static Settings satsumaTogglePhysicsOnly = new Settings("satsumaTogglePhysicsOnly", "SATSUMA: Toggle Physics Only", false);
+        public static Settings toggleVehiclePhysicsOnly = new Settings("toggleVehiclePhysicsOnly", "Toggle Vehicles Physics Only", false);
         Settings temporarilyDisablePhysicsToggling = new Settings("temporarilyDisablePhysicsToggling", "Temporarily Disable Physics Toggling", MopSettings.DisablePhysicsToggling);
 
         // 
@@ -115,6 +117,7 @@ namespace MOP
             Settings.AddCheckBox(this, safeMode);
             Settings.AddText(this, "Safe Mode will only allow to toggle objects that are known to not to cause any issues.\n" +
                 "Note: framerate boost will be dramatically decreased!");
+            Settings.AddCheckBox(this, ignoreModVehicles);
 
             // Others
             Settings.AddHeader(this, "Other", headerColor);
@@ -154,6 +157,7 @@ namespace MOP
             Settings.AddText(this, "If unchecked, the following objects will not get disabled.\n" +
                 "WARNING: Disabling Vehicles without disabling toggled items may cause items to fall through on the ground. " +
                 "DO NOT disable any of these, unless you REALLY need to!");
+            Settings.AddCheckBox(this, toggleVehiclePhysicsOnly);
 
             // Changelog
             Settings.AddHeader(this, "Changelog", headerColor);

@@ -110,6 +110,11 @@ namespace MOP
                 FsmHook.FsmInject(hookRear.gameObject, "Activate cable 2", RopeHookUp);
                 FsmHook.FsmInject(hookRear.gameObject, "Remove rope", RopeUnhook);
             }
+
+            if (MopSettings.ToggleVehiclePhysicsOnly)
+            {
+                Toggle = ToggleUnityCar;
+            }
         }
 
         /// <summary>

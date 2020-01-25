@@ -80,29 +80,32 @@ namespace MOP
             vehicles.Add(new Vehicle("FLATBED"));
             vehicles.Add(new Gifu("GIFU(750/450psi)"));
 
-            // Drivable Fury mod
-            if (CompatibilityManager.instance.DrivableFury)
+            if (!MopSettings.IgnoreModVehicles)
             {
-                vehicles.Add(new Fury("FURY(1630kg)"));
-            }
+                // Drivable Fury mod
+                if (CompatibilityManager.instance.DrivableFury)
+                {
+                    vehicles.Add(new Fury("FURY(1630kg)"));
+                }
 
-            // Second Ferndale
-            if (CompatibilityManager.instance.SecondFerndale)
-            {
-                vehicles.Add(new Vehicle("SECONDFERNDALE(1630kg)"));
-            }
+                // Second Ferndale
+                if (CompatibilityManager.instance.SecondFerndale)
+                {
+                    vehicles.Add(new Vehicle("SECONDFERNDALE(1630kg)"));
+                }
 
-            // GAZ 24 Volga
-            if (CompatibilityManager.instance.Gaz)
-            {
-                vehicles.Add(new Vehicle("GAZ24(1420kg)"));
-            }
+                // GAZ 24 Volga
+                if (CompatibilityManager.instance.Gaz)
+                {
+                    vehicles.Add(new Vehicle("GAZ24(1420kg)"));
+                }
 
-            // Police Ferndale
-            if (CompatibilityManager.instance.PoliceFerndale)
-            {
-                // Yep, we're using the same toggling method as for Fury
-                vehicles.Add(new Fury("POLICEFERNDALE(1630kg)"));
+                // Police Ferndale
+                if (CompatibilityManager.instance.PoliceFerndale)
+                {
+                    // Yep, we're using the same toggling method as for Fury
+                    vehicles.Add(new Fury("POLICEFERNDALE(1630kg)"));
+                }
             }
 
             // World Objects

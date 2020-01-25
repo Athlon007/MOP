@@ -5,6 +5,8 @@
 ### Added
 
 - Added support for HayosikoColorfulGauges mod
+- Added option to allow MOP to toggle vehicles physics only for vehicles
+- Added option to ignore mod vehicles
 
 ## 2.0 (24.01.2020)
 
