@@ -72,7 +72,7 @@
     <Compile Include="src\GameObjects\Places\Place.cs" />
     <Compile Include="src\GameObjects\Places\Teimo.cs" />
     <Compile Include="src\GameObjects\Vehicles\Vehicle.cs" />
-    <Compile Include="src\GameObjects\WorldObjects.cs" />
+    <Compile Include="src\GameObjects\WorldObjectList.cs" />
     <Compile Include="src\Misc\CompatibilityManager.cs" />
     <Compile Include="src\Misc\CustomExtensions.cs" />
     <Compile Include="src\Misc\ErrorHandler.cs" />

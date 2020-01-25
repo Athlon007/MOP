@@ -28,8 +28,6 @@ namespace MOP
 
         // List of non unloadable objects
         List<UnloadableObject> unloadableObjects;
-        //internal Transform[] AudioObjects;
-        //internal Transform FuelTank;    
 
         // Overwrites the "Component.transform", to prevent eventual mod crashes caused by missuse of Vehicle.transform.
         // Technically, you should use Vehicle.Object.transform (ex. GIFU.Object.Transform), this here just lets you use Vehicle.transform
@@ -55,100 +53,93 @@ namespace MOP
         /// <param name="gameObjectName"></param>
         public Vehicle(string gameObjectName)
         {
-            try
+            // gameObject the object by name
+            gameObject = GameObject.Find(gameObjectName);
+
+            // Dump the object position and rotation
+            Position = gameObject.transform.localPosition;
+            Rotation = gameObject.transform.localRotation;
+
+            // Creates a new gameobject that is names after the original file + '_TEMP' (ex. "SATSUMA(557kg, 248)_TEMP")
+            TemporaryParent = new GameObject(gameObject.name + "_TEMP").transform;
+
+            unloadableObjects = new List<UnloadableObject>();
+
+            // Get the object's child which are responsible for audio
+            foreach (Transform audioObject in FindAudioObjects())
             {
-                // Find the object by name
-                gameObject = GameObject.Find(gameObjectName);
-
-                // Dump the object position and rotation
-                Position = gameObject.transform.localPosition;
-                Rotation = gameObject.transform.localRotation;
-
-                // Creates a new gameobject that is names after the original file + '_TEMP' (ex. "SATSUMA(557kg, 248)_TEMP")
-                TemporaryParent = new GameObject(gameObject.name + "_TEMP").transform;
-
-                unloadableObjects = new List<UnloadableObject>();
-
-                // Get the object's child which are responsible for audio
-                foreach (Transform audioObject in FindAudioObjects())
-                {
-                    unloadableObjects.Add(new UnloadableObject(audioObject));
-                }
-
-                // Fix for fuel level resetting after respawn
-                Transform fuelTank = gameObject.transform.Find("FuelTank");
-                if (fuelTank != null)
-                {
-                    unloadableObjects.Add(new UnloadableObject(fuelTank));
-                }
-
-                // If the vehicle is Gifu, find knobs and add them to list of unloadableObjects
-                if (gameObject.name == "GIFU(750/450psi)")
-                {
-                    unloadableObjects.Add(new UnloadableObject(gameObject.transform.Find("Dashboard").Find("Knobs")));
-                }
-
-                carDynamics = gameObject.GetComponent<CarDynamics>();
-                axles = gameObject.GetComponent<Axles>();
-                rb = gameObject.GetComponent<Rigidbody>();
-
-                if (!gameObject.name.ContainsAny("HAYOSIKO", "FURY"))
-                {
-                    gameObject.AddComponent<OcclusionObject>();
-                }
-
-                // Hook HookFront and HookRear
-                // Get hooks first
-                Transform hookFront = transform.Find("HookFront");
-                Transform hookRear = transform.Find("HookRear");
-
-                // If hooks exists, attach the RopeHookUp and RopeUnhook to appropriate states
-                if (hookFront != null)
-                {
-                    FsmHook.FsmInject(hookFront.gameObject, "Activate cable", RopeHookUp);
-                    FsmHook.FsmInject(hookFront.gameObject, "Activate cable 2", RopeHookUp);
-                    FsmHook.FsmInject(hookFront.gameObject, "Remove rope", RopeUnhook);
-                }
-
-                if (hookRear != null)
-                {
-                    FsmHook.FsmInject(hookRear.gameObject, "Activate cable", RopeHookUp);
-                    FsmHook.FsmInject(hookRear.gameObject, "Activate cable 2", RopeHookUp);
-                    FsmHook.FsmInject(hookRear.gameObject, "Remove rope", RopeUnhook);
-                }
-
-                // If vehicle is flatbed, hook SwitchToggleMethod to Add scale script
-                if (gameObject.name == "FLATBED")
-                {
-                    FsmHook.FsmInject(transform.Find("Bed/LogTrigger").gameObject, "Add scale", FlatbedSwitchToggleMethod);
-                }
-
-                // Set default toggling method - that is entire vehicle
-                Toggle = ToggleActive;
-
-                isHayosiko = gameObject.name.Contains("HAYOSIKO");
-
-                // Fix for Offroad Hayosiko and HayosikoColorfulGauges
-                if (isHayosiko && (CompatibilityManager.instance.OffroadHayosiko || CompatibilityManager.instance.HayosikoColorfulGauges))
-                {
-                    Toggle = ToggleUnityCar;
-                }
-
-                // If the vehicle is Fury
-                if (gameObject.name == "FURY(1630kg)" || gameObject.name == "POLICEFERNDALE(1630kg)")
-                {
-                    Toggle = ToggleUnityCar;
-                }
-
-                // If the user selected to toggle vehicle's physics only, it overrided any previous set for Toggle method
-                if (MopSettings.ToggleVehiclePhysicsOnly)
-                {
-                    Toggle = ToggleUnityCar;
-                }
+                unloadableObjects.Add(new UnloadableObject(audioObject));
             }
-            catch (System.Exception e)
+
+            // Fix for fuel level resetting after respawn
+            Transform fuelTank = gameObject.transform.Find("FuelTank");
+            if (fuelTank != null)
             {
-                ModConsole.Error(gameObject.name);
+                unloadableObjects.Add(new UnloadableObject(fuelTank));
+            }
+
+            // If the vehicle is Gifu, find knobs and add them to list of unloadableObjects
+            if (gameObject.name == "GIFU(750/450psi)")
+            {
+                unloadableObjects.Add(new UnloadableObject(gameObject.transform.Find("Dashboard").Find("Knobs")));
+            }
+
+            carDynamics = gameObject.GetComponent<CarDynamics>();
+            axles = gameObject.GetComponent<Axles>();
+            rb = gameObject.GetComponent<Rigidbody>();
+
+            if (!gameObject.name.ContainsAny("HAYOSIKO", "FURY"))
+            {
+                gameObject.AddComponent<OcclusionObject>();
+            }
+
+            // Hook HookFront and HookRear
+            // Get hooks first
+            Transform hookFront = transform.Find("HookFront");
+            Transform hookRear = transform.Find("HookRear");
+
+            // If hooks exists, attach the RopeHookUp and RopeUnhook to appropriate states
+            if (hookFront != null)
+            {
+                FsmHook.FsmInject(hookFront.gameObject, "Activate cable", RopeHookUp);
+                FsmHook.FsmInject(hookFront.gameObject, "Activate cable 2", RopeHookUp);
+                FsmHook.FsmInject(hookFront.gameObject, "Remove rope", RopeUnhook);
+            }
+
+            if (hookRear != null)
+            {
+                FsmHook.FsmInject(hookRear.gameObject, "Activate cable", RopeHookUp);
+                FsmHook.FsmInject(hookRear.gameObject, "Activate cable 2", RopeHookUp);
+                FsmHook.FsmInject(hookRear.gameObject, "Remove rope", RopeUnhook);
+            }
+
+            // If vehicle is flatbed, hook SwitchToggleMethod to Add scale script
+            if (gameObject.name == "FLATBED")
+            {
+                FsmHook.FsmInject(transform.Find("Bed/LogTrigger").gameObject, "Add scale", FlatbedSwitchToggleMethod);
+            }
+
+            // Set default toggling method - that is entire vehicle
+            Toggle = ToggleActive;
+
+            isHayosiko = gameObject.name.Contains("HAYOSIKO");
+
+            // Fix for Offroad Hayosiko and HayosikoColorfulGauges
+            if (isHayosiko && (CompatibilityManager.instance.OffroadHayosiko || CompatibilityManager.instance.HayosikoColorfulGauges))
+            {
+                Toggle = ToggleUnityCar;
+            }
+
+            // If the vehicle is Fury
+            if (gameObject.name == "FURY(1630kg)" || gameObject.name == "POLICEFERNDALE(1630kg)")
+            {
+                Toggle = ToggleUnityCar;
+            }
+
+            // If the user selected to toggle vehicle's physics only, it overrided any previous set for Toggle method
+            if (MopSettings.ToggleVehiclePhysicsOnly)
+            {
+                Toggle = ToggleUnityCar;
             }
         }
 
@@ -233,20 +224,6 @@ namespace MOP
         {
             Transform[] childs = gameObject.transform.GetComponentsInChildren<Transform>();
             return childs.Where(obj => obj.gameObject.name.Contains("audio") || obj.gameObject.name.Contains("SoundSrc")).ToArray();
-        }
-
-        /// <summary>
-        /// Looks for FuelTank object.
-        /// Returns null if it hasn't been found.
-        /// </summary>
-        Transform FindFuelTank()
-        {
-            if (gameObject.transform.Find("FuelTank") != null)
-            {
-                return gameObject.transform.Find("FuelTank");
-            }
-
-            return null;
         }
 
         /// <summary>
