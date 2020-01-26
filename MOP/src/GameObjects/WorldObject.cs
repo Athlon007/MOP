@@ -110,6 +110,10 @@ namespace MOP
                 this.gameObject.SetActive(enabled);
         }
 
+        /// <summary>
+        /// Enable or disable object's renderer
+        /// </summary>
+        /// <param name="enabled"></param>
         void ToggleRenderer(bool enabled)
         {
             if (renderer.enabled != enabled)

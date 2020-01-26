@@ -110,7 +110,20 @@
             viewDistance = int.Parse(MOP.occlusionDistance.GetValue().ToString());
             minOcclusionDistance = int.Parse(MOP.minOcclusionDistance.GetValue().ToString());
             occlusionMethod = GetOcclusionMethod();
-            playerIsNotAPirateScum = MSCLoader.ModLoader.CheckSteam();
+
+            if (System.IO.File.Exists($"{MOP.ModConfigFolder}\\verified.mop"))
+            {
+                playerIsNotAPirateScum = true;
+            }
+            else
+            {
+                playerIsNotAPirateScum = MSCLoader.ModLoader.CheckSteam();
+
+                if (playerIsNotAPirateScum)
+                {
+                    System.IO.File.Create($"{MOP.ModConfigFolder}\\verified.mop");
+                }
+            }
         }
 
         /// <summary>

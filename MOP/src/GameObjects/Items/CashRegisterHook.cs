@@ -48,9 +48,10 @@ namespace MOP
 
             if (items.Length > 0)
             {
+                int half = items.Length / 2;
                 for (int i = 0; i < items.Length; i++)
                 {
-                    if (i == items.Length / 2)
+                    if (i == half)
                         yield return null;
 
                     // Object already ObjectHook attached? Ignore it.

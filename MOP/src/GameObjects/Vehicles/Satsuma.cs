@@ -37,7 +37,7 @@ namespace MOP
         void ToggleActive(bool enabled)
         {
             // Don't run the code, if the value is the same
-            if (GameObject == null || disableableObjects[0].gameObject.activeSelf == enabled) return;
+            if (gameObject == null || disableableObjects[0].gameObject.activeSelf == enabled) return;
 
             carDynamics.enabled = enabled;
             axles.enabled = enabled;
@@ -61,7 +61,7 @@ namespace MOP
         /// <returns></returns>
         internal Transform[] GetDisableableChilds()
         {
-            return GameObject.GetComponentsInChildren<Transform>(true)
+            return gameObject.GetComponentsInChildren<Transform>(true)
                 .Where(trans => trans.gameObject.name.ContainsAny(whiteList)).ToArray();
         }
     }

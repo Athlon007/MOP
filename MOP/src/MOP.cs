@@ -16,6 +16,8 @@ namespace MOP
         public override bool UseAssetsFolder => false;
         public override bool SecondPass => true;
 
+        public static string ModConfigFolder;
+
         /// <summary>
         /// Called once, when mod is loading after game is fully loaded.
         /// </summary>
@@ -27,6 +29,8 @@ namespace MOP
                 ModUI.ShowMessage("MOP is not compatbile with KruFPS. Please remove KruFPS first!", "[MOP] Error");
                 return;
             }
+
+            ModConfigFolder = ModLoader.GetModConfigFolder(this);
         }
 
         /// <summary>
@@ -63,13 +67,13 @@ namespace MOP
         //
         public static Settings activeDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
         public static Settings safeMode = new Settings("safeMode", "Safe Mode (requires restart)", false, MopSettings.UpdateAll);
-        public static Settings ignoreModVehicles = new Settings("ignoreModVehicles", "Ignore Mod Vehicles", false);
+        public static Settings ignoreModVehicles = new Settings("ignoreModVehicles", "Ignore Mod Vehicles", false, MopSettings.UpdateAll);
 
         //
         // OTHERS
         //
-        public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Remove Empty Beer Bottles", false);
-        public static Settings satsumaTogglePhysicsOnly = new Settings("satsumaTogglePhysicsOnly", "SATSUMA: Toggle Physics Only", false);
+        public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Remove Empty Beer Bottles", false, MopSettings.UpdateAll);
+        public static Settings satsumaTogglePhysicsOnly = new Settings("satsumaTogglePhysicsOnly", "SATSUMA: Toggle Physics Only", false, MopSettings.UpdateAll);
         Settings temporarilyDisablePhysicsToggling = new Settings("temporarilyDisablePhysicsToggling", "Temporarily Disable Physics Toggling", MopSettings.DisablePhysicsToggling);
 
         // 
@@ -93,7 +97,7 @@ namespace MOP
         //
         public static Settings toggleVehicles = new Settings("toggleVehicles", "Vehicles", true, MopSettings.UpdateAll);
         public static Settings toggleItems = new Settings("toggleItems", "Shop Items", true, MopSettings.UpdateAll);
-        public static Settings toggleVehiclePhysicsOnly = new Settings("toggleVehiclePhysicsOnly", "Toggle Vehicles Physics Only", false);
+        public static Settings toggleVehiclePhysicsOnly = new Settings("toggleVehiclePhysicsOnly", "Toggle Vehicles Physics Only", false, MopSettings.UpdateAll);
 
         readonly Color32 headerColor = new Color32(29, 29, 29, 255);
 

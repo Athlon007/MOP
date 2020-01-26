@@ -34,15 +34,18 @@ namespace MOP
         // (ex. GIFU.transform).
         public Transform transform => gameObject.transform;
 
+        // Loaded only for Satsuma
         public Satsuma satsumaScript;
 
+        // Unity car systems and rigidbody
         internal CarDynamics carDynamics;
         internal Axles axles;
         internal Rigidbody rb;
 
-        bool isHayosiko;
+        // Applies extra fixes, if is set to true.
+        readonly bool isHayosiko;
 
-        bool flatbedScriptActivated;
+        bool flatbedUnloadPreventionActivated;
 
         // Prevents MOP from disabling car's physics when the car has rope hooked
         internal bool IsRopeHooked { get; set; }
@@ -56,7 +59,7 @@ namespace MOP
             // gameObject the object by name
             gameObject = GameObject.Find(gameObjectName);
 
-            // Dump the object position and rotation
+            // Get the object position and rotation
             Position = gameObject.transform.localPosition;
             Rotation = gameObject.transform.localRotation;
 
@@ -195,7 +198,8 @@ namespace MOP
         /// <param name="enabled"></param>
         public void ToggleUnityCar(bool enabled)
         {
-            if (gameObject == null || carDynamics.enabled == enabled || (satsumaScript != null && satsumaScript.IsSatsumaInInspectionArea && enabled == false)) return;
+            if ((gameObject == null) || (carDynamics.enabled == enabled) || (satsumaScript != null && satsumaScript.IsSatsumaInInspectionArea && enabled == false)) 
+                return;
 
             // Prevent disabling car physics if the rope is hooked
             if (IsRopeHooked && gameObject.activeSelf == true) return;
@@ -232,8 +236,8 @@ namespace MOP
         /// </summary>
         void FlatbedSwitchToggleMethod()
         {
-            if (flatbedScriptActivated) return;
-            flatbedScriptActivated = true;
+            if (flatbedUnloadPreventionActivated) return;
+            flatbedUnloadPreventionActivated = true;
 
             Toggle = ToggleUnityCar;
         }

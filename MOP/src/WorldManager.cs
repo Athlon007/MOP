@@ -259,13 +259,11 @@ namespace MOP
 
             ModConsole.Print("[MOP] Items class loaded");
 
-#if (!DEBUG)
             if (MopSettings.PlayerIsNotAPirateScum == false)
             {
                 ModConsole.Error("Catastrophic Failure! Flux capacitor broken!");
                 return;
             }
-#endif
 
             HookPreSaveGame();
 
@@ -422,7 +420,7 @@ namespace MOP
                         half = vehicles.Count / 2;
                         for (i = 0; i < half; i++)
                         {
-                            if (vehicles[i] == null || vehicles[i].gameObject == null)
+                            if (vehicles[i] == null)
                             {
                                 ModConsole.Print("[MOP] Vehicle " + i + " has been skipped, because an error occured.");
                                 continue;
@@ -445,7 +443,7 @@ namespace MOP
                     {
                         for (; i < vehicles.Count; i++)
                         {
-                            if (vehicles[i] == null || vehicles[i].gameObject == null)
+                            if (vehicles[i] == null)
                             {
                                 ModConsole.Print("[MOP] Vehicle " + i + " has been skipped, because an error occured.");
                                 continue;
