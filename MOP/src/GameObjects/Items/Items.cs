@@ -6,6 +6,8 @@ namespace MOP
 {
     class Items
     {
+        public static Items instance;
+
         // List of all whitelisted objects that can appear on the minorObjects list
         // Note: batteries aren't included
         public string[] blackList = { 
@@ -22,7 +24,6 @@ namespace MOP
         // List of ObjectHooks attached to minor objects
         public List<ItemHook> ItemsHooks = new List<ItemHook>();
 
-        public static Items instance;
 
         /// <summary>
         /// Initialize MinorObjects class

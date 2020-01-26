@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace MOP
+﻿namespace MOP
 {
     static class CustomExtensions
     {

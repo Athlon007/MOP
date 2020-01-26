@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using MSCLoader;
+﻿using MSCLoader;
 
 namespace MOP
 {
