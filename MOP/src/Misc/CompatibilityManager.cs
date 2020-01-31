@@ -39,6 +39,9 @@ namespace MOP
         // HayosikoColorfulGauges
         public bool HayosikoColorfulGauges { get; private set; }
 
+        // CD Player Enhanced
+        //public bool CDPlayerEnhanced { get; private set; }
+
         public CompatibilityManager()
         {
             instance = this;
@@ -50,8 +53,9 @@ namespace MOP
             VhsPlayer = IsModPresent("VHSPlayer");
             OffroadHayosiko = IsModPresent("OffroadHayosiko");
             JetSky = IsModPresent("JetSky");
-            Moonshinestill = ModLoader.IsModPresent("MSCStill");
-            HayosikoColorfulGauges = ModLoader.IsModPresent("HayosikoColorfulGauges");
+            Moonshinestill = IsModPresent("MSCStill");
+            HayosikoColorfulGauges = IsModPresent("HayosikoColorfulGauges");
+            //CDPlayerEnhanced = IsModPresent("CDPlayer");
 
             ModConsole.Print("[MOP] Compatibility Manager done");
         }

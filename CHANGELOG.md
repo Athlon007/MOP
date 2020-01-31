@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.1 Development 1 (27.01.2020)
+## 2.1 (31.01.2020)
 
 ### Added
 

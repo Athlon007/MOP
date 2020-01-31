@@ -261,7 +261,7 @@ namespace MOP
 
             if (MopSettings.PlayerIsNotAPirateScum == false)
             {
-                ModConsole.Error("Catastrophic Failure! Flux capacitor broken!");
+                ModConsole.Error("Catastrophic Error! Velociraptor has been dispatched to look into the problem!");
                 return;
             }
 
