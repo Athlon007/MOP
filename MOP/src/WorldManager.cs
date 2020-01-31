@@ -25,7 +25,7 @@ namespace MOP
         Yard yard;
 
         // World Objects
-        WorldObjects worldObjects;
+        WorldObjectList worldObjectList;
 
         // Area Checks
         SatsumaInAreaCheck inspectionArea;
@@ -63,8 +63,8 @@ namespace MOP
         {
             instance = this;
 
-            // Initialize the worldObjects list
-            worldObjects = new WorldObjects();
+            // Initialize the worldObjectList list
+            worldObjectList = new WorldObjectList();
 
             // Looking for player and yard
             Player = GameObject.Find("PLAYER").transform;
@@ -78,46 +78,49 @@ namespace MOP
             vehicles.Add(new Vehicle("RCO_RUSCKO12(270)"));
             vehicles.Add(new Vehicle("FERNDALE(1630kg)"));
             vehicles.Add(new Vehicle("FLATBED"));
-            vehicles.Add(new Gifu("GIFU(750/450psi)"));
+            vehicles.Add(new Vehicle("GIFU(750/450psi)"));
 
-            // Drivable Fury mod
-            if (CompatibilityManager.instance.DrivableFury)
+            if (!MopSettings.IgnoreModVehicles)
             {
-                vehicles.Add(new Fury("FURY(1630kg)"));
-            }
+                // Drivable Fury mod
+                if (CompatibilityManager.instance.DrivableFury)
+                {
+                    vehicles.Add(new Vehicle("FURY(1630kg)"));
+                }
 
-            // Second Ferndale
-            if (CompatibilityManager.instance.SecondFerndale)
-            {
-                vehicles.Add(new Vehicle("SECONDFERNDALE(1630kg)"));
-            }
+                // Second Ferndale
+                if (CompatibilityManager.instance.SecondFerndale)
+                {
+                    vehicles.Add(new Vehicle("SECONDFERNDALE(1630kg)"));
+                }
 
-            // GAZ 24 Volga
-            if (CompatibilityManager.instance.Gaz)
-            {
-                vehicles.Add(new Vehicle("GAZ24(1420kg)"));
-            }
+                // GAZ 24 Volga
+                if (CompatibilityManager.instance.Gaz)
+                {
+                    vehicles.Add(new Vehicle("GAZ24(1420kg)"));
+                }
 
-            // Police Ferndale
-            if (CompatibilityManager.instance.PoliceFerndale)
-            {
-                // Yep, we're using the same toggling method as for Fury
-                vehicles.Add(new Fury("POLICEFERNDALE(1630kg)"));
+                // Police Ferndale
+                if (CompatibilityManager.instance.PoliceFerndale)
+                {
+                    // Yep, we're using the same toggling method as for Fury
+                    vehicles.Add(new Vehicle("POLICEFERNDALE(1630kg)"));
+                }
             }
 
             // World Objects
-            worldObjects.Add("CABIN");
-            worldObjects.Add("COTTAGE", 400);
-            worldObjects.Add("DANCEHALL");
-            worldObjects.Add("INSPECTION");
-            worldObjects.Add("PERAJARVI");
-            worldObjects.Add("RYKIPOHJA");
-            worldObjects.Add("SOCCER");
-            worldObjects.Add("WATERFACILITY");
-            worldObjects.Add("DRAGRACE", 1100);
+            worldObjectList.Add("CABIN");
+            worldObjectList.Add("COTTAGE", 400);
+            worldObjectList.Add("DANCEHALL");
+            worldObjectList.Add("INSPECTION");
+            worldObjectList.Add("PERAJARVI");
+            worldObjectList.Add("RYKIPOHJA");
+            worldObjectList.Add("SOCCER");
+            worldObjectList.Add("WATERFACILITY");
+            worldObjectList.Add("DRAGRACE", 1100);
             if (!CompatibilityManager.instance.JetSky && !CompatibilityManager.instance.Moonshinestill)
-                worldObjects.Add("BOAT");
-            worldObjects.Add("StrawberryField");
+                worldObjectList.Add("BOAT");
+            worldObjectList.Add("StrawberryField");
 
             ModConsole.Print("[MOP] Main world objects loaded");
 
@@ -199,26 +202,26 @@ namespace MOP
             ModConsole.Print("[MOP] Finished applying fixes");
 
             //Things that should be enabled when out of proximity of the house
-            worldObjects.Add("NPC_CARS", awayFromHouse: true);
-            worldObjects.Add("TRAFFIC", true);
-            worldObjects.Add("TRAIN", true);
-            worldObjects.Add("Buildings", true);
-            worldObjects.Add("TrafficSigns", true);
-            worldObjects.Add("StreetLights", true);
-            worldObjects.Add("HUMANS", true);
-            worldObjects.Add("HayBales", true);
-            worldObjects.Add("TRACKFIELD", true);
-            worldObjects.Add("SkijumpHill", true);
-            worldObjects.Add("Factory", true);
-            worldObjects.Add("SWAMP", true);
-            worldObjects.Add("WHEAT", true);
-            worldObjects.Add("ROCKS", true);
-            worldObjects.Add("RAILROAD", true);
-            worldObjects.Add("AIRPORT", true);
-            worldObjects.Add("RAILROAD_TUNNEL", true);
-            worldObjects.Add("PierDancehall", true);
-            worldObjects.Add("PierRiver", true);
-            worldObjects.Add("PierStore", true);
+            worldObjectList.Add("NPC_CARS", awayFromHouse: true);
+            worldObjectList.Add("TRAFFIC", true);
+            worldObjectList.Add("TRAIN", true);
+            worldObjectList.Add("Buildings", true);
+            worldObjectList.Add("TrafficSigns", true);
+            worldObjectList.Add("StreetLights", true);
+            worldObjectList.Add("HUMANS", true);
+            worldObjectList.Add("HayBales", true);
+            worldObjectList.Add("TRACKFIELD", true);
+            worldObjectList.Add("SkijumpHill", true);
+            worldObjectList.Add("Factory", true);
+            worldObjectList.Add("SWAMP", true);
+            worldObjectList.Add("WHEAT", true);
+            worldObjectList.Add("ROCKS", true);
+            worldObjectList.Add("RAILROAD", true);
+            worldObjectList.Add("AIRPORT", true);
+            worldObjectList.Add("RAILROAD_TUNNEL", true);
+            worldObjectList.Add("PierDancehall", true);
+            worldObjectList.Add("PierRiver", true);
+            worldObjectList.Add("PierStore", true);
 
             ModConsole.Print("[MOP] Away from house world objects loaded");
 
@@ -236,17 +239,17 @@ namespace MOP
             // Only renderers will be toggled
             if (GameObject.Find("tv(Clo01)") != null)
             {
-                worldObjects.Add("tv(Clo01)", 100, true);
-                worldObjects.Add("chair(Clo02)", 100, true);
-                worldObjects.Add("chair(Clo05)", 100, true);
-                worldObjects.Add("bench(Clo01)", 100, true);
-                worldObjects.Add("bench(Clo02)", 100, true);
-                worldObjects.Add("table(Clo02)", 100, true);
-                worldObjects.Add("table(Clo03)", 100, true);
-                worldObjects.Add("table(Clo04)", 100, true);
-                worldObjects.Add("table(Clo05)", 100, true);
-                worldObjects.Add("desk(Clo01)", 100, true);
-                worldObjects.Add("arm chair(Clo01)", 100, true);
+                worldObjectList.Add("tv(Clo01)", 100, true);
+                worldObjectList.Add("chair(Clo02)", 100, true);
+                worldObjectList.Add("chair(Clo05)", 100, true);
+                worldObjectList.Add("bench(Clo01)", 100, true);
+                worldObjectList.Add("bench(Clo02)", 100, true);
+                worldObjectList.Add("table(Clo02)", 100, true);
+                worldObjectList.Add("table(Clo03)", 100, true);
+                worldObjectList.Add("table(Clo04)", 100, true);
+                worldObjectList.Add("table(Clo05)", 100, true);
+                worldObjectList.Add("desk(Clo01)", 100, true);
+                worldObjectList.Add("arm chair(Clo01)", 100, true);
 
                 ModConsole.Print("[MOP] Jokke's furnitures found and loaded");
             }
@@ -256,13 +259,11 @@ namespace MOP
 
             ModConsole.Print("[MOP] Items class loaded");
 
-#if (!DEBUG)
             if (MopSettings.PlayerIsNotAPirateScum == false)
             {
-                ModConsole.Error("Catastrophic Failure! Flux capacitor broken!");
+                ModConsole.Error("Catastrophic Error! Velociraptor has been dispatched to look into the problem!");
                 return;
             }
-#endif
 
             HookPreSaveGame();
 
@@ -349,28 +350,28 @@ namespace MOP
                 IsPlayerOnYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(Player.position, yard.transform.position) < 100 
                     : Vector3.Distance(Player.position, yard.transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 
-                int half = worldObjects.Count / 2;
+                int half = worldObjectList.Count / 2;
                 int i = 0;
 
                 try
                 {
-                    // Go through the list worldObjects list
+                    // Go through the list worldObjectList list
                     for (i = 0; i < half; i++)
                     {
                         // Should the object be disabled when the player leaves the house?
-                        if (worldObjects.Get(i).AwayFromHouse)
+                        if (worldObjectList.Get(i).AwayFromHouse)
                         {
-                            worldObjects.Get(i).Toggle(!IsPlayerOnYard);
+                            worldObjectList.Get(i).Toggle(!IsPlayerOnYard);
                             continue;
                         }
 
                         // Fix for inspection area being unloaded after the successfull inspection,
                         // making game not save the car inspection status.
-                        if (worldObjects.Get(i).gameObject.name == "INSPECTION" && inspectionArea.InspectionPreventUnload)
+                        if (worldObjectList.Get(i).gameObject.name == "INSPECTION" && inspectionArea.InspectionPreventUnload)
                             continue;
 
                         // The object will be disables, if the player is in the range of that object.
-                        worldObjects.Get(i).Toggle(IsEnabled(worldObjects.Get(i).transform, worldObjects.Get(i).Distance));
+                        worldObjectList.Get(i).Toggle(IsEnabled(worldObjectList.Get(i).transform, worldObjectList.Get(i).Distance));
                     }
                 }
                 catch (Exception ex)
@@ -382,22 +383,22 @@ namespace MOP
 
                 try
                 {
-                    for (; i < worldObjects.Count; i++)
+                    for (; i < worldObjectList.Count; i++)
                     {
                         // Should the object be disabled when the player leaves the house?
-                        if (worldObjects.Get(i).AwayFromHouse)
+                        if (worldObjectList.Get(i).AwayFromHouse)
                         {
-                            worldObjects.Get(i).Toggle(!IsPlayerOnYard);
+                            worldObjectList.Get(i).Toggle(!IsPlayerOnYard);
                             continue;
                         }
 
                         // Fix for inspection area being unloaded after the successfull inspection,
                         // making game not save the car inspection status.
-                        if (worldObjects.Get(i).gameObject.name == "INSPECTION" && inspectionArea.InspectionPreventUnload)
+                        if (worldObjectList.Get(i).gameObject.name == "INSPECTION" && inspectionArea.InspectionPreventUnload)
                             continue;
 
                         // The object will be disables, if the player is in the range of that object.
-                        worldObjects.Get(i).Toggle(IsEnabled(worldObjects.Get(i).transform, worldObjects.Get(i).Distance));
+                        worldObjectList.Get(i).Toggle(IsEnabled(worldObjectList.Get(i).transform, worldObjectList.Get(i).Distance));
                     }
                 }
                 catch (Exception ex)
@@ -419,7 +420,7 @@ namespace MOP
                         half = vehicles.Count / 2;
                         for (i = 0; i < half; i++)
                         {
-                            if (vehicles[i] == null || vehicles[i].gameObject == null)
+                            if (vehicles[i] == null)
                             {
                                 ModConsole.Print("[MOP] Vehicle " + i + " has been skipped, because an error occured.");
                                 continue;
@@ -442,7 +443,7 @@ namespace MOP
                     {
                         for (; i < vehicles.Count; i++)
                         {
-                            if (vehicles[i] == null || vehicles[i].gameObject == null)
+                            if (vehicles[i] == null)
                             {
                                 ModConsole.Print("[MOP] Vehicle " + i + " has been skipped, because an error occured.");
                                 continue;
@@ -582,9 +583,9 @@ namespace MOP
             try
             {
                 // World objects
-                for (int i = 0; i < worldObjects.Count; i++)
+                for (int i = 0; i < worldObjectList.Count; i++)
                 {
-                    worldObjects.Get(i).Toggle(true);
+                    worldObjectList.Get(i).Toggle(true);
                 }
 
                 // Vehicles

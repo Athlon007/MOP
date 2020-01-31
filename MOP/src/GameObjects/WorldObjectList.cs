@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace MOP
 {
-    class WorldObjects
+    class WorldObjectList
     {
         // This script manages the list of WorldObjects.
         // Basically, objects that are static, such as buildings.
 
-        List<WorldObject> worldObject;
+        List<WorldObject> worldObjects;
 
-        public WorldObjects()
+        public WorldObjectList()
         {
-            worldObject = new List<WorldObject>();
+            worldObjects = new List<WorldObject>();
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace MOP
                 return;
             }
 
-            worldObject.Add(new WorldObject(gm, distance, rendererOnly));
+            worldObjects.Add(new WorldObject(gm, distance, rendererOnly));
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace MOP
                 return;
             }
 
-            worldObject.Add(new WorldObject(gm, awayFromHouse, rendererOnly));
+            worldObjects.Add(new WorldObject(gm, awayFromHouse, rendererOnly));
         }
 
         /// <summary>
@@ -60,12 +60,12 @@ namespace MOP
         /// <param name="i">Element number.</param>
         public WorldObject Get(int i)
         {
-            return worldObject[i];
+            return worldObjects[i];
         }
 
         /// <summary>
         /// Returns the length of the list.
         /// </summary>
-        public int Count => worldObject.Count;
+        public int Count => worldObjects.Count;
     }
 }

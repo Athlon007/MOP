@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using MSCLoader;
+﻿using MSCLoader;
 
 namespace MOP
 {
@@ -37,6 +36,12 @@ namespace MOP
         // Moonshine still mod
         public bool Moonshinestill { get; private set; }
 
+        // HayosikoColorfulGauges
+        public bool HayosikoColorfulGauges { get; private set; }
+
+        // CD Player Enhanced
+        //public bool CDPlayerEnhanced { get; private set; }
+
         public CompatibilityManager()
         {
             instance = this;
@@ -48,7 +53,9 @@ namespace MOP
             VhsPlayer = IsModPresent("VHSPlayer");
             OffroadHayosiko = IsModPresent("OffroadHayosiko");
             JetSky = IsModPresent("JetSky");
-            Moonshinestill = ModLoader.IsModPresent("MSCStill");
+            Moonshinestill = IsModPresent("MSCStill");
+            HayosikoColorfulGauges = IsModPresent("HayosikoColorfulGauges");
+            //CDPlayerEnhanced = IsModPresent("CDPlayer");
 
             ModConsole.Print("[MOP] Compatibility Manager done");
         }

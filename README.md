@@ -2,7 +2,7 @@
 
 [![](https://img.shields.io/github/downloads/Athlon007/MOP/total?style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
 [![](https://img.shields.io/github/v/release/Athlon007/MOP?style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
-[![](https://img.shields.io/github/v/release/Athlon007/MOP?include_prereleases&label=Pre-Release&style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
+[![](https://img.shields.io/github/v/release/Athlon007/MOP?include_prereleases&label=Development&style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
 [![](https://img.shields.io/github/license/Athlon007/MOP?style=for-the-badge)](LICENSE.md)
 
 <img align="right" src="images/icon.png" alt="icon" width=128 />
@@ -45,6 +45,7 @@ MOP officially supports following mods:
 - Offroad Hayosiko
 - Jet Sky
 - Moonshine Still Revived
+- Hayosiko Colorful Gauges
 
 The mod will also work with other mods which are not on the list. If it isn't, please report that on GitHub, or one of the official mod hosting websites.
 

@@ -29,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
@@ -42,15 +43,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -65,15 +61,14 @@
     <Compile Include="src\GameObjects\Others\MopFsmManager.cs" />
     <Compile Include="src\GameObjects\Others\SatsumaInAreaCheck.cs" />
     <Compile Include="src\GameObjects\Places\Yard.cs" />
-    <Compile Include="src\GameObjects\Vehicles\Mods\Fury.cs" />
     <Compile Include="src\GameObjects\Vehicles\Satsuma.cs" />
+    <Compile Include="src\GameObjects\Vehicles\UnloadableObject.cs" />
     <Compile Include="src\GameObjects\WorldObject.cs" />
     <Compile Include="src\GameObjects\Places\RepairShop.cs" />
     <Compile Include="src\GameObjects\Places\Place.cs" />
     <Compile Include="src\GameObjects\Places\Teimo.cs" />
-    <Compile Include="src\GameObjects\Vehicles\Gifu.cs" />
     <Compile Include="src\GameObjects\Vehicles\Vehicle.cs" />
-    <Compile Include="src\GameObjects\WorldObjects.cs" />
+    <Compile Include="src\GameObjects\WorldObjectList.cs" />
     <Compile Include="src\Misc\CompatibilityManager.cs" />
     <Compile Include="src\Misc\CustomExtensions.cs" />
     <Compile Include="src\Misc\ErrorHandler.cs" />
