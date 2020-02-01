@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.1.1 Development 1 (tba)
+
+### Changes
+
+- Improved compatibility with CarryMore
+
+### Bug Fixes
+
+- CarryMore: objects should not clip and teleport when taking out of the backpack
+
 ## 2.1 (31.01.2020)
 
 ### Added

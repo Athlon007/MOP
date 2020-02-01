@@ -24,8 +24,6 @@ namespace MOP
         /// </summary>
         Renderer renderer;
 
-        Vector3 lastPosition;
-
         public ItemHook()
         {
             // Add self to the MinorObjects.objectHooks list
@@ -87,7 +85,8 @@ namespace MOP
 
                 // Check if item is in CarryMore inventory.
                 // If so, ignore that item.
-                if (Vector3.Distance(this.transform.position, CompatibilityManager.instance.CarryMoreTempPosition) < 1) return;
+                if (CompatibilityManager.instance.CarryMore && Vector3.Distance(this.transform.position, CompatibilityManager.instance.CarryMoreTempPosition) < 1) 
+                    return;
 
                 rb.detectCollisions = enabled;
                 rb.isKinematic = !enabled;
@@ -103,9 +102,6 @@ namespace MOP
                 ErrorHandler.New(ex);
             }
         }
-
-        // Current instance of BeerCasePositionFix
-        private IEnumerator currentPositionFix;
 
         /// <summary>
         /// Used when this item is a beer case.
