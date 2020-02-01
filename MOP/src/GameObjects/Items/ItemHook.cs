@@ -1,4 +1,20 @@
-﻿using UnityEngine;
+﻿// Modern Optimization Plugin
+// Copyright(C) 2019-2020 Athlon
+
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program.If not, see<http://www.gnu.org/licenses/>.
+
+using UnityEngine;
 using MSCLoader;
 using System.Collections;
 
@@ -6,7 +22,7 @@ namespace MOP
 {
     class ItemHook : MonoBehaviour
     {
-        // This MonoBehaviour hooks to all minor objects.
+        // This MonoBehaviour hooks to all items from shop and other interactable ones. (Such as sausages, or beer cases)
         // ObjectHook class by Konrad "Athlon" Figura
 
         /// <summary>
@@ -85,14 +101,14 @@ namespace MOP
 
                 // Check if item is in CarryMore inventory.
                 // If so, ignore that item.
-                if (CompatibilityManager.instance.CarryMore && Vector3.Distance(this.transform.position, CompatibilityManager.instance.CarryMoreTempPosition) < 1) 
+                if (CompatibilityManager.instance.CarryMore && Vector3.Distance(transform.position, CompatibilityManager.instance.CarryMoreTempPosition) < 1) 
                     return;
 
                 rb.detectCollisions = enabled;
                 rb.isKinematic = !enabled;
 
                 // If occlusion culling is not enabled, disable object's renderer on distance.
-                if (!MopSettings.EnableObjectOcclusion && (renderer != null))
+                if (!MopSettings.EnableObjectOcclusion && renderer != null)
                 {
                     renderer.enabled = enabled;
                 }
