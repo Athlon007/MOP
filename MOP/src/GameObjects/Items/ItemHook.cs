@@ -24,6 +24,8 @@ namespace MOP
         /// </summary>
         Renderer renderer;
 
+        Vector3 lastPosition;
+
         public ItemHook()
         {
             // Add self to the MinorObjects.objectHooks list
@@ -83,12 +85,9 @@ namespace MOP
                 if (rb == null || rb.detectCollisions == enabled)
                     return;
 
-                // If enabled, activate the position fixer (for CarryMore mod)
-                if (enabled && (currentPositionFix == null))
-                {
-                    currentPositionFix = PositionFix();
-                    StartCoroutine(currentPositionFix);
-                }
+                // Check if item is in CarryMore inventory.
+                // If so, ignore that item.
+                if (Vector3.Distance(this.transform.position, CompatibilityManager.instance.CarryMoreTempPosition) < 1) return;
 
                 rb.detectCollisions = enabled;
                 rb.isKinematic = !enabled;
@@ -107,29 +106,6 @@ namespace MOP
 
         // Current instance of BeerCasePositionFix
         private IEnumerator currentPositionFix;
-
-        /// <summary>
-        /// A fix for when the beer case may sometimes clip through the floor.
-        /// If the distance between the saved position and the current position is greater than 2,
-        /// teleport the object to the saved position.
-        /// </summary>
-        /// <returns></returns>
-        IEnumerator PositionFix()
-        {
-            Vector3 pos = gameObject.transform.position;
-            Quaternion rot = gameObject.transform.rotation;
-
-            yield return new WaitForSeconds(1);
-
-            if (Vector3.Distance(pos, gameObject.transform.position) > 2)
-            {
-                pos.y += 3; // add 3 units to the Y value, to prevent the item from appearing in the same place again.
-                gameObject.transform.position = pos;
-                gameObject.transform.rotation = rot;
-            }
-
-            currentPositionFix = null;
-        }
 
         /// <summary>
         /// Used when this item is a beer case.

@@ -1,4 +1,5 @@
 ﻿using MSCLoader;
+using UnityEngine;
 
 namespace MOP
 {
@@ -42,6 +43,10 @@ namespace MOP
         // CD Player Enhanced
         //public bool CDPlayerEnhanced { get; private set; }
 
+        // CarryMore
+        public bool CarryMore { get; private set; }
+        public readonly Vector3 CarryMoreTempPosition = new Vector3(0.0f, -1000.0f, 0.0f);
+
         public CompatibilityManager()
         {
             instance = this;
@@ -56,6 +61,7 @@ namespace MOP
             Moonshinestill = IsModPresent("MSCStill");
             HayosikoColorfulGauges = IsModPresent("HayosikoColorfulGauges");
             //CDPlayerEnhanced = IsModPresent("CDPlayer");
+            CarryMore = IsModPresent("CarryMore");
 
             ModConsole.Print("[MOP] Compatibility Manager done");
         }
@@ -65,7 +71,7 @@ namespace MOP
         /// </summary>
         /// <param name="modID"></param>
         /// <returns></returns>
-        static bool IsModPresent(string modID)
+        bool IsModPresent(string modID)
         {
             bool isModPresent = ModLoader.IsModPresent(modID);
 

@@ -259,11 +259,11 @@ namespace MOP
 
             ModConsole.Print("[MOP] Items class loaded");
 
-            if (MopSettings.PlayerIsNotAPirateScum == false)
-            {
-                ModConsole.Error("Catastrophic Error! Velociraptor has been dispatched to look into the problem!");
-                return;
-            }
+            //if (MopSettings.PlayerIsNotAPirateScum == false)
+            //{
+                //ModConsole.Error("Catastrophic Error! Velociraptor has been dispatched to look into the problem!");
+                //return;
+            //}
 
             HookPreSaveGame();
 
