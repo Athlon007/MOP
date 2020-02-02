@@ -104,7 +104,7 @@ namespace MOP
                 // Create shop table chekc, for when the CDs are bought
                 GameObject itemCheck = new GameObject("MopItemAreaCheck");
                 itemCheck.transform.position = GameObject.Find("SpawnItemStore").transform.position;
-                itemCheck.AddComponent<ItemSpawnCheck>();
+                itemCheck.AddComponent<ShopModItemSpawnCheck>();
             }
         }
 

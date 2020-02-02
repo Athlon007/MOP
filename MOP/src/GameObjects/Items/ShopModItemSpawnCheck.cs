@@ -18,11 +18,12 @@ using UnityEngine;
 
 namespace MOP
 {
-    class ItemSpawnCheck : MonoBehaviour
+    class ShopModItemSpawnCheck : MonoBehaviour
     {
         // Used for items bought via Item Shop mod
+        // Adds the trigger collider at the Teimo's shop table.
 
-        public ItemSpawnCheck()
+        public ShopModItemSpawnCheck()
         {
             BoxCollider col = this.gameObject.AddComponent<BoxCollider>();
             col.isTrigger = true;

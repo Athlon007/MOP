@@ -119,7 +119,6 @@ namespace MOP
                 // Police Ferndale
                 if (CompatibilityManager.instance.PoliceFerndale)
                 {
-                    // Yep, we're using the same toggling method as for Fury
                     vehicles.Add(new Vehicle("POLICEFERNDALE(1630kg)"));
                 }
             }
