@@ -1,8 +1,8 @@
 Added:
-- Added support for HayosikoColorfulGauges mod
-- Added option to allow MOP to toggle vehicles physics only for vehicles
-- Added option to ignore mod vehicles
+- Added support for CD Player Enhaned Mod
 
 Changes:
-- Changed how time is displayed in crash logs and mod report to ISO 8601
-- Code optimization and improvements
+- Improved compatibility with CarryMore
+
+Bug Fixes:
+- CarryMore: objects should not clip and teleport when taking out of the backpack
