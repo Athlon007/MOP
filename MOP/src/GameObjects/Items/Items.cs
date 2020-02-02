@@ -90,18 +90,17 @@ namespace MOP
                 minorObjects[i].AddComponent<ItemHook>();
             }
 
-            /*
+            // CD Player Enhanced compatibility
             if (CompatibilityManager.instance.CDPlayerEnhanced)
             {
                 GameObject[] cdEnchancedObjects = Object.FindObjectsOfType<GameObject>()
-                .Where(gm => gm.name.ContainsAny("cd case(itemy)", "cd(itemy)") && gm.activeSelf).ToArray();
+                .Where(gm => gm.name.ContainsAny("cd case(itemy)", "CD Rack(itemy)", "cd(itemy)") && gm.activeSelf).ToArray();
 
                 for (int i = 0; i < cdEnchancedObjects.Length; i++)
                 {
                     cdEnchancedObjects[i].AddComponent<ItemHook>();
                 }
             }
-            */
         }
 
         /// <summary>

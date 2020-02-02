@@ -104,6 +104,22 @@ namespace MOP
                 if (CompatibilityManager.instance.CarryMore && Vector3.Distance(transform.position, CompatibilityManager.instance.CarryMoreTempPosition) < 1) 
                     return;
 
+                // CD Player Enhanced mod
+                if (CompatibilityManager.instance.CDPlayerEnhanced)
+                {
+                    // Prevent CDs to clip through CD Case
+                    if (this.gameObject.name == "cd(itemy)" && this.transform.parent != null && this.transform.parent.name == "PivotCD")
+                        return;
+
+                    // Prevent CDs from clipping through the Radio
+                    if (this.gameObject.name == "cd(itemy)" && this.transform.parent != null && this.transform.parent.name == "cd_sled_pivot")
+                        return;
+
+                    // Prevents CD cases from clipping through the CD rack
+                    if (this.gameObject.name.StartsWith("cd case") && this.transform.parent != null && this.transform.parent.name.StartsWith("cd_trigger"))
+                        return;
+                }
+
                 rb.detectCollisions = enabled;
                 rb.isKinematic = !enabled;
 

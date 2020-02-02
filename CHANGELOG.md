@@ -2,6 +2,10 @@
 
 ## 2.1.1 Development 1 (tba)
 
+### Added
+
+- Added support for CD Player Enhaned Mod
+
 ### Changes
 
 - Improved compatibility with CarryMore

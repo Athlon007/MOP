@@ -57,7 +57,7 @@ namespace MOP
         public bool HayosikoColorfulGauges { get; private set; }
 
         // CD Player Enhanced
-        //public bool CDPlayerEnhanced { get; private set; }
+        public bool CDPlayerEnhanced { get; private set; }
 
         // CarryMore
         public bool CarryMore { get; private set; }
@@ -76,7 +76,7 @@ namespace MOP
             JetSky = IsModPresent("JetSky");
             Moonshinestill = IsModPresent("MSCStill");
             HayosikoColorfulGauges = IsModPresent("HayosikoColorfulGauges");
-            //CDPlayerEnhanced = IsModPresent("CDPlayer");
+            CDPlayerEnhanced = IsModPresent("CDPlayer");
             CarryMore = IsModPresent("CarryMore");
 
             ModConsole.Print("[MOP] Compatibility Manager done");
