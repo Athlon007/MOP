@@ -129,13 +129,13 @@ namespace MOP
             worldObjectList.Add("DANCEHALL");
             worldObjectList.Add("INSPECTION");
             worldObjectList.Add("PERAJARVI");
-            worldObjectList.Add("RYKIPOHJA");
+            worldObjectList.Add("RYKIPOHJA", 400);
             worldObjectList.Add("SOCCER");
             worldObjectList.Add("WATERFACILITY");
             worldObjectList.Add("DRAGRACE", 1100);
             if (!CompatibilityManager.instance.JetSky && !CompatibilityManager.instance.Moonshinestill)
                 worldObjectList.Add("BOAT");
-            worldObjectList.Add("StrawberryField");
+            worldObjectList.Add("StrawberryField", 400);
 
             ModConsole.Print("[MOP] Main world objects loaded");
 
@@ -214,6 +214,24 @@ namespace MOP
             GameObject.Find("FishAreaGOOD").transform.parent = null;
             GameObject.Find("FishAreaGOOD2").transform.parent = null;
 
+            // Fix for strawberry field mailboxes
+            GameObject.Find("StrawberryField").transform.Find("LOD/MailBox").parent = null;
+            GameObject.Find("StrawberryField").transform.Find("LOD/MailBox").parent = null;
+
+            /*
+            string z = "";
+            Transform x = GameObject.Find("RYKIPOHJA").transform;
+            foreach (var child in x.GetComponentsInChildren<Transform>())
+                z += "\n" + child.gameObject.name + " " + child.position;
+            System.IO.File.WriteAllText("ar.txt", z);
+            */
+
+            // Ryhipohja fixes
+            Transform rykipohja = GameObject.Find("RYKIPOHJA").transform;
+            rykipohja.Find("HouseRintama2").parent = buildings;
+            rykipohja.Find("ChickenHouse 3").parent = buildings;
+            rykipohja.Find("HouseOld5").parent = buildings;
+
             ModConsole.Print("[MOP] Finished applying fixes");
 
             //Things that should be enabled when out of proximity of the house
@@ -276,8 +294,8 @@ namespace MOP
 
             //if (MopSettings.PlayerIsNotAPirateScum == false)
             //{
-                //ModConsole.Error("Catastrophic Error! Velociraptor has been dispatched to look into the problem!");
-                //return;
+            //ModConsole.Error("Catastrophic Error! Velociraptor has been dispatched to look into the problem!");
+            //return;
             //}
 
             HookPreSaveGame();

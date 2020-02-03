@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.1.2 (tba)
+
+### Changes
+
+- Increased default strawberry field toggle distance
+
+### Bug Fixes
+
+- Strawberry field mailboxes will not be toggled anymore
+- Fixed houses at strawberry field not appearing
+
 ## 2.1.1 (03.02.2020)
 
 ### Added
