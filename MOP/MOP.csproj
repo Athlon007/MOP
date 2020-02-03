@@ -58,7 +58,7 @@
     <Compile Include="src\GameObjects\Items\CashRegisterHook.cs" />
     <Compile Include="src\GameObjects\Items\Items.cs" />
     <Compile Include="src\GameObjects\Items\ItemHook.cs" />
-    <Compile Include="src\GameObjects\Items\ItemSpawnCheck.cs" />
+    <Compile Include="src\GameObjects\Items\ShopModItemSpawnCheck.cs" />
     <Compile Include="src\GameObjects\Others\MopFsmManager.cs" />
     <Compile Include="src\GameObjects\Others\SatsumaInAreaCheck.cs" />
     <Compile Include="src\GameObjects\Places\Yard.cs" />

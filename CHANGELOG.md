@@ -1,24 +1,19 @@
 # Changelog
 
-## 2.1.1 Development 2 (tba)
-
-### Added
-
-- CD Player Enhanced Mod: added check for when the CDs have been bought
-
-## 2.1.1 Development 1 (02.02.2020)
+## 2.1.1 (03.02.2020)
 
 ### Added
 
 - Added support for CD Player Enhanced Mod
+- CD Player Enhanced Mod: added check for when the CDs have been bought
 
 ### Changes
 
-- Improved compatibility with CarryMore
+- Improved compatibility with CarryMore mod
 
 ### Bug Fixes
 
-- CarryMore: objects should not clip and teleport when taking out of the backpack
+- CarryMore Mod: objects should not clip and teleport when taking out of the backpack
 
 ## 2.1 (31.01.2020)
 

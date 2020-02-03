@@ -1,5 +1,6 @@
 Added:
-- Added support for CD Player Enhaned Mod
+- Added support for CD Player Enhanced Mod
+- CD Player Enhanced Mod: added check for when the CDs have been bought
 
 Changes:
 - Improved compatibility with CarryMore

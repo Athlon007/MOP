@@ -27,6 +27,8 @@ MOP officially supports following mods:
 - Offroad Hayosiko
 - Jet Sky
 - Moonshine Still Revived
+- Hayosiko Colorful Gauges
+- CD Player Enhanced
 
 The mod will also work with other mods which are not on the list. If it isn't, please report that on GitHub, or one of the official mod hosting websites.
 
