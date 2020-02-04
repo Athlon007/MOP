@@ -13,7 +13,7 @@ MOP (Modern Optimization Plugin) is currently the ultimate performance enchancin
 
 MOP aims for the maximum performance. Compared to KruFPS, it has the object loading lag reduced to minimum.
 
-|                 | Vanilla | KruFPS v3 |  MOP 1.0 |
+|                 | Vanilla | KruFPS v3 |  MOP 2.0 |
 |:---------------:|---------|--------|--------|
 |       Home      | 25 FPS  | 35 FPS | 45 FPS |
 | Driving Satsuma | 23 FPS  | 33 FPS | 40 FPS |
