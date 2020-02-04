@@ -1,9 +1,6 @@
-Added:
-- Added support for CD Player Enhanced Mod
-- CD Player Enhanced Mod: added check for when the CDs have been bought
-
 Changes:
-- Improved compatibility with CarryMore
+- Increased default strawberry field toggle distance
 
 Bug Fixes:
-- CarryMore: objects should not clip and teleport when taking out of the backpack
+- Strawberry field mailboxes will not be toggled anymore
+- Fixed houses at strawberry field not appearing

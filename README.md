@@ -48,7 +48,7 @@ MOP officially supports following mods:
 - Hayosiko Colorful Gauges
 - CD Player Enhanced
 
-The mod will also work with other mods which are not on the list. If it isn't, please report that on GitHub, or one of the official mod hosting websites.
+**WARNING:** This mod may or may not corrupt other mods. Use at your own risk!
 
 **THIS MOD IS NOT COMPATIBLE WITH KRUFPS!** Use only one of the mods.
 

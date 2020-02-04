@@ -40,7 +40,7 @@ namespace MOP
         public Quaternion Rotation { get; set; }
 
         // All objects that cannot be unloaded (because it causes problems) land under that object
-        Transform TemporaryParent;
+        Transform temporaryParent;
 
         // List of non unloadable objects
         List<UnloadableObject> unloadableObjects;
@@ -61,6 +61,7 @@ namespace MOP
         // Applies extra fixes, if is set to true.
         readonly bool isHayosiko;
 
+        // Applies for Flatbed only, if true the flatbed unloading will not happen
         bool flatbedUnloadPreventionActivated;
 
         // Prevents MOP from disabling car's physics when the car has rope hooked
@@ -80,7 +81,7 @@ namespace MOP
             Rotation = gameObject.transform.localRotation;
 
             // Creates a new gameobject that is names after the original file + '_TEMP' (ex. "SATSUMA(557kg, 248)_TEMP")
-            TemporaryParent = new GameObject(gameObject.name + "_TEMP").transform;
+            temporaryParent = new GameObject(gameObject.name + "_TEMP").transform;
 
             unloadableObjects = new List<UnloadableObject>();
 
@@ -188,7 +189,7 @@ namespace MOP
             if (!enabled)
             {
                 for (int i = 0; i < unloadableObjects.Count; i++)
-                    SetParentForChild(unloadableObjects[i].ObjectTransform, TemporaryParent);
+                    unloadableObjects[i].ObjectTransform.parent = temporaryParent;
 
                 Position = gameObject.transform.localPosition;
                 Rotation = gameObject.transform.localRotation;
@@ -204,7 +205,7 @@ namespace MOP
                 gameObject.transform.localRotation = Rotation;
 
                 for (int i = 0; i < unloadableObjects.Count; i++)
-                    SetParentForChild(unloadableObjects[i].ObjectTransform, unloadableObjects[i].Parent);
+                    unloadableObjects[i].ObjectTransform.parent = unloadableObjects[i].Parent;
             }
         }
 
@@ -223,16 +224,6 @@ namespace MOP
             carDynamics.enabled = enabled;
             axles.enabled = enabled;
             rb.isKinematic = !enabled;
-        }
-
-        /// <summary>
-        /// Changes parent for single child
-        /// </summary>
-        /// <param name="child"></param>
-        /// <param name="newParent"></param>
-        internal void SetParentForChild(Transform child, Transform newParent)
-        {
-            child.transform.parent = newParent;
         }
 
         /// <summary>
@@ -258,11 +249,19 @@ namespace MOP
             Toggle = ToggleUnityCar;
         }
 
+        /// <summary>
+        /// Hooks up to all car hooks.
+        /// Called when player attaches the rope.
+        /// </summary>
         void RopeHookUp()
         {
             IsRopeHooked = true;
         }
 
+        /// <summary>
+        /// Hooks up to all car hooks.
+        /// Called when player dismounts the rope.
+        /// </summary>
         void RopeUnhook()
         {
             IsRopeHooked = false;
