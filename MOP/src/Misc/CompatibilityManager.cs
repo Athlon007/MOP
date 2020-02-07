@@ -63,6 +63,9 @@ namespace MOP
         public bool CarryMore { get; private set; }
         public readonly Vector3 CarryMoreTempPosition = new Vector3(0.0f, -1000.0f, 0.0f);
 
+        // ActualMop
+        public bool ActualMop { get; private set; }
+
         public CompatibilityManager()
         {
             instance = this;
@@ -78,6 +81,7 @@ namespace MOP
             HayosikoColorfulGauges = IsModPresent("HayosikoColorfulGauges");
             CDPlayerEnhanced = IsModPresent("CDPlayer");
             CarryMore = IsModPresent("CarryMore");
+            ActualMop = IsModPresent("ActualMop");
 
             ModConsole.Print("[MOP] Compatibility Manager done");
         }
