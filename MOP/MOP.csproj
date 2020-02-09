@@ -108,4 +108,8 @@ call "C:\Users\aathl\Documents\MySummerCar\Mods\debug.bat"
 copy $(TargetPath) "C:\Users\aathl\Documents\MySummerCar\Mods" /y
 )</PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
 </Project>

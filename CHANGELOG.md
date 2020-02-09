@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.4 (tba)
+
+### Added
+
+- Added support for KekmetAddons mod
+
 ## 2.1.3 (09.02.2020)
 
 ### Bug Fixes

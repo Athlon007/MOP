@@ -66,6 +66,8 @@ namespace MOP
         // ActualMop
         public bool ActualMop { get; private set; }
 
+        public bool KekmetAddons { get; private set; }
+
         public CompatibilityManager()
         {
             instance = this;
@@ -82,6 +84,7 @@ namespace MOP
             CDPlayerEnhanced = IsModPresent("CDPlayer");
             CarryMore = IsModPresent("CarryMore");
             ActualMop = IsModPresent("ActualMop");
+            KekmetAddons = IsModPresent("KekmetAddons");
 
             ModConsole.Print("[MOP] Compatibility Manager done");
         }
