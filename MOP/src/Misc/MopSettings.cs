@@ -88,9 +88,6 @@ namespace MOP
         static bool overridePhysicsToggling = false;
         public static bool OverridePhysicsToggling { get => overridePhysicsToggling; }
 
-        static bool playerIsNotAPirateScum = false;
-        public static bool PlayerIsNotAPirateScum { get => playerIsNotAPirateScum; }
-
         public static void UpdateAll()
         {
             // Activating Objects
@@ -126,20 +123,6 @@ namespace MOP
             viewDistance = int.Parse(MOP.occlusionDistance.GetValue().ToString());
             minOcclusionDistance = int.Parse(MOP.minOcclusionDistance.GetValue().ToString());
             occlusionMethod = GetOcclusionMethod();
-
-            if (System.IO.File.Exists($"{MOP.ModConfigFolder}\\verified.mop"))
-            {
-                playerIsNotAPirateScum = true;
-            }
-            else
-            {
-                playerIsNotAPirateScum = MSCLoader.ModLoader.CheckSteam();
-
-                if (playerIsNotAPirateScum)
-                {
-                    System.IO.File.Create($"{MOP.ModConfigFolder}\\verified.mop");
-                }
-            }
         }
 
         /// <summary>

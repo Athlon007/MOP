@@ -82,7 +82,7 @@ namespace MOP
 
             output += "ActiveDistance: " + MopSettings.ActiveDistance + "\n";
             output += "ActiveDistanceMultiplicationValue: " + MopSettings.ActiveDistanceMultiplicationValue + "\n";
-            output += "SafeMode: " + MopSettings.SafeMode.ToString() + (MopSettings.PlayerIsNotAPirateScum == false ? "n't" : "") + "\n";
+            output += "SafeMode: " + MopSettings.SafeMode.ToString() + "\n";
             output += "RemoveEmptyBeerBottles: " + MopSettings.RemoveEmptyBeerBottles.ToString() + "\n";
             output += "SatsumaTogglePhysicsOnly: " + MopSettings.SatsumaTogglePhysicsOnly.ToString() + "\n";
             output += "OverridePhysicsToggling: " + MopSettings.OverridePhysicsToggling.ToString() + "\n";

@@ -9,6 +9,8 @@
 
 MOP (Modern Optimization Plugin) is currently the ultimate performance enchancing project for My Summer Car. It is partially based off of [KruFPS](https://github.com/Krutonium/KruFPS), but optimized for even more performance. It is also the only mod, that includes [occlusion culling](https://en.wikipedia.org/wiki/Hidden-surface_determination#Occlusion_culling) feature, that aims to improve the performance even more on low-end computers!
 
+The only FPS improver mod, that does all of this without any user interaction! No need to remember keybinds and select what things you want to disable at the time!
+
 ## Performance
 
 MOP aims for the maximum performance. Compared to KruFPS, it has the object loading lag reduced to minimum.
@@ -51,7 +53,7 @@ MOP officially supports following mods:
 
 **WARNING:** This mod may or may not corrupt other mods. Use at your own risk!
 
-**THIS MOD IS NOT COMPATIBLE WITH KRUFPS!** Use only one of the mods.
+**THIS MOD IS NOT COMPATIBLE WITH KRUFPS OR IMPROVEFPS!** Use only one of the mods.
 
 ## License
 

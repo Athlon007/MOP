@@ -23,7 +23,7 @@ namespace MOP
     public class MOP : Mod
     {
         public override string ID => "MOP"; //Your mod ID (unique)
-        public override string Name => "Modern Optimization Plugin (Development)"; //You mod name
+        public override string Name => "Modern Optimization Plugin"; //You mod name
         public override string Author => "Athlon"; //Your Username
         public override string Version => "2.1.3"; //Version
 
@@ -31,23 +31,6 @@ namespace MOP
         // This will create subfolder in Assets folder for your mod.
         public override bool UseAssetsFolder => false;
         public override bool SecondPass => true;
-
-        public static string ModConfigFolder;
-
-        /// <summary>
-        /// Called once, when mod is loading after game is fully loaded.
-        /// </summary>
-        public override void OnLoad()
-        {
-            // Disable the mod, if KruFPS is present
-            if (ModLoader.IsModPresent("KruFPS"))
-            {
-                ModUI.ShowMessage("MOP is not compatbile with KruFPS. Please remove KruFPS first!", "[MOP] Error");
-                return;
-            }
-
-            ModConfigFolder = ModLoader.GetModConfigFolder(this);
-        }
 
         /// <summary>
         /// Called once, when mod is loading after game is fully loaded.
