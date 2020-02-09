@@ -30,7 +30,7 @@ namespace MOP
 
         public GameObject gameObject { get; set; }
 
-        // Objects from that whitelist will not be disabled
+        // Objects from that list will not be disabled
         // It is so to prevent from restock script and Teimo's bike routine not working
         internal string[] GameObjectBlackList;
 

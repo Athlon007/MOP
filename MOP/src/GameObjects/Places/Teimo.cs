@@ -46,13 +46,16 @@ namespace MOP
             "needle", "Parts", "_gfx", "LookTarget", "Speak", "Functions", "Bottle", "GrillBox", "Food",
             "BeerBottle", "VodkaShot", "CoffeeCup", "Cigarettes", "Fighter2", "TargetPoint", "RayPivot",
             "TargetSelf", "AudioClips", "HitPosition", "HumanCol", "Ray", "bodymesh_fighter", "Char", "ThrowBody",
-            "PlayerRigid" };
+            "PlayerRigid", "GrillboxMicro" };
 
         /// <summary>
         /// Initialize the Store class
         /// </summary>
         public Teimo() : base("STORE")
         {
+            // Fix for items bought via envelope
+            gameObject.transform.Find("Boxes").parent = null;
+
             GameObjectBlackList = blackList;
             DisableableChilds = GetDisableableChilds();
         }

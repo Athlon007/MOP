@@ -15,6 +15,8 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace MOP
 {
@@ -39,7 +41,7 @@ namespace MOP
             "TireCatcher", "Ropes", "Note", "note", "inspection_desk 1", "LOD", "Office", "Furniture",
             "Building", "office_floor", "coll", "wall_base", "JunkYardJob", "PayMoney", "100mk", "GaugeMeshTach",
             "gauge_glass_fbx", "Pivot", "needle", "Bolt", "bolt", "grille", "wheel_steel5", "gear_stick",
-            "Platform", "Coll" };
+            "Platform", "Coll", "Buy", "Product" };
 
         /// <summary>
         /// Initialize the RepairShop class
@@ -57,6 +59,11 @@ namespace MOP
 
             GameObjectBlackList = blackListList.ToArray();
             DisableableChilds = GetDisableableChilds();
+
+            // Fix for Satsuma parts on shelves
+            List<Transform> productsMesh = DisableableChilds.FindAll(t => t.name == "mesh" && t.parent.name.Contains("Product"));
+            foreach (Transform product in productsMesh)
+                DisableableChilds.Remove(product);
         }
     }
 }

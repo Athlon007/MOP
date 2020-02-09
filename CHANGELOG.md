@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.1.3 Dev 1 (09.02.2020)
+
+### Bug Fixes
+
+- Fixed order items (ex. ratchet set) from disappearing when player bought them and left the shop
+- Satsuma parts at Repair Shop will not appear when they shouldn't
+- Sausage with fries in the microwave at Teimo's will not appear when it shouldn't
+
 ## 2.1.2 (06.02.2020)
 
 ### Changes

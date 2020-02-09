@@ -1,6 +1,4 @@
-Changes:
-- Increased default strawberry field toggle distance
-
 Bug Fixes:
-- Strawberry field mailboxes will not be toggled anymore
-- Fixed houses at strawberry field not appearing
+- Fixed order items (ex. ratchet set) from disappearing when player bought them and left the shop
+- Satsuma parts at Repair Shop will not appear when they shouldn't
+- Sausage with fries in the microwave at Teimo's will not appear when it shouldn't
