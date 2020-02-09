@@ -8,6 +8,10 @@
 - Satsuma parts at Repair Shop will not appear when they shouldn't
 - Sausage with fries in the microwave at Teimo's will not appear when it shouldn't
 
+### Removed
+
+- Removed unused code
+
 ## 2.1.2 (06.02.2020)
 
 ### Changes
