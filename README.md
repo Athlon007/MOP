@@ -47,6 +47,7 @@ MOP officially supports following mods:
 - Moonshine Still Revived
 - Hayosiko Colorful Gauges
 - CD Player Enhanced
+- Actual Mop
 
 **WARNING:** This mod may or may not corrupt other mods. Use at your own risk!
 
