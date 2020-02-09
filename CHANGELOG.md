@@ -7,6 +7,8 @@
 - Fixed order items (ex. ratchet set) from disappearing when player bought them and left the shop
 - Satsuma parts at Repair Shop will not appear when they shouldn't
 - Sausage with fries in the microwave at Teimo's will not appear when it shouldn't
+- Fixed Teimo's advertisement pile disappearing when taking it away from shop
+- Fixed the wobbly bar fighter bug
 
 ### Removed
 

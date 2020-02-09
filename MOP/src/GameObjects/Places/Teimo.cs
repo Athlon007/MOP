@@ -46,7 +46,7 @@ namespace MOP
             "needle", "Parts", "_gfx", "LookTarget", "Speak", "Functions", "Bottle", "GrillBox", "Food",
             "BeerBottle", "VodkaShot", "CoffeeCup", "Cigarettes", "Fighter2", "TargetPoint", "RayPivot",
             "TargetSelf", "AudioClips", "HitPosition", "HumanCol", "Ray", "bodymesh_fighter", "Char", "ThrowBody",
-            "PlayerRigid", "GrillboxMicro" };
+            "PlayerRigid", "GrillboxMicro", "PhysHead", "Shades", "hat", "glasses", "FighterFist" };
 
         /// <summary>
         /// Initialize the Store class
@@ -56,8 +56,14 @@ namespace MOP
             // Fix for items bought via envelope
             gameObject.transform.Find("Boxes").parent = null;
 
+            // Fix for advertisement pile disappearing when taken
+            gameObject.transform.Find("AdvertSpawn").transform.parent = null;
+
             GameObjectBlackList = blackList;
             DisableableChilds = GetDisableableChilds();
+
+            // Fix for the bar fighter
+            DisableableChilds.Remove(gameObject.transform.Find("Fighter2/Pivot"));
         }
     }
 }
