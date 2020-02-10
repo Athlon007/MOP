@@ -6,6 +6,10 @@
 
 - Added support for KekmetAddons mod
 
+### Bug Fixes
+
+- Items left on chimney in the cottage will not fall through it anymore
+
 ## 2.1.3 (09.02.2020)
 
 ### Bug Fixes

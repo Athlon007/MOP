@@ -206,6 +206,7 @@ namespace MOP
             GameObject.Find("lantern(itemx)").transform.parent = null;
             GameObject.Find("coffee cup(itemx)").transform.parent = null;
             GameObject.Find("camera(itemx)").transform.parent = null;
+
             GameObject.Find("fireworks bag(itemx)").transform.parent = null;
 
             // Fix for fishing areas
@@ -218,19 +219,14 @@ namespace MOP
             GameObject.Find("StrawberryField").transform.Find("LOD/MailBox").parent = null;
             GameObject.Find("StrawberryField").transform.Find("LOD/MailBox").parent = null;
 
-            /*
-            string z = "";
-            Transform x = GameObject.Find("RYKIPOHJA").transform;
-            foreach (var child in x.GetComponentsInChildren<Transform>())
-                z += "\n" + child.gameObject.name + " " + child.position;
-            System.IO.File.WriteAllText("ar.txt", z);
-            */
-
             // Ryhipohja fixes
             Transform rykipohja = GameObject.Find("RYKIPOHJA").transform;
             rykipohja.Find("HouseRintama2").parent = buildings;
             rykipohja.Find("ChickenHouse 3").parent = buildings;
             rykipohja.Find("HouseOld5").parent = buildings;
+
+            // Fix for items left on cottage chimney clipping through it on first load of cottage
+            GameObject.Find("COTTAGE").transform.Find("MESH/Cottage_chimney").parent = null;
 
             ModConsole.Print("[MOP] Finished applying fixes");
 

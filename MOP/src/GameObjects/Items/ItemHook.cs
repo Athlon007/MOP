@@ -154,7 +154,7 @@ namespace MOP
             StartCoroutine(currentBeerBottleRoutine);
         }
 
-        private IEnumerator currentBeerBottleRoutine;
+        IEnumerator currentBeerBottleRoutine;
         IEnumerator BeerBottlesRoutine()
         {
             yield return new WaitForSeconds(7);
