@@ -1,2 +1,5 @@
 Added:
 - Added support for KekmetAddons mod
+
+Bug Fixes:
+- Items left on chimney in the cottage will not fall through it anymore

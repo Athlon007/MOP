@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.1.4 Development 1 (10.02.2020)
+## 2.1.4 (10.02.2020)
 
 ### Added
 
