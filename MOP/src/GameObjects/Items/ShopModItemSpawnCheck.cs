@@ -34,7 +34,6 @@ namespace MOP
         {
             if (other.gameObject.name.ContainsAny("cd case(itemy)", "CD Rack(itemy)", "cd(itemy)") && other.gameObject.GetComponent<ItemHook>() == null)
             {
-                MSCLoader.ModConsole.Print(other.gameObject.name);
                 other.gameObject.AddComponent<ItemHook>();
 
                 GameObject obj = other.gameObject;

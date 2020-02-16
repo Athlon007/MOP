@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.1.5 (tba)
+
+### Bug Fixes
+
+- Fixed floppies at Jokke disappearing from disappearing
+- Jokke's furnitures shouldn't clip through his house floor
+
+### Removed
+
+- Removed unused code
+
 ## 2.1.4 (10.02.2020)
 
 ### Added

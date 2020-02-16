@@ -228,6 +228,13 @@ namespace MOP
             // Fix for items left on cottage chimney clipping through it on first load of cottage
             GameObject.Find("COTTAGE").transform.Find("MESH/Cottage_chimney").parent = null;
 
+            // Fix for floppies at Jokke's new house
+            perajarvi.transform.Find("TerraceHouse/diskette(itemx)").parent = null;
+            perajarvi.transform.Find("TerraceHouse/diskette(itemx)").parent = null;
+
+            // Fix for Jokke's house furnitures clipping through floor
+            perajarvi.transform.Find("TerraceHouse/Apartments/Colliders").parent = null;
+
             ModConsole.Print("[MOP] Finished applying fixes");
 
             //Things that should be enabled when out of proximity of the house

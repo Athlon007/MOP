@@ -33,7 +33,7 @@ namespace MOP
         "oilfilter", "pike", "pizza", "ratchet set", "potato chips", "sausages", "sugar", "spanner set", 
         "spray can", "two stroke fuel", "wiring mess", "wood carrier", "yeast", "shopping bag", "flashlight", 
         "beer case", "fireworks bag", "lantern", "dipper", "coffee pan", "fireworks bag", "camera", 
-        "water bucket", "car jack", "warning triangle", "spirit" };
+        "water bucket", "car jack", "warning triangle", "spirit", "diskette" };
 
         public string[] whiteList = { "grille gt" };
 
