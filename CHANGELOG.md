@@ -6,6 +6,8 @@
 
 - Fixed floppies at Jokke disappearing from disappearing
 - Jokke's furnitures shouldn't clip through his house floor
+- Fixed a bug in which the Hayosiko would despawn if the player didn't had keys for it
+- Fixed vehicle doors getting stuck open after respawn
 
 ### Removed
 

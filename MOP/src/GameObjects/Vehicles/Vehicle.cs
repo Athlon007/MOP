@@ -142,7 +142,7 @@ namespace MOP
             // Set default toggling method - that is entire vehicle
             Toggle = ToggleActive;
 
-            isHayosiko = gameObject.name == "HAYOSIKO(1500kg 250)";
+            isHayosiko = gameObject.name == "HAYOSIKO(1500kg, 250)";
 
             // Fix for Offroad Hayosiko and HayosikoColorfulGauges
             if (isHayosiko && (CompatibilityManager.instance.OffroadHayosiko || CompatibilityManager.instance.HayosikoColorfulGauges))
@@ -167,8 +167,19 @@ namespace MOP
             {
                 Toggle = ToggleUnityCar;
             }
-        }
 
+            // Get all HingeJoints and add HingeManager to them
+            // Ignore for Satsuma or cars that use ToggleUnityCar method (and force for Hayosiko - no matter what)
+            if (satsumaScript == null && Toggle != ToggleUnityCar || isHayosiko)
+            {
+                HingeJoint[] joints = gameObject.transform.GetComponentsInChildren<HingeJoint>();
+                foreach (HingeJoint joint in joints)
+                {
+                    ModConsole.Print("a");
+                    joint.gameObject.AddComponent<HingeManager>();
+                }
+            }
+        }
 
         public delegate void ToggleHandler(bool enabled);
         public ToggleHandler Toggle;
