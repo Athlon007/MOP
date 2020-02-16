@@ -174,10 +174,7 @@ namespace MOP
             {
                 HingeJoint[] joints = gameObject.transform.GetComponentsInChildren<HingeJoint>();
                 foreach (HingeJoint joint in joints)
-                {
-                    ModConsole.Print("a");
                     joint.gameObject.AddComponent<HingeManager>();
-                }
             }
         }
 
