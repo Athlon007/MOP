@@ -16,8 +16,6 @@
 
 namespace MOP
 {
-    internal enum OcclusionMethods { Chequered, Double }
-
     class MopSettings
     {
         // This is the master switch of MOP. If deactivated, all functions will freeze.

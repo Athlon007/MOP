@@ -42,7 +42,6 @@ THIS MOD IS NOT COMPATIBLE WITH KRUFPS! Use only one of the mods.
   - EPS
 - Est_Nbmstr - for clever name idea
 - Icon made by Freepik from www.flaticon.com
-- u/mrjackspede (from r/Unity3D) - free dynamic object occlusion script
 - Hawk031 - Moonshine Still Revived mod support
 
 
