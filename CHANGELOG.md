@@ -4,7 +4,7 @@
 
 ### Removed
 
-- Removed Occlusion Culling
+- Removed Occlusion Culling due to it being too unreliable and confusing for new users
 
 ## 2.1.5 (16.02.2020)
 
