@@ -25,7 +25,7 @@ namespace MOP
         public override string ID => "MOP"; //Your mod ID (unique)
         public override string Name => "Modern Optimization Plugin"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "2.1.5"; //Version
+        public override string Version => "2.2"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
@@ -44,10 +44,6 @@ namespace MOP
 
             // Initialize CompatibiliyManager
             new CompatibilityManager();
-
-            // Add Occlusion
-            if (MopSettings.EnableObjectOcclusion)
-                worldManager.AddComponent<Occlusion>();
 
             // Add WorldManager class
             worldManager.AddComponent<WorldManager>();
@@ -74,22 +70,6 @@ namespace MOP
         public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Remove Empty Beer Bottles", false, MopSettings.UpdateAll);
         public static Settings satsumaTogglePhysicsOnly = new Settings("satsumaTogglePhysicsOnly", "SATSUMA: Toggle Physics Only", false, MopSettings.UpdateAll);
         Settings temporarilyDisablePhysicsToggling = new Settings("temporarilyDisablePhysicsToggling", "Temporarily Disable Physics Toggling", MopSettings.DisablePhysicsToggling);
-
-        // 
-        // OCCLUSION
-        //
-        public static Settings enableObjectOcclusion = new Settings("enableObjectOcclusion", "Object Occlusion (requires restart)", false, MopSettings.UpdateAll);
-        // Occlussion Sample Detail
-        public static Settings occlusionSamplesLower = new Settings("occlusionSamplesLow", "Lowest (fastest)", false, MopSettings.UpdateAll);
-        public static Settings occlusionSamplesLow = new Settings("occlusionSamplesLow", "Low", false, MopSettings.UpdateAll);
-        public static Settings occlusionSamplesDetailed = new Settings("occlusionSamplesDetailed", "High (default)", true, MopSettings.UpdateAll);
-        public static Settings occlusionSamplesVeryDetailed = new Settings("occlusionSamplesVeryDetailed", "Very High (slowest)", false, MopSettings.UpdateAll);
-        // Delay and Range
-        public static Settings minOcclusionDistance = new Settings("minOcclusionDistance", "Minimum Distance", 50, MopSettings.UpdateAll);
-        public static Settings occlusionDistance = new Settings("occlusionDistance", "Maximum Distance", 400, MopSettings.UpdateAll);
-        // Occlusion Method
-        public static Settings occlusionChequered = new Settings("occlusionChequered", "Fast (Default)", true, MopSettings.UpdateAll);
-        public static Settings occlusionDouble = new Settings("occlusionDouble", "Fancy", false, MopSettings.UpdateAll);
 
         //
         // ADVANCED
@@ -129,27 +109,6 @@ namespace MOP
                 "Note: this will decrease the performance boost.");
             Settings.AddButton(this, temporarilyDisablePhysicsToggling, "If your car is stuck in the air (for some reason), " +
                 "you can use that button to temporarily disable physics toggling, so it will fall back to the ground.");
-
-            // Occlusion
-            Settings.AddHeader(this, "Occlusion Culling - Experimental", headerColor);
-            Settings.AddText(this, "Occlusion Culling disables rendering of objects not visible by camera.");
-            Settings.AddText(this, "Note: Occlusion Culling is the experimental feature that may cause bigger or smaller graphical glitches!\n");
-            Settings.AddCheckBox(this, enableObjectOcclusion);
-            Settings.AddSlider(this, minOcclusionDistance, 10, 500);
-            Settings.AddText(this, "Minimum distance after which the object's visiblity in camera is checked." +
-                " If you're closer to the object than this value, the object will not be hidden, even when you not look at it.");
-            Settings.AddSlider(this, occlusionDistance, 200, 3000);
-            Settings.AddText(this, "How far the rays will be sent which check visible objects. " +
-                "Objects that are further than that value will not be checked.\nWARNING: large values" +
-                " may cause lag.");
-            Settings.AddText(this, "Occlusion Sampling Level of Detail");
-            Settings.AddCheckBox(this, occlusionSamplesLower, "occlusionSampleDetail");
-            Settings.AddCheckBox(this, occlusionSamplesLow, "occlusionSampleDetail");
-            Settings.AddCheckBox(this, occlusionSamplesDetailed, "occlusionSampleDetail");
-            Settings.AddCheckBox(this, occlusionSamplesVeryDetailed, "occlusionSampleDetail");
-            Settings.AddText(this, "Occlusion Method");
-            Settings.AddCheckBox(this, occlusionChequered, "occlusionMethod");
-            Settings.AddCheckBox(this, occlusionDouble, "occlusionMethod");
 
             // Advanced
             Settings.AddHeader(this, "Advanced", headerColor);

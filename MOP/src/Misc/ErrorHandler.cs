@@ -91,17 +91,6 @@ namespace MOP
             output += "ToggleVehiclePhysicsOnly: " + MopSettings.ToggleVehiclePhysicsOnly.ToString() + "\n";
             output += "IgnoreModVehicles: " + MopSettings.IgnoreModVehicles.ToString() + "\n";
 
-            output += "EnableObjectOcclusion: " + MopSettings.EnableObjectOcclusion.ToString() + "\n";
-            if (MopSettings.EnableObjectOcclusion)
-            {
-                output += "OcclusionSamples: " + MopSettings.OcclusionSamples + "\n";
-                output += "OcclusionSampleDelay: " + MopSettings.OcclusionSampleDelay + "\n";
-                output += "OcclusionHideDelay: " + MopSettings.OcclusionHideDelay + "\n";
-                output += "MinOcclusionDistance: " + MopSettings.MinOcclusionDistance + "\n";
-                output += "ViewDistance: " + MopSettings.ViewDistance + "\n";
-                output += "OcclusionMethod: " + MopSettings.OcclusionMethod + "\n";
-            }
-
             // List installed mods
             output += "\n=== MODS ====\n\n";
             foreach (var mod in MSCLoader.ModLoader.LoadedMods)

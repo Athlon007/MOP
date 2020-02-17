@@ -124,7 +124,7 @@ namespace MOP
                 rb.isKinematic = !enabled;
 
                 // If occlusion culling is not enabled, disable object's renderer on distance.
-                if (!MopSettings.EnableObjectOcclusion && renderer != null)
+                if (renderer != null)
                 {
                     renderer.enabled = enabled;
                 }

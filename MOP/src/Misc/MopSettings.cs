@@ -51,35 +51,8 @@ namespace MOP
         public static bool ToggleVehiclePhysicsOnly { get => toggleVehiclePhysicsOnly; }
 
         //
-        // OCCLUSION CULLING
-        //
-        public static bool EnableObjectOcclusion { get; set; }
-
-        static int occlusionSamples = 120;
-        public static int OcclusionSamples { get => occlusionSamples; }
-        
-        static int viewDistance = 400;
-        public static int ViewDistance { get => viewDistance; }
-
-        static int occlusionSampleDelay = 1;
-        public static int OcclusionSampleDelay { get => occlusionSampleDelay; }
-
-        static int minOcclusionDistance = 50;
-        public static int MinOcclusionDistance { get => minOcclusionDistance; }
-
-        static OcclusionMethods occlusionMethod = OcclusionMethods.Chequered;
-        public static OcclusionMethods OcclusionMethod { get => occlusionMethod; }
-
-        //
         // MISCELLANEOUS
         //
-
-        // OcclusionHideDelay is calculated automatically
-        public static int OcclusionHideDelay = -1;
-
-        // Checked after the warning about maximum distance and minimum distance of occlusion culling is showed,
-        // so it won't be displayed again.
-        static bool occlusionDistanceWarningShowed;
 
         // Distance after which car physics are toggled
         public const int UnityCarActiveDistance = 5;
@@ -102,27 +75,6 @@ namespace MOP
             removeEmptyBeerBottles = (bool)MOP.removeEmptyBeerBottles.GetValue();
             satsumaTogglePhysicsOnly = (bool)MOP.satsumaTogglePhysicsOnly.GetValue();
             toggleVehiclePhysicsOnly = (bool)MOP.toggleVehiclePhysicsOnly.GetValue();
-            
-            // Occlusion Culling
-            if (viewDistance < minOcclusionDistance)
-            {
-                MOP.occlusionDistance.Value = 400;
-                MOP.minOcclusionDistance.Value = 50;
-
-                if (!occlusionDistanceWarningShowed)
-                {
-                    MSCLoader.ModUI.ShowMessage("Occlusion Distance cannot be lower than Minimum Occlusion Distance." +
-                        "\n\nIf you don't change it, both values will be reset to default!", "Error");
-
-                    occlusionDistanceWarningShowed = true;
-                }
-            }
-
-            EnableObjectOcclusion = (bool)MOP.enableObjectOcclusion.GetValue();
-            occlusionSamples = GetOcclusionSamples();
-            viewDistance = int.Parse(MOP.occlusionDistance.GetValue().ToString());
-            minOcclusionDistance = int.Parse(MOP.minOcclusionDistance.GetValue().ToString());
-            occlusionMethod = GetOcclusionMethod();
         }
 
         /// <summary>
@@ -143,31 +95,6 @@ namespace MOP
                 case 3:
                     return 4;
             }
-        }
-
-        /// <summary>
-        /// Returns the occlusion method used
-        /// </summary>
-        static OcclusionMethods GetOcclusionMethod()
-        {
-            return (bool)MOP.occlusionDouble.GetValue() ? OcclusionMethods.Double : OcclusionMethods.Chequered;
-        }
-
-        /// <summary>
-        /// Returns the the occlusion sampling value
-        /// </summary>
-        static int GetOcclusionSamples()
-        {
-            if ((bool)MOP.occlusionSamplesLower.GetValue())
-                return 30;
-
-            if ((bool)MOP.occlusionSamplesLow.GetValue())
-                return 60;
-
-            if ((bool)MOP.occlusionSamplesVeryDetailed.GetValue())
-                return 240;
-
-            return 120;
         }
         
         /// <summary>

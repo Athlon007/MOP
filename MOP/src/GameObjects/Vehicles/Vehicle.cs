@@ -108,11 +108,6 @@ namespace MOP
             axles = gameObject.GetComponent<Axles>();
             rb = gameObject.GetComponent<Rigidbody>();
 
-            if (!gameObject.name.ContainsAny("HAYOSIKO", "FURY"))
-            {
-                gameObject.AddComponent<OcclusionObject>();
-            }
-
             // Hook HookFront and HookRear
             // Get hooks first
             Transform hookFront = transform.Find("HookFront");

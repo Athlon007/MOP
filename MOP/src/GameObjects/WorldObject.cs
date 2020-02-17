@@ -56,11 +56,6 @@ namespace MOP
             this.gameObject = gameObject;
             this.Distance = distance;
 
-            if (this.gameObject.GetComponent<OcclusionObject>() == null)
-            {
-                this.gameObject.AddComponent<OcclusionObject>();
-            }
-
             renderer = this.gameObject.GetComponent<Renderer>();
 
             // If rendererOnly is true, the Toggle will be set to ToggleMesh.

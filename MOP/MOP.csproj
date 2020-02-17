@@ -75,10 +75,6 @@
     <Compile Include="src\Misc\CustomExtensions.cs" />
     <Compile Include="src\Misc\ErrorHandler.cs" />
     <Compile Include="src\Misc\MopSettings.cs" />
-    <Compile Include="src\Occlusion\Occlusion.cs" />
-    <Compile Include="src\Occlusion\OcclusionBase.cs" />
-    <Compile Include="src\Occlusion\OcclusionCamera.cs" />
-    <Compile Include="src\Occlusion\OcclusionObject.cs" />
     <Compile Include="src\WorldManager.cs" />
     <Compile Include="src\MOP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

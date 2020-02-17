@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2 (tba)
+
+### Removed
+
+- Removed Occlusion Culling
+
 ## 2.1.5 (16.02.2020)
 
 ### Bug Fixes
