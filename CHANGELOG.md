@@ -1,6 +1,14 @@
 # Changelog
 
-## 2.2 (tba)
+## 2.2 (20.02.2020)
+
+### Added
+
+- Added compatiblity with the newest experimental update (20.02.2020)
+
+### Bug Fixes
+
+- Fixed new video poker machine being glitched out
 
 ### Removed
 

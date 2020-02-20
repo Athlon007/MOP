@@ -46,7 +46,9 @@ namespace MOP
             "needle", "Parts", "_gfx", "LookTarget", "Speak", "Functions", "Bottle", "GrillBox", "Food",
             "BeerBottle", "VodkaShot", "CoffeeCup", "Cigarettes", "Fighter2", "TargetPoint", "RayPivot",
             "TargetSelf", "AudioClips", "HitPosition", "HumanCol", "Ray", "bodymesh_fighter", "Char", "ThrowBody",
-            "PlayerRigid", "GrillboxMicro", "PhysHead", "Shades", "hat", "glasses", "FighterFist" };
+            "PlayerRigid", "GrillboxMicro", "PhysHead", "Shades", "hat", "glasses", "FighterFist", "GameLogic",
+            "Buttons", "Bet", "Double", "Hold", "InsertCoin", "Deal", "TakeWin", "Pokeri", "CashSound", "videopoker_on",
+            "Hatch", "HookSlot", "Disabled", "slot_machine_off", "Money", "Lock", "Cash" };
 
         /// <summary>
         /// Initialize the Store class
@@ -61,6 +63,8 @@ namespace MOP
 
             GameObjectBlackList = blackList;
             DisableableChilds = GetDisableableChilds();
+
+            DisableableChilds.Remove(gameObject.transform.Find("SlotMachine"));
 
             // Fix for the bar fighter
             DisableableChilds.Remove(gameObject.transform.Find("Fighter2/Pivot"));
