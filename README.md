@@ -51,6 +51,7 @@ MOP officially supports following mods:
 - CD Player Enhanced
 - Actual Mop
 - KekmetAddons
+- Bottle Recycle
 
 **WARNING:** This mod may or may not corrupt other mods. Use at your own risk!
 
