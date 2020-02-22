@@ -68,6 +68,8 @@ namespace MOP
 
         public bool KekmetAddons { get; private set; }
 
+        public bool BottleRecycling { get; private set; }
+
         public CompatibilityManager()
         {
             instance = this;
@@ -85,6 +87,7 @@ namespace MOP
             CarryMore = IsModPresent("CarryMore");
             ActualMop = IsModPresent("ActualMop");
             KekmetAddons = IsModPresent("KekmetAddons");
+            BottleRecycling = IsModPresent("BottleRecycling");
 
             ModConsole.Print("[MOP] Compatibility Manager done");
         }

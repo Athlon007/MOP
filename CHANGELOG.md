@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.1 (22.02.2020)
+
+### Added
+
+- Added support for BottleRecycling mod
+
 ## 2.2 (20.02.2020)
 
 ### Added
