@@ -501,7 +501,15 @@ namespace MOP
                         {
                             if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
                             {
-                                ModConsole.Print("[MOP] One minor object has been skipped");
+                                if (!CompatibilityManager.instance.BottleRecycling)
+                                    ModConsole.Print("[MOP] Removed one item from ItemHooks list, because it doesn't exist anymore.\n");
+
+                                // Remove item at the current i
+                                Items.instance.ItemsHooks.RemoveAt(i);
+
+                                // Decrease the i by 1, because the List has shifted, so the items will not be skipped
+                                // Then continue;
+                                i--;
                                 continue;
                             }
 
@@ -521,7 +529,15 @@ namespace MOP
                         {
                             if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
                             {
-                                ModConsole.Print("[MOP] One minor object has been skipped");
+                                if (!CompatibilityManager.instance.BottleRecycling)
+                                    ModConsole.Print("[MOP] Removed one item from ItemHooks list, because it doesn't exist anymore.\n");
+
+                                // Remove item at the current i
+                                Items.instance.ItemsHooks.RemoveAt(i);
+                                
+                                // Decrease the i by 1, because the List has shifted, so the items will not be skipped
+                                // Then continue;
+                                i--;
                                 continue;
                             }
 

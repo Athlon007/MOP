@@ -1,8 +1,2 @@
 Added:
-- Added compatiblity with the newest experimental update (20.02.2020)
-
-Bug Fixes:
-- Fixed new video poker machine being glitched out
-
-Removed:
-- Removed Occlusion Culling
+- Added support for BottleRecycling mod

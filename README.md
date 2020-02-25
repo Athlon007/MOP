@@ -51,10 +51,17 @@ MOP officially supports following mods:
 - CD Player Enhanced
 - Actual Mop
 - KekmetAddons
+- Bottle Recycle
 
 **WARNING:** This mod may or may not corrupt other mods. Use at your own risk!
 
 **THIS MOD IS NOT COMPATIBLE WITH KRUFPS OR IMPROVEFPS!** You need to remove them in order to use MOP.
+
+## Cores
+
+Cores are extensions for the base MOP. They add additional functionality, that didn't found their way to the base MOP for various reasons.
+
+- [Occlusion Core](https://github.com/Athlon007/MopOcclusionCore) - restores the occlusion culling feature that was cut from base MOP with the release of update 2.2
 
 ## License
 
@@ -66,14 +73,14 @@ This program is distributed under GNU General Public License v3. Feel free to us
   - RedJohn260
   - EPS
 - Est_Nbmstr - for clever name idea
-- Icon made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](www.flaticon.com)
 - Hawk031 - Moonshine Still Revived mod support
+- Icon made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](www.flaticon.com)
 
 ## Support
 
 Like MOP? Consider buying me a beer :)
 
-[PayPal](https://www.paypal.me/figurakonrad)
+[![](http://athlon.kkmr.pl/images/svg/paypal.svg)](https://www.paypal.me/figurakonrad)
 
 ## Contact
 
