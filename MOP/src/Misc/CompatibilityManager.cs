@@ -42,34 +42,44 @@ namespace MOP
         public bool PoliceFerndale { get; private set; }
 
         // VHS Player mod
+        // https://www.nexusmods.com/mysummercar/mods/125
         public bool VhsPlayer { get; private set; }
 
         // Offroad Hayosiko
+        // https://www.nexusmods.com/mysummercar/mods/36
         public bool OffroadHayosiko { get; private set; }
 
         // JetSky mod
+        // https://www.racedepartment.com/downloads/jet-sky.19967/
         public bool JetSky { get; private set; }
 
-        // Moonshine still mod
+        // Moonshine Still Revived mod
+        //https://www.racedepartment.com/downloads/moonshine-still-revived.30386/
         public bool Moonshinestill { get; private set; }
 
         // HayosikoColorfulGauges
+        // https://www.nexusmods.com/mysummercar/mods/50
         public bool HayosikoColorfulGauges { get; private set; }
 
         // CD Player Enhanced
+        // https://www.racedepartment.com/downloads/cd-player-enhanced.19002/
         public bool CDPlayerEnhanced { get; private set; }
 
         // CarryMore
+        // https://www.racedepartment.com/downloads/carry-more-backpack-alternative.22396/
         public bool CarryMore { get; private set; }
         public readonly Vector3 CarryMoreTempPosition = new Vector3(0.0f, -1000.0f, 0.0f);
 
         // ActualMop
+        // https://github.com/Athlon007/ActualMop
         public bool ActualMop { get; private set; }
 
         // KekmetAddons
+        // https://www.nexusmods.com/mysummercar/mods/46
         public bool KekmetAddons { get; private set; }
-        
+
         // Bottle Recycling 
+        // https://www.nexusmods.com/mysummercar/mods/171
         public bool BottleRecycling { get; private set; }
 
         public CompatibilityManager()
