@@ -78,6 +78,11 @@ namespace MOP
             if (gameObject.name.StartsWith("beer case"))
             {
                 FsmHook.FsmInject(this.gameObject, "Remove bottle", DestroyBeerBottles);
+
+                if (CompatibilityManager.instance.BottleRecycling)
+                {
+                    FsmHook.FsmInject(this.gameObject, "Remove bottle", HookBottles);
+                }
             }
         }
 
@@ -145,20 +150,45 @@ namespace MOP
             if (!MopSettings.RemoveEmptyBeerBottles)
                 return;
 
-            if (currentBeerBottleRoutine != null)
+            if (currentBottleDestroyerRoutine != null)
             {
-                StopCoroutine(currentBeerBottleRoutine);
+                StopCoroutine(currentBottleDestroyerRoutine);
             }
 
-            currentBeerBottleRoutine = BeerBottlesRoutine();
-            StartCoroutine(currentBeerBottleRoutine);
+            currentBottleDestroyerRoutine = BottleDestroyerRoutine();
+            StartCoroutine(currentBottleDestroyerRoutine);
         }
 
-        IEnumerator currentBeerBottleRoutine;
-        IEnumerator BeerBottlesRoutine()
+        IEnumerator currentBottleDestroyerRoutine;
+        IEnumerator BottleDestroyerRoutine()
         {
             yield return new WaitForSeconds(7);
             Items.instance.DestroyBeerBottles();
+        }
+
+        /// <summary>
+        /// Used when this item is a beer case.
+        /// Starts the coroutine that initializes Items.DestroyEmptyBottles after 7 seconds.
+        /// </summary>
+        void HookBottles()
+        {
+            if (!CompatibilityManager.instance.BottleRecycling)
+                return;
+
+            if (currentBottleHooker != null)
+            {
+                StopCoroutine(currentBottleHooker);
+            }
+
+            currentBottleHooker = BottleHooker();
+            StartCoroutine(currentBottleHooker);
+        }
+
+        IEnumerator currentBottleHooker;
+        IEnumerator BottleHooker()
+        {
+            yield return new WaitForSeconds(7);
+            Items.instance.HookEmptyBeerBottles();
         }
     }
 }

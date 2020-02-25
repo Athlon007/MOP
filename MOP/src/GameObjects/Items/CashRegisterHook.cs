@@ -67,10 +67,11 @@ namespace MOP
                 int half = items.Length / 2;
                 for (int i = 0; i < items.Length; i++)
                 {
+                    // Skip frame
                     if (i == half)
                         yield return null;
 
-                    // Object already ObjectHook attached? Ignore it.
+                    // Object already has ObjectHook attached? Ignore it.
                     if (items[i].GetComponent<ItemHook>() != null)
                         continue;
 

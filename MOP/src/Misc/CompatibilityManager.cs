@@ -66,7 +66,11 @@ namespace MOP
         // ActualMop
         public bool ActualMop { get; private set; }
 
+        // KekmetAddons
         public bool KekmetAddons { get; private set; }
+        
+        // Bottle Recycling
+        public bool BottleRecycling { get; private set; }
 
         public CompatibilityManager()
         {

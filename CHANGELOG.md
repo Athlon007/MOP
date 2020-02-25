@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.2.2 (tba)
+
+### Added
+
+- Empty beer cases will now not fall through the vehicle
+- Bottle Recycle Mod: Empty beer bottles will now not fall through the ground after being used
+
+## 2.2.1 (22.02.2020)
+
+### Added
+
+- Added support for BottleRecycling mod
+
 ## 2.2 (20.02.2020)
 
 ### Added

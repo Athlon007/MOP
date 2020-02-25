@@ -33,7 +33,7 @@ namespace MOP
         "oilfilter", "pike", "pizza", "ratchet set", "potato chips", "sausages", "sugar", "spanner set", 
         "spray can", "two stroke fuel", "wiring mess", "wood carrier", "yeast", "shopping bag", "flashlight", 
         "beer case", "fireworks bag", "lantern", "dipper", "coffee pan", "fireworks bag", "camera", 
-        "water bucket", "car jack", "warning triangle", "spirit", "diskette" };
+        "water bucket", "car jack", "warning triangle", "spirit", "diskette", "empty" };
 
         public string[] whiteList = { "grille gt" };
 
@@ -125,6 +125,17 @@ namespace MOP
             for (int i = 0; i < beerBottles.Length; i++)
             {
                 GameObject.Destroy(beerBottles[i]);
+            }
+        }
+
+        public void HookEmptyBeerBottles()
+        {
+            GameObject[] beerBottles = Object.FindObjectsOfType<GameObject>()
+                .Where(gm => gm.activeSelf && gm.name == "empty bottle(Clone)").ToArray();
+
+            for (int i = 0; i < beerBottles.Length; i++)
+            {
+                beerBottles[i].AddComponent<ItemHook>();
             }
         }
     }
