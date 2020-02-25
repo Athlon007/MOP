@@ -2,10 +2,15 @@
 
 ## 2.2.2 (tba)
 
-### Added
+### Changes
+
+- 'Destroy Empty Beer Bottles' will not be activated, if Bottle Recycling mod is present
+
+### Bug Fixes
 
 - Empty beer cases will now not fall through the vehicle
-- Bottle Recycle Mod: Empty beer bottles will now not fall through the ground after being used
+- Empty beer bottles will now not fall through the ground after being used
+- Fixed Bottle Recycling mod not being detected by Compatibility Manager
 
 ## 2.2.1 (22.02.2020)
 

@@ -41,7 +41,7 @@ namespace MOP
         // https://www.racedepartment.com/downloads/police-ferndale.30338/
         public bool PoliceFerndale { get; private set; }
 
-        // VHS mod
+        // VHS Player mod
         public bool VhsPlayer { get; private set; }
 
         // Offroad Hayosiko
@@ -69,7 +69,7 @@ namespace MOP
         // KekmetAddons
         public bool KekmetAddons { get; private set; }
         
-        // Bottle Recycling
+        // Bottle Recycling 
         public bool BottleRecycling { get; private set; }
 
         public CompatibilityManager()
@@ -89,6 +89,7 @@ namespace MOP
             CarryMore = IsModPresent("CarryMore");
             ActualMop = IsModPresent("ActualMop");
             KekmetAddons = IsModPresent("KekmetAddons");
+            BottleRecycling = IsModPresent("BottleRecycling");
 
             ModConsole.Print("[MOP] Compatibility Manager done");
         }

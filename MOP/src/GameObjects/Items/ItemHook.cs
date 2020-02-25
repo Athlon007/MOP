@@ -78,11 +78,7 @@ namespace MOP
             if (gameObject.name.StartsWith("beer case"))
             {
                 FsmHook.FsmInject(this.gameObject, "Remove bottle", DestroyBeerBottles);
-
-                if (CompatibilityManager.instance.BottleRecycling)
-                {
-                    FsmHook.FsmInject(this.gameObject, "Remove bottle", HookBottles);
-                }
+                FsmHook.FsmInject(this.gameObject, "Remove bottle", HookBottles);
             }
         }
 
@@ -150,6 +146,14 @@ namespace MOP
             if (!MopSettings.RemoveEmptyBeerBottles)
                 return;
 
+            // If Bottle Recycling mod is present, prevent destroying beer bottles
+            if (CompatibilityManager.instance.BottleRecycling)
+            {
+                ModConsole.Print("[MOP] Beer bottles won't be destroyed, because Bottle Recycling mod is present. " +
+                    "Disable 'Destroy empty beer bottles' in the MOP settings.");
+                return;
+            }
+
             if (currentBottleDestroyerRoutine != null)
             {
                 StopCoroutine(currentBottleDestroyerRoutine);
@@ -168,13 +172,10 @@ namespace MOP
 
         /// <summary>
         /// Used when this item is a beer case.
-        /// Starts the coroutine that initializes Items.DestroyEmptyBottles after 7 seconds.
+        /// Starts the coroutine that initializes Items.HookEmptyBeerBottles after 7 seconds.
         /// </summary>
         void HookBottles()
         {
-            if (!CompatibilityManager.instance.BottleRecycling)
-                return;
-
             if (currentBottleHooker != null)
             {
                 StopCoroutine(currentBottleHooker);
