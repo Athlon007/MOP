@@ -1,5 +1,6 @@
 Changes:
 - 'Destroy Empty Beer Bottles' will not be activated, if Bottle Recycling mod is present
+- Code optimization
 
 Bug Fixes:
 - Empty beer cases will now not fall through the vehicle
