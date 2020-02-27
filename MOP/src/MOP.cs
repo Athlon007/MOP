@@ -149,7 +149,7 @@ namespace MOP
 
         static void OpenDonateDialog()
         {
-            ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenWiki);
+            ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenDonate);
         }
 
         static void OpenDonate()

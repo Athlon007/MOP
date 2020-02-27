@@ -119,7 +119,7 @@ namespace MOP
         /// </summary>
         public void DestroyBeerBottles()
         {
-            GameObject[] beerBottles = Object.FindObjectsOfType<GameObject>()
+            GameObject[] beerBottles = GameObject.FindGameObjectsWithTag("PART")
                 .Where(gm => gm.activeSelf && gm.name == "empty bottle(Clone)").ToArray();
 
             for (int i = 0; i < beerBottles.Length; i++)
@@ -133,7 +133,7 @@ namespace MOP
         /// </summary>
         public void HookEmptyBeerBottles()
         {
-            GameObject[] beerBottles = Object.FindObjectsOfType<GameObject>()
+            GameObject[] beerBottles = GameObject.FindGameObjectsWithTag("PART")
                 .Where(gm => gm.activeSelf && gm.name == "empty bottle(Clone)").ToArray();
 
             for (int i = 0; i < beerBottles.Length; i++)

@@ -7,7 +7,7 @@
 
 <img align="right" src="images/icon.png" alt="icon" width=128 />
 
-MOP (Modern Optimization Plugin) is currently the ultimate performance enchancing project for My Summer Car. It is partially based off of [KruFPS](https://github.com/Krutonium/KruFPS), but optimized for even more performance. It is also the only mod, that includes [occlusion culling](https://en.wikipedia.org/wiki/Hidden-surface_determination#Occlusion_culling) feature, that aims to improve the performance even more on low-end computers!
+MOP (Modern Optimization Plugin) is currently the ultimate performance enchancing project for My Summer Car. Originates from [KruFPS](https://github.com/Krutonium/KruFPS).
 
 The only FPS improver mod, that does all of this without any user interaction! No need to remember keybinds and select what things you want to disable at the time!
 
