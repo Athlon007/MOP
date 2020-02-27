@@ -214,7 +214,7 @@ namespace MOP
                 gameObject.transform.localRotation = Rotation;
 
                 for (int i = 0; i < unloadableObjects.Count; i++)
-                    unloadableObjects[i].ObjectTransform.parent = unloadableObjects[i].Parent;
+                    unloadableObjects[i].ObjectTransform.parent = unloadableObjects[i].OriginalParent;
             }
         }
 
@@ -224,7 +224,12 @@ namespace MOP
         /// <param name="enabled"></param>
         public void ToggleUnityCar(bool enabled)
         {
-            if ((gameObject == null) || (carDynamics.enabled == enabled) || (satsumaScript != null && satsumaScript.IsSatsumaInInspectionArea && enabled == false)) 
+            if ((gameObject == null) || (carDynamics.enabled == enabled)) 
+                return;
+
+            // If satsumaScript in this is not null, and Satsuma is in inspection area and is enabled, 
+            // don't toggle unitycar
+            if (satsumaScript != null && satsumaScript.IsSatsumaInInspectionArea && enabled == false)
                 return;
 
             // Prevent disabling car physics if the rope is hooked

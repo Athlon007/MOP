@@ -64,6 +64,7 @@ namespace MOP
             GameObjectBlackList = blackList;
             DisableableChilds = GetDisableableChilds();
 
+            // Fixes double slot machine bug introduced with experimental 20.02.2020
             DisableableChilds.Remove(gameObject.transform.Find("SlotMachine"));
 
             // Fix for the bar fighter

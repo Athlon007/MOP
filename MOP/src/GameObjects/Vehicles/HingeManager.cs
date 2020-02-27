@@ -20,6 +20,7 @@ namespace MOP
 {
     class HingeManager : MonoBehaviour
     {
+        // This script is responsible for resetting the door hinges, when vehiclee gets despawned.
         // Script from https://answers.unity.com/questions/368249/hingejoint-stops-working-properly-after-disableena.html
 
         private Quaternion initialLocalRotation;

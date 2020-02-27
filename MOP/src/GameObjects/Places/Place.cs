@@ -26,7 +26,7 @@ namespace MOP
         //
         // It is responsible for loading and unloading important to the game places, it is extended by other classes.
         //
-        // NOTE: That script DOES NOT disable the store itself, rather some of its childrens.
+        // NOTE: That script DOES NOT disable the place itself, rather some of its childrens.
 
         public GameObject gameObject { get; set; }
 

@@ -78,7 +78,6 @@ namespace MOP
         // https://www.nexusmods.com/mysummercar/mods/46
         public bool KekmetAddons { get; private set; }
 
-
         // Bottle Recycling
         // https://www.nexusmods.com/mysummercar/mods/171
         public bool BottleRecycling { get; private set; }

@@ -81,13 +81,13 @@ namespace MOP
             // Get all minor objects from the game world (like beer cases, sausages)
             // Only items that are in the listOfMinorObjects list, and also contain "(itemx)" in their name will be loaded
 
-            GameObject[] minorObjects = Object.FindObjectsOfType<GameObject>()
+            GameObject[] items = Object.FindObjectsOfType<GameObject>()
                 .Where(gm => gm.name.ContainsAny(blackList)
                 && gm.name.ContainsAny("(itemx)", "(Clone)") && gm.activeSelf).ToArray();
 
-            for (int i = 0; i < minorObjects.Length; i++)
+            for (int i = 0; i < items.Length; i++)
             {
-                minorObjects[i].AddComponent<ItemHook>();
+                items[i].AddComponent<ItemHook>();
             }
 
             // CD Player Enhanced compatibility
@@ -101,7 +101,7 @@ namespace MOP
                     cdEnchancedObjects[i].AddComponent<ItemHook>();
                 }
 
-                // Create shop table chekc, for when the CDs are bought
+                // Create shop table check, for when the CDs are bought
                 GameObject itemCheck = new GameObject("MopItemAreaCheck");
                 itemCheck.transform.position = GameObject.Find("SpawnItemStore").transform.position;
                 itemCheck.AddComponent<ShopModItemSpawnCheck>();

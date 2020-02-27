@@ -106,18 +106,18 @@ namespace MOP
                     return;
 
                 // CD Player Enhanced mod
-                if (CompatibilityManager.instance.CDPlayerEnhanced)
+                if (CompatibilityManager.instance.CDPlayerEnhanced && this.transform.parent != null)
                 {
                     // Prevent CDs to clip through CD Case
-                    if (this.gameObject.name == "cd(itemy)" && this.transform.parent != null && this.transform.parent.name == "PivotCD")
+                    if (this.gameObject.name == "cd(itemy)" && this.transform.parent.name == "PivotCD")
                         return;
 
                     // Prevent CDs from clipping through the Radio
-                    if (this.gameObject.name == "cd(itemy)" && this.transform.parent != null && this.transform.parent.name == "cd_sled_pivot")
+                    if (this.gameObject.name == "cd(itemy)" && this.transform.parent.name == "cd_sled_pivot")
                         return;
 
                     // Prevents CD cases from clipping through the CD rack
-                    if (this.gameObject.name.StartsWith("cd case") && this.transform.parent != null && this.transform.parent.name.StartsWith("cd_trigger"))
+                    if (this.gameObject.name.StartsWith("cd case") && this.transform.parent.name.StartsWith("cd_trigger"))
                         return;
                 }
 
@@ -132,7 +132,7 @@ namespace MOP
             }
             catch (System.Exception ex)
             {
-                ErrorHandler.New(ex);
+                ExceptionManager.New(ex);
             }
         }
 

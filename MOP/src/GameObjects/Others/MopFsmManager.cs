@@ -28,6 +28,7 @@ namespace MOP
         /// <returns></returns>
         public static bool PlayerHasHayosikoKey()
         {
+            // Store Uncle's PlayMakerFSM for later
             if (unclePlaymaker == null)
             {
                 unclePlaymaker = GameObject.Find("UNCLE").GetComponent<PlayMakerFSM>();

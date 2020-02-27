@@ -17,10 +17,11 @@
 using System;
 using System.IO;
 using System.Diagnostics;
+using MSCLoader;
 
 namespace MOP
 {
-    class ErrorHandler
+    class ExceptionManager
     {
         /// <summary>
         /// Creates then new error dump file
@@ -40,7 +41,7 @@ namespace MOP
                 sw.Close();
             }
 
-            MSCLoader.ModConsole.Error("[MOP] An error has occured. " +
+            ModConsole.Error("[MOP] An error has occured. " +
                 "Log has been saved in My Summer Car folder into MOP_LOG.txt\n\n" + errorInfo);
         }
 
@@ -65,7 +66,7 @@ namespace MOP
                 sw.Close();
             }
 
-            MSCLoader.ModConsole.Print("[MOP] Mod report has been generated.");
+            ModConsole.Print("[MOP] Mod report has been generated.");
             Process.Start("MOP_REPORT.txt");
         }
 
@@ -75,7 +76,7 @@ namespace MOP
         /// <returns></returns>
         static string GetGameInfo()
         {
-            string output = "MSC Mod Loader Version: " + MSCLoader.ModLoader.MSCLoader_Ver + "\n";
+            string output = "MSC Mod Loader Version: " + ModLoader.MSCLoader_Ver + "\n";
             output += "Date and Time: " + DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ") + "\n\n";
 
             output += "=== MOP SETTINGS ===\n\n";
@@ -93,7 +94,7 @@ namespace MOP
 
             // List installed mods
             output += "\n=== MODS ====\n\n";
-            foreach (var mod in MSCLoader.ModLoader.LoadedMods)
+            foreach (var mod in ModLoader.LoadedMods)
             {
                 if (mod.ID == "MOP")
                 {

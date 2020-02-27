@@ -53,8 +53,8 @@ namespace MOP
         // BUTTONS
         //
         Settings donate = new Settings("donate", "Donate", OpenDonateDialog);
-        Settings openLastLog = new Settings("openLastLog", "Open last log", ErrorHandler.Open);
-        Settings generateReport = new Settings("generateReport", "Generate mod report", ErrorHandler.GenerateReport);
+        Settings openLastLog = new Settings("openLastLog", "Open last log", ExceptionManager.Open);
+        Settings generateReport = new Settings("generateReport", "Generate mod report", ExceptionManager.GenerateReport);
         Settings faq = new Settings("faq", "FAQ", OpenFAQDialog);
         Settings wiki = new Settings("wiki", "Go to MOP wiki", OpenWikiDialog);
 

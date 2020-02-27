@@ -30,7 +30,7 @@ namespace MOP
     {
         public static WorldManager instance;
 
-        public Transform Player { get; private set; }
+        Transform player;
 
         // Vehicles
         List<Vehicle> vehicles;
@@ -83,7 +83,7 @@ namespace MOP
             worldObjectList = new WorldObjectList();
 
             // Looking for player and yard
-            Player = GameObject.Find("PLAYER").transform;
+            player = GameObject.Find("PLAYER").transform;
 
             // Loading vehicles
             vehicles = new List<Vehicle>();
@@ -377,8 +377,8 @@ namespace MOP
                 if (ticks > 1000)
                     ticks = 0;
 
-                IsPlayerOnYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(Player.position, yard.transform.position) < 100 
-                    : Vector3.Distance(Player.position, yard.transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
+                IsPlayerOnYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, yard.transform.position) < 100 
+                    : Vector3.Distance(player.position, yard.transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 
                 int half = worldObjectList.Count / 2;
                 int i = 0;
@@ -406,7 +406,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ErrorHandler.New(ex);
+                    ExceptionManager.New(ex);
                 }
 
                 yield return null;
@@ -433,7 +433,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ErrorHandler.New(ex);
+                    ExceptionManager.New(ex);
                 }
 
                 if (MopSettings.SafeMode)
@@ -456,7 +456,7 @@ namespace MOP
                                 continue;
                             }
 
-                            float distance = Vector3.Distance(Player.transform.position, vehicles[i].transform.position);
+                            float distance = Vector3.Distance(player.transform.position, vehicles[i].transform.position);
                             float toggleDistance = MopSettings.ActiveDistance == 0 ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
                             vehicles[i].ToggleUnityCar(MopSettings.OverridePhysicsToggling ? true : IsEnabled(distance, toggleDistance));
                             vehicles[i].Toggle(IsEnabled(distance));
@@ -464,7 +464,7 @@ namespace MOP
                     }
                     catch (Exception ex)
                     {
-                        ErrorHandler.New(ex);
+                        ExceptionManager.New(ex);
                     }
 
                     yield return null;
@@ -479,7 +479,7 @@ namespace MOP
                                 continue;
                             }
 
-                            float distance = Vector3.Distance(Player.transform.position, vehicles[i].transform.position);
+                            float distance = Vector3.Distance(player.transform.position, vehicles[i].transform.position);
                             float toggleDistance = MopSettings.ActiveDistance == 0 ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
                             vehicles[i].ToggleUnityCar(MopSettings.OverridePhysicsToggling ? true : IsEnabled(distance, toggleDistance));
                             vehicles[i].Toggle(IsEnabled(distance));
@@ -487,7 +487,7 @@ namespace MOP
                     }
                     catch (Exception ex)
                     {
-                        ErrorHandler.New(ex);
+                        ExceptionManager.New(ex);
                     }
                 }
 
@@ -518,7 +518,7 @@ namespace MOP
                     }
                     catch (Exception ex)
                     {
-                        ErrorHandler.New(ex);
+                        ExceptionManager.New(ex);
                     }
 
                     yield return null;
@@ -546,7 +546,7 @@ namespace MOP
                     }
                     catch (Exception ex)
                     {
-                        ErrorHandler.New(ex);
+                        ExceptionManager.New(ex);
                     }
                 }
 
@@ -558,7 +558,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ErrorHandler.New(ex);
+                    ExceptionManager.New(ex);
                 }
 
                 yield return new WaitForSeconds(1);
@@ -572,7 +572,7 @@ namespace MOP
         /// <param name="toggleDistance">Distance below which the object should be enabled (default 200 units).</param>
         private bool IsEnabled(Transform target, float toggleDistance = 200)
         {
-            return Vector3.Distance(Player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
+            return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
 
         private bool IsEnabled(float distance, float toggleDistance = 200)
@@ -653,7 +653,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                ErrorHandler.New(ex);
+                ExceptionManager.New(ex);
             }
         }
     }

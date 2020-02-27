@@ -73,7 +73,7 @@
     <Compile Include="src\GameObjects\WorldObjectList.cs" />
     <Compile Include="src\Misc\CompatibilityManager.cs" />
     <Compile Include="src\Misc\CustomExtensions.cs" />
-    <Compile Include="src\Misc\ErrorHandler.cs" />
+    <Compile Include="src\Misc\ExceptionManager.cs" />
     <Compile Include="src\Misc\MopSettings.cs" />
     <Compile Include="src\WorldManager.cs" />
     <Compile Include="src\MOP.cs" />

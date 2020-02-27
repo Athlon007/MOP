@@ -23,6 +23,8 @@ namespace MOP
         // Used for items bought via Item Shop mod
         // Adds the trigger collider at the Teimo's shop table.
 
+        readonly string[] items = new string[] { "cd case(itemy)", "CD Rack(itemy)", "cd(itemy)" };
+
         public ShopModItemSpawnCheck()
         {
             BoxCollider col = this.gameObject.AddComponent<BoxCollider>();
@@ -32,15 +34,15 @@ namespace MOP
 
         void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.name.ContainsAny("cd case(itemy)", "CD Rack(itemy)", "cd(itemy)") && other.gameObject.GetComponent<ItemHook>() == null)
+            if (other.gameObject.name.ContainsAny(items) && other.gameObject.GetComponent<ItemHook>() == null)
             {
                 other.gameObject.AddComponent<ItemHook>();
 
-                GameObject obj = other.gameObject;
+                GameObject gm = other.gameObject;
 
                 // If the obj is cd case, find cd inside of it and attach ItemHook to it.
-                if (obj.name == "cd case(itemy)")
-                    foreach (var t in obj.GetComponentsInChildren<Transform>(true))
+                if (gm.name == "cd case(itemy)")
+                    foreach (var t in gm.GetComponentsInChildren<Transform>(true))
                         if (t.gameObject.name == "cd(itemy)")
                             t.gameObject.AddComponent<ItemHook>();
             }
