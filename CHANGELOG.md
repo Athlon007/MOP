@@ -1,10 +1,11 @@
 # Changelog
 
-## 2.2.2 (tba)
+## 2.2.2 (28.02.2020)
 
 ### Changes
 
 - 'Destroy Empty Beer Bottles' will not be activated, if Bottle Recycling mod is present
+- Code optimization
 
 ### Bug Fixes
 

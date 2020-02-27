@@ -570,12 +570,12 @@ namespace MOP
         /// </summary>
         /// <param name="target">Target object.</param>
         /// <param name="toggleDistance">Distance below which the object should be enabled (default 200 units).</param>
-        private bool IsEnabled(Transform target, float toggleDistance = 200)
+        bool IsEnabled(Transform target, float toggleDistance = 200)
         {
             return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
 
-        private bool IsEnabled(float distance, float toggleDistance = 200)
+        bool IsEnabled(float distance, float toggleDistance = 200)
         {
             return distance < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
