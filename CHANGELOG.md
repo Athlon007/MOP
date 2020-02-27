@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3 (tba)
+
+### Added
+
+- Added framerate limiter
+
 ## 2.2.2 (28.02.2020)
 
 ### Changes

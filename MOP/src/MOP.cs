@@ -25,7 +25,7 @@ namespace MOP
         public override string ID => "MOP"; //Your mod ID (unique)
         public override string Name => "Modern Optimization Plugin"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "2.2.2"; //Version
+        public override string Version => "2.3"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
@@ -66,6 +66,13 @@ namespace MOP
         public static Settings ignoreModVehicles = new Settings("ignoreModVehicles", "Ignore Mod Vehicles", false, MopSettings.UpdateAll);
 
         //
+        // GRAPHICS
+        //
+        public static Settings gamma = new Settings("gamma", "Gamma", 1);
+        public static Settings enableFramerateLimiter = new Settings("enableFramerateLimiter", "Enable Framerate Limiter", false, MopSettings.UpdateAll);
+        public static Settings framerateLimiter = new Settings("framerateLimiter", "Limit Framerate", 60, MopSettings.UpdateAll);
+
+        //
         // OTHERS
         //
         public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Remove Empty Beer Bottles", false, MopSettings.UpdateAll);
@@ -102,6 +109,12 @@ namespace MOP
             Settings.AddText(this, "Safe Mode will only allow to toggle objects that are known to not to cause any issues.\n" +
                 "Note: framerate boost will be dramatically decreased!");
             Settings.AddCheckBox(this, ignoreModVehicles);
+
+            // Graphics
+            Settings.AddHeader(this, "Graphics", headerColor);
+            Settings.AddSlider(this, gamma, 0.1f, 2.0f);
+            Settings.AddCheckBox(this, enableFramerateLimiter);
+            Settings.AddSlider(this, framerateLimiter, 20, 120);
 
             // Others
             Settings.AddHeader(this, "Other", headerColor);

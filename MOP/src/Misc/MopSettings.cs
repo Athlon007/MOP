@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using UnityEngine;
+
 namespace MOP
 {
     class MopSettings
@@ -73,6 +75,15 @@ namespace MOP
             removeEmptyBeerBottles = (bool)MOP.removeEmptyBeerBottles.GetValue();
             satsumaTogglePhysicsOnly = (bool)MOP.satsumaTogglePhysicsOnly.GetValue();
             toggleVehiclePhysicsOnly = (bool)MOP.toggleVehiclePhysicsOnly.GetValue();
+
+            if ((bool)MOP.enableFramerateLimiter.GetValue())
+            {
+                Application.targetFrameRate = int.Parse(MOP.framerateLimiter.GetValue().ToString());
+            }
+            else
+            {
+                Application.targetFrameRate = -1;
+            }
         }
 
         /// <summary>
