@@ -68,7 +68,6 @@ namespace MOP
         //
         // GRAPHICS
         //
-        public static Settings gamma = new Settings("gamma", "Gamma", 1);
         public static Settings enableFramerateLimiter = new Settings("enableFramerateLimiter", "Enable Framerate Limiter", false, MopSettings.UpdateAll);
         public static Settings framerateLimiter = new Settings("framerateLimiter", "Limit Framerate", 60, MopSettings.UpdateAll);
 
@@ -111,8 +110,6 @@ namespace MOP
             Settings.AddCheckBox(this, ignoreModVehicles);
 
             // Graphics
-            Settings.AddHeader(this, "Graphics", headerColor);
-            Settings.AddSlider(this, gamma, 0.1f, 2.0f);
             Settings.AddCheckBox(this, enableFramerateLimiter);
             Settings.AddSlider(this, framerateLimiter, 20, 120);
 
