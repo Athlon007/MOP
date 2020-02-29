@@ -1,9 +1,14 @@
 Added:
 - Added framerate limiter
 - Vehicle physics will not be turned off, if the car is not grounded
+- Added support for Fishing Mod
 
 Changes:
+- Increased Perajarvi toggling distance to 300 units
 - Minor changes in the settings
+
+Bug Fixes:
+- (Mod) Ruscko Restoration Project: Fixed Ruscko key being visible on Fleetari's desk when it shouldn't be there
 
 Removed:
 - Removed "Temporarily Disable Physics Toggling" button
