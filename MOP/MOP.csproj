@@ -91,12 +91,6 @@
   <ItemGroup>
     <None Include="Resources\changelog.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\occlusiontable.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\GameObjects\Vehicles\Managers\" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if "$(ConfigurationName)" == "Debug" (

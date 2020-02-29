@@ -61,7 +61,15 @@ namespace MOP.Properties {
         }
         
         /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu - Initial release.
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu Added:
+        ///- Added framerate limiter
+        ///- Vehicle physics will not be turned off, if the car is not grounded
+        ///
+        ///Changes:
+        ///- Minor changes in the settings
+        ///
+        ///Removed:
+        ///- Removed &quot;Temporarily Disable Physics Toggling&quot; button.
         /// </summary>
         internal static string changelog {
             get {
@@ -70,26 +78,11 @@ namespace MOP.Properties {
         }
         
         /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-        ///&lt;World&gt;
-        ///  &lt;Object name=&quot;MAP&quot;&gt;
-        ///      &lt;Object name=&quot;PierDancehall&quot;/&gt;&gt;
-        ///  &lt;/Object&gt;
-        ///  &lt;Object name=&quot;STORE&quot;/&gt;
-        ///&lt;/World&gt;.
-        /// </summary>
-        internal static string occlusiontable {
-            get {
-                return ResourceManager.GetString("occlusiontable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         /// Wyszukuje zlokalizowany ciąg podobny do ciągu PathsLayer,MassPassanger,DeadBody,Dashboard,DriveTrigger,SpawnPlayer,CarShadowProjector,
         ///Hooks,DriverHeadPivot,CameraPivot,PivotSeatR,HookRear,MassDriver,BeerCaseTarget,HookFront,
         ///GetInPivot,TrafficTrigger,AirIntake,DeformLogic,Wipers,WiperLeftPivot,WiperRightPivot,wipers_tap,
         ///wipers_rod,generalPivot,Interior,CarRearMirrorPivot,StagingWheel,car body(xxxxx),shadow_body,
-        ///RainScript,NormalFront,NormalSide,NormalRear,WindSide,WindFront,WindRear,PlayerTrigger,Dashboard,CoG.
+        ///RainScript,NormalFront,NormalSide,NormalRear,WindSide,WindFront,WindRear,Dashboard,CoG.
         /// </summary>
         internal static string whitelist_satsuma {
             get {

@@ -1,8 +1,9 @@
-Changes:
-- 'Destroy Empty Beer Bottles' will not be activated, if Bottle Recycling mod is present
-- Code optimization
+Added:
+- Added framerate limiter
+- Vehicle physics will not be turned off, if the car is not grounded
 
-Bug Fixes:
-- Empty beer cases will now not fall through the vehicle
-- Empty beer bottles will now not fall through the ground after being used
-- Fixed Bottle Recycling mod not being detected by Compatibility Manager
+Changes:
+- Minor changes in the settings
+
+Removed:
+- Removed "Temporarily Disable Physics Toggling" button
