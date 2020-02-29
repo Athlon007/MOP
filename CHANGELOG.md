@@ -11,6 +11,10 @@
 
 - Minor changes in the settings
 
+### Bug Fixes
+
+- (Mod) Ruscko Restoration Project: Fixed Ruscko key being visible on Fleetari's desk when it shouldn't be there
+
 ### Removed
 
 - Removed "Temporarily Disable Physics Toggling" button

@@ -107,7 +107,7 @@ namespace MOP
             Settings.AddText(this, "Safe Mode will only allow to toggle objects that are known to not to cause any issues.\n" +
                 "Note: framerate gain will be dramatically decreased!");
             Settings.AddCheckBox(this, ignoreModVehicles);
-
+            
             // Graphics
             Settings.AddHeader(this, "Graphics", headerColor);
             Settings.AddCheckBox(this, enableFramerateLimiter);

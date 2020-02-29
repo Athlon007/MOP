@@ -15,7 +15,6 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace MOP
@@ -41,7 +40,7 @@ namespace MOP
             "TireCatcher", "Ropes", "Note", "note", "inspection_desk 1", "LOD", "Office", "Furniture",
             "Building", "office_floor", "coll", "wall_base", "JunkYardJob", "PayMoney", "100mk", "GaugeMeshTach",
             "gauge_glass_fbx", "Pivot", "needle", "Bolt", "bolt", "grille", "wheel_steel5", "gear_stick",
-            "Platform", "Coll", "Buy", "Product" };
+            "Platform", "Coll", "Buy", "Product", "Key(Clone)" };
 
         /// <summary>
         /// Initialize the RepairShop class
