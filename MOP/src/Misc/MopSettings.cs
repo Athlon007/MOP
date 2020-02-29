@@ -57,10 +57,6 @@ namespace MOP
         // Distance after which car physics are toggled
         public const int UnityCarActiveDistance = 5;
 
-        // If true, vehicles physics won't be disabled on small distances, but only on larger ones
-        static bool overridePhysicsToggling = false;
-        public static bool OverridePhysicsToggling { get => overridePhysicsToggling; }
-
         public static void UpdateAll()
         {
             // Activating Objects
@@ -127,23 +123,6 @@ namespace MOP
                 case 3:
                     return 4;
             }
-        }
-        
-        /// <summary>
-        /// Toggles on overridePhysicsToggling.
-        /// </summary>
-        public static void DisablePhysicsToggling()
-        {
-            MSCLoader.ModConsole.Print("With dedication to James ;)");
-            overridePhysicsToggling = true;
-        }
-
-        /// <summary>
-        /// Toggles off overridePhysicsToggling
-        /// </summary>
-        public static void ResetPhysicsToggling()
-        {
-            overridePhysicsToggling = false;
         }
     }
 }

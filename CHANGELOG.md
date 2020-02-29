@@ -7,6 +7,10 @@
 - Added framerate limiter
 - Vehicle physics will not be turned off, if the car is not grounded
 
+### Removed
+
+- Removed "Temporarily Disable Physics Toggling" button
+
 ## 2.2.2 (28.02.2020)
 
 ### Changes

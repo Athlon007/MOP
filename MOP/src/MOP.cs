@@ -76,7 +76,6 @@ namespace MOP
         //
         public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Remove Empty Beer Bottles", false, MopSettings.UpdateAll);
         public static Settings satsumaTogglePhysicsOnly = new Settings("satsumaTogglePhysicsOnly", "SATSUMA: Toggle Physics Only", false, MopSettings.UpdateAll);
-        Settings temporarilyDisablePhysicsToggling = new Settings("temporarilyDisablePhysicsToggling", "Temporarily Disable Physics Toggling", MopSettings.DisablePhysicsToggling);
 
         //
         // ADVANCED
@@ -120,8 +119,6 @@ namespace MOP
             Settings.AddCheckBox(this, satsumaTogglePhysicsOnly);
             Settings.AddText(this, "May fix issues with disappearing body panels in some cases.\n" +
                 "Note: this will decrease the performance boost.");
-            Settings.AddButton(this, temporarilyDisablePhysicsToggling, "If your car is stuck in the air (for some reason), " +
-                "you can use that button to temporarily disable physics toggling, so it will fall back to the ground.");
 
             // Advanced
             Settings.AddHeader(this, "Advanced", headerColor);

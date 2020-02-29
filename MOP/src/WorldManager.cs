@@ -301,8 +301,6 @@ namespace MOP
             StartCoroutine(LoopRoutine());
             StartCoroutine(ControlCoroutine());
 
-            MopSettings.ResetPhysicsToggling();
-
             ModConsole.Print("[MOP] MOD LOADED SUCCESFULLY!");
         }
 
@@ -458,7 +456,7 @@ namespace MOP
 
                             float distance = Vector3.Distance(player.transform.position, vehicles[i].transform.position);
                             float toggleDistance = MopSettings.ActiveDistance == 0 ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
-                            vehicles[i].ToggleUnityCar(MopSettings.OverridePhysicsToggling ? true : IsEnabled(distance, toggleDistance));
+                            vehicles[i].ToggleUnityCar(IsEnabled(distance, toggleDistance));
                             vehicles[i].Toggle(IsEnabled(distance));
                         }
                     }
@@ -481,7 +479,7 @@ namespace MOP
 
                             float distance = Vector3.Distance(player.transform.position, vehicles[i].transform.position);
                             float toggleDistance = MopSettings.ActiveDistance == 0 ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
-                            vehicles[i].ToggleUnityCar(MopSettings.OverridePhysicsToggling ? true : IsEnabled(distance, toggleDistance));
+                            vehicles[i].ToggleUnityCar(IsEnabled(distance, toggleDistance));
                             vehicles[i].Toggle(IsEnabled(distance));
                         }
                     }
