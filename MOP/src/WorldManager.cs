@@ -128,7 +128,7 @@ namespace MOP
             worldObjectList.Add("COTTAGE", 400);
             worldObjectList.Add("DANCEHALL");
             worldObjectList.Add("INSPECTION");
-            worldObjectList.Add("PERAJARVI");
+            worldObjectList.Add("PERAJARVI", 300);
             worldObjectList.Add("RYKIPOHJA", 400);
             worldObjectList.Add("SOCCER");
             worldObjectList.Add("WATERFACILITY");

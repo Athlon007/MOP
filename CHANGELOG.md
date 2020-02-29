@@ -10,6 +10,7 @@
 
 ### Changes
 
+- Increased Perajarvi toggling distance to 300 units
 - Minor changes in the settings
 
 ### Bug Fixes
