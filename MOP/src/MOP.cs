@@ -110,6 +110,7 @@ namespace MOP
             Settings.AddCheckBox(this, ignoreModVehicles);
 
             // Graphics
+            Settings.AddHeader(this, "Graphics", headerColor);
             Settings.AddCheckBox(this, enableFramerateLimiter);
             Settings.AddSlider(this, framerateLimiter, 20, 120);
 

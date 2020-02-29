@@ -5,6 +5,7 @@
 ### Added
 
 - Added framerate limiter
+- Vehicle physics will not be turned off, if the car is not grounded
 
 ## 2.2.2 (28.02.2020)
 

@@ -67,6 +67,8 @@ namespace MOP
         // Prevents MOP from disabling car's physics when the car has rope hooked
         internal bool IsRopeHooked { get; set; }
 
+        Wheel wheel;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -171,6 +173,9 @@ namespace MOP
                 foreach (HingeJoint joint in joints)
                     joint.gameObject.AddComponent<HingeManager>();
             }
+
+            // Get one of the wheels
+            wheel = axles.allWheels[0];
         }
 
         public delegate void ToggleHandler(bool enabled);
@@ -226,6 +231,8 @@ namespace MOP
         {
             if ((gameObject == null) || (carDynamics.enabled == enabled)) 
                 return;
+
+            if (!wheel.onGroundDown && !enabled) return;
 
             // If satsumaScript in this is not null, and Satsuma is in inspection area and is enabled, 
             // don't toggle unitycar
