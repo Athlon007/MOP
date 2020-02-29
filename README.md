@@ -54,6 +54,7 @@ MOP officially supports following mods:
 - Actual Mop
 - KekmetAddons
 - Bottle Recycle
+- Fishing Mod
 
 **WARNING:** This mod may or may not corrupt other mods. Use at your own risk!
 

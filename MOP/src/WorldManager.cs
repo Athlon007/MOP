@@ -133,7 +133,7 @@ namespace MOP
             worldObjectList.Add("SOCCER");
             worldObjectList.Add("WATERFACILITY");
             worldObjectList.Add("DRAGRACE", 1100);
-            if (!CompatibilityManager.instance.JetSky && !CompatibilityManager.instance.Moonshinestill)
+            if (!CompatibilityManager.instance.JetSky && !CompatibilityManager.instance.Moonshinestill && !CompatibilityManager.instance.FishingMod)
                 worldObjectList.Add("BOAT");
             worldObjectList.Add("StrawberryField", 400);
 

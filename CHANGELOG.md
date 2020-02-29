@@ -6,6 +6,7 @@
 
 - Added framerate limiter
 - Vehicle physics will not be turned off, if the car is not grounded
+- Added support for Fishing Mod
 
 ### Changes
 

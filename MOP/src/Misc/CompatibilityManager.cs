@@ -82,6 +82,10 @@ namespace MOP
         // https://www.nexusmods.com/mysummercar/mods/171
         public bool BottleRecycling { get; private set; }
 
+        // Fishing Mod
+        //
+        public bool FishingMod { get; private set; }
+
         public CompatibilityManager()
         {
             instance = this;
@@ -100,6 +104,7 @@ namespace MOP
             ActualMop = IsModPresent("ActualMop");
             KekmetAddons = IsModPresent("KekmetAddons");
             BottleRecycling = IsModPresent("BottleRecycling");
+            FishingMod = IsModPresent("FishingMod");
 
             ModConsole.Print("[MOP] Compatibility Manager done");
         }
