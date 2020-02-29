@@ -74,7 +74,7 @@ namespace MOP
         //
         // OTHERS
         //
-        public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Remove Empty Beer Bottles", false, MopSettings.UpdateAll);
+        public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Destroy Empty Beer Bottles", false, MopSettings.UpdateAll);
         public static Settings satsumaTogglePhysicsOnly = new Settings("satsumaTogglePhysicsOnly", "SATSUMA: Toggle Physics Only", false, MopSettings.UpdateAll);
 
         //
@@ -105,7 +105,7 @@ namespace MOP
             Settings.AddText(this, "From how far objects are disabled.\n - 0: Close (0.5x)\n - 1: Normal (Default)\n - 2: Far (2x)\n - 3: Very Far (4x)");
             Settings.AddCheckBox(this, safeMode);
             Settings.AddText(this, "Safe Mode will only allow to toggle objects that are known to not to cause any issues.\n" +
-                "Note: framerate boost will be dramatically decreased!");
+                "Note: framerate gain will be dramatically decreased!");
             Settings.AddCheckBox(this, ignoreModVehicles);
 
             // Graphics
@@ -118,7 +118,7 @@ namespace MOP
             Settings.AddCheckBox(this, removeEmptyBeerBottles);
             Settings.AddCheckBox(this, satsumaTogglePhysicsOnly);
             Settings.AddText(this, "May fix issues with disappearing body panels in some cases.\n" +
-                "Note: this will decrease the performance boost.");
+                "Note: this will decrease the performance gain.");
 
             // Advanced
             Settings.AddHeader(this, "Advanced", headerColor);
