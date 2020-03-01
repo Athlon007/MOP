@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.1 (tba)
+
+### Changes
+
+- Improved how MOP checks if the rope to the vehicle has been hooked
+- Changes how the on ground check is checked for Jonnez
+
 ## 2.3 (29.02.2020)
 
 ### Added

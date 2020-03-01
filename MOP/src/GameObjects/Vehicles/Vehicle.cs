@@ -68,7 +68,10 @@ namespace MOP
         PlayMakerFSM fsmHookFront;
         PlayMakerFSM fsmHookRear;
 
+        // Reference to one of the wheels that checks if the vehicle is on ground
         Wheel wheel;
+        // Workaround for Jonnez
+        Drivetrain jonnezDrivetrain;
 
         /// <summary>
         /// Initialize class
@@ -173,6 +176,9 @@ namespace MOP
 
             // Get one of the wheels
             wheel = axles.allWheels[0];
+
+            if (this.gameObject.name == "JONNEZ ES(Clone)")
+                jonnezDrivetrain = gameObject.GetComponent<Drivetrain>();
         }
 
         public delegate void ToggleHandler(bool enabled);
@@ -230,15 +236,16 @@ namespace MOP
                 return;
 
             // Don't toggle physics, unless car's on ground
-            if (!wheel.onGroundDown && !enabled) return;
+            if (!IsOnGround() && !enabled) return;
 
             // If satsumaScript in this is not null, and Satsuma is in inspection area and is enabled, 
             // don't toggle unitycar
-            if (satsumaScript != null && satsumaScript.IsSatsumaInInspectionArea && enabled == false)
-                return;
+            if (satsumaScript != null && satsumaScript.IsSatsumaInInspectionArea && !enabled)
+                enabled = true;
 
             // Prevent disabling car physics if the rope is hooked
-            if (IsRopeHooked() && gameObject.activeSelf == true && !enabled) return;
+            if (IsRopeHooked() && gameObject.activeSelf == true && !enabled) 
+                enabled = true;
 
             carDynamics.enabled = enabled;
             axles.enabled = enabled;
@@ -268,11 +275,32 @@ namespace MOP
             Toggle = ToggleUnityCar;
         }
 
+        /// <summary>
+        /// Checks PlayMaker of front and rear hooks and returns "true", if in any of the hooks value "Attached" is true.
+        /// </summary>
+        /// <returns></returns>
         bool IsRopeHooked()
         {
             bool isFrontHookAttached = fsmHookFront ? fsmHookFront.FsmVariables.GetFsmBool("Attached").Value : false;
             bool isRearHookAttached = fsmHookRear ? fsmHookRear.FsmVariables.GetFsmBool("Attached").Value : false;
             return (isFrontHookAttached || isRearHookAttached) ? true : false;
+        }
+
+        /// <summary>
+        /// Checks one of the wheels' onGroundDown value
+        /// 
+        /// WORKAROUND FOR JONNEZ:
+        /// Because onGroundDown for Jonnez doesn't work the same way as for others, it will check if the Jonnnez's engine torque.
+        /// </summary>
+        /// <returns></returns>
+        bool IsOnGround()
+        {
+            if (this.gameObject.name == "JONNEZ ES(Clone)")
+            {
+                return jonnezDrivetrain.torque == 0;
+            }
+
+            return wheel.onGroundDown;
         }
     }
 }
