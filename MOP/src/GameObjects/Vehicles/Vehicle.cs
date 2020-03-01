@@ -65,7 +65,8 @@ namespace MOP
         bool flatbedUnloadPreventionActivated;
 
         // Prevents MOP from disabling car's physics when the car has rope hooked
-        internal bool IsRopeHooked { get; set; }
+        PlayMakerFSM fsmHookFront;
+        PlayMakerFSM fsmHookRear;
 
         Wheel wheel;
 
@@ -118,16 +119,12 @@ namespace MOP
             // If hooks exists, attach the RopeHookUp and RopeUnhook to appropriate states
             if (hookFront != null)
             {
-                FsmHook.FsmInject(hookFront.gameObject, "Activate cable", RopeHookUp);
-                FsmHook.FsmInject(hookFront.gameObject, "Activate cable 2", RopeHookUp);
-                FsmHook.FsmInject(hookFront.gameObject, "Remove rope", RopeUnhook);
+                fsmHookFront = hookFront.GetComponent<PlayMakerFSM>();
             }
 
             if (hookRear != null)
             {
-                FsmHook.FsmInject(hookRear.gameObject, "Activate cable", RopeHookUp);
-                FsmHook.FsmInject(hookRear.gameObject, "Activate cable 2", RopeHookUp);
-                FsmHook.FsmInject(hookRear.gameObject, "Remove rope", RopeUnhook);
+                fsmHookRear = hookRear.GetComponent<PlayMakerFSM>();
             }
 
             // If vehicle is flatbed, hook SwitchToggleMethod to Add scale script
@@ -232,6 +229,7 @@ namespace MOP
             if ((gameObject == null) || (carDynamics.enabled == enabled)) 
                 return;
 
+            // Don't toggle physics, unless car's on ground
             if (!wheel.onGroundDown && !enabled) return;
 
             // If satsumaScript in this is not null, and Satsuma is in inspection area and is enabled, 
@@ -240,7 +238,7 @@ namespace MOP
                 return;
 
             // Prevent disabling car physics if the rope is hooked
-            if (IsRopeHooked && gameObject.activeSelf == true) return;
+            if (IsRopeHooked() && gameObject.activeSelf == true && !enabled) return;
 
             carDynamics.enabled = enabled;
             axles.enabled = enabled;
@@ -270,22 +268,11 @@ namespace MOP
             Toggle = ToggleUnityCar;
         }
 
-        /// <summary>
-        /// Hooks up to all car hooks.
-        /// Called when player attaches the rope.
-        /// </summary>
-        void RopeHookUp()
+        bool IsRopeHooked()
         {
-            IsRopeHooked = true;
-        }
-
-        /// <summary>
-        /// Hooks up to all car hooks.
-        /// Called when player dismounts the rope.
-        /// </summary>
-        void RopeUnhook()
-        {
-            IsRopeHooked = false;
+            bool isFrontHookAttached = fsmHookFront ? fsmHookFront.FsmVariables.GetFsmBool("Attached").Value : false;
+            bool isRearHookAttached = fsmHookRear ? fsmHookRear.FsmVariables.GetFsmBool("Attached").Value : false;
+            return (isFrontHookAttached || isRearHookAttached) ? true : false;
         }
     }
 }
