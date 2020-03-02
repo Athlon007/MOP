@@ -1,14 +1,6 @@
-Added:
-- Added framerate limiter
-- Vehicle physics will not be turned off, if the car is not grounded
-- Added support for Fishing Mod
-
 Changes:
-- Increased Perajarvi toggling distance to 300 units
-- Minor changes in the settings
+- Improved how MOP checks if the rope to the vehicle has been hooked
+- Changed how the on ground check is checked for Jonnez
 
 Bug Fixes:
-- (Mod) Ruscko Restoration Project: Fixed Ruscko key being visible on Fleetari's desk when it shouldn't be there
-
-Removed:
-- Removed "Temporarily Disable Physics Toggling" button
+- Fixed Gifu being frozen when the Active Distance is set to 0

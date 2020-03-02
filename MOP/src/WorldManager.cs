@@ -123,6 +123,8 @@ namespace MOP
                 }
             }
 
+            ModConsole.Print("[MOP] Vehicles loaded");
+
             // World Objects
             worldObjectList.Add("CABIN");
             worldObjectList.Add("COTTAGE", 400);
@@ -229,8 +231,13 @@ namespace MOP
             GameObject.Find("COTTAGE").transform.Find("MESH/Cottage_chimney").parent = null;
 
             // Fix for floppies at Jokke's new house
-            perajarvi.transform.Find("TerraceHouse/diskette(itemx)").parent = null;
-            perajarvi.transform.Find("TerraceHouse/diskette(itemx)").parent = null;
+            Transform diskette = perajarvi.transform.Find("TerraceHouse/diskette(itemx)");
+            if (diskette != null && diskette.parent != null)
+                diskette.parent = null;
+            
+            diskette = perajarvi.transform.Find("TerraceHouse/diskette(itemx)");
+            if (diskette != null && diskette.parent != null)
+                diskette.parent = null;
 
             // Fix for Jokke's house furnitures clipping through floor
             perajarvi.transform.Find("TerraceHouse/Apartments/Colliders").parent = null;
@@ -455,9 +462,10 @@ namespace MOP
                             }
 
                             float distance = Vector3.Distance(player.transform.position, vehicles[i].transform.position);
-                            float toggleDistance = MopSettings.ActiveDistance == 0 ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
-                            vehicles[i].ToggleUnityCar(IsEnabled(distance, toggleDistance));
-                            vehicles[i].Toggle(IsEnabled(distance));
+                            float toggleDistance = MopSettings.ActiveDistance == 0 
+                                ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
+                            vehicles[i].ToggleUnityCar(IsVehicleEnabled(distance, toggleDistance));
+                            vehicles[i].Toggle(IsVehicleEnabled(distance));
                         }
                     }
                     catch (Exception ex)
@@ -478,9 +486,10 @@ namespace MOP
                             }
 
                             float distance = Vector3.Distance(player.transform.position, vehicles[i].transform.position);
-                            float toggleDistance = MopSettings.ActiveDistance == 0 ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
-                            vehicles[i].ToggleUnityCar(IsEnabled(distance, toggleDistance));
-                            vehicles[i].Toggle(IsEnabled(distance));
+                            float toggleDistance = MopSettings.ActiveDistance == 0 
+                                ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
+                            vehicles[i].ToggleUnityCar(IsVehicleEnabled(distance, toggleDistance));
+                            vehicles[i].Toggle(IsVehicleEnabled(distance));
                         }
                     }
                     catch (Exception ex)
@@ -573,9 +582,14 @@ namespace MOP
             return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
 
-        bool IsEnabled(float distance, float toggleDistance = 200)
+        /// <summary>
+        /// Same as IsEnabled, but used for vehicles only
+        /// </summary>
+        /// <param name="distance"></param>
+        /// <returns></returns>
+        bool IsVehicleEnabled(float distance, float toggleDistance = 200)
         {
-            return distance < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
+            return distance < toggleDistance;
         }
 
         int ticks;

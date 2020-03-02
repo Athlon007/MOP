@@ -236,7 +236,8 @@ namespace MOP
                 return;
 
             // Don't toggle physics, unless car's on ground
-            if (!IsOnGround() && !enabled) return;
+            if (!IsOnGround() && !enabled) 
+                return;
 
             // If satsumaScript in this is not null, and Satsuma is in inspection area and is enabled, 
             // don't toggle unitycar

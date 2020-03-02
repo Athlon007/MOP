@@ -81,28 +81,6 @@ namespace MOP
             {
                 Application.targetFrameRate = -1;
             }
-
-            // Gamma
-            /*
-            int newGamma = int.Parse(MOP.gamma.GetValue().ToString());
-            if (gamma != newGamma)
-            {
-                gamma = newGamma;
-                if (!toneMapping)
-                {
-                    foreach (var f in Camera.main.gameObject.GetComponents(typeof(Component)))
-                    {
-                        if (f.ToString().Contains("Tonemapping"))
-                        {
-                            toneMapping = f;
-                        }
-                    }
-                }
-                toneMapping.GetType().GetField("exposureAdjustment").SetValue(toneMapping, 2f + 0.25f * gamma);
-                float exposureAdjustment = float.Parse(toneMapping.GetType().GetField("exposureAdjustment").GetValue(toneMapping).ToString());
-                MSCLoader.ModConsole.Print(exposureAdjustment);
-            }
-            */
         }
 
         /// <summary>

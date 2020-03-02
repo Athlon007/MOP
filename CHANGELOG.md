@@ -7,6 +7,11 @@
 - Improved how MOP checks if the rope to the vehicle has been hooked
 - Changed how the on ground check is checked for Jonnez
 
+### Bug Fixes
+
+- Fixed Gifu being frozen when the Active Distance is set to 0
+- Fixed MOP not starting if one of the diskettes from Jokke's apartment has been left in the computer
+
 ## 2.3 (29.02.2020)
 
 ### Added
