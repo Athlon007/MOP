@@ -4,3 +4,4 @@ Changes:
 
 Bug Fixes:
 - Fixed Gifu being frozen when the Active Distance is set to 0
+- Fixed MOP not starting if one of the diskettes from Jokke's apartment has been left in the computer
