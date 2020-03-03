@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.2 (03.03.2020)
+
+### Bug Fixes
+
+- Fixed flatbed resetting to full, after player sold the logs and flatbed got unloaded
+
 ## 2.3.1 (02.03.2020)
 
 ### Changes

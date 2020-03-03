@@ -134,6 +134,7 @@ namespace MOP
             if (gameObject.name == "FLATBED")
             {
                 FsmHook.FsmInject(transform.Find("Bed/LogTrigger").gameObject, "Add scale", FlatbedSwitchToggleMethod);
+                FsmHook.FsmInject(transform.Find("Bed/LogTrigger").gameObject, "Pay", FlatbedSwitchToggleMethod);
             }
 
             // Set default toggling method - that is entire vehicle
