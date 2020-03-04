@@ -55,6 +55,12 @@ namespace MOP
             // Don't run the code, if the value is the same
             if (gameObject == null || disableableObjects[0].gameObject.activeSelf == enabled) return;
 
+            if (MopFsmManager.IsRepairshopJobOrdered())
+            {
+                Toggle = ToggleUnityCar;
+                return;
+            }
+
             carDynamics.enabled = enabled;
             axles.enabled = enabled;
             rb.isKinematic = !enabled;

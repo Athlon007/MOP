@@ -15,12 +15,15 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using UnityEngine;
+using HutongGames.PlayMaker;
 
 namespace MOP
 {
     class MopFsmManager
     {
-        static PlayMakerFSM unclePlaymaker;
+        static FsmInt uncleStage;
+        static FsmBool gtGrilleInstalled;
+        static FsmFloat orderTime;
 
         /// <summary>
         /// Checks if the player has the keys to the Hayosiko.
@@ -29,22 +32,26 @@ namespace MOP
         public static bool PlayerHasHayosikoKey()
         {
             // Store Uncle's PlayMakerFSM for later
-            if (unclePlaymaker == null)
-            {
-                unclePlaymaker = GameObject.Find("UNCLE").GetComponent<PlayMakerFSM>();
-            }
+            if (uncleStage == null)
+                uncleStage = GameObject.Find("UNCLE").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmInt("UncleStage");
 
-            return unclePlaymaker.FsmVariables.GetFsmInt("UncleStage").Value == 5;
+            return uncleStage.Value == 5;
         }
-
-        static PlayMakerFSM databaseGTGrille;
 
         public static bool IsGTGrilleInstalled()
         {
-            if (databaseGTGrille == null)
-                databaseGTGrille = GameObject.Find("Database").transform.Find("DatabaseOrders/GrilleGT").gameObject.GetComponent<PlayMakerFSM>();
+            if (gtGrilleInstalled == null)
+                gtGrilleInstalled = GameObject.Find("Database").transform.Find("DatabaseOrders/GrilleGT").gameObject.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("Installed");
             
-            return databaseGTGrille.FsmVariables.GetFsmBool("Installed").Value == true;
+            return gtGrilleInstalled.Value == true;
+        }
+
+        public static bool IsRepairshopJobOrdered()
+        {
+            if (orderTime == null)
+                orderTime = GameObject.Find("REPAIRSHOP/Order").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmFloat("_OrderTime");
+
+            return orderTime.Value > 0 && orderTime.Value != 5000;
         }
     }
 }

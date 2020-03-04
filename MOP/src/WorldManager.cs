@@ -309,7 +309,6 @@ namespace MOP
             StartCoroutine(ControlCoroutine());
 
             ModConsole.Print("[MOP] MOD LOADED SUCCESFULLY!");
-
         }
 
         /// <summary>

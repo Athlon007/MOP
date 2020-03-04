@@ -5,6 +5,7 @@
 ### Bug Fixes
 
 - Fixed flatbed resetting to full, after player sold the logs and flatbed got unloaded
+- Fixed ordered paintjobs resetting to default white, if they were ordered and player left the repair shop
 
 ## 2.3.1 (02.03.2020)
 
