@@ -86,5 +86,15 @@ namespace MOP
             return gameObject.GetComponentsInChildren<Transform>(true)
                 .Where(trans => trans.gameObject.name.ContainsAny(whiteList)).ToArray();
         }
+
+        public void ToggleUnityCarOnly()
+        {
+            MSCLoader.ModConsole.Print("oww");
+            if (MopFsmManager.IsRepairshopJobOrdered())
+            {
+                Toggle(true);
+                Toggle = ToggleUnityCar;
+            }
+        }
     }
 }

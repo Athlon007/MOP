@@ -56,6 +56,11 @@ namespace MOP
                 blackListList.Add("Vehicle");
             }
 
+            GameObject playerAreaCheck = new GameObject("MOP_PlayerAreaCheck");
+            playerAreaCheck.transform.position = new Vector3(1554, 4, 739);
+            PlayerOutAreaCheck playerOutAreaCheck = playerAreaCheck.AddComponent<PlayerOutAreaCheck>();
+            playerOutAreaCheck.Initialize();
+
             GameObjectBlackList = blackListList.ToArray();
             DisableableChilds = GetDisableableChilds();
 

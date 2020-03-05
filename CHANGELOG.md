@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.3 (tba)
+
+### Added
+
+- Added extra check for when player ordered a thing in Repair Shop
+
 ## 2.3.2 (04.03.2020)
 
 ### Bug Fixes
