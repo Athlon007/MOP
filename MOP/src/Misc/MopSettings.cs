@@ -73,14 +73,7 @@ namespace MOP
             toggleVehiclePhysicsOnly = (bool)MOP.toggleVehiclePhysicsOnly.GetValue();
 
             // Framerate limiter
-            if ((bool)MOP.enableFramerateLimiter.GetValue())
-            {
-                Application.targetFrameRate = int.Parse(MOP.framerateLimiter.GetValue().ToString());
-            }
-            else
-            {
-                Application.targetFrameRate = -1;
-            }
+            Application.targetFrameRate = (bool)MOP.enableFramerateLimiter.GetValue() ? int.Parse(MOP.framerateLimiter.GetValue().ToString()) : -1;
         }
 
         /// <summary>

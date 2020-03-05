@@ -25,7 +25,7 @@ namespace MOP
         public override string ID => "MOP"; //Your mod ID (unique)
         public override string Name => "Modern Optimization Plugin"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "2.3.2"; //Version
+        public override string Version => "2.3.3"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
@@ -52,11 +52,11 @@ namespace MOP
         //
         // BUTTONS
         //
-        Settings donate = new Settings("donate", "Donate", OpenDonateDialog);
-        Settings openLastLog = new Settings("openLastLog", "Open last log", ExceptionManager.Open);
-        Settings generateReport = new Settings("generateReport", "Generate mod report", ExceptionManager.GenerateReport);
-        Settings faq = new Settings("faq", "FAQ", OpenFAQDialog);
-        Settings wiki = new Settings("wiki", "Go to MOP wiki", OpenWikiDialog);
+        readonly Settings donate = new Settings("donate", "Donate", OpenDonateDialog);
+        readonly Settings openLastLog = new Settings("openLastLog", "Open last log", ExceptionManager.Open);
+        readonly Settings generateReport = new Settings("generateReport", "Generate mod report", ExceptionManager.GenerateReport);
+        readonly Settings faq = new Settings("faq", "FAQ", OpenFAQDialog);
+        readonly Settings wiki = new Settings("wiki", "Go to MOP wiki", OpenWikiDialog);
 
         //
         // ACTIVATING OBJECTS
