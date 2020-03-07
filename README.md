@@ -55,6 +55,7 @@ MOP officially supports following mods:
 - KekmetAddons
 - Bottle Recycle
 - Fishing Mod
+- Tangerine Pickup
 
 **WARNING:** This mod may or may not corrupt other mods. Use at your own risk!
 
