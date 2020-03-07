@@ -1,3 +1,6 @@
+Added:
+- Added support for Tangerine Pickup
+- Added extra check for when player ordered a thing in Repair Shop
+
 Bug Fixes:
-- Fixed flatbed resetting to full, after player sold the logs and flatbed got unloaded
-- Fixed ordered paintjobs resetting to default white, if they were ordered and player left the repair shop
+- Removed Inspection from toggling, in order to fix bugx related to the new periodic inspection system

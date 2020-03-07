@@ -1,10 +1,15 @@
 # Changelog
 
-## 2.3.3 (tba)
+## 2.3.3 (07.03.2020)
 
 ### Added
 
+- Added support for Tangerine Pickup
 - Added extra check for when player ordered a thing in Repair Shop
+
+### Bug Fixes
+
+- Removed Inspection from toggling, in order to fix bugx related to the new periodic inspection system
 
 ## 2.3.2 (04.03.2020)
 

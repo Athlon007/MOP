@@ -121,6 +121,12 @@ namespace MOP
                 {
                     vehicles.Add(new Vehicle("POLICEFERNDALE(1630kg)"));
                 }
+
+                // Tangerine
+                if (CompatibilityManager.instance.TangerinePickup)
+                {
+                    vehicles.Add(new Vehicle("TangerinePickup(Clone)"));
+                }
             }
 
             ModConsole.Print("[MOP] Vehicles loaded");
@@ -129,7 +135,7 @@ namespace MOP
             worldObjectList.Add("CABIN");
             worldObjectList.Add("COTTAGE", 400);
             worldObjectList.Add("DANCEHALL");
-            worldObjectList.Add("INSPECTION");
+            //worldObjectList.Add("INSPECTION");
             worldObjectList.Add("PERAJARVI", 300);
             worldObjectList.Add("RYKIPOHJA", 400);
             worldObjectList.Add("SOCCER");

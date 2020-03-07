@@ -18,6 +18,8 @@ using MSCLoader;
 using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
+using System;
+using System.Reflection;
 
 namespace MOP
 {
@@ -57,6 +59,7 @@ namespace MOP
         internal CarDynamics carDynamics;
         internal Axles axles;
         internal Rigidbody rb;
+        Drivetrain drivetrain;
 
         // Applies extra fixes, if is set to true.
         readonly bool isHayosiko;
@@ -70,8 +73,8 @@ namespace MOP
 
         // Reference to one of the wheels that checks if the vehicle is on ground
         Wheel wheel;
-        // Workaround for Jonnez
-        Drivetrain jonnezDrivetrain;
+
+        readonly bool isTangerine;
 
         /// <summary>
         /// Initialize class
@@ -177,9 +180,13 @@ namespace MOP
 
             // Get one of the wheels
             wheel = axles.allWheels[0];
+            
+            drivetrain = gameObject.GetComponent<Drivetrain>();
 
-            if (this.gameObject.name == "JONNEZ ES(Clone)")
-                jonnezDrivetrain = gameObject.GetComponent<Drivetrain>();
+            if (gameObject.name == "TangerinePickup(Clone)")
+            {
+                isTangerine = true;
+            }
         }
 
         public delegate void ToggleHandler(bool enabled);
@@ -206,6 +213,10 @@ namespace MOP
             // We're doing that BEFORE we disable the object.
             if (!enabled)
             {
+                // Kill the engine of Tangerine pickup
+                if (isTangerine && drivetrain.rpm > 0)
+                    return;
+
                 for (int i = 0; i < unloadableObjects.Count; i++)
                     unloadableObjects[i].ObjectTransform.parent = temporaryParent;
 
@@ -299,7 +310,7 @@ namespace MOP
         {
             if (this.gameObject.name == "JONNEZ ES(Clone)")
             {
-                return jonnezDrivetrain.torque == 0;
+                return drivetrain.torque == 0;
             }
 
             return wheel.onGroundDown;

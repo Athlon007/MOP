@@ -86,6 +86,10 @@ namespace MOP
         //
         public bool FishingMod { get; private set; }
 
+        // TangerinePickup
+        //
+        public bool TangerinePickup { get; private set; }
+
         public CompatibilityManager()
         {
             instance = this;
@@ -104,7 +108,7 @@ namespace MOP
             ActualMop = IsModPresent("ActualMop");
             KekmetAddons = IsModPresent("KekmetAddons");
             BottleRecycling = IsModPresent("BottleRecycling");
-            FishingMod = IsModPresent("FishingMod");
+            TangerinePickup = IsModPresent("TangerinePickup");
 
             ModConsole.Print("[MOP] Compatibility Manager done");
         }
