@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.3.4 (08.03.2020)
+
+### Changes
+
+- Updated for MSC Mod Loader Version 1.1.6
+
+### Bug Fixes
+
+- Fixed a bug in which player couldn't use brochure at Fleetari repair shop
+
 ## 2.3.3 (07.03.2020)
 
 ### Added

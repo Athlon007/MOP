@@ -89,7 +89,6 @@ namespace MOP
 
         public void ToggleUnityCarOnly()
         {
-            MSCLoader.ModConsole.Print("oww");
             if (MopFsmManager.IsRepairshopJobOrdered())
             {
                 Toggle(true);

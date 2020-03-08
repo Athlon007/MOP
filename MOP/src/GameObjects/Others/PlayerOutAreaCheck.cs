@@ -31,8 +31,10 @@ namespace MOP
         {
             collider = gameObject.AddComponent<BoxCollider>();
             collider.isTrigger = true;
-            collider.size = new Vector3(3,3,3);
+            collider.size = new Vector3(3,2,3);
             collider.transform.position = transform.position;
+
+            gameObject.layer = 100;
         }
 
         void OnTriggerExit(Collider other)

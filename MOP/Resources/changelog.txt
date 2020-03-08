@@ -1,6 +1,5 @@
-Added:
-- Added support for Tangerine Pickup
-- Added extra check for when player ordered a thing in Repair Shop
+Changes:
+- Updated for MSC Mod Loader Version 1.1.6
 
 Bug Fixes:
-- Removed Inspection from toggling, in order to fix bugx related to the new periodic inspection system
+- Fixed a bug in which player couldn't use brochure at Fleetari repair shop
