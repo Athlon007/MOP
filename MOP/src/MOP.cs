@@ -25,7 +25,7 @@ namespace MOP
         public override string ID => "MOP"; //Your mod ID (unique)
         public override string Name => "Modern Optimization Plugin"; //You mod name
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "2.3.4"; //Version
+        public override string Version => "2.4"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
@@ -80,8 +80,8 @@ namespace MOP
         //
         // ADVANCED
         //
-        public static Settings toggleVehicles = new Settings("toggleVehicles", "Vehicles", true, MopSettings.UpdateAll);
-        public static Settings toggleItems = new Settings("toggleItems", "Shop Items", true, MopSettings.UpdateAll);
+        //public static Settings toggleVehicles = new Settings("toggleVehicles", "Vehicles", true, MopSettings.UpdateAll);
+        //public static Settings toggleItems = new Settings("toggleItems", "Shop Items", true, MopSettings.UpdateAll);
         public static Settings toggleVehiclePhysicsOnly = new Settings("toggleVehiclePhysicsOnly", "Toggle Vehicles Physics Only", false, MopSettings.UpdateAll);
 
         readonly Color32 headerColor = new Color32(29, 29, 29, 255);
@@ -106,7 +106,6 @@ namespace MOP
             Settings.AddCheckBox(this, safeMode);
             Settings.AddText(this, "Safe Mode will only allow to toggle objects that are known to not to cause any issues.\n" +
                 "Note: framerate gain will be dramatically decreased!");
-            Settings.AddCheckBox(this, ignoreModVehicles);
             
             // Graphics
             Settings.AddHeader(this, "Graphics", headerColor);
@@ -122,12 +121,13 @@ namespace MOP
 
             // Advanced
             Settings.AddHeader(this, "Advanced", headerColor);
-            Settings.AddText(this, "Toggled Objects (requires restart):");
-            Settings.AddCheckBox(this, toggleVehicles);
-            Settings.AddCheckBox(this, toggleItems);
-            Settings.AddText(this, "If unchecked, the following objects will not get disabled.\n" +
-                "WARNING: Disabling Vehicles without disabling toggled items may cause items to fall through on the ground. " +
-                "DO NOT disable any of these, unless you REALLY need to!");
+            Settings.AddCheckBox(this, ignoreModVehicles);
+            //Settings.AddText(this, "Toggled Objects (requires restart):");
+            //Settings.AddCheckBox(this, toggleVehicles);
+            //Settings.AddCheckBox(this, toggleItems);
+            //Settings.AddText(this, "If unchecked, the following objects will not get disabled.\n" +
+                //"WARNING: Disabling Vehicles without disabling toggled items may cause items to fall through on the ground. " +
+                //"DO NOT disable any of these, unless you REALLY need to!");
             Settings.AddCheckBox(this, toggleVehiclePhysicsOnly);
 
             // Changelog

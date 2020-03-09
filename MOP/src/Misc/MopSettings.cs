@@ -31,9 +31,9 @@ namespace MOP
 
         public static bool SafeMode { get; set; }
 
-        public static bool ToggleVehicles { get; private set; }
+        //public static bool ToggleVehicles { get; private set; }
 
-        public static bool ToggleItems { get; private set; }
+        //public static bool ToggleItems { get; private set; }
 
         static bool ignoreModVehicles = false;
         public static bool IgnoreModVehicles { get => ignoreModVehicles; }
@@ -63,8 +63,8 @@ namespace MOP
             ActiveDistance = int.Parse(MOP.activeDistance.GetValue().ToString());
             ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
             SafeMode = (bool)MOP.safeMode.GetValue();
-            ToggleVehicles = (bool)MOP.toggleVehicles.GetValue();
-            ToggleItems = (bool)MOP.toggleItems.GetValue();
+            //ToggleVehicles = (bool)MOP.toggleVehicles.GetValue();
+            //ToggleItems = (bool)MOP.toggleItems.GetValue();
             ignoreModVehicles = (bool)MOP.ignoreModVehicles.GetValue();
 
             // Others

@@ -86,15 +86,17 @@ namespace MOP
             player = GameObject.Find("PLAYER").transform;
 
             // Loading vehicles
-            vehicles = new List<Vehicle>();
-            vehicles.Add(new Satsuma("SATSUMA(557kg, 248)"));
-            vehicles.Add(new Vehicle("HAYOSIKO(1500kg, 250)"));
-            vehicles.Add(new Vehicle("JONNEZ ES(Clone)"));
-            vehicles.Add(new Vehicle("KEKMET(350-400psi)"));
-            vehicles.Add(new Vehicle("RCO_RUSCKO12(270)"));
-            vehicles.Add(new Vehicle("FERNDALE(1630kg)"));
-            vehicles.Add(new Vehicle("FLATBED"));
-            vehicles.Add(new Vehicle("GIFU(750/450psi)"));
+            vehicles = new List<Vehicle>
+            {
+                new Satsuma("SATSUMA(557kg, 248)"),
+                new Vehicle("HAYOSIKO(1500kg, 250)"),
+                new Vehicle("JONNEZ ES(Clone)"),
+                new Vehicle("KEKMET(350-400psi)"),
+                new Vehicle("RCO_RUSCKO12(270)"),
+                new Vehicle("FERNDALE(1630kg)"),
+                new Vehicle("FLATBED"),
+                new Vehicle("GIFU(750/450psi)")
+            };
 
             if (!MopSettings.IgnoreModVehicles)
             {
@@ -454,113 +456,107 @@ namespace MOP
                 }
 
                 // Vehicles
-                if (MopSettings.ToggleVehicles)
+                try
                 {
-                    try
+                    half = vehicles.Count / 2;
+                    for (i = 0; i < half; i++)
                     {
-                        half = vehicles.Count / 2;
-                        for (i = 0; i < half; i++)
+                        if (vehicles[i] == null)
                         {
-                            if (vehicles[i] == null)
-                            {
-                                ModConsole.Print("[MOP] Vehicle " + i + " has been skipped, because an error occured.");
-                                continue;
-                            }
-
-                            float distance = Vector3.Distance(player.transform.position, vehicles[i].transform.position);
-                            float toggleDistance = MopSettings.ActiveDistance == 0 
-                                ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
-                            vehicles[i].ToggleUnityCar(IsVehicleEnabled(distance, toggleDistance));
-                            vehicles[i].Toggle(IsVehicleEnabled(distance));
+                            ModConsole.Print("[MOP] Vehicle " + i + " has been skipped, because an error occured.");
+                            continue;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        ExceptionManager.New(ex);
-                    }
 
-                    yield return null;
+                        float distance = Vector3.Distance(player.transform.position, vehicles[i].transform.position);
+                        float toggleDistance = MopSettings.ActiveDistance == 0 
+                            ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
+                        vehicles[i].ToggleUnityCar(IsVehicleEnabled(distance, toggleDistance));
+                        vehicles[i].Toggle(IsVehicleEnabled(distance));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex);
+                }
 
-                    try
+                yield return null;
+
+                try
+                {
+                    for (; i < vehicles.Count; i++)
                     {
-                        for (; i < vehicles.Count; i++)
+                        if (vehicles[i] == null)
                         {
-                            if (vehicles[i] == null)
-                            {
-                                ModConsole.Print("[MOP] Vehicle " + i + " has been skipped, because an error occured.");
-                                continue;
-                            }
-
-                            float distance = Vector3.Distance(player.transform.position, vehicles[i].transform.position);
-                            float toggleDistance = MopSettings.ActiveDistance == 0 
-                                ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
-                            vehicles[i].ToggleUnityCar(IsVehicleEnabled(distance, toggleDistance));
-                            vehicles[i].Toggle(IsVehicleEnabled(distance));
+                            ModConsole.Print("[MOP] Vehicle " + i + " has been skipped, because an error occured.");
+                            continue;
                         }
+
+                        float distance = Vector3.Distance(player.transform.position, vehicles[i].transform.position);
+                        float toggleDistance = MopSettings.ActiveDistance == 0 
+                            ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
+                        vehicles[i].ToggleUnityCar(IsVehicleEnabled(distance, toggleDistance));
+                        vehicles[i].Toggle(IsVehicleEnabled(distance));
                     }
-                    catch (Exception ex)
-                    {
-                        ExceptionManager.New(ex);
-                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex);
                 }
 
                 // Shop items
-                if (MopSettings.ToggleItems)
+                try
                 {
-                    try
+                    half = Items.instance.ItemsHooks.Count / 2;
+                    for (i = 0; i < half; ++i)
                     {
-                        half = Items.instance.ItemsHooks.Count / 2;
-                        for (i = 0; i < half; ++i)
+                        if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
                         {
-                            if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
-                            {
-                                if (!CompatibilityManager.instance.BottleRecycling)
-                                    ModConsole.Print("[MOP] Removed one item from ItemHooks list, because it doesn't exist anymore.\n");
+                            if (!CompatibilityManager.instance.BottleRecycling)
+                                ModConsole.Print("[MOP] Removed one item from ItemHooks list, because it doesn't exist anymore.\n");
 
-                                // Remove item at the current i
-                                Items.instance.ItemsHooks.RemoveAt(i);
+                            // Remove item at the current i
+                            Items.instance.ItemsHooks.RemoveAt(i);
 
-                                // Decrease the i by 1, because the List has shifted, so the items will not be skipped
-                                // Then continue;
-                                i--;
-                                continue;
-                            }
-
-                            Items.instance.ItemsHooks[i].ToggleActive(IsEnabled(Items.instance.ItemsHooks[i].gameObject.transform));
+                            // Decrease the i by 1, because the List has shifted, so the items will not be skipped
+                            // Then continue;
+                            i--;
+                            continue;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        ExceptionManager.New(ex);
-                    }
 
-                    yield return null;
+                        Items.instance.ItemsHooks[i].ToggleActive(IsEnabled(Items.instance.ItemsHooks[i].gameObject.transform));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex);
+                }
 
-                    try
+                yield return null;
+
+                try
+                {
+                    for (; i < Items.instance.ItemsHooks.Count; ++i)
                     {
-                        for (; i < Items.instance.ItemsHooks.Count; ++i)
+                        if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
                         {
-                            if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
-                            {
-                                if (!CompatibilityManager.instance.BottleRecycling)
-                                    ModConsole.Print("[MOP] Removed one item from ItemHooks list, because it doesn't exist anymore.\n");
+                            if (!CompatibilityManager.instance.BottleRecycling)
+                                ModConsole.Print("[MOP] Removed one item from ItemHooks list, because it doesn't exist anymore.\n");
 
-                                // Remove item at the current i
-                                Items.instance.ItemsHooks.RemoveAt(i);
+                            // Remove item at the current i
+                            Items.instance.ItemsHooks.RemoveAt(i);
                                 
-                                // Decrease the i by 1, because the List has shifted, so the items will not be skipped
-                                // Then continue;
-                                i--;
-                                continue;
-                            }
-
-                            Items.instance.ItemsHooks[i].ToggleActive(IsEnabled(Items.instance.ItemsHooks[i].gameObject.transform));
+                            // Decrease the i by 1, because the List has shifted, so the items will not be skipped
+                            // Then continue;
+                            i--;
+                            continue;
                         }
+
+                        Items.instance.ItemsHooks[i].ToggleActive(IsEnabled(Items.instance.ItemsHooks[i].gameObject.transform));
                     }
-                    catch (Exception ex)
-                    {
-                        ExceptionManager.New(ex);
-                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex);
                 }
 
                 try

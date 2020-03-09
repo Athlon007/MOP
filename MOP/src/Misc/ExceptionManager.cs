@@ -86,8 +86,8 @@ namespace MOP
             output += "SafeMode: " + MopSettings.SafeMode.ToString() + "\n";
             output += "RemoveEmptyBeerBottles: " + MopSettings.RemoveEmptyBeerBottles.ToString() + "\n";
             output += "SatsumaTogglePhysicsOnly: " + MopSettings.SatsumaTogglePhysicsOnly.ToString() + "\n";
-            output += "ToggleVehicles: " + MopSettings.ToggleVehicles.ToString() + "\n";
-            output += "ToggleItems: " + MopSettings.ToggleItems.ToString() + "\n";
+            //output += "ToggleVehicles: " + MopSettings.ToggleVehicles.ToString() + "\n";
+            //output += "ToggleItems: " + MopSettings.ToggleItems.ToString() + "\n";
             output += "ToggleVehiclePhysicsOnly: " + MopSettings.ToggleVehiclePhysicsOnly.ToString() + "\n";
             output += "IgnoreModVehicles: " + MopSettings.IgnoreModVehicles.ToString() + "\n";
             output += "EnableFramerateLimiter: " + ((bool)MOP.enableFramerateLimiter.GetValue()).ToString() + "\n";
