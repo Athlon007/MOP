@@ -62,6 +62,7 @@
     <Compile Include="src\GameObjects\Others\MopFsmManager.cs" />
     <Compile Include="src\GameObjects\Others\PlayerOutAreaCheck.cs" />
     <Compile Include="src\GameObjects\Others\SatsumaInAreaCheck.cs" />
+    <Compile Include="src\GameObjects\Places\Inspection.cs" />
     <Compile Include="src\GameObjects\Places\Yard.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\HingeManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Satsuma.cs" />

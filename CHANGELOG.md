@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.4 (tba)
+
+### Added
+
+- Inspection is now toggled
+
+### Removed
+
+- Removed Toggle Vehicle and Toggle Items
+
 ## 2.3.4 (08.03.2020)
 
 ### Changes

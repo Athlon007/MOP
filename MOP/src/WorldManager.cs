@@ -36,9 +36,7 @@ namespace MOP
         List<Vehicle> vehicles;
 
         // Places
-        Teimo teimo;
-        RepairShop repairShop;
-        Yard yard;
+        List<Place> places;
 
         // World Objects
         WorldObjectList worldObjectList;
@@ -150,9 +148,13 @@ namespace MOP
             ModConsole.Print("[MOP] Main world objects loaded");
 
             // Initialize shops
-            teimo = new Teimo();
-            repairShop = new RepairShop();
-            yard = new Yard();
+            places = new List<Place>
+            {
+                new Yard(),
+                new Teimo(),
+                new RepairShop(),
+                new Inspection()
+            };
 
             ModConsole.Print("[MOP] Initialized places");
 
@@ -390,8 +392,8 @@ namespace MOP
                 if (ticks > 1000)
                     ticks = 0;
 
-                IsPlayerOnYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, yard.transform.position) < 100 
-                    : Vector3.Distance(player.position, yard.transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
+                IsPlayerOnYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, places[0].transform.position) < 100 
+                    : Vector3.Distance(player.position, places[0].transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 
                 int half = worldObjectList.Count / 2;
                 int i = 0;
@@ -559,11 +561,27 @@ namespace MOP
                     ExceptionManager.New(ex);
                 }
 
+
+                // Places
                 try
                 {
-                    teimo.ToggleActive(IsEnabled(teimo.transform));
-                    repairShop.ToggleActive(IsEnabled(repairShop.transform, 400));
-                    yard.ToggleActive(IsEnabled(yard.transform, 300));
+                    half = places.Count / 2;
+                    for (i = 0; i < half; ++i)
+                    {
+                        places[i].ToggleActive(IsEnabled(places[i].transform));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex);
+                }
+
+                try
+                {
+                    for (; i < places.Count; ++i)
+                    {
+                        places[i].ToggleActive(IsEnabled(places[i].transform));
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -660,10 +678,11 @@ namespace MOP
                     Items.instance.ItemsHooks[i].ToggleActive(true);
                 }
 
-                // Stores
-                teimo.ToggleActive(true);
-                repairShop.ToggleActive(true);
-                yard.ToggleActive(true);
+                // Places
+                for (int i = 0; i < places.Count; i++)
+                {
+                    places[i].ToggleActive(true);
+                }
             }
             catch (Exception ex)
             {
