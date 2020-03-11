@@ -5,6 +5,14 @@
 ### Added
 
 - Inspection is now toggled
+- Added sectors
+  - Uppon entering one, some elements will be disabled (such as some trees)
+  - Also the toggling distance will be reduced to 30 unites
+  - Disabled by default! You can enable it in the settings (EXPERIMENTAL: Enable Sectors)
+
+### Changes
+
+- Moved "Ignore Mod
 
 ### Removed
 

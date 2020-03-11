@@ -79,6 +79,9 @@ namespace MOP
 
             // Initialize the worldObjectList list
             worldObjectList = new WorldObjectList();
+            
+            // Initialzie sector manager
+            this.gameObject.AddComponent<SectorManager>();
 
             // Looking for player and yard
             player = GameObject.Find("PLAYER").transform;
@@ -135,9 +138,7 @@ namespace MOP
             worldObjectList.Add("CABIN");
             worldObjectList.Add("COTTAGE", 400);
             worldObjectList.Add("DANCEHALL");
-            //worldObjectList.Add("INSPECTION");
             worldObjectList.Add("PERAJARVI", 300);
-            worldObjectList.Add("RYKIPOHJA", 400);
             worldObjectList.Add("SOCCER");
             worldObjectList.Add("WATERFACILITY");
             worldObjectList.Add("DRAGRACE", 1100);
@@ -599,6 +600,8 @@ namespace MOP
         /// <param name="toggleDistance">Distance below which the object should be enabled (default 200 units).</param>
         bool IsEnabled(Transform target, float toggleDistance = 200)
         {
+            if (SectorManager.instance.PlayerInSector)
+                toggleDistance = 30;
             return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
 
@@ -609,6 +612,8 @@ namespace MOP
         /// <returns></returns>
         bool IsVehicleEnabled(float distance, float toggleDistance = 200)
         {
+            if (SectorManager.instance.PlayerInSector)
+                toggleDistance = 30;
             return distance < toggleDistance;
         }
 

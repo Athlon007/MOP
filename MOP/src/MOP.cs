@@ -63,7 +63,6 @@ namespace MOP
         //
         public static Settings activeDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
         public static Settings safeMode = new Settings("safeMode", "Safe Mode (requires restart)", false, MopSettings.UpdateAll);
-        public static Settings ignoreModVehicles = new Settings("ignoreModVehicles", "Ignore Mod Vehicles", false, MopSettings.UpdateAll);
 
         //
         // GRAPHICS
@@ -82,7 +81,9 @@ namespace MOP
         //
         //public static Settings toggleVehicles = new Settings("toggleVehicles", "Vehicles", true, MopSettings.UpdateAll);
         //public static Settings toggleItems = new Settings("toggleItems", "Shop Items", true, MopSettings.UpdateAll);
+        public static Settings ignoreModVehicles = new Settings("ignoreModVehicles", "Ignore Mod Vehicles", false, MopSettings.UpdateAll);
         public static Settings toggleVehiclePhysicsOnly = new Settings("toggleVehiclePhysicsOnly", "Toggle Vehicles Physics Only", false, MopSettings.UpdateAll);
+        public static Settings enableSectors = new Settings("enableSectors", "EXPERIMENTAL: Enable Sectors", false, MopSettings.UpdateAll);
 
         readonly Color32 headerColor = new Color32(29, 29, 29, 255);
 
@@ -129,6 +130,7 @@ namespace MOP
                 //"WARNING: Disabling Vehicles without disabling toggled items may cause items to fall through on the ground. " +
                 //"DO NOT disable any of these, unless you REALLY need to!");
             Settings.AddCheckBox(this, toggleVehiclePhysicsOnly);
+            //Settings.AddCheckBox(this, enableSectors);
 
             // Changelog
             Settings.AddHeader(this, "Changelog", headerColor);
