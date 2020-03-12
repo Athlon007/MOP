@@ -49,6 +49,9 @@ namespace MOP
 
         static bool toggleVehiclePhysicsOnly = false;
         public static bool ToggleVehiclePhysicsOnly { get => toggleVehiclePhysicsOnly; }
+        
+        static bool enableSectors = false;
+        public static bool EnableSectors { get => enableSectors; }
 
         //
         // MISCELLANEOUS
@@ -63,17 +66,21 @@ namespace MOP
             ActiveDistance = int.Parse(MOP.activeDistance.GetValue().ToString());
             ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
             SafeMode = (bool)MOP.safeMode.GetValue();
-            //ToggleVehicles = (bool)MOP.toggleVehicles.GetValue();
-            //ToggleItems = (bool)MOP.toggleItems.GetValue();
             ignoreModVehicles = (bool)MOP.ignoreModVehicles.GetValue();
 
             // Others
             removeEmptyBeerBottles = (bool)MOP.removeEmptyBeerBottles.GetValue();
             satsumaTogglePhysicsOnly = (bool)MOP.satsumaTogglePhysicsOnly.GetValue();
             toggleVehiclePhysicsOnly = (bool)MOP.toggleVehiclePhysicsOnly.GetValue();
+            enableSectors = (bool)MOP.enableSectors.GetValue();
 
             // Framerate limiter
             Application.targetFrameRate = (bool)MOP.enableFramerateLimiter.GetValue() ? int.Parse(MOP.framerateLimiter.GetValue().ToString()) : -1;
+
+            if (IsModActive)
+            {
+                WorldManager.instance.ToggleActiveSectors();
+            }
         }
 
         /// <summary>

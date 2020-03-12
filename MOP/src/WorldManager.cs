@@ -79,9 +79,9 @@ namespace MOP
 
             // Initialize the worldObjectList list
             worldObjectList = new WorldObjectList();
-            
+
             // Initialzie sector manager
-            this.gameObject.AddComponent<SectorManager>();
+            ToggleActiveSectors();
 
             // Looking for player and yard
             player = GameObject.Find("PLAYER").transform;
@@ -692,6 +692,22 @@ namespace MOP
             catch (Exception ex)
             {
                 ExceptionManager.New(ex);
+            }
+        }
+
+        /// <summary>
+        /// Toggle active sectors
+        /// </summary>
+        public void ToggleActiveSectors()
+        {
+            if (MopSettings.EnableSectors && gameObject.GetComponent<SectorManager>() == null)
+            {
+                this.gameObject.AddComponent<SectorManager>();
+            }
+            else
+            {
+                SectorManager.instance.DestroyAllSectors();
+                Destroy(gameObject.GetComponent<SectorManager>());
             }
         }
     }

@@ -79,8 +79,6 @@ namespace MOP
         //
         // ADVANCED
         //
-        //public static Settings toggleVehicles = new Settings("toggleVehicles", "Vehicles", true, MopSettings.UpdateAll);
-        //public static Settings toggleItems = new Settings("toggleItems", "Shop Items", true, MopSettings.UpdateAll);
         public static Settings ignoreModVehicles = new Settings("ignoreModVehicles", "Ignore Mod Vehicles", false, MopSettings.UpdateAll);
         public static Settings toggleVehiclePhysicsOnly = new Settings("toggleVehiclePhysicsOnly", "Toggle Vehicles Physics Only", false, MopSettings.UpdateAll);
         public static Settings enableSectors = new Settings("enableSectors", "EXPERIMENTAL: Enable Sectors", false, MopSettings.UpdateAll);
@@ -123,14 +121,8 @@ namespace MOP
             // Advanced
             Settings.AddHeader(this, "Advanced", headerColor);
             Settings.AddCheckBox(this, ignoreModVehicles);
-            //Settings.AddText(this, "Toggled Objects (requires restart):");
-            //Settings.AddCheckBox(this, toggleVehicles);
-            //Settings.AddCheckBox(this, toggleItems);
-            //Settings.AddText(this, "If unchecked, the following objects will not get disabled.\n" +
-                //"WARNING: Disabling Vehicles without disabling toggled items may cause items to fall through on the ground. " +
-                //"DO NOT disable any of these, unless you REALLY need to!");
             Settings.AddCheckBox(this, toggleVehiclePhysicsOnly);
-            //Settings.AddCheckBox(this, enableSectors);
+            Settings.AddCheckBox(this, enableSectors);
 
             // Changelog
             Settings.AddHeader(this, "Changelog", headerColor);

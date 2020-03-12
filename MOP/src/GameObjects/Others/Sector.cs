@@ -35,8 +35,8 @@ namespace MOP
             if (other.gameObject.name == ReferenceObjectName)
             {
                 SectorManager.instance.PlayerInSector = true;
-                for (int i = 0; i < SectorManager.instance.Objects.Count; i++)
-                    SectorManager.instance.Objects[i].SetActive(false);
+                for (int i = 0; i < SectorManager.instance.DisabledObjects.Count; i++)
+                    SectorManager.instance.DisabledObjects[i].SetActive(false);
             }
         }
 
@@ -45,8 +45,8 @@ namespace MOP
             if (other.gameObject.name == ReferenceObjectName)
             {
                 SectorManager.instance.PlayerInSector = false;
-                for (int i = 0; i < SectorManager.instance.Objects.Count; i++)
-                    SectorManager.instance.Objects[i].SetActive(true);
+                for (int i = 0; i < SectorManager.instance.DisabledObjects.Count; i++)
+                    SectorManager.instance.DisabledObjects[i].SetActive(true);
             }
         }
     }
@@ -55,15 +55,18 @@ namespace MOP
     {
         public static SectorManager instance;
 
-        public List<GameObject> Objects;
+        List<GameObject> disabledObjects;
+        public List<GameObject> DisabledObjects { get => disabledObjects; }
 
         public bool PlayerInSector;
+
+        List<GameObject> sectors;
 
         public SectorManager()
         {
             instance = this;
 
-            Objects = new List<GameObject>
+            disabledObjects = new List<GameObject>
             {
                 GameObject.Find("ELEC_POLES"),
                 GameObject.Find("ELEC_POLES_COLL"),
@@ -89,6 +92,7 @@ namespace MOP
                 GameObject.Find("MAP/LakeSimple/Tile")
             };
 
+            sectors = new List<GameObject>();
             CreateNewSector(new Vector3(-16.77627f, -0.5062422f, 1.559867f), new Vector3(5,5,9)); // Garage
             CreateNewSector(new Vector3(-1547, 4, 1183), new Vector3(7, 5, 8)); // Teimo
             CreateNewSector(new Vector3(1563.49f, 4.8f, 731.8835f), new Vector3(15, 5, 17), new Vector3(0, 335, 0)); // Repair shop
@@ -100,6 +104,7 @@ namespace MOP
             newSector.transform.position = position;
             Sector sectorInfo = newSector.AddComponent<Sector>();
             sectorInfo.Initialize(size);
+            sectors.Add(newSector);
         }
 
         void CreateNewSector(Vector3 position, Vector3 size, Vector3 rotation)
@@ -109,6 +114,20 @@ namespace MOP
             newSector.transform.localEulerAngles = rotation;
             Sector sectorInfo = newSector.AddComponent<Sector>();
             sectorInfo.Initialize(size);
+            sectors.Add(newSector);
+        }
+
+        /// <summary>
+        /// Destroys all sectors and reeanbles all disabled objects
+        /// </summary>
+        public void DestroyAllSectors()
+        {
+            for (int i = 0; i < sectors.Count; i++)
+                GameObject.Destroy(sectors[i]);
+
+            SectorManager.instance.PlayerInSector = false;
+            for (int i = 0; i < SectorManager.instance.DisabledObjects.Count; i++)
+                SectorManager.instance.DisabledObjects[i].SetActive(true);
         }
     }
 }
