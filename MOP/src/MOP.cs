@@ -104,7 +104,7 @@ namespace MOP
             Settings.AddText(this, "From how far objects are disabled.\n - 0: Close (0.5x)\n - 1: Normal (Default)\n - 2: Far (2x)\n - 3: Very Far (4x)");
             Settings.AddCheckBox(this, safeMode);
             Settings.AddText(this, "Safe Mode will only allow to toggle objects that are known to not to cause any issues.\n" +
-                "Note: framerate gain will be dramatically decreased!");
+                "Note: this option will dramatically decrease performance!");
             
             // Graphics
             Settings.AddHeader(this, "Graphics", headerColor);
@@ -116,7 +116,7 @@ namespace MOP
             Settings.AddCheckBox(this, removeEmptyBeerBottles);
             Settings.AddCheckBox(this, satsumaTogglePhysicsOnly);
             Settings.AddText(this, "May fix issues with disappearing body panels in some cases.\n" +
-                "Note: this will decrease the performance gain.");
+                "Note: this will decrease the performance");
 
             // Advanced
             Settings.AddHeader(this, "Advanced", headerColor);

@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.4 Development 2 (tba)
+
+### Bug Fixes
+
+- Fixed "Destroy Empty Beer Bottles" not working with Uncle's beer case
+- Fixed sectors getting enabled, even when user didn't use them
+- Fixed MOP crashing after game restart with sectors on
+
 ## 2.4 Development 1 (12.03.2020)
 
 ### Added
@@ -12,7 +20,7 @@
 
 ### Changes
 
-- Moved "Ignore Mod
+- Moved "Ignore Mod Vehicles" to Others
 
 ### Removed
 

@@ -77,7 +77,7 @@ namespace MOP
             // Framerate limiter
             Application.targetFrameRate = (bool)MOP.enableFramerateLimiter.GetValue() ? int.Parse(MOP.framerateLimiter.GetValue().ToString()) : -1;
 
-            if (IsModActive)
+            if (IsModActive && WorldManager.instance != null)
             {
                 WorldManager.instance.ToggleActiveSectors();
             }

@@ -81,7 +81,8 @@ namespace MOP
             worldObjectList = new WorldObjectList();
 
             // Initialzie sector manager
-            ToggleActiveSectors();
+            if (MopSettings.EnableSectors)
+                ToggleActiveSectors();
 
             // Looking for player and yard
             player = GameObject.Find("PLAYER").transform;
@@ -703,9 +704,12 @@ namespace MOP
             if (MopSettings.EnableSectors && gameObject.GetComponent<SectorManager>() == null)
             {
                 this.gameObject.AddComponent<SectorManager>();
+                return;
             }
-            else
+            
+            if (!MopSettings.EnableSectors && gameObject.GetComponent<SectorManager>() != null)
             {
+                ModConsole.Print("owo");
                 SectorManager.instance.DestroyAllSectors();
                 Destroy(gameObject.GetComponent<SectorManager>());
             }

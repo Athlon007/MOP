@@ -49,6 +49,9 @@ namespace MOP
             instance = this;
             InitializeList();
             GameObject.Find("STORE/StoreCashRegister/Register").AddComponent<CashRegisterHook>();
+
+            // Uncle's beer case bottle despawner
+            GameObject.Find("YARD/UNCLE/Home/UncleDrinking/Uncle/beer case(itemx)").AddComponent<UncleBeerCaseHook>();
         }
 
         /// <summary>
