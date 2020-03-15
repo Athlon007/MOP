@@ -73,16 +73,19 @@ namespace MOP
             // Fix for the bar fighter
             DisableableChilds.Remove(gameObject.transform.Find("Fighter2/Pivot"));
 
+            // Injecting HookSlot of VideoPoker object.
             FsmHook.FsmInject(gameObject.transform.Find("LOD/VideoPoker/HookSlot").gameObject, "Activate cable", RemoveVideoPokerParent);
         }
 
+        /// <summary>
+        /// If triggered, sets the VideoPoker parent object to null.
+        /// This fixes issues with it disappearing while towing it too far from store.
+        /// </summary>
         void RemoveVideoPokerParent()
         {
             Transform poker = gameObject.transform.Find("LOD/VideoPoker");
             if (poker == null) 
                 return;
-
-            MSCLoader.ModConsole.Print("fuck");
 
             DisableableChilds.Remove(poker);
             poker.transform.parent = null;
