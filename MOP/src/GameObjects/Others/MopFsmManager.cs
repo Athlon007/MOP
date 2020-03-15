@@ -38,6 +38,10 @@ namespace MOP
             return uncleStage.Value == 5;
         }
 
+        /// <summary>
+        /// Checks if GT Grille is attached to the car.
+        /// </summary>
+        /// <returns></returns>
         public static bool IsGTGrilleInstalled()
         {
             if (gtGrilleInstalled == null)
@@ -46,6 +50,10 @@ namespace MOP
             return gtGrilleInstalled.Value == true;
         }
 
+        /// <summary>
+        /// Checks if repair shop job has been ordered.
+        /// </summary>
+        /// <returns></returns>
         public static bool IsRepairshopJobOrdered()
         {
             if (orderTime == null)

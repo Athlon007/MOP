@@ -41,10 +41,6 @@ namespace MOP
         // https://www.racedepartment.com/downloads/police-ferndale.30338/
         public bool PoliceFerndale { get; private set; }
 
-        // VHS Player mod
-        // https://www.nexusmods.com/mysummercar/mods/125
-        public bool VhsPlayer { get; private set; }
-
         // Offroad Hayosiko
         // https://www.nexusmods.com/mysummercar/mods/36
         public bool OffroadHayosiko { get; private set; }
@@ -54,7 +50,7 @@ namespace MOP
         public bool JetSky { get; private set; }
 
         // Moonshine Still Revived mod
-        //https://www.racedepartment.com/downloads/moonshine-still-revived.30386/
+        // https://www.racedepartment.com/downloads/moonshine-still-revived.30386/
         public bool Moonshinestill { get; private set; }
 
         // HayosikoColorfulGauges
@@ -83,19 +79,19 @@ namespace MOP
         public bool BottleRecycling { get; private set; }
 
         // Fishing Mod
-        //
+        // https://www.nexusmods.com/mysummercar/mods/173
         public bool FishingMod { get; private set; }
 
         // TangerinePickup
-        //
+        // https://www.nexusmods.com/mysummercar/mods/176
         public bool TangerinePickup { get; private set; }
 
         // Kebab Supercharger
-        //
+        // https://www.racedepartment.com/downloads/donnertechracing-satsuma-turbocharger.31021/
         public bool SatsumaTurboCharger { get; private set; }
 
         // ECU
-        //
+        // https://www.racedepartment.com/downloads/donnertechracing-ecus.31217/
         public bool DonnerTechECUMod { get; private set; }
 
         public CompatibilityManager()
@@ -106,7 +102,6 @@ namespace MOP
             SecondFerndale = IsModPresent("SecondFerndale");
             Gaz = IsModPresent("GAZ24");
             PoliceFerndale = IsModPresent("Police_Ferndale");
-            VhsPlayer = IsModPresent("VHSPlayer");
             OffroadHayosiko = IsModPresent("OffroadHayosiko");
             JetSky = IsModPresent("JetSky");
             Moonshinestill = IsModPresent("MSCStill");

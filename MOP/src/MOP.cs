@@ -56,13 +56,14 @@ namespace MOP
         readonly Settings openLastLog = new Settings("openLastLog", "Open last log", ExceptionManager.Open);
         readonly Settings generateReport = new Settings("generateReport", "Generate mod report", ExceptionManager.GenerateReport);
         readonly Settings faq = new Settings("faq", "FAQ", OpenFAQDialog);
-        readonly Settings wiki = new Settings("wiki", "Go to MOP wiki", OpenWikiDialog);
+        readonly Settings wiki = new Settings("wiki", "MOP Wiki", OpenWikiDialog);
 
         //
         // ACTIVATING OBJECTS
         //
         public static Settings activeDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
         public static Settings safeMode = new Settings("safeMode", "Safe Mode (requires restart)", false, MopSettings.UpdateAll);
+        public static Settings enableSectors = new Settings("enableSectors", "Enable Sectors", false, MopSettings.UpdateAll);
 
         //
         // GRAPHICS
@@ -81,7 +82,6 @@ namespace MOP
         //
         public static Settings ignoreModVehicles = new Settings("ignoreModVehicles", "Ignore Mod Vehicles", false, MopSettings.UpdateAll);
         public static Settings toggleVehiclePhysicsOnly = new Settings("toggleVehiclePhysicsOnly", "Toggle Vehicles Physics Only", false, MopSettings.UpdateAll);
-        public static Settings enableSectors = new Settings("enableSectors", "EXPERIMENTAL: Enable Sectors", false, MopSettings.UpdateAll);
 
         readonly Color32 headerColor = new Color32(29, 29, 29, 255);
 
@@ -105,6 +105,7 @@ namespace MOP
             Settings.AddCheckBox(this, safeMode);
             Settings.AddText(this, "Safe Mode will only allow to toggle objects that are known to not to cause any issues.\n" +
                 "Note: this option will dramatically decrease performance!");
+            Settings.AddCheckBox(this, enableSectors);
             
             // Graphics
             Settings.AddHeader(this, "Graphics", headerColor);
@@ -122,7 +123,6 @@ namespace MOP
             Settings.AddHeader(this, "Advanced", headerColor);
             Settings.AddCheckBox(this, ignoreModVehicles);
             Settings.AddCheckBox(this, toggleVehiclePhysicsOnly);
-            Settings.AddCheckBox(this, enableSectors);
 
             // Changelog
             Settings.AddHeader(this, "Changelog", headerColor);

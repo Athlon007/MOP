@@ -1,34 +1,6 @@
 # Changelog
 
-## 2.4 Development 3 (15.03.2020)
-
-### Added
-
-- Added compatibility with Supercharger and ECU mods
-
-### Changes
-
-- Code optimization and improvements
-
-### Bug Fixes
-
-- Fixed objects left at the inspection building sinking into the ground
-- Fixed poker machine disappearing when towing it far from store
-- (Development) Fixed inspection logic getting disabled
-- (Development) Fixed doors at inspection blocking path from the lobby to vehicle area
-
-## 2.4 Development 2 (15.03.2020)
-
-### Added
-
-- Added dirt and highway bridges to toggled items
-
-### Bug Fixes
-
-- Fixed "Destroy Empty Beer Bottles" not working with Uncle's beer case
-- (Development) Fixed MOP crashing after game restart with sectors on
-
-## 2.4 Development 1 (12.03.2020)
+## 2.4 (16.03.2020)
 
 ### Added
 
@@ -36,11 +8,21 @@
 - Added sectors
   - Uppon entering one, some elements will be disabled (such as some trees)
   - Also the toggling distance will be reduced to 30 unites
-  - Disabled by default! You can enable it in the settings (EXPERIMENTAL: Enable Sectors)
+  - Disabled by default! You can enable it in the settings (Enable Sectors)
+- Added dirt and highway bridges to toggled items
+- Added compatibility with Supercharger and ECU mods
 
 ### Changes
 
 - Moved "Ignore Mod Vehicles" to Others
+- Renamed "Go to MOP wiki" to "MOP Wiki"
+- Code optimization and improvements
+
+### Bug Fixes
+
+- Fixed "Destroy Empty Beer Bottles" not working with Uncle's beer case
+- Fixed objects left at the inspection building sinking into the ground
+- Fixed poker machine disappearing when towing it far from store
 
 ### Removed
 

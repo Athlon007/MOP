@@ -607,6 +607,7 @@ namespace MOP
         {
             if (SectorManager.instance.PlayerInSector)
                 toggleDistance = 30;
+
             return distance < toggleDistance;
         }
 

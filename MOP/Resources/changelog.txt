@@ -1,5 +1,20 @@
+Added:
+- Inspection is now toggled
+- Added sectors
+  - Uppon entering one, some elements will be disabled (such as some trees)
+  - Also the toggling distance will be reduced to 30 unites
+  - Disabled by default! You can enable it in the settings (Enable Sectors)
+- Added dirt and highway bridges to toggled items
+- Added compatibility with Supercharger and ECU mods
+
 Changes:
-- Updated for MSC Mod Loader Version 1.1.6
+- Moved "Ignore Mod Vehicles" to Others
+- Code optimization and improvements
 
 Bug Fixes:
-- Fixed a bug in which player couldn't use brochure at Fleetari repair shop
+- Fixed "Destroy Empty Beer Bottles" not working with Uncle's beer case
+- Fixed objects left at the inspection building sinking into the ground
+- Fixed poker machine disappearing when towing it far from store
+
+Removed:
+- Removed Toggle Vehicle and Toggle Items
