@@ -45,6 +45,10 @@ namespace MOP
             disableableObjects = GetDisableableChilds();
 
             Toggle = ToggleActive;
+    
+            // Fixes compatibility with Satsuma turbo and ECU
+            if (CompatibilityManager.instance.DonnerTechECUMod || CompatibilityManager.instance.SatsumaTurboCharger)
+                Toggle = ToggleUnityCar;
         }
 
         /// <summary>

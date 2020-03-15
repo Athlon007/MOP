@@ -56,6 +56,8 @@ MOP officially supports following mods:
 - Bottle Recycle
 - Fishing Mod
 - Tangerine Pickup
+- Supercharger for Satsuma
+- ECU for Satsuma
 
 **WARNING:** This mod may or may not corrupt other mods. Use at your own risk!
 

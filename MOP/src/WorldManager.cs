@@ -277,6 +277,8 @@ namespace MOP
             worldObjectList.Add("PierDancehall", true);
             worldObjectList.Add("PierRiver", true);
             worldObjectList.Add("PierStore", true);
+            worldObjectList.Add("BRIDGE_dirt", true);
+            worldObjectList.Add("BRIDGE_highway", true);
 
             ModConsole.Print("[MOP] Away from house world objects loaded");
 

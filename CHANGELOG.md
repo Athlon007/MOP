@@ -1,12 +1,22 @@
 # Changelog
 
-## 2.4 Development 2 (tba)
+## 2.4 Development 3 (tba)
+
+### Added
+
+- Added compatibility with Supercharger and ECU mods
+
+### Bug Fixes
+
+- Fixed objects left at the inspection building sinking into the ground
+- Fixed poker machine disappearing when towing it far from store
+
+## 2.4 Development 2 (15.03.2020)
 
 ### Bug Fixes
 
 - Fixed "Destroy Empty Beer Bottles" not working with Uncle's beer case
-- Fixed sectors getting enabled, even when user didn't use them
-- Fixed MOP crashing after game restart with sectors on
+- (Development) Fixed MOP crashing after game restart with sectors on
 
 ## 2.4 Development 1 (12.03.2020)
 

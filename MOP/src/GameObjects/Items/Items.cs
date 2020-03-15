@@ -105,7 +105,7 @@ namespace MOP
                 }
 
                 // Create shop table check, for when the CDs are bought
-                GameObject itemCheck = new GameObject("MopItemAreaCheck");
+                GameObject itemCheck = new GameObject("MOP_ItemAreaCheck");
                 itemCheck.transform.position = GameObject.Find("SpawnItemStore").transform.position;
                 itemCheck.AddComponent<ShopModItemSpawnCheck>();
             }
@@ -114,6 +114,12 @@ namespace MOP
             if (CompatibilityManager.instance.ActualMop)
             {
                 GameObject.Find("mop(Clone)").AddComponent<ItemHook>();
+            }
+
+            GameObject itemsObject = GameObject.Find("ITEMS");
+            for (int i = 0; i < itemsObject.transform.childCount; i++)
+            {
+                itemsObject.transform.GetChild(i).gameObject.AddComponent<ItemHook>();
             }
         }
 

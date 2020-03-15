@@ -90,6 +90,14 @@ namespace MOP
         //
         public bool TangerinePickup { get; private set; }
 
+        // Kebab Supercharger
+        //
+        public bool SatsumaTurboCharger { get; private set; }
+
+        // ECU
+        //
+        public bool DonnerTechECUMod { get; private set; }
+
         public CompatibilityManager()
         {
             instance = this;
@@ -109,6 +117,8 @@ namespace MOP
             KekmetAddons = IsModPresent("KekmetAddons");
             BottleRecycling = IsModPresent("BottleRecycling");
             TangerinePickup = IsModPresent("TangerinePickup");
+            SatsumaTurboCharger = IsModPresent("SatsumaTurboCharger");
+            DonnerTechECUMod = IsModPresent("DonnerTech_ECU_Mod");
 
             ModConsole.Print("[MOP] Compatibility Manager done");
         }

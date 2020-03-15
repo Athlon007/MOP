@@ -14,6 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using MSCLoader;
+using UnityEngine;
+
 namespace MOP
 {
     class Teimo : Place
@@ -69,6 +72,20 @@ namespace MOP
 
             // Fix for the bar fighter
             DisableableChilds.Remove(gameObject.transform.Find("Fighter2/Pivot"));
+
+            FsmHook.FsmInject(gameObject.transform.Find("LOD/VideoPoker/HookSlot").gameObject, "Activate cable", RemoveVideoPokerParent);
+        }
+
+        void RemoveVideoPokerParent()
+        {
+            Transform poker = gameObject.transform.Find("LOD/VideoPoker");
+            if (poker == null) 
+                return;
+
+            MSCLoader.ModConsole.Print("fuck");
+
+            DisableableChilds.Remove(poker);
+            poker.transform.parent = null;
         }
     }
 }
