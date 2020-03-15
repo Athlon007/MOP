@@ -125,9 +125,9 @@ namespace MOP
             for (int i = 0; i < sectors.Count; i++)
                 GameObject.Destroy(sectors[i]);
 
-            SectorManager.instance.PlayerInSector = false;
-            for (int i = 0; i < SectorManager.instance.DisabledObjects.Count; i++)
-                SectorManager.instance.DisabledObjects[i].SetActive(true);
+            PlayerInSector = false;
+            for (int i = 0; i < DisabledObjects.Count; i++)
+                DisabledObjects[i].SetActive(true);
         }
     }
 }

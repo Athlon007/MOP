@@ -26,14 +26,6 @@ namespace MOP
         // Trigger collider
         BoxCollider collider;
 
-        bool isInspection;
-        
-        // If true, the inspection gameobject will not be unloaded.
-        // It is so the car inspection state will be saved.
-        // isInspection MUST BE set to True
-        bool inspectionPreventUnload;
-        public bool InspectionPreventUnload { get => inspectionPreventUnload; }
-
         const string ReferenceItem = "gearbox";
 
         public void Initialize(Vector3 size)
@@ -42,8 +34,6 @@ namespace MOP
             collider.isTrigger = true;
             collider.size = size;
             collider.transform.position = transform.position;
-
-            isInspection = gameObject.name == "INSPECTION";
         }
 
         void OnTriggerEnter(Collider other)
@@ -51,9 +41,6 @@ namespace MOP
             if (other.gameObject.name.StartsWith(ReferenceItem))
             {
                 Satsuma.instance.IsSatsumaInInspectionArea = true;
-
-                if (isInspection)
-                    inspectionPreventUnload = true;
             }
         }
 

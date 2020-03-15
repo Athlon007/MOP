@@ -73,7 +73,7 @@ namespace MOP
             // Fix for the bar fighter
             DisableableChilds.Remove(gameObject.transform.Find("Fighter2/Pivot"));
 
-            // Injecting HookSlot of VideoPoker object.
+            // Injecting HookSlot of VideoPoker object
             FsmHook.FsmInject(gameObject.transform.Find("LOD/VideoPoker/HookSlot").gameObject, "Activate cable", RemoveVideoPokerParent);
         }
 

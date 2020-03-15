@@ -24,9 +24,7 @@ namespace MOP
         // Yard Class
         //
         // Extends Place.cs
-        //
         // It's responsbile for loading and unloading the YARD game object (player's house).
-        //
         // NOTE: That script DOES NOT disable the yard itself, rather some of its childrens.
 
         // Objects from that blacklist will NOT be disabled
@@ -48,9 +46,8 @@ namespace MOP
             "closet", "Numbers", "Ring", "log", "washingmachine", "lauteet", "MIDDLEROOM", "BeerCamp",
             "Chair", "TablePlastic", "LOD_middleroom", "hotwaterkeeper", "house_roof",
             "WC", "Hallway", "Entry", "ContactPivot", "DoorRight", "DoorLeft", "GarageDoors", "BatteryCharger",
-            "Clamps", "ChargerPivot", "Clamp", "BatteryPivot", "battery_charger", "Wire", "cable", "TriggerCharger" };
-
-        string[] vhsPlayerBlackList = { "tvtable", "VHS_Screen", "tv_table(Clone)", "scart_con" };
+            "Clamps", "ChargerPivot", "Clamp", "BatteryPivot", "battery_charger", "Wire", "cable", "TriggerCharger",
+            "tvtable", "VHS_Screen", "tv_table(Clone)", "scart_con" };
 
         /// <summary>
         /// Initialize the RepairShop class
@@ -66,11 +63,6 @@ namespace MOP
 
             List<string> newBlackList = new List<string>();
             newBlackList.AddRange(blackList);
-
-            if (CompatibilityManager.instance.VhsPlayer)
-            {
-                newBlackList.AddRange(vhsPlayerBlackList);
-            }
 
             GameObjectBlackList = newBlackList.ToArray();
 

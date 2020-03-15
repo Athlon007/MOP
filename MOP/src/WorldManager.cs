@@ -414,11 +414,6 @@ namespace MOP
                             continue;
                         }
 
-                        // Fix for inspection area being unloaded after the successfull inspection,
-                        // making game not save the car inspection status.
-                        if (worldObjectList.Get(i).gameObject.name == "INSPECTION" && inspectionArea.InspectionPreventUnload)
-                            continue;
-
                         // The object will be disables, if the player is in the range of that object.
                         worldObjectList.Get(i).Toggle(IsEnabled(worldObjectList.Get(i).transform, worldObjectList.Get(i).Distance));
                     }
@@ -440,11 +435,6 @@ namespace MOP
                             worldObjectList.Get(i).Toggle(!IsPlayerOnYard);
                             continue;
                         }
-
-                        // Fix for inspection area being unloaded after the successfull inspection,
-                        // making game not save the car inspection status.
-                        if (worldObjectList.Get(i).gameObject.name == "INSPECTION" && inspectionArea.InspectionPreventUnload)
-                            continue;
 
                         // The object will be disables, if the player is in the range of that object.
                         worldObjectList.Get(i).Toggle(IsEnabled(worldObjectList.Get(i).transform, worldObjectList.Get(i).Distance));
@@ -711,7 +701,6 @@ namespace MOP
             
             if (!MopSettings.EnableSectors && gameObject.GetComponent<SectorManager>() != null)
             {
-                ModConsole.Print("owo");
                 SectorManager.instance.DestroyAllSectors();
                 Destroy(gameObject.GetComponent<SectorManager>());
             }

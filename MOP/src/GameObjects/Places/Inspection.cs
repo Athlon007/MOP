@@ -26,7 +26,7 @@ namespace MOP
         readonly string[] blackList = { 
            "INSPECTION", "BoozeJobTrigger", "Building", "inspection_concrete", "inspection_floor", 
             "garage_doors", "glass", "Light", "register plate", "InspectionProcess", "Recipiet", "Order",
-            "Audio" };
+            "Audio", "Functions", "DoorWhite" };
 
         /// <summary>
         /// Initialize the Store class

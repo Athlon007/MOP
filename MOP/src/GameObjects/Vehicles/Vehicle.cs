@@ -183,10 +183,7 @@ namespace MOP
             
             drivetrain = gameObject.GetComponent<Drivetrain>();
 
-            if (gameObject.name == "TangerinePickup(Clone)")
-            {
-                isTangerine = true;
-            }
+            isTangerine = gameObject.name == "TangerinePickup(Clone)";
         }
 
         public delegate void ToggleHandler(bool enabled);

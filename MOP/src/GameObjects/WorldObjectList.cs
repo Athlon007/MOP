@@ -25,6 +25,11 @@ namespace MOP
         // Basically, objects that are static, such as buildings.
 
         List<WorldObject> worldObjects;
+        
+        /// <summary>
+        /// Returns the length of the list.
+        /// </summary>
+        public int Count => worldObjects.Count;
 
         public WorldObjectList()
         {
@@ -78,10 +83,5 @@ namespace MOP
         {
             return worldObjects[i];
         }
-
-        /// <summary>
-        /// Returns the length of the list.
-        /// </summary>
-        public int Count => worldObjects.Count;
     }
 }
