@@ -23,12 +23,17 @@ namespace MOP
 {
     class ExceptionManager
     {
+        static bool isLogSaved;
+
         /// <summary>
         /// Creates then new error dump file
         /// </summary>
         /// <param name="ex"></param>
-        public static void New(Exception ex)
+        public static void New(Exception ex, string message = "")
         {
+            if (isLogSaved)
+                return;
+
             if (File.Exists("MOP_LOG.txt"))
                 File.Delete("MOP_LOG.txt");
 
@@ -37,12 +42,14 @@ namespace MOP
 
             using (StreamWriter sw = new StreamWriter("MOP_LOG.txt"))
             {
-                sw.Write(gameInfo + "\n=== ERROR ===\n\n" + errorInfo);
+                sw.Write(gameInfo + "\n=== ERROR ===\n\n" + errorInfo + "\n\n" + message);
                 sw.Close();
             }
 
             ModConsole.Error("[MOP] An error has occured. " +
-                "Log has been saved in My Summer Car folder into MOP_LOG.txt\n\n" + errorInfo);
+                "Log has been saved in My Summer Car folder into MOP_LOG.txt.\n\n");
+
+            isLogSaved = true;
         }
 
         public static void Open()

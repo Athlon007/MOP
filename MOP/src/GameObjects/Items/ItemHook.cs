@@ -100,7 +100,7 @@ namespace MOP
 
             // Check if item is in CarryMore inventory.
             // If so, ignore that item.
-            if (CompatibilityManager.instance.CarryMore && Vector3.Distance(transform.position, CompatibilityManager.instance.CarryMoreTempPosition) < 1) 
+            if (CompatibilityManager.instance.CarryMore && Vector3.Distance(transform.position, CompatibilityManager.instance.CarryMoreTempPosition) < 1)
                 return;
 
             // CD Player Enhanced mod

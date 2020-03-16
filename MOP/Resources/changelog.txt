@@ -1,20 +1,7 @@
 Added:
-- Inspection is now toggled
-- Added sectors
-  - Uppon entering one, some elements will be disabled (such as some trees)
-  - Also the toggling distance will be reduced to 30 unites
-  - Disabled by default! You can enable it in the settings (Enable Sectors)
-- Added dirt and highway bridges to toggled items
-- Added compatibility with Supercharger and ECU mods
-
-Changes:
-- Moved "Ignore Mod Vehicles" to Others
-- Code optimization and improvements
+- Added error codes to crash logs
 
 Bug Fixes:
-- Fixed "Destroy Empty Beer Bottles" not working with Uncle's beer case
-- Fixed objects left at the inspection building sinking into the ground
-- Fixed poker machine disappearing when towing it far from store
-
-Removed:
-- Removed Toggle Vehicle and Toggle Items
+- Fixed some parts in Satsuma untighting after being installed and Satsuma was reloaded
+- Fixed MOP not working if Enable Sectors was disabled
+- Fixed error spam when some error happens in loop

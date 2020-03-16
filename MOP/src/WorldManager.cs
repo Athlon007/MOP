@@ -420,7 +420,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex);
+                    ExceptionManager.New(ex, "CODE: 0-0");
                 }
 
                 yield return null;
@@ -442,7 +442,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex);
+                    ExceptionManager.New(ex, "CODE: 0-1");
                 }
 
                 if (MopSettings.SafeMode)
@@ -472,7 +472,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex);
+                    ExceptionManager.New(ex, "CODE: 1-1");
                 }
 
                 yield return null;
@@ -496,7 +496,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex);
+                    ExceptionManager.New(ex, "CODE: 1-2");
                 }
 
                 // Shop items
@@ -524,7 +524,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex);
+                    ExceptionManager.New(ex, "CODE: 2-0");
                 }
 
                 yield return null;
@@ -552,7 +552,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex);
+                    ExceptionManager.New(ex, "CODE: 2-1");
                 }
 
 
@@ -567,7 +567,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex);
+                    ExceptionManager.New(ex, "CODE: 3-0");
                 }
 
                 try
@@ -579,7 +579,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex);
+                    ExceptionManager.New(ex, "CODE: 3-1");
                 }
 
                 yield return new WaitForSeconds(1);
@@ -593,7 +593,7 @@ namespace MOP
         /// <param name="toggleDistance">Distance below which the object should be enabled (default 200 units).</param>
         bool IsEnabled(Transform target, float toggleDistance = 200)
         {
-            if (SectorManager.instance.PlayerInSector)
+            if (SectorManager.instance != null && SectorManager.instance.PlayerInSector)
                 toggleDistance = 30;
             return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
@@ -605,7 +605,7 @@ namespace MOP
         /// <returns></returns>
         bool IsVehicleEnabled(float distance, float toggleDistance = 200)
         {
-            if (SectorManager.instance.PlayerInSector)
+            if (SectorManager.instance != null && SectorManager.instance.PlayerInSector)
                 toggleDistance = 30;
 
             return distance < toggleDistance;
@@ -685,7 +685,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                ExceptionManager.New(ex);
+                ExceptionManager.New(ex, "CODE: 90");
             }
         }
 

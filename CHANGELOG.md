@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.4.1 (16.03.2020)
+
+### Added
+
+- Added error codes to crash logs
+
+### Bug Fixes
+
+- Fixed some parts in Satsuma untighting after being installed and Satsuma was reloaded
+- Fixed MOP not working if Enable Sectors was disabled
+- Fixed error spam when some error happens in loop
+
 ## 2.4 (16.03.2020)
 
 ### Added
