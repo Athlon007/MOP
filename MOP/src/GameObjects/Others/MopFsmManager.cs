@@ -24,6 +24,7 @@ namespace MOP
         static FsmInt uncleStage;
         static FsmBool gtGrilleInstalled;
         static FsmFloat orderTime;
+        static FsmString playerCurrentVehicle;
 
         /// <summary>
         /// Checks if the player has the keys to the Hayosiko.
@@ -60,6 +61,18 @@ namespace MOP
                 orderTime = GameObject.Find("REPAIRSHOP/Order").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmFloat("_OrderTime");
 
             return orderTime.Value > 0 && orderTime.Value != 5000;
+        }
+
+        /// <summary>
+        /// Checks PlayerCurrentVehicle global value. If it says "Satsuma", that means player sits in Satsuma.
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsPlayerInSatsuma()
+        {
+            if (playerCurrentVehicle == null)
+                playerCurrentVehicle = PlayMakerGlobals.Instance.Variables.FindFsmString("PlayerCurrentVehicle");
+
+            return playerCurrentVehicle.Value == "Satsuma";
         }
     }
 }

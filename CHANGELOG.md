@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5 (tba)
+
+### Added
+
+- Engine renderers are now disabled, if player is in the car, and hood is attached
+
 ## 2.4.1 (16.03.2020)
 
 ### Added

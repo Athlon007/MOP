@@ -402,6 +402,9 @@ namespace MOP
                 int half = worldObjectList.Count / 2;
                 int i = 0;
 
+                // Disable Satsuma engine renderer, if player is in Satsuma
+                Satsuma.instance.ToggleRenderers(!MopFsmManager.IsPlayerInSatsuma());
+
                 try
                 {
                     // Go through the list worldObjectList list

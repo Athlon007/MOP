@@ -16,6 +16,7 @@
 
 using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace MOP
 {
@@ -33,6 +34,9 @@ namespace MOP
 
         public bool IsSatsumaInInspectionArea { get; set; }
 
+        List<Renderer> engineBayRenderers;
+        Transform pivotHood;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -49,6 +53,22 @@ namespace MOP
             // Fixes compatibility with Satsuma turbo and ECU
             if (CompatibilityManager.instance.DonnerTechECUMod || CompatibilityManager.instance.SatsumaTurboCharger)
                 Toggle = ToggleUnityCar;
+
+            // Get engine bay renderers
+            engineBayRenderers = new List<Renderer>();
+            Transform block = this.gameObject.transform.Find("Chassis/sub frame(xxxxx)/CarMotorPivot/block(Clone)");
+            engineBayRenderers = block.GetComponentsInChildren<Renderer>(true).ToList();
+            pivotHood = this.gameObject.transform.Find("Body/pivot_hood");
+
+            VehicleRule vehicleRule = RuleFiles.instance.ActiveRules.VehicleRules.Find(v => v.VehicleName == this.gameObject.name);
+            if (vehicleRule != null)
+            {
+                if (vehicleRule.Ignore)
+                    Toggle = ToggleUnityCar;
+
+                if (vehicleRule.TotalIgnore)
+                    IsActive = false;
+            }
         }
 
         /// <summary>
@@ -98,6 +118,21 @@ namespace MOP
                 Toggle(true);
                 Toggle = ToggleUnityCar;
             }
+        }
+
+        public void ToggleRenderers(bool enabled)
+        {
+            if (!IsHoodAttached() && !CompatibilityManager.instance.SatsumaTurboCharger) return;
+
+            for (int i = 0; i< engineBayRenderers.Count; i++)
+            {
+                engineBayRenderers[i].enabled = enabled;
+            }
+        }
+        
+        bool IsHoodAttached()
+        {
+            return pivotHood.childCount > 0;
         }
     }
 }
