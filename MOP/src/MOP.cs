@@ -74,7 +74,6 @@ namespace MOP
         //
         public static Settings activeDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
         public static Settings safeMode = new Settings("safeMode", "Safe Mode (requires restart)", false, MopSettings.UpdateAll);
-        public static Settings enableSectors = new Settings("enableSectors", "Enable Sectors", false, MopSettings.UpdateAll);
 
         //
         // GRAPHICS
@@ -120,7 +119,6 @@ namespace MOP
             Settings.AddCheckBox(this, safeMode);
             Settings.AddText(this, "Safe Mode will only allow to toggle objects that are known to not to cause any issues.\n" +
                 "Note: this option will dramatically decrease performance!");
-            Settings.AddCheckBox(this, enableSectors);
             
             // Graphics
             Settings.AddHeader(this, "Graphics", headerColor);

@@ -725,13 +725,13 @@ namespace MOP
         /// </summary>
         public void ToggleActiveSectors()
         {
-            if (MopSettings.EnableSectors && gameObject.GetComponent<SectorManager>() == null)
+            if (gameObject.GetComponent<SectorManager>() == null)
             {
                 this.gameObject.AddComponent<SectorManager>();
                 return;
             }
             
-            if (!MopSettings.EnableSectors && gameObject.GetComponent<SectorManager>() != null)
+            if (gameObject.GetComponent<SectorManager>() != null)
             {
                 SectorManager.instance.DestroyAllSectors();
                 Destroy(gameObject.GetComponent<SectorManager>());
