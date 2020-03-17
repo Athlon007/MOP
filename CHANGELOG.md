@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.4.2 (18.03.2020)
+
+### Bug Fixes
+
+- Fixed MOP not working for some users
+
 ## 2.4.1 (16.03.2020)
 
 ### Added

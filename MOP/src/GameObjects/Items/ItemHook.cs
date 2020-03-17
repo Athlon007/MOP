@@ -95,36 +95,40 @@ namespace MOP
         /// <param name="enabled"></param>
         public void ToggleActive(bool enabled)
         {
-            if (rb == null || rb.detectCollisions == enabled)
-                return;
-
-            // Check if item is in CarryMore inventory.
-            // If so, ignore that item.
-            if (CompatibilityManager.instance.CarryMore && Vector3.Distance(transform.position, CompatibilityManager.instance.CarryMoreTempPosition) < 1)
-                return;
-
-            // CD Player Enhanced mod
-            if (CompatibilityManager.instance.CDPlayerEnhanced && this.transform.parent != null)
+            try
             {
-                // Prevent CDs to clip through CD Case
-                if (this.gameObject.name == "cd(itemy)" && this.transform.parent.name == "PivotCD")
+                if (rb == null || rb.detectCollisions == enabled)
                     return;
 
-                // Prevent CDs from clipping through the Radio
-                if (this.gameObject.name == "cd(itemy)" && this.transform.parent.name == "cd_sled_pivot")
+                // Check if item is in CarryMore inventory.
+                // If so, ignore that item.
+                if (CompatibilityManager.instance.CarryMore && Vector3.Distance(transform.position, CompatibilityManager.instance.CarryMoreTempPosition) < 1)
                     return;
 
-                // Prevents CD cases from clipping through the CD rack
-                if (this.gameObject.name.StartsWith("cd case") && this.transform.parent.name.StartsWith("cd_trigger"))
-                    return;
+                // CD Player Enhanced mod
+                if (CompatibilityManager.instance.CDPlayerEnhanced && this.transform.parent != null)
+                {
+                    // Prevent CDs to clip through CD Case
+                    if (this.gameObject.name == "cd(itemy)" && this.transform.parent.name == "PivotCD")
+                        return;
+
+                    // Prevent CDs from clipping through the Radio
+                    if (this.gameObject.name == "cd(itemy)" && this.transform.parent.name == "cd_sled_pivot")
+                        return;
+
+                    // Prevents CD cases from clipping through the CD rack
+                    if (this.gameObject.name.StartsWith("cd case") && this.transform.parent.name.StartsWith("cd_trigger"))
+                        return;
+                }
+
+                rb.detectCollisions = enabled;
+                rb.isKinematic = !enabled;
+
+                // Disable object's renderer on distance
+                if (renderer != null)
+                    renderer.enabled = enabled;
             }
-
-            rb.detectCollisions = enabled;
-            rb.isKinematic = !enabled;
-
-            // Disable object's renderer on distance
-            if (renderer != null)
-                renderer.enabled = enabled;
+            catch { }
         }
 
         /// <summary>
