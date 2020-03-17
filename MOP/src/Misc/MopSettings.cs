@@ -45,9 +45,7 @@ namespace MOP
 
         static bool toggleVehiclePhysicsOnly = false;
         public static bool ToggleVehiclePhysicsOnly { get => toggleVehiclePhysicsOnly; }
-        
-        static bool enableSectors = false;
-        public static bool EnableSectors { get => enableSectors; }
+       
 
         //
         // MISCELLANEOUS
@@ -68,7 +66,6 @@ namespace MOP
             removeEmptyBeerBottles = (bool)MOP.removeEmptyBeerBottles.GetValue();
             satsumaTogglePhysicsOnly = (bool)MOP.satsumaTogglePhysicsOnly.GetValue();
             toggleVehiclePhysicsOnly = (bool)MOP.toggleVehiclePhysicsOnly.GetValue();
-            enableSectors = (bool)MOP.enableSectors.GetValue();
 
             // Framerate limiter
             Application.targetFrameRate = (bool)MOP.enableFramerateLimiter.GetValue() ? int.Parse(MOP.framerateLimiter.GetValue().ToString()) : -1;

@@ -318,6 +318,34 @@ namespace MOP
 
             HookPreSaveGame();
 
+            ModConsole.Print("[MOP] Loading flag rules");
+            foreach (ToggleRule v in RuleFiles.instance.ToggleRules)
+            {
+                switch (v.ToggleMode)
+                {
+                    case ToggleModes.Normal:
+                        worldObjectList.Add(v.ObjectName);
+                        break;
+                    case ToggleModes.Renderer:
+                        worldObjectList.Add(v.ObjectName, 200, true);
+                        break;
+                    case ToggleModes.Item:
+                        GameObject g = GameObject.Find(v.ObjectName);
+                        if (g.GetComponent<ItemHook>() == null)
+                            g.AddComponent<ItemHook>();
+                        break;
+                    case ToggleModes.Vehicle:
+                        vehicles.Add(new Vehicle(v.ObjectName));
+                        break;
+                    case ToggleModes.VehiclePhysics:
+                        vehicles.Add(new Vehicle(v.ObjectName));
+                        Vehicle veh = vehicles[vehicles.Count];
+                        veh.Toggle(true);
+                        veh.Toggle = veh.ToggleUnityCar;
+                        break;
+                }
+            }
+
             // Initialize the coroutines 
             StartCoroutine(LoopRoutine());
             StartCoroutine(ControlCoroutine());

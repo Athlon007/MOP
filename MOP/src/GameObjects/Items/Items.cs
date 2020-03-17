@@ -97,7 +97,7 @@ namespace MOP
             if (CompatibilityManager.instance.CDPlayerEnhanced)
             {
                 GameObject[] cdEnchancedObjects = Object.FindObjectsOfType<GameObject>()
-                .Where(gm => gm.name.ContainsAny("cd case(itemy)", "CD Rack(itemy)", "cd(itemy)") && gm.activeSelf).ToArray();
+                .Where(gm => gm.name.ContainsAny("cd case(itemy)", "CD Rack(itemy)", "cd(itemy)") && gm.activeSelf).ToArray();                
 
                 for (int i = 0; i < cdEnchancedObjects.Length; i++)
                 {

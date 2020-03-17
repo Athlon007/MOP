@@ -97,10 +97,9 @@ namespace MOP
             output += "IgnoreModVehicles: " + MopSettings.IgnoreModVehicles.ToString() + "\n";
             output += "EnableFramerateLimiter: " + ((bool)MOP.enableFramerateLimiter.GetValue()).ToString() + "\n";
             output += "FramerateLimiter: " + MOP.framerateLimiter.GetValue().ToString() + "\n";
-            output += "EnableSectors: " + MOP.enableSectors.GetValue().ToString() + "\n";
 
             // List installed mods
-            output += "\n=== MODS ====\n\n";
+            output += "\n=== MODS ===\n\n";
             foreach (var mod in ModLoader.LoadedMods)
             {
                 if (mod.ID == "MOP")

@@ -42,6 +42,16 @@ namespace MOP
 
         public ItemHook()
         {
+            IgnoreRule rule = RuleFiles.instance.IgnoreRules.Find(f => f.ObjectName == this.gameObject.name);
+            if (rule != null)
+            {
+                if (rule.TotalIgnore)
+                {
+                    Destroy(this);
+                    return;
+                }
+            }
+
             // Add self to the MinorObjects.objectHooks list
             Items.instance.Add(this);
 
@@ -80,6 +90,10 @@ namespace MOP
                 FsmHook.FsmInject(this.gameObject, "Remove bottle", DestroyBeerBottles);
                 FsmHook.FsmInject(this.gameObject, "Remove bottle", HookBottles);
             }
+
+            // If ignore, disable renderer
+            if (rule.Ignore)
+                renderer = null;
         }
 
         // Triggered before the object is destroyed.
