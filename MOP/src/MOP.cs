@@ -29,12 +29,18 @@ namespace MOP
         public override string Name => "Modern Optimization Plugin"; //You mod name
 #endif
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "2.4.1"; //Version
+        public override string Version => "2.5"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
         public override bool UseAssetsFolder => false;
         public override bool SecondPass => true;
+        public override bool LoadInMenu => true;
+
+        public override void OnMenuLoad()
+        {
+            new RuleFiles(ModLoader.GetModConfigFolder(this));
+        }
 
         /// <summary>
         /// Called once, when mod is loading after game is fully loaded.

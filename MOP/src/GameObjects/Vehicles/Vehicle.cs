@@ -41,6 +41,8 @@ namespace MOP
         public Vector3 Position { get; set; }
         public Quaternion Rotation { get; set; }
 
+        public bool IsActive = true;
+
         // All objects that cannot be unloaded (because it causes problems) land under that object
         Transform temporaryParent;
 
@@ -184,6 +186,17 @@ namespace MOP
             drivetrain = gameObject.GetComponent<Drivetrain>();
 
             isTangerine = gameObject.name == "TangerinePickup(Clone)";
+
+            // Rules
+            VehicleRule vehicleRule = RuleFiles.instance.ActiveRules.VehicleRules.Find(v => v.VehicleName == this.gameObject.name);
+            if (vehicleRule != null)
+            {
+                if (vehicleRule.Ignore)
+                    Toggle = ToggleUnityCar;
+
+                if (vehicleRule.TotalIgnore)
+                    IsActive = false;
+            }
         }
 
         public delegate void ToggleHandler(bool enabled);
@@ -194,9 +207,7 @@ namespace MOP
         /// </summary>
         void ToggleActive(bool enabled)
         {
-            if (gameObject == null) return;
-            // Don't run the code, if the value is the same
-            if (gameObject.activeSelf == enabled) return;
+            if (gameObject == null || gameObject.activeSelf == enabled || !IsActive) return;
 
             // Fix for when the player doesn't have keys for Hayosiko.
             // Van will NOT be toggled
@@ -241,7 +252,7 @@ namespace MOP
         /// <param name="enabled"></param>
         public void ToggleUnityCar(bool enabled)
         {
-            if ((gameObject == null) || (carDynamics.enabled == enabled)) 
+            if ((gameObject == null) || (carDynamics.enabled == enabled) || !IsActive) 
                 return;
 
             // Don't toggle physics, unless car's on ground
