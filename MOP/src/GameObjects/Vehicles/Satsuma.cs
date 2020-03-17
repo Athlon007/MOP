@@ -60,7 +60,7 @@ namespace MOP
             engineBayRenderers = block.GetComponentsInChildren<Renderer>(true).ToList();
             pivotHood = this.gameObject.transform.Find("Body/pivot_hood");
 
-            VehicleRule vehicleRule = RuleFiles.instance.ActiveRules.VehicleRules.Find(v => v.VehicleName == this.gameObject.name);
+            Rule vehicleRule = RuleFiles.instance.Rules.Find(v => v.ObjectName == this.gameObject.name);
             if (vehicleRule != null)
             {
                 if (vehicleRule.Ignore)

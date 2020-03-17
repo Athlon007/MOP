@@ -188,7 +188,7 @@ namespace MOP
             isTangerine = gameObject.name == "TangerinePickup(Clone)";
 
             // Rules
-            VehicleRule vehicleRule = RuleFiles.instance.ActiveRules.VehicleRules.Find(v => v.VehicleName == this.gameObject.name);
+            Rule vehicleRule = RuleFiles.instance.Rules.Find(v => v.ObjectName == this.gameObject.name);
             if (vehicleRule != null)
             {
                 if (vehicleRule.Ignore)

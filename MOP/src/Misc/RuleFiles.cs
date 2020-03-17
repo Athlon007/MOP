@@ -21,38 +21,30 @@ using System.Linq;
 
 namespace MOP
 {
-    class VehicleRule
+    class Rule
     {
-        public string VehicleName;
+        public string ObjectName;
         public bool Ignore;
         public bool TotalIgnore;
 
-        public VehicleRule(string VehicleName, bool Ignore, bool TotalIgnore)
+        public Rule(string ObjectName, bool Ignore, bool TotalIgnore)
         {
-            this.VehicleName = VehicleName;
+            this.ObjectName = ObjectName;
             this.Ignore = Ignore;
             this.TotalIgnore = TotalIgnore;
         }
-    }
-
-    class Rules
-    {
-        public List<VehicleRule> VehicleRules = new List<VehicleRule>();
-
-        public List<string> IgnoredObjects = new List<string>();
-        public List<string> IgnoredTotalObjects = new List<string>();
     }
 
     class RuleFiles
     {
         public static RuleFiles instance;
 
-        public Rules ActiveRules;
+        public List<Rule> Rules;
 
         public RuleFiles(string mopConfigFolder)
         {
             instance = this;
-            ActiveRules = new Rules();
+            Rules = new List<Rule>();
 
             string modsConfig = mopConfigFolder.Substring(0, mopConfigFolder.LastIndexOf('\\'));
             string[] dirs = Directory.GetDirectories(modsConfig);
@@ -99,54 +91,12 @@ namespace MOP
                 switch (flag)
                 {
                     case "ignore":
-                        NewIgnoreRule(value);
+                        Rules.Add(new Rule(value, true, false));
                         break;
                     case "ignore_full":
-                        NewIgnoreRule(value, true);
+                        Rules.Add(new Rule(value, true, true));
                         break;
                 }
-            }
-        }
-
-        void NewIgnoreRule(string value, bool full = false)
-        {
-            switch (value)
-            {
-                default:
-                    if (full)
-                    {
-                        if (!ActiveRules.IgnoredTotalObjects.Contains(value))
-                            ActiveRules.IgnoredTotalObjects.Add(value);
-                        return;
-                    }
-
-                    if (!ActiveRules.IgnoredObjects.Contains(value))
-                        ActiveRules.IgnoredObjects.Add(value);
-                    break;
-                case "SATSUMA":
-                    ActiveRules.VehicleRules.Add(new VehicleRule("SATSUMA(557kg, 248)", true, full));
-                    break;
-                case "HAYOSIKO":
-                    ActiveRules.VehicleRules.Add(new VehicleRule("HAYOSIKO(1500kg, 250)", true, full));
-                    break;
-                case "JONNEZ_ES":
-                    ActiveRules.VehicleRules.Add(new VehicleRule("JONNEZ ES(Clone)", true, full));
-                    break;
-                case "KEKMET":
-                    ActiveRules.VehicleRules.Add(new VehicleRule("KEKMET(350-400psi)", true, full));
-                    break;
-                case "RUSCKO":
-                    ActiveRules.VehicleRules.Add(new VehicleRule("RCO_RUSCKO12(270)", true, full));
-                    break;
-                case "FERNDALE":
-                    ActiveRules.VehicleRules.Add(new VehicleRule("FERNDALE(1630kg)", true, full));
-                    break;
-                case "FLATBED":
-                    ActiveRules.VehicleRules.Add(new VehicleRule("FLATBED", true, full));
-                    break;
-                case "GIFU":
-                    ActiveRules.VehicleRules.Add(new VehicleRule("GIFU(750/450psi)", true, full));
-                    break;
             }
         }
     }
