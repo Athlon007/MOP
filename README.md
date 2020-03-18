@@ -59,6 +59,8 @@ MOP officially supports following mods:
 - Supercharger for Satsuma
 - ECU for Satsuma
 
+**If the mod is not listed, that DOES NOT mean it won't work!**
+
 For more info, visit [Compatibility Wiki](https://github.com/Athlon007/MOP/wiki/Mod-Compatibility).
 
 **WARNING:** This mod may or may not corrupt other mods. Use at your own risk!

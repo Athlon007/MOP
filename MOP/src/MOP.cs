@@ -29,6 +29,7 @@ namespace MOP
         public override string Name => "Modern Optimization Plugin"; //You mod name
 #endif
         public override string Author => "Athlon"; //Your Username
+
         public override string Version => "2.5"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
@@ -96,7 +97,7 @@ namespace MOP
         readonly Color32 headerColor = new Color32(29, 29, 29, 255);
 
         /// <summary>
-        /// All settings should be created here. 
+        /// All settings should be created here.
         /// DO NOT put anything else here that settings.
         /// </summary>
         public override void ModSettings()
@@ -119,7 +120,7 @@ namespace MOP
             Settings.AddCheckBox(this, safeMode);
             Settings.AddText(this, "Safe Mode will only allow to toggle objects that are known to not to cause any issues.\n" +
                 "Note: this option will dramatically decrease performance!");
-            
+
             // Graphics
             Settings.AddHeader(this, "Graphics", headerColor);
             Settings.AddCheckBox(this, enableFramerateLimiter);
@@ -148,7 +149,7 @@ namespace MOP
         }
 
         static void OpenFAQ()
-        {   
+        {
             Process.Start("https://github.com/Athlon007/MOP/blob/master/FAQ.md");
         }
 

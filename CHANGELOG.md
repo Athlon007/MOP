@@ -6,6 +6,12 @@
 
 - Engine renderers are now disabled, if player is in the car, and hood is attached
 
+## 2.4.2 (18.03.2020)
+
+### Bug Fixes
+
+- Fixed MOP not working for some users
+
 ## 2.4.1 (16.03.2020)
 
 ### Added
