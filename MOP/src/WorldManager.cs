@@ -81,8 +81,7 @@ namespace MOP
             worldObjectList = new WorldObjectList();
 
             // Initialzie sector manager
-            if (MopSettings.EnableSectors)
-                ToggleActiveSectors();
+            ToggleActiveSectors();
 
             // Looking for player and yard
             player = GameObject.Find("PLAYER").transform;

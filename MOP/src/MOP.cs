@@ -41,7 +41,6 @@ namespace MOP
         public override void OnMenuLoad()
         {
             new RuleFiles(ModLoader.GetModConfigFolder(this));
-            ConsoleCommand.Add(new GenerateNewFileCommand());
         }
 
         /// <summary>

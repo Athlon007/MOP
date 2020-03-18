@@ -15,9 +15,11 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 
 namespace MOP
 {
@@ -56,7 +58,12 @@ namespace MOP
         public List<IgnoreRule> IgnoreRules;
         public List<ToggleRule> ToggleRules;
 
-        internal string MopConfigFolder;
+        string mopConfigFolder;
+        string lastModListPath;
+        string lastDateFilePath;
+
+        const string RemoteServer = "http://athlon.kkmr.pl/mop/rulefiles/";
+        const int FileThresholdHours = 168; // 1 week
 
         public RuleFiles(string mopConfigFolder)
         {
@@ -64,37 +71,37 @@ namespace MOP
             IgnoreRules = new List<IgnoreRule>();
             ToggleRules = new List<ToggleRule>();
 
-            MopConfigFolder = mopConfigFolder;
+            this.mopConfigFolder = mopConfigFolder;
+            lastModListPath = $"{mopConfigFolder}\\LastModList.mop";
+            lastDateFilePath = $"{mopConfigFolder}\\LastUpdate.mop";
 
-            string modsConfig = mopConfigFolder.Substring(0, mopConfigFolder.LastIndexOf('\\'));
-            string[] dirs = Directory.GetDirectories(modsConfig);
-            List<string> ruleFiles = new List<string>();
-            foreach (string dir in dirs)
-            {
-                // Ignore MSCLoader folders
-                if (dir.ContainsAny("MSCLoader_", "MOP")) continue;
+            DownloadRules();
 
-                DirectoryInfo di = new DirectoryInfo(dir);
-                FileInfo[] files = di.GetFiles("*.mopconfig");
-
-                if (files.Length == 0) continue;
-
-                foreach (FileInfo file in files)
-                    ruleFiles.Add(file.FullName);
-            }
-
-            // If no rule files have been found, quit.
-            if (ruleFiles.Count == 0)
+            DirectoryInfo dir = new DirectoryInfo(mopConfigFolder);
+            FileInfo[] files = dir.GetFiles().Where(d => d.Name.EndsWith(".mopconfig")).ToArray();
+            if (files.Length == 0)
             {
                 ModConsole.Print($"[MOP] No rule files found");
                 return;
             }
 
-            // Read rule files, if some have been found.
-            ModConsole.Print($"[MOP] Found {ruleFiles.Count} rule file{(ruleFiles.Count > 1 ? "s" : "")}!");
-            foreach (string ruleFile in ruleFiles)
+            ModConsole.Print($"[MOP] Found {files.Length} rule file{(files.Length > 1 ? "s" : "")}!");
+
+            List<string> modIds = new List<string>();
+            foreach (var mod in ModLoader.LoadedMods)
+                modIds.Add(mod.ID);
+
+            foreach (FileInfo file in files)
             {
-                ReadRules(ruleFile);
+                // Delete rules for mods that don't exist
+                if (!modIds.Contains(Path.GetFileNameWithoutExtension(file.Name)))
+                {
+                    File.Delete(file.FullName);
+                    ModConsole.Print($"[MOP] Rule file {file.Name} has been deleted, because corresponding mod is not present.");
+                    continue;
+                }
+
+                ReadRules(file.FullName);
             }
 
             ModConsole.Print("[MOP] Loading rule files done!");
@@ -152,30 +159,94 @@ namespace MOP
                 }
             }
         }
-    }
 
-    public class GenerateNewFileCommand : ConsoleCommand
-    {
-        public override string Name => "MOP";
-        public override string Help => "- new: generate new .mopconfig file";
-
-        const string MopConfigTemplate = "## MOP Config File\n\n" + 
-                                         "## Visit https://github.com/Athlon007/MOP/wiki to learn how to configurate this file!\n\n";
-
-        public override void Run(string[] args)
+        /// <summary>
+        /// Downloads the rule file from server
+        /// </summary>
+        void DownloadRules()
         {
-            switch(args[0])
+            string lastModList = File.Exists(lastModListPath) ? File.ReadAllText(lastModListPath) : "";
+            Mod[] mods = ModLoader.LoadedMods.Where(m => !m.ID.ContainsAny("MSCLoader_", "MOP")).ToArray();
+            string modListString = "";
+
+            ModConsole.Print("[MOP] Downloading rules...");
+
+            bool isUpdateTime = !File.Exists(lastDateFilePath) || IsUpdateTime();
+
+            foreach (Mod mod in mods)
             {
-                default:
-                    ModConsole.Error($"[MOP] Unknown command \"{args[0]}\".");
-                    break;
-                case "new":
-                    string newFilePath = RuleFiles.instance.MopConfigFolder + "\\template.mopconfig";
-                    File.WriteAllText(newFilePath, MopConfigTemplate);
-                    ModConsole.Print($"<color=green>[MOP] Created new .mopconfig file!</color>");
-                    ModConsole.Print($"[MOP] A file has been saved to {newFilePath}");
-                    break;
+                string modId = mod.ID;
+                modListString += $"{modId}\n";
+
+                string ruleUrl = RemoteServer + modId + ".mopconfig";
+                string filePath = $"{mopConfigFolder}\\{modId}.mopconfig";
+
+                if (File.Exists(filePath) && !IsBelowThreshold(filePath, FileThresholdHours))
+                {
+                    continue;
+                }
+                else
+                {
+                    if (lastModList.Contains(mod.ID) && !isUpdateTime)
+                        continue;
+                }
+
+                if (!RemoteFileExists(ruleUrl))
+                    continue;
+
+                ModConsole.Print($"<color=yellow>[MOP] Downloading new rule file for {mod.Name}...</color>");
+                using (WebClient web = new WebClient())
+                {
+                    web.DownloadFile(ruleUrl, filePath);
+                    web.Dispose();
+                }
+                ModConsole.Print("<color=green>[MOP] Downloading completed!</color>");
             }
+
+            File.WriteAllText(lastModListPath, modListString);
+            if (isUpdateTime)
+                File.WriteAllText(lastDateFilePath, DateTime.Now.ToString());
+        }
+
+        bool RemoteFileExists(string url)
+        {
+            try
+            {
+                //Creating the HttpWebRequest
+                HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+                //Setting the Request method HEAD, you can also use GET too.
+                request.Method = "HEAD";
+                //Getting the Web Response.
+                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                //Returns TRUE if the Status code == 200
+
+                string responseUri = response.ResponseUri.ToString();
+                response.Close();
+                return (response.StatusCode == HttpStatusCode.OK && responseUri != "http://athlon.kkmr.pl/404.html");
+            }
+            catch
+            {
+                //Any exception will returns false.
+                return false;
+            }
+        }
+
+        bool IsBelowThreshold(string filename, int hours)
+        {
+            var threshold = DateTime.Now.AddHours(-hours);
+            return File.GetCreationTime(filename) <= threshold;
+        }
+
+        bool IsUpdateTime()
+        {
+            DateTime past;
+            if (DateTime.TryParse(File.ReadAllText(lastDateFilePath), out past))
+            {
+                past = past.AddHours(FileThresholdHours);
+                return DateTime.Now > past;
+            }
+
+            return true;
         }
     }
 }
