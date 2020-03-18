@@ -64,8 +64,12 @@ namespace MOP
             List<string> newBlackList = new List<string>();
             newBlackList.AddRange(blackList);
 
-            GameObjectBlackList = newBlackList.ToArray();
+            // Read rules
+            if (RuleFiles.instance.YardIgnoreRules.Count > 0)
+                foreach (IgnoreRule rule in RuleFiles.instance.YardIgnoreRules)
+                    newBlackList.Add(rule.ObjectName);
 
+            GameObjectBlackList = newBlackList.ToArray();
             DisableableChilds = GetDisableableChilds();
 
             // Remove fridge mesh from the list of disabled objects

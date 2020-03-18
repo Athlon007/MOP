@@ -53,7 +53,6 @@ namespace MOP
         /// <param name="toggleRendererOnly">If true, only the renderer of that object will be toggled.</param>
         public WorldObject(GameObject gameObject, int distance = 200, bool toggleRendererOnly = false)
         {
-            //this.gameObject = GameObject.Find(gameObjectName);
             this.gameObject = gameObject;
             this.Distance = distance;
 

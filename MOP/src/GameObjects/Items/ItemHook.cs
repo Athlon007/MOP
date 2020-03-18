@@ -92,7 +92,7 @@ namespace MOP
             }
 
             // If ignore, disable renderer
-            if (rule.Ignore)
+            if (rule != null)
                 renderer = null;
         }
 

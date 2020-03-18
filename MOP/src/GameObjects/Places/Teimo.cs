@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MOP
@@ -63,6 +64,15 @@ namespace MOP
 
             // Fix for advertisement pile disappearing when taken
             gameObject.transform.Find("AdvertSpawn").transform.parent = null;
+
+            List<string> blackListList = new List<string>();
+            blackListList.AddRange(blackList);
+
+            // Read rules
+            if (RuleFiles.instance.StoreIgnoreRules.Count > 0)
+                foreach (IgnoreRule rule in RuleFiles.instance.StoreIgnoreRules)
+                    blackListList.Add(rule.ObjectName);
+            blackList = blackListList.ToArray();
 
             GameObjectBlackList = blackList;
             DisableableChilds = GetDisableableChilds();

@@ -64,8 +64,7 @@ namespace MOP
             IgnoreRule vehicleRule = RuleFiles.instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
             if (vehicleRule != null)
             {
-                if (vehicleRule.Ignore)
-                    Toggle = ToggleUnityCar;
+                Toggle = ToggleUnityCar;
 
                 if (vehicleRule.TotalIgnore)
                     IsActive = false;

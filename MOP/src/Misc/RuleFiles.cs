@@ -26,13 +26,11 @@ namespace MOP
     class IgnoreRule
     {
         public string ObjectName;
-        public bool Ignore;
         public bool TotalIgnore;
 
-        public IgnoreRule(string ObjectName, bool Ignore, bool TotalIgnore)
+        public IgnoreRule(string ObjectName, bool TotalIgnore)
         {
             this.ObjectName = ObjectName;
-            this.Ignore = Ignore;
             this.TotalIgnore = TotalIgnore;
         }
     }
@@ -56,7 +54,12 @@ namespace MOP
         public static RuleFiles instance;
 
         public List<IgnoreRule> IgnoreRules;
-        public List<ToggleRule> ToggleRules;
+        public List<ToggleRule> ToggleRules;        
+        
+        public List<IgnoreRule> YardIgnoreRules;
+        public List<IgnoreRule> StoreIgnoreRules;
+        public List<IgnoreRule> RepairShopIgnoreRules;
+        public List<IgnoreRule> InspectionIgnoreRules;
 
         string mopConfigFolder;
         string lastModListPath;
@@ -70,6 +73,11 @@ namespace MOP
             instance = this;
             IgnoreRules = new List<IgnoreRule>();
             ToggleRules = new List<ToggleRule>();
+            
+            YardIgnoreRules = new List<IgnoreRule>();
+            StoreIgnoreRules = new List<IgnoreRule>();
+            RepairShopIgnoreRules = new List<IgnoreRule>();
+            InspectionIgnoreRules = new List<IgnoreRule>();
 
             this.mopConfigFolder = mopConfigFolder;
             lastModListPath = $"{mopConfigFolder}\\LastModList.mop";
@@ -136,10 +144,29 @@ namespace MOP
                         ModConsole.Error($"[MOP] Unrecognized flag '{flag}' in file {rulePath}");
                         break;
                     case "ignore":
-                        IgnoreRules.Add(new IgnoreRule(value, true, false));
+                        IgnoreRules.Add(new IgnoreRule(value, false));
                         break;
                     case "ignore_full":
-                        IgnoreRules.Add(new IgnoreRule(value, true, true));
+                        IgnoreRules.Add(new IgnoreRule(value, true));
+                        break;
+                    case "ignore_at_place":
+                        string place = value.Split(' ')[0];
+                        string obj = value.Split(' ')[1];
+                        switch (place)
+                        {
+                            case "STORE":
+                                StoreIgnoreRules.Add(new IgnoreRule(obj, false));
+                                break;
+                            case "YARD":
+                                YardIgnoreRules.Add(new IgnoreRule(obj, false));
+                                break;
+                            case "REPAIRSHOP":
+                                RepairShopIgnoreRules.Add(new IgnoreRule(obj, false));
+                                break;
+                            case "INSPECTION":
+                                InspectionIgnoreRules.Add(new IgnoreRule(obj, false));
+                                break;
+                        }
                         break;
                     case "toggle":
                         ToggleRules.Add(new ToggleRule(value, ToggleModes.Normal));
