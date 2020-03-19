@@ -105,6 +105,11 @@ namespace MOP
             Settings.AddHeader(this, "Debug version. DO NOT DISTRIBUTE!", Color.red, Color.black);
 #endif
 
+            if (!ModLoader.CheckSteam())
+            {
+                Settings.AddHeader(this, "Pirated game copies are not officially supported.\nUse only at your own risk!", Color.red, Color.black);
+            }
+
             // Links and utilities
             Settings.AddButton(this, openLastLog);
             Settings.AddButton(this, generateReport);

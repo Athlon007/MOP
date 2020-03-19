@@ -32,17 +32,10 @@ namespace MOP
 
         Transform player;
 
-        // Vehicles
         List<Vehicle> vehicles;
-
-        // Places
         List<Place> places;
 
-        // World Objects
         WorldObjectList worldObjectList;
-
-        // Area Checks
-        SatsumaInAreaCheck inspectionArea;
 
         bool IsPlayerOnYard { get; set; }
 
@@ -282,7 +275,7 @@ namespace MOP
             ModConsole.Print("[MOP] Away from house world objects loaded");
 
             // Adding area check if Satsuma is in the inspection's area
-            inspectionArea = GameObject.Find("INSPECTION").AddComponent<SatsumaInAreaCheck>();
+            SatsumaInAreaCheck inspectionArea = GameObject.Find("INSPECTION").AddComponent<SatsumaInAreaCheck>();
             inspectionArea.Initialize(new Vector3(20, 20, 20));
 
             // Check for when Satsuma is on the lifter
@@ -339,7 +332,6 @@ namespace MOP
                     case ToggleModes.VehiclePhysics:
                         vehicles.Add(new Vehicle(v.ObjectName));
                         Vehicle veh = vehicles[vehicles.Count];
-                        veh.Toggle(true);
                         veh.Toggle = veh.ToggleUnityCar;
                         break;
                 }

@@ -83,7 +83,7 @@ namespace MOP
             lastModListPath = $"{mopConfigFolder}\\LastModList.mop";
             lastDateFilePath = $"{mopConfigFolder}\\LastUpdate.mop";
 
-            DownloadRules();
+            DownloadAndUpdateRules();
 
             DirectoryInfo dir = new DirectoryInfo(mopConfigFolder);
             FileInfo[] files = dir.GetFiles().Where(d => d.Name.EndsWith(".mopconfig")).ToArray();
@@ -190,7 +190,7 @@ namespace MOP
         /// <summary>
         /// Downloads the rule file from server
         /// </summary>
-        void DownloadRules()
+        void DownloadAndUpdateRules()
         {
             string lastModList = File.Exists(lastModListPath) ? File.ReadAllText(lastModListPath) : "";
             Mod[] mods = ModLoader.LoadedMods.Where(m => !m.ID.ContainsAny("MSCLoader_", "MOP")).ToArray();
@@ -208,7 +208,7 @@ namespace MOP
                 string ruleUrl = RemoteServer + modId + ".mopconfig";
                 string filePath = $"{mopConfigFolder}\\{modId}.mopconfig";
 
-                if (File.Exists(filePath) && !IsBelowThreshold(filePath, FileThresholdHours))
+                if (File.Exists(filePath) && !IsFileBelowThreshold(filePath, FileThresholdHours))
                 {
                     continue;
                 }
@@ -245,7 +245,7 @@ namespace MOP
                 request.Method = "HEAD";
                 //Getting the Web Response.
                 HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-                //Returns TRUE if the Status code == 200
+                //Returns TRUE if the Status code == 200 and it's not 404.html website
 
                 string responseUri = response.ResponseUri.ToString();
                 response.Close();
@@ -258,7 +258,7 @@ namespace MOP
             }
         }
 
-        bool IsBelowThreshold(string filename, int hours)
+        bool IsFileBelowThreshold(string filename, int hours)
         {
             var threshold = DateTime.Now.AddHours(-hours);
             return File.GetCreationTime(filename) <= threshold;
