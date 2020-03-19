@@ -105,7 +105,7 @@ namespace MOP
                 if (!modIds.Contains(Path.GetFileNameWithoutExtension(file.Name)))
                 {
                     File.Delete(file.FullName);
-                    ModConsole.Print($"[MOP] Rule file {file.Name} has been deleted, because corresponding mod is not present.");
+                    ModConsole.Print($"<color=yellow>[MOP] Rule file {file.Name} has been deleted, because corresponding mod is not present.</color>");
                     continue;
                 }
 

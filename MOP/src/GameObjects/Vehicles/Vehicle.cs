@@ -18,8 +18,6 @@ using MSCLoader;
 using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
-using System;
-using System.Reflection;
 
 namespace MOP
 {
@@ -90,6 +88,9 @@ namespace MOP
             // Get the object position and rotation
             Position = gameObject.transform.localPosition;
             Rotation = gameObject.transform.localRotation;
+
+            if (gameObject.name == "BOAT")
+                return;
 
             // Creates a new gameobject that is names after the original file + '_TEMP' (ex. "SATSUMA(557kg, 248)_TEMP")
             temporaryParent = new GameObject(gameObject.name + "_TEMP").transform;
@@ -251,7 +252,7 @@ namespace MOP
         /// <param name="enabled"></param>
         public void ToggleUnityCar(bool enabled)
         {
-            if ((gameObject == null) || (carDynamics.enabled == enabled) || !IsActive) 
+            if ((gameObject == null) || gameObject.name == "BOAT" || (carDynamics.enabled == enabled) || !IsActive) 
                 return;
 
             // Don't toggle physics, unless car's on ground

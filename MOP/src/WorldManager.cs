@@ -89,7 +89,8 @@ namespace MOP
                 new Vehicle("RCO_RUSCKO12(270)"),
                 new Vehicle("FERNDALE(1630kg)"),
                 new Vehicle("FLATBED"),
-                new Vehicle("GIFU(750/450psi)")
+                new Vehicle("GIFU(750/450psi)"),
+                new Boat("BOAT")
             };
 
             if (!MopSettings.IgnoreModVehicles)
@@ -135,8 +136,6 @@ namespace MOP
             worldObjectList.Add("SOCCER");
             worldObjectList.Add("WATERFACILITY");
             worldObjectList.Add("DRAGRACE", 1100);
-            if (!CompatibilityManager.instance.JetSky && !CompatibilityManager.instance.Moonshinestill && !CompatibilityManager.instance.FishingMod)
-                worldObjectList.Add("BOAT");
             worldObjectList.Add("StrawberryField", 400);
 
             ModConsole.Print("[MOP] Main world objects loaded");
