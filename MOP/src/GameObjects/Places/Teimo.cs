@@ -67,14 +67,15 @@ namespace MOP
             GameObjectBlackList = blackList;
             DisableableChilds = GetDisableableChilds();
 
-            // Fixes double slot machine bug introduced with experimental 20.02.2020
-            DisableableChilds.Remove(gameObject.transform.Find("SlotMachine"));
-
-            // Fix for the bar fighter
-            DisableableChilds.Remove(gameObject.transform.Find("Fighter2/Pivot"));
+            // Fix for the bar fighte
+            Transform fighter = gameObject.transform.Find("Fighter2/Pivot");
+            if (fighter)
+                DisableableChilds.Remove(fighter);
 
             // Injecting HookSlot of VideoPoker object
-            FsmHook.FsmInject(gameObject.transform.Find("LOD/VideoPoker/HookSlot").gameObject, "Activate cable", RemoveVideoPokerParent);
+            Transform videoPoker = gameObject.transform.Find("LOD/VideoPoker/HookSlot");
+            if (videoPoker)
+                FsmHook.FsmInject(videoPoker.gameObject, "Activate cable", RemoveVideoPokerParent);
         }
 
         /// <summary>

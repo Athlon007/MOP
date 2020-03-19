@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.4.4 (19.03.2020)
+
+This update is only for players who are playing on stable release. If you use Experimental, you don't have to update!
+
+### Bug Fixes
+
+- Fixed MOP not working on update 23.12.2019
+
 ## 2.4.3 (19.03.2020)
 
 ### Bug Fixes
