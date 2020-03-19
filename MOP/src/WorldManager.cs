@@ -529,16 +529,19 @@ namespace MOP
                     ExceptionManager.New(ex, "CODE: 1-2");
                 }
 
-                // Shop items
-                try
+                // Items (new)
+                half = Items.instance.ItemsHooks.Count / 2;
+                int full = Items.instance.ItemsHooks.Count;
+                for (i = 0; i < full; i++)
                 {
-                    half = Items.instance.ItemsHooks.Count / 2;
-                    for (i = 0; i < half; ++i)
+                    if (i % half == 0) yield return null;
+
+                    try
                     {
                         if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
                         {
-                            if (!CompatibilityManager.instance.BottleRecycling)
-                                ModConsole.Print("[MOP] Removed one item from ItemHooks list, because it doesn't exist anymore.\n");
+                            ModConsole.Print("[MOP] Removed one item from ItemHooks list, because it doesn't exist anymore " +
+                                "(ignore if you have Bottle Recycling mod and you just sold the bottle/beer case).");
 
                             // Remove item at the current i
                             Items.instance.ItemsHooks.RemoveAt(i);
@@ -546,45 +549,18 @@ namespace MOP
                             // Decrease the i by 1, because the List has shifted, so the items will not be skipped
                             // Then continue;
                             i--;
+                            half = Items.instance.ItemsHooks.Count / 2;
+                            full = Items.instance.ItemsHooks.Count;
                             continue;
                         }
 
                         Items.instance.ItemsHooks[i].ToggleActive(IsEnabled(Items.instance.ItemsHooks[i].gameObject.transform));
                     }
-                }
-                catch (Exception ex)
-                {
-                    ExceptionManager.New(ex, "CODE: 2-0");
-                }
-
-                yield return null;
-
-                try
-                {
-                    for (; i < Items.instance.ItemsHooks.Count; ++i)
+                    catch (Exception ex)
                     {
-                        if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
-                        {
-                            if (!CompatibilityManager.instance.BottleRecycling)
-                                ModConsole.Print("[MOP] Removed one item from ItemHooks list, because it doesn't exist anymore.\n");
-
-                            // Remove item at the current i
-                            Items.instance.ItemsHooks.RemoveAt(i);
-                                
-                            // Decrease the i by 1, because the List has shifted, so the items will not be skipped
-                            // Then continue;
-                            i--;
-                            continue;
-                        }
-
-                        Items.instance.ItemsHooks[i].ToggleActive(IsEnabled(Items.instance.ItemsHooks[i].gameObject.transform));
+                        ExceptionManager.New(ex, "CODE: 2-0");
                     }
                 }
-                catch (Exception ex)
-                {
-                    ExceptionManager.New(ex, "CODE: 2-1");
-                }
-
 
                 // Places
                 try
