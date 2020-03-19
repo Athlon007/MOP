@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.4.3 (19.03.2020)
+
+### Bug Fixes
+
+- Fixed ItemHook being applied twice causing MOP to break and run slower
+- Rewrote Item toggling to more reliable script
+
 ## 2.4.2 (18.03.2020)
 
 ### Bug Fixes

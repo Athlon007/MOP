@@ -1,2 +1,3 @@
 Bug Fixes:
-- Fixed MOP not working for some users
+- Fixed ItemHook being applied twice causing MOP to break and run slower
+- Rewrote Item toggling to more reliable script

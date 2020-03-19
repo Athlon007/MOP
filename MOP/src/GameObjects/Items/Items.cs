@@ -119,6 +119,9 @@ namespace MOP
             GameObject itemsObject = GameObject.Find("ITEMS");
             for (int i = 0; i < itemsObject.transform.childCount; i++)
             {
+                if (itemsObject.transform.GetChild(i).gameObject.GetComponent<ItemHook>() != null)
+                    continue;
+
                 itemsObject.transform.GetChild(i).gameObject.AddComponent<ItemHook>();
             }
         }
