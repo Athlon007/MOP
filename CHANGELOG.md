@@ -4,6 +4,8 @@
 
 This update is only for players who are playing on stable release. If you use Experimental, you don't have to update!
 
+PS: Now I see why in Chinese culture number 4 is considered an unlucky number...
+
 ### Bug Fixes
 
 - Fixed MOP not working on update 23.12.2019
