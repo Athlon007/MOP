@@ -110,12 +110,6 @@ namespace MOP
                 itemCheck.AddComponent<ShopModItemSpawnCheck>();
             }
 
-            // Actual Mop mod support
-            if (CompatibilityManager.instance.ActualMop)
-            {
-                GameObject.Find("mop(Clone)").AddComponent<ItemHook>();
-            }
-
             GameObject itemsObject = GameObject.Find("ITEMS");
             for (int i = 0; i < itemsObject.transform.childCount; i++)
             {

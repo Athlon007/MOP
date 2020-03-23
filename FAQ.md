@@ -6,11 +6,21 @@ Make sure you have the newest version of MSC Mod Loader and MOP installed. Addit
 
 ## There's an issue with [INSERT MOD NAME HERE]
 
-I cannot guarantee that all mods will work with MOP. But you can report what's the issue and I may look into it. Fury, Second Ferndale and CarryMore have been fixed, so why not your mod? Please create a new issue in GitHub, or report a bug on NexusMods.
+I cannot guarantee that all mods will work with MOP. But you can report what's the issue and I may look into it. Many mods do work, and some (listed on Compatibility list) received extra attention.
 
-## Items are invinsible, but they seem to be still there
+## Does it work with [INSERT MOD NAME HERE]
 
-You most likely have Occlusion Culling turned on. Try to disable it and reload the game.
+If it's listed on the Mod compatibility list - yes.
+
+If it isn't - perhaps, I don't know. You need to check it yourself. In most cases it will work.
+
+## What does it disable
+
+- All vehicles in the game
+- Many static elements of the world (such as buildings)
+- Items (such as sausages)
+
+All of them are either turned off by player approaching those items, leaving house area, or entering special sectors.
 
 ## My game stopped working/computer blew up/dog died/I started thermonuclear war because of MOP
 

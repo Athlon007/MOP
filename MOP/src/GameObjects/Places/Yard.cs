@@ -16,6 +16,7 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MOP
 {
@@ -61,6 +62,8 @@ namespace MOP
 
             GameObject.Find("GarageDoors").transform.parent = null;
 
+            Doors = GetDoors();
+
             List<string> newBlackList = new List<string>();
             newBlackList.AddRange(blackList);
 
@@ -75,6 +78,11 @@ namespace MOP
             // Remove fridge mesh from the list of disabled objects
             Transform fridgeMesh = DisableableChilds.Find(w => w.name == "mesh" && w.transform.parent.name == "Fridge");
             DisableableChilds.Remove(fridgeMesh);
+        }
+
+        Transform[] GetDoors()
+        {
+            return transform.GetComponentsInChildren<Transform>().Where(t => t.gameObject.name.Contains("Door") && t.Find("Pivot") != null).ToArray();
         }
     }
 }

@@ -148,24 +148,6 @@ namespace MOP
 
             isHayosiko = gameObject.name == "HAYOSIKO(1500kg, 250)";
 
-            // Fix for Offroad Hayosiko and HayosikoColorfulGauges
-            if (isHayosiko && (CompatibilityManager.instance.OffroadHayosiko || CompatibilityManager.instance.HayosikoColorfulGauges))
-            {
-                Toggle = ToggleUnityCar;
-            }
-
-            // If the vehicle is Fury
-            if (gameObject.name == "FURY(1630kg)" || gameObject.name == "POLICEFERNDALE(1630kg)")
-            {
-                Toggle = ToggleUnityCar;
-            }
-
-            // Compatibility fix for KekmetAddons
-            if (CompatibilityManager.instance.KekmetAddons && gameObject.name == "KEKMET(350-400psi)")
-            {
-                Toggle = ToggleUnityCar;
-            }
-
             // If the user selected to toggle vehicle's physics only, it overrided any previous set for Toggle method
             if (MopSettings.ToggleVehiclePhysicsOnly)
             {

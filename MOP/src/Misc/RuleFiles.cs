@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 
 namespace MOP
 {
@@ -49,6 +50,12 @@ namespace MOP
         }
     }
 
+    class SpecialRules
+    {
+        public bool SatsumaIgnoreEngineRenders;
+        public bool DontDestroyEmptyBeerBottles;
+    }
+
     class RuleFiles
     {
         public static RuleFiles instance;
@@ -60,6 +67,10 @@ namespace MOP
         public List<IgnoreRule> StoreIgnoreRules;
         public List<IgnoreRule> RepairShopIgnoreRules;
         public List<IgnoreRule> InspectionIgnoreRules;
+
+        public SpecialRules SpecialRules;
+
+        public List<string> RuleFileNames;
 
         string mopConfigFolder;
         string lastModListPath;
@@ -78,6 +89,10 @@ namespace MOP
             StoreIgnoreRules = new List<IgnoreRule>();
             RepairShopIgnoreRules = new List<IgnoreRule>();
             InspectionIgnoreRules = new List<IgnoreRule>();
+
+            this.SpecialRules = new SpecialRules();
+
+            this.RuleFileNames = new List<string>();
 
             this.mopConfigFolder = mopConfigFolder;
             lastModListPath = $"{mopConfigFolder}\\LastModList.mop";
@@ -109,6 +124,7 @@ namespace MOP
                     continue;
                 }
 
+                RuleFileNames.Add(file.Name);
                 ReadRules(file.FullName);
             }
 
@@ -154,6 +170,9 @@ namespace MOP
                         string obj = value.Split(' ')[1];
                         switch (place)
                         {
+                            default:
+                                ModConsole.Error($"[MOP] Unrecognized place '{place}' in flag '{flag}' in file {rulePath}");
+                                break;
                             case "STORE":
                                 StoreIgnoreRules.Add(new IgnoreRule(obj, false));
                                 break;
@@ -174,14 +193,20 @@ namespace MOP
                     case "toggle_renderer":
                         ToggleRules.Add(new ToggleRule(value, ToggleModes.Renderer));
                         break;
-                    case "toggle_as_item":
+                    case "toggle_item":
                         ToggleRules.Add(new ToggleRule(value, ToggleModes.Item));
                         break;
-                    case "toggle_as_vehicle":
+                    case "toggle_vehicle":
                         ToggleRules.Add(new ToggleRule(value, ToggleModes.Vehicle));
                         break;
-                    case "toggle_as_vehicle_physics_only":
+                    case "toggle_vehicle_physics_only":
                         ToggleRules.Add(new ToggleRule(value, ToggleModes.VehiclePhysics));
+                        break;
+                    case "satsuma_ignore_engine_renderer":
+                        SpecialRules.SatsumaIgnoreEngineRenders = true;
+                        break;
+                    case "dont_destroy_empty_beer_bottles":
+                        SpecialRules.DontDestroyEmptyBeerBottles = true;
                         break;
                 }
             }
@@ -196,7 +221,7 @@ namespace MOP
             Mod[] mods = ModLoader.LoadedMods.Where(m => !m.ID.ContainsAny("MSCLoader_", "MOP")).ToArray();
             string modListString = "";
 
-            ModConsole.Print("[MOP] Downloading rules...");
+            ModConsole.Print("[MOP] Looking for rule updates...");
 
             bool isUpdateTime = !File.Exists(lastDateFilePath) || IsUpdateTime();
 
@@ -224,7 +249,7 @@ namespace MOP
                 ModConsole.Print($"<color=yellow>[MOP] Downloading new rule file for {mod.Name}...</color>");
                 using (WebClient web = new WebClient())
                 {
-                    web.DownloadFile(ruleUrl, filePath);
+                    web.DownloadFileAsync(new Uri(ruleUrl), filePath);
                     web.Dispose();
                 }
                 ModConsole.Print("<color=green>[MOP] Downloading completed!</color>");

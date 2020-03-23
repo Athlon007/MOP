@@ -156,9 +156,9 @@ namespace MOP
                 return;
 
             // If Bottle Recycling mod is present, prevent destroying beer bottles
-            if (CompatibilityManager.instance.BottleRecycling)
+            if (RuleFiles.instance.SpecialRules.DontDestroyEmptyBeerBottles)
             {
-                ModConsole.Print("<color=yellow>[MOP] Beer bottles won't be destroyed, because Bottle Recycling mod is present. " +
+                ModConsole.Print("<color=yellow>[MOP] Beer bottles won't be destroyed, because one or more mods prevent it. " +
                     "Disable 'Destroy empty beer bottles' in the MOP settings.</color>");
                 return;
             }

@@ -26,10 +26,13 @@ namespace MOP
             IgnoreRule vehicleRule = RuleFiles.instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
             if (vehicleRule != null)
             {
-                Toggle = ToggleBoatPhysics;
-
                 if (vehicleRule.TotalIgnore)
+                {
                     IsActive = false;
+                    return;
+                }
+
+                Toggle = ToggleBoatPhysics;
             }
         }
 

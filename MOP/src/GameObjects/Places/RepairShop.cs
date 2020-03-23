@@ -50,12 +50,6 @@ namespace MOP
             List<string> blackListList = new List<string>();
             blackListList.AddRange(blackList);
 
-            // Compatibility fix for Fury Mod
-            if (CompatibilityManager.instance.DrivableFury)
-            {
-                blackListList.Add("Vehicle");
-            }
-
             // Read rules
             if (RuleFiles.instance.RepairShopIgnoreRules.Count > 0)
                 foreach (IgnoreRule rule in RuleFiles.instance.RepairShopIgnoreRules)

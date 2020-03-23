@@ -23,9 +23,7 @@ namespace MOP
     class Place
     {
         // Place Class
-        //
         // It is responsible for loading and unloading important to the game places, it is extended by other classes.
-        //
         // NOTE: That script DOES NOT disable the place itself, rather some of its childrens.
 
         public GameObject gameObject { get; set; }
@@ -38,6 +36,8 @@ namespace MOP
         /// List of childs that are allowed to be disabled
         /// </summary>
         internal List<Transform> DisableableChilds;
+
+        internal Transform[] Doors;
 
         public Transform transform => gameObject.transform;
 
@@ -63,6 +63,16 @@ namespace MOP
             if (lastValue == enabled) return;
             lastValue = enabled;
 
+            // In case of yard, reset doors pivots
+            if (!enabled && gameObject.name == "YARD" && Doors.Length > 0)
+            {
+                for (int i = 0; i < Doors.Length; i++)
+                {
+                    Transform pivot = Doors[i].Find("Pivot");
+                    pivot.localEulerAngles = Vector3.zero;
+                }
+            }
+
             // Load and unload only the objects that aren't on the whitelist.
             for (int i = 0; i < DisableableChilds.Count; i++)
             {
@@ -80,8 +90,7 @@ namespace MOP
         /// <returns></returns>
         internal List<Transform> GetDisableableChilds()
         {
-            return transform.GetComponentsInChildren<Transform>(true)
-                .Where(trans => !trans.gameObject.name.ContainsAny(GameObjectBlackList)).ToList();
+            return transform.GetComponentsInChildren<Transform>(true).Where(trans => !trans.gameObject.name.ContainsAny(GameObjectBlackList)).ToList();
         }
     }
 }

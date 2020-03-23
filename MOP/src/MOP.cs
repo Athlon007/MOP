@@ -38,9 +38,12 @@ namespace MOP
         public override bool SecondPass => true;
         public override bool LoadInMenu => true;
 
+        public static string ModConfigPath;
+
         public override void OnMenuLoad()
         {
-            new RuleFiles(ModLoader.GetModConfigFolder(this));
+            ModConfigPath = ModLoader.GetModConfigFolder(this);
+            new RuleFiles(ModConfigPath);
         }
 
         /// <summary>
@@ -64,10 +67,9 @@ namespace MOP
         // BUTTONS
         //
         readonly Settings donate = new Settings("donate", "Donate", OpenDonateDialog);
-        readonly Settings openLastLog = new Settings("openLastLog", "Open last log", ExceptionManager.Open);
-        readonly Settings generateReport = new Settings("generateReport", "Generate mod report", ExceptionManager.GenerateReport);
         readonly Settings faq = new Settings("faq", "FAQ", OpenFAQDialog);
         readonly Settings wiki = new Settings("wiki", "MOP Wiki", OpenWikiDialog);
+        readonly Settings forceRuleUpdate = new Settings("forceRuleUpdate", "Force Update", ForceRuleFilesUpdate);
 
         //
         // ACTIVATING OBJECTS
@@ -93,6 +95,13 @@ namespace MOP
         public static Settings ignoreModVehicles = new Settings("ignoreModVehicles", "Ignore Mod Vehicles", false, MopSettings.UpdateAll);
         public static Settings toggleVehiclePhysicsOnly = new Settings("toggleVehiclePhysicsOnly", "Toggle Vehicles Physics Only", false, MopSettings.UpdateAll);
 
+        //
+        // LOGGING
+        //
+        readonly Settings openOutputLog = new Settings("openOutputLog", "Open output_log.txt", ExceptionManager.OpenOutputLog);
+        readonly Settings openLastLog = new Settings("openLastLog", "Open last log", ExceptionManager.Open);
+        readonly Settings generateReport = new Settings("generateReport", "Generate mod report", ExceptionManager.GenerateReport);
+
         readonly Color32 headerColor = new Color32(29, 29, 29, 255);
 
         /// <summary>
@@ -107,12 +116,10 @@ namespace MOP
 
             if (!ModLoader.CheckSteam())
             {
-                Settings.AddHeader(this, "Pirated game copies are not officially supported.\nUse only at your own risk!", Color.red, Color.black);
+                Settings.AddHeader(this, "Pirated game copies are not supported.\nUse only at your own risk!", Color.red, Color.black);
             }
 
             // Links and utilities
-            Settings.AddButton(this, openLastLog);
-            Settings.AddButton(this, generateReport);
             Settings.AddButton(this, faq);
             Settings.AddButton(this, wiki);
             Settings.AddButton(this, donate, new Color32(0, 128, 0, 255), new Color32(0, 255, 0, 255), new Color32(127, 255, 0, 255));
@@ -141,6 +148,13 @@ namespace MOP
             Settings.AddHeader(this, "Advanced", headerColor);
             Settings.AddCheckBox(this, ignoreModVehicles);
             Settings.AddCheckBox(this, toggleVehiclePhysicsOnly);
+            Settings.AddButton(this, forceRuleUpdate, "This will force MOP to look for mod rule files.");
+
+            // Logging
+            Settings.AddHeader(this, "Logging", headerColor);
+            Settings.AddButton(this, openOutputLog);
+            Settings.AddButton(this, openLastLog);
+            Settings.AddButton(this, generateReport);
 
             // Changelog
             Settings.AddHeader(this, "Changelog", headerColor);
@@ -175,6 +189,17 @@ namespace MOP
         static void OpenDonate()
         {
             Process.Start("https://paypal.me/figurakonrad");
+        }
+
+        static void ForceRuleFilesUpdate()
+        {
+            if (System.IO.File.Exists($"{ModConfigPath}\\LastModList.mop"))
+                System.IO.File.Delete($"{ModConfigPath}\\LastModList.mop");
+            
+            if (System.IO.File.Exists($"{ModConfigPath}\\LastUpdate.mop"))
+                System.IO.File.Delete($"{ModConfigPath}\\LastUpdate.mop");
+
+            new RuleFiles(ModConfigPath);
         }
     }
 }

@@ -11,9 +11,19 @@
 - Engine renderers are now disabled, if player is in the car, and hood is attached
 - Added disclaimer for pirated copies of the game
 
+### Changes
+
+- Some console messages are not colored
+- Settings reorganization
+
 ### Bug Fixes
 
 - Boat will not disappear/teleport back to the spawn position on respawn
+- Fixed doors at home seeming to
+
+TODO
+
+- Keybinds for Generate Mod Report and Open Output_Log
 
 ## 2.4.4 (19.03.2020)
 

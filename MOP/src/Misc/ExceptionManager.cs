@@ -60,6 +60,14 @@ namespace MOP
             }
         }
 
+        public static void OpenOutputLog()
+        {
+            if (File.Exists("mysummercar_Data\\output_log.txt"))
+            {
+                Process.Start("mysummercar_Data\\output_log.txt");
+            }
+        }
+
         /// <summary>
         /// Dumps the info about the mod and lists all installed mods into MOP_REPORT.txt
         /// </summary>
@@ -98,13 +106,13 @@ namespace MOP
             output += "EnableFramerateLimiter: " + ((bool)MOP.enableFramerateLimiter.GetValue()).ToString() + "\n";
             output += "FramerateLimiter: " + MOP.framerateLimiter.GetValue().ToString() + "\n";
 
-            // List installed mods
+            // List installed mods.
             output += "\n=== MODS ===\n\n";
             foreach (var mod in ModLoader.LoadedMods)
             {
                 if (mod.ID == "MOP")
                 {
-                    output = $"{mod.Name}\nVersion: {mod.Version}\n" + output;
+                    output = $"{mod.Name}\nVersion: {mod.Version}\n{output}";
                     continue;
                 }
 
@@ -113,6 +121,13 @@ namespace MOP
                     continue;
 
                 output += $"{mod.Name}:\n  ID: {mod.ID}\n  Version: {mod.Version}\n  Author: {mod.Author}\n\n";
+            }
+
+            // List rule files.
+            output += "=== RULE FILES ===\n\n";
+            foreach (string ruleFile in RuleFiles.instance.RuleFileNames)
+            {
+                output += $"{ruleFile}\n";
             }
 
             return output;

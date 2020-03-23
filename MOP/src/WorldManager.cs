@@ -93,39 +93,6 @@ namespace MOP
                 new Boat("BOAT")
             };
 
-            if (!MopSettings.IgnoreModVehicles)
-            {
-                // Drivable Fury mod
-                if (CompatibilityManager.instance.DrivableFury)
-                {
-                    vehicles.Add(new Vehicle("FURY(1630kg)"));
-                }
-
-                // Second Ferndale
-                if (CompatibilityManager.instance.SecondFerndale)
-                {
-                    vehicles.Add(new Vehicle("SECONDFERNDALE(1630kg)"));
-                }
-
-                // GAZ 24 Volga
-                if (CompatibilityManager.instance.Gaz)
-                {
-                    vehicles.Add(new Vehicle("GAZ24(1420kg)"));
-                }
-
-                // Police Ferndale
-                if (CompatibilityManager.instance.PoliceFerndale)
-                {
-                    vehicles.Add(new Vehicle("POLICEFERNDALE(1630kg)"));
-                }
-
-                // Tangerine
-                if (CompatibilityManager.instance.TangerinePickup)
-                {
-                    vehicles.Add(new Vehicle("TangerinePickup(Clone)"));
-                }
-            }
-
             ModConsole.Print("[MOP] Vehicles loaded");
 
             // World Objects
@@ -315,26 +282,62 @@ namespace MOP
                 switch (v.ToggleMode)
                 {
                     case ToggleModes.Normal:
+                        if (GameObject.Find(v.ObjectName) == null)
+                        {
+                            ModConsole.Error($"[MOP] Couldn't find world object {v.ObjectName}");
+                            continue;
+                        }
+
                         worldObjectList.Add(v.ObjectName);
                         break;
                     case ToggleModes.Renderer:
+                        if (GameObject.Find(v.ObjectName) == null)
+                        {
+                            ModConsole.Error($"[MOP] Couldn't find world object {v.ObjectName}");
+                            continue;
+                        }
+
                         worldObjectList.Add(v.ObjectName, 200, true);
                         break;
                     case ToggleModes.Item:
                         GameObject g = GameObject.Find(v.ObjectName);
+
+                        if (g == null)
+                        {
+                            ModConsole.Error($"[MOP] Couldn't find item {v.ObjectName}");
+                            continue;
+                        }
+
                         if (g.GetComponent<ItemHook>() == null)
                             g.AddComponent<ItemHook>();
                         break;
                     case ToggleModes.Vehicle:
+                        if (MopSettings.IgnoreModVehicles) continue;
+
+                        if (GameObject.Find(v.ObjectName) == null)
+                        {
+                            ModConsole.Error($"[MOP] Couldn't find vehicle {v.ObjectName}");
+                            continue;
+                        }
+
                         vehicles.Add(new Vehicle(v.ObjectName));
                         break;
                     case ToggleModes.VehiclePhysics:
+                        if (MopSettings.IgnoreModVehicles) continue;
+
+                        if (GameObject.Find(v.ObjectName) == null)
+                        {
+                            ModConsole.Error($"[MOP] Couldn't find vehicle {v.ObjectName}");
+                            continue;
+                        }
                         vehicles.Add(new Vehicle(v.ObjectName));
-                        Vehicle veh = vehicles[vehicles.Count];
+                        Vehicle veh = vehicles[vehicles.Count - 1];
                         veh.Toggle = veh.ToggleUnityCar;
                         break;
                 }
             }
+
+            ModConsole.Print("[MOP] Loading flag rules done!");
 
             // Initialize the coroutines 
             StartCoroutine(LoopRoutine());
@@ -480,7 +483,7 @@ namespace MOP
                     {
                         if (vehicles[i] == null)
                         {
-                            ModConsole.Print("[MOP] Vehicle " + i + " has been skipped, because an error occured.");
+                            ModConsole.Print($"[MOP] Vehicle {i} has been skipped, because it's missing.");
                             continue;
                         }
 
@@ -504,7 +507,7 @@ namespace MOP
                     {
                         if (vehicles[i] == null)
                         {
-                            ModConsole.Print("[MOP] Vehicle " + i + " has been skipped, because an error occured.");
+                            ModConsole.Print($"[MOP] Vehicle {i} has been skipped, because it's missing.");
                             continue;
                         }
 

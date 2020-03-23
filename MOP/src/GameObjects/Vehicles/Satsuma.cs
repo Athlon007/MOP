@@ -49,10 +49,6 @@ namespace MOP
             disableableObjects = GetDisableableChilds();
 
             Toggle = ToggleActive;
-    
-            // Fixes compatibility with Satsuma turbo and ECU
-            if (CompatibilityManager.instance.DonnerTechECUMod || CompatibilityManager.instance.SatsumaTurboCharger)
-                Toggle = ToggleUnityCar;
 
             // Get engine bay renderers
             engineBayRenderers = new List<Renderer>();
@@ -122,7 +118,7 @@ namespace MOP
 
         public void ToggleRenderers(bool enabled)
         {
-            if (!IsHoodAttached() && !CompatibilityManager.instance.SatsumaTurboCharger) return;
+            if (!IsHoodAttached() && RuleFiles.instance.SpecialRules.SatsumaIgnoreEngineRenders) return;
 
             for (int i = 0; i< engineBayRenderers.Count; i++)
             {
