@@ -4,26 +4,23 @@
 
 ### Added
 
-- Added support for rules!
-  - From now on, all mod compatibility is done via the remote server
+- Added rule files system!
+  - From now on, all mod compatibility is done via the text files with .mopconfig format, dwonloaded from the remote server
   - No need to update MOP in order to add mod compatibility! (At least in most cases)
   - Mod compatibility rules can be updated if needed! MOP checks for rules update every week (you can force new check in the settings)
 - Engine renderers are now disabled, if player is in the car, and hood is attached
 - Added disclaimer for pirated copies of the game
+- Added "Open output log" button into settings
 
 ### Changes
 
-- Some console messages are not colored
-- Settings reorganization
+- Some console messages are now colored
+- Moved Generate 'Open Last Log' and 'Generate Mod Report' to new category - Logs
 
 ### Bug Fixes
 
 - Boat will not disappear/teleport back to the spawn position on respawn
 - Fixed doors at home seeming to
-
-TODO
-
-- Keybinds for Generate Mod Report and Open Output_Log
 
 ## 2.4.4 (19.03.2020)
 

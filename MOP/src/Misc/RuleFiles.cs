@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Threading;
+using System.Net.NetworkInformation;
 
 namespace MOP
 {
@@ -91,7 +91,6 @@ namespace MOP
             InspectionIgnoreRules = new List<IgnoreRule>();
 
             this.SpecialRules = new SpecialRules();
-
             this.RuleFileNames = new List<string>();
 
             this.mopConfigFolder = mopConfigFolder;
@@ -217,6 +216,13 @@ namespace MOP
         /// </summary>
         void DownloadAndUpdateRules()
         {
+            if (!IsServerOnline())
+            {
+                ModConsole.Error("[MOP] Remote server is down, or you are not connected to the Internet. " +
+                    "Couldn't update rule files.");
+                return;
+            }
+
             string lastModList = File.Exists(lastModListPath) ? File.ReadAllText(lastModListPath) : "";
             Mod[] mods = ModLoader.LoadedMods.Where(m => !m.ID.ContainsAny("MSCLoader_", "MOP")).ToArray();
             string modListString = "";
@@ -249,7 +255,7 @@ namespace MOP
                 ModConsole.Print($"<color=yellow>[MOP] Downloading new rule file for {mod.Name}...</color>");
                 using (WebClient web = new WebClient())
                 {
-                    web.DownloadFileAsync(new Uri(ruleUrl), filePath);
+                    web.DownloadFile(new Uri(ruleUrl), filePath);
                     web.Dispose();
                 }
                 ModConsole.Print("<color=green>[MOP] Downloading completed!</color>");
@@ -279,6 +285,21 @@ namespace MOP
             catch
             {
                 //Any exception will returns false.
+                return false;
+            }
+        }
+
+        bool IsServerOnline()
+        {
+            try
+            {
+                Ping ping = new Ping();
+                // 10 seconds time out (in ms).
+                PingReply reply = ping.Send("athlon.kkmr.pl", 10 * 1000);
+                return reply.Status == IPStatus.Success;
+            }
+            catch
+            {
                 return false;
             }
         }
