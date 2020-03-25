@@ -31,6 +31,7 @@ namespace MOP
         public static WorldManager instance;
 
         Transform player;
+        CharacterController playerCharacterController;
 
         List<Vehicle> vehicles;
         List<Place> places;
@@ -78,6 +79,7 @@ namespace MOP
 
             // Looking for player and yard
             player = GameObject.Find("PLAYER").transform;
+            playerCharacterController = player.GetComponent<CharacterController>();
 
             // Loading vehicles
             vehicles = new List<Vehicle>
@@ -101,7 +103,7 @@ namespace MOP
             worldObjectList.Add("DANCEHALL");
             worldObjectList.Add("PERAJARVI", 300);
             worldObjectList.Add("SOCCER");
-            worldObjectList.Add("WATERFACILITY");
+            worldObjectList.Add("WATERFACILITY", 300);
             worldObjectList.Add("DRAGRACE", 1100);
             worldObjectList.Add("StrawberryField", 400);
 
@@ -226,7 +228,6 @@ namespace MOP
             worldObjectList.Add("TRACKFIELD", true);
             worldObjectList.Add("SkijumpHill", true);
             worldObjectList.Add("Factory", true);
-            worldObjectList.Add("SWAMP", true);
             worldObjectList.Add("WHEAT", true);
             worldObjectList.Add("ROCKS", true);
             worldObjectList.Add("RAILROAD", true);
@@ -237,6 +238,8 @@ namespace MOP
             worldObjectList.Add("PierStore", true);
             worldObjectList.Add("BRIDGE_dirt", true);
             worldObjectList.Add("BRIDGE_highway", true);
+            worldObjectList.Add("BirdTower", true);
+            worldObjectList.Add("SwampColliders", true);
 
             ModConsole.Print("[MOP] Away from house world objects loaded");
 
@@ -337,13 +340,13 @@ namespace MOP
                 }
             }
 
-            ModConsole.Print("[MOP] Loading flag rules done!");
+            ModConsole.Print("[MOP] Rules loading complete!");
 
             // Initialize the coroutines 
             StartCoroutine(LoopRoutine());
             StartCoroutine(ControlCoroutine());
 
-            ModConsole.Print("[MOP] MOD LOADED SUCCESFULLY!");
+            ModConsole.Print("<color=green>[MOP] MOD LOADED SUCCESFULLY!</color>");
         }
 
         /// <summary>
@@ -420,26 +423,43 @@ namespace MOP
                 IsPlayerOnYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, places[0].transform.position) < 100 
                     : Vector3.Distance(player.position, places[0].transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 
+                if (SectorManager.instance.PlayerInSector)
+                {
+                    // Safe check for when player uses NoClip to leave the sector
+                    if (!playerCharacterController.enabled && !MopFsmManager.IsPlayerInCar())
+                    {
+                        SectorManager.instance.PlayerInSector = false;
+                        SectorManager.instance.ToggleActive(true);
+                    }
+                    IsPlayerOnYard = true;
+                }
+
                 int half = worldObjectList.Count / 2;
                 int i = 0;
 
                 // Disable Satsuma engine renderer, if player is in Satsuma
-                Satsuma.instance.ToggleRenderers(!MopFsmManager.IsPlayerInSatsuma());
+                Satsuma.instance.ToggleEngineRenderers(!MopFsmManager.IsPlayerInSatsuma());
+                yield return null;
 
                 try
                 {
                     // Go through the list worldObjectList list
                     for (i = 0; i < half; i++)
                     {
+                        WorldObject worldObject = worldObjectList.Get(i);
+
                         // Should the object be disabled when the player leaves the house?
-                        if (worldObjectList.Get(i).AwayFromHouse)
+                        if (worldObject.AwayFromHouse)
                         {
-                            worldObjectList.Get(i).Toggle(!IsPlayerOnYard);
+                            if (worldObject.gameObject.name == "NPC_CARS" && SectorManager.instance.PlayerInSector)
+                                continue;
+
+                            worldObject.Toggle(!IsPlayerOnYard);
                             continue;
                         }
 
                         // The object will be disables, if the player is in the range of that object.
-                        worldObjectList.Get(i).Toggle(IsEnabled(worldObjectList.Get(i).transform, worldObjectList.Get(i).Distance));
+                        worldObject.Toggle(IsEnabled(worldObject.transform, worldObject.Distance));
                     }
                 }
                 catch (Exception ex)
@@ -453,15 +473,20 @@ namespace MOP
                 {
                     for (; i < worldObjectList.Count; i++)
                     {
+                        WorldObject worldObject = worldObjectList.Get(i);
+
                         // Should the object be disabled when the player leaves the house?
-                        if (worldObjectList.Get(i).AwayFromHouse)
+                        if (worldObject.AwayFromHouse)
                         {
-                            worldObjectList.Get(i).Toggle(!IsPlayerOnYard);
+                            if (worldObject.gameObject.name == "NPC_CARS" && SectorManager.instance.PlayerInSector)
+                                continue;
+
+                            worldObject.Toggle(!IsPlayerOnYard);
                             continue;
                         }
 
                         // The object will be disables, if the player is in the range of that object.
-                        worldObjectList.Get(i).Toggle(IsEnabled(worldObjectList.Get(i).transform, worldObjectList.Get(i).Distance));
+                        worldObject.Toggle(IsEnabled(worldObject.transform, worldObject.Distance));
                     }
                 }
                 catch (Exception ex)
@@ -469,6 +494,7 @@ namespace MOP
                     ExceptionManager.New(ex, "CODE: 0-1");
                 }
 
+                // Safe mode prevents toggling elemenets that MAY case some issues (vehicles, items, etc.)
                 if (MopSettings.SafeMode)
                 {
                     yield return new WaitForSeconds(1);
@@ -570,6 +596,8 @@ namespace MOP
                     ExceptionManager.New(ex, "CODE: 3-0");
                 }
 
+                yield return null;
+
                 try
                 {
                     for (; i < places.Count; ++i)
@@ -595,6 +623,7 @@ namespace MOP
         {
             if (SectorManager.instance != null && SectorManager.instance.PlayerInSector)
                 toggleDistance = 30;
+
             return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
 
@@ -697,10 +726,8 @@ namespace MOP
             if (gameObject.GetComponent<SectorManager>() == null)
             {
                 this.gameObject.AddComponent<SectorManager>();
-                return;
             }
-            
-            if (gameObject.GetComponent<SectorManager>() != null)
+            else
             {
                 SectorManager.instance.DestroyAllSectors();
                 Destroy(gameObject.GetComponent<SectorManager>());

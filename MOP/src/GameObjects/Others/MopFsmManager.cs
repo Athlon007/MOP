@@ -74,5 +74,13 @@ namespace MOP
 
             return playerCurrentVehicle.Value == "Satsuma";
         }
+
+        public static bool IsPlayerInCar()
+        {
+            if (playerCurrentVehicle == null)
+                playerCurrentVehicle = PlayMakerGlobals.Instance.Variables.FindFsmString("PlayerCurrentVehicle");
+
+            return playerCurrentVehicle.Value.Length > 0;
+        }
     }
 }

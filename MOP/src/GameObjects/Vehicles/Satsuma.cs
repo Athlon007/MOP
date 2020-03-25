@@ -34,8 +34,12 @@ namespace MOP
 
         public bool IsSatsumaInInspectionArea { get; set; }
 
+        List<Renderer> renderers;
+        bool renderersToggled;
+
         List<Renderer> engineBayRenderers;
         Transform pivotHood;
+
 
         /// <summary>
         /// Initialize class
@@ -55,6 +59,12 @@ namespace MOP
             Transform block = this.gameObject.transform.Find("Chassis/sub frame(xxxxx)/CarMotorPivot/block(Clone)");
             engineBayRenderers = block.GetComponentsInChildren<Renderer>(true).ToList();
             pivotHood = this.gameObject.transform.Find("Body/pivot_hood");
+
+            // Get all the other renderers
+            renderers = new List<Renderer>();
+            Transform body = this.gameObject.transform.Find("Body");
+            renderers = this.gameObject.transform.GetComponentsInChildren<Renderer>(true)
+                .Where(t => !t.gameObject.name.ContainsAny("Sphere", "Capsule", "Cube")).ToList();
 
             // Ignore Rule
             IgnoreRule vehicleRule = RuleFiles.instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
@@ -94,6 +104,8 @@ namespace MOP
 
                 disableableObjects[i].gameObject.SetActive(enabled);
             }
+
+            ToggleAllRenderers(enabled);
         }
 
         /// <summary>
@@ -116,9 +128,11 @@ namespace MOP
             }
         }
 
-        public void ToggleRenderers(bool enabled)
+        public void ToggleEngineRenderers(bool enabled)
         {
-            if (!IsHoodAttached() && RuleFiles.instance.SpecialRules.SatsumaIgnoreEngineRenders) return;
+            if (!IsHoodAttached() && RuleFiles.instance.SpecialRules.SatsumaIgnoreRenderers) return;
+
+            if (renderersToggled) return;
 
             for (int i = 0; i< engineBayRenderers.Count; i++)
             {
@@ -129,6 +143,18 @@ namespace MOP
         bool IsHoodAttached()
         {
             return pivotHood.childCount > 0;
+        }
+
+        void ToggleAllRenderers(bool enabled)
+        {
+            if (RuleFiles.instance.SpecialRules.SatsumaIgnoreRenderers) return;
+
+            for (int i = 0; i < renderers.Count; i++)
+            {
+                renderers[i].enabled = enabled;
+            }
+
+            renderersToggled = enabled;
         }
     }
 }

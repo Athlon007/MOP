@@ -52,7 +52,7 @@ namespace MOP
 
     class SpecialRules
     {
-        public bool SatsumaIgnoreEngineRenders;
+        public bool SatsumaIgnoreRenderers;
         public bool DontDestroyEmptyBeerBottles;
     }
 
@@ -79,7 +79,9 @@ namespace MOP
         const string RemoteServer = "http://athlon.kkmr.pl/mop/rulefiles/";
         const int FileThresholdHours = 168; // 1 week
 
-        public RuleFiles(string mopConfigFolder)
+        bool overrideUpdateCheck;
+
+        public RuleFiles(string mopConfigFolder, bool overrideUpdateCheck = false)
         {
             instance = this;
             IgnoreRules = new List<IgnoreRule>();
@@ -97,7 +99,10 @@ namespace MOP
             lastModListPath = $"{mopConfigFolder}\\LastModList.mop";
             lastDateFilePath = $"{mopConfigFolder}\\LastUpdate.mop";
 
+            this.overrideUpdateCheck = overrideUpdateCheck;
+
             DownloadAndUpdateRules();
+            this.overrideUpdateCheck = false;
 
             DirectoryInfo dir = new DirectoryInfo(mopConfigFolder);
             FileInfo[] files = dir.GetFiles().Where(d => d.Name.EndsWith(".mopconfig")).ToArray();
@@ -201,8 +206,8 @@ namespace MOP
                     case "toggle_vehicle_physics_only":
                         ToggleRules.Add(new ToggleRule(value, ToggleModes.VehiclePhysics));
                         break;
-                    case "satsuma_ignore_engine_renderer":
-                        SpecialRules.SatsumaIgnoreEngineRenders = true;
+                    case "satsuma_ignore_renderer":
+                        SpecialRules.SatsumaIgnoreRenderers = true;
                         break;
                     case "dont_destroy_empty_beer_bottles":
                         SpecialRules.DontDestroyEmptyBeerBottles = true;
@@ -272,19 +277,16 @@ namespace MOP
             {
                 //Creating the HttpWebRequest
                 HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
-                //Setting the Request method HEAD, you can also use GET too.
                 request.Method = "HEAD";
-                //Getting the Web Response.
                 HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-                //Returns TRUE if the Status code == 200 and it's not 404.html website
-
                 string responseUri = response.ResponseUri.ToString();
                 response.Close();
+
+                //Returns TRUE if the Status code == 200 and it's not 404.html website
                 return (response.StatusCode == HttpStatusCode.OK && responseUri != "http://athlon.kkmr.pl/404.html");
             }
             catch
             {
-                //Any exception will returns false.
                 return false;
             }
         }
@@ -306,6 +308,9 @@ namespace MOP
 
         bool IsFileBelowThreshold(string filename, int hours)
         {
+            if (overrideUpdateCheck)
+                return true;
+
             var threshold = DateTime.Now.AddHours(-hours);
             return File.GetCreationTime(filename) <= threshold;
         }

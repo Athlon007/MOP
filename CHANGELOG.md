@@ -2,25 +2,37 @@
 
 ## 2.5 (tba)
 
+Note: First game start may take a little longer (depending on how many mods you have), because MOP has to download rule files.
+
 ### Added
 
 - Added rule files system!
   - From now on, all mod compatibility is done via the text files with .mopconfig format, dwonloaded from the remote server
   - No need to update MOP in order to add mod compatibility! (At least in most cases)
   - Mod compatibility rules can be updated if needed! MOP checks for rules update every week (you can force new check in the settings)
-- Engine renderers are now disabled, if player is in the car, and hood is attached
+- Satsuma renderers are now disabled, if not needed
+- Satsuma engine renderers are now disabled, if player is in the car, and hood is attached
 - Added disclaimer for pirated copies of the game
 - Added "Open output log" button into settings
 
 ### Changes
 
+- Sectors are now enabled for everyone
+- Improved how sectors work
 - Some console messages are now colored
 - Moved Generate 'Open Last Log' and 'Generate Mod Report' to new category - Logs
+- All game objects created by MOP will now have "MOP_" before their name
+- Code optimization
 
 ### Bug Fixes
 
 - Boat will not disappear/teleport back to the spawn position on respawn
 - Fixed doors at home seeming to
+- Increased toggling distance of water facility, so it doesn't clip on and off when player is on the junction next to school
+
+### Removed
+
+- Removed swamp from toggled world objects
 
 ## 2.4.4 (19.03.2020)
 

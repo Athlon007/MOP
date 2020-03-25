@@ -54,7 +54,7 @@ namespace MOP
             MopSettings.UpdateAll();
 
             // Create WorldManager game object
-            GameObject worldManager = new GameObject("WorldManager");
+            GameObject worldManager = new GameObject("MOP_WorldManager");
 
             // Initialize CompatibiliyManager
             new CompatibilityManager();
@@ -199,7 +199,7 @@ namespace MOP
             if (System.IO.File.Exists($"{ModConfigPath}\\LastUpdate.mop"))
                 System.IO.File.Delete($"{ModConfigPath}\\LastUpdate.mop");
 
-            new RuleFiles(ModConfigPath);
+            new RuleFiles(ModConfigPath, true);
         }
     }
 }

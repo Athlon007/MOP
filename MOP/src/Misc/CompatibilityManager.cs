@@ -39,7 +39,6 @@ namespace MOP
             instance = this;
             CDPlayerEnhanced = IsModPresent("CDPlayer");
             CarryMore = IsModPresent("CarryMore");
-            //ModConsole.Print("[MOP] Compatibility Manager done");
         }
 
         /// <summary>
@@ -58,8 +57,6 @@ namespace MOP
                 foreach (var mod in ModLoader.LoadedMods)
                     if (mod.ID == modID)
                         modName = mod.Name;
-
-                //ModConsole.Print($"[MOP] {modName} has been found!");
             }
 
             return isModPresent;
