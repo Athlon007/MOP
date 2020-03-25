@@ -43,7 +43,7 @@ namespace MOP
         public override void OnMenuLoad()
         {
             ModConfigPath = ModLoader.GetModConfigFolder(this);
-            new RuleFiles(ModConfigPath);
+            new RuleFiles();
         }
 
         /// <summary>
@@ -193,13 +193,19 @@ namespace MOP
 
         static void ForceRuleFilesUpdate()
         {
+            if (ModLoader.GetCurrentScene() != CurrentScene.MainMenu)
+            {
+                ModUI.ShowMessage("You can only force update while in main menu.");
+                return;
+            }
+
             if (System.IO.File.Exists($"{ModConfigPath}\\LastModList.mop"))
                 System.IO.File.Delete($"{ModConfigPath}\\LastModList.mop");
             
             if (System.IO.File.Exists($"{ModConfigPath}\\LastUpdate.mop"))
                 System.IO.File.Delete($"{ModConfigPath}\\LastUpdate.mop");
 
-            new RuleFiles(ModConfigPath, true);
+            new RuleFiles(true);
         }
     }
 }

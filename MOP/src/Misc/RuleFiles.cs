@@ -16,11 +16,13 @@
 
 using MSCLoader;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using UnityEngine;
 
 namespace MOP
 {
@@ -36,6 +38,14 @@ namespace MOP
         }
     }
 
+    /// <summary>
+    /// Toggling methods for items.
+    /// <list type="bullet">Normal - uses world objec toggling.</list>
+    /// <list type="bullet">Renderer - Toggles only renderer of the object.</list>
+    /// <list type="bullet">Item - Toggles object as it was an item.</list>
+    /// <list type="bullet">Vehicle - Toggles object as vehicle.</list>
+    /// <list type="bullet">VehiclePhysics - Toggles object as vehicle, but only the UnityCar part.</list>
+    /// </summary>
     public enum ToggleModes { Normal, Renderer, Item, Vehicle, VehiclePhysics };
 
     class ToggleRule
@@ -50,6 +60,9 @@ namespace MOP
         }
     }
 
+    /// <summary>
+    /// This class is intended for special flags used in specific cases.
+    /// </summary>
     class SpecialRules
     {
         public bool SatsumaIgnoreRenderers;
@@ -60,28 +73,23 @@ namespace MOP
     {
         public static RuleFiles instance;
 
+        // Ignore rules.
         public List<IgnoreRule> IgnoreRules;
-        public List<ToggleRule> ToggleRules;        
-        
         public List<IgnoreRule> YardIgnoreRules;
         public List<IgnoreRule> StoreIgnoreRules;
         public List<IgnoreRule> RepairShopIgnoreRules;
         public List<IgnoreRule> InspectionIgnoreRules;
 
+        // Toggling rules.
+        public List<ToggleRule> ToggleRules;        
+
+        // Special rules.
         public SpecialRules SpecialRules;
 
+        // Used for mod report only.
         public List<string> RuleFileNames;
 
-        string mopConfigFolder;
-        string lastModListPath;
-        string lastDateFilePath;
-
-        const string RemoteServer = "http://athlon.kkmr.pl/mop/rulefiles/";
-        const int FileThresholdHours = 168; // 1 week
-
-        bool overrideUpdateCheck;
-
-        public RuleFiles(string mopConfigFolder, bool overrideUpdateCheck = false)
+        public RuleFiles(bool overrideUpdateCheck = false)
         {
             instance = this;
             IgnoreRules = new List<IgnoreRule>();
@@ -95,139 +103,80 @@ namespace MOP
             this.SpecialRules = new SpecialRules();
             this.RuleFileNames = new List<string>();
 
-            this.mopConfigFolder = mopConfigFolder;
-            lastModListPath = $"{mopConfigFolder}\\LastModList.mop";
-            lastDateFilePath = $"{mopConfigFolder}\\LastUpdate.mop";
+            if (GameObject.Find("MOP_RuleFilesLoader") != null)
+            {
+                GameObject.Destroy(GameObject.Find("MOP_RuleFilesLoader"));
+            }
+
+            GameObject ruleFileDownloader = new GameObject("MOP_RuleFilesLoader");
+            RuleFilesLoader ruleFilesLoader = ruleFileDownloader.AddComponent<RuleFilesLoader>();
+            ruleFilesLoader.Initialize(overrideUpdateCheck);
+        }
+    }
+
+    class RuleFilesLoader : MonoBehaviour
+    {
+        const string RemoteServer = "http://athlon.kkmr.pl/mop/rulefiles/";
+        const int FileThresholdHours = 168; // 1 week
+
+        string lastModListPath;
+        string lastDateFilePath;
+
+        bool fileDownloadCompleted;
+        bool overrideUpdateCheck;
+
+        List<PlayMakerFSM> buttonsFsms;
+        TextMesh message;
+
+        public void Initialize(bool overrideUpdateCheck)
+        {
+            lastModListPath = $"{MOP.ModConfigPath}\\LastModList.mop";
+            lastDateFilePath = $"{MOP.ModConfigPath}\\LastUpdate.mop";
 
             this.overrideUpdateCheck = overrideUpdateCheck;
 
-            DownloadAndUpdateRules();
-            this.overrideUpdateCheck = false;
-
-            DirectoryInfo dir = new DirectoryInfo(mopConfigFolder);
-            FileInfo[] files = dir.GetFiles().Where(d => d.Name.EndsWith(".mopconfig")).ToArray();
-            if (files.Length == 0)
+            if (GameObject.Find("MOP_Messager") != null)
             {
-                ModConsole.Print($"[MOP] No rule files found");
-                return;
+                message = GameObject.Find("MOP_Messager").GetComponent<TextMesh>();
+            }
+            else
+            {
+                GameObject text = GameObject.Instantiate(GameObject.Find("Interface/Songs/Text"));
+                GameObject.Destroy(text.transform.GetChild(0).gameObject);
+                text.transform.localPosition = new Vector3(0, -2.40f, 0.01f);
+                text.name = "MOP_Messager";
+                message = text.GetComponent<TextMesh>();
+                message.alignment = TextAlignment.Center;
+                message.anchor = TextAnchor.UpperCenter;
+                message.text = "";
             }
 
-            ModConsole.Print($"[MOP] Found {files.Length} rule file{(files.Length > 1 ? "s" : "")}!");
-
-            List<string> modIds = new List<string>();
-            foreach (var mod in ModLoader.LoadedMods)
-                modIds.Add(mod.ID);
-
-            foreach (FileInfo file in files)
+            buttonsFsms = new List<PlayMakerFSM>
             {
-                // Delete rules for mods that don't exist
-                if (!modIds.Contains(Path.GetFileNameWithoutExtension(file.Name)))
-                {
-                    File.Delete(file.FullName);
-                    ModConsole.Print($"<color=yellow>[MOP] Rule file {file.Name} has been deleted, because corresponding mod is not present.</color>");
-                    continue;
-                }
+                GameObject.Find("Interface/Buttons/ButtonContinue").GetComponent<PlayMakerFSM>(),
+                GameObject.Find("Interface/Buttons/ButtonNewgame").GetComponent<PlayMakerFSM>()
+            };
 
-                RuleFileNames.Add(file.Name);
-                ReadRules(file.FullName);
-            }
+            foreach (PlayMakerFSM fsm in buttonsFsms)
+                fsm.enabled = false;
 
-            ModConsole.Print("[MOP] Loading rule files done!");
-        }
-
-
-        void ReadRules(string rulePath)
-        {
-            // You know the rules and so do I
-            // A full commitment's what I'm thinking of
-            // You wouldn't get this from any other guy
-            
-            // I just wanna tell you how I'm feeling
-            // Gotta make you understand
-            
-            // Never gonna give you up
-            // Never gonna let you down
-            // Never gonna run around and desert you
-            // Never gonna make you cry
-            // Never gonna say goodbye
-            // Never gonna tell a lie and hurt you
-
-            string[] content = File.ReadAllLines(rulePath).Where(s => s.Length > 0 && !s.StartsWith("##") && s.Contains(":")).ToArray();
-            foreach (string s in content)
-            {
-                string flag = s.Split(':')[0];
-                string value = s.Split(':')[1].Trim();
-
-                switch (flag)
-                {
-                    default:
-                        ModConsole.Error($"[MOP] Unrecognized flag '{flag}' in file {rulePath}");
-                        break;
-                    case "ignore":
-                        IgnoreRules.Add(new IgnoreRule(value, false));
-                        break;
-                    case "ignore_full":
-                        IgnoreRules.Add(new IgnoreRule(value, true));
-                        break;
-                    case "ignore_at_place":
-                        string place = value.Split(' ')[0];
-                        string obj = value.Split(' ')[1];
-                        switch (place)
-                        {
-                            default:
-                                ModConsole.Error($"[MOP] Unrecognized place '{place}' in flag '{flag}' in file {rulePath}");
-                                break;
-                            case "STORE":
-                                StoreIgnoreRules.Add(new IgnoreRule(obj, false));
-                                break;
-                            case "YARD":
-                                YardIgnoreRules.Add(new IgnoreRule(obj, false));
-                                break;
-                            case "REPAIRSHOP":
-                                RepairShopIgnoreRules.Add(new IgnoreRule(obj, false));
-                                break;
-                            case "INSPECTION":
-                                InspectionIgnoreRules.Add(new IgnoreRule(obj, false));
-                                break;
-                        }
-                        break;
-                    case "toggle":
-                        ToggleRules.Add(new ToggleRule(value, ToggleModes.Normal));
-                        break;
-                    case "toggle_renderer":
-                        ToggleRules.Add(new ToggleRule(value, ToggleModes.Renderer));
-                        break;
-                    case "toggle_item":
-                        ToggleRules.Add(new ToggleRule(value, ToggleModes.Item));
-                        break;
-                    case "toggle_vehicle":
-                        ToggleRules.Add(new ToggleRule(value, ToggleModes.Vehicle));
-                        break;
-                    case "toggle_vehicle_physics_only":
-                        ToggleRules.Add(new ToggleRule(value, ToggleModes.VehiclePhysics));
-                        break;
-                    case "satsuma_ignore_renderer":
-                        SpecialRules.SatsumaIgnoreRenderers = true;
-                        break;
-                    case "dont_destroy_empty_beer_bottles":
-                        SpecialRules.DontDestroyEmptyBeerBottles = true;
-                        break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Downloads the rule file from server
-        /// </summary>
-        void DownloadAndUpdateRules()
-        {
             if (!IsServerOnline())
             {
-                ModConsole.Error("[MOP] Remote server is down, or you are not connected to the Internet. " +
-                    "Couldn't update rule files.");
-                return;
-            }
+                ModConsole.Error("[MOP] Connection error. Couldn't download new rule files.");
 
+                ReadFiles();
+
+                foreach (PlayMakerFSM fsm in buttonsFsms)
+                    fsm.enabled = true;
+            }
+            else
+            {
+                StartCoroutine(DownloadAndUpdateRoutine());
+            }
+        }
+
+        IEnumerator DownloadAndUpdateRoutine()
+        { 
             string lastModList = File.Exists(lastModListPath) ? File.ReadAllText(lastModListPath) : "";
             Mod[] mods = ModLoader.LoadedMods.Where(m => !m.ID.ContainsAny("MSCLoader_", "MOP")).ToArray();
             string modListString = "";
@@ -242,7 +191,7 @@ namespace MOP
                 modListString += $"{modId}\n";
 
                 string ruleUrl = RemoteServer + modId + ".mopconfig";
-                string filePath = $"{mopConfigFolder}\\{modId}.mopconfig";
+                string filePath = $"{MOP.ModConfigPath}\\{modId}.mopconfig";
 
                 if (File.Exists(filePath) && !IsFileBelowThreshold(filePath, FileThresholdHours))
                 {
@@ -258,19 +207,76 @@ namespace MOP
                     continue;
 
                 ModConsole.Print($"<color=yellow>[MOP] Downloading new rule file for {mod.Name}...</color>");
-                using (WebClient web = new WebClient())
+                message.text = $"MOP: Downloading new rule file for {mod.Name}...";
+                fileDownloadCompleted = false;
+                using (WebClient web = new WebClientWithTimeout())
                 {
-                    web.DownloadFile(new Uri(ruleUrl), filePath);
+                    web.DownloadFileCompleted += DownloadFileCompleted;
+                    web.DownloadFileAsync(new Uri(ruleUrl), filePath);
+                    
+                    while (!fileDownloadCompleted)
+                        yield return new WaitForSeconds(.5f);
+
                     web.Dispose();
                 }
+
                 ModConsole.Print("<color=green>[MOP] Downloading completed!</color>");
             }
 
             File.WriteAllText(lastModListPath, modListString);
             if (isUpdateTime)
                 File.WriteAllText(lastDateFilePath, DateTime.Now.ToString());
+
+            // File downloading and updating completed!
+            // Start reading those files.   
+            ReadFiles();
         }
 
+        void DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            fileDownloadCompleted = true;
+        }
+
+        void ReadFiles()
+        {
+            overrideUpdateCheck = false;
+
+            DirectoryInfo dir = new DirectoryInfo(MOP.ModConfigPath);
+            FileInfo[] files = dir.GetFiles().Where(d => d.Name.EndsWith(".mopconfig")).ToArray();
+            if (files.Length == 0)
+            {
+                ModConsole.Print($"[MOP] No rule files found.");
+                message.text = "";
+                return;
+            }
+
+            ModConsole.Print($"[MOP] Found {files.Length} rule file{(files.Length > 1 ? "s" : "")}!");
+
+            // Read rule files
+            foreach (FileInfo file in files)
+            {
+                // Delete rules for mods that don't exist.
+                if (ModLoader.LoadedMods.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name)) == null)
+                {
+                    File.Delete(file.FullName);
+                    ModConsole.Print($"<color=yellow>[MOP] Rule file {file.Name} has been deleted, because corresponding mod is not present.</color>");
+                    continue;
+                }
+
+                RuleFiles.instance.RuleFileNames.Add(file.Name);
+                ReadRule(file.FullName);
+            }
+
+            ModConsole.Print("[MOP] Loading rule files done!");
+            message.text = "MOP: Loading rule files done!";
+
+            foreach (PlayMakerFSM fsm in buttonsFsms)
+                fsm.enabled = true;
+        }
+
+        /// <summary>
+        /// Checks if there's a rule file on the server corresponding to the mod.
+        /// </summary>
         bool RemoteFileExists(string url)
         {
             try
@@ -291,11 +297,14 @@ namespace MOP
             }
         }
 
+        /// <summary>
+        /// Checks if the server is online
+        /// </summary>
         bool IsServerOnline()
         {
             try
             {
-                Ping ping = new Ping();
+                System.Net.NetworkInformation.Ping ping = new System.Net.NetworkInformation.Ping();
                 // 10 seconds time out (in ms).
                 PingReply reply = ping.Send("athlon.kkmr.pl", 10 * 1000);
                 return reply.Status == IPStatus.Success;
@@ -306,6 +315,9 @@ namespace MOP
             }
         }
 
+        /// <summary>
+        /// Checks if the rule file should be updated.
+        /// </summary>
         bool IsFileBelowThreshold(string filename, int hours)
         {
             if (overrideUpdateCheck)
@@ -315,16 +327,105 @@ namespace MOP
             return File.GetCreationTime(filename) <= threshold;
         }
 
+        /// <summary>
+        /// Returns true, if the time saved into the file with added FileThresholdHours is larger than the current time.
+        /// </summary>
         bool IsUpdateTime()
         {
-            DateTime past;
-            if (DateTime.TryParse(File.ReadAllText(lastDateFilePath), out past))
+            if (DateTime.TryParse(File.ReadAllText(lastDateFilePath), out DateTime past))
             {
                 past = past.AddHours(FileThresholdHours);
                 return DateTime.Now > past;
             }
 
             return true;
+        }
+
+        // You know the rules and so do I
+        // A full commitment's what I'm thinking of
+        // You wouldn't get this from any other guy
+        // I just wanna tell you how I'm feeling
+        // Gotta make you understand
+        // Never gonna give you up
+        // Never gonna let you down
+        // Never gonna run around and desert you
+        // Never gonna make you cry
+        // Never gonna say goodbye
+        // Never gonna tell a lie and hurt you
+
+        void ReadRule(string rulePath)
+        {
+            string[] content = File.ReadAllLines(rulePath).Where(s => s.Length > 0 && !s.StartsWith("##")).ToArray();
+            foreach (string s in content)
+            {
+                string[] split = s.Split(':');
+
+                switch (split[0])
+                {
+                    default:
+                        ModConsole.Error($"[MOP] Unrecognized flag '{split[0]}' in file {rulePath}");
+                        break;
+                    case "ignore":
+                        RuleFiles.instance.IgnoreRules.Add(new IgnoreRule(split[1].Trim(), false));
+                        break;
+                    case "ignore_full":
+                        RuleFiles.instance.IgnoreRules.Add(new IgnoreRule(split[1].Trim(), true));
+                        break;
+                    case "ignore_at_place":
+                        string place = split[1].Trim().Split(' ')[0];
+                        string obj = split[1].Trim().Split(' ')[1];
+                        switch (place)
+                        {
+                            default:
+                                ModConsole.Error($"[MOP] Unrecognized place '{place}' in flag '{split[0]}' in file {rulePath}");
+                                break;
+                            case "STORE":
+                                RuleFiles.instance.StoreIgnoreRules.Add(new IgnoreRule(obj, false));
+                                break;
+                            case "YARD":
+                                RuleFiles.instance.YardIgnoreRules.Add(new IgnoreRule(obj, false));
+                                break;
+                            case "REPAIRSHOP":
+                                RuleFiles.instance.RepairShopIgnoreRules.Add(new IgnoreRule(obj, false));
+                                break;
+                            case "INSPECTION":
+                                RuleFiles.instance.InspectionIgnoreRules.Add(new IgnoreRule(obj, false));
+                                break;
+                        }
+                        break;
+                    case "toggle":
+                        RuleFiles.instance.ToggleRules.Add(new ToggleRule(split[1].Trim(), ToggleModes.Normal));
+                        break;
+                    case "toggle_renderer":
+                        RuleFiles.instance.ToggleRules.Add(new ToggleRule(split[1].Trim(), ToggleModes.Renderer));
+                        break;
+                    case "toggle_item":
+                        RuleFiles.instance.ToggleRules.Add(new ToggleRule(split[1].Trim(), ToggleModes.Item));
+                        break;
+                    case "toggle_vehicle":
+                        RuleFiles.instance.ToggleRules.Add(new ToggleRule(split[1].Trim(), ToggleModes.Vehicle));
+                        break;
+                    case "toggle_vehicle_physics_only":
+                        RuleFiles.instance.ToggleRules.Add(new ToggleRule(split[1].Trim(), ToggleModes.VehiclePhysics));
+                        break;
+                    case "satsuma_ignore_renderer":
+                        RuleFiles.instance.SpecialRules.SatsumaIgnoreRenderers = true;
+                        break;
+                    case "dont_destroy_empty_beer_bottles":
+                        RuleFiles.instance.SpecialRules.DontDestroyEmptyBeerBottles = true;
+                        break;
+                }
+            }
+        }
+    }
+
+    public class WebClientWithTimeout : WebClient
+    {
+        protected override WebRequest GetWebRequest(Uri address)
+        {
+            WebRequest wr = base.GetWebRequest(address);
+            wr.Timeout = 30 * 1000; // timeout in milliseconds (ms)
+            return wr;
         }
     }
 }

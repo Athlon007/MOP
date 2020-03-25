@@ -14,6 +14,7 @@ Note: First game start may take a little longer (depending on how many mods you 
 - Satsuma engine renderers are now disabled, if player is in the car, and hood is attached
 - Added disclaimer for pirated copies of the game
 - Added "Open output log" button into settings
+- Added more items to toggled objects
 
 ### Changes
 
