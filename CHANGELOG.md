@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.5 Preview 1 (25.03.2020)
+## 2.5 Development 1 (25.03.2020)
 
 Note: First game start may take a little longer (depending on how many mods you have), because MOP has to download rule files.
 
