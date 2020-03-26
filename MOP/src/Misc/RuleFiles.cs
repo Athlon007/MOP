@@ -127,6 +127,7 @@ namespace MOP
 
         List<PlayMakerFSM> buttonsFsms;
         TextMesh message;
+        TextMesh shadow;
 
         public void Initialize(bool overrideUpdateCheck)
         {
@@ -142,13 +143,13 @@ namespace MOP
             else
             {
                 GameObject text = GameObject.Instantiate(GameObject.Find("Interface/Songs/Text"));
-                GameObject.Destroy(text.transform.GetChild(0).gameObject);
-                text.transform.localPosition = new Vector3(0, -2.40f, 0.01f);
+                text.transform.localPosition = new Vector3(-6.1f, 2.25f, 0.01f);
                 text.name = "MOP_Messager";
                 message = text.GetComponent<TextMesh>();
-                message.alignment = TextAlignment.Center;
-                message.anchor = TextAnchor.UpperCenter;
-                message.text = "";
+                message.alignment = TextAlignment.Left;
+                message.anchor = TextAnchor.UpperLeft;
+                shadow = text.transform.GetChild(0).gameObject.GetComponent<TextMesh>();
+                NewMessage("");
             }
 
             buttonsFsms = new List<PlayMakerFSM>
@@ -207,7 +208,7 @@ namespace MOP
                     continue;
 
                 ModConsole.Print($"<color=yellow>[MOP] Downloading new rule file for {mod.Name}...</color>");
-                message.text = $"MOP: Downloading new rule file for {mod.Name}...";
+                NewMessage($"MOP: Downloading new rule file for {mod.Name}...");
                 fileDownloadCompleted = false;
                 using (WebClient web = new WebClientWithTimeout())
                 {
@@ -246,7 +247,7 @@ namespace MOP
             if (files.Length == 0)
             {
                 ModConsole.Print($"[MOP] No rule files found.");
-                message.text = "";
+                NewMessage("");
                 return;
             }
 
@@ -268,7 +269,7 @@ namespace MOP
             }
 
             ModConsole.Print("[MOP] Loading rule files done!");
-            message.text = "MOP: Loading rule files done!";
+            NewMessage($"MOP: Loading {files.Length} rule file{(files.Length > 1 ? "s" : "")} done!");
 
             foreach (PlayMakerFSM fsm in buttonsFsms)
                 fsm.enabled = true;
@@ -416,6 +417,12 @@ namespace MOP
                         break;
                 }
             }
+        }
+
+        void NewMessage(string value)
+        {
+            message.text = value;
+            shadow.text = value;
         }
     }
 

@@ -38,7 +38,7 @@ namespace MOP
 
         WorldObjectList worldObjectList;
 
-        bool IsPlayerOnYard { get; set; }
+        bool isPlayerAtYard;
 
         public WorldManager()
         {
@@ -50,8 +50,8 @@ namespace MOP
         {
             yield return new WaitForSeconds(2);
 
-            // If the GT grille is attached, perform extra delay, until the "grille gt(Clone)" parent isn't "pivot_grille".
-            // Or until 5 seconds have passed.
+            // If the GT grille is attached, perform extra delay, until the "grille gt(Clone)" parent isn't "pivot_grille",
+            // or until 5 seconds have passed.
             int ticks = 0;
             Transform gtGrilleTransform = GameObject.Find("grille gt(Clone)").transform;
             while (MopFsmManager.IsGTGrilleInstalled() && gtGrilleTransform.parent.name != "pivot_grille")
@@ -279,7 +279,7 @@ namespace MOP
 
             HookPreSaveGame();
 
-            ModConsole.Print("[MOP] Loading flag rules");
+            ModConsole.Print("[MOP] Loading rules...");
             foreach (ToggleRule v in RuleFiles.instance.ToggleRules)
             {
 
@@ -421,18 +421,21 @@ namespace MOP
                 if (ticks > 1000)
                     ticks = 0;
 
-                IsPlayerOnYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, places[0].transform.position) < 100 
+                isPlayerAtYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, places[0].transform.position) < 100 
                     : Vector3.Distance(player.position, places[0].transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 
+                // When player is in any of the sectors, MOP will act like the player is at yard.
                 if (SectorManager.instance.PlayerInSector)
                 {
-                    // Safe check for when player uses NoClip to leave the sector
+                    // Safe check for when player uses NoClip to leave the sector.
+                    // If player leaves the sector using NoClip, PlayerInSector toggle will be disabled.
                     if (!playerCharacterController.enabled && !MopFsmManager.IsPlayerInCar())
                     {
                         SectorManager.instance.PlayerInSector = false;
                         SectorManager.instance.ToggleActive(true);
                     }
-                    IsPlayerOnYard = true;
+
+                    isPlayerAtYard = true;
                 }
 
                 int half = worldObjectList.Count / 2;
@@ -455,7 +458,7 @@ namespace MOP
                             if (worldObject.gameObject.name == "NPC_CARS" && SectorManager.instance.PlayerInSector)
                                 continue;
 
-                            worldObject.Toggle(!IsPlayerOnYard);
+                            worldObject.Toggle(!isPlayerAtYard);
                             continue;
                         }
 
@@ -482,7 +485,7 @@ namespace MOP
                             if (worldObject.gameObject.name == "NPC_CARS" && SectorManager.instance.PlayerInSector)
                                 continue;
 
-                            worldObject.Toggle(!IsPlayerOnYard);
+                            worldObject.Toggle(!isPlayerAtYard);
                             continue;
                         }
 
@@ -523,7 +526,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, "CODE: 1-1");
+                    ExceptionManager.New(ex, "CODE: 1-0");
                 }
 
                 yield return null;
@@ -547,7 +550,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, "CODE: 1-2");
+                    ExceptionManager.New(ex, "CODE: 1-1");
                 }
 
                 // Items (new)
@@ -556,6 +559,9 @@ namespace MOP
                 for (i = 0; i < full; i++)
                 {
                     if (i % half == 0) yield return null;
+
+                    // Safe check if somehow the i gets bigger than array length.
+                    if (i > Items.instance.ItemsHooks.Count) break;
 
                     try
                     {
@@ -567,8 +573,8 @@ namespace MOP
                             // Remove item at the current i
                             Items.instance.ItemsHooks.RemoveAt(i);
 
-                            // Decrease the i by 1, because the List has shifted, so the items will not be skipped
-                            // Then continue;
+                            // Decrease the i by 1, because the List has shifted, so the items will not be skipped.
+                            // Then continue.
                             i--;
                             half = Items.instance.ItemsHooks.Count / 2;
                             full = Items.instance.ItemsHooks.Count;
@@ -663,17 +669,14 @@ namespace MOP
                 {
                     if (restartTried)
                     {
-                        ModConsole.Print("[MOP] Restart attempt failed. Safe Mode will be enabled this time.\n\n" +
-                            "You can try and disable some objects (like Vehicles and Store Items) from being disabled.");
+                        ModConsole.Error("[MOP] Restart attempt failed. Enabling Safe Mode.");
+                        ModConsole.Error("[MOP] Please contact mod developer. Make sure you send output_log and last MOP crash log!");
                         MopSettings.SafeMode = true;
                         ToggleActiveAll();
                     }
 
                     restartTried = true;
-                    ModConsole.Error("[MOP] MOP has stopped working. Trying to restart the now...\n\n" +
-                        "If the issue will still occure, please turn on output_log.txt in MSC Mod Loader settings, " +
-                        "and check output_log.txt in MSC folder.\n\noutput_log.txt is located in mysummercar_Data " +
-                        "in My Summer Car folder.");
+                    ModConsole.Warning("[MOP] MOP has stopped working! Trying to restart the now...");
                     StartCoroutine(LoopRoutine());
                 }
 

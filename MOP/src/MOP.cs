@@ -158,7 +158,7 @@ namespace MOP
 
             // Changelog
             Settings.AddHeader(this, "Changelog", headerColor);
-            Settings.AddText(this, Properties.Resources.changelog);
+            Settings.AddText(this, GetChangelog());
         }
 
         static void OpenFAQDialog()
@@ -206,6 +206,37 @@ namespace MOP
                 System.IO.File.Delete($"{ModConfigPath}\\LastUpdate.mop");
 
             new RuleFiles(true);
+        }
+
+        string GetChangelog()
+        {
+            string[] changelog = Properties.Resources.changelog.Split('\n');
+            string output = "";
+            for (int i = 0; i < changelog.Length; i++)
+            {
+                string line = changelog[i];
+                if (line.StartsWith("###"))
+                {
+                    line = line.Replace("###", "");
+                    line = $"<color=yellow><size=24>{line}</size></color>";
+                }
+                
+                if (line.StartsWith("-"))
+                {
+                    line = line.Substring(1);
+                    line = $"• {line}";
+                }
+
+                if (line.StartsWith("  -"))
+                {
+                    line = line.Substring(3);
+                    line = $"    • {line}";
+                }
+
+                output += line + "\n";
+            }
+
+            return output;
         }
     }
 }

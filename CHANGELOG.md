@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.5 Development 2 (tba)
+
+### Changes
+
+- Changed some console messages
+- Improved the readibility of changelog
+- (Development) Moved MOP messages to the upper left corner in main menu
+- (Development) Added text shadow behind the messages text
+
+### Bug Fixes
+
+- Fixed possible index out of range bug while toggling items
+
 ## 2.5 Development 1 (25.03.2020)
 
 Note: First game start may take a little longer (depending on how many mods you have), because MOP has to download rule files.
@@ -18,6 +31,7 @@ Note: First game start may take a little longer (depending on how many mods you 
 
 ### Changes
 
+- MOP is now being loaded in the main menu
 - Sectors are now enabled for everyone
 - Improved how sectors work
 - Some console messages are now colored
@@ -28,7 +42,7 @@ Note: First game start may take a little longer (depending on how many mods you 
 ### Bug Fixes
 
 - Boat will not disappear/teleport back to the spawn position on respawn
-- Fixed doors at home seeming to
+- Fixed doors at home seeming to be open, while in fact they were closed
 - Increased toggling distance of water facility, so it doesn't clip on and off when player is on the junction next to school
 
 ### Removed
