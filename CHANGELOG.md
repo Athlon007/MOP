@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.5 Development 2 (tba)
+## 2.5 Development 2 (27.03.2020)
 
 ### Changes
 
@@ -8,6 +8,7 @@
 - Improved the readibility of changelog
 - (Development) Moved MOP messages to the upper left corner in main menu
 - (Development) Added text shadow behind the messages text
+- (Development) Added time out for downloading rule files
 
 ### Bug Fixes
 

@@ -133,7 +133,6 @@ namespace MOP
         {
             lastModListPath = $"{MOP.ModConfigPath}\\LastModList.mop";
             lastDateFilePath = $"{MOP.ModConfigPath}\\LastUpdate.mop";
-
             this.overrideUpdateCheck = overrideUpdateCheck;
 
             if (GameObject.Find("MOP_Messager") != null)
@@ -159,17 +158,20 @@ namespace MOP
                 GameObject.Find("Interface/Buttons/ButtonNewgame").GetComponent<PlayMakerFSM>()
             };
 
-            foreach (PlayMakerFSM fsm in buttonsFsms)
-                fsm.enabled = false;
+            ToggleButtons(false);
 
+            // If server or user is offline, skip downloading and simply load available files.
             if (!IsServerOnline())
             {
                 ModConsole.Error("[MOP] Connection error. Couldn't download new rule files.");
 
-                ReadFiles();
+                try
+                {
+                    ReadFiles();
+                }
+                catch { }
 
-                foreach (PlayMakerFSM fsm in buttonsFsms)
-                    fsm.enabled = true;
+                ToggleButtons(true);
             }
             else
             {
@@ -209,20 +211,33 @@ namespace MOP
                     continue;
 
                 fileDownloadCompleted = false;
-                ModConsole.Print("beep");
                 using (WebClient web = new WebClient())
                 {
                     ModConsole.Print($"<color=yellow>[MOP] Downloading new rule file for {mod.Name}...</color>");
                     NewMessage($"MOP: Downloading new rule file for {mod.Name}...");
-                    web.Headers.Add("user-agent", $"MOP");
+                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {SystemInfo.operatingSystem}");
                     if (File.Exists(filePath))
                         File.Delete(filePath);
 
                     web.DownloadFileCompleted += DownloadFileCompleted;
                     web.DownloadFileAsync(new Uri(ruleUrl), filePath);
 
+                    int waitTime = 0;
                     while (!fileDownloadCompleted)
+                    {
                         yield return new WaitForSeconds(.5f);
+                        waitTime++;
+
+                        // If wait time is longer than 30 seconds, abandon downloading.
+                        if (waitTime > 60)
+                        {
+                            ModConsole.Error("[MOP] Downloading failed. Skipping downloading.");
+                            NewMessage("MOP: Downloading failed. Skipping downloading.");
+                            ToggleButtons(true);
+                            ReadFiles();
+                            yield break;
+                        }
+                    }
 
                     web.Dispose();
                 }
@@ -266,7 +281,8 @@ namespace MOP
                 if (ModLoader.LoadedMods.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name)) == null)
                 {
                     File.Delete(file.FullName);
-                    ModConsole.Print($"<color=yellow>[MOP] Rule file {file.Name} has been deleted, because corresponding mod is not present.</color>");
+                    ModConsole.Print($"<color=yellow>[MOP] Rule file {file.Name} has been deleted, " +
+                        $"because corresponding mod is not present.</color>");
                     continue;
                 }
 
@@ -277,8 +293,7 @@ namespace MOP
             ModConsole.Print("[MOP] Loading rule files done!");
             NewMessage($"MOP: Loading {files.Length} rule file{(files.Length > 1 ? "s" : "")} done!");
 
-            foreach (PlayMakerFSM fsm in buttonsFsms)
-                fsm.enabled = true;
+            ToggleButtons(true);
         }
 
         /// <summary>
@@ -429,6 +444,12 @@ namespace MOP
         {
             message.text = value;
             shadow.text = value;
+        }
+
+        void ToggleButtons(bool enabled)
+        {
+            foreach (PlayMakerFSM fsm in buttonsFsms)
+                fsm.enabled = enabled;
         }
     }
 }

@@ -39,10 +39,13 @@ namespace MOP
         public override bool LoadInMenu => true;
 
         public static string ModConfigPath;
+        public static string ModVersion;
 
         public override void OnMenuLoad()
         {
             ModConfigPath = ModLoader.GetModConfigFolder(this);
+            ModVersion = Version;
+            ModConsole.Print($"MOP/{ModVersion}");
             new RuleFiles();
         }
 
@@ -111,7 +114,7 @@ namespace MOP
         public override void ModSettings()
         {
 #if DEBUG
-            Settings.AddHeader(this, "Debug version. DO NOT DISTRIBUTE!", Color.red, Color.black);
+            Settings.AddHeader(this, "Shh...Don't leak my hard work ;)", Color.red, Color.black);
 #endif
 
             if (!ModLoader.CheckSteam())
