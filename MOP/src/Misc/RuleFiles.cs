@@ -139,6 +139,7 @@ namespace MOP
             if (GameObject.Find("MOP_Messager") != null)
             {
                 message = GameObject.Find("MOP_Messager").GetComponent<TextMesh>();
+                shadow = message.gameObject.transform.GetChild(0).gameObject.GetComponent<TextMesh>();
             }
             else
             {
@@ -191,7 +192,7 @@ namespace MOP
                 string modId = mod.ID;
                 modListString += $"{modId}\n";
 
-                string ruleUrl = RemoteServer + modId + ".mopconfig";
+                string ruleUrl = $"{RemoteServer}{modId}.mopconfig";
                 string filePath = $"{MOP.ModConfigPath}\\{modId}.mopconfig";
 
                 if (File.Exists(filePath) && !IsFileBelowThreshold(filePath, FileThresholdHours))
@@ -207,14 +208,19 @@ namespace MOP
                 if (!RemoteFileExists(ruleUrl))
                     continue;
 
-                ModConsole.Print($"<color=yellow>[MOP] Downloading new rule file for {mod.Name}...</color>");
-                NewMessage($"MOP: Downloading new rule file for {mod.Name}...");
                 fileDownloadCompleted = false;
-                using (WebClient web = new WebClientWithTimeout())
+                ModConsole.Print("beep");
+                using (WebClient web = new WebClient())
                 {
+                    ModConsole.Print($"<color=yellow>[MOP] Downloading new rule file for {mod.Name}...</color>");
+                    NewMessage($"MOP: Downloading new rule file for {mod.Name}...");
+                    web.Headers.Add("user-agent", $"MOP");
+                    if (File.Exists(filePath))
+                        File.Delete(filePath);
+
                     web.DownloadFileCompleted += DownloadFileCompleted;
                     web.DownloadFileAsync(new Uri(ruleUrl), filePath);
-                    
+
                     while (!fileDownloadCompleted)
                         yield return new WaitForSeconds(.5f);
 
@@ -423,16 +429,6 @@ namespace MOP
         {
             message.text = value;
             shadow.text = value;
-        }
-    }
-
-    public class WebClientWithTimeout : WebClient
-    {
-        protected override WebRequest GetWebRequest(Uri address)
-        {
-            WebRequest wr = base.GetWebRequest(address);
-            wr.Timeout = 30 * 1000; // timeout in milliseconds (ms)
-            return wr;
         }
     }
 }

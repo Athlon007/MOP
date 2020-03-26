@@ -38,16 +38,16 @@ namespace MOP
                 File.Delete("MOP_LOG.txt");
 
             string gameInfo = GetGameInfo();
-            string errorInfo = ex.Message + "\n" + ex.StackTrace + "\nTarget Site: " + ex.TargetSite;
+            string errorInfo = $"{ex.Message}\n{ex.StackTrace}\nTarget Site: {ex.TargetSite}";
 
             using (StreamWriter sw = new StreamWriter("MOP_LOG.txt"))
             {
-                sw.Write(gameInfo + "\n=== ERROR ===\n\n" + errorInfo + "\n\n" + message);
+                sw.Write($"{gameInfo}\n=== ERROR ===\n\n{errorInfo}\n\n{message}");
                 sw.Close();
             }
 
             ModConsole.Error("[MOP] An error has occured. " +
-                "Log has been saved in My Summer Car folder into MOP_LOG.txt.\n\n");
+                "Log has been saved in My Summer Car folder into MOP_LOG.txt.");
 
             isLogSaved = true;
         }
@@ -126,9 +126,7 @@ namespace MOP
             // List rule files.
             output += "=== RULE FILES ===\n\n";
             foreach (string ruleFile in RuleFiles.instance.RuleFileNames)
-            {
                 output += $"{ruleFile}\n";
-            }
 
             return output;
         }

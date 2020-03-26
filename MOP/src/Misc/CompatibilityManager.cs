@@ -37,29 +37,8 @@ namespace MOP
         public CompatibilityManager()
         {
             instance = this;
-            CDPlayerEnhanced = IsModPresent("CDPlayer");
-            CarryMore = IsModPresent("CarryMore");
-        }
-
-        /// <summary>
-        /// Checks if mod is present by modID using ModLoader.IsModPresent.
-        /// </summary>
-        /// <param name="modID"></param>
-        /// <returns></returns>
-        bool IsModPresent(string modID)
-        {
-            bool isModPresent = ModLoader.IsModPresent(modID);
-
-            if (isModPresent)
-            {
-                string modName = modID;
-
-                foreach (var mod in ModLoader.LoadedMods)
-                    if (mod.ID == modID)
-                        modName = mod.Name;
-            }
-
-            return isModPresent;
+            CDPlayerEnhanced = ModLoader.IsModPresent("CDPlayer");
+            CarryMore = ModLoader.IsModPresent("CarryMore");
         }
     }
 }

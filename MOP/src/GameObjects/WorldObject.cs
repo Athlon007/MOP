@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using UnityEngine;
+using MSCLoader;
 
 namespace MOP
 {
@@ -63,8 +64,7 @@ namespace MOP
             {
                 if (renderer == null)
                 {
-                    MSCLoader.ModConsole.Error("[MOP] Couldn't set the Toggle for " + 
-                        this.gameObject.name + " because renderer hasn't been found.");
+                    ModConsole.Error($"[MOP] Couldn't set the Toggle for {this.gameObject.name} because renderer hasn't been found.");
                     return;
                 }
 
@@ -96,8 +96,7 @@ namespace MOP
             {
                 if (renderer == null)
                 {
-                    MSCLoader.ModConsole.Error("[MOP] Couldn't set the Toggle for " + 
-                        this.gameObject.name + " because renderer hasn't been found.");
+                    ModConsole.Error($"[MOP] Couldn't set the Toggle for {this.gameObject.name} because renderer hasn't been found.");
                     return;
                 }
 

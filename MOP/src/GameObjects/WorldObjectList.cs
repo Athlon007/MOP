@@ -57,7 +57,7 @@ namespace MOP
 
             if (gm == null)
             {
-                MSCLoader.ModConsole.Print("[MOP] Couldn't find " + gameObjectName);
+                MSCLoader.ModConsole.Print($"[MOP] Couldn't find {gameObjectName}");
                 return;
             }
 
@@ -86,7 +86,7 @@ namespace MOP
             
             if (gm == null)
             {
-                MSCLoader.ModConsole.Print("[MOP] Couldn't find " + gameObjectName);
+                MSCLoader.ModConsole.Print($"[MOP] Couldn't find {gameObjectName}");
                 return;
             }
 

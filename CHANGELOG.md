@@ -44,6 +44,7 @@ Note: First game start may take a little longer (depending on how many mods you 
 - Boat will not disappear/teleport back to the spawn position on respawn
 - Fixed doors at home seeming to be open, while in fact they were closed
 - Increased toggling distance of water facility, so it doesn't clip on and off when player is on the junction next to school
+- Fixed sector at Teimo being placed incorrectly, allowing player to enter it from outside
 
 ### Removed
 

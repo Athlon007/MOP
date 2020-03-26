@@ -82,7 +82,8 @@ namespace MOP
 
         Transform[] GetDoors()
         {
-            return transform.GetComponentsInChildren<Transform>().Where(t => t.gameObject.name.Contains("Door") && t.Find("Pivot") != null).ToArray();
+            return transform.GetComponentsInChildren<Transform>()
+                .Where(t => t.gameObject.name.Contains("Door") && t.Find("Pivot") != null).ToArray();
         }
     }
 }
