@@ -1,10 +1,17 @@
 # Changelog
 
-## 2.5 Development 2 (27.03.2020)
+## 2.5 Development 3 (tba)
 
 ### Added
 
 - (Development) Added new flag: prevent_toggle_on_object
+- (Development) Added support for spacebar in flag rules
+
+### Changes
+
+- (Development) Rule files code optimization
+
+## 2.5 Development 2 (27.03.2020)
 
 ### Changes
 

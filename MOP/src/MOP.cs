@@ -45,7 +45,7 @@ namespace MOP
         {
             ModConfigPath = ModLoader.GetModConfigFolder(this);
             ModVersion = Version;
-            ModConsole.Print($"<color=green>MOP {ModVersion}</color>");
+            ModConsole.Print($"<color=green>MOP {ModVersion} initialized!</color>");
             new RuleFiles();
         }
 

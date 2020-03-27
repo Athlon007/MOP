@@ -391,70 +391,89 @@ namespace MOP
 
         void ReadRule(string rulePath)
         {
-            string[] content = File.ReadAllLines(rulePath).Where(s => s.Length > 0 && !s.StartsWith("##")).ToArray();
-            foreach (string s in content)
+            try
             {
-                string[] split = s.Split(':');
-
-                switch (split[0])
+                string[] content = File.ReadAllLines(rulePath).Where(s => s.Length > 0 && !s.StartsWith("##")).ToArray();
+                foreach (string s in content)
                 {
-                    default:
-                        ModConsole.Error($"[MOP] Unrecognized flag '{split[0]}' in file {rulePath}");
-                        break;
-                    case "ignore":
-                        RuleFiles.instance.IgnoreRules.Add(new IgnoreRule(split[1].Trim(), false));
-                        break;
-                    case "ignore_full":
-                        RuleFiles.instance.IgnoreRules.Add(new IgnoreRule(split[1].Trim(), true));
-                        break;
-                    case "ignore_at_place":
-                        string place = split[1].Trim().Split(' ')[0];
-                        string obj = split[1].Trim().Split(' ')[1];
-                        switch (place)
-                        {
-                            default:
-                                ModConsole.Error($"[MOP] Unrecognized place '{place}' in flag '{split[0]}' in file {rulePath}");
-                                break;
-                            case "STORE":
-                                RuleFiles.instance.StoreIgnoreRules.Add(new IgnoreRule(obj, false));
-                                break;
-                            case "YARD":
-                                RuleFiles.instance.YardIgnoreRules.Add(new IgnoreRule(obj, false));
-                                break;
-                            case "REPAIRSHOP":
-                                RuleFiles.instance.RepairShopIgnoreRules.Add(new IgnoreRule(obj, false));
-                                break;
-                            case "INSPECTION":
-                                RuleFiles.instance.InspectionIgnoreRules.Add(new IgnoreRule(obj, false));
-                                break;
-                        }
-                        break;
-                    case "toggle":
-                        RuleFiles.instance.ToggleRules.Add(new ToggleRule(split[1].Trim(), ToggleModes.Normal));
-                        break;
-                    case "toggle_renderer":
-                        RuleFiles.instance.ToggleRules.Add(new ToggleRule(split[1].Trim(), ToggleModes.Renderer));
-                        break;
-                    case "toggle_item":
-                        RuleFiles.instance.ToggleRules.Add(new ToggleRule(split[1].Trim(), ToggleModes.Item));
-                        break;
-                    case "toggle_vehicle":
-                        RuleFiles.instance.ToggleRules.Add(new ToggleRule(split[1].Trim(), ToggleModes.Vehicle));
-                        break;
-                    case "toggle_vehicle_physics_only":
-                        RuleFiles.instance.ToggleRules.Add(new ToggleRule(split[1].Trim(), ToggleModes.VehiclePhysics));
-                        break;
-                    case "satsuma_ignore_renderer":
-                        RuleFiles.instance.SpecialRules.SatsumaIgnoreRenderers = true;
-                        break;
-                    case "dont_destroy_empty_beer_bottles":
-                        RuleFiles.instance.SpecialRules.DontDestroyEmptyBeerBottles = true;
-                        break;
-                    case "prevent_toggle_on_object":
-                        string[] prevent = split[1].Trim().Split(' ');
-                        RuleFiles.instance.PreventToggleOnObjectRule.Add(new PreventToggleOnObjectRule(prevent[0], prevent[1]));
-                        break;
+                    string[] splitted = s.Split(':');
+
+                    // Read flag and rules.
+                    string flag = splitted[0];
+                    string[] objects = new string[0];
+                    if (splitted.Length > 1)
+                    {
+                        objects = splitted[1].Trim().Split(' ');
+                        for (int i = 0; i < objects.Length; i++)
+                            objects[i] = objects[i].Replace("%20", " ");
+                    }
+
+                    // Apply these rules
+                    switch (flag)
+                    {
+                        default:
+                            ModConsole.Error($"[MOP] Unrecognized flag '{flag}' in file {rulePath}");
+                            break;
+                        case "ignore":
+                            RuleFiles.instance.IgnoreRules.Add(new IgnoreRule(objects[0], false));
+                            break;
+                        case "ignore_full":
+                            RuleFiles.instance.IgnoreRules.Add(new IgnoreRule(objects[0], true));
+                            break;
+                        case "ignore_at_place":
+                            string place = objects[0];
+                            string obj = objects[1];
+                            switch (place)
+                            {
+                                default:
+                                    ModConsole.Error($"[MOP] Unrecognized place '{place}' in flag '{flag}' in file {rulePath}");
+                                    break;
+                                case "STORE":
+                                    RuleFiles.instance.StoreIgnoreRules.Add(new IgnoreRule(obj, false));
+                                    break;
+                                case "YARD":
+                                    RuleFiles.instance.YardIgnoreRules.Add(new IgnoreRule(obj, false));
+                                    break;
+                                case "REPAIRSHOP":
+                                    RuleFiles.instance.RepairShopIgnoreRules.Add(new IgnoreRule(obj, false));
+                                    break;
+                                case "INSPECTION":
+                                    RuleFiles.instance.InspectionIgnoreRules.Add(new IgnoreRule(obj, false));
+                                    break;
+                            }
+                            break;
+                        case "toggle":
+                            RuleFiles.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Normal));
+                            break;
+                        case "toggle_renderer":
+                            RuleFiles.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Renderer));
+                            break;
+                        case "toggle_item":
+                            RuleFiles.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Item));
+                            break;
+                        case "toggle_vehicle":
+                            RuleFiles.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Vehicle));
+                            break;
+                        case "toggle_vehicle_physics_only":
+                            RuleFiles.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.VehiclePhysics));
+                            break;
+                        case "satsuma_ignore_renderer":
+                            RuleFiles.instance.SpecialRules.SatsumaIgnoreRenderers = true;
+                            break;
+                        case "dont_destroy_empty_beer_bottles":
+                            RuleFiles.instance.SpecialRules.DontDestroyEmptyBeerBottles = true;
+                            break;
+                        case "prevent_toggle_on_object":
+                            RuleFiles.instance.PreventToggleOnObjectRule.Add(new PreventToggleOnObjectRule(objects[0], objects[1]));
+                            break;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                ModConsole.Error($"[MOP] Error loading rule {rulePath}: {ex.ToString()}.");
+                NewMessage($"<color=red>MOP: Error loading rule :(");
+                ToggleButtons(true);
             }
         }
 

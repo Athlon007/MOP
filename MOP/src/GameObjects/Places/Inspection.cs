@@ -42,6 +42,7 @@ namespace MOP
             if (RuleFiles.instance.InspectionIgnoreRules.Count > 0)
                 foreach (IgnoreRule rule in RuleFiles.instance.InspectionIgnoreRules)
                     blackListList.Add(rule.ObjectName);
+
             blackList = blackListList.ToArray();
 
             GameObjectBlackList = blackList;
