@@ -69,7 +69,7 @@
     <Compile Include="src\GameObjects\Vehicles\Managers\HingeManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Boat.cs" />
     <Compile Include="src\GameObjects\Vehicles\Satsuma.cs" />
-    <Compile Include="src\GameObjects\Vehicles\Managers\UnloadableObject.cs" />
+    <Compile Include="src\GameObjects\Vehicles\Managers\PreventToggleOnObject.cs" />
     <Compile Include="src\GameObjects\WorldObject.cs" />
     <Compile Include="src\GameObjects\Places\RepairShop.cs" />
     <Compile Include="src\GameObjects\Places\Place.cs" />

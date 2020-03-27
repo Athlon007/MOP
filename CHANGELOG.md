@@ -2,6 +2,10 @@
 
 ## 2.5 Development 2 (27.03.2020)
 
+### Added
+
+- (Development) Added new flag: prevent_toggle_on_object
+
 ### Changes
 
 - Changed some console messages
@@ -323,7 +327,7 @@ What's new compared to Beta 1.6:
 
 - Fixed bugs related to wristwatch guy in the pub
 
-## Releace Candidate 1 (20.01.2020)
+## Release Candidate 1 (20.01.2020)
 
 This is the last Beta release and first Release Candidate!
 

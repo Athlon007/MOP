@@ -38,6 +38,18 @@ namespace MOP
         }
     }
 
+    class PreventToggleOnObjectRule
+    {
+        public string MainObject;
+        public string ObjectName;
+
+        public PreventToggleOnObjectRule(string MainObject, string ObjectName)
+        {
+            this.MainObject = MainObject;
+            this.ObjectName = ObjectName;
+        }
+    }
+
     /// <summary>
     /// Toggling methods for items.
     /// <list type="bullet">Normal - uses world objec toggling.</list>
@@ -79,6 +91,7 @@ namespace MOP
         public List<IgnoreRule> StoreIgnoreRules;
         public List<IgnoreRule> RepairShopIgnoreRules;
         public List<IgnoreRule> InspectionIgnoreRules;
+        public List<PreventToggleOnObjectRule> PreventToggleOnObjectRule;
 
         // Toggling rules.
         public List<ToggleRule> ToggleRules;        
@@ -99,6 +112,7 @@ namespace MOP
             StoreIgnoreRules = new List<IgnoreRule>();
             RepairShopIgnoreRules = new List<IgnoreRule>();
             InspectionIgnoreRules = new List<IgnoreRule>();
+            PreventToggleOnObjectRule = new List<PreventToggleOnObjectRule>();
 
             this.SpecialRules = new SpecialRules();
             this.RuleFileNames = new List<string>();
@@ -435,6 +449,10 @@ namespace MOP
                         break;
                     case "dont_destroy_empty_beer_bottles":
                         RuleFiles.instance.SpecialRules.DontDestroyEmptyBeerBottles = true;
+                        break;
+                    case "prevent_toggle_on_object":
+                        string[] prevent = split[1].Trim().Split(' ');
+                        RuleFiles.instance.PreventToggleOnObjectRule.Add(new PreventToggleOnObjectRule(prevent[0], prevent[1]));
                         break;
                 }
             }

@@ -18,14 +18,14 @@ using UnityEngine;
 
 namespace MOP
 {
-    class UnloadableObject
+    class PreventToggleOnObject
     {
         // This script manages the objects that aren't meant to be unloaded, because it may result in weird glitches in-game.
 
         public Transform ObjectTransform;
         public Transform OriginalParent;
 
-        public UnloadableObject(Transform objectTransform)
+        public PreventToggleOnObject(Transform objectTransform)
         {
             ObjectTransform = objectTransform;
             OriginalParent = objectTransform.parent;

@@ -45,7 +45,7 @@ namespace MOP
         Transform temporaryParent;
 
         // List of non unloadable objects
-        List<UnloadableObject> unloadableObjects;
+        List<PreventToggleOnObject> preventToggleOnObjects;
 
         // Overwrites the "Component.transform", to prevent eventual mod crashes caused by missuse of Vehicle.transform.
         // Technically, you should use Vehicle.Object.transform (ex. GIFU.Object.Transform), this here just lets you use Vehicle.transform
@@ -95,25 +95,25 @@ namespace MOP
             // Creates a new gameobject that is names after the original file + '_TEMP' (ex. "SATSUMA(557kg, 248)_TEMP")
             temporaryParent = new GameObject(gameObject.name + "_TEMP").transform;
 
-            unloadableObjects = new List<UnloadableObject>();
+            preventToggleOnObjects = new List<PreventToggleOnObject>();
 
             // Get the object's child which are responsible for audio
             foreach (Transform audioObject in FindAudioObjects())
             {
-                unloadableObjects.Add(new UnloadableObject(audioObject));
+                preventToggleOnObjects.Add(new PreventToggleOnObject(audioObject));
             }
 
             // Fix for fuel level resetting after respawn
             Transform fuelTank = gameObject.transform.Find("FuelTank");
             if (fuelTank != null)
             {
-                unloadableObjects.Add(new UnloadableObject(fuelTank));
+                preventToggleOnObjects.Add(new PreventToggleOnObject(fuelTank));
             }
 
             // If the vehicle is Gifu, find knobs and add them to list of unloadableObjects
             if (gameObject.name == "GIFU(750/450psi)")
             {
-                unloadableObjects.Add(new UnloadableObject(gameObject.transform.Find("Dashboard").Find("Knobs")));
+                preventToggleOnObjects.Add(new PreventToggleOnObject(gameObject.transform.Find("Dashboard").Find("Knobs")));
             }
 
             carDynamics = gameObject.GetComponent<CarDynamics>();
@@ -163,14 +163,14 @@ namespace MOP
                     joint.gameObject.AddComponent<HingeManager>();
             }
 
-            // Get one of the wheels
+            // Get one of the wheels.
             wheel = axles.allWheels[0];
             
             drivetrain = gameObject.GetComponent<Drivetrain>();
 
             isTangerine = gameObject.name == "TangerinePickup(Clone)";
 
-            // Ignore Rules
+            // Ignore Rules.
             IgnoreRule vehicleRule = RuleFiles.instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
             if (vehicleRule != null)
             {
@@ -178,6 +178,18 @@ namespace MOP
 
                 if (vehicleRule.TotalIgnore)
                     IsActive = false;
+            }
+
+            // Prevent Toggle On Object Rule.
+            PreventToggleOnObjectRule preventToggleOnObjectRule = RuleFiles.instance.PreventToggleOnObjectRule.Find(v => v.MainObject == this.gameObject.name);
+            if (preventToggleOnObjectRule != null)
+            {
+                Transform t = transform.Find(preventToggleOnObjectRule.ObjectName);
+                if (t != null)
+                    preventToggleOnObjects.Add(new PreventToggleOnObject(t));
+                else
+                    ModConsole.Error($"[MOP] Couldn't find {preventToggleOnObjectRule.ObjectName} in {preventToggleOnObjectRule.MainObject}.");
+
             }
         }
 
@@ -207,8 +219,8 @@ namespace MOP
                 if (isTangerine && drivetrain.rpm > 0)
                     return;
 
-                for (int i = 0; i < unloadableObjects.Count; i++)
-                    unloadableObjects[i].ObjectTransform.parent = temporaryParent;
+                for (int i = 0; i < preventToggleOnObjects.Count; i++)
+                    preventToggleOnObjects[i].ObjectTransform.parent = temporaryParent;
 
                 Position = gameObject.transform.localPosition;
                 Rotation = gameObject.transform.localRotation;
@@ -223,8 +235,8 @@ namespace MOP
                 gameObject.transform.localPosition = Position;
                 gameObject.transform.localRotation = Rotation;
 
-                for (int i = 0; i < unloadableObjects.Count; i++)
-                    unloadableObjects[i].ObjectTransform.parent = unloadableObjects[i].OriginalParent;
+                for (int i = 0; i < preventToggleOnObjects.Count; i++)
+                    preventToggleOnObjects[i].ObjectTransform.parent = preventToggleOnObjects[i].OriginalParent;
             }
         }
 
