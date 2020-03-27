@@ -1,12 +1,5 @@
-### Added
+### Bug Fixes
 
-- (Development) Added new flag: prevent_toggle_on_object
-- (Development) Added support for spacebar in flag rules
-- (Development) Sectors now support rule files
-- Added new section in settings: Rule Files
-- You can disable rules updating in the MOP settings
-
-### Changes
-
-- Optimized places scripts
-- (Development) Rule files code optimization
+- (Development) Fixed a typo in one of the messages
+- (Development) Fixed MOP keeping Continue and New Game buttons locked, if no rule files have been found
+- (Development) Fixed MOP crashing on official version of the game, because of missing object in Sectors

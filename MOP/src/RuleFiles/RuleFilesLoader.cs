@@ -190,6 +190,7 @@ namespace MOP
                 {
                     ModConsole.Print($"[MOP] No rule files found.");
                     NewMessage("");
+                    ToggleButtons(true);
                     return;
                 }
 

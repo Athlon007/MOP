@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.5 Development 4 (28.03.2020)
+
+### Bug Fixes
+
+- (Development) Fixed a typo in one of the messages
+- (Development) Fixed MOP keeping Continue and New Game buttons locked, if no rule files have been found
+- (Development) Fixed MOP crashing on official version of the game, because of missing object in Sectors
+
 ## 2.5 Development 3 (27.03.2020)
 
 ### Added

@@ -675,7 +675,7 @@ namespace MOP
                     }
 
                     restartTried = true;
-                    ModConsole.Warning("[MOP] MOP has stopped working! Trying to restart the now...");
+                    ModConsole.Warning("[MOP] MOP has stopped working! Trying to restart it now...");
                     StartCoroutine(LoopRoutine());
                 }
 

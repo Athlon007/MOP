@@ -76,7 +76,6 @@ namespace MOP
                 GameObject.Find("BUSHES3"),
                 GameObject.Find("BUSHES6"),
                 GameObject.Find("BUSHES7"),
-                GameObject.Find("MAP/MESH/FOLIAGE/LAKE_VEGETATION"),
                 GameObject.Find("BusStop"),
                 GameObject.Find("BusStop 1"),
                 GameObject.Find("MachineHall"),
@@ -90,6 +89,11 @@ namespace MOP
                 GameObject.Find("MAP/Bottom"),
                 GameObject.Find("MAP/PierHome")
             };
+
+            // Lake vegation added in Experimental release (as of 27.03.2020)
+            GameObject lakeVegation = GameObject.Find("MAP/MESH/FOLIAGE/LAKE_VEGETATION");
+            if (lakeVegation != null)
+                disabledObjects.Add(lakeVegation);
 
             sectors = new List<GameObject>();
 
@@ -153,7 +157,16 @@ namespace MOP
         public void ToggleActive(bool enabled)
         {
             for (int i = 0; i < SectorManager.instance.DisabledObjects.Count; i++)
-                SectorManager.instance.DisabledObjects[i].SetActive(enabled);
+            {
+                try
+                {
+                    SectorManager.instance.DisabledObjects[i].SetActive(enabled);
+                }
+                catch (System.Exception ex)
+                {
+                    MSCLoader.ModConsole.Error(i + " " + ex.ToString());
+                }
+            }
         }
     }
 }
