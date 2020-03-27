@@ -282,7 +282,6 @@ namespace MOP
             ModConsole.Print("[MOP] Loading rules...");
             foreach (ToggleRule v in RuleFiles.instance.ToggleRules)
             {
-
                 switch (v.ToggleMode)
                 {
                     case ToggleModes.Normal:

@@ -45,8 +45,6 @@ namespace MOP
             {
                 SectorManager.instance.PlayerInSector = false;
                 SectorManager.instance.ToggleActive(true);
-                for (int i = 0; i < SectorManager.instance.DisabledObjects.Count; i++)
-                    SectorManager.instance.DisabledObjects[i].SetActive(true);
             }
         }
     }
@@ -94,9 +92,22 @@ namespace MOP
             };
 
             sectors = new List<GameObject>();
+
+            // Load rule files
+            List<GameObject> newList = new List<GameObject>();
+            foreach (GameObject obj in disabledObjects)
+            {
+                IgnoreRule rule = RuleFiles.instance.IgnoreRules.Find(f => f.ObjectName == obj.name);
+                if (rule == null)
+                    newList.Add(obj);
+            }
+
+            disabledObjects = newList;
+
             CreateNewSector(new Vector3(-16.77627f, -0.5062422f, 1.559867f), new Vector3(5,5,9)); // Garage
             CreateNewSector(new Vector3(-1548, 4, 1184), new Vector3(8, 5, 4.5f), new Vector3(0, 328, 0)); // Teimo
             CreateNewSector(new Vector3(1562.49f, 4.8f, 733.8835f), new Vector3(15, 5, 20), new Vector3(0, 335, 0)); // Repair shop
+            // CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.559867f), new Vector3(11, 5, 9)); // Yard
         }
 
         void CreateNewSector(Vector3 position, Vector3 size)

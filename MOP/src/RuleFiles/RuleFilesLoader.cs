@@ -26,113 +26,6 @@ using UnityEngine;
 
 namespace MOP
 {
-    class IgnoreRule
-    {
-        public string ObjectName;
-        public bool TotalIgnore;
-
-        public IgnoreRule(string ObjectName, bool TotalIgnore)
-        {
-            this.ObjectName = ObjectName;
-            this.TotalIgnore = TotalIgnore;
-        }
-    }
-
-    class IgnoreRuleAtPlace
-    {
-        public string Place;
-        public string ObjectName;
-
-        public IgnoreRuleAtPlace(string Place, string ObjectName)
-        {
-            this.Place = Place;
-            this.ObjectName = ObjectName;
-        }
-    }
-
-    class PreventToggleOnObjectRule
-    {
-        public string MainObject;
-        public string ObjectName;
-
-        public PreventToggleOnObjectRule(string MainObject, string ObjectName)
-        {
-            this.MainObject = MainObject;
-            this.ObjectName = ObjectName;
-        }
-    }
-
-    /// <summary>
-    /// Toggling methods for items.
-    /// <list type="bullet">Normal - uses world objec toggling.</list>
-    /// <list type="bullet">Renderer - Toggles only renderer of the object.</list>
-    /// <list type="bullet">Item - Toggles object as it was an item.</list>
-    /// <list type="bullet">Vehicle - Toggles object as vehicle.</list>
-    /// <list type="bullet">VehiclePhysics - Toggles object as vehicle, but only the UnityCar part.</list>
-    /// </summary>
-    public enum ToggleModes { Normal, Renderer, Item, Vehicle, VehiclePhysics };
-
-    class ToggleRule
-    {
-        public string ObjectName;
-        public ToggleModes ToggleMode;
-
-        public ToggleRule(string ObjectName, ToggleModes ToggleMode)
-        {
-            this.ObjectName = ObjectName;
-            this.ToggleMode = ToggleMode;
-        }
-    }
-
-    /// <summary>
-    /// This class is intended for special flags used in specific cases.
-    /// </summary>
-    class SpecialRules
-    {
-        public bool SatsumaIgnoreRenderers;
-        public bool DontDestroyEmptyBeerBottles;
-    }
-
-    class RuleFiles
-    {
-        public static RuleFiles instance;
-
-        // Ignore rules.
-        public List<IgnoreRule> IgnoreRules;
-        public List<IgnoreRuleAtPlace> IgnoreRulesAtPlaces;
-        public List<PreventToggleOnObjectRule> PreventToggleOnObjectRule;
-
-        // Toggling rules.
-        public List<ToggleRule> ToggleRules;        
-
-        // Special rules.
-        public SpecialRules SpecialRules;
-
-        // Used for mod report only.
-        public List<string> RuleFileNames;
-
-        public RuleFiles(bool overrideUpdateCheck = false)
-        {
-            instance = this;
-            IgnoreRules = new List<IgnoreRule>();
-            IgnoreRulesAtPlaces = new List<IgnoreRuleAtPlace>();
-            ToggleRules = new List<ToggleRule>();
-            PreventToggleOnObjectRule = new List<PreventToggleOnObjectRule>();
-
-            this.SpecialRules = new SpecialRules();
-            this.RuleFileNames = new List<string>();
-
-            if (GameObject.Find("MOP_RuleFilesLoader") != null)
-            {
-                GameObject.Destroy(GameObject.Find("MOP_RuleFilesLoader"));
-            }
-
-            GameObject ruleFileDownloader = new GameObject("MOP_RuleFilesLoader");
-            RuleFilesLoader ruleFilesLoader = ruleFileDownloader.AddComponent<RuleFilesLoader>();
-            ruleFilesLoader.Initialize(overrideUpdateCheck);
-        }
-    }
-
     class RuleFilesLoader : MonoBehaviour
     {
         const string RemoteServer = "http://athlon.kkmr.pl/mop/rulefiles/";
@@ -179,17 +72,20 @@ namespace MOP
 
             ToggleButtons(false);
 
+            if (MopSettings.IsAutoUpdateDisabled() && !overrideUpdateCheck)
+            {
+                ModConsole.Print("<color=orange>[MOP] Rule files auto update is disabled.</color>");
+                GetAndReadRuleFiles();
+                ToggleButtons(true);
+                return;
+            }
+
             // If server or user is offline, skip downloading and simply load available files.
             if (!IsServerOnline())
             {
                 ModConsole.Error("[MOP] Connection error. Couldn't download new rule files.");
 
-                try
-                {
-                    ReadFiles();
-                }
-                catch { }
-
+                GetAndReadRuleFiles();
                 ToggleButtons(true);
             }
             else
@@ -199,7 +95,7 @@ namespace MOP
         }
 
         IEnumerator DownloadAndUpdateRoutine()
-        { 
+        {
             string lastModList = File.Exists(lastModListPath) ? File.ReadAllText(lastModListPath) : "";
             Mod[] mods = ModLoader.LoadedMods.Where(m => !m.ID.ContainsAny("MSCLoader_", "MOP")).ToArray();
             string modListString = "";
@@ -253,7 +149,7 @@ namespace MOP
                             ModConsole.Error("[MOP] Downloading failed. Skipping downloading.");
                             NewMessage("MOP: Downloading failed. Skipping downloading.");
                             ToggleButtons(true);
-                            ReadFiles();
+                            GetAndReadRuleFiles();
                             yield break;
                         }
                     }
@@ -270,7 +166,7 @@ namespace MOP
 
             // File downloading and updating completed!
             // Start reading those files.   
-            ReadFiles();
+            GetAndReadRuleFiles();
         }
 
         void DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
@@ -278,39 +174,50 @@ namespace MOP
             fileDownloadCompleted = true;
         }
 
-        void ReadFiles()
+        /// <summary>
+        /// Seeks for rule files (.mopconfig) in MOP config folder.
+        /// </summary>
+        void GetAndReadRuleFiles()
         {
             overrideUpdateCheck = false;
 
-            DirectoryInfo dir = new DirectoryInfo(MOP.ModConfigPath);
-            FileInfo[] files = dir.GetFiles().Where(d => d.Name.EndsWith(".mopconfig")).ToArray();
-            if (files.Length == 0)
+            try
             {
-                ModConsole.Print($"[MOP] No rule files found.");
-                NewMessage("");
-                return;
-            }
-
-            ModConsole.Print($"[MOP] Found {files.Length} rule file{(files.Length > 1 ? "s" : "")}!");
-
-            // Read rule files
-            foreach (FileInfo file in files)
-            {
-                // Delete rules for mods that don't exist.
-                if (ModLoader.LoadedMods.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name)) == null)
+                // Find and .mopconfig files.
+                DirectoryInfo dir = new DirectoryInfo(MOP.ModConfigPath);
+                FileInfo[] files = dir.GetFiles().Where(d => d.Name.EndsWith(".mopconfig")).ToArray();
+                if (files.Length == 0)
                 {
-                    File.Delete(file.FullName);
-                    ModConsole.Print($"<color=yellow>[MOP] Rule file {file.Name} has been deleted, " +
-                        $"because corresponding mod is not present.</color>");
-                    continue;
+                    ModConsole.Print($"[MOP] No rule files found.");
+                    NewMessage("");
+                    return;
                 }
 
-                RuleFiles.instance.RuleFileNames.Add(file.Name);
-                ReadRule(file.FullName);
-            }
+                ModConsole.Print($"[MOP] Found {files.Length} rule file{(files.Length > 1 ? "s" : "")}!");
 
-            ModConsole.Print("[MOP] Loading rule files done!");
-            NewMessage($"MOP: Loading {files.Length} rule file{(files.Length > 1 ? "s" : "")} done!");
+                // Read rule files.
+                foreach (FileInfo file in files)
+                {
+                    // Delete rules for mods that don't exist.
+                    if (ModLoader.LoadedMods.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name)) == null)
+                    {
+                        File.Delete(file.FullName);
+                        ModConsole.Print($"<color=yellow>[MOP] Rule file {file.Name} has been deleted, " +
+                            $"because corresponding mod is not present.</color>");
+                        continue;
+                    }
+
+                    RuleFiles.instance.RuleFileNames.Add(file.Name);
+                    ReadRulesFromFile(file.FullName);
+                }
+
+                ModConsole.Print("[MOP] Loading rule files done!");
+                NewMessage($"MOP: Loading {files.Length} rule file{(files.Length > 1 ? "s" : "")} done!");
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, "Rule Files Error");
+            }
 
             ToggleButtons(true);
         }
@@ -394,7 +301,7 @@ namespace MOP
         // Never gonna say goodbye
         // Never gonna tell a lie and hurt you
 
-        void ReadRule(string rulePath)
+        void ReadRulesFromFile(string rulePath)
         {
             try
             {
@@ -465,12 +372,20 @@ namespace MOP
             }
         }
 
+        /// <summary>
+        /// Sets the text of MOP_Messager object.
+        /// </summary>
+        /// <param name="value"></param>
         void NewMessage(string value)
         {
             message.text = value;
             shadow.text = value;
         }
 
+        /// <summary>
+        /// Toggles FSMs of Continue and New Game buttons.
+        /// </summary>
+        /// <param name="enabled"></param>
         void ToggleButtons(bool enabled)
         {
             foreach (PlayMakerFSM fsm in buttonsFsms)

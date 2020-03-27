@@ -1,11 +1,12 @@
+### Added
+
+- (Development) Added new flag: prevent_toggle_on_object
+- (Development) Added support for spacebar in flag rules
+- (Development) Sectors now support rule files
+- Added new section in settings: Rule Files
+- You can disable rules updating in the MOP settings
+
 ### Changes
 
-- Changed some console messages
-- Improved the readibility of changelog
-- (Development) Moved MOP messages to the upper left corner in main menu
-- (Development) Added text shadow behind the messages text
-- (Development) Added time out for downloading rule files
-
-### Bug Fixes
-
-- Fixed possible index out of range bug while toggling items
+- Optimized places scripts
+- (Development) Rule files code optimization

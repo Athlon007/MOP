@@ -35,6 +35,12 @@ namespace MOP
         public static bool IgnoreModVehicles { get => ignoreModVehicles; }
 
         //
+        // MOD RULES
+        //
+        static bool ruleFilesAutoUpdate = true;
+        public static bool RuleFilesAutoUpdate { get => ruleFilesAutoUpdate; }
+
+        //
         // OTHERS
         //
         static bool removeEmptyBeerBottles = false;
@@ -61,6 +67,18 @@ namespace MOP
             ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
             SafeMode = (bool)MOP.safeMode.GetValue();
             ignoreModVehicles = (bool)MOP.ignoreModVehicles.GetValue();
+
+            // Rulefiles
+            if (!(bool)MOP.rulesAutoUpdate.GetValue())
+            {
+                System.IO.File.Create($"{MOP.ModConfigPath}\\NoUpdates.mop");
+                ruleFilesAutoUpdate = (bool)MOP.rulesAutoUpdate.GetValue();
+            }
+            else
+            {
+                if (System.IO.File.Exists($"{MOP.ModConfigPath}\\NoUpdates.mop"))
+                    System.IO.File.Delete($"{MOP.ModConfigPath}\\NoUpdates.mop");
+            }
 
             // Others
             removeEmptyBeerBottles = (bool)MOP.removeEmptyBeerBottles.GetValue();
@@ -94,6 +112,11 @@ namespace MOP
                 case 3:
                     return 4;
             }
+        }
+
+        public static bool IsAutoUpdateDisabled()
+        {
+            return System.IO.File.Exists($"{MOP.ModConfigPath}\\NoUpdates.mop");
         }
     }
 }

@@ -80,7 +80,10 @@
     <Compile Include="src\Misc\CustomExtensions.cs" />
     <Compile Include="src\Misc\ExceptionManager.cs" />
     <Compile Include="src\Misc\MopSettings.cs" />
-    <Compile Include="src\Misc\RuleFiles.cs" />
+    <Compile Include="src\RuleFiles\IgnoreRule.cs" />
+    <Compile Include="src\RuleFiles\RuleFiles.cs" />
+    <Compile Include="src\RuleFiles\RuleFilesLoader.cs" />
+    <Compile Include="src\RuleFiles\ToggleRule.cs" />
     <Compile Include="src\WorldManager.cs" />
     <Compile Include="src\MOP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

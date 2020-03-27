@@ -17,6 +17,7 @@
 using MSCLoader;
 using UnityEngine;
 using System.Diagnostics;
+using System.IO;
 
 namespace MOP
 {
@@ -44,6 +45,7 @@ namespace MOP
         public override void OnMenuLoad()
         {
             ModConfigPath = ModLoader.GetModConfigFolder(this);
+            MopSettings.UpdateAll();
             ModVersion = Version;
             ModConsole.Print($"<color=green>MOP {ModVersion} initialized!</color>");
             new RuleFiles();
@@ -69,10 +71,9 @@ namespace MOP
         //
         // BUTTONS
         //
-        readonly Settings donate = new Settings("donate", "Donate", OpenDonateDialog);
         readonly Settings faq = new Settings("faq", "FAQ", OpenFAQDialog);
         readonly Settings wiki = new Settings("wiki", "MOP Wiki", OpenWikiDialog);
-        readonly Settings forceRuleUpdate = new Settings("forceRuleUpdate", "Force Update", ForceRuleFilesUpdate);
+        readonly Settings donate = new Settings("donate", "Donate", OpenDonateDialog);
 
         //
         // ACTIVATING OBJECTS
@@ -85,6 +86,13 @@ namespace MOP
         //
         public static Settings enableFramerateLimiter = new Settings("enableFramerateLimiter", "Enable Framerate Limiter", false, MopSettings.UpdateAll);
         public static Settings framerateLimiter = new Settings("framerateLimiter", "Limit Framerate", 60, MopSettings.UpdateAll);
+
+        //
+        // MOD RULES
+        //
+        public static Settings rulesAutoUpdate = new Settings("rulesAutoUpdate", "Rules Auto Update", true, MopSettings.UpdateAll);
+        readonly Settings forceRuleUpdate = new Settings("forceRuleUpdate", "Force Update", ForceRuleFilesUpdate);
+        readonly Settings rulesLearnMore = new Settings("rulesLearnMore", "Learn More", OpenRulesWebsiteDialog);
 
         //
         // OTHERS
@@ -140,6 +148,13 @@ namespace MOP
             Settings.AddCheckBox(this, enableFramerateLimiter);
             Settings.AddSlider(this, framerateLimiter, 20, 120);
 
+            // Mod Rules
+            Settings.AddHeader(this, "Mod Rules", headerColor);
+            Settings.AddCheckBox(this, rulesAutoUpdate);
+            Settings.AddButton(this, forceRuleUpdate, "This will force MOP to redownload all mod rule files (this may take a while!).");
+            Settings.AddButton(this, rulesLearnMore);
+
+
             // Others
             Settings.AddHeader(this, "Other", headerColor);
             Settings.AddCheckBox(this, removeEmptyBeerBottles);
@@ -151,7 +166,6 @@ namespace MOP
             Settings.AddHeader(this, "Advanced", headerColor);
             Settings.AddCheckBox(this, ignoreModVehicles);
             Settings.AddCheckBox(this, toggleVehiclePhysicsOnly);
-            Settings.AddButton(this, forceRuleUpdate, "This will force MOP to redownload all mod rule files (this may take a while!).");
 
             // Logging
             Settings.AddHeader(this, "Logging", headerColor);
@@ -193,6 +207,16 @@ namespace MOP
         {
             Process.Start("https://paypal.me/figurakonrad");
         }
+        
+        static void OpenRulesWebsiteDialog()
+        {
+            ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenRulesWebsite);
+        }
+
+        static void OpenRulesWebsite()
+        {
+            Process.Start("http://athlon.kkmr.pl/mop");
+        }
 
         static void ForceRuleFilesUpdate()
         {
@@ -202,15 +226,19 @@ namespace MOP
                 return;
             }
 
-            if (System.IO.File.Exists($"{ModConfigPath}\\LastModList.mop"))
-                System.IO.File.Delete($"{ModConfigPath}\\LastModList.mop");
+            if (File.Exists($"{ModConfigPath}\\LastModList.mop"))
+                File.Delete($"{ModConfigPath}\\LastModList.mop");
             
-            if (System.IO.File.Exists($"{ModConfigPath}\\LastUpdate.mop"))
-                System.IO.File.Delete($"{ModConfigPath}\\LastUpdate.mop");
+            if (File.Exists($"{ModConfigPath}\\LastUpdate.mop"))
+                File.Delete($"{ModConfigPath}\\LastUpdate.mop");
 
             new RuleFiles(true);
         }
 
+        /// <summary>
+        /// Gets changelog from changelog.txt and adds rich text elements.
+        /// </summary>
+        /// <returns></returns>
         string GetChangelog()
         {
             string[] changelog = Properties.Resources.changelog.Split('\n');
@@ -218,18 +246,22 @@ namespace MOP
             for (int i = 0; i < changelog.Length; i++)
             {
                 string line = changelog[i];
+
+                // If line starts with ###, make it look like a header of section.
                 if (line.StartsWith("###"))
                 {
                     line = line.Replace("###", "");
                     line = $"<color=yellow><size=24>{line}</size></color>";
                 }
                 
+                // Replace - with bullet.
                 if (line.StartsWith("-"))
                 {
                     line = line.Substring(1);
                     line = $"• {line}";
                 }
 
+                // Similar to the bullet, but also increase the tab.
                 if (line.StartsWith("  -"))
                 {
                     line = line.Substring(3);

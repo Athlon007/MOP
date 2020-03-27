@@ -1,15 +1,18 @@
 # Changelog
 
-## 2.5 Development 3 (tba)
+## 2.5 Development 3 (27.03.2020)
 
 ### Added
 
 - (Development) Added new flag: prevent_toggle_on_object
 - (Development) Added support for spacebar in flag rules
+- (Development) Sectors now support rule files
+- Added new section in settings: Rule Files
+- You can disable rules updating in the MOP settings
 
 ### Changes
 
-- Optimized all places scripts
+- Optimized places scripts
 - (Development) Rule files code optimization
 
 ## 2.5 Development 2 (27.03.2020)
