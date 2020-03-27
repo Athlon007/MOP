@@ -30,7 +30,7 @@ namespace MOP
 
         // Objects from that list will not be disabled
         // It is so to prevent from restock script and Teimo's bike routine not working
-        internal string[] GameObjectBlackList;
+        internal List<string> GameObjectBlackList;
 
         /// <summary>
         /// List of childs that are allowed to be disabled
@@ -52,6 +52,12 @@ namespace MOP
         public Place(string placeName)
         {
             gameObject = GameObject.Find(placeName);
+            GameObjectBlackList = new List<string>();
+
+            IgnoreRuleAtPlace[] ignoreRulesAtThisPlace = RuleFiles.instance.IgnoreRulesAtPlaces.Where(r => r.Place == placeName).ToArray();
+            if (ignoreRulesAtThisPlace.Length > 0)
+                foreach (IgnoreRuleAtPlace rule in ignoreRulesAtThisPlace)
+                    GameObjectBlackList.Add(rule.ObjectName);
         }
 
         /// <summary>

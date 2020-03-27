@@ -9,6 +9,7 @@
 
 ### Changes
 
+- Optimized all places scripts
 - (Development) Rule files code optimization
 
 ## 2.5 Development 2 (27.03.2020)

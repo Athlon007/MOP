@@ -47,20 +47,13 @@ namespace MOP
         /// </summary>
         public RepairShop() : base("REPAIRSHOP")
         {
-            List<string> blackListList = new List<string>();
-            blackListList.AddRange(blackList);
-
-            // Read rules
-            if (RuleFiles.instance.RepairShopIgnoreRules.Count > 0)
-                foreach (IgnoreRule rule in RuleFiles.instance.RepairShopIgnoreRules)
-                    blackListList.Add(rule.ObjectName);
+            GameObjectBlackList.AddRange(blackList);
 
             GameObject playerAreaCheck = new GameObject("MOP_PlayerAreaCheck");
             playerAreaCheck.transform.position = new Vector3(1554, 4, 739);
             PlayerOutAreaCheck playerOutAreaCheck = playerAreaCheck.AddComponent<PlayerOutAreaCheck>();
             playerOutAreaCheck.Initialize();
 
-            GameObjectBlackList = blackListList.ToArray();
             DisableableChilds = GetDisableableChilds();
 
             // Fix for Satsuma parts on shelves

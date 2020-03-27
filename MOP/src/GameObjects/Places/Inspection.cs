@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-
 namespace MOP
 {
     class Inspection : Place
@@ -35,17 +33,7 @@ namespace MOP
         /// </summary>
         public Inspection() : base("INSPECTION")
         {
-            List<string> blackListList = new List<string>();
-            blackListList.AddRange(blackList);
-
-            // Read rules
-            if (RuleFiles.instance.InspectionIgnoreRules.Count > 0)
-                foreach (IgnoreRule rule in RuleFiles.instance.InspectionIgnoreRules)
-                    blackListList.Add(rule.ObjectName);
-
-            blackList = blackListList.ToArray();
-
-            GameObjectBlackList = blackList;
+            GameObjectBlackList.AddRange(blackList);;
             DisableableChilds = GetDisableableChilds();
         }
     }

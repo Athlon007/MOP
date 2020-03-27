@@ -65,17 +65,7 @@ namespace MOP
             // Fix for advertisement pile disappearing when taken
             gameObject.transform.Find("AdvertSpawn").transform.parent = null;
 
-            List<string> blackListList = new List<string>();
-            blackListList.AddRange(blackList);
-
-            // Read rules
-            if (RuleFiles.instance.StoreIgnoreRules.Count > 0)
-                foreach (IgnoreRule rule in RuleFiles.instance.StoreIgnoreRules)
-                    blackListList.Add(rule.ObjectName);
-
-            blackList = blackListList.ToArray();
-
-            GameObjectBlackList = blackList;
+            GameObjectBlackList.AddRange(blackList);
             DisableableChilds = GetDisableableChilds();
 
             // Fix for the bar fighte

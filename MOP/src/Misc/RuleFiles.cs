@@ -38,6 +38,18 @@ namespace MOP
         }
     }
 
+    class IgnoreRuleAtPlace
+    {
+        public string Place;
+        public string ObjectName;
+
+        public IgnoreRuleAtPlace(string Place, string ObjectName)
+        {
+            this.Place = Place;
+            this.ObjectName = ObjectName;
+        }
+    }
+
     class PreventToggleOnObjectRule
     {
         public string MainObject;
@@ -87,10 +99,7 @@ namespace MOP
 
         // Ignore rules.
         public List<IgnoreRule> IgnoreRules;
-        public List<IgnoreRule> YardIgnoreRules;
-        public List<IgnoreRule> StoreIgnoreRules;
-        public List<IgnoreRule> RepairShopIgnoreRules;
-        public List<IgnoreRule> InspectionIgnoreRules;
+        public List<IgnoreRuleAtPlace> IgnoreRulesAtPlaces;
         public List<PreventToggleOnObjectRule> PreventToggleOnObjectRule;
 
         // Toggling rules.
@@ -106,12 +115,8 @@ namespace MOP
         {
             instance = this;
             IgnoreRules = new List<IgnoreRule>();
+            IgnoreRulesAtPlaces = new List<IgnoreRuleAtPlace>();
             ToggleRules = new List<ToggleRule>();
-            
-            YardIgnoreRules = new List<IgnoreRule>();
-            StoreIgnoreRules = new List<IgnoreRule>();
-            RepairShopIgnoreRules = new List<IgnoreRule>();
-            InspectionIgnoreRules = new List<IgnoreRule>();
             PreventToggleOnObjectRule = new List<PreventToggleOnObjectRule>();
 
             this.SpecialRules = new SpecialRules();
@@ -423,24 +428,7 @@ namespace MOP
                         case "ignore_at_place":
                             string place = objects[0];
                             string obj = objects[1];
-                            switch (place)
-                            {
-                                default:
-                                    ModConsole.Error($"[MOP] Unrecognized place '{place}' in flag '{flag}' in file {rulePath}");
-                                    break;
-                                case "STORE":
-                                    RuleFiles.instance.StoreIgnoreRules.Add(new IgnoreRule(obj, false));
-                                    break;
-                                case "YARD":
-                                    RuleFiles.instance.YardIgnoreRules.Add(new IgnoreRule(obj, false));
-                                    break;
-                                case "REPAIRSHOP":
-                                    RuleFiles.instance.RepairShopIgnoreRules.Add(new IgnoreRule(obj, false));
-                                    break;
-                                case "INSPECTION":
-                                    RuleFiles.instance.InspectionIgnoreRules.Add(new IgnoreRule(obj, false));
-                                    break;
-                            }
+                            RuleFiles.instance.IgnoreRulesAtPlaces.Add(new IgnoreRuleAtPlace(place, obj));
                             break;
                         case "toggle":
                             RuleFiles.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Normal));
