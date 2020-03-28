@@ -40,8 +40,8 @@ namespace MOP
         public RuleFiles(bool overrideUpdateCheck = false)
         {
             instance = this;
+
             IgnoreRules = new List<IgnoreRule>();
-            IgnoreRulesAtPlaces = new List<IgnoreRuleAtPlace>();
             IgnoreRulesAtPlaces = new List<IgnoreRuleAtPlace>();
             PreventToggleOnObjectRule = new List<PreventToggleOnObjectRule>();
             

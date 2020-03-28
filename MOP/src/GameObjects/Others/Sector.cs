@@ -14,14 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using MSCLoader;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace MOP
 {
     class Sector : MonoBehaviour
     {
-        const string ReferenceObjectName = "PLAYER";
+        const string ReferenceObjectName = "MOP_PlayerCheck";
 
         public void Initialize(Vector3 size)
         {
@@ -64,6 +66,8 @@ namespace MOP
         {
             instance = this;
 
+            ModConsole.Print("[MOP] Loading sectors...");
+
             disabledObjects = new List<GameObject>
             {
                 GameObject.Find("ELEC_POLES"),
@@ -85,7 +89,6 @@ namespace MOP
                 GameObject.Find("YARD/UNCLE/Home"),
                 GameObject.Find("YARD/UNCLE/Building"),
                 GameObject.Find("MAP/RadioMast"),
-                GameObject.Find("MAP/LakeSimple/Tile"),
                 GameObject.Find("MAP/Bottom"),
                 GameObject.Find("MAP/PierHome")
             };
@@ -95,23 +98,34 @@ namespace MOP
             if (lakeVegation != null)
                 disabledObjects.Add(lakeVegation);
 
+            GameObject lakeSimpleTile = GameObject.Find("MAP/LakeSimple/Tile");
+            if (lakeSimpleTile != null)
+                disabledObjects.Add(lakeSimpleTile);
+
             sectors = new List<GameObject>();
 
             // Load rule files
-            List<GameObject> newList = new List<GameObject>();
-            foreach (GameObject obj in disabledObjects)
+            if (RuleFiles.instance.IgnoreRules.Count > 0)
             {
-                IgnoreRule rule = RuleFiles.instance.IgnoreRules.Find(f => f.ObjectName == obj.name);
-                if (rule == null)
-                    newList.Add(obj);
+                List<GameObject> newList = new List<GameObject>();
+                foreach (GameObject obj in disabledObjects)
+                {
+                    if (obj == null)
+                        continue;
+
+                    if (!RuleFiles.instance.IgnoreRules.Any(f => f.ObjectName == obj.name))
+                        newList.Add(obj);
+                }
+                disabledObjects = newList;
             }
 
-            disabledObjects = newList;
-
             CreateNewSector(new Vector3(-16.77627f, -0.5062422f, 1.559867f), new Vector3(5,5,9)); // Garage
-            CreateNewSector(new Vector3(-1548, 4, 1184), new Vector3(8, 5, 4.5f), new Vector3(0, 328, 0)); // Teimo
+            CreateNewSector(new Vector3(-1547.3f, 4, 1183.35f), new Vector3(9.6f, 5, 5.5f), new Vector3(0, 328, 0)); // Teimo
+            CreateNewSector(new Vector3(-1551.7f, 4, 1185.8f), new Vector3(4.6f, 5, 2.5f), new Vector3(0, 328, 0)); // Teimo_2
             CreateNewSector(new Vector3(1562.49f, 4.8f, 733.8835f), new Vector3(15, 5, 20), new Vector3(0, 335, 0)); // Repair shop
             // CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.559867f), new Vector3(11, 5, 9)); // Yard
+
+            ModConsole.Print("[MOP] Sectors done!");
         }
 
         void CreateNewSector(Vector3 position, Vector3 size)
@@ -157,16 +171,7 @@ namespace MOP
         public void ToggleActive(bool enabled)
         {
             for (int i = 0; i < SectorManager.instance.DisabledObjects.Count; i++)
-            {
-                try
-                {
-                    SectorManager.instance.DisabledObjects[i].SetActive(enabled);
-                }
-                catch (System.Exception ex)
-                {
-                    MSCLoader.ModConsole.Error(i + " " + ex.ToString());
-                }
-            }
+                SectorManager.instance.DisabledObjects[i].SetActive(enabled);
         }
     }
 }

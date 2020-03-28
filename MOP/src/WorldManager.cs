@@ -74,9 +74,6 @@ namespace MOP
             // Initialize the worldObjectList list
             worldObjectList = new WorldObjectList();
 
-            // Initialzie sector manager
-            ToggleActiveSectors();
-
             // Looking for player and yard
             player = GameObject.Find("PLAYER").transform;
             playerCharacterController = player.GetComponent<CharacterController>();
@@ -342,8 +339,12 @@ namespace MOP
 
             ModConsole.Print("[MOP] Rules loading complete!");
 
+            // Initialzie sector manager
+            ToggleActiveSectors();
+
             // Initialize the coroutines 
-            StartCoroutine(LoopRoutine());
+            currentLoop = LoopRoutine();
+            StartCoroutine(currentLoop);
             StartCoroutine(ControlCoroutine());
 
             ModConsole.Print("<color=green>[MOP] MOD LOADED SUCCESFULLY!</color>");
@@ -405,12 +406,14 @@ namespace MOP
         void PreSaveGame()
         {
             MopSettings.IsModActive = false;
+            StopCoroutine(currentLoop);
             ToggleActiveAll();
         }
 
         /// <summary>
         /// This coroutine runs
         /// </summary>
+        private IEnumerator currentLoop;
         IEnumerator LoopRoutine()
         {
             MopSettings.IsModActive = true;
@@ -676,7 +679,8 @@ namespace MOP
 
                     restartTried = true;
                     ModConsole.Warning("[MOP] MOP has stopped working! Trying to restart it now...");
-                    StartCoroutine(LoopRoutine());
+                    currentLoop = LoopRoutine();
+                    StartCoroutine(currentLoop);
                 }
 
                 restartTried = false;
@@ -729,11 +733,23 @@ namespace MOP
             if (gameObject.GetComponent<SectorManager>() == null)
             {
                 this.gameObject.AddComponent<SectorManager>();
+
+                GameObject colliderCheck = new GameObject("MOP_PlayerCheck");
+                colliderCheck.transform.parent = GameObject.Find("PLAYER").transform;
+                colliderCheck.transform.localPosition = Vector3.zero;
+                BoxCollider collider = colliderCheck.AddComponent<BoxCollider>();
+                collider.isTrigger = true;
+                collider.size = new Vector3(.1f, 1, .1f);
+                Rigidbody rb = colliderCheck.AddComponent<Rigidbody>();
+                rb.useGravity = false;
+                rb.isKinematic = true;
+
             }
             else
             {
                 SectorManager.instance.DestroyAllSectors();
                 Destroy(gameObject.GetComponent<SectorManager>());
+                Destroy(GameObject.Find("MOP_PlayerCheck"));
             }
         }
     }

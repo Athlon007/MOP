@@ -1,5 +1,8 @@
 ### Bug Fixes
 
-- (Development) Fixed a typo in one of the messages
-- (Development) Fixed MOP keeping Continue and New Game buttons locked, if no rule files have been found
-- (Development) Fixed MOP crashing on official version of the game, because of missing object in Sectors
+- (Development) Fixed sectors not loading
+- (Development) Fixed a typo in the mod settings
+- (Development) Fixed disabling auto update of rule files not working
+- Fixed sector not being toggled, if player is in car
+- Fixed items sometimes falling through the vehicle on game save
+- Fixed lake simple tile not being found by sector manager

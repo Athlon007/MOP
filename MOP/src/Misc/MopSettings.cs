@@ -15,6 +15,9 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using UnityEngine;
+using System.IO;
+using System.Linq;
+using System;
 
 namespace MOP
 {
@@ -33,12 +36,6 @@ namespace MOP
 
         static bool ignoreModVehicles = false;
         public static bool IgnoreModVehicles { get => ignoreModVehicles; }
-
-        //
-        // MOD RULES
-        //
-        static bool ruleFilesAutoUpdate = true;
-        public static bool RuleFilesAutoUpdate { get => ruleFilesAutoUpdate; }
 
         //
         // OTHERS
@@ -60,6 +57,8 @@ namespace MOP
         // Distance after which car physics are toggled
         public const int UnityCarActiveDistance = 5;
 
+        static bool firstLoadPassed = false;
+
         public static void UpdateAll()
         {
             // Activating Objects
@@ -67,18 +66,6 @@ namespace MOP
             ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
             SafeMode = (bool)MOP.safeMode.GetValue();
             ignoreModVehicles = (bool)MOP.ignoreModVehicles.GetValue();
-
-            // Rulefiles
-            if (!(bool)MOP.rulesAutoUpdate.GetValue())
-            {
-                System.IO.File.Create($"{MOP.ModConfigPath}\\NoUpdates.mop");
-                ruleFilesAutoUpdate = (bool)MOP.rulesAutoUpdate.GetValue();
-            }
-            else
-            {
-                if (System.IO.File.Exists($"{MOP.ModConfigPath}\\NoUpdates.mop"))
-                    System.IO.File.Delete($"{MOP.ModConfigPath}\\NoUpdates.mop");
-            }
 
             // Others
             removeEmptyBeerBottles = (bool)MOP.removeEmptyBeerBottles.GetValue();
@@ -92,6 +79,8 @@ namespace MOP
             {
                 WorldManager.instance.ToggleActiveSectors();
             }
+
+            firstLoadPassed = true;
         }
 
         /// <summary>
@@ -114,9 +103,35 @@ namespace MOP
             }
         }
 
+        /// <summary>
+        /// Workaround for a bug in MSC Loader 1.1.6.
+        /// </summary>
+        /// <returns></returns>
         public static bool IsAutoUpdateDisabled()
         {
-            return System.IO.File.Exists($"{MOP.ModConfigPath}\\NoUpdates.mop");
+            try
+            {
+                string settingsPath = $"{MOP.ModConfigPath}\\settings.json";
+                if (!File.Exists(settingsPath))
+                    return false;
+
+                string[] lines = File.ReadAllLines($"{MOP.ModConfigPath}\\settings.json");
+                int index = -1;
+
+                for (int i = 0; i < lines.Length; i++)
+                    if (lines[i].Contains("rulesAutoUpdate"))
+                        index = i;
+
+                if (index == -1)
+                    return false;
+
+                string value = lines[index + 1];
+                return value.Contains("Value\": false");
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

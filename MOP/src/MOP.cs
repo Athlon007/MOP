@@ -44,6 +44,7 @@ namespace MOP
 
         public override void OnMenuLoad()
         {
+            ModSettingsLoaded();
             ModConfigPath = ModLoader.GetModConfigFolder(this);
             MopSettings.UpdateAll();
             ModVersion = Version;
@@ -151,7 +152,7 @@ namespace MOP
             // Mod Rules
             Settings.AddHeader(this, "Mod Rules", headerColor);
             Settings.AddCheckBox(this, rulesAutoUpdate);
-            Settings.AddButton(this, forceRuleUpdate, "This will force MOP to redownload all mod rule files (this may take a while!).");
+            Settings.AddButton(this, forceRuleUpdate, "This will force MOP to re-download all mod rule files (this may take a while!).");
             Settings.AddButton(this, rulesLearnMore);
 
 

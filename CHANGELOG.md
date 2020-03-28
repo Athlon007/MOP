@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.5 Development 5 (28.03.2020)
+
+### Bug Fixes
+
+- (Development) Fixed sectors not loading
+- (Development) Fixed a typo in the mod settings
+- (Development) Fixed disabling auto update of rule files not working
+- Fixed sector not being toggled, if player is in car
+- Fixed items sometimes falling through the vehicle on game save
+- Fixed lake simple tile not being found by sector manager
+
 ## 2.5 Development 4 (28.03.2020)
 
 ### Bug Fixes
@@ -78,8 +89,6 @@ Note: First game start may take a little longer (depending on how many mods you 
 
 This update is only for players who are playing on stable release. If you use Experimental, you don't have to update!
 
-PS: Now I see why in Chinese culture number 4 is considered an unlucky number...
-
 ### Bug Fixes
 
 - Fixed MOP not working on update 23.12.2019
@@ -89,7 +98,7 @@ PS: Now I see why in Chinese culture number 4 is considered an unlucky number...
 ### Bug Fixes
 
 - Fixed ItemHook being applied twice causing MOP to break and run slower
-- Rewrote Item toggling to more reliable script
+- Rewritten Item toggling to more reliable script
 
 ## 2.4.2 (18.03.2020)
 
