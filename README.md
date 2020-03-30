@@ -52,12 +52,13 @@ MOP officially supports following mods:
 - Hayosiko Colorful Gauges
 - CD Player Enhanced
 - Actual Mop
-- KekmetAddons
+- Kekmet Addons
 - Bottle Recycle
 - Fishing Mod
 - Tangerine Pickup
 - Supercharger for Satsuma
 - ECU for Satsuma
+- Gifu Addons
 
 **If the mod is not listed, that DOES NOT mean it won't work!**
 

@@ -340,7 +340,7 @@ namespace MOP
             ModConsole.Print("[MOP] Rules loading complete!");
 
             // Initialzie sector manager
-            ToggleActiveSectors();
+            ActivateSectors();
 
             // Initialize the coroutines 
             currentLoop = LoopRoutine();
@@ -563,7 +563,7 @@ namespace MOP
                     if (i % half == 0) yield return null;
 
                     // Safe check if somehow the i gets bigger than array length.
-                    if (i > Items.instance.ItemsHooks.Count) break;
+                    if (i >= Items.instance.ItemsHooks.Count) break;
 
                     try
                     {
@@ -726,9 +726,9 @@ namespace MOP
         }
 
         /// <summary>
-        /// Toggle active sectors
+        /// Activate sectors.
         /// </summary>
-        public void ToggleActiveSectors()
+        void ActivateSectors()
         {
             if (gameObject.GetComponent<SectorManager>() == null)
             {
@@ -743,13 +743,6 @@ namespace MOP
                 Rigidbody rb = colliderCheck.AddComponent<Rigidbody>();
                 rb.useGravity = false;
                 rb.isKinematic = true;
-
-            }
-            else
-            {
-                SectorManager.instance.DestroyAllSectors();
-                Destroy(gameObject.GetComponent<SectorManager>());
-                Destroy(GameObject.Find("MOP_PlayerCheck"));
             }
         }
     }

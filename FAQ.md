@@ -12,7 +12,7 @@ I cannot guarantee that all mods will work with MOP. But you can report what's t
 
 If it's listed on the Mod compatibility list - yes.
 
-If it isn't - perhaps, I don't know. You need to check it yourself. In most cases it will work.
+If it doesn't - perhaps, I don't know. You need to check it yourself. In most cases it will work.
 
 ## What does it disable
 

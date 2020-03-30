@@ -40,6 +40,7 @@ namespace MOP
         List<Renderer> engineBayRenderers;
         Transform pivotHood;
 
+        bool currentStatus = true;
 
         /// <summary>
         /// Initialize class
@@ -64,7 +65,7 @@ namespace MOP
             renderers = new List<Renderer>();
             Transform body = this.gameObject.transform.Find("Body");
             renderers = this.gameObject.transform.GetComponentsInChildren<Renderer>(true)
-                .Where(t => !t.gameObject.name.ContainsAny("Sphere", "Capsule", "Cube")).ToList();
+                .Where(t => !t.gameObject.name.ContainsAny("Sphere", "Capsule", "Cube", "Mokia")).ToList();
 
             // Ignore Rule
             IgnoreRule vehicleRule = RuleFiles.instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
@@ -83,22 +84,23 @@ namespace MOP
         void ToggleActive(bool enabled)
         {
             // Don't run the code, if the value is the same
-            if (gameObject == null || disableableObjects[0].gameObject.activeSelf == enabled) return;
+            if (gameObject == null || currentStatus == enabled) return;
 
-            if (MopFsmManager.IsRepairshopJobOrdered())
-            {
-                Toggle = ToggleUnityCar;
-                return;
-            }
+            currentStatus = enabled;
 
             carDynamics.enabled = enabled;
             axles.enabled = enabled;
             rb.isKinematic = !enabled;
 
             if (MopSettings.SatsumaTogglePhysicsOnly) return;
+            
+            if (MopFsmManager.IsRepairshopJobOrdered())
+            {
+                enabled = true;
+            }
 
             for (int i = 0; i < disableableObjects.Length; i++)
-            {
+            { 
                 if (disableableObjects[i] == null)
                     continue;
 
@@ -119,15 +121,6 @@ namespace MOP
                 .Where(trans => trans.gameObject.name.ContainsAny(whiteList)).ToArray();
         }
 
-        public void ToggleUnityCarOnly()
-        {
-            if (MopFsmManager.IsRepairshopJobOrdered())
-            {
-                Toggle(true);
-                Toggle = ToggleUnityCar;
-            }
-        }
-
         public void ToggleEngineRenderers(bool enabled)
         {
             if (RuleFiles.instance.SpecialRules.SatsumaIgnoreRenderers || !IsHoodAttached() || engineBayRenderers[0].enabled == enabled) return;
@@ -135,6 +128,10 @@ namespace MOP
 
             for (int i = 0; i< engineBayRenderers.Count; i++)
             {
+                // Skip renderer if it's root is not Satsuma.
+                if (renderers[i].transform.root.gameObject != this.gameObject)
+                    continue;
+
                 engineBayRenderers[i].enabled = enabled;
             }
         }
@@ -146,10 +143,14 @@ namespace MOP
 
         void ToggleAllRenderers(bool enabled)
         {
-            if (RuleFiles.instance.SpecialRules.SatsumaIgnoreRenderers || renderers[0].enabled == enabled) return;
+            if (RuleFiles.instance.SpecialRules.SatsumaIgnoreRenderers || MopSettings.SatsumaTogglePhysicsOnly) return;
 
             for (int i = 0; i < renderers.Count; i++)
             {
+                // Skip renderer if it's root is not Satsuma.
+                if (renderers[i].transform.root.gameObject != this.gameObject)
+                    continue;
+
                 renderers[i].enabled = enabled;
             }
 

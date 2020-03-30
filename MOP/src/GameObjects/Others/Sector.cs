@@ -123,6 +123,7 @@ namespace MOP
             CreateNewSector(new Vector3(-1547.3f, 4, 1183.35f), new Vector3(9.6f, 5, 5.5f), new Vector3(0, 328, 0)); // Teimo
             CreateNewSector(new Vector3(-1551.7f, 4, 1185.8f), new Vector3(4.6f, 5, 2.5f), new Vector3(0, 328, 0)); // Teimo_2
             CreateNewSector(new Vector3(1562.49f, 4.8f, 733.8835f), new Vector3(15, 5, 20), new Vector3(0, 335, 0)); // Repair shop
+            //CreateNewSector(new Vector3(54.7f, -0.5062422f, -73.9f), new Vector3(6, 5, 5.2f), "YARD/MachineHall"); // Yard Machine Hall
             // CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.559867f), new Vector3(11, 5, 9)); // Yard
 
             ModConsole.Print("[MOP] Sectors done!");
@@ -171,7 +172,15 @@ namespace MOP
         public void ToggleActive(bool enabled)
         {
             for (int i = 0; i < SectorManager.instance.DisabledObjects.Count; i++)
+            {
+                // Safe check if somehow the i gets bigger than array length.
+                if (i > SectorManager.instance.DisabledObjects.Count) break;
+
+                if (SectorManager.instance.DisabledObjects[i] == null)
+                    continue;
+
                 SectorManager.instance.DisabledObjects[i].SetActive(enabled);
+            }
         }
     }
 }

@@ -57,8 +57,6 @@ namespace MOP
         // Distance after which car physics are toggled
         public const int UnityCarActiveDistance = 5;
 
-        static bool firstLoadPassed = false;
-
         public static void UpdateAll()
         {
             // Activating Objects
@@ -74,13 +72,6 @@ namespace MOP
 
             // Framerate limiter
             Application.targetFrameRate = (bool)MOP.enableFramerateLimiter.GetValue() ? int.Parse(MOP.framerateLimiter.GetValue().ToString()) : -1;
-
-            if (IsModActive && WorldManager.instance != null)
-            {
-                WorldManager.instance.ToggleActiveSectors();
-            }
-
-            firstLoadPassed = true;
         }
 
         /// <summary>

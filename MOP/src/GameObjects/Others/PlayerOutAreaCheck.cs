@@ -41,7 +41,7 @@ namespace MOP
         {
             if (other.gameObject.name == ReferenceItem)
             {
-                Satsuma.instance.ToggleUnityCarOnly();
+                //Satsuma.instance.ToggleUnityCarOnly();
             }
         }
     }

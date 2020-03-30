@@ -70,7 +70,7 @@ namespace MOP
                 GameObject.Find("Interface/Buttons/ButtonNewgame").GetComponent<PlayMakerFSM>()
             };
 
-            ToggleButtons(false);
+            //ToggleButtons(false);
 
             if (MopSettings.IsAutoUpdateDisabled() && !overrideUpdateCheck)
             {

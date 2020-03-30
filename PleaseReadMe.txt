@@ -4,7 +4,7 @@ Visit GitHub repository for newest updates, previews and changelogs!
 https://github.com/Athlon007/MOP
 
 Download the newest update from RaceDepartment,
-or from NexusMods.
+or NexusMods.
 
 RaceDepartment: https://www.racedepartment.com/downloads/mop-modern-optimization-plugin.30073/
 NexusMods: https://www.nexusmods.com/mysummercar/mods/146
@@ -36,10 +36,13 @@ MOP officially supports following mods:
 - Tangerine Pickup
 - Supercharger for Satsuma
 - ECU for Satsuma
+- Gifu Addons
 
-The mod will also work with other mods which are not on the list. If it isn't, please report that on GitHub, or one of the official mod hosting websites.
+If the mod is not listed, that DOES NOT mean it won't work!
+For more info, visit https://github.com/Athlon007/MOP/wiki/Mod-Compatibility.
 
-THIS MOD IS NOT COMPATIBLE WITH KRUFPS! Use only one of the mods.
+WARNING: This mod may or may not corrupt other mods. Use at your own risk!
+THIS MOD IS NOT COMPATIBLE WITH KRUFPS OR IMPROVEFPS! You need to remove them in order to use MOP.
 
 
 # CREDITS #

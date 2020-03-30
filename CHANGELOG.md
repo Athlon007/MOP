@@ -1,85 +1,47 @@
 # Changelog
 
-## 2.5 Development 5 (28.03.2020)
-
-### Bug Fixes
-
-- (Development) Fixed sectors not loading
-- (Development) Fixed a typo in the mod settings
-- (Development) Fixed disabling auto update of rule files not working
-- Fixed sector not being toggled, if player is in car
-- Fixed items sometimes falling through the vehicle on game save
-- Fixed lake simple tile not being found by sector manager
-
-## 2.5 Development 4 (28.03.2020)
-
-### Bug Fixes
-
-- (Development) Fixed a typo in one of the messages
-- (Development) Fixed MOP keeping Continue and New Game buttons locked, if no rule files have been found
-- (Development) Fixed MOP crashing on official version of the game, because of missing object in Sectors
-
-## 2.5 Development 3 (27.03.2020)
-
-### Added
-
-- (Development) Added new flag: prevent_toggle_on_object
-- (Development) Added support for spacebar in flag rules
-- (Development) Sectors now support rule files
-- Added new section in settings: Rule Files
-- You can disable rules updating in the MOP settings
-
-### Changes
-
-- Optimized places scripts
-- (Development) Rule files code optimization
-
-## 2.5 Development 2 (27.03.2020)
-
-### Changes
-
-- Changed some console messages
-- Improved the readibility of changelog
-- (Development) Moved MOP messages to the upper left corner in main menu
-- (Development) Added text shadow behind the messages text
-- (Development) Added time out for downloading rule files
-
-### Bug Fixes
-
-- Fixed possible index out of range bug while toggling items
-
-## 2.5 Development 1 (25.03.2020)
+## 2.5 (30.03.2020)
 
 Note: First game start may take a little longer (depending on how many mods you have), because MOP has to download rule files.
 
 ### Added
 
 - Added rule files system!
+  - Added new section in settings: Rule Files
   - From now on, all mod compatibility is done via the text files with .mopconfig format, dwonloaded from the remote server
   - No need to update MOP in order to add mod compatibility! (At least in most cases)
-  - Mod compatibility rules can be updated if needed! MOP checks for rules update every week (you can force new check in the settings)
+  - Mod compatibility rules can be updated if needed! MOP checks for rules update every week (you can force update check in the settings)
+  - You can disable rules updating in the MOP settings
 - Satsuma renderers are now disabled, if not needed
 - Satsuma engine renderers are now disabled, if player is in the car, and hood is attached
 - Added disclaimer for pirated copies of the game
 - Added "Open output log" button into settings
 - Added more items to toggled objects
+- Added extra sector at store
 
 ### Changes
 
-- MOP is now being loaded in the main menu
+- MOP now loads in the main menu
 - Sectors are now enabled for everyone
 - Improved how sectors work
 - Some console messages are now colored
-- Moved Generate 'Open Last Log' and 'Generate Mod Report' to new category - Logs
-- All game objects created by MOP will now have "MOP_" before their name
-- Code optimization
+- Moved 'Open Last Log' and 'Generate Mod Report' to new category - Logging
+- All game objects created by MOP will now have "MOP_" suffix in their name
+- Changed some console messages to be more self explanatory
+- Improved the readibility of changelog
+- Code optimization and improvements
 
 ### Bug Fixes
 
 - Boat will not disappear/teleport back to the spawn position on respawn
 - Fixed doors at home seeming to be open, while in fact they were closed
-- Increased toggling distance of water facility, so it doesn't clip on and off when player is on the junction next to school
-- Fixed sector at Teimo being placed incorrectly, allowing player to enter it from outside
+- Increased toggling distance of water facility, so it doesn't clip on and off when player is at the junction next to school
+- Fixed sector at Teimo being placed incorrectly, allowing player to experience "out of bounds" state while being outside
+- Fixed possible index out of range bug while toggling items
+- Fixed lake simple tile not being found by sector manager
+- Fixed sectors not toggling off, if player is using noclip
+- Fixed a bug in which Satsuma would remain disabled, if the player went and ordered a repairshop job without using Satsuma
+- Fixed a bug in which Satsuma toggling script would be called every time, wasting resources
 
 ### Removed
 
