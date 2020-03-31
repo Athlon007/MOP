@@ -29,8 +29,10 @@ namespace MOP
     class RuleFilesLoader : MonoBehaviour
     {
         const string RemoteServer = "http://athlon.kkmr.pl/mop/rulefiles/";
+        const string ServerContent = "servercontent.mop";
         const int FileThresholdHours = 168; // 1 week
 
+        string[] serverContent;
         string lastModListPath;
         string lastDateFilePath;
 
@@ -122,8 +124,11 @@ namespace MOP
                         continue;
                 }
 
-                if (!RemoteFileExists(ruleUrl))
-                    continue;
+                //if (!RemoteFileExists(ruleUrl))
+                //    continue;
+
+                if (!IsFileOnServer(modId)) 
+                    continue;   
 
                 fileDownloadCompleted = false;
                 using (WebClient web = new WebClient())
@@ -246,6 +251,20 @@ namespace MOP
             }
         }
 
+        bool IsFileOnServer(string modId)
+        {
+            if (serverContent == null)
+            {
+                WebClient web = new WebClient();
+                string serverContentFull = web.DownloadString(new Uri($"{RemoteServer}{ServerContent}"));
+                serverContent = serverContentFull.Split('\n');
+                for (int i = 0; i < serverContent.Length; i++)
+                    serverContent[i] = serverContent[i].Trim();
+            }
+
+            return serverContent.Contains(modId);
+        }
+
         /// <summary>
         /// Checks if the server is online
         /// </summary>
@@ -273,7 +292,7 @@ namespace MOP
                 return true;
 
             var threshold = DateTime.Now.AddHours(-hours);
-            return File.GetCreationTime(filename) <= threshold;
+            return File.GetLastWriteTime(filename) <= threshold;
         }
 
         /// <summary>
@@ -288,6 +307,20 @@ namespace MOP
             }
 
             return true;
+        }
+
+        DateTime GetFileWriteTime(string filename)
+        {
+            return File.GetLastWriteTime(filename);
+        }
+
+        DateTime GetFileOnServerLastUpdate(string line)
+        {
+            string content = line.Split(',')[1];
+            int day = int.Parse(line.Split('.')[0]);
+            int month = int.Parse(line.Split('.')[1]);
+            int year = int.Parse(line.Split('.')[2]);
+            return new DateTime(year, month, day);
         }
 
         // You know the rules and so do I

@@ -50,6 +50,7 @@ namespace MOP
             ModVersion = Version;
             ModConsole.Print($"<color=green>MOP {ModVersion} initialized!</color>");
             new RuleFiles();
+            ConsoleCommand.Add(new PrintRulesCommand());
         }
 
         /// <summary>

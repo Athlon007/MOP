@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.5.1 (tba)
+
+### Added
+
+- Added "mop-rules" command
+
+### Changes
+
+- Rule files downloading optimization
+
 ## 2.5 (30.03.2020)
 
 Note: First game start may take a little longer (depending on how many mods you have), because MOP has to download rule files.

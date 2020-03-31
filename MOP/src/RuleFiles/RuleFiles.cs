@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using MSCLoader;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -59,6 +60,31 @@ namespace MOP
             GameObject ruleFileDownloader = new GameObject("MOP_RuleFilesLoader");
             RuleFilesLoader ruleFilesLoader = ruleFileDownloader.AddComponent<RuleFilesLoader>();
             ruleFilesLoader.Initialize(overrideUpdateCheck);
+        }
+    }
+
+    class PrintRulesCommand : ConsoleCommand
+    {
+        public override string Name => "mop-rules";
+        public override string Help => "Prints the list of active rules";
+        public override bool ShowInHelp => true;
+        public override void Run(string[] args)
+        {
+            ModConsole.Print("<b>Ignore Rules</b>");
+            foreach (IgnoreRule r in RuleFiles.instance.IgnoreRules)
+                ModConsole.Print($"Object: {r.ObjectName}");
+
+            ModConsole.Print("<b>Ignore Rules At Place</b>");
+            foreach (IgnoreRuleAtPlace r in RuleFiles.instance.IgnoreRulesAtPlaces)
+                ModConsole.Print($"Place: {r.Place} Object: {r.ObjectName}");
+
+            ModConsole.Print("<b>Prevent Toggle On Object Rule</b>");
+            foreach (PreventToggleOnObjectRule r in RuleFiles.instance.PreventToggleOnObjectRule)
+                ModConsole.Print($"Main Object: {r.MainObject} Object: {r.ObjectName}");
+
+            ModConsole.Print("<b>Special Rules</b>");
+            ModConsole.Print($"DontDestroyEmptyBeerBottles: {RuleFiles.instance.SpecialRules.DontDestroyEmptyBeerBottles}");
+            ModConsole.Print($"SatsumaIgnoreRenderers: {RuleFiles.instance.SpecialRules.SatsumaIgnoreRenderers}");
         }
     }
 }
