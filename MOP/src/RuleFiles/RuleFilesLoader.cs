@@ -26,13 +26,29 @@ using UnityEngine;
 
 namespace MOP
 {
+    class ServerContentData
+    {
+        public string ID;
+        public DateTime UpdateTime;
+
+        public ServerContentData(string content)
+        {
+            ID = content.Split(',')[0];
+            string time = content.Split(',')[1];
+            int day = int.Parse(time.Split('.')[0]);
+            int month = int.Parse(time.Split('.')[1]);
+            int year = int.Parse(time.Split('.')[2]);
+            UpdateTime = new DateTime(year, month, day);
+        }
+    }
+
     class RuleFilesLoader : MonoBehaviour
     {
         const string RemoteServer = "http://athlon.kkmr.pl/mop/rulefiles/";
         const string ServerContent = "servercontent.mop";
         const int FileThresholdHours = 168; // 1 week
 
-        string[] serverContent;
+        List<ServerContentData> serverContent;
         string lastModListPath;
         string lastDateFilePath;
 
@@ -85,15 +101,14 @@ namespace MOP
             // If server or user is offline, skip downloading and simply load available files.
             if (!IsServerOnline())
             {
-                ModConsole.Error("[MOP] Connection error. Couldn't download new rule files.");
+                ModConsole.Error("[MOP] Connection error. Check your Internet connection.");
 
                 GetAndReadRuleFiles();
                 ToggleButtons(true);
+                return;
             }
-            else
-            {
-                StartCoroutine(DownloadAndUpdateRoutine());
-            }
+
+            StartCoroutine(DownloadAndUpdateRoutine());
         }
 
         IEnumerator DownloadAndUpdateRoutine()
@@ -114,21 +129,34 @@ namespace MOP
                 string ruleUrl = $"{RemoteServer}{modId}.mopconfig";
                 string filePath = $"{MOP.ModConfigPath}\\{modId}.mopconfig";
 
-                if (File.Exists(filePath) && !IsFileBelowThreshold(filePath, FileThresholdHours))
+                // Prevent downloading, if file is on the server.
+                if (lastModList.Contains(mod.ID) && !isUpdateTime)
+                    continue;
+
+                // Check if rule file for mod is on the server.
+                // If not, continue.
+                if (!IsFileOnServer(modId))
+                    continue;
+
+                // Check if the newer file is available on the server.
+                if (!overrideUpdateCheck)
                 {
+                    DateTime lastLocalFileWrite = GetFileWriteTime(filePath);
+                    ServerContentData data = serverContent.First(t => t.ID == modId);
+                    DateTime lastRemoteFileWrite = data.UpdateTime;
+                    if (lastRemoteFileWrite <= lastLocalFileWrite)
+                    {
+                        ModConsole.Print($"<color=orange>[MOP] Skipping {modId}, because local file and remote file are the same.</color>");
+                        continue;
+                    }
+                }
+
+                // Check if file actually exists on remote server.
+                if (!RemoteFileExists(ruleUrl))
+                {
+                    ModConsole.Error($"[MOP] Rule file for mod doesn't exist!\nID: {modId}\nURL: {ruleUrl}");
                     continue;
                 }
-                else
-                {
-                    if (lastModList.Contains(mod.ID) && !isUpdateTime)
-                        continue;
-                }
-
-                //if (!RemoteFileExists(ruleUrl))
-                //    continue;
-
-                if (!IsFileOnServer(modId)) 
-                    continue;   
 
                 fileDownloadCompleted = false;
                 using (WebClient web = new WebClient())
@@ -217,7 +245,7 @@ namespace MOP
                     ReadRulesFromFile(file.FullName);
                 }
 
-                ModConsole.Print("[MOP] Loading rule files done!");
+                ModConsole.Print("<color=green>[MOP] Loading rule files done!</color>");
                 NewMessage($"MOP: Loading {files.Length} rule file{(files.Length > 1 ? "s" : "")} done!");
             }
             catch (Exception ex)
@@ -251,18 +279,21 @@ namespace MOP
             }
         }
 
+        /// <summary>
+        /// Reads serverContent file downloaded from server, and check if it contains the modId we're interested in.
+        /// </summary>
         bool IsFileOnServer(string modId)
         {
             if (serverContent == null)
             {
                 WebClient web = new WebClient();
-                string serverContentFull = web.DownloadString(new Uri($"{RemoteServer}{ServerContent}"));
-                serverContent = serverContentFull.Split('\n');
-                for (int i = 0; i < serverContent.Length; i++)
-                    serverContent[i] = serverContent[i].Trim();
+                string[] serverContentArray = web.DownloadString(new Uri($"{RemoteServer}{ServerContent}")).Split('\n');
+                serverContent = new List<ServerContentData>();
+                for (int i = 0; i < serverContentArray.Length; i++)
+                    serverContent.Add(new ServerContentData(serverContentArray[i]));
             }
 
-            return serverContent.Contains(modId);
+            return serverContent.Where(t => t.ID == modId).ToArray().Length > 0;
         }
 
         /// <summary>
@@ -284,18 +315,6 @@ namespace MOP
         }
 
         /// <summary>
-        /// Checks if the rule file should be updated.
-        /// </summary>
-        bool IsFileBelowThreshold(string filename, int hours)
-        {
-            if (overrideUpdateCheck)
-                return true;
-
-            var threshold = DateTime.Now.AddHours(-hours);
-            return File.GetLastWriteTime(filename) <= threshold;
-        }
-
-        /// <summary>
         /// Returns true, if the time saved into the file with added FileThresholdHours is larger than the current time.
         /// </summary>
         bool IsUpdateTime()
@@ -309,18 +328,12 @@ namespace MOP
             return true;
         }
 
+        /// <summary>
+        /// Returns the last write time of file.
+        /// </summary>
         DateTime GetFileWriteTime(string filename)
         {
             return File.GetLastWriteTime(filename);
-        }
-
-        DateTime GetFileOnServerLastUpdate(string line)
-        {
-            string content = line.Split(',')[1];
-            int day = int.Parse(line.Split('.')[0]);
-            int month = int.Parse(line.Split('.')[1]);
-            int year = int.Parse(line.Split('.')[2]);
-            return new DateTime(year, month, day);
         }
 
         // You know the rules and so do I

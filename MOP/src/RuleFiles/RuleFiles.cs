@@ -82,6 +82,10 @@ namespace MOP
             foreach (PreventToggleOnObjectRule r in RuleFiles.instance.PreventToggleOnObjectRule)
                 ModConsole.Print($"Main Object: {r.MainObject} Object: {r.ObjectName}");
 
+            ModConsole.Print("<b>Toggle Rules</b>");
+            foreach (ToggleRule r in RuleFiles.instance.ToggleRules)
+                ModConsole.Print($"Object: {r.ObjectName} Toggle Mode: {r.ToggleMode}");
+
             ModConsole.Print("<b>Special Rules</b>");
             ModConsole.Print($"DontDestroyEmptyBeerBottles: {RuleFiles.instance.SpecialRules.DontDestroyEmptyBeerBottles}");
             ModConsole.Print($"SatsumaIgnoreRenderers: {RuleFiles.instance.SpecialRules.SatsumaIgnoreRenderers}");

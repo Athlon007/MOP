@@ -9,6 +9,7 @@
 ### Changes
 
 - Rule files downloading optimization
+- From now on, MOP will only update
 
 ## 2.5 (30.03.2020)
 
