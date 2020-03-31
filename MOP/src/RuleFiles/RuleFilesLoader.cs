@@ -287,7 +287,7 @@ namespace MOP
             if (serverContent == null)
             {
                 WebClient web = new WebClient();
-                string[] serverContentArray = web.DownloadString(new Uri($"{RemoteServer}{ServerContent}")).Split('\n');
+                string[] serverContentArray = web.DownloadStringAsync(new Uri($"{RemoteServer}{ServerContent}")).Split('\n');
                 serverContent = new List<ServerContentData>();
                 for (int i = 0; i < serverContentArray.Length; i++)
                     serverContent.Add(new ServerContentData(serverContentArray[i]));
