@@ -10,7 +10,7 @@
 ### Changes
 
 - Rule files downloading optimization
-- From now on, MOP will only update rule files when the newer one is available on the server, instead of redownloading all of them
+- From now on, MOP will only update rule files when the newer one is available on the server, instead of re-downloading all of them
 - Optimized the script which is triggered when driving the Satsuma
 
 ## 2.5 (30.03.2020)
