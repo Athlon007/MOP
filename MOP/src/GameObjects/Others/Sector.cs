@@ -102,6 +102,10 @@ namespace MOP
             if (lakeSimpleTile != null)
                 disabledObjects.Add(lakeSimpleTile);
 
+            GameObject lakeNice = GameObject.Find("MAP/LakeNice");
+            if (lakeNice != null)
+                disabledObjects.Add(lakeNice);
+
             sectors = new List<GameObject>();
 
             // Load rule files
@@ -110,11 +114,18 @@ namespace MOP
                 List<GameObject> newList = new List<GameObject>();
                 foreach (GameObject obj in disabledObjects)
                 {
-                    if (obj == null)
-                        continue;
+                    try
+                    {
+                        if (obj == null)
+                            continue;
 
-                    if (!RuleFiles.instance.IgnoreRules.Any(f => f.ObjectName == obj.name))
-                        newList.Add(obj);
+                        if (!RuleFiles.instance.IgnoreRules.Any(f => f.ObjectName == obj.name))
+                            newList.Add(obj);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        ExceptionManager.New(ex, "Sector Rules Loading Error");
+                    }
                 }
                 disabledObjects = newList;
             }
@@ -123,7 +134,7 @@ namespace MOP
             CreateNewSector(new Vector3(-1547.3f, 4, 1183.35f), new Vector3(9.6f, 5, 5.5f), new Vector3(0, 328, 0)); // Teimo
             CreateNewSector(new Vector3(-1551.7f, 4, 1185.8f), new Vector3(4.6f, 5, 2.5f), new Vector3(0, 328, 0)); // Teimo_2
             CreateNewSector(new Vector3(1562.49f, 4.8f, 733.8835f), new Vector3(15, 5, 20), new Vector3(0, 335, 0)); // Repair shop
-            //CreateNewSector(new Vector3(54.7f, -0.5062422f, -73.9f), new Vector3(6, 5, 5.2f), "YARD/MachineHall"); // Yard Machine Hall
+            // CreateNewSector(new Vector3(54.7f, -0.5062422f, -73.9f), new Vector3(6, 5, 5.2f), "YARD/MachineHall"); // Yard Machine Hall
             // CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.559867f), new Vector3(11, 5, 9)); // Yard
 
             ModConsole.Print("[MOP] Sectors done!");

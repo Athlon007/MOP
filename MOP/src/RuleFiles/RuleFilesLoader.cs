@@ -287,10 +287,13 @@ namespace MOP
             if (serverContent == null)
             {
                 WebClient web = new WebClient();
-                string[] serverContentArray = web.DownloadStringAsync(new Uri($"{RemoteServer}{ServerContent}")).Split('\n');
+                web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {SystemInfo.operatingSystem}");
+                string[] serverContentArray = web.DownloadString(new Uri($"{RemoteServer}{ServerContent}")).Split('\n');
                 serverContent = new List<ServerContentData>();
                 for (int i = 0; i < serverContentArray.Length; i++)
                     serverContent.Add(new ServerContentData(serverContentArray[i]));
+
+                web.Dispose();
             }
 
             return serverContent.Where(t => t.ID == modId).ToArray().Length > 0;

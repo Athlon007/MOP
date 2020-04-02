@@ -15,11 +15,11 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using System;
 
 namespace MOP
 {
@@ -235,7 +235,7 @@ namespace MOP
             worldObjectList.Add("PierStore", true);
             worldObjectList.Add("BRIDGE_dirt", true);
             worldObjectList.Add("BRIDGE_highway", true);
-            worldObjectList.Add("BirdTower", true);
+            worldObjectList.Add("BirdTower", 400);
             worldObjectList.Add("SwampColliders", true);
 
             ModConsole.Print("[MOP] Away from house world objects loaded");
@@ -279,61 +279,68 @@ namespace MOP
             ModConsole.Print("[MOP] Loading rules...");
             foreach (ToggleRule v in RuleFiles.instance.ToggleRules)
             {
-                switch (v.ToggleMode)
+                try
                 {
-                    case ToggleModes.Normal:
-                        if (GameObject.Find(v.ObjectName) == null)
-                        {
-                            ModConsole.Error($"[MOP] Couldn't find world object {v.ObjectName}");
-                            continue;
-                        }
+                    switch (v.ToggleMode)
+                    {
+                        case ToggleModes.Normal:
+                            if (GameObject.Find(v.ObjectName) == null)
+                            {
+                                ModConsole.Error($"[MOP] Couldn't find world object {v.ObjectName}");
+                                continue;
+                            }
 
-                        worldObjectList.Add(v.ObjectName);
-                        break;
-                    case ToggleModes.Renderer:
-                        if (GameObject.Find(v.ObjectName) == null)
-                        {
-                            ModConsole.Error($"[MOP] Couldn't find world object {v.ObjectName}");
-                            continue;
-                        }
+                            worldObjectList.Add(v.ObjectName);
+                            break;
+                        case ToggleModes.Renderer:
+                            if (GameObject.Find(v.ObjectName) == null)
+                            {
+                                ModConsole.Error($"[MOP] Couldn't find world object {v.ObjectName}");
+                                continue;
+                            }
 
-                        worldObjectList.Add(v.ObjectName, 200, true);
-                        break;
-                    case ToggleModes.Item:
-                        GameObject g = GameObject.Find(v.ObjectName);
+                            worldObjectList.Add(v.ObjectName, 200, true);
+                            break;
+                        case ToggleModes.Item:
+                            GameObject g = GameObject.Find(v.ObjectName);
 
-                        if (g == null)
-                        {
-                            ModConsole.Error($"[MOP] Couldn't find item {v.ObjectName}");
-                            continue;
-                        }
+                            if (g == null)
+                            {
+                                ModConsole.Error($"[MOP] Couldn't find item {v.ObjectName}");
+                                continue;
+                            }
 
-                        if (g.GetComponent<ItemHook>() == null)
-                            g.AddComponent<ItemHook>();
-                        break;
-                    case ToggleModes.Vehicle:
-                        if (MopSettings.IgnoreModVehicles) continue;
+                            if (g.GetComponent<ItemHook>() == null)
+                                g.AddComponent<ItemHook>();
+                            break;
+                        case ToggleModes.Vehicle:
+                            if (MopSettings.IgnoreModVehicles) continue;
 
-                        if (GameObject.Find(v.ObjectName) == null)
-                        {
-                            ModConsole.Error($"[MOP] Couldn't find vehicle {v.ObjectName}");
-                            continue;
-                        }
+                            if (GameObject.Find(v.ObjectName) == null)
+                            {
+                                ModConsole.Error($"[MOP] Couldn't find vehicle {v.ObjectName}");
+                                continue;
+                            }
 
-                        vehicles.Add(new Vehicle(v.ObjectName));
-                        break;
-                    case ToggleModes.VehiclePhysics:
-                        if (MopSettings.IgnoreModVehicles) continue;
+                            vehicles.Add(new Vehicle(v.ObjectName));
+                            break;
+                        case ToggleModes.VehiclePhysics:
+                            if (MopSettings.IgnoreModVehicles) continue;
 
-                        if (GameObject.Find(v.ObjectName) == null)
-                        {
-                            ModConsole.Error($"[MOP] Couldn't find vehicle {v.ObjectName}");
-                            continue;
-                        }
-                        vehicles.Add(new Vehicle(v.ObjectName));
-                        Vehicle veh = vehicles[vehicles.Count - 1];
-                        veh.Toggle = veh.ToggleUnityCar;
-                        break;
+                            if (GameObject.Find(v.ObjectName) == null)
+                            {
+                                ModConsole.Error($"[MOP] Couldn't find vehicle {v.ObjectName}");
+                                continue;
+                            }
+                            vehicles.Add(new Vehicle(v.ObjectName));
+                            Vehicle veh = vehicles[vehicles.Count - 1];
+                            veh.Toggle = veh.ToggleUnityCar;
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, "Toggle Rules Loading Error");
                 }
             }
 

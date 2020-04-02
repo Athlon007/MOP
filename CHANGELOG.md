@@ -1,15 +1,17 @@
 # Changelog
 
-## 2.5.1 (tba)
+## 2.5.1 (02.04.2020)
 
 ### Added
 
 - Added "mop-rules" command
+- Detailed lake is now also toggled while entering sector
 
 ### Changes
 
 - Rule files downloading optimization
 - From now on, MOP will only update
+- Optimized the script which is triggered when driving the Satsuma
 
 ## 2.5 (30.03.2020)
 
