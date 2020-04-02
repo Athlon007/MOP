@@ -63,6 +63,7 @@
     <Compile Include="src\GameObjects\Others\MopFsmManager.cs" />
     <Compile Include="src\GameObjects\Others\PlayerOutAreaCheck.cs" />
     <Compile Include="src\GameObjects\Others\SatsumaInAreaCheck.cs" />
+    <Compile Include="src\GameObjects\Places\Farm.cs" />
     <Compile Include="src\GameObjects\Places\Inspection.cs" />
     <Compile Include="src\GameObjects\Others\Sector.cs" />
     <Compile Include="src\GameObjects\Places\Yard.cs" />

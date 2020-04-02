@@ -112,7 +112,8 @@ namespace MOP
                 new Yard(),
                 new Teimo(),
                 new RepairShop(),
-                new Inspection()
+                new Inspection(),
+                new Farm()
             };
 
             ModConsole.Print("[MOP] Initialized places");
@@ -210,6 +211,25 @@ namespace MOP
 
             // Fix for Jokke's house furnitures clipping through floor
             perajarvi.transform.Find("TerraceHouse/Apartments/Colliders").parent = null;
+
+            // Fix two houses from JOBS/HouseShit2 parenting to Perajarvi
+            // Experimental 02.04.2020
+            
+            TrySetParent("JOBS/HouseShit1/HouseOld4", buildings);
+            TrySetParent("JOBS/HouseShit1/Cowhouse 1", buildings);
+            TrySetParent("JOBS/HouseShit2/HouseSmall2", perajarvi.transform);
+            TrySetParent("JOBS/HouseShit3/HouseSmall1", perajarvi.transform);
+            TrySetParent("MAP/Buildings/HouseOld2", GameObject.Find("JOBS/HouseShit4/HouseSmall2").transform);
+            worldObjectList.Add("JOBS/HouseShit4/HouseSmall2", 300);
+            TrySetParent("JOBS/HouseShit5/HouseRintama1", buildings);
+            TrySetParent("JOBS/HouseShit5/Cowhouse 1", buildings);
+            TrySetParent("JOBS/HouseShit5/Shed", buildings);
+            TrySetParent("JOBS/HouseWood1/Shed", buildings);
+            TrySetParent("JOBS/HouseWood1/HouseOld2", buildings);
+            TrySetParent("JOBS/HouseDrunk/Shed", buildings);
+            TrySetParent("JOBS/HouseDrunk/HouseRintamaDrunk", buildings);
+            TrySetParent("JOBS/Mummola/HouseRintama5", buildings);
+            
 
             ModConsole.Print("[MOP] Finished applying fixes");
 
@@ -477,7 +497,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, "CODE: 0-0");
+                    ExceptionManager.New(ex, "places_error_0");
                 }
 
                 yield return null;
@@ -504,7 +524,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, "CODE: 0-1");
+                    ExceptionManager.New(ex, "places_error_1");
                 }
 
                 // Safe mode prevents toggling elemenets that MAY case some issues (vehicles, items, etc.)
@@ -604,7 +624,7 @@ namespace MOP
                     half = places.Count / 2;
                     for (i = 0; i < half; ++i)
                     {
-                        places[i].ToggleActive(IsEnabled(places[i].transform));
+                        places[i].ToggleActive(IsEnabled(places[i].transform, places[i].ToggleDistance));
                     }
                 }
                 catch (Exception ex)
@@ -618,7 +638,7 @@ namespace MOP
                 {
                     for (; i < places.Count; ++i)
                     {
-                        places[i].ToggleActive(IsEnabled(places[i].transform));
+                        places[i].ToggleActive(IsEnabled(places[i].transform, places[i].ToggleDistance));
                     }
                 }
                 catch (Exception ex)
@@ -751,6 +771,18 @@ namespace MOP
                 rb.useGravity = false;
                 rb.isKinematic = true;
             }
+        }
+
+        void TrySetParent(string objectName, Transform parent)
+        {
+            GameObject gm = GameObject.Find(objectName);
+            if (gm == null)
+            {
+                ModConsole.Error($"[MOP] {objectName} not found!");
+                return;
+            }
+
+            gm.transform.parent = parent;
         }
     }
 }

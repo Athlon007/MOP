@@ -28,6 +28,8 @@ namespace MOP
 
         public GameObject gameObject { get; set; }
 
+        public float ToggleDistance { get; private set; }
+
         // Objects from that list will not be disabled
         // It is so to prevent from restock script and Teimo's bike routine not working
         internal List<string> GameObjectBlackList;
@@ -49,7 +51,7 @@ namespace MOP
         /// <summary>
         /// Initialize the Store class
         /// </summary>
-        public Place(string placeName)
+        public Place(string placeName, float distance = 200)
         {
             gameObject = GameObject.Find(placeName);
             GameObjectBlackList = new List<string>();
@@ -58,6 +60,8 @@ namespace MOP
             if (ignoreRulesAtThisPlace.Length > 0)
                 foreach (IgnoreRuleAtPlace rule in ignoreRulesAtThisPlace)
                     GameObjectBlackList.Add(rule.ObjectName);
+
+            ToggleDistance = distance;
         }
 
         /// <summary>

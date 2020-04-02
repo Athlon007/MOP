@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.6 (tba)
+
+### Added
+
+- Farm is now toggled
+- Houses from "shit job" are now toggled
+
 ## 2.5.1 (02.04.2020)
 
 ### Added
