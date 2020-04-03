@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5.2 (03.04.2020)
+
+### Bug Fixes
+
+- Fixed MOP not working if the Satsuma isn't built
+
 ## 2.5.1 (02.04.2020)
 
 ### Added

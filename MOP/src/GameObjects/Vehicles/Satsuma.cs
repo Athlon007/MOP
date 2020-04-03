@@ -57,7 +57,7 @@ namespace MOP
 
             // Get engine bay renderers
             engineBayRenderers = new List<Renderer>();
-            Transform block = this.gameObject.transform.Find("Chassis/sub frame(xxxxx)/CarMotorPivot/block(Clone)");
+            Transform block = this.gameObject.transform.Find("Chassis/sub frame(xxxxx)/CarMotorPivot");
             engineBayRenderers = block.GetComponentsInChildren<Renderer>(true).ToList();
             pivotHood = this.gameObject.transform.Find("Body/pivot_hood");
 

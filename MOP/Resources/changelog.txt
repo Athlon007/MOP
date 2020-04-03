@@ -1,10 +1,3 @@
-### Added
+### Bug Fixes
 
-- Added "mop-rules" command
-- Detailed lake is now also toggled while entering sector
-
-### Changes
-
-- Rule files downloading optimization
-- From now on, MOP will only update rule files when the newer one is available on the server, instead of redownloading all of them
-- Optimized the script which is triggered when driving the Satsuma
+- Fixed MOP not working if the Satsuma isn't built
