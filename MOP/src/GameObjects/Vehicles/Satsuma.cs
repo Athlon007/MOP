@@ -123,7 +123,8 @@ namespace MOP
 
         public void ToggleEngineRenderers(bool enabled)
         {
-            if (RuleFiles.instance.SpecialRules.SatsumaIgnoreRenderers || engineBayRenderers[0].enabled == enabled || !IsHoodAttached()) return;
+            if (RuleFiles.instance.SpecialRules.SatsumaIgnoreRenderers || engineBayRenderers.Count == 0 
+                || engineBayRenderers[0].enabled == enabled || !IsHoodAttached()) return;
             if (renderersToggled) return;
 
             for (int i = 0; i< engineBayRenderers.Count; i++)
