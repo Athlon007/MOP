@@ -227,7 +227,11 @@ namespace MOP
                     return;
                 }
 
-                ModConsole.Print($"[MOP] Found {files.Length} rule file{(files.Length > 1 ? "s" : "")}!");
+                string message = $"[MOP] Found {files.Length} rule file{(files.Length > 1 ? "s" : "")}!";
+                if (files.Length == 69)
+                    message = message.Rainbowmize();
+
+                ModConsole.Print(message);
 
                 // Read rule files.
                 foreach (FileInfo file in files)
@@ -250,7 +254,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                ExceptionManager.New(ex, "Rule Files Error");
+                ExceptionManager.New(ex, "RULE_FILES_READ_ERROR");
             }
 
             ToggleButtons(true);

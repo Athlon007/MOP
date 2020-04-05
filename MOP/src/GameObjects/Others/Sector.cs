@@ -124,7 +124,7 @@ namespace MOP
                     }
                     catch (System.Exception ex)
                     {
-                        ExceptionManager.New(ex, "Sector Rules Loading Error");
+                        ExceptionManager.New(ex, "SECTOR_RULES_LOAD_ERROR");
                     }
                 }
                 disabledObjects = newList;

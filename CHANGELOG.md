@@ -1,11 +1,20 @@
 # Changelog
 
-## 2.6 (tba)
+## 2.5.3 (tba)
 
 ### Added
 
 - Farm is now toggled
-- Houses from "shit job" are now toggled
+
+### Changes
+
+- Sectors now work when using noclip mod
+- Changed error codes
+
+### Bug Fixes
+
+- Fixed potential error, in which MOP would not load if the rule files class haven't been loaded
+- Fixed house renderers disappearing, if the player entered the garage and the active distance was set to 0
 
 ## 2.5.2 (03.04.2020)
 

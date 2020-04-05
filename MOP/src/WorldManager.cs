@@ -42,6 +42,12 @@ namespace MOP
 
         public WorldManager()
         {
+            if (RuleFiles.instance == null)
+            {
+                ModConsole.Error("[MOP] Rule Files haven't been loaded! Please exit to the main menu and start the game again.");
+                return;
+            }
+
             // Start the delayed initialization routine
             StartCoroutine(DelayedInitializaitonRoutine());
         }
@@ -212,25 +218,6 @@ namespace MOP
             // Fix for Jokke's house furnitures clipping through floor
             perajarvi.transform.Find("TerraceHouse/Apartments/Colliders").parent = null;
 
-            // Fix two houses from JOBS/HouseShit2 parenting to Perajarvi
-            // Experimental 02.04.2020
-            
-            TrySetParent("JOBS/HouseShit1/HouseOld4", buildings);
-            TrySetParent("JOBS/HouseShit1/Cowhouse 1", buildings);
-            TrySetParent("JOBS/HouseShit2/HouseSmall2", perajarvi.transform);
-            TrySetParent("JOBS/HouseShit3/HouseSmall1", perajarvi.transform);
-            TrySetParent("MAP/Buildings/HouseOld2", GameObject.Find("JOBS/HouseShit4/HouseSmall2").transform);
-            worldObjectList.Add("JOBS/HouseShit4/HouseSmall2", 300);
-            TrySetParent("JOBS/HouseShit5/HouseRintama1", buildings);
-            TrySetParent("JOBS/HouseShit5/Cowhouse 1", buildings);
-            TrySetParent("JOBS/HouseShit5/Shed", buildings);
-            TrySetParent("JOBS/HouseWood1/Shed", buildings);
-            TrySetParent("JOBS/HouseWood1/HouseOld2", buildings);
-            TrySetParent("JOBS/HouseDrunk/Shed", buildings);
-            TrySetParent("JOBS/HouseDrunk/HouseRintamaDrunk", buildings);
-            TrySetParent("JOBS/Mummola/HouseRintama5", buildings);
-            
-
             ModConsole.Print("[MOP] Finished applying fixes");
 
             //Things that should be enabled when out of proximity of the house
@@ -360,7 +347,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, "Toggle Rules Loading Error");
+                    ExceptionManager.New(ex, "TOGGLE_RULES_LOAD_ERROR");
                 }
             }
 
@@ -423,7 +410,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                ModConsole.Error(ex.ToString());
+                ExceptionManager.New(ex, "SAVE_HOOK_ERROR");
             }
         }
 
@@ -455,17 +442,7 @@ namespace MOP
 
                 // When player is in any of the sectors, MOP will act like the player is at yard.
                 if (SectorManager.instance.PlayerInSector)
-                {
-                    // Safe check for when player uses NoClip to leave the sector.
-                    // If player leaves the sector using NoClip, PlayerInSector toggle will be disabled.
-                    if (!playerCharacterController.enabled && !MopFsmManager.IsPlayerInCar())
-                    {
-                        SectorManager.instance.PlayerInSector = false;
-                        SectorManager.instance.ToggleActive(true);
-                    }
-
                     isPlayerAtYard = true;
-                }
 
                 int half = worldObjectList.Count / 2;
                 int i = 0;
@@ -497,7 +474,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, "places_error_0");
+                    ExceptionManager.New(ex, "PLACES_TOGGLE_ERROR_0");
                 }
 
                 yield return null;
@@ -524,7 +501,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, "places_error_1");
+                    ExceptionManager.New(ex, "PLACES_TOGGLE_ERROR_1");
                 }
 
                 // Safe mode prevents toggling elemenets that MAY case some issues (vehicles, items, etc.)
@@ -555,7 +532,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, "CODE: 1-0");
+                    ExceptionManager.New(ex, "VEHICLE_TOGGLE_ERROR_0");
                 }
 
                 yield return null;
@@ -579,7 +556,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, "CODE: 1-1");
+                    ExceptionManager.New(ex, "VEHICLE_TOGGLE_ERROR_1");
                 }
 
                 // Items (new)
@@ -614,7 +591,7 @@ namespace MOP
                     }
                     catch (Exception ex)
                     {
-                        ExceptionManager.New(ex, "CODE: 2-0");
+                        ExceptionManager.New(ex, "ITEMS_TOGGLE_ERROR");
                     }
                 }
 
@@ -629,7 +606,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, "CODE: 3-0");
+                    ExceptionManager.New(ex, "PLACES_TOGGLE_ERORR_0");
                 }
 
                 yield return null;
@@ -643,7 +620,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, "CODE: 3-1");
+                    ExceptionManager.New(ex, "PLACES_TOGGLE_ERORR_1");
                 }
 
                 yield return new WaitForSeconds(1);
@@ -659,6 +636,9 @@ namespace MOP
         {
             if (SectorManager.instance != null && SectorManager.instance.PlayerInSector)
                 toggleDistance = 30;
+
+            if (MopSettings.ActiveDistance == 0)
+                toggleDistance = 60;
 
             return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
@@ -748,7 +728,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                ExceptionManager.New(ex, "CODE: 90");
+                ExceptionManager.New(ex, "SAVEGAME_ERROR");
             }
         }
 
@@ -771,18 +751,6 @@ namespace MOP
                 rb.useGravity = false;
                 rb.isKinematic = true;
             }
-        }
-
-        void TrySetParent(string objectName, Transform parent)
-        {
-            GameObject gm = GameObject.Find(objectName);
-            if (gm == null)
-            {
-                ModConsole.Error($"[MOP] {objectName} not found!");
-                return;
-            }
-
-            gm.transform.parent = parent;
         }
     }
 }
