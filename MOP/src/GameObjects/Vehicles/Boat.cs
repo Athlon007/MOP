@@ -44,7 +44,7 @@ namespace MOP
         /// <summary>
         /// Enable or disable car
         /// </summary>
-        void ToggleActive(bool enabled)
+        new void ToggleActive(bool enabled)
         {
             if (gameObject == null || gameObject.activeSelf == enabled || !IsActive) return;
 
