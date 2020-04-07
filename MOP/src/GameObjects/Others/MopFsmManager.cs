@@ -23,8 +23,9 @@ namespace MOP
     {
         static FsmInt uncleStage;
         static FsmBool gtGrilleInstalled;
-        static FsmFloat orderTime;
+        static FsmBool order;
         static FsmString playerCurrentVehicle;
+        static FsmInt farmJobStage;
 
         /// <summary>
         /// Checks if the player has the keys to the Hayosiko.
@@ -57,10 +58,10 @@ namespace MOP
         /// <returns></returns>
         public static bool IsRepairshopJobOrdered()
         {
-            if (orderTime == null)
-                orderTime = GameObject.Find("REPAIRSHOP/Order").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmFloat("_OrderTime");
+            if (order == null)
+                order = GameObject.Find("REPAIRSHOP/Order").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("_Order");
 
-            return orderTime.Value > 0 && orderTime.Value != 5000;
+            return order.Value;
         }
 
         /// <summary>
@@ -81,6 +82,19 @@ namespace MOP
                 playerCurrentVehicle = PlayMakerGlobals.Instance.Variables.FindFsmString("PlayerCurrentVehicle");
 
             return playerCurrentVehicle.Value.Length > 0;
+        }
+
+        /// <summary>
+        /// Checks if the JobStage of Farm Job has rechead 3rd stage.
+        /// On 3rd stage, the combine is available to the player.
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsCombineAvailable()
+        {
+            if (farmJobStage == null)
+                farmJobStage = GameObject.Find("JOBS/Farm/Job").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmInt("JobStage");
+
+            return farmJobStage.Value >= 3;
         }
     }
 }

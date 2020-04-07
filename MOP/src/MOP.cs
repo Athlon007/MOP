@@ -49,7 +49,7 @@ namespace MOP
             MopSettings.UpdateAll();
             ModVersion = Version;
             ModConsole.Print($"<color=green>MOP {ModVersion} initialized!</color>");
-            new RuleFiles();
+            new Rules();
             ConsoleCommand.Add(new PrintRulesCommand());
         }
 
@@ -234,7 +234,7 @@ namespace MOP
             if (File.Exists($"{ModConfigPath}\\LastUpdate.mop"))
                 File.Delete($"{ModConfigPath}\\LastUpdate.mop");
 
-            new RuleFiles(true);
+            new Rules(true);
         }
 
         /// <summary>

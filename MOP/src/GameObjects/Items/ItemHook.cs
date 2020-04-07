@@ -42,7 +42,7 @@ namespace MOP
 
         public ItemHook()
         {
-            IgnoreRule rule = RuleFiles.instance.IgnoreRules.Find(f => f.ObjectName == this.gameObject.name);
+            IgnoreRule rule = Rules.instance.IgnoreRules.Find(f => f.ObjectName == this.gameObject.name);
             if (rule != null)
             {
                 if (rule.TotalIgnore)
@@ -156,7 +156,7 @@ namespace MOP
                 return;
 
             // If Bottle Recycling mod is present, prevent destroying beer bottles
-            if (RuleFiles.instance.SpecialRules.DontDestroyEmptyBeerBottles)
+            if (Rules.instance.SpecialRules.DontDestroyEmptyBeerBottles)
             {
                 ModConsole.Print("<color=yellow>[MOP] Beer bottles won't be destroyed, because one or more mods prevent it. " +
                     "Disable 'Destroy empty beer bottles' in the MOP settings.</color>");

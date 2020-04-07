@@ -44,7 +44,7 @@ namespace MOP
         /// <param name="rendererOnly">If true, only game object's renderer will get toggled.</param>
         public void Add(string gameObjectName, int distance = 200, bool rendererOnly = false)
         {
-            IgnoreRule rule = RuleFiles.instance.IgnoreRules.Find(f => f.ObjectName == gameObjectName);
+            IgnoreRule rule = Rules.instance.IgnoreRules.Find(f => f.ObjectName == gameObjectName);
             if (rule != null)
             {
                 if (rule.TotalIgnore)
@@ -73,7 +73,7 @@ namespace MOP
         /// <param name="rendererOnly">If true, only game object's renderer will get toggled.</param>
         public void Add(string gameObjectName, bool awayFromHouse, bool rendererOnly = false)
         {
-            IgnoreRule rule = RuleFiles.instance.IgnoreRules.Find(f => f.ObjectName == gameObjectName);
+            IgnoreRule rule = Rules.instance.IgnoreRules.Find(f => f.ObjectName == gameObjectName);
             if (rule != null)
             {
                 if (rule.TotalIgnore)

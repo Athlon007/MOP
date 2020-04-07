@@ -20,9 +20,9 @@ using UnityEngine;
 
 namespace MOP
 {
-    class RuleFiles
+    class Rules
     {
-        public static RuleFiles instance;
+        public static Rules instance;
 
         // Ignore rules.
         public List<IgnoreRule> IgnoreRules;
@@ -38,7 +38,10 @@ namespace MOP
         // Used for mod report only.
         public List<string> RuleFileNames;
 
-        public RuleFiles(bool overrideUpdateCheck = false)
+        // Rules applied by sectors.
+        public List<string> SectorRules;
+
+        public Rules(bool overrideUpdateCheck = false)
         {
             instance = this;
 
@@ -52,6 +55,8 @@ namespace MOP
             
             RuleFileNames = new List<string>();
 
+            SectorRules = new List<string>();
+
             // Destroy old rule files loader object, if it exists.
             GameObject oldRuleFilesLoader = GameObject.Find("MOP_RuleFilesLoader");
             if (oldRuleFilesLoader != null)
@@ -60,6 +65,24 @@ namespace MOP
             GameObject ruleFileDownloader = new GameObject("MOP_RuleFilesLoader");
             RuleFilesLoader ruleFilesLoader = ruleFileDownloader.AddComponent<RuleFilesLoader>();
             ruleFilesLoader.Initialize(overrideUpdateCheck);
+        }
+
+        public void AddSectorRule(params string[] names)
+        {
+            SectorRules.AddRange(names);
+        }
+
+        public void ClearSectorRules()
+        {
+            SectorRules = new List<string>();
+        }
+
+        public bool SectorRulesContains(string name)
+        {
+            if (SectorRules.Count == 0)
+                return false;
+
+            return SectorRules.Contains(name);
         }
     }
 
@@ -71,24 +94,24 @@ namespace MOP
         public override void Run(string[] args)
         {
             ModConsole.Print("<b>Ignore Rules</b>");
-            foreach (IgnoreRule r in RuleFiles.instance.IgnoreRules)
+            foreach (IgnoreRule r in Rules.instance.IgnoreRules)
                 ModConsole.Print($"Object: {r.ObjectName}");
 
             ModConsole.Print("<b>Ignore Rules At Place</b>");
-            foreach (IgnoreRuleAtPlace r in RuleFiles.instance.IgnoreRulesAtPlaces)
+            foreach (IgnoreRuleAtPlace r in Rules.instance.IgnoreRulesAtPlaces)
                 ModConsole.Print($"Place: {r.Place} Object: {r.ObjectName}");
 
             ModConsole.Print("<b>Prevent Toggle On Object Rule</b>");
-            foreach (PreventToggleOnObjectRule r in RuleFiles.instance.PreventToggleOnObjectRule)
+            foreach (PreventToggleOnObjectRule r in Rules.instance.PreventToggleOnObjectRule)
                 ModConsole.Print($"Main Object: {r.MainObject} Object: {r.ObjectName}");
 
             ModConsole.Print("<b>Toggle Rules</b>");
-            foreach (ToggleRule r in RuleFiles.instance.ToggleRules)
+            foreach (ToggleRule r in Rules.instance.ToggleRules)
                 ModConsole.Print($"Object: {r.ObjectName} Toggle Mode: {r.ToggleMode}");
 
             ModConsole.Print("<b>Special Rules</b>");
-            ModConsole.Print($"DontDestroyEmptyBeerBottles: {RuleFiles.instance.SpecialRules.DontDestroyEmptyBeerBottles}");
-            ModConsole.Print($"SatsumaIgnoreRenderers: {RuleFiles.instance.SpecialRules.SatsumaIgnoreRenderers}");
+            ModConsole.Print($"DontDestroyEmptyBeerBottles: {Rules.instance.SpecialRules.DontDestroyEmptyBeerBottles}");
+            ModConsole.Print($"SatsumaIgnoreRenderers: {Rules.instance.SpecialRules.SatsumaIgnoreRenderers}");
         }
     }
 }

@@ -73,12 +73,14 @@ namespace MOP
             else
             {
                 GameObject text = GameObject.Instantiate(GameObject.Find("Interface/Songs/Text"));
-                text.transform.localPosition = new Vector3(-6.1f, 2.25f, 0.01f);
+                text.transform.localPosition = new Vector3(6f, 2.6f, 0.01f);
                 text.name = "MOP_Messager";
                 message = text.GetComponent<TextMesh>();
-                message.alignment = TextAlignment.Left;
-                message.anchor = TextAnchor.UpperLeft;
+                message.alignment = TextAlignment.Right;
+                message.anchor = TextAnchor.UpperRight;
                 shadow = text.transform.GetChild(0).gameObject.GetComponent<TextMesh>();
+                shadow.alignment = TextAlignment.Right;
+                shadow.anchor = TextAnchor.UpperRight;
                 NewMessage("");
             }
 
@@ -93,7 +95,7 @@ namespace MOP
             if (MopSettings.IsAutoUpdateDisabled() && !overrideUpdateCheck)
             {
                 ModConsole.Print("<color=orange>[MOP] Rule files auto update is disabled.</color>");
-                GetAndReadRuleFiles();
+                GetAndReadRules();
                 ToggleButtons(true);
                 return;
             }
@@ -103,7 +105,7 @@ namespace MOP
             {
                 ModConsole.Error("[MOP] Connection error. Check your Internet connection.");
 
-                GetAndReadRuleFiles();
+                GetAndReadRules();
                 ToggleButtons(true);
                 return;
             }
@@ -141,6 +143,11 @@ namespace MOP
                 // Check if the newer file is available on the server.
                 if (!overrideUpdateCheck)
                 {
+                    if (serverContent == null)
+                    {
+                        GetServerContent();
+                    }
+
                     DateTime lastLocalFileWrite = GetFileWriteTime(filePath);
                     ServerContentData data = serverContent.First(t => t.ID == modId);
                     DateTime lastRemoteFileWrite = data.UpdateTime;
@@ -182,7 +189,7 @@ namespace MOP
                             ModConsole.Error("[MOP] Downloading failed. Skipping downloading.");
                             NewMessage("MOP: Downloading failed. Skipping downloading.");
                             ToggleButtons(true);
-                            GetAndReadRuleFiles();
+                            GetAndReadRules();
                             yield break;
                         }
                     }
@@ -199,7 +206,7 @@ namespace MOP
 
             // File downloading and updating completed!
             // Start reading those files.   
-            GetAndReadRuleFiles();
+            GetAndReadRules();
         }
 
         void DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
@@ -210,7 +217,7 @@ namespace MOP
         /// <summary>
         /// Seeks for rule files (.mopconfig) in MOP config folder.
         /// </summary>
-        void GetAndReadRuleFiles()
+        void GetAndReadRules()
         {
             overrideUpdateCheck = false;
 
@@ -245,7 +252,7 @@ namespace MOP
                         continue;
                     }
 
-                    RuleFiles.instance.RuleFileNames.Add(file.Name);
+                    Rules.instance.RuleFileNames.Add(file.Name);
                     ReadRulesFromFile(file.FullName);
                 }
 
@@ -290,14 +297,7 @@ namespace MOP
         {
             if (serverContent == null)
             {
-                WebClient web = new WebClient();
-                web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {SystemInfo.operatingSystem}");
-                string[] serverContentArray = web.DownloadString(new Uri($"{RemoteServer}{ServerContent}")).Split('\n');
-                serverContent = new List<ServerContentData>();
-                for (int i = 0; i < serverContentArray.Length; i++)
-                    serverContent.Add(new ServerContentData(serverContentArray[i]));
-
-                web.Dispose();
+                GetServerContent();
             }
 
             return serverContent.Where(t => t.ID == modId).ToArray().Length > 0;
@@ -333,6 +333,30 @@ namespace MOP
             }
 
             return true;
+        }
+
+        void GetServerContent()
+        {
+            try
+            {
+                if (serverContent == null)
+                {
+                    WebClient web = new WebClient();
+                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {SystemInfo.operatingSystem}");
+                    string[] serverContentArray = web.DownloadString(new Uri($"{RemoteServer}{ServerContent}")).Split('\n');
+                    serverContent = new List<ServerContentData>();
+                    for (int i = 0; i < serverContentArray.Length; i++)
+                    {
+                        serverContent.Add(new ServerContentData(serverContentArray[i]));
+                    }
+
+                    web.Dispose();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, "SERVER_CONTENT_DOWNLOAD_ERROR");
+            }
         }
 
         /// <summary>
@@ -381,39 +405,39 @@ namespace MOP
                             ModConsole.Error($"[MOP] Unrecognized flag '{flag}' in file {rulePath}");
                             break;
                         case "ignore":
-                            RuleFiles.instance.IgnoreRules.Add(new IgnoreRule(objects[0], false));
+                            Rules.instance.IgnoreRules.Add(new IgnoreRule(objects[0], false));
                             break;
                         case "ignore_full":
-                            RuleFiles.instance.IgnoreRules.Add(new IgnoreRule(objects[0], true));
+                            Rules.instance.IgnoreRules.Add(new IgnoreRule(objects[0], true));
                             break;
                         case "ignore_at_place":
                             string place = objects[0];
                             string obj = objects[1];
-                            RuleFiles.instance.IgnoreRulesAtPlaces.Add(new IgnoreRuleAtPlace(place, obj));
+                            Rules.instance.IgnoreRulesAtPlaces.Add(new IgnoreRuleAtPlace(place, obj));
                             break;
                         case "toggle":
-                            RuleFiles.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Normal));
+                            Rules.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Normal));
                             break;
                         case "toggle_renderer":
-                            RuleFiles.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Renderer));
+                            Rules.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Renderer));
                             break;
                         case "toggle_item":
-                            RuleFiles.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Item));
+                            Rules.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Item));
                             break;
                         case "toggle_vehicle":
-                            RuleFiles.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Vehicle));
+                            Rules.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Vehicle));
                             break;
                         case "toggle_vehicle_physics_only":
-                            RuleFiles.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.VehiclePhysics));
+                            Rules.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.VehiclePhysics));
                             break;
                         case "satsuma_ignore_renderer":
-                            RuleFiles.instance.SpecialRules.SatsumaIgnoreRenderers = true;
+                            Rules.instance.SpecialRules.SatsumaIgnoreRenderers = true;
                             break;
                         case "dont_destroy_empty_beer_bottles":
-                            RuleFiles.instance.SpecialRules.DontDestroyEmptyBeerBottles = true;
+                            Rules.instance.SpecialRules.DontDestroyEmptyBeerBottles = true;
                             break;
                         case "prevent_toggle_on_object":
-                            RuleFiles.instance.PreventToggleOnObjectRule.Add(new PreventToggleOnObjectRule(objects[0], objects[1]));
+                            Rules.instance.PreventToggleOnObjectRule.Add(new PreventToggleOnObjectRule(objects[0], objects[1]));
                             break;
                     }
                 }

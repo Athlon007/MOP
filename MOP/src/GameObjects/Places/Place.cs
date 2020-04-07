@@ -56,7 +56,7 @@ namespace MOP
             gameObject = GameObject.Find(placeName);
             GameObjectBlackList = new List<string>();
 
-            IgnoreRuleAtPlace[] ignoreRulesAtThisPlace = RuleFiles.instance.IgnoreRulesAtPlaces.Where(r => r.Place == placeName).ToArray();
+            IgnoreRuleAtPlace[] ignoreRulesAtThisPlace = Rules.instance.IgnoreRulesAtPlaces.Where(r => r.Place == placeName).ToArray();
             if (ignoreRulesAtThisPlace.Length > 0)
                 foreach (IgnoreRuleAtPlace rule in ignoreRulesAtThisPlace)
                     GameObjectBlackList.Add(rule.ObjectName);

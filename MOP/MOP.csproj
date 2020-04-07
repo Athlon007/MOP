@@ -67,6 +67,7 @@
     <Compile Include="src\GameObjects\Places\Inspection.cs" />
     <Compile Include="src\GameObjects\Others\Sector.cs" />
     <Compile Include="src\GameObjects\Places\Yard.cs" />
+    <Compile Include="src\GameObjects\Vehicles\Combine.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\HingeManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Boat.cs" />
     <Compile Include="src\GameObjects\Vehicles\Satsuma.cs" />
@@ -82,7 +83,7 @@
     <Compile Include="src\Misc\ExceptionManager.cs" />
     <Compile Include="src\Misc\MopSettings.cs" />
     <Compile Include="src\RuleFiles\IgnoreRule.cs" />
-    <Compile Include="src\RuleFiles\RuleFiles.cs" />
+    <Compile Include="src\RuleFiles\Rules.cs" />
     <Compile Include="src\RuleFiles\RuleFilesLoader.cs" />
     <Compile Include="src\RuleFiles\ToggleRule.cs" />
     <Compile Include="src\WorldManager.cs" />

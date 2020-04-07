@@ -74,8 +74,6 @@ namespace MOP
         // Reference to one of the wheels that checks if the vehicle is on ground
         Wheel wheel;
 
-        readonly bool isTangerine;
-
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -84,6 +82,16 @@ namespace MOP
         {
             // gameObject the object by name
             gameObject = GameObject.Find(gameObjectName);
+
+            // Use Resources.FindObjectsOfTypeAll method, if the vehicle was not found.
+            if (gameObject == null)
+                gameObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.name == gameObjectName);
+
+            if (gameObject == null)
+            {
+                ModConsole.Error($"[MOP] Could not find {gameObjectName} vehicle.");
+                return;
+            }
 
             // Get the object position and rotation
             Position = gameObject.transform.localPosition;
@@ -114,6 +122,7 @@ namespace MOP
             if (gameObject.name == "GIFU(750/450psi)")
             {
                 preventToggleOnObjects.Add(new PreventToggleOnObject(gameObject.transform.Find("Dashboard").Find("Knobs")));
+                preventToggleOnObjects.Add(new PreventToggleOnObject(gameObject.transform.Find("ShitTank")));
             }
 
             carDynamics = gameObject.GetComponent<CarDynamics>();
@@ -165,13 +174,10 @@ namespace MOP
 
             // Get one of the wheels.
             wheel = axles.allWheels[0];
-            
             drivetrain = gameObject.GetComponent<Drivetrain>();
 
-            isTangerine = gameObject.name == "TangerinePickup(Clone)";
-
             // Ignore Rules.
-            IgnoreRule vehicleRule = RuleFiles.instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
+            IgnoreRule vehicleRule = Rules.instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
             if (vehicleRule != null)
             {
                 Toggle = ToggleUnityCar;
@@ -181,7 +187,7 @@ namespace MOP
             }
 
             // Prevent Toggle On Object Rule.
-            PreventToggleOnObjectRule preventToggleOnObjectRule = RuleFiles.instance.PreventToggleOnObjectRule.Find(v => v.MainObject == this.gameObject.name);
+            PreventToggleOnObjectRule preventToggleOnObjectRule = Rules.instance.PreventToggleOnObjectRule.Find(v => v.MainObject == this.gameObject.name);
             if (preventToggleOnObjectRule != null)
             {
                 Transform t = transform.Find(preventToggleOnObjectRule.ObjectName);
@@ -199,7 +205,7 @@ namespace MOP
         /// <summary>
         /// Enable or disable car
         /// </summary>
-        void ToggleActive(bool enabled)
+        internal void ToggleActive(bool enabled)
         {
             if (gameObject == null || gameObject.activeSelf == enabled || !IsActive) return;
 
@@ -215,10 +221,6 @@ namespace MOP
             // We're doing that BEFORE we disable the object.
             if (!enabled)
             {
-                // Kill the engine of Tangerine pickup
-                if (isTangerine && drivetrain.rpm > 0)
-                    return;
-
                 for (int i = 0; i < preventToggleOnObjects.Count; i++)
                     preventToggleOnObjects[i].ObjectTransform.parent = temporaryParent;
 
@@ -311,9 +313,7 @@ namespace MOP
         bool IsOnGround()
         {
             if (this.gameObject.name == "JONNEZ ES(Clone)")
-            {
                 return drivetrain.torque == 0;
-            }
 
             return wheel.onGroundDown;
         }

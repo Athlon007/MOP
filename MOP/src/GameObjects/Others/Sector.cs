@@ -25,17 +25,25 @@ namespace MOP
     {
         const string ReferenceObjectName = "MOP_PlayerCheck";
 
-        public void Initialize(Vector3 size)
+        string[] ignoreList;
+
+        public void Initialize(Vector3 size, params string[] ignoreList)
         {
             BoxCollider collider = gameObject.AddComponent<BoxCollider>();
             collider.isTrigger = true;
             collider.size = size;
+
+            if (ignoreList != null)
+                this.ignoreList = ignoreList;
         }
 
         void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.name == ReferenceObjectName)
             {
+                if (ignoreList != null)
+                    Rules.instance.AddSectorRule(ignoreList);
+
                 SectorManager.instance.PlayerInSector = true;
                 SectorManager.instance.ToggleActive(false);
             }
@@ -47,6 +55,9 @@ namespace MOP
             {
                 SectorManager.instance.PlayerInSector = false;
                 SectorManager.instance.ToggleActive(true);
+
+                if (ignoreList.Length > 0)
+                    Rules.instance.ClearSectorRules();
             }
         }
     }
@@ -109,7 +120,7 @@ namespace MOP
             sectors = new List<GameObject>();
 
             // Load rule files
-            if (RuleFiles.instance.IgnoreRules.Count > 0)
+            if (Rules.instance.IgnoreRules.Count > 0)
             {
                 List<GameObject> newList = new List<GameObject>();
                 foreach (GameObject obj in disabledObjects)
@@ -119,7 +130,7 @@ namespace MOP
                         if (obj == null)
                             continue;
 
-                        if (!RuleFiles.instance.IgnoreRules.Any(f => f.ObjectName == obj.name))
+                        if (!Rules.instance.IgnoreRules.Any(f => f.ObjectName == obj.name))
                             newList.Add(obj);
                     }
                     catch (System.Exception ex)
@@ -131,16 +142,16 @@ namespace MOP
             }
 
             CreateNewSector(new Vector3(-16.77627f, -0.5062422f, 1.559867f), new Vector3(5,5,9)); // Garage
-            CreateNewSector(new Vector3(-1547.3f, 4, 1183.35f), new Vector3(9.6f, 5, 5.5f), new Vector3(0, 328, 0)); // Teimo
-            CreateNewSector(new Vector3(-1551.7f, 4, 1185.8f), new Vector3(4.6f, 5, 2.5f), new Vector3(0, 328, 0)); // Teimo_2
+            CreateNewSector(new Vector3(-1547.3f, 4, 1183.35f), new Vector3(9.6f, 5, 5.5f), new Vector3(0, 328, 0), "StreetLights", "HUMANS"); // Teimo
+            CreateNewSector(new Vector3(-1551.7f, 4, 1185.8f), new Vector3(4.6f, 5, 2.5f), new Vector3(0, 328, 0), "StreetLights", "HUMANS"); // Teimo_2
             CreateNewSector(new Vector3(1562.49f, 4.8f, 733.8835f), new Vector3(15, 5, 20), new Vector3(0, 335, 0)); // Repair shop
-            // CreateNewSector(new Vector3(54.7f, -0.5062422f, -73.9f), new Vector3(6, 5, 5.2f), "YARD/MachineHall"); // Yard Machine Hall
+             CreateNewSector(new Vector3(54.7f, -0.5062422f, -73.9f), new Vector3(6, 5, 5.2f), "YARD", "MachineHall", "BUSHES3", "BUSHES6", "TREES_SMALL1"); // Yard Machine Hall
             // CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.559867f), new Vector3(11, 5, 9)); // Yard
 
             ModConsole.Print("[MOP] Sectors done!");
         }
 
-        void CreateNewSector(Vector3 position, Vector3 size)
+        void CreateNewSector(Vector3 position, Vector3 size, params string[] ignoreList)
         {
             GameObject newSector = new GameObject("MOP_Sector");
             //GameObject newSector = GameObject.CreatePrimitive(PrimitiveType.Cube); // DEBUG
@@ -149,11 +160,15 @@ namespace MOP
             //Object.Destroy(newSector.GetComponent<Collider>()); // DEBUG
             newSector.transform.position = position;
             Sector sectorInfo = newSector.AddComponent<Sector>();
-            sectorInfo.Initialize(size);
+
+            if (ignoreList.Length == 0)
+                ignoreList = new string[0];
+
+            sectorInfo.Initialize(size, ignoreList);
             sectors.Add(newSector);
         }
 
-        void CreateNewSector(Vector3 position, Vector3 size, Vector3 rotation)
+        void CreateNewSector(Vector3 position, Vector3 size, Vector3 rotation, params string[] ignoreList)
         {
             GameObject newSector = new GameObject("MOP_Sector");
             //GameObject newSector = GameObject.CreatePrimitive(PrimitiveType.Cube); // DEBUG
@@ -163,7 +178,11 @@ namespace MOP
             newSector.transform.position = position;
             newSector.transform.localEulerAngles = rotation;
             Sector sectorInfo = newSector.AddComponent<Sector>();
-            sectorInfo.Initialize(size);
+
+            if (ignoreList.Length == 0)
+                ignoreList = new string[0];
+
+            sectorInfo.Initialize(size, ignoreList);
             sectors.Add(newSector);
         }
 
@@ -187,10 +206,15 @@ namespace MOP
                 // Safe check if somehow the i gets bigger than array length.
                 if (i > SectorManager.instance.DisabledObjects.Count) break;
 
-                if (SectorManager.instance.DisabledObjects[i] == null)
+                GameObject obj = SectorManager.instance.DisabledObjects[i];
+
+                if (obj == null)
                     continue;
 
-                SectorManager.instance.DisabledObjects[i].SetActive(enabled);
+                if (Rules.instance.SectorRulesContains(obj.name))
+                    continue;
+
+                obj.SetActive(enabled);
             }
         }
     }

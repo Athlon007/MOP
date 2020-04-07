@@ -1,20 +1,32 @@
 # Changelog
 
-## 2.5.3 (tba)
+## 2.6 (tba)
 
 ### Added
 
 - Farm is now toggled
+- Combine is now toggled
+- Added sector at machine hall on player's yard
 
 ### Changes
 
 - Sectors now work when using noclip mod
 - Changed error codes
+- Street lights won't be toggled when entering the store
+- Moved the MOP message dialogue to upper right corner in main menu in order to not overlap the ModLoader messages
+- Minor internal changes
+- Removed unused code
 
 ### Bug Fixes
 
 - Fixed potential error, in which MOP would not load if the rule files class haven't been loaded
 - Fixed house renderers disappearing, if the player entered the garage and the active distance was set to 0
+- GIFU: Fixed shit tank resetting to empty, if the truck was respawned
+- Items should not fall through the cars anymore
+- SATSUMA: Fixed Fleetari not painting the car body
+- House in front of Fleetari won't be disabled if the player enters the repair shop
+- Bar fighter won't disappear when entering the bar
+- Possibly fixed Satsuma flipping over on certain occasions (needs testing)
 
 ## 2.5.2 (03.04.2020)
 

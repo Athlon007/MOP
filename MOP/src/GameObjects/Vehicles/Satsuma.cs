@@ -42,6 +42,8 @@ namespace MOP
 
         bool currentStatus = true;
 
+        bool preventUnloadDuringThisSession;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -68,7 +70,7 @@ namespace MOP
                 .Where(t => !t.gameObject.name.ContainsAny("Sphere", "Capsule", "Cube", "Mokia")).ToList();
 
             // Ignore Rule
-            IgnoreRule vehicleRule = RuleFiles.instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
+            IgnoreRule vehicleRule = Rules.instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
             if (vehicleRule != null)
             {
                 Toggle = ToggleUnityCar;
@@ -94,9 +96,11 @@ namespace MOP
 
             if (MopSettings.SatsumaTogglePhysicsOnly) return;
             
-            if (MopFsmManager.IsRepairshopJobOrdered())
+            if (preventUnloadDuringThisSession || MopFsmManager.IsRepairshopJobOrdered())
             {
                 enabled = true;
+                MSCLoader.ModConsole.Print("REPAIR JOB ORDERED");
+                preventUnloadDuringThisSession = true;
             }
 
             for (int i = 0; i < disableableObjects.Length; i++)
@@ -123,7 +127,7 @@ namespace MOP
 
         public void ToggleEngineRenderers(bool enabled)
         {
-            if (RuleFiles.instance.SpecialRules.SatsumaIgnoreRenderers || engineBayRenderers.Count == 0 
+            if (Rules.instance.SpecialRules.SatsumaIgnoreRenderers || engineBayRenderers.Count == 0 
                 || engineBayRenderers[0].enabled == enabled || !IsHoodAttached()) return;
             if (renderersToggled) return;
 
@@ -144,7 +148,7 @@ namespace MOP
 
         void ToggleAllRenderers(bool enabled)
         {
-            if (RuleFiles.instance.SpecialRules.SatsumaIgnoreRenderers || MopSettings.SatsumaTogglePhysicsOnly) return;
+            if (Rules.instance.SpecialRules.SatsumaIgnoreRenderers || MopSettings.SatsumaTogglePhysicsOnly) return;
 
             for (int i = 0; i < renderers.Count; i++)
             {

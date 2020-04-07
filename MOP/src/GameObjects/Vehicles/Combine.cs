@@ -16,23 +16,21 @@
 
 namespace MOP
 {
-    class Farm : Place
+    class Combine : Vehicle
     {
-        // Farm class
-
-        // Objects from that whitelist will not be disabled
-        // It is so to prevent from restock script and Teimo's bike routine not working
-
-        readonly string[] blackList = { "Farm", "Job", "combine", "pile", "MachineHall", "TargetHaybales",
-            "TargetCombine", "collider", "floor_coll", "hall_base", "SpawnToFarm" };
-
-        /// <summary>
-        /// Initialize the Store class
-        /// </summary>
-        public Farm() : base("Farm", 300)
+        public Combine() : base("COMBINE(350-400psi)") 
         {
-            GameObjectBlackList.AddRange(blackList);;
-            DisableableChilds = GetDisableableChilds();
+            Toggle = ToggleCombineActive;
+        }
+
+        public void ToggleCombineActive(bool enabled)
+        {
+            // If combine harvester is not available yet, simply ignore it.
+            if (!MopFsmManager.IsCombineAvailable())
+                return;
+
+            // Use normal toggling script.
+            this.ToggleActive(enabled);
         }
     }
 }

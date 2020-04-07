@@ -125,8 +125,13 @@ namespace MOP
 
             // List rule files.
             output += "=== RULE FILES ===\n\n";
-            foreach (string ruleFile in RuleFiles.instance.RuleFileNames)
+            foreach (string ruleFile in Rules.instance.RuleFileNames)
                 output += $"{ruleFile}\n";
+
+            if (Rules.instance.RuleFileNames.Count == 0)
+            {
+                output += $"No rule files loaded!";
+            }
 
             return output;
         }

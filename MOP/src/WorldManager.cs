@@ -31,7 +31,6 @@ namespace MOP
         public static WorldManager instance;
 
         Transform player;
-        CharacterController playerCharacterController;
 
         List<Vehicle> vehicles;
         List<Place> places;
@@ -42,7 +41,7 @@ namespace MOP
 
         public WorldManager()
         {
-            if (RuleFiles.instance == null)
+            if (Rules.instance == null)
             {
                 ModConsole.Error("[MOP] Rule Files haven't been loaded! Please exit to the main menu and start the game again.");
                 return;
@@ -82,7 +81,6 @@ namespace MOP
 
             // Looking for player and yard
             player = GameObject.Find("PLAYER").transform;
-            playerCharacterController = player.GetComponent<CharacterController>();
 
             // Loading vehicles
             vehicles = new List<Vehicle>
@@ -95,7 +93,8 @@ namespace MOP
                 new Vehicle("FERNDALE(1630kg)"),
                 new Vehicle("FLATBED"),
                 new Vehicle("GIFU(750/450psi)"),
-                new Boat("BOAT")
+                new Boat("BOAT"),
+                new Combine()
             };
 
             ModConsole.Print("[MOP] Vehicles loaded");
@@ -218,6 +217,9 @@ namespace MOP
             // Fix for Jokke's house furnitures clipping through floor
             perajarvi.transform.Find("TerraceHouse/Apartments/Colliders").parent = null;
 
+            // Prevents togglign the house in front of Repair Shop
+            buildings.Find("HouseOld2").parent = null;
+
             ModConsole.Print("[MOP] Finished applying fixes");
 
             //Things that should be enabled when out of proximity of the house
@@ -284,7 +286,7 @@ namespace MOP
             HookPreSaveGame();
 
             ModConsole.Print("[MOP] Loading rules...");
-            foreach (ToggleRule v in RuleFiles.instance.ToggleRules)
+            foreach (ToggleRule v in Rules.instance.ToggleRules)
             {
                 try
                 {
@@ -356,7 +358,10 @@ namespace MOP
             // Initialzie sector manager
             ActivateSectors();
 
-            // Initialize the coroutines 
+            ToggleAll(false);
+
+
+            // Initialize the coroutines.
             currentLoop = LoopRoutine();
             StartCoroutine(currentLoop);
             StartCoroutine(ControlCoroutine());
@@ -421,7 +426,7 @@ namespace MOP
         {
             MopSettings.IsModActive = false;
             StopCoroutine(currentLoop);
-            ToggleActiveAll();
+            ToggleAll(true);
         }
 
         /// <summary>
@@ -458,6 +463,9 @@ namespace MOP
                     {
                         WorldObject worldObject = worldObjectList.Get(i);
 
+                        if (Rules.instance.SectorRulesContains(worldObject.gameObject.name))
+                            continue;
+
                         // Should the object be disabled when the player leaves the house?
                         if (worldObject.AwayFromHouse)
                         {
@@ -474,7 +482,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, "PLACES_TOGGLE_ERROR_0");
+                    ExceptionManager.New(ex, "WORLD_OBJECT_TOGGLE_ERROR_0");
                 }
 
                 yield return null;
@@ -485,6 +493,9 @@ namespace MOP
                     {
                         WorldObject worldObject = worldObjectList.Get(i);
 
+                        if (Rules.instance.SectorRulesContains(worldObject.gameObject.name))
+                            continue;
+
                         // Should the object be disabled when the player leaves the house?
                         if (worldObject.AwayFromHouse)
                         {
@@ -501,7 +512,7 @@ namespace MOP
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, "PLACES_TOGGLE_ERROR_1");
+                    ExceptionManager.New(ex, "WORLD_OBJECT_TOGGLE_ERROR_1");
                 }
 
                 // Safe mode prevents toggling elemenets that MAY case some issues (vehicles, items, etc.)
@@ -509,6 +520,42 @@ namespace MOP
                 {
                     yield return new WaitForSeconds(1);
                     continue;
+                }
+
+                // Items (new)
+                half = Items.instance.ItemsHooks.Count / 2;
+                int full = Items.instance.ItemsHooks.Count;
+                for (i = 0; i < full; i++)
+                {
+                    if (i % half == 0) yield return null;
+
+                    // Safe check if somehow the i gets bigger than array length.
+                    if (i >= Items.instance.ItemsHooks.Count) break;
+
+                    try
+                    {
+                        if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
+                        {
+                            ModConsole.Print("[MOP] Removed one item from ItemHooks list, because it doesn't exist anymore " +
+                                "(ignore if you have Bottle Recycling mod and you just sold the bottle/beer case).");
+
+                            // Remove item at the current i
+                            Items.instance.ItemsHooks.RemoveAt(i);
+
+                            // Decrease the i by 1, because the List has shifted, so the items will not be skipped.
+                            // Then continue.
+                            i--;
+                            half = Items.instance.ItemsHooks.Count / 2;
+                            full = Items.instance.ItemsHooks.Count;
+                            continue;
+                        }
+
+                        Items.instance.ItemsHooks[i].ToggleActive(IsEnabled(Items.instance.ItemsHooks[i].gameObject.transform, 150));
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionManager.New(ex, "ITEM_TOGGLE_ERROR");
+                    }
                 }
 
                 // Vehicles
@@ -559,54 +606,21 @@ namespace MOP
                     ExceptionManager.New(ex, "VEHICLE_TOGGLE_ERROR_1");
                 }
 
-                // Items (new)
-                half = Items.instance.ItemsHooks.Count / 2;
-                int full = Items.instance.ItemsHooks.Count;
-                for (i = 0; i < full; i++)
-                {
-                    if (i % half == 0) yield return null;
-
-                    // Safe check if somehow the i gets bigger than array length.
-                    if (i >= Items.instance.ItemsHooks.Count) break;
-
-                    try
-                    {
-                        if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
-                        {
-                            ModConsole.Print("[MOP] Removed one item from ItemHooks list, because it doesn't exist anymore " +
-                                "(ignore if you have Bottle Recycling mod and you just sold the bottle/beer case).");
-
-                            // Remove item at the current i
-                            Items.instance.ItemsHooks.RemoveAt(i);
-
-                            // Decrease the i by 1, because the List has shifted, so the items will not be skipped.
-                            // Then continue.
-                            i--;
-                            half = Items.instance.ItemsHooks.Count / 2;
-                            full = Items.instance.ItemsHooks.Count;
-                            continue;
-                        }
-
-                        Items.instance.ItemsHooks[i].ToggleActive(IsEnabled(Items.instance.ItemsHooks[i].gameObject.transform));
-                    }
-                    catch (Exception ex)
-                    {
-                        ExceptionManager.New(ex, "ITEMS_TOGGLE_ERROR");
-                    }
-                }
-
                 // Places
                 try
                 {
                     half = places.Count / 2;
                     for (i = 0; i < half; ++i)
                     {
+                        if (Rules.instance.SectorRulesContains(places[i].gameObject.name))
+                            continue;
+
                         places[i].ToggleActive(IsEnabled(places[i].transform, places[i].ToggleDistance));
                     }
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, "PLACES_TOGGLE_ERORR_0");
+                    ExceptionManager.New(ex, "PLACE_TOGGLE_ERORR_0");
                 }
 
                 yield return null;
@@ -615,12 +629,15 @@ namespace MOP
                 {
                     for (; i < places.Count; ++i)
                     {
+                        if (Rules.instance.SectorRulesContains(places[i].gameObject.name))
+                            continue;
+
                         places[i].ToggleActive(IsEnabled(places[i].transform, places[i].ToggleDistance));
                     }
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, "PLACES_TOGGLE_ERORR_1");
+                    ExceptionManager.New(ex, "PLACE_TOGGLE_ERORR_1");
                 }
 
                 yield return new WaitForSeconds(1);
@@ -635,10 +652,10 @@ namespace MOP
         bool IsEnabled(Transform target, float toggleDistance = 200)
         {
             if (SectorManager.instance != null && SectorManager.instance.PlayerInSector)
-                toggleDistance = 30;
+            {
+                toggleDistance *= MopSettings.ActiveDistance == 0 ? 0.2f : 0.1f;
+            }
 
-            if (MopSettings.ActiveDistance == 0)
-                toggleDistance = 60;
 
             return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
@@ -681,7 +698,7 @@ namespace MOP
                         ModConsole.Error("[MOP] Restart attempt failed. Enabling Safe Mode.");
                         ModConsole.Error("[MOP] Please contact mod developer. Make sure you send output_log and last MOP crash log!");
                         MopSettings.SafeMode = true;
-                        ToggleActiveAll();
+                        ToggleAll(true);
                     }
 
                     restartTried = true;
@@ -698,32 +715,32 @@ namespace MOP
         /// <summary>
         /// Toggles on all objects.
         /// </summary>
-        public void ToggleActiveAll()
+        public void ToggleAll(bool enabled)
         {
             try
             {
                 // World objects
                 for (int i = 0; i < worldObjectList.Count; i++)
                 {
-                    worldObjectList.Get(i).Toggle(true);
+                    worldObjectList.Get(i).Toggle(enabled);
                 }
 
                 // Vehicles
                 for (int i = 0; i < vehicles.Count; i++)
                 {
-                    vehicles[i].Toggle(true);
+                    vehicles[i].Toggle(enabled);
                 }
 
                 // Items
                 for (int i = 0; i < Items.instance.ItemsHooks.Count; i++)
                 {
-                    Items.instance.ItemsHooks[i].ToggleActive(true);
+                    Items.instance.ItemsHooks[i].ToggleActive(enabled);
                 }
 
                 // Places
                 for (int i = 0; i < places.Count; i++)
                 {
-                    places[i].ToggleActive(true);
+                    places[i].ToggleActive(enabled);
                 }
             }
             catch (Exception ex)

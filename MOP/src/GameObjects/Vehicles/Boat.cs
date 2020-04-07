@@ -18,12 +18,17 @@ namespace MOP
 {
     class Boat : Vehicle
     {
+        // This class is used for boat only.
+        // Even tho boat is not considered as UnityCar vehicle, 
+        // we use vehicle toggling method, 
+        // in order to eliminate boat teleporting back to it's on load spawn point.
+
         public Boat(string gameObject) : base(gameObject)
         {
             Toggle = ToggleActive;
 
             // Ignore Rule
-            IgnoreRule vehicleRule = RuleFiles.instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
+            IgnoreRule vehicleRule = Rules.instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
             if (vehicleRule != null)
             {
                 if (vehicleRule.TotalIgnore)
