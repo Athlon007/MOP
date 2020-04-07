@@ -1,6 +1,7 @@
 ### Added
 
 - Farm is now toggled
+- Combine is now toggled
 - Added sector at machine hall on player's yard
 
 ### Changes
@@ -8,8 +9,9 @@
 - Sectors now work when using noclip mod
 - Changed error codes
 - Street lights won't be toggled when entering the store
-- Moved the MOP message dialogue in main menu to not overlap the ModLoader messages
+- Moved the MOP message dialogue to upper right corner in main menu in order to not overlap the ModLoader messages
 - Minor internal changes
+- Removed unused code
 
 ### Bug Fixes
 
