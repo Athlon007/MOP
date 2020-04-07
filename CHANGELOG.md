@@ -13,6 +13,10 @@
 
 - (Development) World is now not toggled on load, due to some issues
 
+### Known Issues
+
+- GIFU may break on toggling
+
 ## 2.6 Development 1 (07.04.2020)
 
 ### Added
