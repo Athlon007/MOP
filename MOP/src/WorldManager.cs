@@ -94,8 +94,11 @@ namespace MOP
                 new Vehicle("FLATBED"),
                 new Vehicle("GIFU(750/450psi)"),
                 new Boat("BOAT"),
-                new Combine()
             };
+
+            // Added in Experimental 02.04.2020.
+            if (GameObject.Find("Farm") != null)
+                vehicles.Add(new Combine());
 
             ModConsole.Print("[MOP] Vehicles loaded");
 
@@ -118,8 +121,11 @@ namespace MOP
                 new Teimo(),
                 new RepairShop(),
                 new Inspection(),
-                new Farm()
             };
+
+            // Added in Experimental 02.04.2020.
+            if (GameObject.Find("Farm") != null)
+                places.Add(new Farm());
 
             ModConsole.Print("[MOP] Initialized places");
 
@@ -357,9 +363,6 @@ namespace MOP
 
             // Initialzie sector manager
             ActivateSectors();
-
-            ToggleAll(false);
-
 
             // Initialize the coroutines.
             currentLoop = LoopRoutine();
@@ -707,8 +710,11 @@ namespace MOP
                     StartCoroutine(currentLoop);
                 }
 
-                restartTried = false;
-                lastTick = ticks;
+                if (lastTick != ticks)
+                {
+                    restartTried = false;
+                    lastTick = ticks;
+                }
             }
         }
 

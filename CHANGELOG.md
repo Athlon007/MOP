@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.6 Development 2 (08.04.2020)
+
+### Bug Fixes
+
+- (Development) Fixed MOP not launching on Official version of the game, due to missing Farm and Combine objects
+- (Development) Fixed Gifu hose and waste spill valve being broken
+- Fixed Safe Mode not kicking in correctly
+- Fixed Farm and Combine job darts appearing on the yard map when they shouldn't
+
+### Removed
+
+- (Development) World is now not toggled on load, due to some issues
+
 ## 2.6 Development 1 (07.04.2020)
 
 ### Added

@@ -47,7 +47,7 @@ namespace MOP
             "Chair", "TablePlastic", "LOD_middleroom", "hotwaterkeeper", "house_roof",
             "WC", "Hallway", "Entry", "ContactPivot", "DoorRight", "DoorLeft", "GarageDoors", "BatteryCharger",
             "Clamps", "ChargerPivot", "Clamp", "BatteryPivot", "battery_charger", "Wire", "cable", "TriggerCharger",
-            "tvtable", "VHS_Screen", "tv_table(Clone)", "scart_con" };
+            "tvtable", "VHS_Screen", "tv_table(Clone)", "scart_con", "Haybale", "Combine" };
 
         /// <summary>
         /// Initialize the RepairShop class
