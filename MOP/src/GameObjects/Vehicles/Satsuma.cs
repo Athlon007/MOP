@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using UnityEngine;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace MOP
 {
@@ -95,7 +95,7 @@ namespace MOP
             rb.isKinematic = !enabled;
 
             if (MopSettings.SatsumaTogglePhysicsOnly) return;
-            
+
             if (preventUnloadDuringThisSession || MopFsmManager.IsRepairshopJobOrdered())
             {
                 enabled = true;
@@ -104,7 +104,7 @@ namespace MOP
             }
 
             for (int i = 0; i < disableableObjects.Length; i++)
-            { 
+            {
                 if (disableableObjects[i] == null)
                     continue;
 
@@ -127,11 +127,11 @@ namespace MOP
 
         public void ToggleEngineRenderers(bool enabled)
         {
-            if (Rules.instance.SpecialRules.SatsumaIgnoreRenderers || engineBayRenderers.Count == 0 
+            if (Rules.instance.SpecialRules.SatsumaIgnoreRenderers || engineBayRenderers.Count == 0
                 || engineBayRenderers[0].enabled == enabled || !IsHoodAttached()) return;
             if (renderersToggled) return;
 
-            for (int i = 0; i< engineBayRenderers.Count; i++)
+            for (int i = 0; i < engineBayRenderers.Count; i++)
             {
                 // Skip renderer if it's root is not Satsuma.
                 if (renderers[i].transform.root.gameObject != this.gameObject)
@@ -140,7 +140,7 @@ namespace MOP
                 engineBayRenderers[i].enabled = enabled;
             }
         }
-        
+
         bool IsHoodAttached()
         {
             return pivotHood.childCount > 0;
