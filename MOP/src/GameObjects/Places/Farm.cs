@@ -31,7 +31,7 @@ namespace MOP
         /// </summary>
         public Farm() : base("Farm", 300)
         {
-            GameObjectBlackList.AddRange(blackList);;
+            GameObjectBlackList.AddRange(blackList);
             DisableableChilds = GetDisableableChilds();
         }
     }

@@ -44,6 +44,7 @@ namespace MOP
             {
                 sw.Write($"{gameInfo}\n=== ERROR ===\n\n{errorInfo}\n\n{message}");
                 sw.Close();
+                sw.Dispose();
             }
 
             ModConsole.Error("[MOP] An error has occured. " +
@@ -79,6 +80,7 @@ namespace MOP
             {
                 sw.Write(gameInfo);
                 sw.Close();
+                sw.Dispose();
             }
 
             ModConsole.Print("[MOP] Mod report has been generated.");

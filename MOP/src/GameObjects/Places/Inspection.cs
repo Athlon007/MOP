@@ -33,7 +33,7 @@ namespace MOP
         /// </summary>
         public Inspection() : base("INSPECTION")
         {
-            GameObjectBlackList.AddRange(blackList);;
+            GameObjectBlackList.AddRange(blackList);
             DisableableChilds = GetDisableableChilds();
         }
     }
