@@ -62,7 +62,7 @@ namespace MOP
             while (MopFsmManager.IsGTGrilleInstalled() && gtGrilleTransform.parent.name != "pivot_grille")
             {
                 yield return new WaitForSeconds(1);
-                
+
                 // Escape the loop after 5 retries
                 ticks++;
                 if (ticks > 5)
@@ -209,7 +209,7 @@ namespace MOP
             Transform diskette = perajarvi.transform.Find("TerraceHouse/diskette(itemx)");
             if (diskette != null && diskette.parent != null)
                 diskette.parent = null;
-            
+
             diskette = perajarvi.transform.Find("TerraceHouse/diskette(itemx)");
             if (diskette != null && diskette.parent != null)
                 diskette.parent = null;
@@ -442,7 +442,7 @@ namespace MOP
                 if (ticks > 1000)
                     ticks = 0;
 
-                isPlayerAtYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, places[0].transform.position) < 100 
+                isPlayerAtYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, places[0].transform.position) < 100
                     : Vector3.Distance(player.position, places[0].transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 
                 // When player is in any of the sectors, MOP will act like the player is at yard.
@@ -571,7 +571,7 @@ namespace MOP
                         }
 
                         float distance = Vector3.Distance(player.transform.position, vehicles[i].transform.position);
-                        float toggleDistance = MopSettings.ActiveDistance == 0 
+                        float toggleDistance = MopSettings.ActiveDistance == 0
                             ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
                         vehicles[i].ToggleUnityCar(IsVehicleEnabled(distance, toggleDistance));
                         vehicles[i].Toggle(IsVehicleEnabled(distance));
@@ -595,7 +595,7 @@ namespace MOP
                         }
 
                         float distance = Vector3.Distance(player.transform.position, vehicles[i].transform.position);
-                        float toggleDistance = MopSettings.ActiveDistance == 0 
+                        float toggleDistance = MopSettings.ActiveDistance == 0
                             ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
                         vehicles[i].ToggleUnityCar(IsVehicleEnabled(distance, toggleDistance));
                         vehicles[i].Toggle(IsVehicleEnabled(distance));
@@ -690,7 +690,7 @@ namespace MOP
             while (MopSettings.IsModActive)
             {
                 yield return new WaitForSeconds(10);
-                
+
                 if (lastTick == ticks)
                 {
                     if (restartTried)

@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using MSCLoader;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using MSCLoader;
 
 namespace MOP
 {

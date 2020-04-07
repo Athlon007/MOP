@@ -25,7 +25,7 @@ namespace MOP
         // Basically, objects that are static, such as buildings.
 
         List<WorldObject> worldObjects;
-        
+
         /// <summary>
         /// Returns the length of the list.
         /// </summary>
@@ -83,7 +83,7 @@ namespace MOP
             }
 
             GameObject gm = GameObject.Find(gameObjectName);
-            
+
             if (gm == null)
             {
                 MSCLoader.ModConsole.Print($"[MOP] Couldn't find {gameObjectName}");

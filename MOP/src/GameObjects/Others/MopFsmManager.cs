@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using UnityEngine;
 using HutongGames.PlayMaker;
+using UnityEngine;
 
 namespace MOP
 {
@@ -48,7 +48,7 @@ namespace MOP
         {
             if (gtGrilleInstalled == null)
                 gtGrilleInstalled = GameObject.Find("Database").transform.Find("DatabaseOrders/GrilleGT").gameObject.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("Installed");
-            
+
             return gtGrilleInstalled.Value == true;
         }
 

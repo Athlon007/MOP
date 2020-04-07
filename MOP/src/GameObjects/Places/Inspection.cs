@@ -23,8 +23,8 @@ namespace MOP
         // Objects from that whitelist will not be disabled
         // It is so to prevent from restock script and Teimo's bike routine not working
 
-        readonly string[] blackList = { 
-           "INSPECTION", "BoozeJobTrigger", "Building", "inspection_concrete", "inspection_floor", 
+        readonly string[] blackList = {
+           "INSPECTION", "BoozeJobTrigger", "Building", "inspection_concrete", "inspection_floor",
             "garage_doors", "glass", "Light", "register plate", "InspectionProcess", "Recipiet", "Order",
             "Audio", "Functions", "DoorWhite" };
 

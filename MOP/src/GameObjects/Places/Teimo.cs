@@ -34,7 +34,7 @@ namespace MOP
         // Objects from that whitelist will not be disabled
         // It is so to prevent from restock script and Teimo's bike routine not working
 
-        readonly string[] blackList = { 
+        readonly string[] blackList = {
             "STORE", "SpawnToStore", "BikeStore", "BikeHome", "Inventory", "Collider", "TeimoInShop", "Bicycle",
             "bicycle_pedals", "Pedal", "Teimo", "bodymesh", "skeleton", "pelvs", "spine", "collar", "shoulder",
             "hand", "ItemPivot", "finger", "collar", "arm", "fingers", "HeadPivot", "head", "eye_glasses_regular",
@@ -85,7 +85,7 @@ namespace MOP
         void RemoveVideoPokerParent()
         {
             Transform poker = gameObject.transform.Find("LOD/VideoPoker");
-            if (poker == null) 
+            if (poker == null)
                 return;
 
             DisableableChilds.Remove(poker);

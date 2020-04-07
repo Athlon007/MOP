@@ -18,7 +18,7 @@ namespace MOP
 {
     class Combine : Vehicle
     {
-        public Combine() : base("COMBINE(350-400psi)") 
+        public Combine() : base("COMBINE(350-400psi)")
         {
             Toggle = ToggleCombineActive;
         }

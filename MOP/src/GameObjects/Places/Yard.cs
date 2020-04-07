@@ -14,9 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using UnityEngine;
-using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace MOP
 {
@@ -29,7 +28,7 @@ namespace MOP
         // NOTE: That script DOES NOT disable the yard itself, rather some of its childrens.
 
         // Objects from that blacklist will NOT be disabled
-        string[] blackList = { 
+        string[] blackList = {
             "YARD", "Spawn", "VenttiPigHouse", "Capsule", "Target", "Pivot", "skeleton", "bodymesh",
             "COPS", "Trigger", "Cop", "Collider", "thig", "pelvis", "knee", "ankle", "spine",
             "PlayerMailBox", "mailbox", "envelope", "Envelope", "Letter", "Ad", "UNCLE",

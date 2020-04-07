@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using UnityEngine;
 using MSCLoader;
 using System.Collections;
+using UnityEngine;
 
 namespace MOP
 {
@@ -29,7 +29,7 @@ namespace MOP
             FsmHook.FsmInject(this.gameObject, "Remove bottle", DestroyBeerBottles);
             FsmHook.FsmInject(this.gameObject, "Remove bottle", HookBottles);
         }
-    
+
         /// <summary>
         /// Used when this item is a beer case.
         /// Starts the coroutine that initializes Items.DestroyEmptyBottles after 7 seconds.

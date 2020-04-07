@@ -15,8 +15,8 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 namespace MOP
 {
@@ -26,13 +26,13 @@ namespace MOP
 
         // List of all whitelisted objects that can appear on the minorObjects list
         // Note: batteries aren't included
-        public string[] blackList = { 
+        public string[] blackList = {
         "ax", "booze", "brake fluid", "cigarettes", "coffee pan", "coffee cup", "coolant", "diesel",
-        "empty plastic can", "fire extinguisher", "gasoline", "grill", "grill charcoal", "ground coffee", 
-        "juice", "kilju", "lamp", "macaronbox", "milk", "moosemeat", "mosquito spray", "motor oil", 
-        "oilfilter", "pike", "pizza", "ratchet set", "potato chips", "sausages", "sugar", "spanner set", 
-        "spray can", "two stroke fuel", "wiring mess", "wood carrier", "yeast", "shopping bag", "flashlight", 
-        "beer case", "fireworks bag", "lantern", "dipper", "coffee pan", "fireworks bag", "camera", 
+        "empty plastic can", "fire extinguisher", "gasoline", "grill", "grill charcoal", "ground coffee",
+        "juice", "kilju", "lamp", "macaronbox", "milk", "moosemeat", "mosquito spray", "motor oil",
+        "oilfilter", "pike", "pizza", "ratchet set", "potato chips", "sausages", "sugar", "spanner set",
+        "spray can", "two stroke fuel", "wiring mess", "wood carrier", "yeast", "shopping bag", "flashlight",
+        "beer case", "fireworks bag", "lantern", "dipper", "coffee pan", "fireworks bag", "camera",
         "water bucket", "car jack", "warning triangle", "spirit", "diskette", "empty", "empty bottle" };
 
         public string[] whiteList = { "grille gt" };
@@ -97,7 +97,7 @@ namespace MOP
             if (CompatibilityManager.instance.CDPlayerEnhanced)
             {
                 GameObject[] cdEnchancedObjects = Object.FindObjectsOfType<GameObject>()
-                .Where(gm => gm.name.ContainsAny("cd case(itemy)", "CD Rack(itemy)", "cd(itemy)") && gm.activeSelf).ToArray();                
+                .Where(gm => gm.name.ContainsAny("cd case(itemy)", "CD Rack(itemy)", "cd(itemy)") && gm.activeSelf).ToArray();
 
                 for (int i = 0; i < cdEnchancedObjects.Length; i++)
                 {

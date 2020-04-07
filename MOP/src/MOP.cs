@@ -15,9 +15,9 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
-using UnityEngine;
 using System.Diagnostics;
 using System.IO;
+using UnityEngine;
 
 namespace MOP
 {
@@ -31,7 +31,7 @@ namespace MOP
 #endif
         public override string Author => "Athlon"; //Your Username
 
-        public override string Version => "2.5.3"; //Version
+        public override string Version => "2.6"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
@@ -209,7 +209,7 @@ namespace MOP
         {
             Process.Start("https://paypal.me/figurakonrad");
         }
-        
+
         static void OpenRulesWebsiteDialog()
         {
             ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenRulesWebsite);
@@ -230,7 +230,7 @@ namespace MOP
 
             if (File.Exists($"{ModConfigPath}\\LastModList.mop"))
                 File.Delete($"{ModConfigPath}\\LastModList.mop");
-            
+
             if (File.Exists($"{ModConfigPath}\\LastUpdate.mop"))
                 File.Delete($"{ModConfigPath}\\LastUpdate.mop");
 
@@ -255,7 +255,7 @@ namespace MOP
                     line = line.Replace("###", "");
                     line = $"<color=yellow><size=24>{line}</size></color>";
                 }
-                
+
                 // Replace - with bullet.
                 if (line.StartsWith("-"))
                 {

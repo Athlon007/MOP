@@ -15,9 +15,9 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using System.Collections.Generic;
 
 namespace MOP
 {
@@ -248,11 +248,11 @@ namespace MOP
         /// <param name="enabled"></param>
         public void ToggleUnityCar(bool enabled)
         {
-            if ((gameObject == null) || gameObject.name == "BOAT" || (carDynamics.enabled == enabled) || !IsActive) 
+            if ((gameObject == null) || gameObject.name == "BOAT" || (carDynamics.enabled == enabled) || !IsActive)
                 return;
 
             // Don't toggle physics, unless car's on ground
-            if (!IsOnGround() && !enabled) 
+            if (!IsOnGround() && !enabled)
                 return;
 
             // If satsumaScript in this is not null, and Satsuma is in inspection area and is enabled, 
@@ -261,7 +261,7 @@ namespace MOP
                 enabled = true;
 
             // Prevent disabling car physics if the rope is hooked
-            if (IsRopeHooked() && gameObject.activeSelf == true && !enabled) 
+            if (IsRopeHooked() && gameObject.activeSelf == true && !enabled)
                 enabled = true;
 
             carDynamics.enabled = enabled;

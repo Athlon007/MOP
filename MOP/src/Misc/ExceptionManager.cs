@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using System;
-using System.IO;
-using System.Diagnostics;
 using MSCLoader;
+using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace MOP
 {
@@ -119,7 +119,7 @@ namespace MOP
                 }
 
                 // Ignore MSCLoader components
-                if (mod.ID == "MSCLoader_Console" || mod.ID == "MSCLoader_Settings") 
+                if (mod.ID == "MSCLoader_Console" || mod.ID == "MSCLoader_Settings")
                     continue;
 
                 output += $"{mod.Name}:\n  ID: {mod.ID}\n  Version: {mod.Version}\n  Author: {mod.Author}\n\n";

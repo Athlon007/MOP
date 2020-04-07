@@ -14,10 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using UnityEngine;
 using System.IO;
-using System.Linq;
-using System;
+using UnityEngine;
 
 namespace MOP
 {
@@ -48,7 +46,7 @@ namespace MOP
 
         static bool toggleVehiclePhysicsOnly = false;
         public static bool ToggleVehiclePhysicsOnly { get => toggleVehiclePhysicsOnly; }
-       
+
 
         //
         // MISCELLANEOUS
@@ -126,4 +124,3 @@ namespace MOP
         }
     }
 }
- 
