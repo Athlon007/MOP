@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using MSCLoader;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace MOP
         public string[] blackList = {
         "ax", "booze", "brake fluid", "cigarettes", "coffee pan", "coffee cup", "coolant", "diesel",
         "empty plastic can", "fire extinguisher", "gasoline", "grill", "grill charcoal", "ground coffee",
-        "juice", "kilju", "lamp", "macaronbox", "milk", "moosemeat", "mosquito spray", "motor oil",
+        "juice", "kilju", "lamp", "macaron box", "milk", "moosemeat", "mosquito spray", "motor oil",
         "oilfilter", "pike", "pizza", "ratchet set", "potato chips", "sausages", "sugar", "spanner set",
         "spray can", "two stroke fuel", "wiring mess", "wood carrier", "yeast", "shopping bag", "flashlight",
         "beer case", "fireworks bag", "lantern", "dipper", "coffee pan", "fireworks bag", "camera",
@@ -40,6 +41,7 @@ namespace MOP
         // List of ObjectHooks attached to minor objects
         public List<ItemHook> ItemsHooks = new List<ItemHook>();
 
+        CashRegisterHook cashRegisterHook;
 
         /// <summary>
         /// Initialize MinorObjects class
@@ -47,8 +49,8 @@ namespace MOP
         public Items()
         {
             instance = this;
+            cashRegisterHook = GameObject.Find("STORE/StoreCashRegister/Register").AddComponent<CashRegisterHook>();
             InitializeList();
-            GameObject.Find("STORE/StoreCashRegister/Register").AddComponent<CashRegisterHook>();
 
             // Uncle's beer case bottle despawner
             GameObject.Find("YARD/UNCLE/Home/UncleDrinking/Uncle/beer case(itemx)").AddComponent<UncleBeerCaseHook>();
@@ -93,6 +95,13 @@ namespace MOP
                 try
                 {
                     items[i].AddComponent<ItemHook>();
+
+                    // Hook the TriggerMinorObjectRefresh to Confirm and Spawn all actions
+                    if (items[i].name.Contains("shopping bag"))
+                    {
+                        FsmHook.FsmInject(items[i], "Confirm", cashRegisterHook.TriggerMinorObjectRefresh);
+                        FsmHook.FsmInject(items[i], "Spawn all", cashRegisterHook.TriggerMinorObjectRefresh);
+                    }
                 }
                 catch (System.Exception ex)
                 {
@@ -120,12 +129,14 @@ namespace MOP
             GameObject itemsObject = GameObject.Find("ITEMS");
             for (int i = 0; i < itemsObject.transform.childCount; i++)
             {
+                GameObject item = itemsObject.transform.GetChild(i).gameObject;
+
                 try
                 {
-                    if (itemsObject.transform.GetChild(i).gameObject.GetComponent<ItemHook>() != null)
+                    if (item.GetComponent<ItemHook>() != null)
                         continue;
 
-                    itemsObject.transform.GetChild(i).gameObject.AddComponent<ItemHook>();
+                    item.AddComponent<ItemHook>();
                 }
                 catch (System.Exception ex)
                 {

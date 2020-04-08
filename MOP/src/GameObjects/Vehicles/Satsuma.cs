@@ -90,10 +90,6 @@ namespace MOP
 
             currentStatus = enabled;
 
-            carDynamics.enabled = enabled;
-            axles.enabled = enabled;
-            rb.isKinematic = !enabled;
-
             if (MopSettings.SatsumaTogglePhysicsOnly) return;
 
             if (preventUnloadDuringThisSession || MopFsmManager.IsRepairshopJobOrdered())

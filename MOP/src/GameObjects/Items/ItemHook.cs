@@ -40,6 +40,8 @@ namespace MOP
         /// </summary>
         Renderer renderer;
 
+        Vector3 position;
+
         public ItemHook()
         {
             IgnoreRule rule = Rules.instance.IgnoreRules.Find(f => f.ObjectName == this.gameObject.name);
@@ -82,6 +84,14 @@ namespace MOP
             if (gameObject.name.Contains("shopping bag"))
             {
                 FsmHook.FsmInject(this.gameObject, "Is garbage", RemoveSelf);
+
+                // Destroys empty shopping bags appearing at the back of the yard.
+                PlayMakerArrayListProxy list = gameObject.GetComponent<PlayMakerArrayListProxy>();
+                if (list.arrayList.Count == 0)
+                {
+                    Items.instance.Remove(this);
+                    Destroy(this.gameObject);
+                }
             }
 
             // If the item is beer case, hook the DestroyBeerBottles void uppon removing a bottle.
@@ -94,6 +104,8 @@ namespace MOP
             // If ignore, disable renderer
             if (rule != null)
                 renderer = null;
+
+            position = transform.position;
         }
 
         // Triggered before the object is destroyed.

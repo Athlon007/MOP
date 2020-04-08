@@ -431,7 +431,7 @@ namespace MOP
         {
             MopSettings.IsModActive = false;
             StopCoroutine(currentLoop);
-            ToggleAll(true);
+            ToggleAll(true, true);
         }
 
         /// <summary>
@@ -723,7 +723,7 @@ namespace MOP
         /// <summary>
         /// Toggles on all objects.
         /// </summary>
-        public void ToggleAll(bool enabled)
+        public void ToggleAll(bool enabled, bool onSave = false)
         {
             try
             {
@@ -743,6 +743,15 @@ namespace MOP
                 for (int i = 0; i < Items.instance.ItemsHooks.Count; i++)
                 {
                     Items.instance.ItemsHooks[i].ToggleActive(enabled);
+
+                    // If we're saving, MOP forces on items the "SAVEGAME" event.
+                    // This fixes an issue with items not getting saved, for some reason.
+                    if (onSave)
+                    {
+                        PlayMakerFSM fsm = Items.instance.ItemsHooks[i].gameObject.GetComponent<PlayMakerFSM>();
+                        if (fsm != null)
+                            fsm.SendEvent("SAVEGAME");
+                    }
                 }
 
                 // Places

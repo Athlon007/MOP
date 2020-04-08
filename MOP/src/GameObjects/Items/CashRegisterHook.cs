@@ -31,7 +31,6 @@ namespace MOP
         public CashRegisterHook()
         {
             FsmHook.FsmInject(this.gameObject, "Purchase", TriggerMinorObjectRefresh);
-            TriggerMinorObjectRefresh();
         }
 
         /// <summary>

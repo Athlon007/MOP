@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.6 Development 4 (tba)
+
+## Bug Fixes
+
+- Fixed Satsuma physics toggling right when car get's activated, alllowing items inside of it potentially flip the car
+- Fixed macaron boxes not being hooked
+- Removed empty shopping bags spawning at the backyard bug
+- Fixed shopping bags that have been loaded on game save not being able to hook new items
+- Fixed items from opened shopping bag teleporting back to cash register at store
+
 ## 2.6 Development 3 (tba)
 
 ### Changes
