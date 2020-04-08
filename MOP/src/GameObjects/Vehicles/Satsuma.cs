@@ -99,7 +99,6 @@ namespace MOP
             if (preventUnloadDuringThisSession || MopFsmManager.IsRepairshopJobOrdered())
             {
                 enabled = true;
-                MSCLoader.ModConsole.Print("REPAIR JOB ORDERED");
                 preventUnloadDuringThisSession = true;
             }
 

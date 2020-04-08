@@ -81,6 +81,7 @@ namespace MOP
         // ACTIVATING OBJECTS
         //
         public static Settings activeDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
+        string[] activeDistanceText = { "Close (0.5x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
         public static Settings safeMode = new Settings("safeMode", "Safe Mode (requires restart)", false, MopSettings.UpdateAll);
 
         //
@@ -139,8 +140,7 @@ namespace MOP
 
             // Activating Objects
             Settings.AddHeader(this, "Activating Objects", headerColor);
-            Settings.AddSlider(this, activeDistance, 0, 3);
-            Settings.AddText(this, "From how far objects are disabled.\n - 0: Close (0.5x)\n - 1: Normal (Default)\n - 2: Far (2x)\n - 3: Very Far (4x)");
+            Settings.AddSlider(this, activeDistance, 0, 3, activeDistanceText);
             Settings.AddCheckBox(this, safeMode);
             Settings.AddText(this, "Safe Mode will only allow to toggle objects that should not cause any issues with game.\n" +
                 "Note: this option will dramatically decrease performance!");

@@ -1,11 +1,23 @@
 # Changelog
 
+## 2.6 Development 3 (tba)
+
+### Changes
+
+- Updated for MSC Mod Loader Version 1.1.7
+- Changed how Active Distance slider is displayed
+
+### Bug Fixes
+
+- (Development) Fixed Gifu septic tank resetting to null
+- Fixed PathsLayer turning on when it should not be available for the player
+
 ## 2.6 Development 2 (08.04.2020)
 
 ### Bug Fixes
 
-- (Development) Fixed MOP not launching on Official version of the game, due to missing Farm and Combine objects
 - (Development) Fixed Gifu hose and waste spill valve being broken
+- (Development) Fixed MOP not launching on Official version of the game, due to missing Farm and Combine objects
 - Fixed Safe Mode not kicking in correctly
 - Fixed Farm and Combine job darts appearing on the yard map when they shouldn't
 

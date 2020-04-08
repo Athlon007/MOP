@@ -364,6 +364,8 @@ namespace MOP
             // Initialzie sector manager
             ActivateSectors();
 
+            ToggleAll(false);
+
             // Initialize the coroutines.
             currentLoop = LoopRoutine();
             StartCoroutine(currentLoop);
@@ -525,42 +527,6 @@ namespace MOP
                     continue;
                 }
 
-                // Items (new)
-                half = Items.instance.ItemsHooks.Count / 2;
-                int full = Items.instance.ItemsHooks.Count;
-                for (i = 0; i < full; i++)
-                {
-                    if (i % half == 0) yield return null;
-
-                    // Safe check if somehow the i gets bigger than array length.
-                    if (i >= Items.instance.ItemsHooks.Count) break;
-
-                    try
-                    {
-                        if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
-                        {
-                            ModConsole.Print("[MOP] Removed one item from ItemHooks list, because it doesn't exist anymore " +
-                                "(ignore if you have Bottle Recycling mod and you just sold the bottle/beer case).");
-
-                            // Remove item at the current i
-                            Items.instance.ItemsHooks.RemoveAt(i);
-
-                            // Decrease the i by 1, because the List has shifted, so the items will not be skipped.
-                            // Then continue.
-                            i--;
-                            half = Items.instance.ItemsHooks.Count / 2;
-                            full = Items.instance.ItemsHooks.Count;
-                            continue;
-                        }
-
-                        Items.instance.ItemsHooks[i].ToggleActive(IsEnabled(Items.instance.ItemsHooks[i].gameObject.transform, 150));
-                    }
-                    catch (Exception ex)
-                    {
-                        ExceptionManager.New(ex, "ITEM_TOGGLE_ERROR");
-                    }
-                }
-
                 // Vehicles
                 try
                 {
@@ -607,6 +573,42 @@ namespace MOP
                 catch (Exception ex)
                 {
                     ExceptionManager.New(ex, "VEHICLE_TOGGLE_ERROR_1");
+                }
+
+                // Items (new)
+                half = Items.instance.ItemsHooks.Count / 2;
+                int full = Items.instance.ItemsHooks.Count;
+                for (i = 0; i < full; i++)
+                {
+                    if (i % half == 0) yield return null;
+
+                    // Safe check if somehow the i gets bigger than array length.
+                    if (i >= Items.instance.ItemsHooks.Count) break;
+
+                    try
+                    {
+                        if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
+                        {
+                            ModConsole.Print("[MOP] Removed one item from ItemHooks list, because it doesn't exist anymore " +
+                                "(ignore if you have Bottle Recycling mod and you just sold the bottle/beer case).");
+
+                            // Remove item at the current i
+                            Items.instance.ItemsHooks.RemoveAt(i);
+
+                            // Decrease the i by 1, because the List has shifted, so the items will not be skipped.
+                            // Then continue.
+                            i--;
+                            half = Items.instance.ItemsHooks.Count / 2;
+                            full = Items.instance.ItemsHooks.Count;
+                            continue;
+                        }
+
+                        Items.instance.ItemsHooks[i].ToggleActive(IsEnabled(Items.instance.ItemsHooks[i].gameObject.transform, 150));
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionManager.New(ex, "ITEM_TOGGLE_ERROR");
+                    }
                 }
 
                 // Places

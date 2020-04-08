@@ -90,7 +90,14 @@ namespace MOP
 
             for (int i = 0; i < items.Length; i++)
             {
-                items[i].AddComponent<ItemHook>();
+                try
+                {
+                    items[i].AddComponent<ItemHook>();
+                }
+                catch (System.Exception ex)
+                {
+                    ExceptionManager.New(ex, "ITEM_LIST_LOAD_ERROR");
+                }
             }
 
             // CD Player Enhanced compatibility
@@ -113,10 +120,17 @@ namespace MOP
             GameObject itemsObject = GameObject.Find("ITEMS");
             for (int i = 0; i < itemsObject.transform.childCount; i++)
             {
-                if (itemsObject.transform.GetChild(i).gameObject.GetComponent<ItemHook>() != null)
-                    continue;
+                try
+                {
+                    if (itemsObject.transform.GetChild(i).gameObject.GetComponent<ItemHook>() != null)
+                        continue;
 
-                itemsObject.transform.GetChild(i).gameObject.AddComponent<ItemHook>();
+                    itemsObject.transform.GetChild(i).gameObject.AddComponent<ItemHook>();
+                }
+                catch (System.Exception ex)
+                {
+                    ExceptionManager.New(ex, "ITEM_LIST_AT_ITEMS_LOAD_ERROR");
+                }
             }
         }
 

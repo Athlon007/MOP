@@ -170,7 +170,11 @@ namespace MOP
                 {
                     ModConsole.Print($"<color=yellow>[MOP] Downloading new rule file for {mod.Name}...</color>");
                     NewMessage($"MOP: Downloading new rule file for {mod.Name}...");
+#if DEBUG
+                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion}_DEBUG {SystemInfo.operatingSystem}");
+#else
                     web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {SystemInfo.operatingSystem}");
+#endif
                     if (File.Exists(filePath))
                         File.Delete(filePath);
 
@@ -342,7 +346,11 @@ namespace MOP
                 if (serverContent == null)
                 {
                     WebClient web = new WebClient();
+#if DEBUG
+                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion}_DEBUG {SystemInfo.operatingSystem}");
+#else
                     web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {SystemInfo.operatingSystem}");
+#endif
                     string[] serverContentArray = web.DownloadString(new Uri($"{RemoteServer}{ServerContent}")).Split('\n');
                     serverContent = new List<ServerContentData>();
                     for (int i = 0; i < serverContentArray.Length; i++)

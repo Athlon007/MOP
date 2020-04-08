@@ -122,7 +122,7 @@ namespace MOP
             if (gameObject.name == "GIFU(750/450psi)")
             {
                 preventToggleOnObjects.Add(new PreventToggleOnObject(gameObject.transform.Find("Dashboard").Find("Knobs")));
-                preventToggleOnObjects.Add(new PreventToggleOnObject(gameObject.transform.Find("ShitTank")));
+                gameObject.transform.Find("ShitTank").gameObject.AddComponent<GifuWasteScript>();
             }
 
             carDynamics = gameObject.GetComponent<CarDynamics>();
