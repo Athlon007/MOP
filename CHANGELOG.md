@@ -1,46 +1,6 @@
 # Changelog
 
-## 2.6 Development 4 (09.04.2020)
-
-### Bug Fixes
-
-- Fixed Satsuma physics toggling right when car gets activated, alllowing items inside of it potentially flip the car
-- Fixed macaron boxes not being hooked
-- Removed empty shopping bags spawning at the backyard bug
-- Fixed shopping bags that have been loaded on game save not being able to hook new items
-- Fixed items from opened shopping bag teleporting back to cash register at store
-- Fixed game crashing when player is driving the green Fittan or EDM to his house
-
-## 2.6 Development 3 (08.04.2020)
-
-### Changes
-
-- Updated for MSC Mod Loader Version 1.1.7
-- Changed how Active Distance slider is displayed
-
-### Bug Fixes
-
-- (Development) Fixed Gifu septic tank resetting to null
-- Fixed PathsLayer turning on when it should not be available for the player
-
-## 2.6 Development 2 (08.04.2020)
-
-### Bug Fixes
-
-- (Development) Fixed Gifu hose and waste spill valve being broken
-- (Development) Fixed MOP not launching on Official version of the game, due to missing Farm and Combine objects
-- Fixed Safe Mode not kicking in correctly
-- Fixed Farm and Combine job darts appearing on the yard map when they shouldn't
-
-### Removed
-
-- (Development) World is now not toggled on load, due to some issues
-
-### Known Issues
-
-- GIFU may break on toggling
-
-## 2.6 Development 1 (07.04.2020)
+## 2.6 (09.04.2020)
 
 ### Added
 
@@ -50,10 +10,12 @@
 
 ### Changes
 
+- Updated for MSC Mod Loader Version 1.1.7
 - Sectors now work when using noclip mod
 - Changed error codes
 - Street lights won't be toggled when entering the store
 - Moved the MOP message dialogue to upper right corner in main menu in order to not overlap the ModLoader messages
+- Changed how Active Distance slider is displayed
 - Minor internal changes
 - Removed unused code
 
@@ -66,7 +28,16 @@
 - SATSUMA: Fixed Fleetari not painting the car body
 - House in front of Fleetari won't be disabled if the player enters the repair shop
 - Bar fighter won't disappear when entering the bar
-- Possibly fixed Satsuma flipping over on certain occasions (needs testing)
+- Fixed Satsuma flipping over on certain occasions (needs testing)
+- Fixed Safe Mode not kicking in correctly
+- Fixed Farm and Combine job darts appearing on the yard map when they shouldn't
+- Fixed PathsLayer turning on when it should not be available for the player
+- Fixed Satsuma physics toggling right when car gets activated, alllowing items inside of it potentially flip the car
+- Fixed macaron boxes not being hooked
+- Removed empty shopping bags spawning at the backyard bug
+- Fixed shopping bags that have been loaded on game save not being able to hook new items
+- Fixed items from opened shopping bag teleporting back to cash register at store
+- Fixed game crashing when player is driving the green Fittan or EDM to his house
 
 ## 2.5.2 (03.04.2020)
 

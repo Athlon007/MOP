@@ -44,6 +44,9 @@ namespace MOP
 
         bool preventUnloadDuringThisSession;
 
+        Vector3 position;
+        Quaternion rotation;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -78,6 +81,9 @@ namespace MOP
                 if (vehicleRule.TotalIgnore)
                     IsActive = false;
             }
+
+            position = transform.position;
+            rotation = transform.rotation;
         }
 
         /// <summary>
@@ -107,6 +113,18 @@ namespace MOP
             }
 
             ToggleAllRenderers(enabled);
+
+            // Fixes Satsuma getting flipped.
+            if (enabled)
+            {
+                transform.position = position;
+                transform.rotation = rotation;
+            }
+            else
+            {
+                position = transform.position;
+                rotation = transform.rotation;
+            }
         }
 
         /// <summary>

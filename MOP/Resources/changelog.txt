@@ -1,11 +1,32 @@
+### Added
+
+- Farm is now toggled
+- Combine is now toggled
+- Added sector at machine hall on player's yard
+
 ### Changes
 
 - Updated for MSC Mod Loader Version 1.1.7
+- Sectors now work when using noclip mod
+- Changed error codes
+- Street lights won't be toggled when entering the store
+- Moved the MOP message dialogue to upper right corner in main menu in order to not overlap the ModLoader messages
 - Changed how Active Distance slider is displayed
+- Minor internal changes
+- Removed unused code
 
 ### Bug Fixes
 
-- (Development) Fixed Gifu septic tank resetting to null
+- Fixed potential error, in which MOP would not load if the rule files class haven't been loaded
+- Fixed house renderers disappearing, if the player entered the garage and the active distance was set to 0
+- GIFU: Fixed shit tank resetting to empty, if the truck was respawned
+- Items should not fall through the cars anymore
+- SATSUMA: Fixed Fleetari not painting the car body
+- House in front of Fleetari won't be disabled if the player enters the repair shop
+- Bar fighter won't disappear when entering the bar
+- Fixed Satsuma flipping over on certain occasions (needs testing)
+- Fixed Safe Mode not kicking in correctly
+- Fixed Farm and Combine job darts appearing on the yard map when they shouldn't
 - Fixed PathsLayer turning on when it should not be available for the player
 - Fixed Satsuma physics toggling right when car gets activated, alllowing items inside of it potentially flip the car
 - Fixed macaron boxes not being hooked
