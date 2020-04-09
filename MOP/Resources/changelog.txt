@@ -7,3 +7,9 @@
 
 - (Development) Fixed Gifu septic tank resetting to null
 - Fixed PathsLayer turning on when it should not be available for the player
+- Fixed Satsuma physics toggling right when car gets activated, alllowing items inside of it potentially flip the car
+- Fixed macaron boxes not being hooked
+- Removed empty shopping bags spawning at the backyard bug
+- Fixed shopping bags that have been loaded on game save not being able to hook new items
+- Fixed items from opened shopping bag teleporting back to cash register at store
+- Fixed game crashing when player is driving the green Fittan or EDM to his house

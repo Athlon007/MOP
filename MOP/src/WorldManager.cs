@@ -226,6 +226,11 @@ namespace MOP
             // Prevents togglign the house in front of Repair Shop
             buildings.Find("HouseOld2").parent = null;
 
+            // Applying a script to vehicles that can pick up and drive the player as a passanger to his house.
+            // This script makes it so when the player enters the car, the parent of the vehicle is set to null.
+            GameObject.Find("TRAFFIC").transform.Find("VehiclesDirtRoad/Rally/FITTAN").gameObject.AddComponent<PlayerTaxiManager>();
+            GameObject.Find("NPC_CARS").transform.Find("KUSKI").gameObject.AddComponent<PlayerTaxiManager>();
+
             ModConsole.Print("[MOP] Finished applying fixes");
 
             //Things that should be enabled when out of proximity of the house

@@ -1,16 +1,17 @@
 # Changelog
 
-## 2.6 Development 4 (tba)
+## 2.6 Development 4 (09.04.2020)
 
-## Bug Fixes
+### Bug Fixes
 
-- Fixed Satsuma physics toggling right when car get's activated, alllowing items inside of it potentially flip the car
+- Fixed Satsuma physics toggling right when car gets activated, alllowing items inside of it potentially flip the car
 - Fixed macaron boxes not being hooked
 - Removed empty shopping bags spawning at the backyard bug
 - Fixed shopping bags that have been loaded on game save not being able to hook new items
 - Fixed items from opened shopping bag teleporting back to cash register at store
+- Fixed game crashing when player is driving the green Fittan or EDM to his house
 
-## 2.6 Development 3 (tba)
+## 2.6 Development 3 (08.04.2020)
 
 ### Changes
 
