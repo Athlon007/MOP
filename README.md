@@ -38,35 +38,7 @@ Grab the mod from [NexusMods](https://www.nexusmods.com/mysummercar/mods/146/), 
 
 ## Mod compatibility
 
-MOP officially supports following mods:
-
-- CarryMore
-- Drivable Fury
-- Second Ferndale
-- GAZ 24 Volga
-- Police Ferndale
-- VHS Player Mod
-- Offroad Hayosiko
-- Jet Sky
-- Moonshine Still Revived
-- Hayosiko Colorful Gauges
-- CD Player Enhanced
-- Actual Mop
-- Kekmet Addons
-- Bottle Recycle
-- Fishing Mod
-- Tangerine Pickup
-- Supercharger for Satsuma
-- ECU for Satsuma
-- Gifu Addons
-
-**If the mod is not listed, that DOES NOT mean it won't work!**
-
-For more info, visit [Compatibility Wiki](https://github.com/Athlon007/MOP/wiki/Mod-Compatibility).
-
-**WARNING:** This mod may or may not corrupt other mods. Use at your own risk!
-
-**THIS MOD IS NOT COMPATIBLE WITH KRUFPS OR IMPROVEFPS!** You need to remove them in order to use MOP.
+Visit [Compatibility Wiki](https://github.com/Athlon007/MOP/wiki/Mod-Compatibility) to see if your mod is supported.
 
 ## Cores
 
