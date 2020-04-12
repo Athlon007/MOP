@@ -42,7 +42,7 @@ namespace MOP
 
             using (StreamWriter sw = new StreamWriter("MOP_LOG.txt"))
             {
-                sw.Write($"{gameInfo}\n=== ERROR ===\n\n{errorInfo}\n\n{message}");
+                sw.Write($"{gameInfo}\n=== ERROR ===\n\n{message}{(message.Length > 0 ? "\n\n" : "")}{errorInfo}");
                 sw.Close();
                 sw.Dispose();
             }

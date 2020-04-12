@@ -126,6 +126,7 @@ namespace MOP
                 itemCheck.AddComponent<ShopModItemSpawnCheck>();
             }
 
+            // get items from ITEMS object.
             GameObject itemsObject = GameObject.Find("ITEMS");
             for (int i = 0; i < itemsObject.transform.childCount; i++)
             {
@@ -143,6 +144,11 @@ namespace MOP
                     ExceptionManager.New(ex, "ITEM_LIST_AT_ITEMS_LOAD_ERROR");
                 }
             }
+
+            // Fucking wheels.
+            GameObject[] wheels = Object.FindObjectsOfType<GameObject>().Where(gm => gm.name == "wheel_regula" && gm.activeSelf).ToArray();
+            foreach (GameObject wheel in wheels)
+                wheel.AddComponent<ItemHook>();
         }
 
         /// <summary>

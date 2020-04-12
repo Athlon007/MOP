@@ -1,5 +1,4 @@
-MassPassanger,DeadBody,DriveTrigger,SpawnPlayer,CarShadowProjector,
-Hooks,DriverHeadPivot,CameraPivot,PivotSeatR,HookRear,MassDriver,BeerCaseTarget,HookFront,
-GetInPivot,TrafficTrigger,AirIntake,DeformLogic,Wipers,WiperLeftPivot,WiperRightPivot,wipers_tap,
-wipers_rod,generalPivot,CarRearMirrorPivot,StagingWheel,car body(xxxxx),shadow_body,
+DriveTrigger,SpawnPlayer,CarShadowProjector,Hooks,DriverHeadPivot,CameraPivot,PivotSeatR,HookRear,MassDriver,BeerCaseTarget,HookFront,
+GetInPivot,TrafficTrigger,AirIntake,Wipers,WiperLeftPivot,WiperRightPivot,wipers_tap,
+wipers_rod,generalPivot,CarRearMirrorPivot,StagingWheel,shadow_body,
 RainScript,NormalFront,NormalSide,NormalRear,WindSide,WindFront,WindRear,CoG

@@ -25,7 +25,7 @@ namespace MOP
     {
         public override string ID => "MOP"; //Your mod ID (unique)
 #if DEBUG
-        public override string Name => "Modern Optimization Plugin (DEBUG. DO NOT DISTRIBUTE!)"; //You mod name
+        public override string Name => "Modern Optimization Plugin (Super Duper Secret Edition)"; //You mod name
 #else
         public override string Name => "Modern Optimization Plugin"; //You mod name
 #endif

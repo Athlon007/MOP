@@ -377,7 +377,10 @@ namespace MOP
             StartCoroutine(currentLoop);
             StartCoroutine(ControlCoroutine());
 
-            ModConsole.Print("<color=green>[MOP] MOD LOADED SUCCESFULLY!</color>");
+            string finalMessage = "[MOP] MOD LOADED SUCCESFULLY!";
+            float money = PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerMoney").Value;
+            finalMessage = money >= 69420.0f && money < 69421.0f ? finalMessage.Rainbowmize() : $"<color=green>{finalMessage}</color>";
+            ModConsole.Print(finalMessage);
         }
 
         /// <summary>
@@ -465,6 +468,7 @@ namespace MOP
 
                 // Disable Satsuma engine renderer, if player is in Satsuma
                 Satsuma.instance.ToggleEngineRenderers(!MopFsmManager.IsPlayerInSatsuma());
+                Satsuma.instance.ForceFuckingRotation();
                 yield return null;
 
                 try
@@ -544,7 +548,8 @@ namespace MOP
                 int full = Items.instance.ItemsHooks.Count;
                 for (i = 0; i < Items.instance.ItemsHooks.Count; i++)
                 {
-                    if (i % half == 0) yield return null;
+                    if (half != 0)
+                        if (i % half == 0) yield return null;
 
                     // Safe check if somehow the i gets bigger than array length.
                     if (i >= Items.instance.ItemsHooks.Count) break;
@@ -579,28 +584,12 @@ namespace MOP
                     }
                 }
 
-                // Items To Disable
-                half = itemsToDisable.Count / 2;
-                full = itemsToDisable.Count;
-                for (i = 0; i < full; i++)
-                {
-                    if (i % half == 0) yield return null;
-
-                    try
-                    {
-                        itemsToDisable[i].ToggleActive(false);
-                    }
-                    catch (Exception ex)
-                    {
-                        ExceptionManager.New(ex, "ITEM_TOGGLE_DISABLE_ERROR");
-                    }
-                }
-
                 // Vehicles (new)
                 half = vehicles.Count / 2;
                 for (i = 0; i < vehicles.Count; i++)
                 {
-                    if (i % half == 0) yield return null;
+                    if (half != 0)
+                        if (i % half == 0) yield return null;
 
                     try
                     {
@@ -618,24 +607,28 @@ namespace MOP
                     }
                     catch (Exception ex)
                     {
-                        ExceptionManager.New(ex, "VEHICLE_TOGGLE_ERROR");
+                        ExceptionManager.New(ex, $"VEHICLE_TOGGLE_ERROR_{i}");
                     }
                 }
 
                 // Items To Enable
-                half = itemsToEnabled.Count / 2;
                 full = itemsToEnabled.Count;
-                for (i = 0; i < full; i++)
+                if (full > 0)
                 {
-                    if (i % half == 0) yield return null;
+                    half = itemsToEnabled.Count / 2;
+                    for (i = 0; i < full; i++)
+                    {
+                        if (half != 0)
+                            if (i % half == 0) yield return null;
 
-                    try
-                    {
-                        itemsToEnabled[i].ToggleActive(true);
-                    }
-                    catch (Exception ex)
-                    {
-                        ExceptionManager.New(ex, "ITEM_TOGGLE_ENABLE_ERROR");
+                        try
+                        {
+                            itemsToEnabled[i].ToggleActive(true);
+                        }
+                        catch (Exception ex)
+                        {
+                            ExceptionManager.New(ex, "ITEM_TOGGLE_ENABLE_ERROR");
+                        }
                     }
                 }
 
@@ -790,7 +783,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                ExceptionManager.New(ex, "SAVEGAME_ERROR");
+                ExceptionManager.New(ex, "TOGGLE_ALL_ERROR");
             }
         }
 

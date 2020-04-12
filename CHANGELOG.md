@@ -2,23 +2,33 @@
 
 ## 2.6.1 (tba)
 
+Note: Expect items to fall through vehicles, if you're using some kind of teleportation mod, or NoClip. There's nothing I can do about it.
+
 ### Added
 
 - Added check of Experimental versions in mod log
 - Added some more bugs to fix later
+- Wheels are now toggled
 
 ### Changes
 
 - Items are now toggled before vehicles
 - Rewritten vehicles toggling to more reliable method
 - Rewritten items toggling, in order to prevent items falling through the vehicles
+- Updated some error codes
+- Error codes now appear before exception info
 
 ### Bug Fixes
 
-- Fixed safe mode bug
 - Attempt to fix items clipping through vehicles (again...)
+- Attempt to fix Satsuma getting flipped (topless plz fix your shit)
+- Fixed safe mode bug
 - Fixed My Summer Car bug in which seats would detach themselves
-- Some more bug fixes
+- Fixed MOP crashing if some engine part has been removed from Satsuma
+- Fixed a bug which potentially would cause MOP to try to divide by 0
+- Fixed boat fuel level resetting after respawn
+- Satsuma deformation logic doesn't get reneabled by MOP
+- Minor bug fixes
 
 ## 2.6 (09.04.2020)
 

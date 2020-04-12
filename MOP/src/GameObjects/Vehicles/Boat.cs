@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
+
 namespace MOP
 {
     class Boat : Vehicle
@@ -26,6 +28,8 @@ namespace MOP
         public Boat(string gameObject) : base(gameObject)
         {
             Toggle = ToggleActive;
+
+            preventToggleOnObjects.Add(new PreventToggleOnObject(transform.Find("GFX/Motor/Pivot/FuelTank")));
 
             // Ignore Rule
             IgnoreRule vehicleRule = Rules.instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
@@ -52,6 +56,9 @@ namespace MOP
             // We're doing that BEFORE we disable the object.
             if (!enabled)
             {
+                for (int i = 0; i < preventToggleOnObjects.Count; i++)
+                    preventToggleOnObjects[i].ObjectTransform.parent = temporaryParent;
+
                 Position = gameObject.transform.localPosition;
                 Rotation = gameObject.transform.localRotation;
             }
@@ -64,6 +71,9 @@ namespace MOP
             {
                 gameObject.transform.localPosition = Position;
                 gameObject.transform.localRotation = Rotation;
+
+                for (int i = 0; i < preventToggleOnObjects.Count; i++)
+                    preventToggleOnObjects[i].ObjectTransform.parent = preventToggleOnObjects[i].OriginalParent;
             }
         }
 

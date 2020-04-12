@@ -42,10 +42,10 @@ namespace MOP
         public bool IsActive = true;
 
         // All objects that cannot be unloaded (because it causes problems) land under that object
-        Transform temporaryParent;
+        internal Transform temporaryParent;
 
         // List of non unloadable objects
-        List<PreventToggleOnObject> preventToggleOnObjects;
+        internal List<PreventToggleOnObject> preventToggleOnObjects;
 
         // Overwrites the "Component.transform", to prevent eventual mod crashes caused by missuse of Vehicle.transform.
         // Technically, you should use Vehicle.Object.transform (ex. GIFU.Object.Transform), this here just lets you use Vehicle.transform
@@ -74,6 +74,9 @@ namespace MOP
         // Reference to one of the wheels that checks if the vehicle is on ground
         Wheel wheel;
 
+        internal Quaternion lastGoodRotation;
+        bool lastGoodRotationSaved;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -97,13 +100,13 @@ namespace MOP
             Position = gameObject.transform.localPosition;
             Rotation = gameObject.transform.localRotation;
 
-            if (gameObject.name == "BOAT")
-                return;
-
             // Creates a new gameobject that is names after the original file + '_TEMP' (ex. "SATSUMA(557kg, 248)_TEMP")
             temporaryParent = new GameObject(gameObject.name + "_TEMP").transform;
 
             preventToggleOnObjects = new List<PreventToggleOnObject>();
+
+            if (gameObject.name == "BOAT")
+                return;
 
             // Get the object's child which are responsible for audio
             foreach (Transform audioObject in FindAudioObjects())
@@ -267,6 +270,24 @@ namespace MOP
             carDynamics.enabled = enabled;
             axles.enabled = enabled;
             rb.isKinematic = !enabled;
+            rb.useGravity = enabled;
+
+            // We're completly freezing Satsuma, so it won't flip (hopefully...).
+            if (gameObject.name == "SATSUMA(557kg, 248)")
+            {
+                if (!enabled && !lastGoodRotationSaved)
+                {
+                    lastGoodRotationSaved = true;
+                    lastGoodRotation = transform.rotation;
+                }
+                
+                if (enabled)
+                {
+                    lastGoodRotationSaved = false;
+                }
+
+                rb.constraints = enabled ? RigidbodyConstraints.None : RigidbodyConstraints.FreezePosition;
+            }
         }
 
         /// <summary>

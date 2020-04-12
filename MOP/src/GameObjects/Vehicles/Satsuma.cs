@@ -42,10 +42,7 @@ namespace MOP
 
         bool currentStatus = true;
 
-        bool preventUnloadDuringThisSession;
-
-        Vector3 position;
-        Quaternion rotation;
+        bool preventDespawnDuringThisSession;
 
         /// <summary>
         /// Initialize class
@@ -82,8 +79,7 @@ namespace MOP
                     IsActive = false;
             }
 
-            position = transform.position;
-            rotation = transform.rotation;
+            lastGoodRotation = transform.rotation;
 
             // Adding components to normal and bucket seats.
             GameObject.Find("seat driver(Clone)").AddComponent<SatsumaSeatsManager>();
@@ -110,12 +106,15 @@ namespace MOP
 
             currentStatus = enabled;
 
+            if (!enabled)
+                lastGoodRotation = transform.rotation;
+
             if (MopSettings.SatsumaTogglePhysicsOnly) return;
 
-            if (preventUnloadDuringThisSession || MopFsmManager.IsRepairshopJobOrdered())
+            if (preventDespawnDuringThisSession || MopFsmManager.IsRepairshopJobOrdered())
             {
                 enabled = true;
-                preventUnloadDuringThisSession = true;
+                preventDespawnDuringThisSession = true;
             }
 
             for (int i = 0; i < disableableObjects.Length; i++)
@@ -128,17 +127,6 @@ namespace MOP
 
             ToggleAllRenderers(enabled);
 
-            // Fixes Satsuma getting flipped.
-            if (enabled)
-            {
-                transform.position = position;
-                transform.rotation = rotation;
-            }
-            else
-            {
-                position = transform.position;
-                rotation = transform.rotation;
-            }
         }
 
         /// <summary>
@@ -160,11 +148,21 @@ namespace MOP
 
             for (int i = 0; i < engineBayRenderers.Count; i++)
             {
-                // Skip renderer if it's root is not Satsuma.
-                if (renderers[i].transform.root.gameObject != this.gameObject)
-                    continue;
+                try
+                {
+                    if (engineBayRenderers[i] == null) 
+                        continue;
 
-                engineBayRenderers[i].enabled = enabled;
+                    // Skip renderer if it's root is not Satsuma.
+                    if (engineBayRenderers[i].transform.root.gameObject != this.gameObject)
+                        continue;
+
+                    engineBayRenderers[i].enabled = enabled;
+                }
+                catch (System.Exception ex)
+                {
+                    ExceptionManager.New(ex, "SATSUMA_ENGINE_RENDERER_TOGGLE_ISSUE");
+                }
             }
         }
 
@@ -179,14 +177,34 @@ namespace MOP
 
             for (int i = 0; i < renderers.Count; i++)
             {
-                // Skip renderer if it's root is not Satsuma.
-                if (renderers[i].transform.root.gameObject != this.gameObject)
-                    continue;
+                try
+                {
+                    if (renderers[i] == null)
+                        continue;
 
-                renderers[i].enabled = enabled;
+                    // Skip renderer if it's root is not Satsuma.
+                    if (renderers[i].transform.root.gameObject != this.gameObject)
+                        continue;
+
+                    renderers[i].enabled = enabled;
+                }
+                catch (System.Exception ex)
+                {
+                    ExceptionManager.New(ex, "SATSUMA_RENDERER_TOGGLE_ISSUE");
+                }
             }
 
             renderersToggled = enabled;
+        }
+
+        /// <summary>
+        /// Yeah, we're literally forcing this fucker to stay rotated at the last good rotation.
+        /// For some fucking reason it keeps spinning and shit.
+        /// </summary>
+        public void ForceFuckingRotation()
+        {
+            if (!carDynamics.enabled)
+                transform.rotation = lastGoodRotation;
         }
     }
 }
