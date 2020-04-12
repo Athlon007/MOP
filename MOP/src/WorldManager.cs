@@ -38,6 +38,7 @@ namespace MOP
         WorldObjectList worldObjectList;
 
         bool isPlayerAtYard;
+        bool inSectorMode;
 
         public WorldManager()
         {
@@ -456,6 +457,8 @@ namespace MOP
                 if (ticks > 1000)
                     ticks = 0;
 
+                inSectorMode = SectorManager.instance != null && SectorManager.instance.PlayerInSector;
+
                 isPlayerAtYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, places[0].transform.position) < 100
                     : Vector3.Distance(player.position, places[0].transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 
@@ -584,6 +587,27 @@ namespace MOP
                     }
                 }
 
+                // Items To Disable
+                full = itemsToDisable.Count;
+                if (full > 0)
+                {
+                    half = itemsToDisable.Count / 2;
+                    for (i = 0; i < full; i++)
+                    {
+                        if (half != 0)
+                            if (i % half == 0) yield return null;
+
+                        try
+                        {
+                            itemsToDisable[i].ToggleActive(false);
+                        }
+                        catch (Exception ex)
+                        {
+                            ExceptionManager.New(ex, "ITEM_TOGGLE_ENABLE_ERROR");
+                        }
+                    }
+                }
+
                 // Vehicles (new)
                 half = vehicles.Count / 2;
                 for (i = 0; i < vehicles.Count; i++)
@@ -677,11 +701,10 @@ namespace MOP
         /// <param name="toggleDistance">Distance below which the object should be enabled (default 200 units).</param>
         bool IsEnabled(Transform target, float toggleDistance = 200)
         {
-            if (SectorManager.instance != null && SectorManager.instance.PlayerInSector)
+            if (inSectorMode)
             {
                 toggleDistance *= MopSettings.ActiveDistance == 0 ? 0.2f : 0.1f;
             }
-
 
             return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
@@ -693,7 +716,7 @@ namespace MOP
         /// <returns></returns>
         bool IsVehicleEnabled(float distance, float toggleDistance = 200)
         {
-            if (SectorManager.instance != null && SectorManager.instance.PlayerInSector)
+            if (inSectorMode)
                 toggleDistance = 30;
 
             return distance < toggleDistance;

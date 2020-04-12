@@ -1,14 +1,14 @@
 # Changelog
 
-## 2.6.1 (tba)
+## 2.6.1 (13.04.2020)
 
 Note: Expect items to fall through vehicles, if you're using some kind of teleportation mod, or NoClip. There's nothing I can do about it.
 
 ### Added
 
 - Added check of Experimental versions in mod log
+- Wheels that aren't attached to the car are now toggled
 - Added some more bugs to fix later
-- Wheels are now toggled
 
 ### Changes
 
@@ -17,6 +17,7 @@ Note: Expect items to fall through vehicles, if you're using some kind of telepo
 - Rewritten items toggling, in order to prevent items falling through the vehicles
 - Updated some error codes
 - Error codes now appear before exception info
+- Changed how toggling works while player enters sectors, in order to prevent items from clipping through vehicles
 
 ### Bug Fixes
 
