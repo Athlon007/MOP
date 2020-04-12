@@ -47,6 +47,12 @@ namespace MOP
             mass = thisFsm.FsmVariables.FindFsmFloat("Mass");
             waste = thisFsm.FsmVariables.FindFsmFloat("Waste");
             crimeTime = thisFsm.FsmVariables.FindFsmString("CrimeTime");
+
+            crimeValue = crime.Value;
+            crimeEnvelopeWaitValue = crimeEnvelopeWait.Value;
+            massValue = mass.Value;
+            wasteValue = waste.Value;
+            crimeTimeValue = crimeTime.Value;
         }
 
         void OnDisable()

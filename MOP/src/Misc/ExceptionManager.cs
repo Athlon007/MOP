@@ -106,7 +106,8 @@ namespace MOP
             output += "ToggleVehiclePhysicsOnly: " + MopSettings.ToggleVehiclePhysicsOnly.ToString() + "\n";
             output += "IgnoreModVehicles: " + MopSettings.IgnoreModVehicles.ToString() + "\n";
             output += "EnableFramerateLimiter: " + ((bool)MOP.enableFramerateLimiter.GetValue()).ToString() + "\n";
-            output += "FramerateLimiter: " + MOP.framerateLimiter.GetValue().ToString() + "\n";
+            output += "FramerateLimiter: " + MOP.framerateLimiter.GetValue().ToString() + "\n"; 
+            output += "ExperimentalBranch: " + ModLoader.CheckIfExperimental() + "\n";
 
             // List installed mods.
             output += "\n=== MODS ===\n\n";

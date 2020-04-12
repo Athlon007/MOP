@@ -369,7 +369,8 @@ namespace MOP
             // Initialzie sector manager
             ActivateSectors();
 
-            ToggleAll(false);
+            if (!MopSettings.SafeMode)
+                ToggleAll(false);
 
             // Initialize the coroutines.
             currentLoop = LoopRoutine();

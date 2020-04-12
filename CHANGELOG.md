@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.6.1 (tba)
+
+### Added
+
+- Added check of Experimental versions in mod log
+- Added some more bugs to fix later
+
+### Bug Fixes
+
+- Fixed safe mode bug
+- Attempt to fix items clipping through vehicles (again...)
+- Some more bug fixes
+
 ## 2.6 (09.04.2020)
 
 ### Added

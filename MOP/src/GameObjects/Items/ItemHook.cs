@@ -123,7 +123,7 @@ namespace MOP
         {
             try
             {
-                if (rb == null || rb.detectCollisions == enabled)
+                if (rb == null || rb.useGravity == enabled)
                     return;
 
                 // Check if item is in CarryMore inventory.
@@ -147,8 +147,14 @@ namespace MOP
                         return;
                 }
 
-                rb.detectCollisions = enabled;
+                //rb.detectCollisions = enabled;
                 rb.isKinematic = !enabled;
+                rb.useGravity = enabled;
+
+                if (enabled)
+                    transform.position = position;
+                else
+                    position = transform.position;
 
                 // Disable object's renderer on distance
                 if (renderer != null)
