@@ -7,6 +7,10 @@
 - Added check of Experimental versions in mod log
 - Added some more bugs to fix later
 
+### Changes
+
+- Items are now toggled before vehicles
+
 ### Bug Fixes
 
 - Fixed safe mode bug

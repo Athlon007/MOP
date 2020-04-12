@@ -533,55 +533,7 @@ namespace MOP
                     continue;
                 }
 
-                // Vehicles
-                try
-                {
-                    half = vehicles.Count / 2;
-                    for (i = 0; i < half; i++)
-                    {
-                        if (vehicles[i] == null)
-                        {
-                            ModConsole.Print($"[MOP] Vehicle {i} has been skipped, because it's missing.");
-                            continue;
-                        }
-
-                        float distance = Vector3.Distance(player.transform.position, vehicles[i].transform.position);
-                        float toggleDistance = MopSettings.ActiveDistance == 0
-                            ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
-                        vehicles[i].ToggleUnityCar(IsVehicleEnabled(distance, toggleDistance));
-                        vehicles[i].Toggle(IsVehicleEnabled(distance));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ExceptionManager.New(ex, "VEHICLE_TOGGLE_ERROR_0");
-                }
-
-                yield return null;
-
-                try
-                {
-                    for (; i < vehicles.Count; i++)
-                    {
-                        if (vehicles[i] == null)
-                        {
-                            ModConsole.Print($"[MOP] Vehicle {i} has been skipped, because it's missing.");
-                            continue;
-                        }
-
-                        float distance = Vector3.Distance(player.transform.position, vehicles[i].transform.position);
-                        float toggleDistance = MopSettings.ActiveDistance == 0
-                            ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
-                        vehicles[i].ToggleUnityCar(IsVehicleEnabled(distance, toggleDistance));
-                        vehicles[i].Toggle(IsVehicleEnabled(distance));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ExceptionManager.New(ex, "VEHICLE_TOGGLE_ERROR_1");
-                }
-
-                // Items (new)
+                // Items
                 half = Items.instance.ItemsHooks.Count / 2;
                 int full = Items.instance.ItemsHooks.Count;
                 for (i = 0; i < full; i++)
@@ -614,6 +566,42 @@ namespace MOP
                     catch (Exception ex)
                     {
                         ExceptionManager.New(ex, "ITEM_TOGGLE_ERROR");
+                    }
+                }
+
+                yield return null;
+                yield return null;
+                yield return null;
+                yield return null;
+                yield return null;
+                yield return null;
+                yield return null;
+                yield return null;
+                yield return null;
+
+                // Vehicles (new)
+                half = vehicles.Count / 2;
+                for (i = 0; i < vehicles.Count; i++)
+                {
+                    if (i % half == 0) yield return null;
+
+                    try
+                    {
+                        if (vehicles[i] == null)
+                        {
+                            ModConsole.Print($"[MOP] Vehicle {i} has been skipped, because it's missing.");
+                            continue;
+                        }
+
+                        float distance = Vector3.Distance(player.transform.position, vehicles[i].transform.position);
+                        float toggleDistance = MopSettings.ActiveDistance == 0
+                            ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
+                        vehicles[i].ToggleUnityCar(IsVehicleEnabled(distance, toggleDistance));
+                        vehicles[i].Toggle(IsVehicleEnabled(distance));
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionManager.New(ex, "VEHICLE_TOGGLE_ERROR");
                     }
                 }
 
