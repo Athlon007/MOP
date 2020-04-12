@@ -84,6 +84,20 @@ namespace MOP
 
             position = transform.position;
             rotation = transform.rotation;
+
+            // Adding components to normal and bucket seats.
+            GameObject.Find("seat driver(Clone)").AddComponent<SatsumaSeatsManager>();
+            GameObject.Find("seat passenger(Clone)").AddComponent<SatsumaSeatsManager>();
+
+            GameObject bucketDriver = GameObject.Find("bucket seat driver(Clone)");
+            GameObject bucketPassanger = GameObject.Find("bucket seat passenger(Clone)");
+            if (bucketDriver == null)
+            {
+                bucketDriver = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "bucket seat driver(Clone)" && g.transform.parent.gameObject.name == "Parts");
+                bucketPassanger = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "bucket seat passenger(Clone)" && g.transform.parent.gameObject.name == "Parts");
+            }
+            bucketDriver.AddComponent<SatsumaSeatsManager>();
+            bucketPassanger.AddComponent<SatsumaSeatsManager>();
         }
 
         /// <summary>

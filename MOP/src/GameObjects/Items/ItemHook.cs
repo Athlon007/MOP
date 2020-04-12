@@ -147,7 +147,7 @@ namespace MOP
                         return;
                 }
 
-                //rb.detectCollisions = enabled;
+                rb.detectCollisions = enabled;
                 rb.isKinematic = !enabled;
                 rb.useGravity = enabled;
 

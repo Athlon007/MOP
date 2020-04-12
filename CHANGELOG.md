@@ -10,11 +10,14 @@
 ### Changes
 
 - Items are now toggled before vehicles
+- Rewritten vehicles toggling to more reliable method
+- Rewritten items toggling, in order to prevent items falling through the vehicles
 
 ### Bug Fixes
 
 - Fixed safe mode bug
 - Attempt to fix items clipping through vehicles (again...)
+- Fixed My Summer Car bug in which seats would detach themselves
 - Some more bug fixes
 
 ## 2.6 (09.04.2020)

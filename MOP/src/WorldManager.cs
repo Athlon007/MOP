@@ -533,10 +533,16 @@ namespace MOP
                     continue;
                 }
 
-                // Items
-                half = Items.instance.ItemsHooks.Count / 2;
+                // So we create two separate lists - one is meant to enable, and second is ment to disable them,
+                // Why?
+                // If we enable items before enabling vehicle inside of which these items are supposed to be, they'll fall through to ground.
+                // And the opposite happens if we disable vehicles before disabling items.
+                // So if we are disabling items, we need to do that BEFORE we disable vehicles.
+                // And we need to enable items AFTER we enable vehicles.
+                List<ItemHook> itemsToEnabled = new List<ItemHook>();
+                List<ItemHook> itemsToDisable = new List<ItemHook>();
                 int full = Items.instance.ItemsHooks.Count;
-                for (i = 0; i < full; i++)
+                for (i = 0; i < Items.instance.ItemsHooks.Count; i++)
                 {
                     if (i % half == 0) yield return null;
 
@@ -561,23 +567,34 @@ namespace MOP
                             continue;
                         }
 
-                        Items.instance.ItemsHooks[i].ToggleActive(IsEnabled(Items.instance.ItemsHooks[i].gameObject.transform, 150));
+                        bool toEnable = IsEnabled(Items.instance.ItemsHooks[i].transform, 150);
+                        if (toEnable)
+                            itemsToEnabled.Add(Items.instance.ItemsHooks[i]);
+                        else
+                            itemsToDisable.Add(Items.instance.ItemsHooks[i]);
                     }
                     catch (Exception ex)
                     {
-                        ExceptionManager.New(ex, "ITEM_TOGGLE_ERROR");
+                        ExceptionManager.New(ex, "ITEM_TOGGLE_GATHER_ERROR");
                     }
                 }
 
-                yield return null;
-                yield return null;
-                yield return null;
-                yield return null;
-                yield return null;
-                yield return null;
-                yield return null;
-                yield return null;
-                yield return null;
+                // Items To Disable
+                half = itemsToDisable.Count / 2;
+                full = itemsToDisable.Count;
+                for (i = 0; i < full; i++)
+                {
+                    if (i % half == 0) yield return null;
+
+                    try
+                    {
+                        itemsToDisable[i].ToggleActive(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionManager.New(ex, "ITEM_TOGGLE_DISABLE_ERROR");
+                    }
+                }
 
                 // Vehicles (new)
                 half = vehicles.Count / 2;
@@ -602,6 +619,23 @@ namespace MOP
                     catch (Exception ex)
                     {
                         ExceptionManager.New(ex, "VEHICLE_TOGGLE_ERROR");
+                    }
+                }
+
+                // Items To Enable
+                half = itemsToEnabled.Count / 2;
+                full = itemsToEnabled.Count;
+                for (i = 0; i < full; i++)
+                {
+                    if (i % half == 0) yield return null;
+
+                    try
+                    {
+                        itemsToEnabled[i].ToggleActive(true);
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionManager.New(ex, "ITEM_TOGGLE_ENABLE_ERROR");
                     }
                 }
 

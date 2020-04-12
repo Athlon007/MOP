@@ -72,6 +72,7 @@
     <Compile Include="src\GameObjects\Vehicles\Managers\GifuWasteScript.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\HingeManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Boat.cs" />
+    <Compile Include="src\GameObjects\Vehicles\Managers\SatsumaSeatsManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Satsuma.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\PreventToggleOnObject.cs" />
     <Compile Include="src\GameObjects\WorldObject.cs" />
