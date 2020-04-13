@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.6.2 (tba)
+
+## Bug Fixes
+
+- Traffic is not toggled while entering pub or repair shop
+
 ## 2.6.1 (13.04.2020)
 
 Note: Expect items to fall through vehicles, if you're using some kind of teleportation mod, or NoClip. There's nothing I can do about it.
