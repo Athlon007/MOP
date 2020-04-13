@@ -1,10 +1,19 @@
 # Changelog
 
-## 2.6.2 (tba)
+## 2.6.2 Development 1 (13.04.2020)
 
-## Bug Fixes
+### Changes
+
+- Minor changes to how items are toggled
+- Changed how toggling method is changed for vehicles, when the toggling mode is changed to only toggle the physics
+
+### Bug Fixes
 
 - Traffic is not toggled while entering pub or repair shop
+- Fixed a bug in which the trailer would get stuck in ground, if the Kekmet has been toggled
+- Fixed rules not affecting the combine harvester
+- Fixed crash on Boat.ToggleBoatPhysics
+- Items won't fall under the home pier, when player enters the garage
 
 ## 2.6.1 (13.04.2020)
 

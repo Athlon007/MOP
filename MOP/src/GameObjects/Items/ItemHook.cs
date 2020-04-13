@@ -153,9 +153,13 @@ namespace MOP
                 rb.detectCollisions = enabled;
                 rb.isKinematic = !enabled;
                 rb.useGravity = enabled;
+                rb.constraints = enabled ? RigidbodyConstraints.None : RigidbodyConstraints.FreezeAll;
 
                 if (enabled)
+                {
                     transform.position = position;
+                    rb.velocity = Vector3.zero;
+                }
                 else
                     position = transform.position;
 

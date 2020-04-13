@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace MOP
 {
@@ -30,6 +31,7 @@ namespace MOP
             Toggle = ToggleActive;
 
             preventToggleOnObjects.Add(new PreventToggleOnObject(transform.Find("GFX/Motor/Pivot/FuelTank")));
+            rb = this.gameObject.GetComponent<Rigidbody>();
 
             // Ignore Rule
             IgnoreRule vehicleRule = Rules.instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);

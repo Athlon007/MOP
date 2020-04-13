@@ -30,7 +30,7 @@ Note: tested on Xiaomi Mi Notebook Air latop with Intel Core i5-8250U, 8 GB RAM 
 ## Requirements
 
 - My Summer Car (newest release)
-- [MSC Mod Loader 1.1.5](https://www.racedepartment.com/downloads/msc-mod-loader.15339/)
+- [MSC Mod Loader 1.1.7](https://www.racedepartment.com/downloads/msc-mod-loader.15339/)
 
 ## Installation
 

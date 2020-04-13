@@ -155,6 +155,12 @@ namespace MOP
                 FsmHook.FsmInject(transform.Find("Bed/LogTrigger").gameObject, "Pay", FlatbedSwitchToggleMethod);
             }
 
+            if (gameObject.name == "KEKMET(350-400psi)")
+            {
+                FsmHook.FsmInject(transform.Find("Trailer/Hook").gameObject, "Attach trailer", KekmetOnTrailerAttach);
+                //FsmHook.FsmInject(transform.Find("Trailer/Remove").gameObject, "Close door", KekmetOnTrailerDetach);
+            }
+
             // Set default toggling method - that is entire vehicle
             Toggle = ToggleActive;
 
@@ -163,7 +169,7 @@ namespace MOP
             // If the user selected to toggle vehicle's physics only, it overrided any previous set for Toggle method
             if (MopSettings.ToggleVehiclePhysicsOnly)
             {
-                Toggle = ToggleUnityCar;
+                Toggle = IgnoreToggle;
             }
 
             // Get all HingeJoints and add HingeManager to them
@@ -183,7 +189,7 @@ namespace MOP
             IgnoreRule vehicleRule = Rules.instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
             if (vehicleRule != null)
             {
-                Toggle = ToggleUnityCar;
+                Toggle = IgnoreToggle;
 
                 if (vehicleRule.TotalIgnore)
                     IsActive = false;
@@ -290,6 +296,8 @@ namespace MOP
             }
         }
 
+        internal void IgnoreToggle(bool enabled) { }
+
         /// <summary>
         /// Retrieves the child audio objects from parent object.
         /// Basically looks for files with "audio" and "SoundSrc" name in it
@@ -310,7 +318,7 @@ namespace MOP
             if (flatbedUnloadPreventionActivated) return;
             flatbedUnloadPreventionActivated = true;
 
-            Toggle = ToggleUnityCar;
+            Toggle = IgnoreToggle;
         }
 
         /// <summary>
@@ -337,6 +345,14 @@ namespace MOP
                 return drivetrain.torque == 0;
 
             return wheel.onGroundDown;
+        }
+
+        /// <summary>
+        /// Prevents toggling of the Kekmet, if the trailer is attached.
+        /// </summary>
+        void KekmetOnTrailerAttach()
+        {
+            Toggle = IgnoreToggle;
         }
     }
 }

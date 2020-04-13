@@ -21,6 +21,16 @@ namespace MOP
         public Combine() : base("COMBINE(350-400psi)")
         {
             Toggle = ToggleCombineActive;
+
+            // Ignore Rule
+            IgnoreRule vehicleRule = Rules.instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
+            if (vehicleRule != null)
+            {
+                Toggle = IgnoreToggle;
+
+                if (vehicleRule.TotalIgnore)
+                    IsActive = false;
+            }
         }
 
         public void ToggleCombineActive(bool enabled)

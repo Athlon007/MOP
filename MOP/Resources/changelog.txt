@@ -1,28 +1,12 @@
-Note: Expect items to fall through vehicles, if you're using some kind of teleportation mod, or NoClip. There's nothing I can do about it.
-
-### Added
-
-- Added check of Experimental versions in mod log
-- Wheels that aren't attached to the car are now toggled
-- Added some more bugs to fix later
-
 ### Changes
 
-- Items are now toggled before vehicles
-- Rewritten vehicles toggling to more reliable method
-- Rewritten items toggling, in order to prevent items falling through the vehicles
-- Updated some error codes
-- Error codes now appear before exception info
-- Changed how toggling works while player enters sectors, in order to prevent items from clipping through vehicles
+- Minor changes to how items are toggled
+- Changed how toggling method is changed for vehicles, when the toggling mode is changed to only toggle the physics
 
 ### Bug Fixes
 
-- Attempt to fix items clipping through vehicles (again...)
-- Attempt to fix Satsuma getting flipped (topless plz fix your shit)
-- Fixed safe mode bug
-- Fixed My Summer Car bug in which seats would detach themselves
-- Fixed MOP crashing if some engine part has been removed from Satsuma
-- Fixed a bug which potentially would cause MOP to try to divide by 0
-- Fixed boat fuel level resetting after respawn
-- Satsuma deformation logic doesn't get reneabled by MOP
-- Minor bug fixes
+- Traffic is not toggled while entering pub or repair shop
+- Fixed a bug in which the trailer would get stuck in ground, if the Kekmet has been toggled
+- Fixed rules not affecting the combine harvester
+- Fixed crash on Boat.ToggleBoatPhysics
+- Items won't fall under the home pier, when player enters the garage
