@@ -261,7 +261,7 @@ namespace MOP
                 return;
 
             // Don't toggle physics, unless car's on ground
-            if (!IsOnGround() && !enabled)
+            if ((IsMoving() || !IsOnGround()) && !enabled)
                 return;
 
             // If satsumaScript in this is not null, and Satsuma is in inspection area and is enabled, 
@@ -345,6 +345,11 @@ namespace MOP
                 return drivetrain.torque == 0;
 
             return wheel.onGroundDown;
+        }
+
+        bool IsMoving()
+        {
+            return rb.velocity.magnitude > 0.1f;
         }
 
         /// <summary>

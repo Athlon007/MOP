@@ -4,6 +4,7 @@
 
 ### Changes
 
+- Vehicle physics is now not toggled if the vehicle is moving
 - Optimized seats script
 
 ## 2.6.2 (14.04.2020)
