@@ -125,7 +125,7 @@ namespace MOP
         public override void ModSettings()
         {
 #if DEBUG
-            Settings.AddHeader(this, "Shh...Don't leak my hard work ;)", Color.red, Color.black);
+            Settings.AddHeader(this, "Shh...Don't leak my hard work ;)", Color.yellow, Color.black);
 #endif
 
             if (!ModLoader.CheckSteam())
