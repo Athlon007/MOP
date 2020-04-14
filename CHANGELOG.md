@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.7 (tba)
+
+### Changes
+
+- Optimized seats script
+
 ## 2.6.2 (14.04.2020)
 
 ### Changes
