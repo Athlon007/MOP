@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.6.2 Development 1 (13.04.2020)
+## 2.6.2 (14.04.2020)
 
 ### Changes
 
@@ -14,6 +14,7 @@
 - Fixed rules not affecting the combine harvester
 - Fixed crash on Boat.ToggleBoatPhysics
 - Items won't fall under the home pier, when player enters the garage
+- Fixed possible memory leak
 
 ## 2.6.1 (13.04.2020)
 

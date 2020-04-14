@@ -46,6 +46,8 @@ namespace MOP
 
                 SectorManager.instance.PlayerInSector = true;
                 SectorManager.instance.ToggleActive(false);
+
+                System.GC.Collect();
             }
         }
 

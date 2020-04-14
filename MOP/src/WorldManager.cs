@@ -40,6 +40,9 @@ namespace MOP
         bool isPlayerAtYard;
         bool inSectorMode;
 
+        List<ItemHook> itemsToEnable = new List<ItemHook>();
+        List<ItemHook> itemsToDisable = new List<ItemHook>();
+
         public WorldManager()
         {
             if (Rules.instance == null)
@@ -382,6 +385,8 @@ namespace MOP
             float money = PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerMoney").Value;
             finalMessage = money >= 69420.0f && money < 69421.0f ? finalMessage.Rainbowmize() : $"<color=green>{finalMessage}</color>";
             ModConsole.Print(finalMessage);
+
+            GC.Collect();
         }
 
         /// <summary>
@@ -546,9 +551,8 @@ namespace MOP
                 // And the opposite happens if we disable vehicles before disabling items.
                 // So if we are disabling items, we need to do that BEFORE we disable vehicles.
                 // And we need to enable items AFTER we enable vehicles.
-                List<ItemHook> itemsToEnabled = new List<ItemHook>();
-                List<ItemHook> itemsToDisable = new List<ItemHook>();
-                int full = Items.instance.ItemsHooks.Count;
+                itemsToEnable.Clear();
+                itemsToDisable.Clear();
                 for (i = 0; i < Items.instance.ItemsHooks.Count; i++)
                 {
                     if (half != 0)
@@ -561,9 +565,6 @@ namespace MOP
                     {
                         if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
                         {
-                            ModConsole.Print("[MOP] Removed one item from ItemHooks list, because it doesn't exist anymore " +
-                                "(ignore if you have Bottle Recycling mod and you just sold the bottle/beer case).");
-
                             // Remove item at the current i
                             Items.instance.ItemsHooks.RemoveAt(i);
 
@@ -571,13 +572,12 @@ namespace MOP
                             // Then continue.
                             i--;
                             half = Items.instance.ItemsHooks.Count / 2;
-                            full = Items.instance.ItemsHooks.Count;
                             continue;
                         }
 
                         bool toEnable = IsEnabled(Items.instance.ItemsHooks[i].transform, 150);
                         if (toEnable)
-                            itemsToEnabled.Add(Items.instance.ItemsHooks[i]);
+                            itemsToEnable.Add(Items.instance.ItemsHooks[i]);
                         else
                             itemsToDisable.Add(Items.instance.ItemsHooks[i]);
                     }
@@ -588,7 +588,7 @@ namespace MOP
                 }
 
                 // Items To Disable
-                full = itemsToDisable.Count;
+                int full = itemsToDisable.Count;
                 if (full > 0)
                 {
                     half = itemsToDisable.Count / 2;
@@ -636,10 +636,10 @@ namespace MOP
                 }
 
                 // Items To Enable
-                full = itemsToEnabled.Count;
+                full = itemsToEnable.Count;
                 if (full > 0)
                 {
-                    half = itemsToEnabled.Count / 2;
+                    half = itemsToEnable.Count / 2;
                     for (i = 0; i < full; i++)
                     {
                         if (half != 0)
@@ -647,7 +647,7 @@ namespace MOP
 
                         try
                         {
-                            itemsToEnabled[i].ToggleActive(true);
+                            itemsToEnable[i].ToggleActive(true);
                         }
                         catch (Exception ex)
                         {

@@ -10,3 +10,4 @@
 - Fixed rules not affecting the combine harvester
 - Fixed crash on Boat.ToggleBoatPhysics
 - Items won't fall under the home pier, when player enters the garage
+- Fixed possible memory leak
