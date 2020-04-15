@@ -1,13 +1,17 @@
+### Added
+
+- You can now set the frequency of rule files auto update
+- Added rule files settings into mod report
+
 ### Changes
 
-- Minor changes to how items are toggled
-- Changed how toggling method is changed for vehicles, when the toggling mode is changed to only toggle the physics
+- Vehicle physics is now not toggled, if the vehicle is moving (so you can push the car off the ski hill again!)
+- Optimized seats script
+- Updated mop-rules command output
+- Minor changes in how mod is initialized
 
 ### Bug Fixes
 
-- Traffic is not toggled while entering pub or repair shop
-- Fixed a bug in which the trailer would get stuck in ground, if the Kekmet has been toggled
-- Fixed rules not affecting the combine harvester
-- Fixed crash on Boat.ToggleBoatPhysics
-- Items won't fall under the home pier, when player enters the garage
-- Fixed possible memory leak
+- Fixed items not being able to be rotated in some (beer) cases
+- Fixed MSC bug in which the hood would pop off on game load
+- Fixed lag while entering sector
