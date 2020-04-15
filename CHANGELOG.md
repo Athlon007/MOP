@@ -2,10 +2,23 @@
 
 ## 2.7 (tba)
 
+### Added
+
+- You can now set the frequency of rule files auto update
+- Added rule files settings into mod report
+
 ### Changes
 
-- Vehicle physics is now not toggled, if the vehicle is moving
+- Vehicle physics is now not toggled, if the vehicle is moving (so you can push the car off the ski hill again!)
 - Optimized seats script
+- Updated mop-rules command output
+- Minor changes in how mod is initialized
+
+### Bug Fixes
+
+- Fixed items not being able to be rotated in some (beer) cases
+- Fixed MSC bug in which the hood would pop off on game load
+- Fixed lag while entering sector
 
 ## 2.6.2 (14.04.2020)
 

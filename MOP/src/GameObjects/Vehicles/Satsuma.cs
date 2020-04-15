@@ -94,6 +94,20 @@ namespace MOP
             }
             bucketDriver.AddComponent<SatsumaSeatsManager>();
             bucketPassanger.AddComponent<SatsumaSeatsManager>();
+
+            // Fix for MSC bug that causes stock and racing hood to pop off.
+            Transform hood = GameObject.Find("hood(Clone)").transform;
+            Transform hoodPivot = transform.Find("Body/pivot_hood");
+            if (MopFsmManager.IsStockHoodBolted() && hood.parent != hoodPivot)
+            {
+                MopFsmManager.ForceHoodAssemble();
+            }
+
+            GameObject fiberHood = GameObject.Find("fiberglass hood(Clone)");
+            if (fiberHood != null && MopFsmManager.IsFiberHoodBolted() && fiberHood.transform.parent != hoodPivot)
+            {
+                MopFsmManager.ForceHoodAssemble();
+            }
         }
 
         /// <summary>

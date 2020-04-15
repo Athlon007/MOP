@@ -122,5 +122,18 @@ namespace MOP
                 return false;
             }
         }
+
+        public static int GetRuleFilesUpdateDaysFrequency()
+        {
+            switch (int.Parse(MOP.rulesAutoUpdateFrequency.GetValue().ToString()))
+            {
+                default:
+                    return 7;
+                case 0:
+                    return 1;
+                case 1:
+                    return 2;
+            }
+        }
     }
 }

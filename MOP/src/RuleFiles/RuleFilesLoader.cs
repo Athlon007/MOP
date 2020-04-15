@@ -46,7 +46,7 @@ namespace MOP
     {
         const string RemoteServer = "http://athlon.kkmr.pl/mop/rulefiles/";
         const string ServerContent = "servercontent.mop";
-        const int FileThresholdHours = 168; // 1 week
+        //const int FileThresholdHours = 168; // 1 week
 
         List<ServerContentData> serverContent;
         string lastModListPath;
@@ -119,9 +119,12 @@ namespace MOP
             Mod[] mods = ModLoader.LoadedMods.Where(m => !m.ID.ContainsAny("MSCLoader_", "MOP")).ToArray();
             string modListString = "";
 
-            ModConsole.Print("[MOP] Looking for rule updates...");
+            ModConsole.Print("[MOP] Checking for new mods...");
 
             bool isUpdateTime = !File.Exists(lastDateFilePath) || IsUpdateTime();
+
+            if (isUpdateTime)
+                ModConsole.Print("[MOP] Looking for updates...");
 
             foreach (Mod mod in mods)
             {
@@ -332,7 +335,8 @@ namespace MOP
         {
             if (DateTime.TryParse(File.ReadAllText(lastDateFilePath), out DateTime past))
             {
-                past = past.AddHours(FileThresholdHours);
+                int fileThresholdsHours = MopSettings.GetRuleFilesUpdateDaysFrequency() * 24;
+                past = past.AddHours(fileThresholdsHours);
                 return DateTime.Now > past;
             }
 

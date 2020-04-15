@@ -37,14 +37,12 @@ namespace MOP
         // This will create subfolder in Assets folder for your mod.
         public override bool UseAssetsFolder => false;
         public override bool SecondPass => true;
-        public override bool LoadInMenu => true;
 
         public static string ModConfigPath;
         public static string ModVersion;
 
-        public override void OnMenuLoad()
+        public override void ModSettingsLoaded()
         {
-            ModSettingsLoaded();
             ModConfigPath = ModLoader.GetModConfigFolder(this);
             MopSettings.UpdateAll();
             ModVersion = Version;
@@ -94,6 +92,8 @@ namespace MOP
         // MOD RULES
         //
         public static Settings rulesAutoUpdate = new Settings("rulesAutoUpdate", "Rules Auto Update", true, MopSettings.UpdateAll);
+        public static Settings rulesAutoUpdateFrequency = new Settings("rulesAutoUpdateFrequency", "Auto Update Frequency", 2);
+        string[] rulesAutoUpdateFrequencyText = { "Daily", "Every 2 days", "Weekly" };
         readonly Settings forceRuleUpdate = new Settings("forceRuleUpdate", "Force Update", ForceRuleFilesUpdate);
         readonly Settings rulesLearnMore = new Settings("rulesLearnMore", "Learn More", OpenRulesWebsiteDialog);
 
@@ -153,6 +153,7 @@ namespace MOP
             // Mod Rules
             Settings.AddHeader(this, "Mod Rules", headerColor);
             Settings.AddCheckBox(this, rulesAutoUpdate);
+            Settings.AddSlider(this, rulesAutoUpdateFrequency, 0, 2, rulesAutoUpdateFrequencyText);
             Settings.AddButton(this, forceRuleUpdate, "This will force MOP to re-download all mod rule files (this may take a while!).");
             Settings.AddButton(this, rulesLearnMore);
 

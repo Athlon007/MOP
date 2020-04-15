@@ -74,7 +74,7 @@ namespace MOP
 
         public void ClearSectorRules()
         {
-            SectorRules = new List<string>();
+            SectorRules.Clear();
         }
 
         public bool SectorRulesContains(string name)
@@ -93,25 +93,32 @@ namespace MOP
         public override bool ShowInHelp => true;
         public override void Run(string[] args)
         {
-            ModConsole.Print("<b>Ignore Rules</b>");
+            ModConsole.Print("<color=yellow><b>Ignore Rules</b></color>");
             foreach (IgnoreRule r in Rules.instance.IgnoreRules)
                 ModConsole.Print($"Object: {r.ObjectName}");
 
-            ModConsole.Print("<b>Ignore Rules At Place</b>");
+            ModConsole.Print("\n<color=yellow><b>Ignore Rules At Place</b></color>");
             foreach (IgnoreRuleAtPlace r in Rules.instance.IgnoreRulesAtPlaces)
-                ModConsole.Print($"Place: {r.Place} Object: {r.ObjectName}");
+                ModConsole.Print($"<b>Place:</b> {r.Place} <b>Object:</b> {r.ObjectName}");
 
-            ModConsole.Print("<b>Prevent Toggle On Object Rule</b>");
+            ModConsole.Print("\n<color=yellow><b>Prevent Toggle On Object Rule</b></color>");
             foreach (PreventToggleOnObjectRule r in Rules.instance.PreventToggleOnObjectRule)
-                ModConsole.Print($"Main Object: {r.MainObject} Object: {r.ObjectName}");
+                ModConsole.Print($"<b>Main Object:</b> {r.MainObject} <b>Object:</b> {r.ObjectName}");
 
-            ModConsole.Print("<b>Toggle Rules</b>");
+            ModConsole.Print("\n<color=yellow><b>Toggle Rules</b></color>");
             foreach (ToggleRule r in Rules.instance.ToggleRules)
-                ModConsole.Print($"Object: {r.ObjectName} Toggle Mode: {r.ToggleMode}");
+                ModConsole.Print($"<b>Object:</b> {r.ObjectName} <b>Toggle Mode:</b> {r.ToggleMode}");
 
-            ModConsole.Print("<b>Special Rules</b>");
-            ModConsole.Print($"DontDestroyEmptyBeerBottles: {Rules.instance.SpecialRules.DontDestroyEmptyBeerBottles}");
-            ModConsole.Print($"SatsumaIgnoreRenderers: {Rules.instance.SpecialRules.SatsumaIgnoreRenderers}");
+            ModConsole.Print("\n<color=yellow><b>Special Rules</b></color>");
+            ModConsole.Print($"<b>DontDestroyEmptyBeerBottles:</b> {Rules.instance.SpecialRules.DontDestroyEmptyBeerBottles}");
+            ModConsole.Print($"<b>SatsumaIgnoreRenderers:</b> {Rules.instance.SpecialRules.SatsumaIgnoreRenderers}");
+
+            // List rule files.
+            string output = "\n<color=yellow><b>Rule Files</b></color>\n";
+            foreach (string ruleFile in Rules.instance.RuleFileNames)
+                output += $"{ruleFile}\n";
+
+            ModConsole.Print(output);
         }
     }
 }

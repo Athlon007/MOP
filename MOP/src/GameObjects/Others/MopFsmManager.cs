@@ -26,6 +26,8 @@ namespace MOP
         static FsmBool order;
         static FsmString playerCurrentVehicle;
         static FsmInt farmJobStage;
+        static FsmBool hoodBolted;
+        static FsmBool fiberHoodBolted;
 
         /// <summary>
         /// Checks if the player has the keys to the Hayosiko.
@@ -95,6 +97,27 @@ namespace MOP
                 farmJobStage = GameObject.Find("JOBS/Farm/Job").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmInt("JobStage");
 
             return farmJobStage.Value >= 3;
+        }
+
+        public static bool IsStockHoodBolted()
+        {
+            if (hoodBolted == null)
+                hoodBolted = GameObject.Find("Database/DatabaseBody/Hood").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("Bolted");
+
+            return hoodBolted.Value;
+        }
+
+        public static bool IsFiberHoodBolted()
+        {
+            if (fiberHoodBolted == null)
+                fiberHoodBolted = GameObject.Find("Database/DatabaseOrders/Fiberglass Hood").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("Bolted");
+
+            return fiberHoodBolted.Value;
+        }
+
+        public static void ForceHoodAssemble()
+        {
+            GameObject.Find("SATSUMA(557kg, 248)/Body/trigger_hood").GetComponent<PlayMakerFSM>().SendEvent("ASSEMBLE");
         }
     }
 }
