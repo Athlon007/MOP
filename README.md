@@ -61,7 +61,7 @@ This program is distributed under GNU General Public License v3. Feel free to us
 
 ## Support
 
-Like MOP? Consider buying me a beer :)
+Do you like MOP? Consider buying me a beer :)
 
 [![](http://athlon.kkmr.pl/images/svg/paypal.svg)](https://www.paypal.me/figurakonrad)
 
