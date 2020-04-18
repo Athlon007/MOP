@@ -28,6 +28,7 @@ namespace MOP
         static FsmInt farmJobStage;
         static FsmBool hoodBolted;
         static FsmBool fiberHoodBolted;
+        static FsmBool suskiLarge;
 
         /// <summary>
         /// Checks if the player has the keys to the Hayosiko.
@@ -118,6 +119,14 @@ namespace MOP
         public static void ForceHoodAssemble()
         {
             GameObject.Find("SATSUMA(557kg, 248)/Body/trigger_hood").GetComponent<PlayMakerFSM>().SendEvent("ASSEMBLE");
+        }
+
+        public static bool IsSuskiLargeCall()
+        {
+            if (suskiLarge == null)
+                suskiLarge = GameObject.Find("YARD/Building/LIVINGROOM/Telephone/Logic/PhoneLogic").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("SuskiLarge");
+
+            return suskiLarge.Value;
         }
     }
 }

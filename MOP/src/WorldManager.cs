@@ -193,6 +193,7 @@ namespace MOP
             GameObject.Find("lantern(itemx)").transform.parent = null;
             GameObject.Find("coffee cup(itemx)").transform.parent = null;
             GameObject.Find("camera(itemx)").transform.parent = null;
+            GameObject.Find("COTTAGE/ax(itemx)").transform.parent = null;
 
             GameObject.Find("fireworks bag(itemx)").transform.parent = null;
 
@@ -245,7 +246,6 @@ namespace MOP
             worldObjectList.Add("TrafficSigns", true);
             worldObjectList.Add("StreetLights", true);
             worldObjectList.Add("HUMANS", true);
-            worldObjectList.Add("HayBales", true);
             worldObjectList.Add("TRACKFIELD", true);
             worldObjectList.Add("SkijumpHill", true);
             worldObjectList.Add("Factory", true);
@@ -383,7 +383,7 @@ namespace MOP
 
             string finalMessage = "[MOP] MOD LOADED SUCCESFULLY!";
             float money = PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerMoney").Value;
-            finalMessage = money >= 69420.0f && money < 69421.0f ? finalMessage.Rainbowmize() : $"<color=green>{finalMessage}</color>";
+            finalMessage = money >= 69420.0f && money < 69420.5f ? finalMessage.Rainbowmize() : $"<color=green>{finalMessage}</color>";
             ModConsole.Print(finalMessage);
 
             GC.Collect();
@@ -431,6 +431,13 @@ namespace MOP
                     }
                 }
 
+                // Hooking up on death save.
+                GameObject onDeathSaveObject = new GameObject("MOP_OnSaveDeath");
+                onDeathSaveObject.transform.parent = GameObject.Find("Systems").transform.Find("Death/GameOverScreen");
+                OnDeathBehaviour behaviour = onDeathSaveObject.AddComponent<OnDeathBehaviour>();
+                behaviour.Initialize(PreSaveGame);
+                i++;
+
                 ModConsole.Print($"[MOP] Hooked {i} save points!");
             }
             catch (Exception ex)
@@ -444,6 +451,7 @@ namespace MOP
         /// </summary>
         void PreSaveGame()
         {
+            ModConsole.Print("[MOP] Initializing Pre-Save Actions");
             MopSettings.IsModActive = false;
             StopCoroutine(currentLoop);
             ToggleAll(true, true);
@@ -702,9 +710,7 @@ namespace MOP
         bool IsEnabled(Transform target, float toggleDistance = 200)
         {
             if (inSectorMode)
-            {
                 toggleDistance *= MopSettings.ActiveDistance == 0 ? 0.2f : 0.1f;
-            }
 
             return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }

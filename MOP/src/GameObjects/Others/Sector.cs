@@ -141,12 +141,18 @@ namespace MOP
                 disabledObjects = newList;
             }
 
-            CreateNewSector(new Vector3(-16.77627f, -0.5062422f, 1.559867f), new Vector3(5, 5, 9), "PierHome"); // Garage
-            CreateNewSector(new Vector3(-1547.3f, 4, 1183.35f), new Vector3(9.6f, 5, 5.5f), new Vector3(0, 328, 0), "StreetLights", "HUMANS", "TRAFFIC"); // Teimo
-            CreateNewSector(new Vector3(-1551.7f, 4, 1185.8f), new Vector3(4.6f, 5, 2.5f), new Vector3(0, 328, 0), "StreetLights", "HUMANS", "TRAFFIC"); // Teimo_2
-            CreateNewSector(new Vector3(1562.49f, 4.8f, 733.8835f), new Vector3(15, 5, 20), new Vector3(0, 335, 0), "TRAFFIC"); // Repair shop
-            CreateNewSector(new Vector3(54.7f, -0.5062422f, -73.9f), new Vector3(6, 5, 5.2f), "YARD", "MachineHall", "BUSHES3", "BUSHES6", "TREES_SMALL1"); // Yard Machine Hall
-            // CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.559867f), new Vector3(11, 5, 9)); // Yard
+            // Garage
+            CreateNewSector(new Vector3(-16.77627f, -0.5062422f, 1.559867f), new Vector3(5, 5, 9), "PierHome");
+            // Teimo
+            CreateNewSector(new Vector3(-1547.3f, 4, 1183.35f), new Vector3(9.6f, 5, 5.5f), new Vector3(0, 328, 0), "StreetLights", "HUMANS", "TRAFFIC", "NPC_CARS");
+            // Teimo_2
+            CreateNewSector(new Vector3(-1551.7f, 4, 1185.8f), new Vector3(4.6f, 5, 2.5f), new Vector3(0, 328, 0), "StreetLights", "HUMANS", "TRAFFIC", "NPC_CARS");
+            // Repair shop
+            CreateNewSector(new Vector3(1562.49f, 4.8f, 733.8835f), new Vector3(15, 5, 20), new Vector3(0, 335, 0), "TRAFFIC");
+            // Yard Machine Hall
+            CreateNewSector(new Vector3(54.7f, -0.5062422f, -73.9f), new Vector3(6, 5, 5.2f), "YARD", "MachineHall", "BUSHES3", "BUSHES6", "TREES_SMALL1");
+            // Home
+            CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.559867f), new Vector3(11, 5, 9), "TREES_SMALL1", "BUSHES7", "Building");
 
             ModConsole.Print("[MOP] Sectors done!");
         }

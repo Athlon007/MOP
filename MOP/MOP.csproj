@@ -61,6 +61,7 @@
     <Compile Include="src\GameObjects\Items\ItemHook.cs" />
     <Compile Include="src\GameObjects\Items\ShopModItemSpawnCheck.cs" />
     <Compile Include="src\GameObjects\Others\MopFsmManager.cs" />
+    <Compile Include="src\GameObjects\Others\OnDeathBehaviour.cs" />
     <Compile Include="src\GameObjects\Others\PlayerOutAreaCheck.cs" />
     <Compile Include="src\GameObjects\Others\SatsumaInAreaCheck.cs" />
     <Compile Include="src\GameObjects\Places\Farm.cs" />
@@ -109,7 +110,8 @@
   <PropertyGroup>
     <PostBuildEvent>if "$(ConfigurationName)" == "Debug" (
 copy $(TargetPath) "C:\Users\aathl\Documents\MySummerCar\Mods" /y
-copy "$(TargetDir)$(TargetName).pdb" "C:\Users\aathl\Documents\MySummerCar\Mods\mods"
+copy "$(TargetDir)$(TargetName).pdb" "C:\Users\aathl\Documents\MySummerCar\Mods" /y
+cd "C:\Users\aathl\Documents\MySummerCar\Mods"
 call "C:\Users\aathl\Documents\MySummerCar\Mods\debug.bat"
 ) ELSE (
 copy $(TargetPath) "C:\Users\aathl\Documents\MySummerCar\Mods" /y
