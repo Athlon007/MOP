@@ -31,7 +31,7 @@ namespace MOP
 #endif
         public override string Author => "Athlon"; //Your Username
 
-        public override string Version => "2.6.3"; //Version
+        public override string Version => "2.6.4"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
@@ -117,6 +117,12 @@ namespace MOP
             if (!ModLoader.CheckSteam())
             {
                 Settings.AddHeader(this, "Pirated game copies are not supported.\nUse only at your own risk!", Color.red, Color.black);
+            }
+
+            if (ModLoader.CheckIfExperimental())
+            {
+                Settings.AddHeader(this, "Warning: due to frequent updates in Experimental version of the game, " +
+                    "expect more bugs, glitches and new features partially or completly not working.", Color.red, Color.black);
             }
 
             // Links and utilities
