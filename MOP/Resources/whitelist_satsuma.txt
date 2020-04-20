@@ -1,4 +1,4 @@
 DriveTrigger,SpawnPlayer,CarShadowProjector,Hooks,DriverHeadPivot,CameraPivot,PivotSeatR,HookRear,MassDriver,BeerCaseTarget,HookFront,
 GetInPivot,TrafficTrigger,AirIntake,Wipers,WiperLeftPivot,WiperRightPivot,wipers_tap,
 wipers_rod,generalPivot,CarRearMirrorPivot,StagingWheel,shadow_body,
-RainScript,NormalFront,NormalSide,NormalRear,WindSide,WindFront,WindRear,CoG
+RainScript,NormalFront,NormalSide,NormalRear,WindSide,WindFront,WindRear,CoG,RainScript,Interior,Body

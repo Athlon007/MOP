@@ -44,6 +44,8 @@ namespace MOP
 
         bool preventDespawnDuringThisSession;
 
+        bool afterFirstEnable;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -95,19 +97,9 @@ namespace MOP
             bucketDriver.AddComponent<SatsumaSeatsManager>();
             bucketPassanger.AddComponent<SatsumaSeatsManager>();
 
-            // Fix for MSC bug that causes stock and racing hood to pop off.
-            Transform hood = GameObject.Find("hood(Clone)").transform;
-            Transform hoodPivot = transform.Find("Body/pivot_hood");
-            if (MopFsmManager.IsStockHoodBolted() && hood.parent != hoodPivot)
-            {
-                MopFsmManager.ForceHoodAssemble();
-            }
-
-            GameObject fiberHood = GameObject.Find("fiberglass hood(Clone)");
-            if (fiberHood != null && MopFsmManager.IsFiberHoodBolted() && fiberHood.transform.parent != hoodPivot)
-            {
-                MopFsmManager.ForceHoodAssemble();
-            }
+            // Fixed for doors getting jammed.
+            GameObject.Find("door right(Clone)").AddComponent<SatsumaDoorManager>();
+            GameObject.Find("door left(Clone)").AddComponent<SatsumaDoorManager>();
         }
 
         /// <summary>
@@ -141,6 +133,12 @@ namespace MOP
 
             ToggleAllRenderers(enabled);
 
+            // Applying hood fix after first enabling.
+            if (!afterFirstEnable && enabled)
+            {
+                afterFirstEnable = true;
+                HoodFix();
+            }
         }
 
         /// <summary>
@@ -219,6 +217,19 @@ namespace MOP
         {
             if (!carDynamics.enabled)
                 transform.rotation = lastGoodRotation;
+        }
+
+        public void HoodFix()
+        {
+            // Fix for MSC bug that causes stock and racing hood to pop off.
+            Transform hood = GameObject.Find("hood(Clone)").transform;
+            Transform hoodPivot = transform.Find("Body/pivot_hood");
+            if (MopFsmManager.IsStockHoodBolted() && hood.parent != hoodPivot)
+                MopFsmManager.ForceHoodAssemble();
+
+            GameObject fiberHood = GameObject.Find("fiberglass hood(Clone)");
+            if (fiberHood != null && MopFsmManager.IsFiberHoodBolted() && fiberHood.transform.parent != hoodPivot)
+                MopFsmManager.ForceHoodAssemble();
         }
     }
 }
