@@ -39,6 +39,8 @@ namespace MOP
         /// </summary>
         public bool AwayFromHouse { get; private set; }
 
+        public bool ReverseToggle { get; private set; }
+
         public Transform transform => gameObject.transform;
 
         /// <summary>
@@ -82,11 +84,12 @@ namespace MOP
         /// <param name="gameObject">Game object that this instance controls.</param>
         /// <param name="awayFromHouse">If true, the object will be enabled, when the player leaves the house area.</param>
         /// <param name="toggleRendererOnly">If true, only the renderer of that object will be toggled.</param>
-        public WorldObject(GameObject gameObject, bool awayFromHouse, bool toggleRendererOnly = false)
+        public WorldObject(GameObject gameObject, bool awayFromHouse, bool toggleRendererOnly = false, bool reverseToggle = false)
         {
             //this.gameObject = GameObject.Find(gameObjectName);
             this.gameObject = gameObject;
             this.AwayFromHouse = awayFromHouse;
+            this.ReverseToggle = reverseToggle;
 
             // Get object's renderer
             renderer = this.gameObject.GetComponent<Renderer>();

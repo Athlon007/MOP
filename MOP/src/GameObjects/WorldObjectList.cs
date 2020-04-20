@@ -71,7 +71,7 @@ namespace MOP
         /// <param name="gameObjectName">Name of the game object.</param>
         /// <param name="awayFromHouse">If true, the object will be toggled as soon as player leaves the house area.</param>
         /// <param name="rendererOnly">If true, only game object's renderer will get toggled.</param>
-        public void Add(string gameObjectName, bool awayFromHouse, bool rendererOnly = false)
+        public void Add(string gameObjectName, bool awayFromHouse, bool rendererOnly = false, bool reverseToggle = false)
         {
             IgnoreRule rule = Rules.instance.IgnoreRules.Find(f => f.ObjectName == gameObjectName);
             if (rule != null)
@@ -90,7 +90,7 @@ namespace MOP
                 return;
             }
 
-            worldObjects.Add(new WorldObject(gm, awayFromHouse, rendererOnly));
+            worldObjects.Add(new WorldObject(gm, awayFromHouse, rendererOnly, reverseToggle));
         }
 
         /// <summary>

@@ -1,5 +1,28 @@
 # Changelog
 
+## 2.6.5 (tba)
+
+### Added
+
+- Computer is now toggled
+- Rykipohja is now toggled
+- Mansion is now toggled
+- Added CheckSteam to mod report
+
+## 2.6.4 (18.04.2020)
+
+### Added
+
+- Added sector at home
+- Added a warning message in case of experimental version of the game being detected
+
+### Bug Fixes
+
+- Fixed haybales resetting to their original position
+- Fixed haybales despawning if taken to the yard
+- Fixed MOP not activating objects, if the player died
+- Fixed cottage ax disappearing when taken out of the cottage
+
 ## 2.6.3 (16.04.2020)
 
 ### Added

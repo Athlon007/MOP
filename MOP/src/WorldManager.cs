@@ -139,11 +139,11 @@ namespace MOP
             // It shouldn't cause any issues, but that needs testing.
             GameObject perajarvi = GameObject.Find("PERAJARVI");
             perajarvi.transform.Find("HouseRintama4").parent = buildings;
-            // Same for chicken house
+            // Same for chicken house.
             perajarvi.transform.Find("ChickenHouse").parent = buildings;
 
             // Chicken house (barn) close to player's house
-            GameObject.Find("Buildings").transform.Find("ChickenHouse").parent = null;
+            buildings.Find("ChickenHouse").parent = null;
 
             // Fix for church wall. Changing it's parent to NULL, so it will not be loaded or unloaded.
             // It used to be changed to CHURCH gameobject, 
@@ -185,9 +185,6 @@ namespace MOP
                 }
             }
 
-            // Removes the mansion from the Buildings, so the tires will not land under the mansion.
-            GameObject.Find("autiotalo").transform.parent = null;
-
             // Fix for cottage items disappearing when moved
             GameObject.Find("coffee pan(itemx)").transform.parent = null;
             GameObject.Find("lantern(itemx)").transform.parent = null;
@@ -205,12 +202,6 @@ namespace MOP
             // Fix for strawberry field mailboxes
             GameObject.Find("StrawberryField").transform.Find("LOD/MailBox").parent = null;
             GameObject.Find("StrawberryField").transform.Find("LOD/MailBox").parent = null;
-
-            // Ryhipohja fixes
-            Transform rykipohja = GameObject.Find("RYKIPOHJA").transform;
-            rykipohja.Find("HouseRintama2").parent = buildings;
-            rykipohja.Find("ChickenHouse 3").parent = buildings;
-            rykipohja.Find("HouseOld5").parent = buildings;
 
             // Fix for items left on cottage chimney clipping through it on first load of cottage
             GameObject.Find("COTTAGE").transform.Find("MESH/Cottage_chimney").parent = null;
@@ -261,6 +252,8 @@ namespace MOP
             worldObjectList.Add("BRIDGE_highway", true);
             worldObjectList.Add("BirdTower", 400);
             worldObjectList.Add("SwampColliders", true);
+            worldObjectList.Add("RYKIPOHJA", true, false, false);
+            worldObjectList.Add("COMPUTER", true, false, true);
 
             ModConsole.Print("[MOP] Away from house world objects loaded");
 
@@ -495,7 +488,8 @@ namespace MOP
                             if (worldObject.gameObject.name == "NPC_CARS" && SectorManager.instance.PlayerInSector)
                                 continue;
 
-                            worldObject.Toggle(!isPlayerAtYard);
+                            bool toggle = worldObject.ReverseToggle ? isPlayerAtYard : !isPlayerAtYard;
+                            worldObject.Toggle(toggle);
                             continue;
                         }
 
@@ -525,7 +519,8 @@ namespace MOP
                             if (worldObject.gameObject.name == "NPC_CARS" && SectorManager.instance.PlayerInSector)
                                 continue;
 
-                            worldObject.Toggle(!isPlayerAtYard);
+                            bool toggle = worldObject.ReverseToggle ? isPlayerAtYard : !isPlayerAtYard;
+                            worldObject.Toggle(toggle);
                             continue;
                         }
 

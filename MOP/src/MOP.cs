@@ -68,50 +68,36 @@ namespace MOP
             worldManager.AddComponent<WorldManager>();
         }
 
-        //
         // BUTTONS
-        //
         readonly Settings faq = new Settings("faq", "FAQ", OpenFAQDialog);
         readonly Settings wiki = new Settings("wiki", "MOP Wiki", OpenWikiDialog);
         readonly Settings donate = new Settings("donate", "Donate", OpenDonateDialog);
 
-        //
         // ACTIVATING OBJECTS
-        //
         public static Settings activeDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
         string[] activeDistanceText = { "Close (0.5x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
         public static Settings safeMode = new Settings("safeMode", "Safe Mode (requires restart)", false, MopSettings.UpdateAll);
 
-        //
         // GRAPHICS
-        //
         public static Settings enableFramerateLimiter = new Settings("enableFramerateLimiter", "Enable Framerate Limiter", false, MopSettings.UpdateAll);
         public static Settings framerateLimiter = new Settings("framerateLimiter", "Limit Framerate", 60, MopSettings.UpdateAll);
 
-        //
         // MOD RULES
-        //
         public static Settings rulesAutoUpdate = new Settings("rulesAutoUpdate", "Rules Auto Update", true, MopSettings.UpdateAll);
         public static Settings rulesAutoUpdateFrequency = new Settings("rulesAutoUpdateFrequency", "Auto Update Frequency", 2);
         string[] rulesAutoUpdateFrequencyText = { "Daily", "Every 2 days", "Weekly" };
         readonly Settings forceRuleUpdate = new Settings("forceRuleUpdate", "Force Update", ForceRuleFilesUpdate);
         readonly Settings rulesLearnMore = new Settings("rulesLearnMore", "Learn More", OpenRulesWebsiteDialog);
 
-        //
         // OTHERS
-        //
         public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Destroy Empty Beer Bottles", false, MopSettings.UpdateAll);
         public static Settings satsumaTogglePhysicsOnly = new Settings("satsumaTogglePhysicsOnly", "SATSUMA: Toggle Physics Only", false, MopSettings.UpdateAll);
 
-        //
         // ADVANCED
-        //
         public static Settings ignoreModVehicles = new Settings("ignoreModVehicles", "Ignore Mod Vehicles", false, MopSettings.UpdateAll);
         public static Settings toggleVehiclePhysicsOnly = new Settings("toggleVehiclePhysicsOnly", "Toggle Vehicles Physics Only", false, MopSettings.UpdateAll);
 
-        //
         // LOGGING
-        //
         readonly Settings openOutputLog = new Settings("openOutputLog", "Open output_log.txt", ExceptionManager.OpenOutputLog);
         readonly Settings openLastLog = new Settings("openLastLog", "Open last log", ExceptionManager.Open);
         readonly Settings generateReport = new Settings("generateReport", "Generate mod report", ExceptionManager.GenerateReport);
@@ -156,7 +142,6 @@ namespace MOP
             Settings.AddSlider(this, rulesAutoUpdateFrequency, 0, 2, rulesAutoUpdateFrequencyText);
             Settings.AddButton(this, forceRuleUpdate, "This will force MOP to re-download all mod rule files (this may take a while!).");
             Settings.AddButton(this, rulesLearnMore);
-
 
             // Others
             Settings.AddHeader(this, "Other", headerColor);

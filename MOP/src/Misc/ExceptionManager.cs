@@ -108,8 +108,9 @@ namespace MOP
             output += $"EnableFramerateLimiter: {((bool)MOP.enableFramerateLimiter.GetValue()).ToString()}\n";
             output += $"FramerateLimiter: {MOP.framerateLimiter.GetValue().ToString()}\n";
             output += $"RulesAutoUpdate: {MOP.rulesAutoUpdate.GetValue().ToString()}\n"; 
-            output += $"RulesAutoUpdateFrequency: {MopSettings.GetRuleFilesUpdateDaysFrequency()}\n"; 
-            output += "ExperimentalBranch: " + ModLoader.CheckIfExperimental() + "\n";
+            output += $"RulesAutoUpdateFrequency: {MopSettings.GetRuleFilesUpdateDaysFrequency()}\n";
+            output += $"CheckSteam: {ModLoader.CheckSteam()} \n";
+            output += $"ExperimentalBranch: {ModLoader.CheckIfExperimental()}\n";
 
             // List installed mods.
             output += "\n=== MODS ===\n\n";
