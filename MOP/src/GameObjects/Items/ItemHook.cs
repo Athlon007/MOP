@@ -126,8 +126,12 @@ namespace MOP
                 if (rb == null || rb.useGravity == enabled)
                     return;
 
-                if (this.gameObject.name == "wheel_regula" && this.gameObject.transform.parent.gameObject.name == "pivot_wheel_standard")
-                    return;
+                if (this.gameObject.name == "wheel_regula")
+                {
+                    Transform root = this.gameObject.transform.parent;
+                    if (root != null && root.gameObject.name == "pivot_wheel_standard")
+                        return;
+                }
 
                 // Check if item is in CarryMore inventory.
                 // If so, ignore that item.

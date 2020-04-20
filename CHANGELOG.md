@@ -4,10 +4,16 @@
 
 ### Added
 
+- Improved Satsuma toggling
 - Computer is now toggled
 - Rykipohja is now toggled
 - Mansion is now toggled
 - Added CheckSteam to mod report
+
+### Bug Fixes
+
+- Fixed spare wheel falling through the ground
+- Fixed driver mass being enabled when it should not be
 
 ## 2.6.4 (18.04.2020)
 
