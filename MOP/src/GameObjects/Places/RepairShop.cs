@@ -49,11 +49,6 @@ namespace MOP
         {
             GameObjectBlackList.AddRange(blackList);
 
-            GameObject playerAreaCheck = new GameObject("MOP_PlayerAreaCheck");
-            playerAreaCheck.transform.position = new Vector3(1554, 4, 739);
-            PlayerOutAreaCheck playerOutAreaCheck = playerAreaCheck.AddComponent<PlayerOutAreaCheck>();
-            playerOutAreaCheck.Initialize();
-
             DisableableChilds = GetDisableableChilds();
 
             // Fix for Satsuma parts on shelves

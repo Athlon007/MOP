@@ -100,6 +100,11 @@ namespace MOP
             // Fixed for doors getting jammed.
             GameObject.Find("door right(Clone)").AddComponent<SatsumaDoorManager>();
             GameObject.Find("door left(Clone)").AddComponent<SatsumaDoorManager>();
+
+            transform.Find("CarSimulation/MechanicalWear").gameObject.AddComponent<FsmValueSaver>();
+
+            // Fix for engine freezing car.
+            GameObject.Find("block(Clone)").AddComponent<SatsumaEngineManager>();
         }
 
         /// <summary>

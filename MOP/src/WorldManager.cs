@@ -115,6 +115,7 @@ namespace MOP
             worldObjectList.Add("WATERFACILITY", 300);
             worldObjectList.Add("DRAGRACE", 1100);
             worldObjectList.Add("StrawberryField", 400);
+            worldObjectList.Add("MAP/Buildings/DINGONBIISI", 400);
 
             ModConsole.Print("[MOP] Main world objects loaded");
 

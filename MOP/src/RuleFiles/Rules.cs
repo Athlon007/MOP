@@ -84,41 +84,29 @@ namespace MOP
 
             return SectorRules.Contains(name);
         }
-    }
 
-    class PrintRulesCommand : ConsoleCommand
-    {
-        public override string Name => "mop-rules";
-        public override string Help => "Prints the list of active rules";
-        public override bool ShowInHelp => true;
-        public override void Run(string[] args)
+        public void WipeAll()
         {
-            ModConsole.Print("<color=yellow><b>Ignore Rules</b></color>");
-            foreach (IgnoreRule r in Rules.instance.IgnoreRules)
-                ModConsole.Print($"Object: {r.ObjectName}");
+            IgnoreRules = new List<IgnoreRule>();
+            IgnoreRulesAtPlaces = new List<IgnoreRuleAtPlace>();
+            PreventToggleOnObjectRule = new List<PreventToggleOnObjectRule>();
 
-            ModConsole.Print("\n<color=yellow><b>Ignore Rules At Place</b></color>");
-            foreach (IgnoreRuleAtPlace r in Rules.instance.IgnoreRulesAtPlaces)
-                ModConsole.Print($"<b>Place:</b> {r.Place} <b>Object:</b> {r.ObjectName}");
+            ToggleRules = new List<ToggleRule>();
 
-            ModConsole.Print("\n<color=yellow><b>Prevent Toggle On Object Rule</b></color>");
-            foreach (PreventToggleOnObjectRule r in Rules.instance.PreventToggleOnObjectRule)
-                ModConsole.Print($"<b>Main Object:</b> {r.MainObject} <b>Object:</b> {r.ObjectName}");
+            SpecialRules = new SpecialRules();
 
-            ModConsole.Print("\n<color=yellow><b>Toggle Rules</b></color>");
-            foreach (ToggleRule r in Rules.instance.ToggleRules)
-                ModConsole.Print($"<b>Object:</b> {r.ObjectName} <b>Toggle Mode:</b> {r.ToggleMode}");
+            RuleFileNames = new List<string>();
 
-            ModConsole.Print("\n<color=yellow><b>Special Rules</b></color>");
-            ModConsole.Print($"<b>DontDestroyEmptyBeerBottles:</b> {Rules.instance.SpecialRules.DontDestroyEmptyBeerBottles}");
-            ModConsole.Print($"<b>SatsumaIgnoreRenderers:</b> {Rules.instance.SpecialRules.SatsumaIgnoreRenderers}");
+            SectorRules = new List<string>();
 
-            // List rule files.
-            string output = "\n<color=yellow><b>Rule Files</b></color>\n";
-            foreach (string ruleFile in Rules.instance.RuleFileNames)
-                output += $"{ruleFile}\n";
+            // Destroy old rule files loader object, if it exists.
+            GameObject oldRuleFilesLoader = GameObject.Find("MOP_RuleFilesLoader");
+            if (oldRuleFilesLoader != null)
+                GameObject.Destroy(oldRuleFilesLoader);
 
-            ModConsole.Print(output);
+            GameObject ruleFileDownloader = new GameObject("MOP_RuleFilesLoader");
+            RuleFilesLoader ruleFilesLoader = ruleFileDownloader.AddComponent<RuleFilesLoader>();
+            ruleFilesLoader.Initialize(false);
         }
     }
 }

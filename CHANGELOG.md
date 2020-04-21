@@ -1,14 +1,22 @@
 # Changelog
 
-## 2.6.5 (tba)
+## 2.7 (tba)
 
 ### Added
 
 - Improved Satsuma toggling
+- Added support for user made rule files!
+  - Simply create Custom.txt where rule files are located and do your magic!
+  - For documentation, visit https://github.com/Athlon007/MOP/wiki/Rule-Files-Documentation
 - Computer is now toggled
 - Rykipohja is now toggled
 - Mansion is now toggled
+- TV at home is now toggled
 - Added CheckSteam to mod report
+
+### Removed
+
+- Removed unused code
 
 ### Bug Fixes
 

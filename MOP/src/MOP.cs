@@ -31,7 +31,7 @@ namespace MOP
 #endif
         public override string Author => "Athlon"; //Your Username
 
-        public override string Version => "2.6.4"; //Version
+        public override string Version => "2.7"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
@@ -48,7 +48,7 @@ namespace MOP
             ModVersion = Version;
             ModConsole.Print($"<color=green>MOP {ModVersion} initialized!</color>");
             new Rules();
-            ConsoleCommand.Add(new PrintRulesCommand());
+            ConsoleCommand.Add(new ConsoleCommands());
         }
 
         /// <summary>

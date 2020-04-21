@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -21,6 +22,8 @@ namespace MOP
 {
     class Yard : Place
     {
+        public static Yard Instance;
+
         // Yard Class
         //
         // Extends Place.cs
@@ -47,13 +50,17 @@ namespace MOP
             "Chair", "TablePlastic", "LOD_middleroom", "hotwaterkeeper", "house_roof",
             "WC", "Hallway", "Entry", "ContactPivot", "DoorRight", "DoorLeft", "GarageDoors", "BatteryCharger",
             "Clamps", "ChargerPivot", "Clamp", "BatteryPivot", "battery_charger", "Wire", "cable", "TriggerCharger",
-            "tvtable", "VHS_Screen", "tv_table(Clone)", "scart_con", "Haybale", "Combine" };
+            "tvtable", "VHS_Screen", "tv_table(Clone)", "scart_con", "Haybale", "Combine", "UncleWalking" };
+
+        List<GameObject> liteToggles;
 
         /// <summary>
         /// Initialize the RepairShop class
         /// </summary>
         public Yard() : base("YARD")
         {
+            Instance = this;
+
             // Fix for broken computer.
             // We're changing it to null.
             if (GameObject.Find("COMPUTER") != null)
@@ -69,6 +76,10 @@ namespace MOP
             // Remove fridge mesh from the list of disabled objects
             Transform fridgeMesh = DisableableChilds.Find(w => w.name == "mesh" && w.transform.parent.name == "Fridge");
             DisableableChilds.Remove(fridgeMesh);
+
+            // TV.
+            DisableableChilds.Add(transform.Find("Building/LIVINGROOM/TV/Switch"));
+            DisableableChilds.Add(transform.Find("Building/LIVINGROOM/TV/SmokeHomeTV"));
         }
 
         Transform[] GetDoors()

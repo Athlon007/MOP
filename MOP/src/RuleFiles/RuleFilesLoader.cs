@@ -232,8 +232,8 @@ namespace MOP
             {
                 // Find and .mopconfig files.
                 DirectoryInfo dir = new DirectoryInfo(MOP.ModConfigPath);
-                FileInfo[] files = dir.GetFiles().Where(d => d.Name.EndsWith(".mopconfig")).ToArray();
-                if (files.Length == 0)
+                List<FileInfo> files = dir.GetFiles().Where(d => d.Name.EndsWith(".mopconfig")).ToList();
+                if (files.Count == 0)
                 {
                     ModConsole.Print($"[MOP] No rule files found.");
                     NewMessage("");
@@ -241,8 +241,15 @@ namespace MOP
                     return;
                 }
 
-                string message = $"[MOP] Found {files.Length} rule file{(files.Length > 1 ? "s" : "")}!";
-                if (files.Length == 69)
+                // Load custom rule file.
+                if (File.Exists($"{dir}\\Custom.txt"))
+                {
+                    files.Add(new FileInfo($"{dir}\\Custom.txt"));
+                    ModConsole.Print("[MOP] User custom rule file found!");
+                }
+
+                string message = $"[MOP] Found {files.Count} rule file{(files.Count > 1 ? "s" : "")}!";
+                if (files.Count == 69)
                     message = message.Rainbowmize();
 
                 ModConsole.Print(message);
@@ -251,8 +258,9 @@ namespace MOP
                 foreach (FileInfo file in files)
                 {
                     // Delete rules for mods that don't exist.
-                    if (ModLoader.LoadedMods.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name)) == null)
+                    if (ModLoader.LoadedMods.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name)) == null && file.Name != "Custom.txt")
                     {
+
                         File.Delete(file.FullName);
                         ModConsole.Print($"<color=yellow>[MOP] Rule file {file.Name} has been deleted, " +
                             $"because corresponding mod is not present.</color>");
@@ -264,7 +272,7 @@ namespace MOP
                 }
 
                 ModConsole.Print("<color=green>[MOP] Loading rule files done!</color>");
-                NewMessage($"MOP: Loading {files.Length} rule file{(files.Length > 1 ? "s" : "")} done!");
+                NewMessage($"MOP: Loading {files.Count} rule file{(files.Count > 1 ? "s" : "")} done!");
             }
             catch (Exception ex)
             {
