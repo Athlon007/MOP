@@ -416,12 +416,13 @@ namespace MOP
 
                     if (useInnactiveFix)
                     {
-                        saveGames[i].SetActive(false);
-
                         if (isJail)
                         {
                             saveGames[i].transform.parent.gameObject.SetActive(false);
+                            continue;
                         }
+
+                        saveGames[i].SetActive(false);
                     }
                 }
 

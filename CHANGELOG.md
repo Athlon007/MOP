@@ -22,6 +22,9 @@
 
 - Fixed spare wheel falling through the ground
 - Fixed driver mass being enabled when it should not be
+- Fixed MOP trying to access the playmaker script of the item even tho it didn't exist
+- Fixed Jail save not working
+- Fixed Gifu shit tank restting to the on load value
 
 ## 2.6.4 (18.04.2020)
 

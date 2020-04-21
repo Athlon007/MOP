@@ -15,62 +15,21 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MOP
 {
     class GifuWasteScript : MonoBehaviour
     {
-        PlayMakerFSM thisFsm;
-
-        FsmFloat crime;
-        float crimeValue;
-
-        FsmFloat crimeEnvelopeWait;
-        float crimeEnvelopeWaitValue;
-
-        FsmFloat mass;
-        float massValue;
-
-        FsmFloat waste;
-        float wasteValue;
-
-        FsmString crimeTime;
-        string crimeTimeValue;
-
         public GifuWasteScript()
         {
-            thisFsm = GetComponent<PlayMakerFSM>();
-
-            crime = thisFsm.FsmVariables.FindFsmFloat("Crime");
-            crimeEnvelopeWait = thisFsm.FsmVariables.FindFsmFloat("CrimeEnvelopeWait");
-            mass = thisFsm.FsmVariables.FindFsmFloat("Mass");
-            waste = thisFsm.FsmVariables.FindFsmFloat("Waste");
-            crimeTime = thisFsm.FsmVariables.FindFsmString("CrimeTime");
-
-            crimeValue = crime.Value;
-            crimeEnvelopeWaitValue = crimeEnvelopeWait.Value;
-            massValue = mass.Value;
-            wasteValue = waste.Value;
-            crimeTimeValue = crimeTime.Value;
-        }
-
-        void OnDisable()
-        {
-            crimeValue = crime.Value;
-            crimeEnvelopeWaitValue = crimeEnvelopeWait.Value;
-            massValue = mass.Value;
-            wasteValue = waste.Value;
-            crimeTimeValue = crimeTime.Value;
-        }
-
-        void OnEnable()
-        {
-            crime.Value = crimeValue;
-            crimeEnvelopeWait.Value = crimeEnvelopeWaitValue;
-            mass.Value = massValue;
-            waste.Value = wasteValue;
-            crimeTime.Value = crimeTimeValue;
+            PlayMakerFSM thisFsm = GetComponent<PlayMakerFSM>();
+            FsmState loadGame = thisFsm.FindFsmState("Load game");
+            List<FsmStateAction> loadArrayActions = new List<FsmStateAction>();
+            loadArrayActions.Add(new CustomPreventLoad());
+            loadGame.Actions =  loadArrayActions.ToArray();
+            loadGame.SaveActions();
         }
     }
 }
