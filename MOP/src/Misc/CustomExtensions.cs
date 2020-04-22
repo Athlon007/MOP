@@ -14,8 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using System;
+using HutongGames.PlayMaker;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace MOP
 {
@@ -82,11 +84,20 @@ namespace MOP
             return output;
         }
 
-        public static void ClearMemory<T>(this List<T> list)
+        /// <summary>
+        /// Returns PlayMaker script by it's name.
+        /// </summary>
+        public static PlayMakerFSM GetPlayMakerByName(this GameObject gm, string name)
         {
-            int identificador = GC.GetGeneration(list);
-            list.Clear();
-            GC.Collect(identificador, GCCollectionMode.Forced);
+            return gm.GetComponents<PlayMakerFSM>().First(f => f.FsmName == name);
+        }
+
+        /// <summary>
+        /// Returns the FsmState by it's name.
+        /// </summary>
+        public static FsmState FindFsmState(this PlayMakerFSM fsm, string name)
+        {
+            return fsm.FsmStates.First(state => state.Name == name);
         }
     }
 }

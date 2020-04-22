@@ -128,5 +128,10 @@ namespace MOP
 
             return suskiLarge.Value;
         }
+
+        public static bool IsFriday()
+        {
+            return PlayMakerGlobals.Instance.Variables.GetFsmInt("GlobalDay").Value == 5;
+        }
     }
 }

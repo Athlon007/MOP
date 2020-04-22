@@ -64,19 +64,22 @@ namespace MOP
 
             // From PlayMakerFSM, find states that contain one of the names that relate to destroying object,
             // and inject RemoveSelf void.
-            foreach (var st in playMakerFSM.FsmStates)
+            if (playMakerFSM != null)
             {
-                switch (st.Name)
+                foreach (var st in playMakerFSM.FsmStates)
                 {
-                    case "Destroy self":
-                        FsmHook.FsmInject(this.gameObject, "Destroy self", RemoveSelf);
-                        break;
-                    case "Destroy":
-                        FsmHook.FsmInject(this.gameObject, "Destroy", RemoveSelf);
-                        break;
-                    case "Destroy 2":
-                        FsmHook.FsmInject(this.gameObject, "Destroy 2", RemoveSelf);
-                        break;
+                    switch (st.Name)
+                    {
+                        case "Destroy self":
+                            FsmHook.FsmInject(this.gameObject, "Destroy self", RemoveSelf);
+                            break;
+                        case "Destroy":
+                            FsmHook.FsmInject(this.gameObject, "Destroy", RemoveSelf);
+                            break;
+                        case "Destroy 2":
+                            FsmHook.FsmInject(this.gameObject, "Destroy 2", RemoveSelf);
+                            break;
+                    }
                 }
             }
 

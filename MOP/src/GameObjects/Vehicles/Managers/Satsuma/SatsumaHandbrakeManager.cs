@@ -14,22 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using HutongGames.PlayMaker;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace MOP
 {
-    class GifuWasteScript : MonoBehaviour
+    class SatsumaHandbrakeManager : MonoBehaviour
     {
-        public GifuWasteScript()
+        PlayMakerFSM fsm;
+
+        public SatsumaHandbrakeManager()
         {
-            PlayMakerFSM thisFsm = GetComponent<PlayMakerFSM>();
-            FsmState loadGame = thisFsm.FindFsmState("Load game");
-            List<FsmStateAction> loadArrayActions = new List<FsmStateAction>();
-            loadArrayActions.Add(new CustomPreventLoad());
-            loadGame.Actions =  loadArrayActions.ToArray();
-            loadGame.SaveActions();
+            fsm = GetComponent<PlayMakerFSM>();
+        }
+
+        void OnEnable()
+        {
+            fsm.enabled = true;
         }
     }
 }

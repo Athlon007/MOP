@@ -1,4 +1,5 @@
-﻿// Modern Optimization Plugin
+﻿
+// Modern Optimization Plugin
 // Copyright(C) 2019-2020 Athlon
 
 // This program is free software: you can redistribute it and/or modify
@@ -255,6 +256,7 @@ namespace MOP
             worldObjectList.Add("SwampColliders", true);
             worldObjectList.Add("RYKIPOHJA", true, false, false);
             worldObjectList.Add("COMPUTER", true, false, true);
+            worldObjectList.Add("JOBS/HouseDrunkNew", true);
 
             ModConsole.Print("[MOP] Away from house world objects loaded");
 

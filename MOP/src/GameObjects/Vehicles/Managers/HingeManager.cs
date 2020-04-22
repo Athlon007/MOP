@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using System.Collections;
 using UnityEngine;
 
 namespace MOP
@@ -33,6 +34,50 @@ namespace MOP
 
         void Awake()
         {
+            this.initialLocalRotation = this.transform.localRotation;
+            this.initialLocalPosition = this.transform.localPosition;
+        }
+
+        void OnDisable()
+        {
+            this.localRotationOnDisable = this.transform.localRotation;
+            this.transform.localRotation = this.initialLocalRotation;
+
+            this.localPositionOnDisable = this.transform.localPosition;
+            this.transform.localPosition = this.initialLocalPosition;
+
+            this.hasDisabled = true;
+        }
+
+        void Update()
+        {
+            if (this.hasDisabled)
+            {
+                this.hasDisabled = false;
+                this.transform.localRotation = this.localRotationOnDisable;
+                this.transform.localPosition = this.localPositionOnDisable;
+            }
+        }
+    }
+
+    class DelayedHingeManager : MonoBehaviour
+    {
+        private Quaternion initialLocalRotation;
+        private Vector3 initialLocalPosition;
+
+        private Quaternion localRotationOnDisable;
+        private Vector3 localPositionOnDisable;
+
+        private bool hasDisabled;
+
+        void Awake()
+        {
+            StartCoroutine(InitializationRoutine());
+        }
+
+        IEnumerator InitializationRoutine()
+        {
+            yield return new WaitForSeconds(1);
             this.initialLocalRotation = this.transform.localRotation;
             this.initialLocalPosition = this.transform.localPosition;
         }

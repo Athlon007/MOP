@@ -1,10 +1,10 @@
 # Changelog
 
-## 2.7 (tba)
+## 2.7 Development 1 (22.04.2020)
 
 ### Added
 
-- Improved Satsuma toggling
+- Satsuma enabling and disabling overhaul
 - Added support for user made rule files!
   - Simply create Custom.txt where rule files are located and do your magic!
   - For documentation, visit https://github.com/Athlon007/MOP/wiki/Rule-Files-Documentation
@@ -13,10 +13,7 @@
 - Mansion is now toggled
 - TV at home is now toggled
 - Added CheckSteam to mod report
-
-### Removed
-
-- Removed unused code
+- Drunk guy new house is now toggled when not needed
 
 ### Bug Fixes
 
@@ -25,6 +22,10 @@
 - Fixed MOP trying to access the playmaker script of the item even tho it didn't exist
 - Fixed Jail save not working
 - Fixed Gifu shit tank restting to the on load value
+
+### Removed
+
+- Removed unused code
 
 ## 2.6.4 (18.04.2020)
 

@@ -69,12 +69,11 @@
     <Compile Include="src\GameObjects\Places\Yard.cs" />
     <Compile Include="src\GameObjects\Vehicles\Combine.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\PlayerTaxiManager.cs" />
-    <Compile Include="src\GameObjects\Vehicles\Managers\GifuWasteScript.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\HingeManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Boat.cs" />
+    <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaCustomHoodUse.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaEngineManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaDoorManager.cs" />
-    <Compile Include="src\GameObjects\Vehicles\Managers\FsmValueSaver.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaHandbrakeManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaBoltsAntiReload.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaSeatsManager.cs" />

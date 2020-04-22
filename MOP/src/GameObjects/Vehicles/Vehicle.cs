@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using HutongGames.PlayMaker;
 using MSCLoader;
 using System.Collections.Generic;
 using System.Linq;
@@ -121,11 +122,17 @@ namespace MOP
                 preventToggleOnObjects.Add(new PreventToggleOnObject(fuelTank));
             }
 
-            // If the vehicle is Gifu, find knobs and add them to list of unloadableObjects
+            // If the vehicle is Gifu, find knobs and add them to list of unloadable objects
             if (gameObject.name == "GIFU(750/450psi)")
             {
                 preventToggleOnObjects.Add(new PreventToggleOnObject(gameObject.transform.Find("Dashboard").Find("Knobs")));
-                gameObject.transform.Find("ShitTank").gameObject.AddComponent<GifuWasteScript>();
+                
+                PlayMakerFSM shitFsm = gameObject.transform.Find("ShitTank").gameObject.GetComponent<PlayMakerFSM>();
+                FsmState loadGame = shitFsm.FindFsmState("Load game");
+                List<FsmStateAction> loadArrayActions = new List<FsmStateAction>();
+                loadArrayActions.Add(new CustomNullState());
+                loadGame.Actions = loadArrayActions.ToArray();
+                loadGame.SaveActions();
             }
 
             carDynamics = gameObject.GetComponent<CarDynamics>();

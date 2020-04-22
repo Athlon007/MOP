@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using HutongGames.PlayMaker;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -101,10 +102,41 @@ namespace MOP
             GameObject.Find("door right(Clone)").AddComponent<SatsumaDoorManager>();
             GameObject.Find("door left(Clone)").AddComponent<SatsumaDoorManager>();
 
-            transform.Find("CarSimulation/MechanicalWear").gameObject.AddComponent<FsmValueSaver>();
+            // Fix for mechanical wear of the car.
+            PlayMakerFSM mechanicalWearFsm = transform.Find("CarSimulation/MechanicalWear").gameObject.GetComponent<PlayMakerFSM>();
+            FsmState loadGame = mechanicalWearFsm.FindFsmState("Load game");
+            List<FsmStateAction> loadArrayActions = new List<FsmStateAction>();
+            loadArrayActions.Add(new CustomNullState());
+            loadGame.Actions = loadArrayActions.ToArray();
+            loadGame.SaveActions();
 
             // Fix for engine freezing car.
             GameObject.Find("block(Clone)").AddComponent<SatsumaEngineManager>();
+
+            // Fix for not working handbrake after respawn.
+            GameObject.Find("HandBrake").AddComponent<SatsumaHandbrakeManager>();
+
+            // Fixes handbrake lever position.
+            PlayMakerFSM handbrakeLeverFsm = GameObject.Find("handbrake lever").GetPlayMakerByName("Use");
+            FsmState loadHandbrake = handbrakeLeverFsm.FindFsmState("Load");
+            List<FsmStateAction> loadHandbrakeArrayActions = loadHandbrake.Actions.ToList();
+            loadHandbrakeArrayActions[0] = new CustomNullState();
+            loadHandbrake.Actions = loadHandbrakeArrayActions.ToArray();
+            loadGame.SaveActions();
+
+            // Get all bolts.
+            GameObject[] bolts = Resources.FindObjectsOfTypeAll<GameObject>().Where(obj => obj.name == "BoltPM").ToArray();
+            foreach (GameObject bolt in bolts)
+            {
+                Transform parent = bolt.transform.parent;
+                if (parent.name == "Bolts" || parent.name == "_Motor")
+                {
+                    parent = parent.parent;
+                }
+
+                if (parent.gameObject.GetComponent<SatsumaBoltsAntiReload>() == null)
+                    parent.gameObject.AddComponent<SatsumaBoltsAntiReload>();
+            }
         }
 
         /// <summary>
@@ -235,6 +267,20 @@ namespace MOP
             GameObject fiberHood = GameObject.Find("fiberglass hood(Clone)");
             if (fiberHood != null && MopFsmManager.IsFiberHoodBolted() && fiberHood.transform.parent != hoodPivot)
                 MopFsmManager.ForceHoodAssemble();
+
+            // Adds delayed initialization for hood hinge.
+            hood.gameObject.AddComponent<DelayedHingeManager>();
+
+            // Fix for hood not being able to be closed.
+            PlayMakerFSM hoodBoltCheck = hood.gameObject.GetPlayMakerByName("BoltCheck");
+            FsmState boltsOn = hoodBoltCheck.FindFsmState("Bolts ON");
+            List<FsmStateAction> states = boltsOn.Actions.ToList();
+            //states.Insert(3, new CustomBoltAction());
+            states[5] = new CustomBoltAction();
+            states.RemoveAt(6);
+            boltsOn.Actions = states.ToArray();
+            boltsOn.SaveActions();
+            hood.gameObject.AddComponent<SatsumaCustomHoodUse>();
         }
     }
 }

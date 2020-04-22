@@ -52,8 +52,6 @@ namespace MOP
             "Clamps", "ChargerPivot", "Clamp", "BatteryPivot", "battery_charger", "Wire", "cable", "TriggerCharger",
             "tvtable", "VHS_Screen", "tv_table(Clone)", "scart_con", "Haybale", "Combine", "UncleWalking" };
 
-        List<GameObject> liteToggles;
-
         /// <summary>
         /// Initialize the RepairShop class
         /// </summary>
