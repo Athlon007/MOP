@@ -1,24 +1,25 @@
 ### Added
 
-- Satsuma enabling and disabling overhaul
-- Added support for user made rule files!
-  - Simply create Custom.txt where rule files are located and do your magic!
-  - For documentation, visit https://github.com/Athlon007/MOP/wiki/Rule-Files-Documentation
-- Computer is now toggled
-- Rykipohja is now toggled
-- Mansion is now toggled
-- TV at home is now toggled
-- Added CheckSteam to mod report
-- Drunk guy new house is now toggled when not needed
+- Expanded sector at home into the sauna and shower areas
+- Added system version info to mod report
+- Added small easter egg ;)
+- (Development) Added error messages for when the PlayMaker script or state couldn't be found
+- (Development) Added "mop version" command
 
-### Removed
+### Changes
 
-- Removed unused code
+- Increased toggling distance when Active Distance is set to 0 to x0.75 from x0.5
+- (Development) Increased the delay of delayed hinge manager used for hood
+- (Development) Changed default command output for incorrect command
+- (Development) Added output when trying to open or delete custom rule file if it doesn't exist
+- (Development) Updated the default new custom rule file output
 
 ### Bug Fixes
 
-- Fixed spare wheel falling through the ground
-- Fixed driver mass being enabled when it should not be
-- Fixed MOP trying to access the playmaker script of the item even tho it didn't exist
-- Fixed Jail save not working
-- Fixed Gifu shit tank restting to the on load value
+- (Development) Fixed some engine parts not being hooked with screw script
+- (Development) Fixed fanbelts, oil filters, spark plugs and batteries resetting it's value
+- (Development) Fixed stock hood sometimes falling off
+
+### Removed
+
+- (Development) Removed unnescesary code from first Development version

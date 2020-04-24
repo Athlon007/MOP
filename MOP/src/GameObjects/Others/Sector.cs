@@ -152,7 +152,8 @@ namespace MOP
             // Yard Machine Hall
             CreateNewSector(new Vector3(54.7f, -0.5062422f, -73.9f), new Vector3(6, 5, 5.2f), "YARD", "MachineHall", "BUSHES3", "BUSHES6", "TREES_SMALL1");
             // Home
-            CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.559867f), new Vector3(11, 5, 9), "TREES_SMALL1", "BUSHES7", "Building");
+            CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.559867f), new Vector3(11, 5, 9), "PierHome", "TREES_SMALL1", "BUSHES7", "Building");
+            CreateNewSector(new Vector3(-12.5f, -0.5062422f, 1), new Vector3(3, 5, 7.7f), "PierHome", "TREES_SMALL1", "BUSHES7", "Building");
 
             ModConsole.Print("[MOP] Sectors done!");
         }

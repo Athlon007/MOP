@@ -17,6 +17,7 @@
 using MSCLoader;
 using System.IO;
 using System.Diagnostics;
+using System;
 
 namespace MOP
 {
@@ -27,13 +28,20 @@ namespace MOP
         public override bool ShowInHelp => true;
         public override void Run(string[] args)
         {
+            if (args.Length == 0)
+            {
+                ModConsole.Print("See \"mop help\" for command list.");
+                return;
+            }
+
             switch (args[0])
             {
                 default:
-                    ModConsole.Print("Invalid command");
+                    ModConsole.Print("Invalid command. See \"mop help\" for command list.");
                     break;
                 case "help":
                     ModConsole.Print("<color=yellow>help</color> - Show this list\n" +
+                        "<color=yellow>version</color> - Prints MOP version\n" +
                         "<color=yellow>rules</color> - Show the list of active rules and loaded rule files\n" +
                         "<color=yellow>wiki</color> - Open wiki page\n" +
                         "<color=yellow>reload</color> - Forces MOP to reload rule files\n" +
@@ -61,6 +69,7 @@ namespace MOP
                     ModConsole.Print("\n<color=yellow><b>Special Rules</b></color>");
                     ModConsole.Print($"<b>DontDestroyEmptyBeerBottles:</b> {Rules.instance.SpecialRules.DontDestroyEmptyBeerBottles}");
                     ModConsole.Print($"<b>SatsumaIgnoreRenderers:</b> {Rules.instance.SpecialRules.SatsumaIgnoreRenderers}");
+                    ModConsole.Print($"<b>ExperimentalSatsumaFix:</b> {Rules.instance.SpecialRules.ExperimentalSatsumaFix}");
 
                     // List rule files.
                     string output = "\n<color=yellow><b>Rule Files</b></color>\n";
@@ -91,6 +100,7 @@ namespace MOP
                     }
 
                     File.WriteAllText(path, "## Every line which starts with ## will be ignored.\n" +
+                        "## All new commands MUST be written in a new line" + 
                         "## Visit https://github.com/Athlon007/MOP/wiki/Rule-Files-Documentation for documentation.\n" +
                         "## WARNING: Using custom rule files may cause issues. Use only at your own risk!");
 
@@ -99,12 +109,47 @@ namespace MOP
                         "<color=red>Careless use of rule files may cause bugs and glitchess. Use only at yout own risk!</color>");
                     break;
                 case "open-custom":
-                    if (File.Exists("{MOP.ModConfigPath}\\Custom.txt"))
-                        Process.Start($"{MOP.ModConfigPath}\\Custom.txt");
+                    if (!File.Exists($"{MOP.ModConfigPath}\\Custom.txt"))
+                    {
+                        ModConsole.Print("<color=red>Custom rule file doesn't exist. Create one using \"mop new\".</color>");
+                        return;
+                    }
+
+                    Process.Start($"{MOP.ModConfigPath}\\Custom.txt");
+                    ModConsole.Print("Custom rule file opened");
                     break;
                 case "delete-custom":
-                    if (File.Exists("{MOP.ModConfigPath}\\Custom.txt"))
-                        File.Delete($"{MOP.ModConfigPath}\\Custom.txt");
+                    if (!File.Exists($"{MOP.ModConfigPath}\\Custom.txt"))
+                    {
+                        ModConsole.Print("<color=red>Custom rule file doesn't exist.</color>");
+                        return;
+                    }
+                    
+                    File.Delete($"{MOP.ModConfigPath}\\Custom.txt");
+                    ModConsole.Print("Custom file succesfully deleted. Use \"mop reload\" to reload the rule files list.");
+                    break;
+                case "version":
+                    ModConsole.Print(MOP.ModVersion);
+                    break;
+                case "cowsay":
+                    string say = String.Join(" ", args, 1, args.Length - 1);
+
+                    if (say == "Tell me your secrets")
+                    {
+                        say = "all pls fix and no appreciation makes Athlon an angry boy";
+                    }
+
+                    if (say == "random")
+                    {
+                        // TODO
+                    }
+
+                    ModConsole.Print($"< {say} >\n" +
+                                    "        \\   ^__^\n" +
+                                    "         \\  (oo)\\____\n" +
+                                    "            (__)\\          )\\/\\\n" +
+                                    "                ||  ----w  |\n" +
+                                    "                ||           || ");
                     break;
             }
         }

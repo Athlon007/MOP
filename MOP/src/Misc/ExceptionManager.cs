@@ -18,6 +18,7 @@ using MSCLoader;
 using System;
 using System.Diagnostics;
 using System.IO;
+using UnityEngine;
 
 namespace MOP
 {
@@ -94,9 +95,12 @@ namespace MOP
         static string GetGameInfo()
         {
             string output = "MSC Mod Loader Version: " + ModLoader.MSCLoader_Ver + "\n";
-            output += "Date and Time: " + DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ") + "\n\n";
+            output += "Date and Time: " + DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ") + "\n";
+            output += $"{GetSystemInfo()} \n\n";
 
             output += "=== MOP SETTINGS ===\n\n";
+
+            bool customRuleFile = File.Exists($"{MOP.ModConfigPath}\\Custom.txt");
 
             output += $"ActiveDistance: {MopSettings.ActiveDistance}\n";
             output += $"ActiveDistanceMultiplicationValue: {MopSettings.ActiveDistanceMultiplicationValue}\n";
@@ -109,6 +113,7 @@ namespace MOP
             output += $"FramerateLimiter: {MOP.framerateLimiter.GetValue().ToString()}\n";
             output += $"RulesAutoUpdate: {MOP.rulesAutoUpdate.GetValue().ToString()}\n"; 
             output += $"RulesAutoUpdateFrequency: {MopSettings.GetRuleFilesUpdateDaysFrequency()}\n";
+            output += $"CustomRuleFile: {customRuleFile}\n\n";
             output += $"CheckSteam: {ModLoader.CheckSteam()} \n";
             output += $"ExperimentalBranch: {ModLoader.CheckIfExperimental()}\n";
 
@@ -140,6 +145,24 @@ namespace MOP
             }
 
             return output;
+        }
+
+        public static string GetSystemInfo()
+        {
+            string fullOS = SystemInfo.operatingSystem;
+            string realOS = fullOS.Split('(')[0].Trim();
+            int build = int.Parse(fullOS.Split('(')[1].Split(')')[0].Split('.')[2]);
+            if (build > 9600)
+            {
+                realOS = $"Windows 10 (10.0.{build})";
+                
+                if (SystemInfo.operatingSystem.Contains("64bit"))
+                {
+                    realOS += " 64bit";
+                }
+            }
+
+            return realOS;
         }
     }
 }

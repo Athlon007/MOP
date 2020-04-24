@@ -1,5 +1,4 @@
-﻿
-// Modern Optimization Plugin
+﻿// Modern Optimization Plugin
 // Copyright(C) 2019-2020 Athlon
 
 // This program is free software: you can redistribute it and/or modify
@@ -481,7 +480,8 @@ namespace MOP
 
                 // Disable Satsuma engine renderer, if player is in Satsuma
                 Satsuma.instance.ToggleEngineRenderers(!MopFsmManager.IsPlayerInSatsuma());
-                Satsuma.instance.ForceFuckingRotation();
+                if (!Rules.instance.SpecialRules.ExperimentalSatsumaFix)
+                    Satsuma.instance.ForceFuckingRotation();
                 yield return null;
 
                 try
@@ -701,6 +701,12 @@ namespace MOP
             }
         }
 
+        void Update()
+        {
+            if (Rules.instance.SpecialRules.ExperimentalSatsumaFix)
+                Satsuma.instance.ForceFuckingRotation();
+        }
+
         /// <summary>
         /// Checks if the object is supposed to be enabled by calculating the distance between player and target.
         /// </summary>
@@ -709,7 +715,7 @@ namespace MOP
         bool IsEnabled(Transform target, float toggleDistance = 200)
         {
             if (inSectorMode)
-                toggleDistance *= MopSettings.ActiveDistance == 0 ? 0.2f : 0.1f;
+                toggleDistance *= MopSettings.ActiveDistance == 0 ? 1f : 0.1f;
 
             return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }

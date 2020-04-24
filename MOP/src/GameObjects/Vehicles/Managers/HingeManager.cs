@@ -77,7 +77,7 @@ namespace MOP
 
         IEnumerator InitializationRoutine()
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(2);
             this.initialLocalRotation = this.transform.localRotation;
             this.initialLocalPosition = this.transform.localPosition;
         }

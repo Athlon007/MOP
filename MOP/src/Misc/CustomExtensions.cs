@@ -65,6 +65,21 @@ namespace MOP
             return false;
         }
 
+        public static bool EqualsAny(this string lookIn, params string[] lookFor)
+        {
+            for (int i = 0; i < lookFor.Length; i++)
+            {
+                // Value found? Return true.
+                if (lookIn == lookFor[i])
+                {
+                    return true;
+                }
+            }
+
+            // Nothing has been found? Return false.
+            return false;
+        }
+
         static string[] rainbow = new string[] { "red", "orange", "yellow", "green", "blue", "purple" };
         public static string Rainbowmize(this string input)
         {
@@ -89,7 +104,15 @@ namespace MOP
         /// </summary>
         public static PlayMakerFSM GetPlayMakerByName(this GameObject gm, string name)
         {
-            return gm.GetComponents<PlayMakerFSM>().First(f => f.FsmName == name);
+            try
+            {
+                return gm.GetComponents<PlayMakerFSM>().First(f => f.FsmName == name);
+            }
+            catch 
+            {
+                MSCLoader.ModConsole.Error($"[MOP] No PlayMakerFSM {name} for {gm.transform.parent.gameObject.name}/{gm.name} found!");
+                return null;
+            }
         }
 
         /// <summary>
@@ -97,7 +120,30 @@ namespace MOP
         /// </summary>
         public static FsmState FindFsmState(this PlayMakerFSM fsm, string name)
         {
-            return fsm.FsmStates.First(state => state.Name == name);
+            try
+            {
+                return fsm.FsmStates.First(state => state.Name == name);
+            }
+            catch
+            {
+                MSCLoader.ModConsole.Error($"[MOP] No FsmState {name} in {fsm.gameObject.name} found!");
+                return null;
+            }
+        }
+        
+        /// <summary>
+        /// Returns true, if the PlayMaker script contains the state of provided name.
+        /// </summary>
+        public static bool ContainsPlayMakerByName(this GameObject gm, string name)
+        {
+            try
+            {
+                return gm.GetComponents<PlayMakerFSM>().First(f => f.FsmName == name) != null;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

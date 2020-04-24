@@ -44,14 +44,10 @@ namespace MOP
             if (!IsHoodAttached()) return;
             if (!isHoodOpen) return;
              
-            if (isActive && transform.localRotation.x > 355)
+            if (isActive && transform.localRotation.x > 350)
             {
                 useFsm.SendEvent("CLOSE");
             }
-
-            //JointLimits limits = joint.limits;
-            //limits.max = isActive ? 0 : -1;
-            //joint.limits = limits;
         }
 
         void OnClose()

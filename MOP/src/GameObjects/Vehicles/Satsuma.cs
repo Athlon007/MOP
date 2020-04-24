@@ -129,13 +129,66 @@ namespace MOP
             foreach (GameObject bolt in bolts)
             {
                 Transform parent = bolt.transform.parent;
-                if (parent.name == "Bolts" || parent.name == "_Motor")
+
+                // Elements with that name have their BoltCheck parents as a grandparent (water_pump and Hooks are exception)
+                if (parent.name.EqualsAny("Bolts", "_Motor", "water_pump_pulley_mesh", "Hooks", "hooks"))
                 {
-                    parent = parent.parent;
+                    // Great-great grandparents for these ones.
+                    if (parent.parent.gameObject.name.EqualsAny("water_pump_pulley_mesh", "Hooks", "hooks"))
+                    {
+                        parent = parent.parent.parent;
+                    }
+                    else
+                    {
+                        parent = parent.parent;
+                    }
+                }
+                // Great-great grandparents for these too...
+                else if (parent.name.ContainsAny("Masked", "ValveAdjust"))
+                {
+                    parent = parent.parent.parent;
+                }
+                // Sibling of bolt if the parent is IK_wishbone.
+                else if (parent.name.StartsWith("IK_wishbone_"))
+                {
+                    string suffix = parent.gameObject.name.Replace("IK_wishbone_", "");
+                    parent = parent.Find($"wishbone {suffix}(xxxxx)");
+                }
+
+                // Skip those if the assigned parent is one of these.
+                if (parent.name.ContainsAny("bolts_shock", "shock_bottom", "halfshaft_", "pivot_steering_arm_", "OFFSET", "pivot_shock_"))
+                {
+                    continue;
+                }
+
+                // Skip if the parent is Pivot and the grandparent name starts with "alternator".
+                if (parent.name == "Pivot" && parent.parent.gameObject.name.StartsWith("alternator"))
+                {
+                    continue;
                 }
 
                 if (parent.gameObject.GetComponent<SatsumaBoltsAntiReload>() == null)
                     parent.gameObject.AddComponent<SatsumaBoltsAntiReload>();
+            }
+
+            // Halfshafts hook.
+            GameObject[] halfshafts = GameObject.FindObjectsOfType<GameObject>().Where(g => g.name == "halfshaft(xxxxx)").ToArray();
+            foreach (GameObject halfshaft in halfshafts)
+            {
+                if (halfshaft.GetComponent<SatsumaBoltsAntiReload>() == null)
+                    halfshaft.AddComponent<SatsumaBoltsAntiReload>();
+            }
+
+            // RWiping Load for alternator belts, oil filters, spark plugs and batteries.
+            GameObject[] fanbelts = Resources.FindObjectsOfTypeAll<GameObject>()
+                .Where(obj => obj.name.ContainsAny("alternator belt(Clone)", "oil filter(Clone)", "spark plug(Clone)", "battery(Clone)")).ToArray();
+            foreach (GameObject fanbelt in fanbelts)
+            {
+                PlayMakerFSM fanbeltUse = fanbelt.GetPlayMakerByName("Use");
+                FsmState loadFanbelt = fanbeltUse.FindFsmState("Load");
+                List<FsmStateAction> emptyActions = new List<FsmStateAction>();
+                emptyActions.Add(new CustomNullState());
+                loadFanbelt.Actions = emptyActions.ToArray();
             }
         }
 
@@ -272,14 +325,6 @@ namespace MOP
             hood.gameObject.AddComponent<DelayedHingeManager>();
 
             // Fix for hood not being able to be closed.
-            PlayMakerFSM hoodBoltCheck = hood.gameObject.GetPlayMakerByName("BoltCheck");
-            FsmState boltsOn = hoodBoltCheck.FindFsmState("Bolts ON");
-            List<FsmStateAction> states = boltsOn.Actions.ToList();
-            //states.Insert(3, new CustomBoltAction());
-            states[5] = new CustomBoltAction();
-            states.RemoveAt(6);
-            boltsOn.Actions = states.ToArray();
-            boltsOn.SaveActions();
             hood.gameObject.AddComponent<SatsumaCustomHoodUse>();
         }
     }

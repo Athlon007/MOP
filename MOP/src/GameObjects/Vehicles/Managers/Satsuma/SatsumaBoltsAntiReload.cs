@@ -23,23 +23,26 @@ namespace MOP
 {
     class SatsumaBoltsAntiReload : MonoBehaviour
     {
-        // HACK: This script forces hood to have it's joint's break force and break torque set to 1000.
+        string fsmName;
 
         public SatsumaBoltsAntiReload()
         {
-            PlayMakerFSM fsm = gameObject.GetPlayMakerByName("BoltCheck");
+            //string fsmName = gameObject.name.StartsWith("wheel_") ? "Use" : "BoltCheck";
+            fsmName = gameObject.ContainsPlayMakerByName("BoltCheck") ? "BoltCheck" : "Use";
+            PlayMakerFSM fsm = gameObject.GetPlayMakerByName(fsmName);
 
             if (fsm == null)
             {
-                MSCLoader.ModConsole.Print($"[MOP] No FSM BoltCheck for {gameObject.name} found");
                 return;
             }
-            
-            FsmState loadArray = fsm.FindFsmState("Load array");
-            List<FsmStateAction> loadArrayActions = loadArray.Actions.ToList();
-            loadArrayActions[0] = new CustomNullState();
+
+            FsmState loadArray = fsm.FindFsmState(fsmName == "Use" ? "Load" : "Load array");
+            List<FsmStateAction> loadArrayActions = new List<FsmStateAction>();
+            loadArrayActions.Add(new CustomNullState());
             loadArray.Actions = loadArrayActions.ToArray();
             loadArray.SaveActions();
+
+            if (fsmName == "Use") return;
 
             FsmState loadFloat = fsm.FindFsmState("Load float");
             List<FsmStateAction> loadFloatActions = loadFloat.Actions.ToList();

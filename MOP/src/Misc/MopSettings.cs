@@ -82,7 +82,7 @@ namespace MOP
             switch (ActiveDistance)
             {
                 case 0:
-                    return 0.5f;
+                    return 0.75f;
                 default: // 1
                     return 1;
                 case 2:

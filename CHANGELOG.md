@@ -1,5 +1,33 @@
 # Changelog
 
+## 2.7 Development 2 (24.04.2020)
+
+### Added
+
+- Expanded sector at home into the sauna and shower areas
+- Added system version info to mod report
+- Added small easter egg ;)
+- (Development) Added error messages for when the PlayMaker script or state couldn't be found
+- (Development) Added "mop version" command
+
+### Changes
+
+- Increased toggling distance when Active Distance is set to 0 to x0.75 from x0.5
+- (Development) Increased the delay of delayed hinge manager used for hood
+- (Development) Changed default command output for incorrect command
+- (Development) Added output when trying to open or delete custom rule file if it doesn't exist
+- (Development) Updated the default new custom rule file output
+
+### Bug Fixes
+
+- (Development) Fixed some engine parts not being hooked with screw script
+- (Development) Fixed fanbelts, oil filters, spark plugs and batteries resetting it's value
+- (Development) Fixed stock hood sometimes falling off
+
+### Removed
+
+- (Development) Removed unnescesary code from first Development version
+
 ## 2.7 Development 1 (22.04.2020)
 
 ### Added

@@ -174,9 +174,9 @@ namespace MOP
                     ModConsole.Print($"<color=yellow>[MOP] Downloading new rule file for {mod.Name}...</color>");
                     NewMessage($"MOP: Downloading new rule file for {mod.Name}...");
 #if DEBUG
-                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion}_DEBUG {SystemInfo.operatingSystem}");
+                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion}_DEBUG {ExceptionManager.GetSystemInfo()}");
 #else
-                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {SystemInfo.operatingSystem}");
+                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {ExceptionManager.GetSystemInfo()}");
 #endif
                     if (File.Exists(filePath))
                         File.Delete(filePath);
@@ -359,9 +359,9 @@ namespace MOP
                 {
                     WebClient web = new WebClient();
 #if DEBUG
-                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion}_DEBUG {SystemInfo.operatingSystem}");
+                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion}_DEBUG {ExceptionManager.GetSystemInfo()}");
 #else
-                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {SystemInfo.operatingSystem}");
+                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {ExceptionManager.GetSystemInfo()}");
 #endif
                     string[] serverContentArray = web.DownloadString(new Uri($"{RemoteServer}{ServerContent}")).Split('\n');
                     serverContent = new List<ServerContentData>();
@@ -458,6 +458,9 @@ namespace MOP
                             break;
                         case "prevent_toggle_on_object":
                             Rules.instance.PreventToggleOnObjectRule.Add(new PreventToggleOnObjectRule(objects[0], objects[1]));
+                            break;
+                        case "experimental_satsuma_fix":
+                            Rules.instance.SpecialRules.ExperimentalSatsumaFix = true;
                             break;
                     }
                 }
