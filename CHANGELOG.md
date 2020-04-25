@@ -1,18 +1,38 @@
 # Changelog
 
+## 2.7 Development 3 (25.04.2020)
+
+### Added
+
+- Added notice to Advanced section of the settings
+- Added sector in jail
+- You can now prevent MOP from removing unused rule files
+  - Note: unused rule files will not be loaded!
+
+### Changes
+
+- Changes in how Satsuma position saving is operated
+- Increased the toggle distance of repair shop to 300 units
+- Server connection error won't bring up the console on load
+
+### Bug Fixes
+
+- Fixed MOP trying to connect to the rule files server when offline and rule files auto update disabled
+- Fixed repair shop getting disabled
+
 ## 2.7 Development 2 (24.04.2020)
 
 ### Added
 
 - Expanded sector at home into the sauna and shower areas
 - Added system version info to mod report
-- Added small easter egg ;)
+- Added a small easter egg ;)
 - (Development) Added error messages for when the PlayMaker script or state couldn't be found
 - (Development) Added "mop version" command
 
 ### Changes
 
-- Increased toggling distance when Active Distance is set to 0 to x0.75 from x0.5
+- Increased toggling distance when Active Distance is set to 0 from x0.5 to x0.75
 - (Development) Increased the delay of delayed hinge manager used for hood
 - (Development) Changed default command output for incorrect command
 - (Development) Added output when trying to open or delete custom rule file if it doesn't exist

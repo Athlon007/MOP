@@ -47,6 +47,9 @@ namespace MOP
         static bool toggleVehiclePhysicsOnly = false;
         public static bool ToggleVehiclePhysicsOnly { get => toggleVehiclePhysicsOnly; }
 
+        // RULE FILES
+        public static bool RuleFilesAutoUpdateEnabled { get => (bool)MOP.rulesAutoUpdate.GetValue(); }
+
 
         //
         // MISCELLANEOUS
@@ -89,37 +92,6 @@ namespace MOP
                     return 2;
                 case 3:
                     return 4;
-            }
-        }
-
-        /// <summary>
-        /// Workaround for a bug in MSC Loader 1.1.6.
-        /// </summary>
-        /// <returns></returns>
-        public static bool IsAutoUpdateDisabled()
-        {
-            try
-            {
-                string settingsPath = $"{MOP.ModConfigPath}\\settings.json";
-                if (!File.Exists(settingsPath))
-                    return false;
-
-                string[] lines = File.ReadAllLines($"{MOP.ModConfigPath}\\settings.json");
-                int index = -1;
-
-                for (int i = 0; i < lines.Length; i++)
-                    if (lines[i].Contains("rulesAutoUpdate"))
-                        index = i;
-
-                if (index == -1)
-                    return false;
-
-                string value = lines[index + 1];
-                return value.Contains("Value\": false");
-            }
-            catch
-            {
-                return false;
             }
         }
 

@@ -480,8 +480,8 @@ namespace MOP
 
                 // Disable Satsuma engine renderer, if player is in Satsuma
                 Satsuma.instance.ToggleEngineRenderers(!MopFsmManager.IsPlayerInSatsuma());
-                if (!Rules.instance.SpecialRules.ExperimentalSatsumaFix)
-                    Satsuma.instance.ForceFuckingRotation();
+                //if (!Rules.instance.SpecialRules.ExperimentalSatsumaFix)
+                //    Satsuma.instance.ForceFuckingRotation();
                 yield return null;
 
                 try
@@ -703,8 +703,7 @@ namespace MOP
 
         void Update()
         {
-            if (Rules.instance.SpecialRules.ExperimentalSatsumaFix)
-                Satsuma.instance.ForceFuckingRotation();
+            Satsuma.instance.ForceFuckingRotation();
         }
 
         /// <summary>
@@ -715,7 +714,7 @@ namespace MOP
         bool IsEnabled(Transform target, float toggleDistance = 200)
         {
             if (inSectorMode)
-                toggleDistance *= MopSettings.ActiveDistance == 0 ? 1f : 0.1f;
+                toggleDistance *= MopSettings.ActiveDistance == 0 ? 0.5f : 0.1f;
 
             return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }

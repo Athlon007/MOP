@@ -45,7 +45,7 @@ namespace MOP
         /// <summary>
         /// Initialize the RepairShop class
         /// </summary>
-        public RepairShop() : base("REPAIRSHOP")
+        public RepairShop() : base("REPAIRSHOP", 250)
         {
             GameObjectBlackList.AddRange(blackList);
 

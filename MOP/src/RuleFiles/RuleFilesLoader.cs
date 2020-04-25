@@ -92,7 +92,7 @@ namespace MOP
 
             //ToggleButtons(false);
 
-            if (MopSettings.IsAutoUpdateDisabled() && !overrideUpdateCheck)
+            if (!MopSettings.RuleFilesAutoUpdateEnabled && !overrideUpdateCheck)
             {
                 ModConsole.Print("<color=orange>[MOP] Rule files auto update is disabled.</color>");
                 GetAndReadRules();
@@ -103,7 +103,7 @@ namespace MOP
             // If server or user is offline, skip downloading and simply load available files.
             if (!IsServerOnline())
             {
-                ModConsole.Error("[MOP] Connection error. Check your Internet connection.");
+                ModConsole.Print("<color=red>[MOP] Connection error. Check your Internet connection.</color>");
 
                 GetAndReadRules();
                 ToggleButtons(true);
@@ -260,7 +260,12 @@ namespace MOP
                     // Delete rules for mods that don't exist.
                     if (ModLoader.LoadedMods.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name)) == null && file.Name != "Custom.txt")
                     {
-
+                        if ((bool)MOP.noDeleteRuleFiles.GetValue())
+                        {
+                            ModConsole.Print($"<color=yellow>[MOP] Skipped {file.Name} rule, " +
+                                $"because the corresponding mod is not present.</color>");
+                            continue;
+                        }
                         File.Delete(file.FullName);
                         ModConsole.Print($"<color=yellow>[MOP] Rule file {file.Name} has been deleted, " +
                             $"because corresponding mod is not present.</color>");
@@ -458,9 +463,6 @@ namespace MOP
                             break;
                         case "prevent_toggle_on_object":
                             Rules.instance.PreventToggleOnObjectRule.Add(new PreventToggleOnObjectRule(objects[0], objects[1]));
-                            break;
-                        case "experimental_satsuma_fix":
-                            Rules.instance.SpecialRules.ExperimentalSatsumaFix = true;
                             break;
                     }
                 }

@@ -134,6 +134,11 @@ namespace MOP
                 output += $"{mod.Name}:\n  ID: {mod.ID}\n  Version: {mod.Version}\n  Author: {mod.Author}\n\n";
             }
 
+            if (ModLoader.LoadedMods.Count == 3)
+            {
+                output += "No other mods found!\n\n";
+            }
+
             // List rule files.
             output += "=== RULE FILES ===\n\n";
             foreach (string ruleFile in Rules.instance.RuleFileNames)
@@ -160,9 +165,11 @@ namespace MOP
                 {
                     realOS += " 64bit";
                 }
+
+                return realOS;
             }
 
-            return realOS;
+            return fullOS;
         }
     }
 }

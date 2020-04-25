@@ -69,7 +69,6 @@ namespace MOP
                     ModConsole.Print("\n<color=yellow><b>Special Rules</b></color>");
                     ModConsole.Print($"<b>DontDestroyEmptyBeerBottles:</b> {Rules.instance.SpecialRules.DontDestroyEmptyBeerBottles}");
                     ModConsole.Print($"<b>SatsumaIgnoreRenderers:</b> {Rules.instance.SpecialRules.SatsumaIgnoreRenderers}");
-                    ModConsole.Print($"<b>ExperimentalSatsumaFix:</b> {Rules.instance.SpecialRules.ExperimentalSatsumaFix}");
 
                     // List rule files.
                     string output = "\n<color=yellow><b>Rule Files</b></color>\n";

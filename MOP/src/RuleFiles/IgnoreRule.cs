@@ -57,6 +57,5 @@ namespace MOP
     {
         public bool SatsumaIgnoreRenderers;
         public bool DontDestroyEmptyBeerBottles;
-        public bool ExperimentalSatsumaFix;
     }
 }

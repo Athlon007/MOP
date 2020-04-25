@@ -88,6 +88,7 @@ namespace MOP
         string[] rulesAutoUpdateFrequencyText = { "Daily", "Every 2 days", "Weekly" };
         readonly Settings forceRuleUpdate = new Settings("forceRuleUpdate", "Force Update", ForceRuleFilesUpdate);
         readonly Settings rulesLearnMore = new Settings("rulesLearnMore", "Learn More", OpenRulesWebsiteDialog);
+        public static Settings noDeleteRuleFiles = new Settings("noDeleteRuleFiles", "Don't delete unused rule files", false, MopSettings.UpdateAll);
 
         // OTHERS
         public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Destroy Empty Beer Bottles", false, MopSettings.UpdateAll);
@@ -146,6 +147,7 @@ namespace MOP
             Settings.AddHeader(this, "Mod Rules", headerColor);
             Settings.AddCheckBox(this, rulesAutoUpdate);
             Settings.AddSlider(this, rulesAutoUpdateFrequency, 0, 2, rulesAutoUpdateFrequencyText);
+            Settings.AddCheckBox(this, noDeleteRuleFiles);
             Settings.AddButton(this, forceRuleUpdate, "This will force MOP to re-download all mod rule files (this may take a while!).");
             Settings.AddButton(this, rulesLearnMore);
 
@@ -158,6 +160,7 @@ namespace MOP
 
             // Advanced
             Settings.AddHeader(this, "Advanced", headerColor);
+            Settings.AddHeader(this, "This section will be removed in MOP 2.8, and its functionality will be moved to custom rule files.", Color.red, Color.black);
             Settings.AddCheckBox(this, ignoreModVehicles);
             Settings.AddCheckBox(this, toggleVehiclePhysicsOnly);
 

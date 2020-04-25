@@ -76,6 +76,7 @@ namespace MOP
         Wheel wheel;
 
         internal Quaternion lastGoodRotation;
+        internal Vector3 lastGoodPosition;
         bool lastGoodRotationSaved;
 
         /// <summary>
@@ -292,6 +293,7 @@ namespace MOP
                 {
                     lastGoodRotationSaved = true;
                     lastGoodRotation = transform.rotation;
+                    lastGoodPosition = transform.position;
                 }
                 
                 if (enabled)

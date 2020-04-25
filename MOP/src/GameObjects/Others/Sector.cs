@@ -154,6 +154,8 @@ namespace MOP
             // Home
             CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.559867f), new Vector3(11, 5, 9), "PierHome", "TREES_SMALL1", "BUSHES7", "Building");
             CreateNewSector(new Vector3(-12.5f, -0.5062422f, 1), new Vector3(3, 5, 7.7f), "PierHome", "TREES_SMALL1", "BUSHES7", "Building");
+            // Jail
+            CreateNewSector(new Vector3(-655, 5, -1156), new Vector3(5, 5, 9f));
 
             ModConsole.Print("[MOP] Sectors done!");
         }

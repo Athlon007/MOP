@@ -83,6 +83,7 @@ namespace MOP
             }
 
             lastGoodRotation = transform.rotation;
+            lastGoodPosition = transform.position;
 
             // Adding components to normal and bucket seats.
             GameObject.Find("seat driver(Clone)").AddComponent<SatsumaSeatsManager>();
@@ -203,7 +204,10 @@ namespace MOP
             currentStatus = enabled;
 
             if (!enabled)
+            {
                 lastGoodRotation = transform.rotation;
+                lastGoodPosition = transform.position;
+            }
 
             if (MopSettings.SatsumaTogglePhysicsOnly) return;
 
@@ -306,7 +310,10 @@ namespace MOP
         public void ForceFuckingRotation()
         {
             if (!carDynamics.enabled)
+            {
                 transform.rotation = lastGoodRotation;
+                transform.position = lastGoodPosition;
+            }
         }
 
         public void HoodFix()
