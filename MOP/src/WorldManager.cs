@@ -369,7 +369,7 @@ namespace MOP
             ActivateSectors();
 
             if (!MopSettings.SafeMode)
-                ToggleAll(false);
+                ToggleAll(false, ToggleAllMode.OnLoad);
 
             // Initialize the coroutines.
             currentLoop = LoopRoutine();
@@ -450,7 +450,7 @@ namespace MOP
             ModConsole.Print("[MOP] Initializing Pre-Save Actions");
             MopSettings.IsModActive = false;
             StopCoroutine(currentLoop);
-            ToggleAll(true, true);
+            ToggleAll(true, ToggleAllMode.OnSave);
         }
 
         /// <summary>
@@ -633,7 +633,7 @@ namespace MOP
                         float distance = Vector3.Distance(player.transform.position, vehicles[i].transform.position);
                         float toggleDistance = MopSettings.ActiveDistance == 0
                             ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
-                        vehicles[i].ToggleUnityCar(IsVehicleEnabled(distance, toggleDistance));
+                        vehicles[i].ToggleUnityCar(IsVehicleEnabled(distance, toggleDistance, true));
                         vehicles[i].Toggle(IsVehicleEnabled(distance));
                     }
                     catch (Exception ex)
@@ -724,9 +724,9 @@ namespace MOP
         /// </summary>
         /// <param name="distance"></param>
         /// <returns></returns>
-        bool IsVehicleEnabled(float distance, float toggleDistance = 200)
+        bool IsVehicleEnabled(float distance, float toggleDistance = 200, bool unityCar = false)
         {
-            if (inSectorMode)
+            if (inSectorMode && !unityCar)
                 toggleDistance = 30;
 
             return distance < toggleDistance;
@@ -774,10 +774,12 @@ namespace MOP
             }
         }
 
+        public enum ToggleAllMode { Default, OnSave, OnLoad }
+
         /// <summary>
         /// Toggles on all objects.
         /// </summary>
-        public void ToggleAll(bool enabled, bool onSave = false)
+        public void ToggleAll(bool enabled, ToggleAllMode mode = ToggleAllMode.Default)
         {
             try
             {
@@ -791,6 +793,11 @@ namespace MOP
                 for (int i = 0; i < vehicles.Count; i++)
                 {
                     vehicles[i].Toggle(enabled);
+
+                    if (mode == ToggleAllMode.OnLoad)
+                    {
+                        vehicles[i].ForceToggleUnityCar(false);
+                    }
                 }
 
                 // Items
@@ -800,7 +807,7 @@ namespace MOP
 
                     // If we're saving, MOP forces on items the "SAVEGAME" event.
                     // This fixes an issue with items not getting saved, for some reason.
-                    if (onSave)
+                    if (mode == ToggleAllMode.OnSave)
                     {
                         PlayMakerFSM fsm = Items.instance.ItemsHooks[i].gameObject.GetComponent<PlayMakerFSM>();
                         if (fsm != null)

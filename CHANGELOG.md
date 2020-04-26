@@ -1,5 +1,31 @@
 # Changelog
 
+## 2.7 Development 4 (26.04.2020)
+
+### Added
+
+- Added garbage collecting on menu load
+- Unity car is now being disabled on game load
+
+### Changes
+
+- Increased server timeout to 20 seconds
+- Development: Changelog elements marked as the development change are now marked orange
+
+### Bug Fixes
+
+- (Development) Fixed an error, if the "Load float" state was empty
+- (Development) Fixed hood attachment script not working, if player loaded the game far from Satsuma
+- (Development) Fiber hood will not detach anymore on Satsuma respawn
+- (Development) Fixed MOP not initializing when Satsuma is not built
+- (Development) Fixed engine block not getting hooked
+- (Development) Fixed batteries, fan belts, oil filters and spark plugs teleporting back to their original position after installing them to car straight after buying them
+- Fixed uncle's beer case hook not initializing, if the uncle is not present yet
+- Fixed Satsuma physics not toggling, if the left front wheel is not attached
+- Fixed oil filters, batteries, spark plug boxes and alternator belts not getting hooked
+- Fixed vehicles physics getting enabled back, if player was in the sector
+- Fixed "levitating Satsuma" bug, which may also cause Satsuma ending up on the roof of the garage (yes, this is stupid)
+
 ## 2.7 Development 3 (25.04.2020)
 
 ### Added
@@ -17,8 +43,8 @@
 
 ### Bug Fixes
 
-- Fixed MOP trying to connect to the rule files server when offline and rule files auto update disabled
-- Fixed repair shop getting disabled
+- Fixed MOP trying to connect to the rule files server when offline and wtih rule files auto update disabled
+- Fixed repair shop getting disabled, when going to the far corner of it
 
 ## 2.7 Development 2 (24.04.2020)
 

@@ -305,6 +305,35 @@ namespace MOP
             }
         }
 
+        public void ForceToggleUnityCar(bool enabled)
+        {
+            if ((gameObject == null) || gameObject.name == "BOAT" || (carDynamics.enabled == enabled) || !IsActive)
+                return;
+
+            carDynamics.enabled = enabled;
+            axles.enabled = enabled;
+            rb.isKinematic = !enabled;
+            rb.useGravity = enabled;
+
+            // We're completly freezing Satsuma, so it won't flip (hopefully...).
+            if (gameObject.name == "SATSUMA(557kg, 248)")
+            {
+                if (!enabled && !lastGoodRotationSaved)
+                {
+                    lastGoodRotationSaved = true;
+                    lastGoodRotation = transform.rotation;
+                    lastGoodPosition = transform.position;
+                }
+
+                if (enabled)
+                {
+                    lastGoodRotationSaved = false;
+                }
+
+                rb.constraints = enabled ? RigidbodyConstraints.None : RigidbodyConstraints.FreezePosition;
+            }
+        }
+
         internal void IgnoreToggle(bool enabled) { }
 
         /// <summary>
@@ -350,7 +379,7 @@ namespace MOP
         /// <returns></returns>
         bool IsOnGround()
         {
-            if (this.gameObject.name == "JONNEZ ES(Clone)")
+            if (this.gameObject.name == "JONNEZ ES(Clone)" || (this.gameObject.name == "SATSUMA(557kg, 248)" && !wheel.enabled))
                 return drivetrain.torque == 0;
 
             return wheel.onGroundDown;

@@ -145,5 +145,20 @@ namespace MOP
                 return false;
             }
         }
+
+        /// <summary>
+        /// Looks through the components of game object and returns the one matching it's name.
+        /// </summary>
+        public static Component GetComponentByName(this GameObject gm, string name)
+        {
+            var list = gm.GetComponents(typeof(Component));
+            for (int i = 0; i < list.Length; i++)
+            {
+                if (list[i].GetType().Name == name)
+                    return list[i];
+            }
+
+            return null;
+        }
     }
 }

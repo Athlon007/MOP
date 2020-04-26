@@ -59,13 +59,13 @@ namespace MOP
             disableableObjects = GetDisableableChilds();
 
             Toggle = ToggleActive;
-
+            
             // Get engine bay renderers
             engineBayRenderers = new List<Renderer>();
             Transform block = this.gameObject.transform.Find("Chassis/sub frame(xxxxx)/CarMotorPivot");
             engineBayRenderers = block.GetComponentsInChildren<Renderer>(true).ToList();
             pivotHood = this.gameObject.transform.Find("Body/pivot_hood");
-
+            
             // Get all the other renderers
             renderers = new List<Renderer>();
             Transform body = this.gameObject.transform.Find("Body");
@@ -88,21 +88,23 @@ namespace MOP
             // Adding components to normal and bucket seats.
             GameObject.Find("seat driver(Clone)").AddComponent<SatsumaSeatsManager>();
             GameObject.Find("seat passenger(Clone)").AddComponent<SatsumaSeatsManager>();
-
+            
             GameObject bucketDriver = GameObject.Find("bucket seat driver(Clone)");
             GameObject bucketPassanger = GameObject.Find("bucket seat passenger(Clone)");
             if (bucketDriver == null)
             {
-                bucketDriver = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "bucket seat driver(Clone)" && g.transform.parent.gameObject.name == "Parts");
-                bucketPassanger = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "bucket seat passenger(Clone)" && g.transform.parent.gameObject.name == "Parts");
+                bucketDriver = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "bucket seat driver(Clone)" 
+                && g.transform.parent.gameObject.name == "Parts");
+                bucketPassanger = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "bucket seat passenger(Clone)" 
+                && g.transform.parent.gameObject.name == "Parts");
             }
             bucketDriver.AddComponent<SatsumaSeatsManager>();
             bucketPassanger.AddComponent<SatsumaSeatsManager>();
-
-            // Fixed for doors getting jammed.
+            
+            // Fix for doors getting jammed.
             GameObject.Find("door right(Clone)").AddComponent<SatsumaDoorManager>();
             GameObject.Find("door left(Clone)").AddComponent<SatsumaDoorManager>();
-
+            
             // Fix for mechanical wear of the car.
             PlayMakerFSM mechanicalWearFsm = transform.Find("CarSimulation/MechanicalWear").gameObject.GetComponent<PlayMakerFSM>();
             FsmState loadGame = mechanicalWearFsm.FindFsmState("Load game");
@@ -110,21 +112,22 @@ namespace MOP
             loadArrayActions.Add(new CustomNullState());
             loadGame.Actions = loadArrayActions.ToArray();
             loadGame.SaveActions();
-
+            
             // Fix for engine freezing car.
             GameObject.Find("block(Clone)").AddComponent<SatsumaEngineManager>();
-
+            
             // Fix for not working handbrake after respawn.
             GameObject.Find("HandBrake").AddComponent<SatsumaHandbrakeManager>();
 
             // Fixes handbrake lever position.
-            PlayMakerFSM handbrakeLeverFsm = GameObject.Find("handbrake lever").GetPlayMakerByName("Use");
+            PlayMakerFSM handbrakeLeverFsm = transform.Find("MiscParts/HandBrake/handbrake(xxxxx)/handbrake lever")
+                .gameObject.GetPlayMakerByName("Use");
             FsmState loadHandbrake = handbrakeLeverFsm.FindFsmState("Load");
-            List<FsmStateAction> loadHandbrakeArrayActions = loadHandbrake.Actions.ToList();
-            loadHandbrakeArrayActions[0] = new CustomNullState();
+            List<FsmStateAction> loadHandbrakeArrayActions = new List<FsmStateAction>();
+            loadHandbrakeArrayActions.Add(new CustomNullState());
             loadHandbrake.Actions = loadHandbrakeArrayActions.ToArray();
             loadGame.SaveActions();
-
+            
             // Get all bolts.
             GameObject[] bolts = Resources.FindObjectsOfTypeAll<GameObject>().Where(obj => obj.name == "BoltPM").ToArray();
             foreach (GameObject bolt in bolts)
@@ -168,21 +171,28 @@ namespace MOP
                     continue;
                 }
 
+                if (parent.gameObject.name == "hood(Clone)")
+                    continue;
+
                 if (parent.gameObject.GetComponent<SatsumaBoltsAntiReload>() == null)
                     parent.gameObject.AddComponent<SatsumaBoltsAntiReload>();
             }
 
             // Halfshafts hook.
-            GameObject[] halfshafts = GameObject.FindObjectsOfType<GameObject>().Where(g => g.name == "halfshaft(xxxxx)").ToArray();
+            GameObject[] halfshafts = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "halfshaft(xxxxx)").ToArray();
             foreach (GameObject halfshaft in halfshafts)
             {
                 if (halfshaft.GetComponent<SatsumaBoltsAntiReload>() == null)
                     halfshaft.AddComponent<SatsumaBoltsAntiReload>();
             }
 
-            // RWiping Load for alternator belts, oil filters, spark plugs and batteries.
+            // Engine Block.
+            GameObject.Find("block(Clone)").AddComponent<SatsumaBoltsAntiReload>();
+
+            // Wiping Load for alternator belts, oil filters, spark plugs and batteries.
             GameObject[] fanbelts = Resources.FindObjectsOfTypeAll<GameObject>()
-                .Where(obj => obj.name.ContainsAny("alternator belt(Clone)", "oil filter(Clone)", "spark plug(Clone)", "battery(Clone)")).ToArray();
+                .Where(obj => obj.name.ContainsAny("alternator belt(Clone)", "oil filter(Clone)", "spark plug(Clone)", "battery(Clone)"))
+                .ToArray();
             foreach (GameObject fanbelt in fanbelts)
             {
                 PlayMakerFSM fanbeltUse = fanbelt.GetPlayMakerByName("Use");
@@ -190,6 +200,7 @@ namespace MOP
                 List<FsmStateAction> emptyActions = new List<FsmStateAction>();
                 emptyActions.Add(new CustomNullState());
                 loadFanbelt.Actions = emptyActions.ToArray();
+                loadFanbelt.SaveActions();
             }
         }
 
@@ -319,20 +330,63 @@ namespace MOP
         public void HoodFix()
         {
             // Fix for MSC bug that causes stock and racing hood to pop off.
+            
+            GameObject triggerHood = transform.Find("Body/trigger_hood").gameObject;
+            
+            // Hood
             Transform hood = GameObject.Find("hood(Clone)").transform;
+            PlayMakerFSM hoodRemoval = hood.gameObject.GetPlayMakerByName("Removal");
             Transform hoodPivot = transform.Find("Body/pivot_hood");
-            if (MopFsmManager.IsStockHoodBolted() && hood.parent != hoodPivot)
-                MopFsmManager.ForceHoodAssemble();
+            CustomPlayMakerFixedUpdate hoodFixedUpdate = hood.gameObject.AddComponent<CustomPlayMakerFixedUpdate>();
 
-            GameObject fiberHood = GameObject.Find("fiberglass hood(Clone)");
+            // Fiber Hood
+            GameObject fiberHood = Resources.FindObjectsOfTypeAll<GameObject>()
+                .First(obj => obj.name == "fiberglass hood(Clone)"
+                && obj.GetComponent<PlayMakerFSM>() != null
+                && obj.GetComponent<MeshCollider>() != null);
+
+            int retries = 0;
+            if (MopFsmManager.IsStockHoodBolted() && hood.parent != hoodPivot)
+            {
+                while (hood.parent != hoodPivot)
+                {
+                    MopFsmManager.ForceHoodAssemble();
+
+                    retries++;
+                    if (retries == 60)
+                    {
+                        break;
+                    }
+                }
+
+                hoodFixedUpdate.StartFixedUpdate();
+            }
+
             if (fiberHood != null && MopFsmManager.IsFiberHoodBolted() && fiberHood.transform.parent != hoodPivot)
-                MopFsmManager.ForceHoodAssemble();
+            {
+                retries = 0;
+                while (fiberHood.transform.parent != hoodPivot)
+                {
+                    MopFsmManager.ForceHoodAssemble();
+
+                    retries++;
+                    if (retries == 60)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            hood.gameObject.AddComponent<SatsumaBoltsAntiReload>();
+            fiberHood.gameObject.AddComponent<SatsumaBoltsAntiReload>();
 
             // Adds delayed initialization for hood hinge.
-            hood.gameObject.AddComponent<DelayedHingeManager>();
+            if (hood.gameObject.GetComponent<DelayedHingeManager>() == null)
+                hood.gameObject.AddComponent<DelayedHingeManager>();
 
             // Fix for hood not being able to be closed.
-            hood.gameObject.AddComponent<SatsumaCustomHoodUse>();
+            if (hood.gameObject.GetComponent<SatsumaCustomHoodUse>() == null)
+                hood.gameObject.AddComponent<SatsumaCustomHoodUse>();
         }
     }
 }

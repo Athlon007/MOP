@@ -41,6 +41,13 @@ namespace MOP
         public static string ModConfigPath;
         public static string ModVersion;
 
+        public override bool LoadInMenu => true;
+
+        public override void OnMenuLoad()
+        {
+            System.GC.Collect();
+        }
+
         public override void ModSettingsLoaded()
         {
             ModConfigPath = ModLoader.GetModConfigFolder(this);
@@ -263,6 +270,11 @@ namespace MOP
                 {
                     line = line.Substring(3);
                     line = $"    • {line}";
+                }
+
+                if (line.Contains("(Development)"))
+                {
+                    line = line.Replace("(Development)", "<color=orange>Development: </color>");
                 }
 
                 output += line + "\n";

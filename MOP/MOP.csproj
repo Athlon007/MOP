@@ -68,6 +68,7 @@
     <Compile Include="src\GameObjects\Others\Sector.cs" />
     <Compile Include="src\GameObjects\Places\Yard.cs" />
     <Compile Include="src\GameObjects\Vehicles\Combine.cs" />
+    <Compile Include="src\GameObjects\Vehicles\Managers\CustomPlayMakerFixedUpdate.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\PlayerTaxiManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\HingeManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Boat.cs" />

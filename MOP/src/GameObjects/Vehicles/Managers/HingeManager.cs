@@ -62,6 +62,8 @@ namespace MOP
 
     class DelayedHingeManager : MonoBehaviour
     {
+        // Used only for the hood.
+
         private Quaternion initialLocalRotation;
         private Vector3 initialLocalPosition;
 

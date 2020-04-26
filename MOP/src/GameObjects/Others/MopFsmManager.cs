@@ -29,6 +29,7 @@ namespace MOP
         static FsmBool hoodBolted;
         static FsmBool fiberHoodBolted;
         static FsmBool suskiLarge;
+        static GameObject triggerHood;
 
         /// <summary>
         /// Checks if the player has the keys to the Hayosiko.
@@ -118,7 +119,11 @@ namespace MOP
 
         public static void ForceHoodAssemble()
         {
-            GameObject.Find("SATSUMA(557kg, 248)/Body/trigger_hood").GetComponent<PlayMakerFSM>().SendEvent("ASSEMBLE");
+            if (triggerHood == null)
+                triggerHood = GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Body/trigger_hood").gameObject;
+
+            triggerHood.SetActive(true);
+            triggerHood.GetComponent<PlayMakerFSM>().SendEvent("ASSEMBLE");
         }
 
         public static bool IsSuskiLargeCall()
@@ -127,11 +132,6 @@ namespace MOP
                 suskiLarge = GameObject.Find("YARD/Building/LIVINGROOM/Telephone/Logic/PhoneLogic").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("SuskiLarge");
 
             return suskiLarge.Value;
-        }
-
-        public static bool IsFriday()
-        {
-            return PlayMakerGlobals.Instance.Variables.GetFsmInt("GlobalDay").Value == 5;
         }
     }
 }

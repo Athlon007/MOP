@@ -16,7 +16,6 @@
 
 using HutongGames.PlayMaker;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace MOP
@@ -27,28 +26,34 @@ namespace MOP
 
         public SatsumaBoltsAntiReload()
         {
-            //string fsmName = gameObject.name.StartsWith("wheel_") ? "Use" : "BoltCheck";
-            fsmName = gameObject.ContainsPlayMakerByName("BoltCheck") ? "BoltCheck" : "Use";
-            PlayMakerFSM fsm = gameObject.GetPlayMakerByName(fsmName);
-
-            if (fsm == null)
+            try
             {
-                return;
+                fsmName = gameObject.ContainsPlayMakerByName("BoltCheck") ? "BoltCheck" : "Use";
+                PlayMakerFSM fsm = gameObject.GetPlayMakerByName(fsmName);
+
+                if (fsm == null)
+                {
+                    return;
+                }
+
+                FsmState loadArray = fsm.FindFsmState(fsmName == "Use" ? "Load" : "Load array");
+                List<FsmStateAction> loadArrayActions = new List<FsmStateAction>();
+                loadArrayActions.Add(new CustomNullState());
+                loadArray.Actions = loadArrayActions.ToArray();
+                loadArray.SaveActions();
+
+                if (fsmName == "Use") return;
+
+                FsmState loadFloat = fsm.FindFsmState("Load float");
+                List<FsmStateAction> loadFloatActions = new List<FsmStateAction>();
+                loadFloatActions.Add(new CustomNullState());
+                loadFloat.Actions = loadFloatActions.ToArray();
+                loadFloat.SaveActions();
             }
-
-            FsmState loadArray = fsm.FindFsmState(fsmName == "Use" ? "Load" : "Load array");
-            List<FsmStateAction> loadArrayActions = new List<FsmStateAction>();
-            loadArrayActions.Add(new CustomNullState());
-            loadArray.Actions = loadArrayActions.ToArray();
-            loadArray.SaveActions();
-
-            if (fsmName == "Use") return;
-
-            FsmState loadFloat = fsm.FindFsmState("Load float");
-            List<FsmStateAction> loadFloatActions = loadFloat.Actions.ToList();
-            loadFloatActions[0] = new CustomNullState();
-            loadFloat.Actions = loadFloatActions.ToArray();
-            loadFloat.SaveActions();
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, $"{gameObject.transform.parent.gameObject.name}/{gameObject.name}");
+            }
         }
     }
 

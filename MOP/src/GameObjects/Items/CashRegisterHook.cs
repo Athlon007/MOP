@@ -14,8 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using HutongGames.PlayMaker;
 using MSCLoader;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -81,9 +83,46 @@ namespace MOP
                         FsmHook.FsmInject(items[i], "Confirm", TriggerMinorObjectRefresh);
                         FsmHook.FsmInject(items[i], "Spawn all", TriggerMinorObjectRefresh);
                     }
+
+                    if (items[i].name.StartsWith("spark plug box"))
+                    {
+                        FsmHook.FsmInject(items[i], "Create Plug", WipeUseLoadOnSparkPlugs);
+                    }
+
+                    if (items[i].name.ContainsAny("alternator belt(Clone)", "oil filter(Clone)", "battery(Clone)"))
+                    {
+                        ModConsole.Print("AA");
+                        PlayMakerFSM fanbeltUse = items[i].GetPlayMakerByName("Use");
+                        FsmState loadFanbelt = fanbeltUse.FindFsmState("Load");
+                        List<FsmStateAction> emptyActions = new List<FsmStateAction>();
+                        emptyActions.Add(new CustomNullState());
+                        loadFanbelt.Actions = emptyActions.ToArray();
+                        loadFanbelt.SaveActions();
+                    }
                 }
+                WipeUseLoadOnSparkPlugs();
             }
             currentRoutine = null;
+        }
+
+        public void WipeUseLoadOnSparkPlugs()
+        {
+            StartCoroutine(SparkPlugRoutine());
+        }
+
+        IEnumerator SparkPlugRoutine()
+        {
+            yield return new WaitForSeconds(.1f);
+            GameObject[] plugs = GameObject.FindGameObjectsWithTag("PART").Where(g => g.name == "spark plug(Clone)").ToArray();
+            for (int i = 0; i < plugs.Length; i++)
+            {
+                PlayMakerFSM fanbeltUse = plugs[i].GetPlayMakerByName("Use");
+                FsmState loadFanbelt = fanbeltUse.FindFsmState("Load");
+                List<FsmStateAction> emptyActions = new List<FsmStateAction>();
+                emptyActions.Add(new CustomNullState());
+                loadFanbelt.Actions = emptyActions.ToArray();
+                loadFanbelt.SaveActions();
+            }
         }
     }
 }

@@ -332,7 +332,7 @@ namespace MOP
             {
                 System.Net.NetworkInformation.Ping ping = new System.Net.NetworkInformation.Ping();
                 // 10 seconds time out (in ms).
-                PingReply reply = ping.Send("athlon.kkmr.pl", 10 * 1000);
+                PingReply reply = ping.Send("athlon.kkmr.pl", 20 * 1000);
                 return reply.Status == IPStatus.Success;
             }
             catch

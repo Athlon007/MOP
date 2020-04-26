@@ -31,10 +31,11 @@ namespace MOP
         "ax", "booze", "brake fluid", "cigarettes", "coffee pan", "coffee cup", "coolant", "diesel",
         "empty plastic can", "fire extinguisher", "gasoline", "grill", "grill charcoal", "ground coffee",
         "juice", "kilju", "lamp", "macaron box", "milk", "moosemeat", "mosquito spray", "motor oil",
-        "oilfilter", "pike", "pizza", "ratchet set", "potato chips", "sausages", "sugar", "spanner set",
+        "oil filter", "pike", "pizza", "ratchet set", "potato chips", "sausages", "sugar", "spanner set",
         "spray can", "two stroke fuel", "wiring mess", "wood carrier", "yeast", "shopping bag", "flashlight",
         "beer case", "fireworks bag", "lantern", "dipper", "coffee pan", "fireworks bag", "camera",
-        "water bucket", "car jack", "warning triangle", "spirit", "diskette", "empty", "empty bottle" };
+        "water bucket", "car jack", "warning triangle", "spirit", "diskette", "empty", "empty bottle", "battery",
+        "alternator belt", "spark plug box" };
 
         public string[] whiteList = { "grille gt" };
 
@@ -53,7 +54,7 @@ namespace MOP
             InitializeList();
 
             // Uncle's beer case bottle despawner
-            GameObject.Find("YARD/UNCLE/Home/UncleDrinking/Uncle/beer case(itemx)").AddComponent<UncleBeerCaseHook>();
+            GameObject.Find("YARD").transform.Find("UNCLE/Home/UncleDrinking/Uncle/beer case(itemx)").gameObject.AddComponent<UncleBeerCaseHook>();
         }
 
         /// <summary>
@@ -101,6 +102,11 @@ namespace MOP
                     {
                         FsmHook.FsmInject(items[i], "Confirm", cashRegisterHook.TriggerMinorObjectRefresh);
                         FsmHook.FsmInject(items[i], "Spawn all", cashRegisterHook.TriggerMinorObjectRefresh);
+                    }
+
+                    if (items[i].name.StartsWith("spark plug box"))
+                    {
+                        FsmHook.FsmInject(items[i], "Create Plug", cashRegisterHook.WipeUseLoadOnSparkPlugs);
                     }
                 }
                 catch (System.Exception ex)
