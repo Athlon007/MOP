@@ -45,7 +45,7 @@ namespace MOP
 
         bool preventDespawnDuringThisSession;
 
-        bool afterFirstEnable;
+        public bool AfterFirstEnable;
 
         /// <summary>
         /// Initialize class
@@ -239,9 +239,9 @@ namespace MOP
             ToggleAllRenderers(enabled);
 
             // Applying hood fix after first enabling.
-            if (!afterFirstEnable && enabled)
+            if (!AfterFirstEnable && enabled)
             {
-                afterFirstEnable = true;
+                AfterFirstEnable = true;
                 HoodFix();
             }
         }
@@ -329,8 +329,10 @@ namespace MOP
 
         public void HoodFix()
         {
+            WorldManager.instance.HoodFix(transform.Find("Body/pivot_hood"));
+
+            /*
             // Fix for MSC bug that causes stock and racing hood to pop off.
-            
             GameObject triggerHood = transform.Find("Body/trigger_hood").gameObject;
             
             // Hood
@@ -387,6 +389,7 @@ namespace MOP
             // Fix for hood not being able to be closed.
             if (hood.gameObject.GetComponent<SatsumaCustomHoodUse>() == null)
                 hood.gameObject.AddComponent<SatsumaCustomHoodUse>();
+            */
         }
     }
 }

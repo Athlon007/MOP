@@ -29,7 +29,7 @@ Note: tested on Xiaomi Mi Notebook Air latop with Intel Core i5-8250U, 8 GB RAM 
 
 ## Requirements
 
-- My Summer Car (newest release)
+- My Summer Car (newest Official or Experimental)
 - [MSC Mod Loader 1.1.7](https://www.racedepartment.com/downloads/msc-mod-loader.15339/)
 
 ## Installation
@@ -40,11 +40,9 @@ Grab the mod from [NexusMods](https://www.nexusmods.com/mysummercar/mods/146/), 
 
 Visit [Compatibility Wiki](https://github.com/Athlon007/MOP/wiki/Mod-Compatibility) to see if your mod is supported.
 
-## Cores
+## Occlusion Culling
 
-Cores are extensions for the base MOP. They add additional functionality, that didn't found their way to the base MOP for various reasons.
-
-- [Occlusion Core](https://github.com/Athlon007/MopOcclusionCore) - restores the occlusion culling feature that was cut from base MOP with the release of update 2.2
+Occlusion Culling has been a feature introduced in the first Beta of MOP, and has been removed in MOP 2.2. If you want to bring it back, you can download a separete mod that adds that function back in from [Occlusion Core repository](https://github.com/Athlon007/MopOcclusionCore). Occlusion Core is not actively developed, so it may not work properly as it is.
 
 ## License
 

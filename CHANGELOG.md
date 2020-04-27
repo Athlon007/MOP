@@ -1,80 +1,8 @@
 # Changelog
 
-## 2.7 Development 4 (26.04.2020)
+## 2.7 (27.04.2020)
 
-### Added
-
-- Added garbage collecting on menu load
-- Unity car is now being disabled on game load
-
-### Changes
-
-- Increased server timeout to 20 seconds
-- Development: Changelog elements marked as the development change are now marked orange
-
-### Bug Fixes
-
-- (Development) Fixed an error, if the "Load float" state was empty
-- (Development) Fixed hood attachment script not working, if player loaded the game far from Satsuma
-- (Development) Fiber hood will not detach anymore on Satsuma respawn
-- (Development) Fixed MOP not initializing when Satsuma is not built
-- (Development) Fixed engine block not getting hooked
-- (Development) Fixed batteries, fan belts, oil filters and spark plugs teleporting back to their original position after installing them to car straight after buying them
-- Fixed uncle's beer case hook not initializing, if the uncle is not present yet
-- Fixed Satsuma physics not toggling, if the left front wheel is not attached
-- Fixed oil filters, batteries, spark plug boxes and alternator belts not getting hooked
-- Fixed vehicles physics getting enabled back, if player was in the sector
-- Fixed "levitating Satsuma" bug, which may also cause Satsuma ending up on the roof of the garage (yes, this is stupid)
-
-## 2.7 Development 3 (25.04.2020)
-
-### Added
-
-- Added notice to Advanced section of the settings
-- Added sector in jail
-- You can now prevent MOP from removing unused rule files
-  - Note: unused rule files will not be loaded!
-
-### Changes
-
-- Changes in how Satsuma position saving is operated
-- Increased the toggle distance of repair shop to 300 units
-- Server connection error won't bring up the console on load
-
-### Bug Fixes
-
-- Fixed MOP trying to connect to the rule files server when offline and wtih rule files auto update disabled
-- Fixed repair shop getting disabled, when going to the far corner of it
-
-## 2.7 Development 2 (24.04.2020)
-
-### Added
-
-- Expanded sector at home into the sauna and shower areas
-- Added system version info to mod report
-- Added a small easter egg ;)
-- (Development) Added error messages for when the PlayMaker script or state couldn't be found
-- (Development) Added "mop version" command
-
-### Changes
-
-- Increased toggling distance when Active Distance is set to 0 from x0.5 to x0.75
-- (Development) Increased the delay of delayed hinge manager used for hood
-- (Development) Changed default command output for incorrect command
-- (Development) Added output when trying to open or delete custom rule file if it doesn't exist
-- (Development) Updated the default new custom rule file output
-
-### Bug Fixes
-
-- (Development) Fixed some engine parts not being hooked with screw script
-- (Development) Fixed fanbelts, oil filters, spark plugs and batteries resetting it's value
-- (Development) Fixed stock hood sometimes falling off
-
-### Removed
-
-- (Development) Removed unnescesary code from first Development version
-
-## 2.7 Development 1 (22.04.2020)
+Welcome to MOP 2.7. After 9 days of in development, hopefully, it will be worth the wait.
 
 ### Added
 
@@ -82,12 +10,31 @@
 - Added support for user made rule files!
   - Simply create Custom.txt where rule files are located and do your magic!
   - For documentation, visit https://github.com/Athlon007/MOP/wiki/Rule-Files-Documentation
-- Computer is now toggled
-- Rykipohja is now toggled
-- Mansion is now toggled
-- TV at home is now toggled
+- Added new items to toggled elements:
+  - Computer
+  - Rykipohja
+  - Mansion
+  - TV
 - Added CheckSteam to mod report
 - Drunk guy new house is now toggled when not needed
+- Expanded sector at home into the sauna and shower areas
+- Unity car is now being disabled on game load
+- Added notice to Advanced section of the settings
+- Added sector in jail
+- You can now prevent MOP from removing unused rule files
+  - Note: unused rule files will not be loaded!
+- Added system version info to mod report
+- Added garbage collecting on menu load
+- Added a small easter egg ;)
+
+### Changes
+
+- Increased toggling distance when Active Distance is set to 0 from x0.5 to x0.75
+- Changes in how Satsuma position saving is operated
+- Increased the toggle distance of repair shop from 200 to 300 units
+- Server connection error won't bring up the console on load
+- Increased server timeout to 20 seconds
+- Development: Changelog elements marked as the development change are now marked orange
 
 ### Bug Fixes
 
@@ -96,6 +43,13 @@
 - Fixed MOP trying to access the playmaker script of the item even tho it didn't exist
 - Fixed Jail save not working
 - Fixed Gifu shit tank restting to the on load value
+- Fixed MOP trying to connect to the rule files server when offline with rule files auto update disabled
+- Fixed repair shop getting disabled, when going to the far corner of it
+- Fixed uncle's beer case hook not getting hooked, if the uncle is not present yet in the story
+- Fixed Satsuma physics not toggling, if the left front wheel is not attached
+- Fixed oil filters, batteries, spark plug boxes and alternator belts not getting hooked
+- Fixed vehicles physics getting enabled back, if player was in the sector
+- Fixed "levitating Satsuma" bug, which may also cause Satsuma ending up on the roof of the garage (yes, this is stupid)
 
 ### Removed
 

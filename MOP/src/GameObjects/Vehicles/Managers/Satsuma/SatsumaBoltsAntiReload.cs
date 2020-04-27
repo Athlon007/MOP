@@ -52,7 +52,7 @@ namespace MOP
             }
             catch (System.Exception ex)
             {
-                ExceptionManager.New(ex, $"{gameObject.transform.parent.gameObject.name}/{gameObject.name}");
+                ExceptionManager.New(ex, $"BOLTS_ANTI_LOAD_SCRIPT_ERROR {gameObject.transform.parent.gameObject.name}/{gameObject.name}");
             }
         }
     }

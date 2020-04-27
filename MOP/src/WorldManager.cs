@@ -80,6 +80,8 @@ namespace MOP
         {
             instance = this;
 
+            ModConsole.Print("[MOP] Loading MOP...");
+
             // Initialize the worldObjectList list
             worldObjectList = new WorldObjectList();
 
@@ -703,6 +705,7 @@ namespace MOP
 
         void Update()
         {
+            if (!MopSettings.IsModActive || Satsuma.instance == null) return;
             Satsuma.instance.ForceFuckingRotation();
         }
 
@@ -846,6 +849,92 @@ namespace MOP
                 rb.useGravity = false;
                 rb.isKinematic = true;
             }
+        }
+
+        public void HoodFix(Transform hoodPivot)
+        {
+            StartCoroutine(HoodFixCoroutine(hoodPivot));
+        }
+
+        IEnumerator HoodFixCoroutine(Transform hoodPivot)
+        {
+            yield return new WaitForSeconds(1);
+
+            // Hood
+            Transform hood = GameObject.Find("hood(Clone)").transform;
+            PlayMakerFSM hoodRemoval = hood.gameObject.GetPlayMakerByName("Removal");
+            CustomPlayMakerFixedUpdate hoodFixedUpdate = hood.gameObject.AddComponent<CustomPlayMakerFixedUpdate>();
+
+            // Fiber Hood
+            GameObject fiberHood = Resources.FindObjectsOfTypeAll<GameObject>()
+                .First(obj => obj.name == "fiberglass hood(Clone)"
+                && obj.GetComponent<PlayMakerFSM>() != null
+                && obj.GetComponent<MeshCollider>() != null);
+
+            int retries = 0;
+            if (MopFsmManager.IsStockHoodBolted() && hood.parent != hoodPivot)
+            {
+                while (hood.parent != hoodPivot)
+                {
+                    // Satsuma got disabled while trying to fix the hood.
+                    // Attempt to fix it later.
+                    if (!hoodPivot.gameObject.activeSelf)
+                    {
+                        Satsuma.instance.AfterFirstEnable = false;
+                        yield break;
+                    }
+
+                    MopFsmManager.ForceHoodAssemble();
+                    yield return null;
+
+                    // If 10 retries failed, quit the loop.
+                    retries++;
+                    if (retries == 10)
+                    {
+                        ModConsole.Print("It's totally fucking fucked mate, big time'");
+                        break;
+                    }
+                }
+            }
+
+            hoodFixedUpdate.StartFixedUpdate();
+
+            if (fiberHood != null && MopFsmManager.IsFiberHoodBolted() && fiberHood.transform.parent != hoodPivot)
+            {
+                retries = 0;
+                while (fiberHood.transform.parent != hoodPivot)
+                {
+                    // Satsuma got disabled while trying to fix the hood.
+                    // Attempt to fix it later.
+                    if (!hoodPivot.gameObject.activeSelf)
+                    {
+                        Satsuma.instance.AfterFirstEnable = false;
+                        yield break;
+                    }
+
+                    MopFsmManager.ForceHoodAssemble();
+                    yield return null;
+
+                    // If 10 retries failed, quit the loop.
+                    retries++;
+                    if (retries == 60)
+                    {
+                        ModConsole.Print("It's totally fucking fucked mate, big time'");
+                        break;
+                    }
+                }
+            }
+
+            hood.gameObject.AddComponent<SatsumaBoltsAntiReload>();
+            fiberHood.gameObject.AddComponent<SatsumaBoltsAntiReload>();
+
+            // Adds delayed initialization for hood hinge.
+            if (hood.gameObject.GetComponent<DelayedHingeManager>() == null)
+                hood.gameObject.AddComponent<DelayedHingeManager>();
+
+            // Fix for hood not being able to be closed.
+            if (hood.gameObject.GetComponent<SatsumaCustomHoodUse>() == null)
+                hood.gameObject.AddComponent<SatsumaCustomHoodUse>();
         }
     }
 }

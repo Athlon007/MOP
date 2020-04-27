@@ -39,13 +39,13 @@ namespace MOP
             useFsm = gameObject.GetPlayMakerByName("Use");
         }
 
-        void Update()
+        void FixedUpdate()
         {
             if (!IsHoodAttached()) return;
-            if (!isHoodOpen) return;
+            if (!isHoodOpen && !isActive) return;
              
-            if (isActive && transform.localRotation.x > 350)
-            {
+            if (transform.localEulerAngles.x > 340)
+            { 
                 useFsm.SendEvent("CLOSE");
             }
         }

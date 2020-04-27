@@ -24,7 +24,7 @@ namespace MOP
     class ConsoleCommands : ConsoleCommand
     {
         public override string Name => "mop";
-        public override string Help => "Use \"mop help\" to see help!";
+        public override string Help => "Use \"mop help\" to see command list!";
         public override bool ShowInHelp => true;
         public override void Run(string[] args)
         {
@@ -43,7 +43,7 @@ namespace MOP
                     ModConsole.Print("<color=yellow>help</color> - Show this list\n" +
                         "<color=yellow>version</color> - Prints MOP version\n" +
                         "<color=yellow>rules</color> - Show the list of active rules and loaded rule files\n" +
-                        "<color=yellow>wiki</color> - Open wiki page\n" +
+                        "<color=yellow>wiki</color> - Open wiki page of rule files\n" +
                         "<color=yellow>reload</color> - Forces MOP to reload rule files\n" +
                         "<color=yellow>new</color> - Create custom rule file\n" +
                         "<color=yellow>open-custom</color> - Open custom rule file\n" +
@@ -138,10 +138,17 @@ namespace MOP
                         say = "all pls fix and no appreciation makes Athlon an angry boy";
                     }
 
+                    if (say == "Tell me your wisdoms")
+                    {
+                        say = "people saying that MOP is just improved KruFPS are straight up wrong";
+                    }
+
+                    /*
                     if (say == "random")
                     {
                         // TODO
                     }
+                    */
 
                     ModConsole.Print($"< {say} >\n" +
                                     "        \\   ^__^\n" +

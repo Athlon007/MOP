@@ -29,7 +29,3 @@ THIS MOD IS NOT COMPATIBLE WITH KRUFPS OR IMPROVEFPS! You need to remove them in
 - Est_Nbmstr - for clever name idea
 - Icon made by Freepik from www.flaticon.com
 - Hawk031 - Moonshine Still Revived mod support
-
-
-# CONTACT #
-Discord: Athlon#5974

@@ -1,5 +1,45 @@
 # Ye Olde MOP FAQ
 
+## How can I improve the framerate even more
+
+- Set the Active Distance to Close
+- Enable 'Destroy Empty Beer Bottles' option in the MOP settings
+- Removed mods that you don't really use
+- Try using DirectX11, by adding the -force-d3d11 to launch options (may introduce graphical bugs)
+- Try to limit the number of items in your house
+- Try lowering the resolution
+- Disable some options in the game:
+  - Antialasing
+  - Bloom
+  - Reflections
+  - Sunshafts
+  - Sun Shadows
+  - House Light Shadows
+  - AI Car Dust Trails
+  - Car Mirrors
+
+## What does it disable
+
+- All vehicles in the game
+- Many static elements of the world (such as buildings)
+- Items (such as sausages)
+
+All of them are either turned off by player approaching those items, leaving house area, or entering special sectors.
+
+## What are sectors and where are they located
+
+Sectors tell MOP to disable some extra elements, such as trees, foliage, buildings, AI traffic, NPCs and other stuff. These are located at:
+
+- Yard (one at the garage, two inside of home)
+- Repair shop
+- Store
+- Jail
+- Wood chopping machine hall
+
+## My framerate is high, but it often jumps down which I don't like
+
+You can enable the framerate limiter in the MOP settings under the Graphics section, or simply use V-Sync.
+
 ## Mod doesn't seem to work
 
 Make sure you have the newest version of MSC Mod Loader and MOP installed. Additionally, check if you haven't disabled some options, and that Safe Mode is toggled off.
@@ -14,13 +54,13 @@ If it's listed on the Mod compatibility list - yes.
 
 If it doesn't - perhaps, I don't know. You need to check it yourself. In most cases it will work.
 
-## What does it disable
+## How do I install rule files from the zip file
 
-- All vehicles in the game
-- Many static elements of the world (such as buildings)
-- Items (such as sausages)
+First navigate to the folder where your MSC Mods are. Then go to:
 
-All of them are either turned off by player approaching those items, leaving house area, or entering special sectors.
+Config -> Mod Settings -> MOP
+
+And unpack the content of the zip file here.
 
 ## My game stopped working/computer blew up/dog died/I started thermonuclear war because of MOP
 

@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using MSCLoader;
 using System.Collections;
 using UnityEngine;
 
@@ -72,16 +73,28 @@ namespace MOP
 
         private bool hasDisabled;
 
+        bool initialHookDone;
+
         void Awake()
         {
             StartCoroutine(InitializationRoutine());
         }
 
-        IEnumerator InitializationRoutine()
+        IEnumerator InitializationRoutine(bool noDelay = false)
         {
-            yield return new WaitForSeconds(2);
+            if (noDelay)
+                yield return null;
+            else
+                yield return new WaitForSeconds(2);
+
             this.initialLocalRotation = this.transform.localRotation;
             this.initialLocalPosition = this.transform.localPosition;
+
+            if (!initialHookDone)
+            {
+                FsmHook.FsmInject(GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Body/trigger_hood").gameObject, "Assemble 2", UpdateInitialRotation);
+                initialHookDone = true;
+            }
         }
 
         void OnDisable()
@@ -103,6 +116,11 @@ namespace MOP
                 this.transform.localRotation = this.localRotationOnDisable;
                 this.transform.localPosition = this.localPositionOnDisable;
             }
+        }
+
+        void UpdateInitialRotation()
+        {
+            StartCoroutine(InitializationRoutine(true));
         }
     }
 }
