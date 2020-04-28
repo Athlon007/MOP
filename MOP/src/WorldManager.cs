@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using HutongGames.PlayMaker;
 using MSCLoader;
 using System;
 using System.Collections;
@@ -229,6 +230,14 @@ namespace MOP
             // This script makes it so when the player enters the car, the parent of the vehicle is set to null.
             GameObject.Find("TRAFFIC").transform.Find("VehiclesDirtRoad/Rally/FITTAN").gameObject.AddComponent<PlayerTaxiManager>();
             GameObject.Find("NPC_CARS").transform.Find("KUSKI").gameObject.AddComponent<PlayerTaxiManager>();
+
+            // Fixed Ventii bet resetting to default on cabin load.
+            PlayMakerFSM cabinGameManagerUseFsm = GameObject.Find("CABIN").transform.Find("Cabin/Ventti/Table/GameManager").gameObject.GetPlayMakerByName("Use");
+            FsmState loadFanbelt = cabinGameManagerUseFsm.FindFsmState("Load game");
+            List<FsmStateAction> emptyActions = new List<FsmStateAction>();
+            emptyActions.Add(new CustomNullState());
+            loadFanbelt.Actions = emptyActions.ToArray();
+            loadFanbelt.SaveActions();
 
             ModConsole.Print("[MOP] Finished applying fixes");
 

@@ -159,8 +159,11 @@ namespace MOP
             // If vehicle is flatbed, hook SwitchToggleMethod to Add scale script
             if (gameObject.name == "FLATBED")
             {
-                FsmHook.FsmInject(transform.Find("Bed/LogTrigger").gameObject, "Add scale", FlatbedSwitchToggleMethod);
-                FsmHook.FsmInject(transform.Find("Bed/LogTrigger").gameObject, "Pay", FlatbedSwitchToggleMethod);
+                PlayMakerFSM logTriggerFsm = transform.Find("Bed/LogTrigger").gameObject.GetComponent<PlayMakerFSM>();
+                FsmState loadGame = logTriggerFsm.FindFsmState("Load game");
+                List<FsmStateAction> loadArrayActions = new List<FsmStateAction> { new CustomNullState() };
+                loadGame.Actions = loadArrayActions.ToArray();
+                loadGame.SaveActions();
             }
 
             if (gameObject.name == "KEKMET(350-400psi)")

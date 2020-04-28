@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.7.1 (tba)
+
+### Bug Fixes
+
+- Fixed Ventii bet resetting to the default value
+
 ## 2.7 (27.04.2020)
 
 Welcome to MOP 2.7. After 9 days of in development, hopefully, it will be worth the wait.
