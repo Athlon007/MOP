@@ -136,6 +136,10 @@ namespace MOP
                         return;
                 }
 
+                // Fix for batteries popping out of the car.
+                if (this.gameObject.name == "battery(Clone)" && this.gameObject.transform.parent.gameObject.name == "pivot_battery")
+                    return;
+
                 // Check if item is in CarryMore inventory.
                 // If so, ignore that item.
                 if (CompatibilityManager.instance.CarryMore && Vector3.Distance(transform.position, CompatibilityManager.instance.CarryMoreTempPosition) < 1)

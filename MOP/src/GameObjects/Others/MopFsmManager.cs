@@ -30,6 +30,9 @@ namespace MOP
         static FsmBool fiberHoodBolted;
         static FsmBool suskiLarge;
         static GameObject triggerHood;
+        static GameObject kekmetTrailerRemove;
+        static FsmFloat battery1;
+        static FsmFloat battery2;
 
         /// <summary>
         /// Checks if the player has the keys to the Hayosiko.
@@ -132,6 +135,25 @@ namespace MOP
                 suskiLarge = GameObject.Find("YARD/Building/LIVINGROOM/Telephone/Logic/PhoneLogic").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("SuskiLarge");
 
             return suskiLarge.Value;
+        }
+
+        public static bool IsTrailerAttached()
+        {
+            if (kekmetTrailerRemove == null)
+                kekmetTrailerRemove = GameObject.Find("KEKMET(350-400psi)").transform.Find("Trailer/Remove").gameObject;
+
+            return kekmetTrailerRemove.activeSelf;
+        }
+
+        public static bool IsBatteryInstalled()
+        {
+            if (battery1 == null)
+                battery1 = GameObject.Find("Database/PartsStatus/Battery").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmFloat("Bolt1");
+
+            if (battery2 == null)
+                battery2 = GameObject.Find("Database/PartsStatus/Battery").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmFloat("Bolt2");
+
+            return battery1.Value > 0 || battery2.Value > 0;
         }
     }
 }

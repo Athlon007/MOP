@@ -99,7 +99,7 @@ namespace MOP
                     }
 
                     File.WriteAllText(path, "## Every line which starts with ## will be ignored.\n" +
-                        "## All new commands MUST be written in a new line" + 
+                        "## All new flags MUST be written in a new line." + 
                         "## Visit https://github.com/Athlon007/MOP/wiki/Rule-Files-Documentation for documentation.\n" +
                         "## WARNING: Using custom rule files may cause issues. Use only at your own risk!");
 

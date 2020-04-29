@@ -1,10 +1,24 @@
 # Changelog
 
-## 2.7.1 (tba)
+## 2.7.1 (29.04.2020)
+
+### Changes
+
+- Trailer is now fully disabled on distance
+- Changed how MOP checks if server is online
+- Minor changes in the mod settings
 
 ### Bug Fixes
 
 - Fixed Ventii bet resetting to the default value
+- Fixed a bug which would prevent player from detaching oil filters, batteries, spark plugs and fan belts
+- Fixed batteries popping off on load
+- Fixed an error message appearing with the GAZ 24 car
+- Fixed rule files updating not working under GNU/Linux using Wine
+
+### Removed
+
+- Removed unused code
 
 ## 2.7 (27.04.2020)
 

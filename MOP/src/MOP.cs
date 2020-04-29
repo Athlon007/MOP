@@ -31,7 +31,7 @@ namespace MOP
 #endif
         public override string Author => "Athlon"; //Your Username
 
-        public override string Version => "2.7"; //Version
+        public override string Version => "2.7.1"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
@@ -155,7 +155,7 @@ namespace MOP
             Settings.AddCheckBox(this, rulesAutoUpdate);
             Settings.AddSlider(this, rulesAutoUpdateFrequency, 0, 2, rulesAutoUpdateFrequencyText);
             Settings.AddCheckBox(this, noDeleteRuleFiles);
-            Settings.AddButton(this, forceRuleUpdate, "This will force MOP to re-download all mod rule files (this may take a while!).");
+            Settings.AddButton(this, forceRuleUpdate, "This will force MOP to re-download all mod rule files.");
             Settings.AddButton(this, rulesLearnMore);
 
             // Others

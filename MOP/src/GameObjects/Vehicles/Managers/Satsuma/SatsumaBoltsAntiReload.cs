@@ -57,23 +57,6 @@ namespace MOP
         }
     }
 
-    public class CustomBoltAction : FsmStateAction
-    {
-        HingeJoint joint;
-        public FsmFloat tightness;
-        public FsmBool databaseBolted; // db_ThisPart FSMGameObject -> Data fsm -> Bolted FSMBool
-
-        public override void OnEnter()
-        {
-            joint = Fsm.GameObject.GetComponent<HingeJoint>();
-            tightness = Fsm.Variables.GetFsmFloat("Tightness");
-            joint.breakForce = tightness.Value * 400;
-            joint.breakTorque = tightness.Value * 400;
-
-            Finish();
-        }
-    }
-
     public class CustomNullState : FsmStateAction
     {
         public override void OnEnter()

@@ -65,8 +65,9 @@ namespace MOP
         // Applies extra fixes, if is set to true.
         readonly bool isHayosiko;
 
-        // Applies for Flatbed only, if true the flatbed unloading will not happen
-        bool flatbedUnloadPreventionActivated;
+        // Used to send FINISHED event, if the trailer is supposed to be attached.
+        readonly bool isKekmet;
+        PlayMakerFSM kekmetTrailerFsm;
 
         // Prevents MOP from disabling car's physics when the car has rope hooked
         PlayMakerFSM fsmHookFront;
@@ -75,6 +76,7 @@ namespace MOP
         // Reference to one of the wheels that checks if the vehicle is on ground
         Wheel wheel;
 
+        // Currently used only by Shitsuma.
         internal Quaternion lastGoodRotation;
         internal Vector3 lastGoodPosition;
         bool lastGoodRotationSaved;
@@ -168,8 +170,8 @@ namespace MOP
 
             if (gameObject.name == "KEKMET(350-400psi)")
             {
-                FsmHook.FsmInject(transform.Find("Trailer/Hook").gameObject, "Attach trailer", KekmetOnTrailerAttach);
-                //FsmHook.FsmInject(transform.Find("Trailer/Remove").gameObject, "Close door", KekmetOnTrailerDetach);
+                isKekmet = true;
+                kekmetTrailerFsm = transform.Find("Trailer/Hook").gameObject.GetComponent<PlayMakerFSM>();
             }
 
             // Set default toggling method - that is entire vehicle
@@ -250,7 +252,7 @@ namespace MOP
 
             gameObject.SetActive(enabled);
 
-            // Uppon enabling the file, set the localPosition and localRotation to the object's transform, and change audio source parents to Object
+            // Uppon enabling the object, set the localPosition and localRotation to the object's transform, and change audio source parents to Object
             // We're doing that AFTER we enable the object.
             if (enabled)
             {
@@ -259,6 +261,11 @@ namespace MOP
 
                 for (int i = 0; i < preventToggleOnObjects.Count; i++)
                     preventToggleOnObjects[i].ObjectTransform.parent = preventToggleOnObjects[i].OriginalParent;
+
+                if (isKekmet && MopFsmManager.IsTrailerAttached())
+                {
+                    WorldManager.instance.KekmetTrailerAttach();
+                }
             }
         }
 
@@ -351,18 +358,6 @@ namespace MOP
         }
 
         /// <summary>
-        /// Toggled uppon firewood being placed on the bed of flatbed.
-        /// Switches the toggling method to UnityCar only, so the flatbed won't be unloaded completly.
-        /// </summary>
-        void FlatbedSwitchToggleMethod()
-        {
-            if (flatbedUnloadPreventionActivated) return;
-            flatbedUnloadPreventionActivated = true;
-
-            Toggle = IgnoreToggle;
-        }
-
-        /// <summary>
         /// Checks PlayMaker of front and rear hooks and returns "true", if in any of the hooks value "Attached" is true.
         /// </summary>
         /// <returns></returns>
@@ -391,14 +386,6 @@ namespace MOP
         bool IsMoving()
         {
             return rb.velocity.magnitude > 0.1f;
-        }
-
-        /// <summary>
-        /// Prevents toggling of the Kekmet, if the trailer is attached.
-        /// </summary>
-        void KekmetOnTrailerAttach()
-        {
-            Toggle = IgnoreToggle;
         }
     }
 }

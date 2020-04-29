@@ -190,17 +190,41 @@ namespace MOP
             GameObject.Find("block(Clone)").AddComponent<SatsumaBoltsAntiReload>();
 
             // Wiping Load for alternator belts, oil filters, spark plugs and batteries.
-            GameObject[] fanbelts = Resources.FindObjectsOfTypeAll<GameObject>()
+            GameObject[] parts = Resources.FindObjectsOfTypeAll<GameObject>()
                 .Where(obj => obj.name.ContainsAny("alternator belt(Clone)", "oil filter(Clone)", "spark plug(Clone)", "battery(Clone)"))
                 .ToArray();
-            foreach (GameObject fanbelt in fanbelts)
+            foreach (GameObject part in parts)
             {
-                PlayMakerFSM fanbeltUse = fanbelt.GetPlayMakerByName("Use");
-                FsmState loadFanbelt = fanbeltUse.FindFsmState("Load");
+                if (part.transform.root.gameObject.name == "GAZ24(1420kg)") continue;
+
+                PlayMakerFSM useFsm = part.GetPlayMakerByName("Use");
+                FsmState loadState = useFsm.FindFsmState("Load");
                 List<FsmStateAction> emptyActions = new List<FsmStateAction>();
                 emptyActions.Add(new CustomNullState());
-                loadFanbelt.Actions = emptyActions.ToArray();
-                loadFanbelt.SaveActions();
+                loadState.Actions = emptyActions.ToArray();
+                loadState.SaveActions();
+
+                // Fix for a bug that prevents player detaching the some of the parts.
+                if (part.name == "spark plug(Clone)")
+                {
+                    // Spark plugs save their shit differently (fucking piece of shits)...
+                    for (int i = 1; i <= 4; i++)
+                    {
+                        FsmState installState = useFsm.FindFsmState(i.ToString());
+                        FsmStateAction[] installActions = installState.Actions;
+                        installActions[1] = new CustomNullState();
+                        installState.Actions = installActions;
+                        installState.SaveActions();
+                    }
+                }
+                else
+                {
+                    FsmState installState = useFsm.FindFsmState("Install");
+                    FsmStateAction[] installActions = installState.Actions;
+                    installActions[2] = new CustomNullState();
+                    installState.Actions = installActions;
+                    installState.SaveActions();
+                }
             }
         }
 
@@ -329,67 +353,7 @@ namespace MOP
 
         public void HoodFix()
         {
-            WorldManager.instance.HoodFix(transform.Find("Body/pivot_hood"));
-
-            /*
-            // Fix for MSC bug that causes stock and racing hood to pop off.
-            GameObject triggerHood = transform.Find("Body/trigger_hood").gameObject;
-            
-            // Hood
-            Transform hood = GameObject.Find("hood(Clone)").transform;
-            PlayMakerFSM hoodRemoval = hood.gameObject.GetPlayMakerByName("Removal");
-            Transform hoodPivot = transform.Find("Body/pivot_hood");
-            CustomPlayMakerFixedUpdate hoodFixedUpdate = hood.gameObject.AddComponent<CustomPlayMakerFixedUpdate>();
-
-            // Fiber Hood
-            GameObject fiberHood = Resources.FindObjectsOfTypeAll<GameObject>()
-                .First(obj => obj.name == "fiberglass hood(Clone)"
-                && obj.GetComponent<PlayMakerFSM>() != null
-                && obj.GetComponent<MeshCollider>() != null);
-
-            int retries = 0;
-            if (MopFsmManager.IsStockHoodBolted() && hood.parent != hoodPivot)
-            {
-                while (hood.parent != hoodPivot)
-                {
-                    MopFsmManager.ForceHoodAssemble();
-
-                    retries++;
-                    if (retries == 60)
-                    {
-                        break;
-                    }
-                }
-
-                hoodFixedUpdate.StartFixedUpdate();
-            }
-
-            if (fiberHood != null && MopFsmManager.IsFiberHoodBolted() && fiberHood.transform.parent != hoodPivot)
-            {
-                retries = 0;
-                while (fiberHood.transform.parent != hoodPivot)
-                {
-                    MopFsmManager.ForceHoodAssemble();
-
-                    retries++;
-                    if (retries == 60)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            hood.gameObject.AddComponent<SatsumaBoltsAntiReload>();
-            fiberHood.gameObject.AddComponent<SatsumaBoltsAntiReload>();
-
-            // Adds delayed initialization for hood hinge.
-            if (hood.gameObject.GetComponent<DelayedHingeManager>() == null)
-                hood.gameObject.AddComponent<DelayedHingeManager>();
-
-            // Fix for hood not being able to be closed.
-            if (hood.gameObject.GetComponent<SatsumaCustomHoodUse>() == null)
-                hood.gameObject.AddComponent<SatsumaCustomHoodUse>();
-            */
+            WorldManager.instance.HoodFix(transform.Find("Body/pivot_hood"), transform.Find("MiscParts/trigger_battery"), transform.Find("MiscParts/pivot_battery"));
         }
     }
 }

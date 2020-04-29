@@ -91,7 +91,6 @@ namespace MOP
 
                     if (items[i].name.ContainsAny("alternator belt(Clone)", "oil filter(Clone)", "battery(Clone)"))
                     {
-                        ModConsole.Print("AA");
                         PlayMakerFSM fanbeltUse = items[i].GetPlayMakerByName("Use");
                         FsmState loadFanbelt = fanbeltUse.FindFsmState("Load");
                         List<FsmStateAction> emptyActions = new List<FsmStateAction>();

@@ -860,12 +860,12 @@ namespace MOP
             }
         }
 
-        public void HoodFix(Transform hoodPivot)
+        public void HoodFix(Transform hoodPivot, Transform batteryPivot, Transform batteryTrigger)
         {
-            StartCoroutine(HoodFixCoroutine(hoodPivot));
+            StartCoroutine(HoodFixCoroutine(hoodPivot, batteryPivot, batteryTrigger));
         }
 
-        IEnumerator HoodFixCoroutine(Transform hoodPivot)
+        IEnumerator HoodFixCoroutine(Transform hoodPivot, Transform batteryPivot, Transform batteryTrigger)
         {
             yield return new WaitForSeconds(1);
 
@@ -900,7 +900,7 @@ namespace MOP
                     retries++;
                     if (retries == 10)
                     {
-                        ModConsole.Print("It's totally fucking fucked mate, big time'");
+                        //ModConsole.Print("It's totally fucking fucked mate, big time'");
                         break;
                     }
                 }
@@ -928,7 +928,7 @@ namespace MOP
                     retries++;
                     if (retries == 60)
                     {
-                        ModConsole.Print("It's totally fucking fucked mate, big time'");
+                        //ModConsole.Print("It's totally fucking fucked mate, big time'");
                         break;
                     }
                 }
@@ -944,6 +944,28 @@ namespace MOP
             // Fix for hood not being able to be closed.
             if (hood.gameObject.GetComponent<SatsumaCustomHoodUse>() == null)
                 hood.gameObject.AddComponent<SatsumaCustomHoodUse>();
+
+            // Fix for battery popping out.
+            if (MopFsmManager.IsBatteryInstalled() && batteryPivot.parent == null)
+            {
+                batteryTrigger.gameObject.SetActive(true);
+                batteryTrigger.gameObject.GetComponent<PlayMakerFSM>().SendEvent("ASSEMBLE");
+            }
+        }
+
+        public void KekmetTrailerAttach()
+        {
+            StartCoroutine(KekmetTrailerAttachCoroutine());
+        }
+
+        IEnumerator KekmetTrailerAttachCoroutine()
+        {
+            while (!vehicles[6].gameObject.activeSelf)
+            {
+                yield return new WaitForSeconds(1f);
+            }
+
+            PlayMakerFSM.BroadcastEvent("TRAILERATTACH");
         }
     }
 }

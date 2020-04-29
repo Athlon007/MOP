@@ -22,6 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using UnityEngine;
 
 namespace MOP
@@ -328,17 +329,30 @@ namespace MOP
         /// </summary>
         bool IsServerOnline()
         {
+            TcpClient tcpClient = new TcpClient();
+            try
+            {
+                tcpClient.Connect("193.143.77.46", 80);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            /*
             try
             {
                 System.Net.NetworkInformation.Ping ping = new System.Net.NetworkInformation.Ping();
-                // 10 seconds time out (in ms).
-                PingReply reply = ping.Send("athlon.kkmr.pl", 20 * 1000);
+                // 20 seconds time out (in ms).
+                PingReply reply = ping.Send("athlon.kkmr.pl", 10 * 1000);
                 return reply.Status == IPStatus.Success;
             }
             catch
             {
                 return false;
             }
+            */
         }
 
         /// <summary>

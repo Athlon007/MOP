@@ -1,51 +1,16 @@
-Welcome to MOP 2.7. After 9 days of in development, hopefully, it will be worth the wait.
-
-### Added
-
-- Satsuma enabling and disabling overhaul
-- Added support for user made rule files!
-  - Simply create Custom.txt where rule files are located and do your magic!
-  - For documentation, visit https://github.com/Athlon007/MOP/wiki/Rule-Files-Documentation
-- Added new items to toggled elements:
-  - Computer
-  - Rykipohja
-  - Mansion
-  - TV
-- Added CheckSteam to mod report
-- Drunk guy new house is now toggled when not needed
-- Expanded sector at home into the sauna and shower areas
-- Unity car is now being disabled on game load
-- Added notice to Advanced section of the settings
-- Added sector in jail
-- You can now prevent MOP from removing unused rule files
-  - Note: unused rule files will not be loaded!
-- Added system version info to mod report
-- Added garbage collecting on menu load
-- Added a small easter egg ;)
-
 ### Changes
 
-- Increased toggling distance when Active Distance is set to 0 from x0.5 to x0.75
-- Changes in how Satsuma position saving is operated
-- Increased the toggle distance of repair shop from 200 to 300 units
-- Server connection error won't bring up the console on load
-- Increased server timeout to 20 seconds
-- Development: Changelog elements marked as the development change are now marked orange
+- Trailer is now fully disabled on distance
+- Changed how MOP checks if server is online
+- Minor changes in the mod settings
 
 ### Bug Fixes
 
-- Fixed spare wheel falling through the ground
-- Fixed driver mass being enabled when it should not be
-- Fixed MOP trying to access the playmaker script of the item even tho it didn't exist
-- Fixed Jail save not working
-- Fixed Gifu shit tank restting to the on load value
-- Fixed MOP trying to connect to the rule files server when offline with rule files auto update disabled
-- Fixed repair shop getting disabled, when going to the far corner of it
-- Fixed uncle's beer case hook not getting hooked, if the uncle is not present yet in the story
-- Fixed Satsuma physics not toggling, if the left front wheel is not attached
-- Fixed oil filters, batteries, spark plug boxes and alternator belts not getting hooked
-- Fixed vehicles physics getting enabled back, if player was in the sector
-- Fixed "levitating Satsuma" bug, which may also cause Satsuma ending up on the roof of the garage (yes, this is stupid)
+- Fixed Ventii bet resetting to the default value
+- Fixed a bug which would prevent player from detaching oil filters, batteries, spark plugs and fan belts
+- Fixed batteries popping off on load
+- Fixed an error message appearing with the GAZ 24 car
+- Fixed rule files updating not working under GNU/Linux using Wine
 
 ### Removed
 
