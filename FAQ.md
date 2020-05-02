@@ -17,6 +17,7 @@
   - House Light Shadows
   - AI Car Dust Trails
   - Car Mirrors
+- Move the vehicles or items that you don't use out of the yard
 
 ## What does it disable
 
@@ -40,6 +41,14 @@ Sectors tell MOP to disable some extra elements, such as trees, foliage, buildin
 
 You can enable the framerate limiter in the MOP settings under the Graphics section, or simply use V-Sync.
 
+## When I enter the Satsuma, my framerate suddenly drops down
+
+Satsuma is the biggest resource hog of the entire game. There's literally nothing I can do about it.
+
+## Everything disappears and reappears on game load
+
+This is an intended behaviour.
+
 ## Mod doesn't seem to work
 
 Make sure you have the newest version of MSC Mod Loader and MOP installed. Additionally, check if you haven't disabled some options, and that Safe Mode is toggled off.
@@ -61,6 +70,10 @@ First navigate to the folder where your MSC Mods are. Then go to:
 Config -> Mod Settings -> MOP
 
 And unpack the content of the zip file here.
+
+## Something broke (ex. item fell through the ground after) after I teleported
+
+I'm sorry, but I don't intend on fixing bugs involving cheat mods.
 
 ## My game stopped working/computer blew up/dog died/I started thermonuclear war because of MOP
 

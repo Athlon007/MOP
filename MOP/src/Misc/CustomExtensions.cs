@@ -126,7 +126,6 @@ namespace MOP
             }
             catch
             {
-                MSCLoader.ModConsole.Error($"[MOP] No FsmState {name} in {fsm.gameObject.name} found!");
                 return null;
             }
         }

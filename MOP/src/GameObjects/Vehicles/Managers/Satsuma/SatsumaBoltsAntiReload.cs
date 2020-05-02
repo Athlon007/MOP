@@ -49,6 +49,13 @@ namespace MOP
                 loadFloatActions.Add(new CustomNullState());
                 loadFloat.Actions = loadFloatActions.ToArray();
                 loadFloat.SaveActions();
+
+                if (fsm.FindFsmState("Load float 2") != null)
+                {
+                    FsmState loadFloatX = fsm.FindFsmState("Load float 2");
+                    loadFloatX.Actions = new FsmStateAction[] { new CustomNullState() };
+                    loadFloatX.SaveActions();
+                }
             }
             catch (System.Exception ex)
             {
