@@ -52,7 +52,6 @@ namespace MOP
 
                 if (fsm.FindFsmState("Load float 2") != null)
                 {
-                    MSCLoader.ModConsole.Warning("Found float 2 for " + gameObject.name);
                     FsmState loadFloatX = fsm.FindFsmState("Load float 2");
                     loadFloatX.Actions = new FsmStateAction[] { new CustomNullState() };
                     loadFloatX.SaveActions();
