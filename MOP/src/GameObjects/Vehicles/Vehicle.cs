@@ -180,7 +180,7 @@ namespace MOP
             isHayosiko = gameObject.name == "HAYOSIKO(1500kg, 250)";
 
             // If the user selected to toggle vehicle's physics only, it overrided any previous set for Toggle method
-            if (MopSettings.ToggleVehiclePhysicsOnly)
+            if (Rules.instance.SpecialRules.ToggleAllVehiclesPhysicsOnly)
             {
                 Toggle = IgnoreToggle;
             }

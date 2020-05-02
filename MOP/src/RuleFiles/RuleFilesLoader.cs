@@ -339,20 +339,6 @@ namespace MOP
             {
                 return false;
             }
-
-            /*
-            try
-            {
-                System.Net.NetworkInformation.Ping ping = new System.Net.NetworkInformation.Ping();
-                // 20 seconds time out (in ms).
-                PingReply reply = ping.Send("athlon.kkmr.pl", 10 * 1000);
-                return reply.Status == IPStatus.Success;
-            }
-            catch
-            {
-                return false;
-            }
-            */
         }
 
         /// <summary>
@@ -423,6 +409,7 @@ namespace MOP
             try
             {
                 string[] content = File.ReadAllLines(rulePath).Where(s => s.Length > 0 && !s.StartsWith("##")).ToArray();
+                string fileName = Path.GetFileName(rulePath);
                 foreach (string s in content)
                 {
                     string[] splitted = s.Split(':');
@@ -435,6 +422,12 @@ namespace MOP
                         objects = splitted[1].Trim().Split(' ');
                         for (int i = 0; i < objects.Length; i++)
                             objects[i] = objects[i].Replace("%20", " ");
+                    }
+
+                    if (objects[0].ContainsAny("MOP", "MSCLoader", "MSCUnloader", "SteamManager", "PLAYER", "cObject"))
+                    {
+                        ModConsole.Error($"[MOP] Illegal object: {objects[0]} in rule file {fileName}.");
+                        continue;
                     }
 
                     // Apply these rules
@@ -477,6 +470,23 @@ namespace MOP
                             break;
                         case "prevent_toggle_on_object":
                             Rules.instance.PreventToggleOnObjectRule.Add(new PreventToggleOnObjectRule(objects[0], objects[1]));
+                            break;
+                        // Custom.txt exclusives.
+                        case "ignore_mod_vehicles":
+                            if (fileName != "Custom.txt")
+                            {
+                                ModConsole.Error($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
+                                continue;
+                            }
+                            Rules.instance.SpecialRules.IgnoreModVehicles = true;
+                            break;
+                        case "toggle_all_vehicles_physics_only":
+                            if (fileName != "Custom.txt")
+                            {
+                                ModConsole.Error($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
+                                continue;
+                            }
+                            Rules.instance.SpecialRules.ToggleAllVehiclesPhysicsOnly = true;
                             break;
                     }
                 }

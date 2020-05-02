@@ -101,10 +101,6 @@ namespace MOP
         public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Destroy Empty Beer Bottles", false, MopSettings.UpdateAll);
         public static Settings satsumaTogglePhysicsOnly = new Settings("satsumaTogglePhysicsOnly", "SATSUMA: Toggle Physics Only", false, MopSettings.UpdateAll);
 
-        // ADVANCED
-        public static Settings ignoreModVehicles = new Settings("ignoreModVehicles", "Ignore Mod Vehicles", false, MopSettings.UpdateAll);
-        public static Settings toggleVehiclePhysicsOnly = new Settings("toggleVehiclePhysicsOnly", "Toggle Vehicles Physics Only", false, MopSettings.UpdateAll);
-
         // LOGGING
         readonly Settings openOutputLog = new Settings("openOutputLog", "Open output_log.txt", ExceptionManager.OpenOutputLog);
         readonly Settings openLastLog = new Settings("openLastLog", "Open last log", ExceptionManager.Open);
@@ -164,12 +160,6 @@ namespace MOP
             Settings.AddCheckBox(this, satsumaTogglePhysicsOnly);
             Settings.AddText(this, "May fix issues with disappearing body panels in some cases.\n" +
                 "Note: this will decrease the performance");
-
-            // Advanced
-            Settings.AddHeader(this, "Advanced", headerColor);
-            Settings.AddHeader(this, "This section will be removed in MOP 2.8, and its functionality will be moved to custom rule files.", Color.red, Color.black);
-            Settings.AddCheckBox(this, ignoreModVehicles);
-            Settings.AddCheckBox(this, toggleVehiclePhysicsOnly);
 
             // Logging
             Settings.AddHeader(this, "Logging", headerColor);

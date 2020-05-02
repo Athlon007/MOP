@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.8 (tba)
+
+### Added
+
+- Added 2 new flags to rule files:
+  - ignore_mod_vehicles - works the same as the setting moved from Advanced settings
+  - toggle_all_vehicles_physics_only - works the same as the setting moved from Advanced settings
+- Added a filter to rule files loading, that looks for prohibited items
+
+### Changes
+
+- Moved advanced settings into custom rule files
+
 ## 2.7.1 (29.04.2020)
 
 ### Changes

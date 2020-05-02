@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using System.Diagnostics;
 using UnityEngine;
 
 namespace MOP
@@ -32,9 +31,6 @@ namespace MOP
 
         public static bool SafeMode { get; set; }
 
-        static bool ignoreModVehicles = false;
-        public static bool IgnoreModVehicles { get => ignoreModVehicles; }
-
         //
         // OTHERS
         //
@@ -43,9 +39,6 @@ namespace MOP
 
         static bool satsumaTogglePhysicsOnly = false;
         public static bool SatsumaTogglePhysicsOnly { get => satsumaTogglePhysicsOnly; }
-
-        static bool toggleVehiclePhysicsOnly = false;
-        public static bool ToggleVehiclePhysicsOnly { get => toggleVehiclePhysicsOnly; }
 
         // RULE FILES
         public static bool RuleFilesAutoUpdateEnabled { get => (bool)MOP.rulesAutoUpdate.GetValue(); }
@@ -64,12 +57,10 @@ namespace MOP
             ActiveDistance = int.Parse(MOP.activeDistance.GetValue().ToString());
             ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
             SafeMode = (bool)MOP.safeMode.GetValue();
-            ignoreModVehicles = (bool)MOP.ignoreModVehicles.GetValue();
 
             // Others
             removeEmptyBeerBottles = (bool)MOP.removeEmptyBeerBottles.GetValue();
             satsumaTogglePhysicsOnly = (bool)MOP.satsumaTogglePhysicsOnly.GetValue();
-            toggleVehiclePhysicsOnly = (bool)MOP.toggleVehiclePhysicsOnly.GetValue();
 
             // Framerate limiter
             Application.targetFrameRate = (bool)MOP.enableFramerateLimiter.GetValue() ? int.Parse(MOP.framerateLimiter.GetValue().ToString()) : -1;

@@ -344,7 +344,7 @@ namespace MOP
                                 g.AddComponent<ItemHook>();
                             break;
                         case ToggleModes.Vehicle:
-                            if (MopSettings.IgnoreModVehicles) continue;
+                            if (Rules.instance.SpecialRules.IgnoreModVehicles) continue;
 
                             if (GameObject.Find(v.ObjectName) == null)
                             {
@@ -355,7 +355,7 @@ namespace MOP
                             vehicles.Add(new Vehicle(v.ObjectName));
                             break;
                         case ToggleModes.VehiclePhysics:
-                            if (MopSettings.IgnoreModVehicles) continue;
+                            if (Rules.instance.SpecialRules.IgnoreModVehicles) continue;
 
                             if (GameObject.Find(v.ObjectName) == null)
                             {
@@ -569,8 +569,8 @@ namespace MOP
                 // And the opposite happens if we disable vehicles before disabling items.
                 // So if we are disabling items, we need to do that BEFORE we disable vehicles.
                 // And we need to enable items AFTER we enable vehicles.
-                itemsToEnable.Clear();
-                itemsToDisable.Clear();
+                itemsToEnable = new List<ItemHook>();
+                itemsToDisable = new List<ItemHook>();
                 for (i = 0; i < Items.instance.ItemsHooks.Count; i++)
                 {
                     if (half != 0)
@@ -900,7 +900,6 @@ namespace MOP
                     retries++;
                     if (retries == 10)
                     {
-                        //ModConsole.Print("It's totally fucking fucked mate, big time'");
                         break;
                     }
                 }
@@ -928,7 +927,6 @@ namespace MOP
                     retries++;
                     if (retries == 60)
                     {
-                        //ModConsole.Print("It's totally fucking fucked mate, big time'");
                         break;
                     }
                 }

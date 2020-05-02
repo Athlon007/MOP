@@ -57,5 +57,9 @@ namespace MOP
     {
         public bool SatsumaIgnoreRenderers;
         public bool DontDestroyEmptyBeerBottles;
+        
+        // Custom rule files.
+        public bool IgnoreModVehicles;
+        public bool ToggleAllVehiclesPhysicsOnly;
     }
 }
