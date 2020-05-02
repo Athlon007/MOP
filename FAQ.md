@@ -17,6 +17,7 @@
   - House Light Shadows
   - AI Car Dust Trails
   - Car Mirrors
+- Move the vehicles or items that you don't use out of the yard
 
 ## What does it disable
 

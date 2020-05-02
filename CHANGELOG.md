@@ -8,10 +8,21 @@
   - ignore_mod_vehicles - works the same as the setting moved from Advanced settings
   - toggle_all_vehicles_physics_only - works the same as the setting moved from Advanced settings
 - Added a filter to rule files loading, that looks for prohibited items
+- Junk cars are now toggled
+- Mooses are now toggled
+- Rally parts salesman is now toggled
 
 ### Changes
 
 - Moved advanced settings into custom rule files
+
+### Bug Fixes
+
+- Fixed alternator position resetting on Satsuma respawn
+
+### Known Issues
+
+- Flatbed hook point may fall on the ground after it's respawn, if it was connected to the tractor
 
 ## 2.7.1 (29.04.2020)
 

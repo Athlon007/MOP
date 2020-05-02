@@ -34,7 +34,7 @@ namespace MOP
         string[] blackList = {
             "REPAIRSHOP", "JunkCar", "sats_burn_masse", "TireOld(Clone)", "Order", "JunkYardJob",
             "BoozeJob", "Spawn", "SatsumaSpawns", "SeatPivot", "DistanceTarget", "SpawnToRepair",
-            "PartsDistanceTarget", "JunkCar4", "JunkCarSpawns", "Parts", "wheel_regul", "rpm gauge(Clone)",
+            "PartsDistanceTarget", "JunkCarSpawns", "Parts", "wheel_regul", "rpm gauge(Clone)",
             "Hook", "Jobs", "GearRatios", "Fix", "fix", "Job", "Polish", "Wheel", "Fill", "Rollcage",
             "Adjust", "GearLinkage", "Paintjob", "Windshield", "ToeAdjust", "Brakes", "Lifter", "Audio", "roll",
             "TireCatcher", "Ropes", "Note", "note", "inspection_desk 1", "LOD", "Office", "Furniture",
@@ -47,8 +47,13 @@ namespace MOP
         /// </summary>
         public RepairShop() : base("REPAIRSHOP", 250)
         {
-            GameObjectBlackList.AddRange(blackList);
+            for (int i = 1; i <=4; i++)
+            {
+                Transform junk = transform.Find($"JunkCar{i}");
+                junk.parent = null;
+            }
 
+            GameObjectBlackList.AddRange(blackList);
             DisableableChilds = GetDisableableChilds();
 
             // Fix for Satsuma parts on shelves

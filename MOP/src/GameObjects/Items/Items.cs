@@ -54,7 +54,14 @@ namespace MOP
             InitializeList();
 
             // Uncle's beer case bottle despawner
-            GameObject.Find("YARD").transform.Find("UNCLE/Home/UncleDrinking/Uncle/beer case(itemx)").gameObject.AddComponent<UncleBeerCaseHook>();
+            Transform uncleBeerCaseTransform = GameObject.Find("YARD").transform.Find("UNCLE/Home/UncleDrinking/Uncle/beer case(itemx)");
+            if (uncleBeerCaseTransform == null)
+            {
+                ModConsole.Print("[MOP] Couldn't find uncle's beer case, so it will be skipped...");
+                return;
+            }
+
+            uncleBeerCaseTransform.gameObject.AddComponent<UncleBeerCaseHook>();
         }
 
         /// <summary>

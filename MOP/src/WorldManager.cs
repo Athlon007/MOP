@@ -119,6 +119,7 @@ namespace MOP
             worldObjectList.Add("DRAGRACE", 1100);
             worldObjectList.Add("StrawberryField", 400);
             worldObjectList.Add("MAP/Buildings/DINGONBIISI", 400);
+            worldObjectList.Add("RALLY/PartsSalesman", 400);
 
             ModConsole.Print("[MOP] Main world objects loaded");
 
@@ -239,6 +240,18 @@ namespace MOP
             loadFanbelt.Actions = emptyActions.ToArray();
             loadFanbelt.SaveActions();
 
+            // Junk cars - setting Load game to null.
+            for (int i = 1; i <= 4; i++)
+            {
+                GameObject junk = GameObject.Find($"JunkCar{i}");
+                PlayMakerFSM junkFsm = junk.GetComponent<PlayMakerFSM>();
+                FsmState loadJunk = junkFsm.FindFsmState("Load game");
+                loadJunk.Actions = new FsmStateAction[] { new CustomNullState() };
+                loadJunk.SaveActions();
+
+                worldObjectList.Add(junk.name);
+            }
+
             ModConsole.Print("[MOP] Finished applying fixes");
 
             //Things that should be enabled when out of proximity of the house
@@ -267,6 +280,7 @@ namespace MOP
             worldObjectList.Add("RYKIPOHJA", true, false, false);
             worldObjectList.Add("COMPUTER", true, false, true);
             worldObjectList.Add("JOBS/HouseDrunkNew", true);
+            worldObjectList.Add("AnimalsMoose", true);
 
             ModConsole.Print("[MOP] Away from house world objects loaded");
 
@@ -392,7 +406,7 @@ namespace MOP
             finalMessage = money >= 69420.0f && money < 69420.5f ? finalMessage.Rainbowmize() : $"<color=green>{finalMessage}</color>";
             ModConsole.Print(finalMessage);
 
-            GC.Collect();
+            //GC.Collect();
         }
 
         /// <summary>

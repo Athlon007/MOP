@@ -49,10 +49,18 @@ namespace MOP
                 loadFloatActions.Add(new CustomNullState());
                 loadFloat.Actions = loadFloatActions.ToArray();
                 loadFloat.SaveActions();
+
+                if (fsm.FindFsmState("Load float 2") != null)
+                {
+                    MSCLoader.ModConsole.Warning("Found float 2 for " + gameObject.name);
+                    FsmState loadFloatX = fsm.FindFsmState("Load float 2");
+                    loadFloatX.Actions = new FsmStateAction[] { new CustomNullState() };
+                    loadFloatX.SaveActions();
+                }
             }
             catch (System.Exception ex)
             {
-                ExceptionManager.New(ex, $"BOLTS_ANTI_LOAD_SCRIPT_ERROR {gameObject.transform.parent.gameObject.name}/{gameObject.name}");
+                ExceptionManager.New(ex, $"BOLTS_ANTI_LOAD_SCRIPT_ERROR_{gameObject.transform.parent.gameObject.name}/{gameObject.name}");
             }
         }
     }
