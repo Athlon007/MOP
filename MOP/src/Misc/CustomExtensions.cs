@@ -108,7 +108,7 @@ namespace MOP
             {
                 return gm.GetComponents<PlayMakerFSM>().First(f => f.FsmName == name);
             }
-            catch 
+            catch
             {
                 MSCLoader.ModConsole.Error($"[MOP] No PlayMakerFSM {name} for {gm.transform.parent.gameObject.name}/{gm.name} found!");
                 return null;
@@ -126,11 +126,10 @@ namespace MOP
             }
             catch
             {
-                //MSCLoader.ModConsole.Error($"[MOP] No FsmState {name} in {fsm.gameObject.name} found!");
                 return null;
             }
         }
-        
+
         /// <summary>
         /// Returns true, if the PlayMaker script contains the state of provided name.
         /// </summary>

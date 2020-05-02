@@ -16,13 +16,12 @@
 
 - Moved advanced settings into custom rule files
 
+## 2.7.2 (02.05.2020)
+
 ### Bug Fixes
 
-- Fixed alternator position resetting on Satsuma respawn
-
-### Known Issues
-
-- Flatbed hook point may fall on the ground after it's respawn, if it was connected to the tractor
+- Fixed alternator tightness level resetting to default after Satsuma respawn
+- Fixed flatbed falling into the ground, if the tractor was left under certain angle, and trailer was on the flat surface
 
 ## 2.7.1 (29.04.2020)
 

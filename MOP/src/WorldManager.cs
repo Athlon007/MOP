@@ -977,6 +977,8 @@ namespace MOP
                 yield return new WaitForSeconds(1f);
             }
 
+            vehicles[6].transform.rotation = vehicles[6].Rotation;
+            vehicles[6].transform.position = vehicles[6].Position;
             PlayMakerFSM.BroadcastEvent("TRAILERATTACH");
         }
     }
