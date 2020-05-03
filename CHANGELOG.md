@@ -4,6 +4,7 @@
 
 ### Added
 
+- Items toggling overhaul
 - Added 2 new flags to rule files:
   - ignore_mod_vehicles - works the same as the setting moved from Advanced settings
   - toggle_all_vehicles_physics_only - works the same as the setting moved from Advanced settings

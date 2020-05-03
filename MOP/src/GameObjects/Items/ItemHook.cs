@@ -14,8 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using HutongGames.PlayMaker;
 using MSCLoader;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace MOP
@@ -109,6 +112,22 @@ namespace MOP
                 renderer = null;
 
             position = transform.position;
+
+            PlayMakerFSM useFsm = gameObject.GetPlayMakerByName("Use");
+            if (useFsm != null)
+            {
+                FsmState state1 = useFsm.FindFsmState("State 1");
+                List<FsmStateAction> emptyState1 = state1.Actions.ToList();
+                emptyState1.Insert(0, new CustomStopAction());
+                state1.Actions = emptyState1.ToArray();
+                state1.SaveActions();
+
+                FsmState loadState = useFsm.FindFsmState("Load");
+                List<FsmStateAction> emptyActions = loadState.Actions.ToList();
+                emptyActions.Insert(0, new CustomStopAction());
+                loadState.Actions = emptyActions.ToArray();
+                loadState.SaveActions();
+            }
         }
 
         // Triggered before the object is destroyed.
@@ -161,6 +180,7 @@ namespace MOP
                         return;
                 }
 
+                gameObject.SetActive(enabled);
                 rb.detectCollisions = enabled;
                 rb.isKinematic = !enabled;
                 rb.useGravity = enabled;

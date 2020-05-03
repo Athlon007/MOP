@@ -110,7 +110,6 @@ namespace MOP
             }
             catch
             {
-                MSCLoader.ModConsole.Error($"[MOP] No PlayMakerFSM {name} for {gm.transform.parent.gameObject.name}/{gm.name} found!");
                 return null;
             }
         }
