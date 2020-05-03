@@ -219,6 +219,17 @@ namespace MOP
                     ModConsole.Error($"[MOP] Couldn't find {preventToggleOnObjectRule.ObjectName} in {preventToggleOnObjectRule.MainObject}.");
 
             }
+
+            PlayMakerFSM lodFSM = gameObject.GetPlayMakerByName("LOD");
+            if (lodFSM != null)
+            {
+                FsmState resetState = lodFSM.FindFsmState("Fix Collider");
+                if (resetState != null)
+                {
+                    resetState.Actions = new FsmStateAction[] { new CustomStopAction() };
+                    resetState.SaveActions();
+                }
+            }
         }
 
         public delegate void ToggleHandler(bool enabled);

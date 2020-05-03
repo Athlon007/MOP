@@ -21,6 +21,7 @@
 - Fixed car body paint resetting to default
 - Fixed a bug in which batteries would sometimes teleport back to the car, if it was left on charge
 - Fixed oil fitlers, batteries, spark plugs and and alterantor belts not saving their values
+- Fixed items falling through vehicles
 
 ## 2.7.2 (02.05.2020)
 
