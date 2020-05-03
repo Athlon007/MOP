@@ -16,6 +16,10 @@
 
 - Moved advanced settings into custom rule files
 
+### Known Issues
+
+- Battery would sometimes teleport to the car, if it was left on charge
+
 ## 2.7.2 (02.05.2020)
 
 ### Bug Fixes

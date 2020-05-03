@@ -505,8 +505,6 @@ namespace MOP
 
                 // Disable Satsuma engine renderer, if player is in Satsuma
                 Satsuma.instance.ToggleEngineRenderers(!MopFsmManager.IsPlayerInSatsuma());
-                //if (!Rules.instance.SpecialRules.ExperimentalSatsumaFix)
-                //    Satsuma.instance.ForceFuckingRotation();
                 yield return null;
 
                 try
