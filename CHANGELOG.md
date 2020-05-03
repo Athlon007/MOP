@@ -24,6 +24,16 @@
 - Fixed oil fitlers, batteries, spark plugs and and alterantor belts not saving their values
 - Fixed items falling through vehicles
 
+### Removed
+
+- Removed advanced settings
+
+### Known Issues
+
+- Items fall through the boat
+- Trailer still seems to be clipping through the floor
+- Tangerine Pickup: refueling doesn't work
+
 ## 2.7.2 (02.05.2020)
 
 ### Bug Fixes
