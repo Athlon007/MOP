@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.8 (tba)
+## 2.8 Development 1 (03.05.2020)
 
 ### Added
 

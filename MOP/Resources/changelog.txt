@@ -1,17 +1,21 @@
+### Added
+
+- Items toggling overhaul
+- Added 2 new flags to rule files:
+  - ignore_mod_vehicles - works the same as the setting moved from Advanced settings
+  - toggle_all_vehicles_physics_only - works the same as the setting moved from Advanced settings
+- Added a filter to rule files loading, that looks for prohibited items
+- Junk cars are now toggled
+- Mooses are now toggled
+- Rally parts salesman is now toggled
+
 ### Changes
 
-- Trailer is now fully disabled on distance
-- Changed how MOP checks if server is online
-- Minor changes in the mod settings
+- Moved advanced settings into custom rule files
 
 ### Bug Fixes
 
-- Fixed Ventii bet resetting to the default value
-- Fixed a bug which would prevent player from detaching oil filters, batteries, spark plugs and fan belts
-- Fixed batteries popping off on load
-- Fixed an error message appearing with the GAZ 24 car
-- Fixed rule files updating not working under GNU/Linux using Wine
-
-### Removed
-
-- Removed unused code
+- Fixed car body paint resetting to default
+- Fixed a bug in which batteries would sometimes teleport back to the car, if it was left on charge
+- Fixed oil fitlers, batteries, spark plugs and and alterantor belts not saving their values
+- Fixed items falling through vehicles

@@ -220,6 +220,7 @@ namespace MOP
 
             }
 
+            // This should fix bug that leads to items inside of vehicles to fall through it.
             PlayMakerFSM lodFSM = gameObject.GetPlayMakerByName("LOD");
             if (lodFSM != null)
             {

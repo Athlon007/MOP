@@ -113,6 +113,9 @@ namespace MOP
 
             position = transform.position;
 
+            // We're preventing the execution of State 1 and Load,
+            // because these two reset the variables of the item
+            // (such as position, state or rotation).
             PlayMakerFSM useFsm = gameObject.GetPlayMakerByName("Use");
             if (useFsm != null)
             {
