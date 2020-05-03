@@ -50,7 +50,8 @@ namespace MOP
             for (int i = 1; i <=4; i++)
             {
                 Transform junk = transform.Find($"JunkCar{i}");
-                junk.parent = null;
+                if (junk != null)
+                    junk.parent = null;
             }
 
             GameObjectBlackList.AddRange(blackList);

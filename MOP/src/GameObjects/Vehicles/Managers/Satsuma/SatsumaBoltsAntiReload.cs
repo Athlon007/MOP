@@ -71,4 +71,13 @@ namespace MOP
             Finish();
         }
     }
+
+    public class CustomStopAction : FsmStateAction
+    {
+        public override void OnEnter()
+        {
+            Fsm.Event("FINISHED");
+            Finish();
+        }
+    }
 }

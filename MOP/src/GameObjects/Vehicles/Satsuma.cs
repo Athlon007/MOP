@@ -189,6 +189,12 @@ namespace MOP
             // Engine Block.
             GameObject.Find("block(Clone)").AddComponent<SatsumaBoltsAntiReload>();
 
+            // Fixes car body color resetting to default.
+            PlayMakerFSM carBodyPaintFsm = transform.Find("Body/car body(xxxxx)").gameObject.GetPlayMakerByName("Paint");
+            FsmState carBodyLoadState = carBodyPaintFsm.FindFsmState("Load");
+            carBodyLoadState.Actions = new FsmStateAction[] { new CustomNullState() };
+            carBodyLoadState.SaveActions();
+
             // Wiping Load for alternator belts, oil filters, spark plugs and batteries.
             GameObject[] parts = Resources.FindObjectsOfTypeAll<GameObject>()
                 .Where(obj => obj.name.ContainsAny("alternator belt(Clone)", "oil filter(Clone)", "spark plug(Clone)", "battery(Clone)"))
@@ -198,16 +204,22 @@ namespace MOP
                 if (part.transform.root.gameObject.name == "GAZ24(1420kg)") continue;
 
                 PlayMakerFSM useFsm = part.GetPlayMakerByName("Use");
+                FsmState state1 = useFsm.FindFsmState("State 1");
+                List<FsmStateAction> emptyState1 = state1.Actions.ToList();
+                emptyState1.Insert(0, new CustomStopAction());
+                state1.Actions = emptyState1.ToArray();
+                state1.SaveActions();
+
                 FsmState loadState = useFsm.FindFsmState("Load");
-                List<FsmStateAction> emptyActions = new List<FsmStateAction>();
-                emptyActions.Add(new CustomNullState());
+                List<FsmStateAction> emptyActions = loadState.Actions.ToList();
+                emptyActions.Insert(0, new CustomStopAction());
                 loadState.Actions = emptyActions.ToArray();
                 loadState.SaveActions();
 
                 // Fix for a bug that prevents player detaching the some of the parts.
                 if (part.name == "spark plug(Clone)")
                 {
-                    // Spark plugs save their shit differently (fucking piece of shits)...
+                    // Spark plugs save their shit differently (because fuck you)...
                     for (int i = 1; i <= 4; i++)
                     {
                         FsmState installState = useFsm.FindFsmState(i.ToString());
