@@ -33,6 +33,7 @@ namespace MOP
         static GameObject kekmetTrailerRemove;
         static FsmFloat battery1;
         static FsmFloat battery2;
+        static FsmBool playerHelmet;
 
         /// <summary>
         /// Checks if the player has the keys to the Hayosiko.
@@ -154,6 +155,14 @@ namespace MOP
                 battery2 = GameObject.Find("Database/PartsStatus/Battery").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmFloat("Bolt2");
 
             return battery1.Value > 0 || battery2.Value > 0;
+        }
+
+        public static bool PlayerHelmetOn()
+        {
+            if (playerHelmet == null)
+                playerHelmet = PlayMakerGlobals.Instance.Variables.GetFsmBool("PlayerHelmet");
+
+            return playerHelmet.Value;
         }
     }
 }

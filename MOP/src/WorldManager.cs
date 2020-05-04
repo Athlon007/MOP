@@ -280,7 +280,6 @@ namespace MOP
             worldObjectList.Add("RYKIPOHJA", true, false, false);
             worldObjectList.Add("COMPUTER", true, false, true);
             worldObjectList.Add("JOBS/HouseDrunkNew", true);
-            worldObjectList.Add("AnimalsMoose", true);
 
             ModConsole.Print("[MOP] Away from house world objects loaded");
 
@@ -415,15 +414,6 @@ namespace MOP
             float money = PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerMoney").Value;
             finalMessage = money >= 69420.0f && money < 69420.5f ? finalMessage.Rainbowmize() : $"<color=green>{finalMessage}</color>";
             ModConsole.Print(finalMessage);
-
-            for (int i = 0; i < 30; i++)
-            {
-                string mask = LayerMask.LayerToName(i);
-                if (mask != null)
-                {
-                    ModConsole.Print(i + " " + mask);
-                }
-            }
         }
 
         /// <summary>

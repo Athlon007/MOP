@@ -45,6 +45,8 @@ namespace MOP
 
         Vector3 position;
 
+        bool firstLoad;
+
         public ItemHook()
         {
             Toggle = ToggleActive;
@@ -117,6 +119,10 @@ namespace MOP
 
             position = transform.position;
 
+            // Fixes a bug which would prevent player from putting on the helmet, after taking it off.
+            if (this.gameObject.name == "helmet(itemx)")
+                return;
+
             // We're preventing the execution of State 1 and Load,
             // because these two reset the variables of the item
             // (such as position, state or rotation).
@@ -162,6 +168,14 @@ namespace MOP
         {
             try
             {
+                if (!firstLoad)
+                {
+                    if (transform.position.y < -100 && transform.position.x != 0 && transform.position.z != 0)
+                        transform.position = new Vector3(0, 2, 0);
+
+                    firstLoad = true;
+                }
+
                 if (gameObject.activeSelf == enabled)
                     return;
 
@@ -176,6 +190,11 @@ namespace MOP
                 // Fix for batteries popping out of the car.
                 if (this.gameObject.name == "battery(Clone)" && this.gameObject.transform.parent.gameObject.name == "pivot_battery")
                     return;
+
+                if (this.gameObject.name == "helmet(itemx)" && MopFsmManager.PlayerHelmetOn())
+                {
+                    return;
+                }
 
                 // Check if item is in CarryMore inventory.
                 // If so, ignore that item.

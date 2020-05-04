@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.8 Development 3 (tba)
+
+### Added
+
+- Added check if an item has fallen below the ground. If they did, they're gonna respawn at the yard
+
+### Bug Fixes
+
+- (Development) Fixed a bug which wouldn't let player put on the helmet back on, after taking it off
+
+### Removed
+
+- (Development) Removed accidentally left debug stuff
+- (Development) Moose is not toggled anymore
+
 ## 2.8 Development 2 (04.05.2020)
 
 ### Added
