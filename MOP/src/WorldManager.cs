@@ -831,6 +831,15 @@ namespace MOP
                     }
                 }
 
+                // Disable SatsumaTrunk.
+                if (mode == ToggleAllMode.OnSave)
+                {
+                    if (SatsumaTrunk.Instance != null)
+                    {
+                        SatsumaTrunk.Instance.OnSaveStop();
+                    }
+                }
+
                 // Items
                 for (int i = 0; i < Items.instance.ItemsHooks.Count; i++)
                 {

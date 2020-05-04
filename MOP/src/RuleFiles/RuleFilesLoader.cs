@@ -496,6 +496,14 @@ namespace MOP
                             }
                             Rules.instance.SpecialRules.DrivewaySector = true;
                             break;
+                        case "experimental_satsuma_trunk":
+                            if (fileName != "Custom.txt")
+                            {
+                                ModConsole.Error($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
+                                continue;
+                            }
+                            Rules.instance.SpecialRules.ExperimentalSatsumaTrunk = true;
+                            break;
                     }
                 }
             }

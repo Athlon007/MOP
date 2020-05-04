@@ -5,6 +5,8 @@
 ### Added
 
 - Added check if an item has fallen below the ground. If they did, they're gonna respawn at the yard
+- Added (experimental) Satsuma trunk system! You can enable it using custom rule file flag: experimental_satsuma_trunk
+  - Uppon closing the trunk, all items inside of it will be disabled
 
 ### Bug Fixes
 

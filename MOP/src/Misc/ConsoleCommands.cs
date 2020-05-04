@@ -70,6 +70,7 @@ namespace MOP
                     ModConsole.Print($"<b>DontDestroyEmptyBeerBottles:</b> {Rules.instance.SpecialRules.DontDestroyEmptyBeerBottles}");
                     ModConsole.Print($"<b>SatsumaIgnoreRenderers:</b> {Rules.instance.SpecialRules.SatsumaIgnoreRenderers}");
                     ModConsole.Print($"<b>DrivewaySector:</b> {Rules.instance.SpecialRules.DrivewaySector}");
+                    ModConsole.Print($"<b>ExperimentalSatsumaTrunk:</b> {Rules.instance.SpecialRules.ExperimentalSatsumaTrunk}");
 
                     // List rule files.
                     string output = "\n<color=yellow><b>Rule Files</b></color>\n";

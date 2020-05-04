@@ -47,6 +47,8 @@ namespace MOP
 
         bool firstLoad;
 
+        public bool IsInHood;
+
         public ItemHook()
         {
             Toggle = ToggleActive;
@@ -176,6 +178,9 @@ namespace MOP
                     firstLoad = true;
                 }
 
+                if (IsInHood)
+                    return;
+
                 if (gameObject.activeSelf == enabled)
                     return;
 
@@ -302,6 +307,11 @@ namespace MOP
         {
             yield return new WaitForSeconds(7);
             Items.instance.HookEmptyBeerBottles();
+        }
+
+        public float GetMass()
+        {
+            return rb.mass;
         }
     }
 }

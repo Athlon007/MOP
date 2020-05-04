@@ -62,5 +62,6 @@ namespace MOP
         public bool IgnoreModVehicles;
         public bool ToggleAllVehiclesPhysicsOnly;
         public bool DrivewaySector;
+        public bool ExperimentalSatsumaTrunk;
     }
 }

@@ -78,6 +78,7 @@
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaHandbrakeManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaBoltsAntiReload.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaSeatsManager.cs" />
+    <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaTrunk.cs" />
     <Compile Include="src\GameObjects\Vehicles\Satsuma.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\PreventToggleOnObject.cs" />
     <Compile Include="src\GameObjects\WorldObject.cs" />
