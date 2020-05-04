@@ -424,7 +424,7 @@ namespace MOP
                             objects[i] = objects[i].Replace("%20", " ");
                     }
 
-                    if (objects[0].ContainsAny("MOP", "MSCLoader", "MSCUnloader", "SteamManager", "PLAYER", "cObject"))
+                    if (objects.Length > 0 && objects.ContainsAny("MOP", "MSCLoader", "MSCUnloader", "SteamManager", "PLAYER", "cObject"))
                     {
                         ModConsole.Error($"[MOP] Illegal object: {objects[0]} in rule file {fileName}.");
                         continue;
@@ -487,6 +487,14 @@ namespace MOP
                                 continue;
                             }
                             Rules.instance.SpecialRules.ToggleAllVehiclesPhysicsOnly = true;
+                            break;
+                        case "driveway_sector":
+                            if (fileName != "Custom.txt")
+                            {
+                                ModConsole.Error($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
+                                continue;
+                            }
+                            Rules.instance.SpecialRules.DrivewaySector = true;
                             break;
                     }
                 }

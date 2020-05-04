@@ -27,6 +27,7 @@ namespace MOP
 
         public ShopModItemSpawnCheck()
         {
+            gameObject.layer = 2;
             BoxCollider col = this.gameObject.AddComponent<BoxCollider>();
             col.isTrigger = true;
             col.size = new Vector3(2, 2, 2);

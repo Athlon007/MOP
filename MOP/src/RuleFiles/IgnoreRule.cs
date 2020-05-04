@@ -61,5 +61,6 @@ namespace MOP
         // Custom rule files.
         public bool IgnoreModVehicles;
         public bool ToggleAllVehiclesPhysicsOnly;
+        public bool DrivewaySector;
     }
 }

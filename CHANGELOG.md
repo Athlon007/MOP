@@ -5,9 +5,13 @@
 ### Added
 
 - Haybales are now toggled
+- Added sector at the cottage
+- Added sector at the storage room next to kitchen
+- Added sector on the driveway (you can enable it only using custom rule file: add flag "driveway_sector")
 
 ### Changes
 
+- Slightly changed the home sector
 - Rule file flag "ignore" now affects items - it will now prevent disabling of an item, and only allows disabling of the physics and renderers (basically, the old fashioned way)
 - Minor changes in how MOP checks if an item is stored in CarryMore inventory
 
@@ -18,9 +22,13 @@
 - (Development) Fixed a bug, in which items may have fall through the boat
 - (Development) Fixed MOP throwing an error for items that don't have Load and State 1 states
 - (Development) Starter tires *should not* fall through the mansion anymore
+- (Development) Fixed a bug in which MOP wouldn't load rule files, if the flag didn't had any objects
 - Fixed seats not being able to be attached, if they weren't attached before to the car
 - Fixed MOP spaming output_log on game reload
 - Fixed a bug in which MOP would sometimes not load (especially on new game, or save and reload)
+- Machine hall next to Uncle's home will not appear and disappear when entering the sector
+- Fixed area checks and sectors preventing user interaction with certain things
+- Minor formatting fix to "mop rules" command output
 
 ## 2.8 Development 1 (03.05.2020)
 

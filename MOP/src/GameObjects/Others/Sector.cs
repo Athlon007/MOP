@@ -35,12 +35,19 @@ namespace MOP
 
             if (ignoreList != null)
                 this.ignoreList = ignoreList;
+
+            if (gameObject.name == "MOP_SECTOR_DEBUG")
+                collider.size = new Vector3(1, 1, 1);
+
+            // Set the layer to Ignore Raycast layer.
+            gameObject.layer = 2;
         }
 
         void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.name == ReferenceObjectName)
             {
+
                 if (ignoreList != null)
                     Rules.instance.AddSectorRule(ignoreList);
 
@@ -152,12 +159,17 @@ namespace MOP
             // Yard Machine Hall
             CreateNewSector(new Vector3(54.7f, -0.5062422f, -73.9f), new Vector3(6, 5, 5.2f), "YARD", "MachineHall", "BUSHES3", "BUSHES6", "TREES_SMALL1");
             // Home
-            CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.559867f), new Vector3(11, 5, 9), "PierHome", "TREES_SMALL1", "BUSHES7", "Building");
-            CreateNewSector(new Vector3(-12.5f, -0.5062422f, 1), new Vector3(3, 5, 7.7f), "PierHome", "TREES_SMALL1", "BUSHES7", "Building");
+            CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.9f), new Vector3(11, 5, 9.5f), "PierHome", "TREES_SMALL1", "BUSHES7", "Building"); // Living room, kitchen, bedrooms.
+            CreateNewSector(new Vector3(-12.5f, -0.5062422f, 1), new Vector3(3, 5, 7.7f), "PierHome", "TREES_SMALL1", "BUSHES7", "Building"); // Sauna, bathroom.
+            CreateNewSector(new Vector3(-13.5f, -0.5062422f, 6.4f), new Vector3(1.3f, 5, 1.7f), "PierHome", "TREES_SMALL1", "BUSHES7", "Building"); // Storage room (kitchen).
             // Jail
             CreateNewSector(new Vector3(-655, 5, -1156), new Vector3(5, 5, 9f));
-
-            ModConsole.Print("[MOP] Sectors done!");
+            // Cottage
+            CreateNewSector(new Vector3(-848.2f, -2, 505.6f), new Vector3(5, 3, 5.2f), new Vector3(0, 342, -1.07f), "BUSHES7", "TREES_SMALL4", "TREES_MEDIUM3", "LakeNice", "TRAFFIC", "Tile");
+            
+            // Driveway sector
+            if (Rules.instance.SpecialRules.DrivewaySector)
+                CreateNewSector(new Vector3(-18.5f, -0.5062422f, 11.9f), new Vector3(11f, 5, 9.5f), "PierHome", "TREES_SMALL1", "BUSHES7", "BUSHES3", "BUSHES6", "TREES_MEDIUM3", "YARD", "LakeNice", "Tile"); // Driveway.
         }
 
         void CreateNewSector(Vector3 position, Vector3 size, params string[] ignoreList)

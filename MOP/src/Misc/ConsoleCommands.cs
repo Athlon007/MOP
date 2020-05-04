@@ -52,7 +52,7 @@ namespace MOP
                 case "rules":
                     ModConsole.Print("<color=yellow><b>Ignore Rules</b></color>");
                     foreach (IgnoreRule r in Rules.instance.IgnoreRules)
-                        ModConsole.Print($"Object: {r.ObjectName}");
+                        ModConsole.Print($"<b>Object:</b> {r.ObjectName}");
 
                     ModConsole.Print("\n<color=yellow><b>Ignore Rules At Place</b></color>");
                     foreach (IgnoreRuleAtPlace r in Rules.instance.IgnoreRulesAtPlaces)
@@ -69,6 +69,7 @@ namespace MOP
                     ModConsole.Print("\n<color=yellow><b>Special Rules</b></color>");
                     ModConsole.Print($"<b>DontDestroyEmptyBeerBottles:</b> {Rules.instance.SpecialRules.DontDestroyEmptyBeerBottles}");
                     ModConsole.Print($"<b>SatsumaIgnoreRenderers:</b> {Rules.instance.SpecialRules.SatsumaIgnoreRenderers}");
+                    ModConsole.Print($"<b>DrivewaySector:</b> {Rules.instance.SpecialRules.DrivewaySector}");
 
                     // List rule files.
                     string output = "\n<color=yellow><b>Rule Files</b></color>\n";

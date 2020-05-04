@@ -416,7 +416,14 @@ namespace MOP
             finalMessage = money >= 69420.0f && money < 69420.5f ? finalMessage.Rainbowmize() : $"<color=green>{finalMessage}</color>";
             ModConsole.Print(finalMessage);
 
-            //GC.Collect();
+            for (int i = 0; i < 30; i++)
+            {
+                string mask = LayerMask.LayerToName(i);
+                if (mask != null)
+                {
+                    ModConsole.Print(i + " " + mask);
+                }
+            }
         }
 
         /// <summary>
@@ -530,7 +537,7 @@ namespace MOP
                         // Should the object be disabled when the player leaves the house?
                         if (worldObject.AwayFromHouse)
                         {
-                            if (worldObject.gameObject.name == "NPC_CARS" && SectorManager.instance.PlayerInSector)
+                            if (worldObject.gameObject.name == "NPC_CARS" && inSectorMode)
                                 continue;
 
                             bool toggle = worldObject.ReverseToggle ? isPlayerAtYard : !isPlayerAtYard;
@@ -561,7 +568,7 @@ namespace MOP
                         // Should the object be disabled when the player leaves the house?
                         if (worldObject.AwayFromHouse)
                         {
-                            if (worldObject.gameObject.name == "NPC_CARS" && SectorManager.instance.PlayerInSector)
+                            if (worldObject.gameObject.name == "NPC_CARS" && inSectorMode)
                                 continue;
 
                             bool toggle = worldObject.ReverseToggle ? isPlayerAtYard : !isPlayerAtYard;
@@ -871,6 +878,7 @@ namespace MOP
                 this.gameObject.AddComponent<SectorManager>();
 
                 GameObject colliderCheck = new GameObject("MOP_PlayerCheck");
+                colliderCheck.layer = 20;
                 colliderCheck.transform.parent = GameObject.Find("PLAYER").transform;
                 colliderCheck.transform.localPosition = Vector3.zero;
                 BoxCollider collider = colliderCheck.AddComponent<BoxCollider>();
