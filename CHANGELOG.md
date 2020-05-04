@@ -1,5 +1,27 @@
 # Changelog
 
+## 2.8 Development 2 (04.05.2020)
+
+### Added
+
+- Haybales are now toggled
+
+### Changes
+
+- Rule file flag "ignore" now affects items - it will now prevent disabling of an item, and only allows disabling of the physics and renderers (basically, the old fashioned way)
+- Minor changes in how MOP checks if an item is stored in CarryMore inventory
+
+### Bug Fixes
+
+- (Development) Tangerine Pickup: Fixed refueling not working (you need to update rule files first!)
+- (Development) Fixed kilju bucket resetting to the default value
+- (Development) Fixed a bug, in which items may have fall through the boat
+- (Development) Fixed MOP throwing an error for items that don't have Load and State 1 states
+- (Development) Starter tires *should not* fall through the mansion anymore
+- Fixed seats not being able to be attached, if they weren't attached before to the car
+- Fixed MOP spaming output_log on game reload
+- Fixed a bug in which MOP would sometimes not load (especially on new game, or save and reload)
+
 ## 2.8 Development 1 (03.05.2020)
 
 ### Added
@@ -26,13 +48,16 @@
 
 ### Removed
 
-- Removed advanced settings
+- Removed advanced settings section in the mod settings
 
 ### Known Issues
 
+- Starter tires may still fall through the floor
 - Items fall through the boat
 - Trailer still seems to be clipping through the floor
 - Tangerine Pickup: refueling doesn't work
+- Seats may be impossible to attach (needs checking)
+- Kilju bucket resets to on load state
 
 ## 2.7.2 (02.05.2020)
 

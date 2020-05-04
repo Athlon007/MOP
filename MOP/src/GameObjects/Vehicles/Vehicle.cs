@@ -109,6 +109,19 @@ namespace MOP
 
             preventToggleOnObjects = new List<PreventToggleOnObject>();
 
+            // This should fix bug that leads to items inside of vehicles to fall through it.
+            PlayMakerFSM lodFSM = gameObject.GetPlayMakerByName("LOD");
+            if (lodFSM != null)
+            {
+                lodFSM.Fsm.RestartOnEnable = false;
+                FsmState resetState = lodFSM.FindFsmState("Fix Collider");
+                if (resetState != null)
+                {
+                    resetState.Actions = new FsmStateAction[] { new CustomStopAction() };
+                    resetState.SaveActions();
+                }
+            }
+
             if (gameObject.name == "BOAT")
                 return;
 
@@ -218,18 +231,6 @@ namespace MOP
                 else
                     ModConsole.Error($"[MOP] Couldn't find {preventToggleOnObjectRule.ObjectName} in {preventToggleOnObjectRule.MainObject}.");
 
-            }
-
-            // This should fix bug that leads to items inside of vehicles to fall through it.
-            PlayMakerFSM lodFSM = gameObject.GetPlayMakerByName("LOD");
-            if (lodFSM != null)
-            {
-                FsmState resetState = lodFSM.FindFsmState("Fix Collider");
-                if (resetState != null)
-                {
-                    resetState.Actions = new FsmStateAction[] { new CustomStopAction() };
-                    resetState.SaveActions();
-                }
             }
         }
 

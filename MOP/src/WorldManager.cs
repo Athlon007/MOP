@@ -313,6 +313,16 @@ namespace MOP
                 ModConsole.Print("[MOP] Jokke's furnitures found and loaded");
             }
 
+            // Haybales.
+            // First we null out the prevent it from reloading the position of haybales.
+            GameObject haybalesParent = GameObject.Find("JOBS/HayBales");
+            haybalesParent.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            // And now we add all child haybale to world objects.
+            foreach (Transform haybale in haybalesParent.transform.GetComponentInChildren<Transform>())
+            {
+                worldObjectList.Add(haybale.gameObject.name, 150);
+            }
+
             // Initialize Items class
             new Items();
 
@@ -629,7 +639,7 @@ namespace MOP
 
                         try
                         {
-                            itemsToDisable[i].ToggleActive(false);
+                            itemsToDisable[i].Toggle(false);
                         }
                         catch (Exception ex)
                         {
@@ -677,7 +687,7 @@ namespace MOP
 
                         try
                         {
-                            itemsToEnable[i].ToggleActive(true);
+                            itemsToEnable[i].Toggle(true);
                         }
                         catch (Exception ex)
                         {
@@ -827,7 +837,7 @@ namespace MOP
                 // Items
                 for (int i = 0; i < Items.instance.ItemsHooks.Count; i++)
                 {
-                    Items.instance.ItemsHooks[i].ToggleActive(enabled);
+                    Items.instance.ItemsHooks[i].Toggle(enabled);
 
                     // If we're saving, MOP forces on items the "SAVEGAME" event.
                     // This fixes an issue with items not getting saved, for some reason.

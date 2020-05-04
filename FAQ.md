@@ -45,9 +45,15 @@ You can enable the framerate limiter in the MOP settings under the Graphics sect
 
 Satsuma is the biggest resource hog of the entire game. There's literally nothing I can do about it.
 
+## My game runs much slower when I'm at home
+
+Yard is one of the most resource heavy things in game. The more things you keep at home, the game **will run slower**.
+
+You can combat this by moving vehicles or items that you don't use out of the yard!
+
 ## Everything disappears and reappears on game load
 
-This is an intended behaviour.
+This is an intended behaviour - no need to worry about that!
 
 ## Mod doesn't seem to work
 

@@ -123,7 +123,7 @@ namespace MOP
             }
 
             // CD Player Enhanced compatibility
-            if (CompatibilityManager.instance.CDPlayerEnhanced)
+            if (ModLoader.IsModPresent("CDPlayer"))
             {
                 GameObject[] cdEnchancedObjects = Object.FindObjectsOfType<GameObject>()
                 .Where(gm => gm.name.ContainsAny("cd case(itemy)", "CD Rack(itemy)", "cd(itemy)") && gm.activeSelf).ToArray();

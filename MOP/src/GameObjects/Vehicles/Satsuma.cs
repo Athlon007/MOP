@@ -356,6 +356,9 @@ namespace MOP
         /// </summary>
         public void ForceFuckingRotation()
         {
+            if (carDynamics == null)
+                return;
+
             if (!carDynamics.enabled && !MopFsmManager.IsPlayerInSatsuma())
             {
                 transform.rotation = lastGoodRotation;

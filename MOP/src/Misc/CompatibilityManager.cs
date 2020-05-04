@@ -22,12 +22,10 @@ namespace MOP
     class CompatibilityManager
     {
         // This script manages the compatibility between other mods
+        // This method is only used in certain special cases.
+        // Current correct method is to use rule files!
 
         public static CompatibilityManager instance;
-
-        // CD Player Enhanced
-        // https://www.racedepartment.com/downloads/cd-player-enhanced.19002/
-        public bool CDPlayerEnhanced { get; private set; }
 
         // CarryMore
         // https://www.racedepartment.com/downloads/carry-more-backpack-alternative.22396/
@@ -37,7 +35,6 @@ namespace MOP
         public CompatibilityManager()
         {
             instance = this;
-            CDPlayerEnhanced = ModLoader.IsModPresent("CDPlayer");
             CarryMore = ModLoader.IsModPresent("CarryMore");
         }
     }

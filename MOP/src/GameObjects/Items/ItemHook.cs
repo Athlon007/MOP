@@ -47,9 +47,13 @@ namespace MOP
 
         public ItemHook()
         {
+            Toggle = ToggleActive;
+
             IgnoreRule rule = Rules.instance.IgnoreRules.Find(f => f.ObjectName == this.gameObject.name);
             if (rule != null)
             {
+                Toggle = ToggleActiveOldMethod;
+
                 if (rule.TotalIgnore)
                 {
                     Destroy(this);
@@ -119,17 +123,24 @@ namespace MOP
             PlayMakerFSM useFsm = gameObject.GetPlayMakerByName("Use");
             if (useFsm != null)
             {
+                useFsm.Fsm.RestartOnEnable = false;
                 FsmState state1 = useFsm.FindFsmState("State 1");
-                List<FsmStateAction> emptyState1 = state1.Actions.ToList();
-                emptyState1.Insert(0, new CustomStopAction());
-                state1.Actions = emptyState1.ToArray();
-                state1.SaveActions();
+                if (state1 != null)
+                {
+                    List<FsmStateAction> emptyState1 = state1.Actions.ToList();
+                    emptyState1.Insert(0, new CustomStopAction());
+                    state1.Actions = emptyState1.ToArray();
+                    state1.SaveActions();
+                }
 
                 FsmState loadState = useFsm.FindFsmState("Load");
-                List<FsmStateAction> emptyActions = loadState.Actions.ToList();
-                emptyActions.Insert(0, new CustomStopAction());
-                loadState.Actions = emptyActions.ToArray();
-                loadState.SaveActions();
+                if (loadState != null)
+                {
+                    List<FsmStateAction> emptyActions = loadState.Actions.ToList();
+                    emptyActions.Insert(0, new CustomStopAction());
+                    loadState.Actions = emptyActions.ToArray();
+                    loadState.SaveActions();
+                }
             }
         }
 
@@ -140,11 +151,43 @@ namespace MOP
             Items.instance.Remove(this);
         }
 
+        public delegate void ToggleHandler(bool enabled);
+        public ToggleHandler Toggle;
+
         /// <summary>
         /// Doesn't toggle object itself, rather the Rigidbody and Renderer.
         /// </summary>
         /// <param name="enabled"></param>
-        public void ToggleActive(bool enabled)
+        void ToggleActive(bool enabled)
+        {
+            try
+            {
+                if (gameObject.activeSelf == enabled)
+                    return;
+
+                // Don't disabler wheels that are attached to the car.
+                if (this.gameObject.name == "wheel_regula")
+                {
+                    Transform root = this.gameObject.transform.parent;
+                    if (root != null && root.gameObject.name == "pivot_wheel_standard")
+                        return;
+                }
+
+                // Fix for batteries popping out of the car.
+                if (this.gameObject.name == "battery(Clone)" && this.gameObject.transform.parent.gameObject.name == "pivot_battery")
+                    return;
+
+                // Check if item is in CarryMore inventory.
+                // If so, ignore that item.
+                if (CompatibilityManager.instance.CarryMore && transform.position.y < -900)
+                    return;
+
+                gameObject.SetActive(enabled);
+            }
+            catch { }
+        }
+
+        void ToggleActiveOldMethod(bool enabled)
         {
             try
             {
@@ -164,26 +207,9 @@ namespace MOP
 
                 // Check if item is in CarryMore inventory.
                 // If so, ignore that item.
-                if (CompatibilityManager.instance.CarryMore && Vector3.Distance(transform.position, CompatibilityManager.instance.CarryMoreTempPosition) < 1)
+                if (CompatibilityManager.instance.CarryMore && transform.position.y < -900)
                     return;
 
-                // CD Player Enhanced mod
-                if (CompatibilityManager.instance.CDPlayerEnhanced && this.transform.parent != null)
-                {
-                    // Prevent CDs to clip through CD Case
-                    if (this.gameObject.name == "cd(itemy)" && this.transform.parent.name == "PivotCD")
-                        return;
-
-                    // Prevent CDs from clipping through the Radio
-                    if (this.gameObject.name == "cd(itemy)" && this.transform.parent.name == "cd_sled_pivot")
-                        return;
-
-                    // Prevents CD cases from clipping through the CD rack
-                    if (this.gameObject.name.StartsWith("cd case") && this.transform.parent.name.StartsWith("cd_trigger"))
-                        return;
-                }
-
-                gameObject.SetActive(enabled);
                 rb.detectCollisions = enabled;
                 rb.isKinematic = !enabled;
                 rb.useGravity = enabled;
@@ -202,7 +228,7 @@ namespace MOP
             }
             catch { }
         }
-
+        
         /// <summary>
         /// Used when this item is a beer case.
         /// Starts the coroutine that initializes Items.DestroyEmptyBottles after 7 seconds.

@@ -23,7 +23,7 @@ namespace MOP
     {
         Rigidbody rb;
         FsmFloat tightness;
-        float defaultMass;
+        readonly float defaultMass;
         float lastTightnessValue;
 
         public SatsumaSeatsManager()
@@ -36,6 +36,8 @@ namespace MOP
 
             defaultMass = rb.mass;
             lastTightnessValue = tightness.Value;
+
+            rb.mass = tightness.Value > 7 ? defaultMass : 1;
         }
 
         void Update()
