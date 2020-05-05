@@ -47,6 +47,8 @@ namespace MOP
 
         public bool AfterFirstEnable;
 
+        SatsumaTrunk trunk;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -242,18 +244,8 @@ namespace MOP
             // Create trunk trigger.
             if (Rules.instance.SpecialRules.ExperimentalSatsumaTrunk)
             {
-                /*
-                GameObject newSector = GameObject.CreatePrimitive(PrimitiveType.Cube); // DEBUG
-                newSector.name = "MOP_TRUNK"; //DEBUG
-                newSector.transform.parent = GameObject.Find("SATSUMA(557kg, 248)").transform; // DEBUG
-                newSector.transform.localPosition = new Vector3(0, 0.15f, -1.37f); // DEBUG
-                newSector.transform.localEulerAngles = Vector3.zero; // DEBUG
-                newSector.transform.localScale = new Vector3(1.25f, 0.4f, 0.75f); // DEBUG
-                Object.Destroy(newSector.GetComponent<Collider>()); // DEBUG
-                return;
-                */
                 GameObject trunkTrigger = new GameObject("MOP_Trunk");
-                trunkTrigger.AddComponent<SatsumaTrunk>();
+                trunk = trunkTrigger.AddComponent<SatsumaTrunk>();
             }
         }
 
@@ -296,6 +288,11 @@ namespace MOP
             {
                 AfterFirstEnable = true;
                 HoodFix();
+
+                if (trunk != null)
+                {
+                    trunk.Initialize();
+                }
             }
         }
 

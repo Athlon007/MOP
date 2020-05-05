@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.8 Development 4 (05.05.2020)
+
+### Changes
+
+- (Development) Improved trunk script loading
+
+### Bug Fixes
+
+- (Development) Fixed a scaling bug for items left in the trunk
+- (Development) Fixed compatibility with the official version of the game
+- Fixed wasp hives resetting to the on load state
+
 ## 2.8 Development 3 (05.05.2020)
 
 ### Added

@@ -63,15 +63,19 @@ namespace MOP
             // If the GT grille is attached, perform extra delay, until the "grille gt(Clone)" parent isn't "pivot_grille",
             // or until 5 seconds have passed.
             int ticks = 0;
-            Transform gtGrilleTransform = GameObject.Find("grille gt(Clone)").transform;
-            while (MopFsmManager.IsGTGrilleInstalled() && gtGrilleTransform.parent.name != "pivot_grille")
+            GameObject gtGrille = GameObject.Find("grille gt(Clone)");
+            if (gtGrille != null)
             {
-                yield return new WaitForSeconds(1);
+                Transform gtGrilleTransform = gtGrille.transform;
+                while (MopFsmManager.IsGTGrilleInstalled() && gtGrilleTransform.parent.name != "pivot_grille")
+                {
+                    yield return new WaitForSeconds(1);
 
-                // Escape the loop after 5 retries
-                ticks++;
-                if (ticks > 5)
-                    break;
+                    // Escape the loop after 5 retries
+                    ticks++;
+                    if (ticks > 5)
+                        break;
+                }
             }
 
             Initialize();
@@ -252,6 +256,13 @@ namespace MOP
                 worldObjectList.Add(junk.name);
             }
 
+            // Fixes wasp hives resetting to on load values.
+            GameObject[] wasphives = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "WaspHive").ToArray();
+            foreach (GameObject wasphive in wasphives)
+            { 
+                wasphive.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            }
+
             ModConsole.Print("[MOP] Finished applying fixes");
 
             //Things that should be enabled when out of proximity of the house
@@ -315,11 +326,14 @@ namespace MOP
             // Haybales.
             // First we null out the prevent it from reloading the position of haybales.
             GameObject haybalesParent = GameObject.Find("JOBS/HayBales");
-            haybalesParent.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-            // And now we add all child haybale to world objects.
-            foreach (Transform haybale in haybalesParent.transform.GetComponentInChildren<Transform>())
+            if (haybalesParent != null)
             {
-                worldObjectList.Add(haybale.gameObject.name, 150);
+                haybalesParent.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                // And now we add all child haybale to world objects.
+                foreach (Transform haybale in haybalesParent.transform.GetComponentInChildren<Transform>())
+                {
+                    worldObjectList.Add(haybale.gameObject.name, 150);
+                }
             }
 
             // Initialize Items class

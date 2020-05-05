@@ -59,17 +59,19 @@ namespace MOP
 
             GameObject bootlidHandle = GameObject.Find("bootlid(Clone)").transform.Find("Handles").gameObject;
             bootlidOpen = bootlidHandle.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("Open");
-            FsmHook.FsmInject(bootlidHandle, "Sound", OnBootAction);
             FsmHook.FsmInject(bootlidHandle, "Mouse off", OnBootAction);
 
             rearSeatPivot = GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Interior/pivot_seat_rear");
+        }
 
+        public void Initialize()
+        {
             StartCoroutine(DelayedInitialization());
         }
 
         IEnumerator DelayedInitialization()
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(3);
             OnBootAction();
             afterFirstLoad = true;
         }
@@ -112,6 +114,8 @@ namespace MOP
                 trunkContent[i].GetComponent<ItemHook>().IsInHood = !bootlidOpen.Value;
                 trunkContent[i].SetActive(bootlidOpen.Value);
                 trunkContent[i].transform.parent = bootlidOpen.Value ? null : gameObject.transform;
+
+                trunkContent[i].transform.localScale = new Vector3(1, 1, 1);
             }
 
             rb.mass = bootlidOpen.Value ? 0 : currentMass;
