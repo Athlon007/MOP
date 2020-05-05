@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
+using HutongGames.PlayMaker.Actions;
 using MSCLoader;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ namespace MOP
         public static SatsumaTrunk Instance;
 
         bool isDisabled;
+        bool afterFirstLoad;
 
         List<GameObject> trunkContent;
         Rigidbody rb;
@@ -69,6 +71,7 @@ namespace MOP
         {
             yield return new WaitForSeconds(1);
             OnBootAction();
+            afterFirstLoad = true;
         }
 
         void OnTriggerEnter(Collider other)
@@ -77,6 +80,15 @@ namespace MOP
 
             if (other.gameObject.GetComponent<ItemHook>() != null && !trunkContent.Contains(other.gameObject))
             {
+                if (afterFirstLoad && !bootlidOpen.Value)
+                {
+                    Vector3 newItemPosition = other.gameObject.transform.position;
+                    newItemPosition.y += 1;
+                    other.gameObject.transform.position = newItemPosition;
+                    other.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    return;
+                }
+
                 trunkContent.Add(other.gameObject);
                 currentMass += other.gameObject.GetComponent<ItemHook>().GetMass();
             }
