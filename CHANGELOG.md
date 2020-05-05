@@ -11,6 +11,7 @@
 ### Bug Fixes
 
 - (Development) Fixed a bug which wouldn't let player put on the helmet back on, after taking it off
+- Fixed machine hall disappearing when leaving it
 
 ### Removed
 
@@ -42,7 +43,7 @@
 - (Development) Fixed a bug in which MOP wouldn't load rule files, if the flag didn't had any objects
 - Fixed seats not being able to be attached, if they weren't attached before to the car
 - Fixed MOP spaming output_log on game reload
-- Fixed a bug in which MOP would sometimes not load (especially on new game, or save and reload)
+- Fixed a bug in which MOP would sometimes not load on new game, or save and reload
 - Machine hall next to Uncle's home will not appear and disappear when entering the sector
 - Fixed area checks and sectors preventing user interaction with certain things
 - Minor formatting fix to "mop rules" command output

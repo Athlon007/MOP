@@ -24,11 +24,13 @@ namespace MOP
     class Sector : MonoBehaviour
     {
         const string ReferenceObjectName = "MOP_PlayerCheck";
-
         string[] ignoreList;
 
         public void Initialize(Vector3 size, params string[] ignoreList)
         {
+            // Set the layer to Ignore Raycast layer.
+            gameObject.layer = 2;
+
             BoxCollider collider = gameObject.AddComponent<BoxCollider>();
             collider.isTrigger = true;
             collider.size = size;
@@ -38,16 +40,12 @@ namespace MOP
 
             if (gameObject.name == "MOP_SECTOR_DEBUG")
                 collider.size = new Vector3(1, 1, 1);
-
-            // Set the layer to Ignore Raycast layer.
-            gameObject.layer = 2;
         }
 
         void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.name == ReferenceObjectName)
             {
-
                 if (ignoreList != null)
                     Rules.instance.AddSectorRule(ignoreList);
 

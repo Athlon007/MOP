@@ -460,7 +460,7 @@ namespace MOP
                 }
 
                 // Hooking up on death save.
-                GameObject onDeathSaveObject = new GameObject("MOP_OnSaveDeath");
+                GameObject onDeathSaveObject = new GameObject("MOP_OnDeathSave");
                 onDeathSaveObject.transform.parent = GameObject.Find("Systems").transform.Find("Death/GameOverScreen");
                 OnDeathBehaviour behaviour = onDeathSaveObject.AddComponent<OnDeathBehaviour>();
                 behaviour.Initialize(PreSaveGame);
@@ -499,7 +499,6 @@ namespace MOP
                     ticks = 0;
 
                 inSectorMode = SectorManager.instance != null && SectorManager.instance.PlayerInSector;
-
                 isPlayerAtYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, places[0].transform.position) < 100
                     : Vector3.Distance(player.position, places[0].transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 
@@ -702,7 +701,7 @@ namespace MOP
                         if (Rules.instance.SectorRulesContains(places[i].gameObject.name))
                             continue;
 
-                        places[i].ToggleActive(IsEnabled(places[i].transform, places[i].ToggleDistance));
+                        places[i].ToggleActive(IsPlaceEnabled(places[i].transform, places[i].ToggleDistance));
                     }
                 }
                 catch (Exception ex)
@@ -719,7 +718,7 @@ namespace MOP
                         if (Rules.instance.SectorRulesContains(places[i].gameObject.name))
                             continue;
 
-                        places[i].ToggleActive(IsEnabled(places[i].transform, places[i].ToggleDistance));
+                        places[i].ToggleActive(IsPlaceEnabled(places[i].transform, places[i].ToggleDistance));
                     }
                 }
                 catch (Exception ex)
@@ -761,6 +760,11 @@ namespace MOP
                 toggleDistance = 30;
 
             return distance < toggleDistance;
+        }
+
+        bool IsPlaceEnabled(Transform target, float toggleDistance = 200)
+        {
+            return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
 
         int ticks;
