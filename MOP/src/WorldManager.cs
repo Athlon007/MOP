@@ -263,6 +263,12 @@ namespace MOP
                 wasphive.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
             }
 
+            // Test fix for FPS drop while dropping stuff.
+            PlayMakerFSM pickUp = GameObject.Find("PLAYER/Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/Hand").GetPlayMakerByName("PickUp");
+            FsmState stateDropPart = pickUp.FindFsmState("Drop part");
+            stateDropPart.Actions[0] = new CustomNullState();
+            stateDropPart.SaveActions();
+
             ModConsole.Print("[MOP] Finished applying fixes");
 
             //Things that should be enabled when out of proximity of the house
@@ -676,6 +682,13 @@ namespace MOP
                         float distance = Vector3.Distance(player.transform.position, vehicles[i].transform.position);
                         float toggleDistance = MopSettings.ActiveDistance == 0
                             ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
+
+                        if (jesusFixTheFramerate && i == 0)
+                        {
+                            toggleDistance = 9999;
+                            jesusFixTheFramerate = false;
+                        }
+
                         vehicles[i].ToggleUnityCar(IsVehicleEnabled(distance, toggleDistance, true));
                         vehicles[i].Toggle(IsVehicleEnabled(distance));
                     }
@@ -1014,5 +1027,7 @@ namespace MOP
             vehicles[6].transform.position = vehicles[6].Position;
             PlayMakerFSM.BroadcastEvent("TRAILERATTACH");
         }
+
+        bool jesusFixTheFramerate;
     }
 }

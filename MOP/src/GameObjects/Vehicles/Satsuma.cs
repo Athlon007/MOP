@@ -370,13 +370,12 @@ namespace MOP
         /// </summary>
         public void ForceFuckingRotation()
         {
-            if (carDynamics == null)
-                return;
+            if (carDynamics == null) return;
 
-            if (!carDynamics.enabled && !MopFsmManager.IsPlayerInSatsuma())
+            if (!carDynamics.enabled)
             {
                 transform.rotation = lastGoodRotation;
-                transform.position = lastGoodPosition;
+                //transform.position = lastGoodPosition;
             }
         }
 

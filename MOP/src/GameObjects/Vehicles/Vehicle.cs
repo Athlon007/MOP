@@ -67,7 +67,6 @@ namespace MOP
 
         // Used to send FINISHED event, if the trailer is supposed to be attached.
         readonly bool isKekmet;
-        PlayMakerFSM kekmetTrailerFsm;
 
         // Prevents MOP from disabling car's physics when the car has rope hooked
         PlayMakerFSM fsmHookFront;
@@ -184,7 +183,6 @@ namespace MOP
             if (gameObject.name == "KEKMET(350-400psi)")
             {
                 isKekmet = true;
-                kekmetTrailerFsm = transform.Find("Trailer/Hook").gameObject.GetComponent<PlayMakerFSM>();
             }
 
             // Set default toggling method - that is entire vehicle

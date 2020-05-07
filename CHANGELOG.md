@@ -1,66 +1,6 @@
 # Changelog
 
-## 2.8 Development 4 (05.05.2020)
-
-### Changes
-
-- (Development) Improved trunk script loading
-
-### Bug Fixes
-
-- (Development) Fixed a scaling bug for items left in the trunk
-- (Development) Fixed compatibility with the official version of the game
-- Fixed wasp hives resetting to the on load state
-
-## 2.8 Development 3 (05.05.2020)
-
-### Added
-
-- Added check if an item has fallen below the ground. If they did, they're gonna respawn at the yard
-- Added (experimental) Satsuma trunk system! You can enable it using custom rule file flag: experimental_satsuma_trunk
-  - Uppon closing the trunk, all items inside of it will be disabled
-
-### Bug Fixes
-
-- (Development) Fixed a bug which wouldn't let player put on the helmet back on, after taking it off
-- Fixed machine hall disappearing when leaving it
-
-### Removed
-
-- (Development) Removed accidentally left debug stuff
-- (Development) Moose is not toggled anymore
-
-## 2.8 Development 2 (04.05.2020)
-
-### Added
-
-- Haybales are now toggled
-- Added sector at the cottage
-- Added sector at the storage room next to kitchen
-- Added sector on the driveway (you can enable it only using custom rule file: add flag "driveway_sector")
-
-### Changes
-
-- Slightly changed the home sector
-- Rule file flag "ignore" now affects items - it will now prevent disabling of an item, and only allows disabling of the physics and renderers (basically, the old fashioned way)
-- Minor changes in how MOP checks if an item is stored in CarryMore inventory
-
-### Bug Fixes
-
-- (Development) Tangerine Pickup: Fixed refueling not working (you need to update rule files first!)
-- (Development) Fixed kilju bucket resetting to the default value
-- (Development) Fixed a bug, in which items may have fall through the boat
-- (Development) Fixed MOP throwing an error for items that don't have Load and State 1 states
-- (Development) Starter tires *should not* fall through the mansion anymore
-- (Development) Fixed a bug in which MOP wouldn't load rule files, if the flag didn't had any objects
-- Fixed seats not being able to be attached, if they weren't attached before to the car
-- Fixed MOP spaming output_log on game reload
-- Fixed a bug in which MOP would sometimes not load on new game, or save and reload
-- Machine hall next to Uncle's home will not appear and disappear when entering the sector
-- Fixed area checks and sectors preventing user interaction with certain things
-- Minor formatting fix to "mop rules" command output
-
-## 2.8 Development 1 (03.05.2020)
+## 2.8 (07.05.2020)
 
 ### Added
 
@@ -68,10 +8,20 @@
 - Added 2 new flags to rule files:
   - ignore_mod_vehicles - works the same as the setting moved from Advanced settings
   - toggle_all_vehicles_physics_only - works the same as the setting moved from Advanced settings
-- Added a filter to rule files loading, that looks for prohibited items
 - Junk cars are now toggled
 - Mooses are now toggled
 - Rally parts salesman is now toggled
+- Haybales are now toggled
+- Slightly changed the home sector
+- Rule file flag "ignore" now affects items - it will now prevent disabling of an item, and only allows disabling of the physics and renderers (basically, the old fashioned way)
+- Minor changes in how MOP checks if an item is stored in CarryMore inventory
+- Added sector at the cottage
+- Added sector at the storage room next to kitchen
+- Added sector on the driveway (you can enable it only using custom rule file: add flag "driveway_sector")
+- Added check if an item has fallen below the ground. If they did, they're gonna respawn at the yard
+- Added a filter to rule files loading, that looks for prohibited items (related to MOP and MSCLoader)
+- Added (experimental) Satsuma trunk system! You can enable it using custom rule file flag: experimental_satsuma_trunk
+  - Uppon closing the trunk, all items inside of it will be disabled
 
 ### Changes
 
@@ -83,19 +33,19 @@
 - Fixed a bug in which batteries would sometimes teleport back to the car, if it was left on charge
 - Fixed oil fitlers, batteries, spark plugs and and alterantor belts not saving their values
 - Fixed items falling through vehicles
+- Fixed seats not being able to be attached, if they weren't attached before to the car
+- Fixed MOP spaming output_log on game reload
+- Fixed a bug in which MOP would sometimes not load on new game, or save and reload
+- Machine hall next to Uncle's home will not appear and disappear when entering the sector
+- Fixed area checks and sectors preventing user interaction with certain things
+- Minor formatting fix to "mop rules" command output
+- Fixed machine hall disappearing when leaving it
+- Fixed wasp hives resetting to the on load state
+- Fixed a bug, in which the framerate would drop, if player dropped held item
 
 ### Removed
 
 - Removed advanced settings section in the mod settings
-
-### Known Issues
-
-- Starter tires may still fall through the floor
-- Items fall through the boat
-- Trailer still seems to be clipping through the floor
-- Tangerine Pickup: refueling doesn't work
-- Seats may be impossible to attach (needs checking)
-- Kilju bucket resets to on load state
 
 ## 2.7.2 (02.05.2020)
 

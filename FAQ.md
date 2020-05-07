@@ -17,6 +17,7 @@
   - House Light Shadows
   - AI Car Dust Trails
   - Car Mirrors
+  - Show FPS (MSC's built in FPS counter decreases the framerate by up to 10 FPS. I recommend using Steam built in FPS meter, or the Windows 10 one)
 - Move the vehicles or items that you don't use out of the yard
 
 ## What does it disable
@@ -77,9 +78,15 @@ Config -> Mod Settings -> MOP
 
 And unpack the content of the zip file here.
 
-## Something broke (ex. item fell through the ground after) after I teleported
+## Something broke (ex. item fell through the ground after) after I teleported it or self
 
 I'm sorry, but I don't intend on fixing bugs involving cheat mods.
+
+## Found an issue
+
+Great! Remember to always include the output_log and MOP_LOG with your report. You can paste it to Pastebin!
+
+"MOP not work plz fix" won't help me at all!
 
 ## My game stopped working/computer blew up/dog died/I started thermonuclear war because of MOP
 
