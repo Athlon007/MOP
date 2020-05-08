@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.8.1 (tba)
+
+### Added
+
+- Added sector at the cabin
+- Added trigger under the cottage, which teleports the objects that are under it back up
+
+### Changes
+
+- Mattres at the old mansion aren't disabled anymore
+- Tweaked sectors at store and repair shop, so it's not as "in your face" as it used to be
+- Items that have fallen under the map will now respawn on the landfill
+
+### Bug Fixes
+
+- Fixed fish trap not working
+- Fixed coffee pan and jerry cans resetting its value
+
 ## 2.8 (07.05.2020)
 
 ### Added

@@ -34,10 +34,10 @@ namespace MOP
         //
         // OTHERS
         //
-        static bool removeEmptyBeerBottles = false;
+        static bool removeEmptyBeerBottles;
         public static bool RemoveEmptyBeerBottles { get => removeEmptyBeerBottles; }
 
-        static bool satsumaTogglePhysicsOnly = false;
+        static bool satsumaTogglePhysicsOnly;
         public static bool SatsumaTogglePhysicsOnly { get => satsumaTogglePhysicsOnly; }
 
         // RULE FILES

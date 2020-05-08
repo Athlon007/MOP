@@ -70,7 +70,6 @@ namespace MOP
             
             // Get all the other renderers
             renderers = new List<Renderer>();
-            Transform body = this.gameObject.transform.Find("Body");
             renderers = this.gameObject.transform.GetComponentsInChildren<Renderer>(true)
                 .Where(t => !t.gameObject.name.ContainsAny("Sphere", "Capsule", "Cube", "Mokia")).ToList();
 
@@ -375,7 +374,6 @@ namespace MOP
             if (!carDynamics.enabled)
             {
                 transform.rotation = lastGoodRotation;
-                //transform.position = lastGoodPosition;
             }
         }
 

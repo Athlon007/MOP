@@ -86,7 +86,6 @@ namespace MOP
         /// <param name="toggleRendererOnly">If true, only the renderer of that object will be toggled.</param>
         public WorldObject(GameObject gameObject, bool awayFromHouse, bool toggleRendererOnly = false, bool reverseToggle = false)
         {
-            //this.gameObject = GameObject.Find(gameObjectName);
             this.gameObject = gameObject;
             this.AwayFromHouse = awayFromHouse;
             this.ReverseToggle = reverseToggle;

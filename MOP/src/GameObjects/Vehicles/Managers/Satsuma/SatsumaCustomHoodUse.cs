@@ -21,8 +21,6 @@ namespace MOP
 {
     class SatsumaCustomHoodUse : MonoBehaviour
     {
-        //HingeJoint joint;
-
         public bool isActive;
         public bool isHoodOpen;
 
@@ -30,7 +28,6 @@ namespace MOP
 
         void Start()
         {
-            //joint = GetComponent<HingeJoint>();
             FsmHook.FsmInject(gameObject, "State 2", OnClose);
             FsmHook.FsmInject(gameObject, "Mouse off", OnCloseAbandon);
             FsmHook.FsmInject(gameObject, "Open hood 2", HoodOpen);

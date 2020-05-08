@@ -355,7 +355,10 @@ namespace MOP
             }
         }
 
-        internal void IgnoreToggle(bool enabled) { }
+        internal void IgnoreToggle(bool enabled) 
+        {
+            return;
+        }
 
         /// <summary>
         /// Retrieves the child audio objects from parent object.

@@ -37,9 +37,13 @@ namespace MOP
 
             if (ignoreList != null)
                 this.ignoreList = ignoreList;
-
+#if DEBUG
             if (gameObject.name == "MOP_SECTOR_DEBUG")
+            {
                 collider.size = new Vector3(1, 1, 1);
+                gameObject.layer = 0;
+            }
+#endif
         }
 
         void OnTriggerEnter(Collider other)
@@ -149,11 +153,12 @@ namespace MOP
             // Garage
             CreateNewSector(new Vector3(-16.77627f, -0.5062422f, 1.559867f), new Vector3(5, 5, 9), "PierHome");
             // Teimo
-            CreateNewSector(new Vector3(-1547.3f, 4, 1183.35f), new Vector3(9.6f, 5, 5.5f), new Vector3(0, 328, 0), "StreetLights", "HUMANS", "TRAFFIC", "NPC_CARS");
-            // Teimo_2
-            CreateNewSector(new Vector3(-1551.7f, 4, 1185.8f), new Vector3(4.6f, 5, 2.5f), new Vector3(0, 328, 0), "StreetLights", "HUMANS", "TRAFFIC", "NPC_CARS");
+            CreateNewSector(new Vector3(-1547.3f, 4, 1183.35f), new Vector3(9.6f, 5, 5.5f), new Vector3(0, 328, 0), 
+                "StreetLights", "HUMANS", "TRAFFIC", "NPC_CARS", "PERAJARVI", "TrafficSigns", "StreetLights", "ELEC_POLES", "TREES_SMALL1");
+            CreateNewSector(new Vector3(-1551.7f, 4, 1185.8f), new Vector3(4.6f, 5, 2.5f), new Vector3(0, 328, 0), 
+                "StreetLights", "HUMANS", "TRAFFIC", "NPC_CARS", "PERAJARVI", "TrafficSigns", "StreetLights", "ELEC_POLES", "TREES_SMALL1");
             // Repair shop
-            CreateNewSector(new Vector3(1562.49f, 4.8f, 733.8835f), new Vector3(15, 5, 20), new Vector3(0, 335, 0), "TRAFFIC");
+            CreateNewSector(new Vector3(1562.49f, 4.8f, 733.8835f), new Vector3(15, 5, 20), new Vector3(0, 335, 0), "TRAFFIC", "ELEC_POLES");
             // Yard Machine Hall
             CreateNewSector(new Vector3(54.7f, -0.5062422f, -73.9f), new Vector3(6, 5, 5.2f), "YARD", "MachineHall", "BUSHES3", "BUSHES6", "TREES_SMALL1");
             // Home
@@ -164,10 +169,13 @@ namespace MOP
             CreateNewSector(new Vector3(-655, 5, -1156), new Vector3(5, 5, 9f));
             // Cottage
             CreateNewSector(new Vector3(-848.2f, -2, 505.6f), new Vector3(5, 3, 5.2f), new Vector3(0, 342, -1.07f), "BUSHES7", "TREES_SMALL4", "TREES_MEDIUM3", "LakeNice", "TRAFFIC", "Tile");
+            // Cabin
+            CreateNewSector(new Vector3(-165.55f, -3.7f, 1020.7f), new Vector3(5, 4, 3.5f),"LakeNice", "Tile", "BUSHES7", "TREES_SMALL1");
             
             // Driveway sector
             if (Rules.instance.SpecialRules.DrivewaySector)
-                CreateNewSector(new Vector3(-18.5f, -0.5062422f, 11.9f), new Vector3(11f, 5, 9.5f), "PierHome", "TREES_SMALL1", "BUSHES7", "BUSHES3", "BUSHES6", "TREES_MEDIUM3", "YARD", "LakeNice", "Tile"); // Driveway.
+                CreateNewSector(new Vector3(-18.5f, -0.5062422f, 11.9f), new Vector3(11f, 5, 9.5f), 
+                    "PierHome", "TREES_SMALL1", "BUSHES7", "BUSHES3", "BUSHES6", "TREES_MEDIUM3", "YARD", "LakeNice", "Tile"); // Driveway.
         }
 
         void CreateNewSector(Vector3 position, Vector3 size, params string[] ignoreList)

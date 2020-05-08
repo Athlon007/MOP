@@ -91,8 +91,6 @@ namespace MOP
                 GameObject.Find("Interface/Buttons/ButtonNewgame").GetComponent<PlayMakerFSM>()
             };
 
-            //ToggleButtons(false);
-
             if (!MopSettings.RuleFilesAutoUpdateEnabled && !overrideUpdateCheck)
             {
                 ModConsole.Print("<color=orange>[MOP] Rule files auto update is disabled.</color>");

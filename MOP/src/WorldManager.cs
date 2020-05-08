@@ -269,6 +269,15 @@ namespace MOP
             stateDropPart.Actions[0] = new CustomNullState();
             stateDropPart.SaveActions();
 
+            // Preventing mattres from being disabled.
+            GameObject.Find("DINGONBIISI").transform.Find("mattres").parent = null;
+
+            // Item anti stuck for cottage.
+            GameObject area = new GameObject("MOP_ItemAntiClip");
+            area.transform.position = new Vector3(-848.3f, -5.4f, 505.5f);
+            area.transform.eulerAngles = new Vector3(0, 343.0013f, 0);
+            area.AddComponent<ItemAntiClip>();
+
             ModConsole.Print("[MOP] Finished applying fixes");
 
             //Things that should be enabled when out of proximity of the house
@@ -931,7 +940,6 @@ namespace MOP
 
             // Hood
             Transform hood = GameObject.Find("hood(Clone)").transform;
-            PlayMakerFSM hoodRemoval = hood.gameObject.GetPlayMakerByName("Removal");
             CustomPlayMakerFixedUpdate hoodFixedUpdate = hood.gameObject.AddComponent<CustomPlayMakerFixedUpdate>();
 
             // Fiber Hood

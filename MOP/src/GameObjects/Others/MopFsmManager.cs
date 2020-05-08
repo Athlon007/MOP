@@ -19,7 +19,7 @@ using UnityEngine;
 
 namespace MOP
 {
-    class MopFsmManager
+    static class MopFsmManager
     {
         static FsmInt uncleStage;
         static FsmBool gtGrilleInstalled;
