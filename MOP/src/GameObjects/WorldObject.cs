@@ -46,7 +46,7 @@ namespace MOP
         /// <summary>
         /// Object's renderer
         /// </summary>
-        Renderer renderer;
+        readonly Renderer renderer;
 
         /// <summary>
         /// Initializes the Objects instance.

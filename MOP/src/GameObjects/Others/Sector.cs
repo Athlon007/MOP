@@ -75,12 +75,12 @@ namespace MOP
     {
         public static SectorManager instance;
 
-        List<GameObject> disabledObjects;
+        readonly List<GameObject> disabledObjects;
         public List<GameObject> DisabledObjects { get => disabledObjects; }
 
         public bool PlayerInSector;
 
-        List<GameObject> sectors;
+        readonly List<GameObject> sectors;
 
         public SectorManager()
         {

@@ -15,7 +15,6 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
-using HutongGames.PlayMaker.Actions;
 using MSCLoader;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,11 +30,11 @@ namespace MOP
         bool afterFirstLoad;
 
         List<GameObject> trunkContent;
-        Rigidbody rb;
+        readonly Rigidbody rb;
         float currentMass;
 
-        FsmBool bootlidOpen;
-        Transform rearSeatPivot;
+        readonly FsmBool bootlidOpen;
+        readonly Transform rearSeatPivot;
 
         public SatsumaTrunk()
         {

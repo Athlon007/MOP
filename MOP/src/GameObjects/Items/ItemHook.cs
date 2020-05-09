@@ -29,11 +29,6 @@ namespace MOP
         // ObjectHook class by Konrad "Athlon" Figura
 
         /// <summary>
-        /// PlayMakerFSM script of the object
-        /// </summary>
-        readonly PlayMakerFSM playMakerFSM;
-
-        /// <summary>
         /// Rigidbody of this object.
         /// </summary>
         readonly Rigidbody rb;
@@ -41,13 +36,15 @@ namespace MOP
         /// <summary>
         /// Object's renderer
         /// </summary>
-        Renderer renderer;
+        readonly Renderer renderer;
 
         Vector3 position;
 
         bool firstLoad;
 
         public bool IsInHood;
+
+        readonly FsmBool batteryOnCharged;
 
         public ItemHook()
         {
@@ -76,7 +73,7 @@ namespace MOP
 
             // Get object's components
             rb = GetComponent<Rigidbody>();
-            playMakerFSM = GetComponent<PlayMakerFSM>();
+            PlayMakerFSM playMakerFSM = GetComponent<PlayMakerFSM>();
             renderer = GetComponent<Renderer>();
 
             // From PlayMakerFSM, find states that contain one of the names that relate to destroying object,
@@ -159,6 +156,11 @@ namespace MOP
                     loadState.Actions = emptyActions.ToArray();
                     loadState.SaveActions();
                 }
+
+                if (this.gameObject.name == "battery(Clone)")
+                {
+                    batteryOnCharged = useFsm.FsmVariables.GetFsmBool("OnCharged");
+                }
             }
 
             PlayMakerFSM dataFsm = gameObject.GetPlayMakerByName("Data");
@@ -167,9 +169,25 @@ namespace MOP
                 dataFsm.Fsm.RestartOnEnable = false;
             }
 
+            // Don't reset the fluid level for jerry cans.
             if (gameObject.name.EqualsAny("diesel(itemx)", "gasoline(itemx)"))
             {
                 transform.Find("FluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            }
+
+            if (gameObject.name == "motor oil(itemx)")
+            {
+                transform.Find("MotorOilTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            }
+
+            if (gameObject.name == "coolant(itemx)")
+            {
+                transform.Find("CoolantTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            }
+
+            if (gameObject.name == "brake fluid(itemx)")
+            {
+                transform.Find("BrakeFluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
             }
         }
 
@@ -211,6 +229,12 @@ namespace MOP
                     return;
                 }
 
+                // Toggle only rigidbody if the battery is on charge.
+                if (!enabled && this.gameObject.name == "battery(Clone)" && batteryOnCharged.Value)
+                {
+                    return;
+                }
+
                 // Don't disabler wheels that are attached to the car.
                 if (this.gameObject.name == "wheel_regula")
                 {
@@ -233,7 +257,7 @@ namespace MOP
 
                 // Check if item is in CarryMore inventory.
                 // If so, ignore that item.
-                if (CompatibilityManager.instance.CarryMore && transform.position.y < -900)
+                if (CompatibilityManager.CarryMore && transform.position.y < -900)
                 {
                     return;
                 }
@@ -269,9 +293,14 @@ namespace MOP
 
                 // Check if item is in CarryMore inventory.
                 // If so, ignore that item.
-                if (CompatibilityManager.instance.CarryMore && transform.position.y < -900)
+                if (CompatibilityManager.CarryMore && transform.position.y < -900)
                 {
                     return;
+                }
+
+                if (enabled && this.gameObject.name == "battery(Clone)" && !batteryOnCharged.Value)
+                {
+                    Toggle = ToggleActive;
                 }
 
                 rb.detectCollisions = enabled;

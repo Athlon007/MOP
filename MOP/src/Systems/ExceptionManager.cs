@@ -104,14 +104,14 @@ namespace MOP
 
             output += $"ActiveDistance: {MopSettings.ActiveDistance}\n";
             output += $"ActiveDistanceMultiplicationValue: {MopSettings.ActiveDistanceMultiplicationValue}\n";
-            output += $"SafeMode: {MopSettings.SafeMode.ToString()}\n";
-            output += $"RemoveEmptyBeerBottles: {MopSettings.RemoveEmptyBeerBottles.ToString()}\n";
-            output += $"SatsumaTogglePhysicsOnly: {MopSettings.SatsumaTogglePhysicsOnly.ToString()}\n";
-            output += $"ToggleVehiclePhysicsOnly: {Rules.instance.SpecialRules.ToggleAllVehiclesPhysicsOnly.ToString()}\n";
-            output += $"IgnoreModVehicles: {Rules.instance.SpecialRules.IgnoreModVehicles.ToString()}\n";
-            output += $"EnableFramerateLimiter: {((bool)MOP.enableFramerateLimiter.GetValue()).ToString()}\n";
-            output += $"FramerateLimiter: {MOP.framerateLimiter.GetValue().ToString()}\n";
-            output += $"RulesAutoUpdate: {MOP.rulesAutoUpdate.GetValue().ToString()}\n"; 
+            output += $"SafeMode: {MopSettings.SafeMode}\n";
+            output += $"RemoveEmptyBeerBottles: {MopSettings.RemoveEmptyBeerBottles}\n";
+            output += $"SatsumaTogglePhysicsOnly: {MopSettings.SatsumaTogglePhysicsOnly}\n";
+            output += $"ToggleVehiclePhysicsOnly: {Rules.instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";
+            output += $"IgnoreModVehicles: {Rules.instance.SpecialRules.IgnoreModVehicles}\n";
+            output += $"EnableFramerateLimiter: {((bool)MOP.enableFramerateLimiter.GetValue())}\n";
+            output += $"FramerateLimiter: {MOP.framerateLimiter.GetValue()}\n";
+            output += $"RulesAutoUpdate: {MOP.rulesAutoUpdate.GetValue()}\n"; 
             output += $"RulesAutoUpdateFrequency: {MopSettings.GetRuleFilesUpdateDaysFrequency()}\n";
             output += $"CustomRuleFile: {customRuleFile}\n\n";
             output += $"CheckSteam: {ModLoader.CheckSteam()} \n";
@@ -155,10 +155,10 @@ namespace MOP
         public static string GetSystemInfo()
         {
             string fullOS = SystemInfo.operatingSystem;
-            string realOS = fullOS.Split('(')[0].Trim();
             int build = int.Parse(fullOS.Split('(')[1].Split(')')[0].Split('.')[2]);
             if (build > 9600)
             {
+                string realOS = fullOS.Split('(')[0].Trim();
                 realOS = $"Windows 10 (10.0.{build})";
                 
                 if (SystemInfo.operatingSystem.Contains("64bit"))

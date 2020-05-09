@@ -31,7 +31,7 @@ namespace MOP
         //
         // NOTE: That script DOES NOT disable the repairshop itself, rather some of its childrens.
 
-        string[] blackList = {
+        readonly string[] blackList = {
             "REPAIRSHOP", "JunkCar", "sats_burn_masse", "TireOld(Clone)", "Order", "JunkYardJob",
             "BoozeJob", "Spawn", "SatsumaSpawns", "SeatPivot", "DistanceTarget", "SpawnToRepair",
             "PartsDistanceTarget", "JunkCarSpawns", "Parts", "wheel_regul", "rpm gauge(Clone)",

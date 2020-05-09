@@ -93,8 +93,7 @@ namespace MOP
                     {
                         PlayMakerFSM fanbeltUse = items[i].GetPlayMakerByName("Use");
                         FsmState loadFanbelt = fanbeltUse.FindFsmState("Load");
-                        List<FsmStateAction> emptyActions = new List<FsmStateAction>();
-                        emptyActions.Add(new CustomNullState());
+                        List<FsmStateAction> emptyActions = new List<FsmStateAction> { new CustomNullState() };
                         loadFanbelt.Actions = emptyActions.ToArray();
                         loadFanbelt.SaveActions();
                     }
@@ -111,16 +110,22 @@ namespace MOP
 
         IEnumerator SparkPlugRoutine()
         {
-            yield return new WaitForSeconds(.1f);
-            GameObject[] plugs = GameObject.FindGameObjectsWithTag("PART").Where(g => g.name == "spark plug(Clone)").ToArray();
+            yield return new WaitForSeconds(.5f);
+            GameObject[] plugs = GameObject.FindGameObjectsWithTag("PART").Where(g => g.name.EqualsAny("spark plug(Clone)", "light bulb(Clone)")).ToArray();
             for (int i = 0; i < plugs.Length; i++)
             {
                 PlayMakerFSM fanbeltUse = plugs[i].GetPlayMakerByName("Use");
                 FsmState loadFanbelt = fanbeltUse.FindFsmState("Load");
-                List<FsmStateAction> emptyActions = new List<FsmStateAction>();
-                emptyActions.Add(new CustomNullState());
+                List<FsmStateAction> emptyActions = new List<FsmStateAction> { new CustomNullState() };
                 loadFanbelt.Actions = emptyActions.ToArray();
                 loadFanbelt.SaveActions();
+
+                FsmState state1 = fanbeltUse.FindFsmState("State 1");
+                state1.Actions = emptyActions.ToArray();
+                state1.SaveActions();
+
+                if (plugs[i].GetComponent<ItemHook>() == null)
+                    plugs[i].AddComponent<ItemHook>();
             }
         }
     }

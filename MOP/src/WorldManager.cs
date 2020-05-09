@@ -62,7 +62,7 @@ namespace MOP
 
             // If the GT grille is attached, perform extra delay, until the "grille gt(Clone)" parent isn't "pivot_grille",
             // or until 5 seconds have passed.
-            int ticks = 0;
+            int counter = 0;
             GameObject gtGrille = GameObject.Find("grille gt(Clone)");
             if (gtGrille != null)
             {
@@ -72,8 +72,8 @@ namespace MOP
                     yield return new WaitForSeconds(1);
 
                     // Escape the loop after 5 retries
-                    ticks++;
-                    if (ticks > 5)
+                    counter++;
+                    if (counter > 5)
                         break;
                 }
             }
@@ -239,8 +239,7 @@ namespace MOP
             // Fixed Ventii bet resetting to default on cabin load.
             PlayMakerFSM cabinGameManagerUseFsm = GameObject.Find("CABIN").transform.Find("Cabin/Ventti/Table/GameManager").gameObject.GetPlayMakerByName("Use");
             FsmState loadFanbelt = cabinGameManagerUseFsm.FindFsmState("Load game");
-            List<FsmStateAction> emptyActions = new List<FsmStateAction>();
-            emptyActions.Add(new CustomNullState());
+            List<FsmStateAction> emptyActions = new List<FsmStateAction> { new CustomNullState() };
             loadFanbelt.Actions = emptyActions.ToArray();
             loadFanbelt.SaveActions();
 
@@ -263,11 +262,29 @@ namespace MOP
                 wasphive.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
             }
 
-            // Test fix for FPS drop while dropping stuff.
-            PlayMakerFSM pickUp = GameObject.Find("PLAYER/Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/Hand").GetPlayMakerByName("PickUp");
+            // Disabling the script that sets the kinematic state of Satsuma to False.
+            GameObject hand = GameObject.Find("PLAYER/Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/Hand");
+            PlayMakerFSM pickUp = hand.GetPlayMakerByName("PickUp");
+            
             FsmState stateDropPart = pickUp.FindFsmState("Drop part");
             stateDropPart.Actions[0] = new CustomNullState();
             stateDropPart.SaveActions();
+
+            FsmState stateDropPart2 = pickUp.FindFsmState("Drop part 2");
+            stateDropPart2.Actions[0] = new CustomNullState();
+            stateDropPart2.SaveActions();
+
+            FsmState stateToolPicked = pickUp.FindFsmState("Tool picked");
+            stateToolPicked.Actions[2] = new CustomNullState();
+            stateToolPicked.SaveActions();
+
+            FsmState stateDropTool = pickUp.FindFsmState("Drop tool");
+            stateDropTool.Actions[0] = new CustomNullState();
+            stateDropTool.SaveActions();
+
+            //FsmState stateMotorKinematic = pickUp.FindFsmState("Motor kinematic");
+            //stateMotorKinematic.Actions[3] = new CustomNullState();
+            //stateMotorKinematic.SaveActions();
 
             // Preventing mattres from being disabled.
             GameObject.Find("DINGONBIISI").transform.Find("mattres").parent = null;
@@ -365,6 +382,9 @@ namespace MOP
                 {
                     switch (v.ToggleMode)
                     {
+                        default:
+                            ModConsole.Error($"[MOP] Unrecognized toggle mode {v.ObjectName}.");
+                            break;
                         case ToggleModes.Normal:
                             if (GameObject.Find(v.ObjectName) == null)
                             {
@@ -916,7 +936,9 @@ namespace MOP
             {
                 this.gameObject.AddComponent<SectorManager>();
 
+#pragma warning disable IDE0017 // Simplify object initialization
                 GameObject colliderCheck = new GameObject("MOP_PlayerCheck");
+#pragma warning restore IDE0017 // Simplify object initialization
                 colliderCheck.layer = 20;
                 colliderCheck.transform.parent = GameObject.Find("PLAYER").transform;
                 colliderCheck.transform.localPosition = Vector3.zero;

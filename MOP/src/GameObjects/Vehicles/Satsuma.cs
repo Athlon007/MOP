@@ -30,24 +30,20 @@ namespace MOP
 
         public static Satsuma instance;
 
-        Transform[] disableableObjects;
-        string[] whiteList;
+        public bool IsSatsumaInInspectionArea;
+        public bool AfterFirstEnable;
 
-        public bool IsSatsumaInInspectionArea { get; set; }
+        readonly Transform[] disableableObjects;
+        readonly string[] whiteList;
 
-        List<Renderer> renderers;
-        bool renderersToggled;
-
-        List<Renderer> engineBayRenderers;
-        Transform pivotHood;
-
-        bool currentStatus = true;
+        readonly List<Renderer> renderers;
+        readonly List<Renderer> engineBayRenderers;
+        
+        readonly Transform pivotHood;
 
         bool preventDespawnDuringThisSession;
 
-        public bool AfterFirstEnable;
-
-        SatsumaTrunk trunk;
+        readonly SatsumaTrunk trunk;
 
         /// <summary>
         /// Initialize class
@@ -109,8 +105,7 @@ namespace MOP
             // Fix for mechanical wear of the car.
             PlayMakerFSM mechanicalWearFsm = transform.Find("CarSimulation/MechanicalWear").gameObject.GetComponent<PlayMakerFSM>();
             FsmState loadGame = mechanicalWearFsm.FindFsmState("Load game");
-            List<FsmStateAction> loadArrayActions = new List<FsmStateAction>();
-            loadArrayActions.Add(new CustomNullState());
+            List<FsmStateAction> loadArrayActions = new List<FsmStateAction> { new CustomNullState() };
             loadGame.Actions = loadArrayActions.ToArray();
             loadGame.SaveActions();
             
@@ -124,8 +119,7 @@ namespace MOP
             PlayMakerFSM handbrakeLeverFsm = transform.Find("MiscParts/HandBrake/handbrake(xxxxx)/handbrake lever")
                 .gameObject.GetPlayMakerByName("Use");
             FsmState loadHandbrake = handbrakeLeverFsm.FindFsmState("Load");
-            List<FsmStateAction> loadHandbrakeArrayActions = new List<FsmStateAction>();
-            loadHandbrakeArrayActions.Add(new CustomNullState());
+            List<FsmStateAction> loadHandbrakeArrayActions = new List<FsmStateAction> { new CustomNullState() };
             loadHandbrake.Actions = loadHandbrakeArrayActions.ToArray();
             loadGame.SaveActions();
             
@@ -254,9 +248,7 @@ namespace MOP
         new void ToggleActive(bool enabled)
         {
             // Don't run the code, if the value is the same
-            if (gameObject == null || currentStatus == enabled) return;
-
-            currentStatus = enabled;
+            if (gameObject == null || disableableObjects[0].gameObject.activeSelf == enabled) return;
 
             if (!enabled)
             {
@@ -310,7 +302,9 @@ namespace MOP
         {
             if (Rules.instance.SpecialRules.SatsumaIgnoreRenderers || engineBayRenderers.Count == 0
                 || engineBayRenderers[0].enabled == enabled || !IsHoodAttached()) return;
-            if (renderersToggled) return;
+            
+            // Don't disable engine renderers, if the all car's renderers are disabled.
+            if (!renderers[0].enabled && !enabled) return;
 
             for (int i = 0; i < engineBayRenderers.Count; i++)
             {
@@ -359,8 +353,6 @@ namespace MOP
                     ExceptionManager.New(ex, "SATSUMA_RENDERER_TOGGLE_ISSUE");
                 }
             }
-
-            renderersToggled = enabled;
         }
 
         /// <summary>
@@ -374,6 +366,7 @@ namespace MOP
             if (!carDynamics.enabled)
             {
                 transform.rotation = lastGoodRotation;
+                transform.position = lastGoodPosition;
             }
         }
 

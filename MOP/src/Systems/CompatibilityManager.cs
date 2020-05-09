@@ -25,16 +25,13 @@ namespace MOP
         // This method is only used in certain special cases.
         // Current correct method is to use rule files!
 
-        public static CompatibilityManager instance;
-
         // CarryMore
         // https://www.racedepartment.com/downloads/carry-more-backpack-alternative.22396/
-        public bool CarryMore { get; private set; }
+        public static bool CarryMore { get; private set; }
         public readonly Vector3 CarryMoreTempPosition = new Vector3(0.0f, -1000.0f, 0.0f);
 
         public CompatibilityManager()
         {
-            instance = this;
             CarryMore = ModLoader.IsModPresent("CarryMore");
         }
     }
