@@ -22,7 +22,7 @@ namespace MOP
     {
         // This script replaces the PlayMaker's PlayMakerFixedUpdate.
 
-        PlayMakerFSM[] fsms;
+        readonly PlayMakerFSM[] fsms;
         bool isRunning;
 
         public CustomPlayMakerFixedUpdate()

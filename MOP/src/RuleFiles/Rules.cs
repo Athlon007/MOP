@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using MSCLoader;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,14 +47,13 @@ namespace MOP
             IgnoreRules = new List<IgnoreRule>();
             IgnoreRulesAtPlaces = new List<IgnoreRuleAtPlace>();
             PreventToggleOnObjectRule = new List<PreventToggleOnObjectRule>();
+            SectorRules = new List<string>();
 
             ToggleRules = new List<ToggleRule>();
 
             SpecialRules = new SpecialRules();
 
             RuleFileNames = new List<string>();
-
-            SectorRules = new List<string>();
 
             // Destroy old rule files loader object, if it exists.
             GameObject oldRuleFilesLoader = GameObject.Find("MOP_RuleFilesLoader");

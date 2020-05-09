@@ -18,35 +18,26 @@ using UnityEngine;
 
 namespace MOP
 {
-    class MopSettings
+    static class MopSettings
     {
         // This is the master switch of MOP. If deactivated, all functions will freeze.
         public static bool IsModActive { get; set; }
 
-        //
         // ACTIVATING OBJECTS
-        //
         public static int ActiveDistance { get; private set; }
         public static float ActiveDistanceMultiplicationValue { get; private set; }
 
         public static bool SafeMode { get; set; }
 
-        //
         // OTHERS
-        //
-        static bool removeEmptyBeerBottles = false;
+        static bool removeEmptyBeerBottles;
         public static bool RemoveEmptyBeerBottles { get => removeEmptyBeerBottles; }
 
-        static bool satsumaTogglePhysicsOnly = false;
+        static bool satsumaTogglePhysicsOnly;
         public static bool SatsumaTogglePhysicsOnly { get => satsumaTogglePhysicsOnly; }
 
         // RULE FILES
         public static bool RuleFilesAutoUpdateEnabled { get => (bool)MOP.rulesAutoUpdate.GetValue(); }
-
-
-        //
-        // MISCELLANEOUS
-        //
 
         // Distance after which car physics are toggled
         public const int UnityCarActiveDistance = 5;

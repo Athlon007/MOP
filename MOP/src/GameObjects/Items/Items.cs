@@ -35,14 +35,14 @@ namespace MOP
         "spray can", "two stroke fuel", "wiring mess", "wood carrier", "yeast", "shopping bag", "flashlight",
         "beer case", "fireworks bag", "lantern", "dipper", "coffee pan", "fireworks bag", "camera",
         "water bucket", "car jack", "warning triangle", "spirit", "diskette", "empty", "empty bottle", "battery",
-        "alternator belt", "spark plug box" };
+        "alternator belt", "spark plug box", "car light bulb box", "light bulb", "spark plug" };
 
         public string[] whiteList = { "grille gt" };
 
         // List of ObjectHooks attached to minor objects
         public List<ItemHook> ItemsHooks = new List<ItemHook>();
 
-        CashRegisterHook cashRegisterHook;
+        readonly CashRegisterHook cashRegisterHook;
 
         /// <summary>
         /// Initialize MinorObjects class
@@ -93,7 +93,6 @@ namespace MOP
         {
             // Get all minor objects from the game world (like beer cases, sausages)
             // Only items that are in the listOfMinorObjects list, and also contain "(itemx)" in their name will be loaded
-
             GameObject[] items = Object.FindObjectsOfType<GameObject>()
                 .Where(gm => gm.name.ContainsAny(blackList)
                 && gm.name.ContainsAny("(itemx)", "(Clone)") && gm.activeSelf).ToArray();
@@ -111,7 +110,7 @@ namespace MOP
                         FsmHook.FsmInject(items[i], "Spawn all", cashRegisterHook.TriggerMinorObjectRefresh);
                     }
 
-                    if (items[i].name.StartsWith("spark plug box"))
+                    if (items[i].name.EqualsAny("spark plug box(Clone)", "car light bulb box(Clone)"))
                     {
                         FsmHook.FsmInject(items[i], "Create Plug", cashRegisterHook.WipeUseLoadOnSparkPlugs);
                     }

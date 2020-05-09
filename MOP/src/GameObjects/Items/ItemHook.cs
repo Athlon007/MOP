@@ -29,25 +29,22 @@ namespace MOP
         // ObjectHook class by Konrad "Athlon" Figura
 
         /// <summary>
-        /// PlayMakerFSM script of the object
-        /// </summary>
-        PlayMakerFSM playMakerFSM;
-
-        /// <summary>
         /// Rigidbody of this object.
         /// </summary>
-        Rigidbody rb;
+        readonly Rigidbody rb;
 
         /// <summary>
         /// Object's renderer
         /// </summary>
-        Renderer renderer;
+        readonly Renderer renderer;
 
         Vector3 position;
 
         bool firstLoad;
 
         public bool IsInHood;
+
+        readonly FsmBool batteryOnCharged;
 
         public ItemHook()
         {
@@ -65,12 +62,18 @@ namespace MOP
                 }
             }
 
+            // Use the old method, if for some reason item cannot be disabled.
+            if (this.gameObject.name.EqualsAny("fish trap(itemx)"))
+            {
+                Toggle = ToggleActiveOldMethod;
+            }
+
             // Add self to the MinorObjects.objectHooks list
             Items.instance.Add(this);
 
             // Get object's components
             rb = GetComponent<Rigidbody>();
-            playMakerFSM = GetComponent<PlayMakerFSM>();
+            PlayMakerFSM playMakerFSM = GetComponent<PlayMakerFSM>();
             renderer = GetComponent<Renderer>();
 
             // From PlayMakerFSM, find states that contain one of the names that relate to destroying object,
@@ -117,13 +120,17 @@ namespace MOP
 
             // If ignore, disable renderer
             if (rule != null)
+            {
                 renderer = null;
+            }
 
             position = transform.position;
 
             // Fixes a bug which would prevent player from putting on the helmet, after taking it off.
             if (this.gameObject.name == "helmet(itemx)")
+            {
                 return;
+            }
 
             // We're preventing the execution of State 1 and Load,
             // because these two reset the variables of the item
@@ -149,6 +156,38 @@ namespace MOP
                     loadState.Actions = emptyActions.ToArray();
                     loadState.SaveActions();
                 }
+
+                if (this.gameObject.name == "battery(Clone)")
+                {
+                    batteryOnCharged = useFsm.FsmVariables.GetFsmBool("OnCharged");
+                }
+            }
+
+            PlayMakerFSM dataFsm = gameObject.GetPlayMakerByName("Data");
+            if (dataFsm != null)
+            {
+                dataFsm.Fsm.RestartOnEnable = false;
+            }
+
+            // Don't reset the fluid level for jerry cans.
+            if (gameObject.name.EqualsAny("diesel(itemx)", "gasoline(itemx)"))
+            {
+                transform.Find("FluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            }
+
+            if (gameObject.name == "motor oil(itemx)")
+            {
+                transform.Find("MotorOilTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            }
+
+            if (gameObject.name == "coolant(itemx)")
+            {
+                transform.Find("CoolantTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            }
+
+            if (gameObject.name == "brake fluid(itemx)")
+            {
+                transform.Find("BrakeFluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
             }
         }
 
@@ -170,19 +209,31 @@ namespace MOP
         {
             try
             {
+                // If the item has fallen under the detection range of the game's built in garbage collector,
+                // teleport that item manually to the landfill.
                 if (!firstLoad)
                 {
                     if (transform.position.y < -100 && transform.position.x != 0 && transform.position.z != 0)
-                        transform.position = new Vector3(0, 2, 0);
+                        transform.position = GameObject.Find("LostSpawner").transform.position;
 
                     firstLoad = true;
                 }
 
                 if (IsInHood)
+                {
                     return;
+                }
 
                 if (gameObject.activeSelf == enabled)
+                {
                     return;
+                }
+
+                // Toggle only rigidbody if the battery is on charge.
+                if (!enabled && this.gameObject.name == "battery(Clone)" && batteryOnCharged.Value)
+                {
+                    return;
+                }
 
                 // Don't disabler wheels that are attached to the car.
                 if (this.gameObject.name == "wheel_regula")
@@ -194,8 +245,11 @@ namespace MOP
 
                 // Fix for batteries popping out of the car.
                 if (this.gameObject.name == "battery(Clone)" && this.gameObject.transform.parent.gameObject.name == "pivot_battery")
+                {
                     return;
+                }
 
+                // Don't disable the helmet, if player has put it on.
                 if (this.gameObject.name == "helmet(itemx)" && MopFsmManager.PlayerHelmetOn())
                 {
                     return;
@@ -203,8 +257,10 @@ namespace MOP
 
                 // Check if item is in CarryMore inventory.
                 // If so, ignore that item.
-                if (CompatibilityManager.instance.CarryMore && transform.position.y < -900)
+                if (CompatibilityManager.CarryMore && transform.position.y < -900)
+                {
                     return;
+                }
 
                 gameObject.SetActive(enabled);
             }
@@ -216,23 +272,36 @@ namespace MOP
             try
             {
                 if (rb == null || rb.useGravity == enabled)
+                {
                     return;
+                }
 
                 if (this.gameObject.name == "wheel_regula")
                 {
                     Transform root = this.gameObject.transform.parent;
                     if (root != null && root.gameObject.name == "pivot_wheel_standard")
+                    {
                         return;
+                    }
                 }
 
                 // Fix for batteries popping out of the car.
                 if (this.gameObject.name == "battery(Clone)" && this.gameObject.transform.parent.gameObject.name == "pivot_battery")
+                {
                     return;
+                }
 
                 // Check if item is in CarryMore inventory.
                 // If so, ignore that item.
-                if (CompatibilityManager.instance.CarryMore && transform.position.y < -900)
+                if (CompatibilityManager.CarryMore && transform.position.y < -900)
+                {
                     return;
+                }
+
+                if (enabled && this.gameObject.name == "battery(Clone)" && !batteryOnCharged.Value)
+                {
+                    Toggle = ToggleActive;
+                }
 
                 rb.detectCollisions = enabled;
                 rb.isKinematic = !enabled;
@@ -244,11 +313,15 @@ namespace MOP
                     rb.velocity = Vector3.zero;
                 }
                 else
+                {
                     position = transform.position;
+                }
 
                 // Disable object's renderer on distance
                 if (renderer != null)
+                {
                     renderer.enabled = enabled;
+                }
             }
             catch { }
         }
@@ -261,7 +334,9 @@ namespace MOP
         {
             // If the setting is not enabled, return.
             if (!MopSettings.RemoveEmptyBeerBottles)
+            {
                 return;
+            }
 
             // If Bottle Recycling mod is present, prevent destroying beer bottles
             if (Rules.instance.SpecialRules.DontDestroyEmptyBeerBottles)

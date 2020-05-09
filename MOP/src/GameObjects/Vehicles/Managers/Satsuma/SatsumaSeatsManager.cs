@@ -21,8 +21,8 @@ namespace MOP
 {
     class SatsumaSeatsManager : MonoBehaviour
     {
-        Rigidbody rb;
-        FsmFloat tightness;
+        readonly Rigidbody rb;
+        readonly FsmFloat tightness;
         readonly float defaultMass;
         float lastTightnessValue;
 

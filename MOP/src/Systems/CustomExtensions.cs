@@ -101,7 +101,7 @@ namespace MOP
             return false;
         }
 
-        static string[] rainbow = new string[] { "red", "orange", "yellow", "green", "blue", "purple" };
+        readonly static string[] rainbow = new string[] { "red", "orange", "yellow", "green", "blue", "purple" };
         public static string Rainbowmize(this string input)
         {
             char[] inputArray = input.ToCharArray();

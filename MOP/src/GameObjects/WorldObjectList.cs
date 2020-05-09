@@ -25,7 +25,7 @@ namespace MOP
         // This script manages the list of WorldObjects.
         // Basically, objects that are static, such as buildings.
 
-        List<WorldObject> worldObjects;
+        readonly List<WorldObject> worldObjects;
 
         /// <summary>
         /// Returns the length of the list.

@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using UnityEngine;
 
@@ -90,8 +89,6 @@ namespace MOP
                 GameObject.Find("Interface/Buttons/ButtonContinue").GetComponent<PlayMakerFSM>(),
                 GameObject.Find("Interface/Buttons/ButtonNewgame").GetComponent<PlayMakerFSM>()
             };
-
-            //ToggleButtons(false);
 
             if (!MopSettings.RuleFilesAutoUpdateEnabled && !overrideUpdateCheck)
             {
@@ -471,6 +468,7 @@ namespace MOP
                         case "prevent_toggle_on_object":
                             Rules.instance.PreventToggleOnObjectRule.Add(new PreventToggleOnObjectRule(objects[0], objects[1]));
                             break;
+
                         // Custom.txt exclusives.
                         case "ignore_mod_vehicles":
                             if (fileName != "Custom.txt")
@@ -509,7 +507,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                ModConsole.Error($"[MOP] Error loading rule {rulePath}: {ex.ToString()}.");
+                ModConsole.Error($"[MOP] Error loading rule {rulePath}: {ex}.");
                 NewMessage($"<color=red>MOP: Error loading rule :(");
                 ToggleButtons(true);
             }

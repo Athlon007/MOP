@@ -31,7 +31,7 @@ namespace MOP
 #endif
         public override string Author => "Athlon"; //Your Username
 
-        public override string Version => "2.8"; //Version
+        public override string Version => "2.8.1"; //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
@@ -50,7 +50,7 @@ namespace MOP
 
         public override void ModSettingsLoaded()
         {
-            ModConfigPath = ModLoader.GetModConfigFolder(this);
+            ModConfigPath = ModLoader.GetModConfigFolder(this).Replace('\\', '/');
             MopSettings.UpdateAll();
             ModVersion = Version;
             ModConsole.Print($"<color=green>MOP {ModVersion} initialized!</color>");
@@ -82,7 +82,7 @@ namespace MOP
 
         // ACTIVATING OBJECTS
         public static Settings activeDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
-        string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
+        readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
         public static Settings safeMode = new Settings("safeMode", "Safe Mode (requires restart)", false, MopSettings.UpdateAll);
 
         // GRAPHICS
@@ -92,7 +92,7 @@ namespace MOP
         // MOD RULES
         public static Settings rulesAutoUpdate = new Settings("rulesAutoUpdate", "Rules Auto Update", true, MopSettings.UpdateAll);
         public static Settings rulesAutoUpdateFrequency = new Settings("rulesAutoUpdateFrequency", "Auto Update Frequency", 2);
-        string[] rulesAutoUpdateFrequencyText = { "Daily", "Every 2 days", "Weekly" };
+        readonly string[] rulesAutoUpdateFrequencyText = { "Daily", "Every 2 days", "Weekly" };
         readonly Settings forceRuleUpdate = new Settings("forceRuleUpdate", "Force Update", ForceRuleFilesUpdate);
         readonly Settings rulesLearnMore = new Settings("rulesLearnMore", "Learn More", OpenRulesWebsiteDialog);
         public static Settings noDeleteRuleFiles = new Settings("noDeleteRuleFiles", "Don't delete unused rule files", false, MopSettings.UpdateAll);

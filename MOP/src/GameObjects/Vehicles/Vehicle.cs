@@ -60,7 +60,7 @@ namespace MOP
         internal CarDynamics carDynamics;
         internal Axles axles;
         internal Rigidbody rb;
-        Drivetrain drivetrain;
+        readonly Drivetrain drivetrain;
 
         // Applies extra fixes, if is set to true.
         readonly bool isHayosiko;
@@ -69,11 +69,11 @@ namespace MOP
         readonly bool isKekmet;
 
         // Prevents MOP from disabling car's physics when the car has rope hooked
-        PlayMakerFSM fsmHookFront;
-        PlayMakerFSM fsmHookRear;
+        readonly PlayMakerFSM fsmHookFront;
+        readonly PlayMakerFSM fsmHookRear;
 
         // Reference to one of the wheels that checks if the vehicle is on ground
-        Wheel wheel;
+        readonly Wheel wheel;
 
         // Currently used only by Shitsuma.
         internal Quaternion lastGoodRotation;
@@ -144,7 +144,7 @@ namespace MOP
                 
                 PlayMakerFSM shitFsm = gameObject.transform.Find("ShitTank").gameObject.GetComponent<PlayMakerFSM>();
                 FsmState loadGame = shitFsm.FindFsmState("Load game");
-                List<FsmStateAction> loadArrayActions = new List<FsmStateAction>();
+                List<FsmStateAction> loadArrayActions = new List<FsmStateAction> { new CustomNullState() };
                 loadArrayActions.Add(new CustomNullState());
                 loadGame.Actions = loadArrayActions.ToArray();
                 loadGame.SaveActions();
@@ -178,6 +178,10 @@ namespace MOP
                 List<FsmStateAction> loadArrayActions = new List<FsmStateAction> { new CustomNullState() };
                 loadGame.Actions = loadArrayActions.ToArray();
                 loadGame.SaveActions();
+
+                GameObject trailerLogUnderFloorCheck = new GameObject("MOP_TrailerLogUnderFloorFix");
+                trailerLogUnderFloorCheck.transform.parent = gameObject.transform;
+                trailerLogUnderFloorCheck.AddComponent<TrailerLogUnderFloor>();
             }
 
             if (gameObject.name == "KEKMET(350-400psi)")
@@ -355,7 +359,10 @@ namespace MOP
             }
         }
 
-        internal void IgnoreToggle(bool enabled) { }
+        internal void IgnoreToggle(bool enabled) 
+        {
+            return;
+        }
 
         /// <summary>
         /// Retrieves the child audio objects from parent object.

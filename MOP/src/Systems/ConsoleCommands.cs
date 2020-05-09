@@ -145,13 +145,6 @@ namespace MOP
                         say = "people saying that MOP is just improved KruFPS are straight up wrong";
                     }
 
-                    /*
-                    if (say == "random")
-                    {
-                        // TODO
-                    }
-                    */
-
                     ModConsole.Print($"< {say} >\n" +
                                     "        \\   ^__^\n" +
                                     "         \\  (oo)\\____\n" +

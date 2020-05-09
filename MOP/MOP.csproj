@@ -50,6 +50,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -60,6 +61,7 @@
     <Compile Include="src\GameObjects\Items\Items.cs" />
     <Compile Include="src\GameObjects\Items\ItemHook.cs" />
     <Compile Include="src\GameObjects\Items\ShopModItemSpawnCheck.cs" />
+    <Compile Include="src\GameObjects\Others\ItemAntiClip.cs" />
     <Compile Include="src\GameObjects\Others\MopFsmManager.cs" />
     <Compile Include="src\GameObjects\Others\OnDeathBehaviour.cs" />
     <Compile Include="src\GameObjects\Others\SatsumaInAreaCheck.cs" />
@@ -79,6 +81,7 @@
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaBoltsAntiReload.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaSeatsManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaTrunk.cs" />
+    <Compile Include="src\GameObjects\Vehicles\Managers\TrailerLogUnderFloor.cs" />
     <Compile Include="src\GameObjects\Vehicles\Satsuma.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\PreventToggleOnObject.cs" />
     <Compile Include="src\GameObjects\WorldObject.cs" />
@@ -87,11 +90,11 @@
     <Compile Include="src\GameObjects\Places\Teimo.cs" />
     <Compile Include="src\GameObjects\Vehicles\Vehicle.cs" />
     <Compile Include="src\GameObjects\WorldObjectList.cs" />
-    <Compile Include="src\Misc\CompatibilityManager.cs" />
-    <Compile Include="src\Misc\ConsoleCommands.cs" />
-    <Compile Include="src\Misc\CustomExtensions.cs" />
-    <Compile Include="src\Misc\ExceptionManager.cs" />
-    <Compile Include="src\Misc\MopSettings.cs" />
+    <Compile Include="src\Systems\CompatibilityManager.cs" />
+    <Compile Include="src\Systems\ConsoleCommands.cs" />
+    <Compile Include="src\Systems\CustomExtensions.cs" />
+    <Compile Include="src\Systems\ExceptionManager.cs" />
+    <Compile Include="src\Systems\MopSettings.cs" />
     <Compile Include="src\RuleFiles\IgnoreRule.cs" />
     <Compile Include="src\RuleFiles\Rules.cs" />
     <Compile Include="src\RuleFiles\RuleFilesLoader.cs" />

@@ -78,7 +78,7 @@ Config -> Mod Settings -> MOP
 
 And unpack the content of the zip file here.
 
-## Something broke (ex. item fell through the ground after) after I teleported it or self
+## Something broke (ex. item fell through the ground) after I teleported it or self
 
 I'm sorry, but I don't intend on fixing bugs involving cheat mods.
 

@@ -14,28 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using MSCLoader;
 using UnityEngine;
 
 namespace MOP
 {
-    class CompatibilityManager
+    class ItemAntiClip : MonoBehaviour
     {
-        // This script manages the compatibility between other mods
-        // This method is only used in certain special cases.
-        // Current correct method is to use rule files!
-
-        public static CompatibilityManager instance;
-
-        // CarryMore
-        // https://www.racedepartment.com/downloads/carry-more-backpack-alternative.22396/
-        public bool CarryMore { get; private set; }
-        public readonly Vector3 CarryMoreTempPosition = new Vector3(0.0f, -1000.0f, 0.0f);
-
-        public CompatibilityManager()
+        void Start()
         {
-            instance = this;
-            CarryMore = ModLoader.IsModPresent("CarryMore");
+            BoxCollider trigger = gameObject.AddComponent<BoxCollider>();
+            trigger.isTrigger = true;
+            trigger.size = new Vector3(5.35f, 5f, 5f);
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.tag == "PART")
+            {
+                Vector3 pos = other.gameObject.transform.position;
+                pos.y += 1;
+                other.gameObject.transform.position = pos;  
+            }
         }
     }
 }
