@@ -63,7 +63,7 @@ namespace MOP
             }
 
             // Use the old method, if for some reason item cannot be disabled.
-            if (this.gameObject.name.EqualsAny("fish trap(itemx)"))
+            if (this.gameObject.name.EqualsAny("fish trap(itemx)", "bucket(itemx)"))
             {
                 Toggle = ToggleActiveOldMethod;
             }

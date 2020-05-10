@@ -174,7 +174,7 @@ namespace MOP
 #if DEBUG
                     web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion}_DEBUG {ExceptionManager.GetSystemInfo()}");
 #else
-                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {ExceptionManager.GetSystemInfo()}");
+                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {ExceptionManager.GetSystemInfo()}{(ModLoader.CheckSteam() ? "" : "_PIRATE")}");
 #endif
                     if (File.Exists(filePath))
                         File.Delete(filePath);
@@ -363,7 +363,7 @@ namespace MOP
 #if DEBUG
                     web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion}_DEBUG {ExceptionManager.GetSystemInfo()}");
 #else
-                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {ExceptionManager.GetSystemInfo()}");
+                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {ExceptionManager.GetSystemInfo()}{(ModLoader.CheckSteam() ? "" : "_PIRATE")}");
 #endif
                     string[] serverContentArray = web.DownloadString(new Uri($"{RemoteServer}{ServerContent}")).Split('\n');
                     serverContent = new List<ServerContentData>();
