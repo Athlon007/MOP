@@ -1,23 +1,4 @@
-### Added
-
-- Added support for new car bulb lights
-- Added sector at the cabin
-- Added trigger under the cottage, which teleports the objects that are under it back up
-- Added extra check for when the trailer support log gets stuck under the map
-
-### Changes
-
-- Mattres at the old mansion aren't disabled anymore
-- Tweaked sectors at store and repair shop, so it's not as "in your face" as it used to be
-- Items that have fallen under the map will now respawn on the landfill
-- Partially restored the old method of keeping position of Satsuma
-
 ### Bug Fixes
 
-- Fixed wasp hives not saving their state
-- Fixed fish trap not working
-- Fixed coffee pan and jerry cans resetting its value
-- Experimental hood system will not disable objects, if they rear seat is not attached
-- Fixed wrong slash for you lovely Linux users
-- Fixed batteries not charging when leaving the yard
-- Addressed an issue of flatbed support log getting stuck under the map
+- Fixed MOP not working on the official version of the game
+- Fixed kilju bucket getting disabled, resulting in a very long kilju brewing time

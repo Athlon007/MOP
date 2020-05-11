@@ -287,7 +287,9 @@ namespace MOP
             //stateMotorKinematic.SaveActions();
 
             // Preventing mattres from being disabled.
-            GameObject.Find("DINGONBIISI").transform.Find("mattres").parent = null;
+            Transform mattres = GameObject.Find("DINGONBIISI").transform.Find("mattres");
+            if (mattres != null)
+                mattres.parent = null;
 
             // Item anti stuck for cottage.
             GameObject area = new GameObject("MOP_ItemAntiClip");
