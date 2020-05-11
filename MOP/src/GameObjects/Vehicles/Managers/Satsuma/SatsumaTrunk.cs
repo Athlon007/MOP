@@ -24,27 +24,27 @@ namespace MOP
 {
     class SatsumaTrunk : MonoBehaviour
     {
-        public static SatsumaTrunk Instance;
-
         bool isDisabled;
         bool afterFirstLoad;
 
         List<GameObject> trunkContent;
-        readonly Rigidbody rb;
+        Rigidbody rb;
         float currentMass;
 
-        readonly FsmBool bootlidOpen;
-        readonly Transform rearSeatPivot;
+        FsmBool storageOpen;
+        Transform rearSeatPivot;
 
         public SatsumaTrunk()
         {
-            Instance = this;
-            
             gameObject.layer = 2;
+        }
+
+        public void Initialize(Vector3 position, Vector3 scale, GameObject triggerObject)
+        {            
             gameObject.transform.parent = GameObject.Find("SATSUMA(557kg, 248)").transform;
-            gameObject.transform.localPosition = new Vector3(0, 0.15f, -1.37f);
+            gameObject.transform.localPosition = position;
             gameObject.transform.localEulerAngles = Vector3.zero;
-            gameObject.transform.localScale = new Vector3(1.25f, 0.4f, 0.75f);
+            gameObject.transform.localScale = scale;
 
             BoxCollider collider = gameObject.AddComponent<BoxCollider>();
             collider.isTrigger = true;
@@ -56,9 +56,8 @@ namespace MOP
             
             trunkContent = new List<GameObject>();
 
-            GameObject bootlidHandle = GameObject.Find("bootlid(Clone)").transform.Find("Handles").gameObject;
-            bootlidOpen = bootlidHandle.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("Open");
-            FsmHook.FsmInject(bootlidHandle, "Mouse off", OnBootAction);
+            storageOpen = triggerObject.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("Open");
+            FsmHook.FsmInject(triggerObject, "Mouse off", OnBootAction);
 
             rearSeatPivot = GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Interior/pivot_seat_rear");
         }
@@ -81,7 +80,7 @@ namespace MOP
 
             if (other.gameObject.GetComponent<ItemHook>() != null && !trunkContent.Contains(other.gameObject))
             {
-                if (afterFirstLoad && !bootlidOpen.Value)
+                if (afterFirstLoad && !storageOpen.Value)
                 {
                     Vector3 newItemPosition = other.gameObject.transform.position;
                     newItemPosition.y += 1;
@@ -110,14 +109,14 @@ namespace MOP
         {
             for (int i = 0; i < trunkContent.Count; i++)
             {
-                trunkContent[i].GetComponent<ItemHook>().IsInHood = !bootlidOpen.Value;
-                trunkContent[i].SetActive(bootlidOpen.Value);
-                trunkContent[i].transform.parent = bootlidOpen.Value ? null : gameObject.transform;
+                trunkContent[i].GetComponent<ItemHook>().IsInHood = !storageOpen.Value;
+                trunkContent[i].SetActive(storageOpen.Value);
+                trunkContent[i].transform.parent = storageOpen.Value ? null : gameObject.transform;
 
                 trunkContent[i].transform.localScale = new Vector3(1, 1, 1);
             }
 
-            rb.mass = bootlidOpen.Value ? 0 : currentMass;
+            rb.mass = storageOpen.Value ? 0 : currentMass;
         }
 
         bool IsRearSeatAttached()

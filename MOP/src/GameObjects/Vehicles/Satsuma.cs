@@ -43,7 +43,7 @@ namespace MOP
 
         bool preventDespawnDuringThisSession;
 
-        readonly SatsumaTrunk trunk;
+        public List<SatsumaTrunk> Trunks;
 
         /// <summary>
         /// Initialize class
@@ -237,8 +237,22 @@ namespace MOP
             // Create trunk trigger.
             if (Rules.instance.SpecialRules.ExperimentalSatsumaTrunk)
             {
+                Trunks = new List<SatsumaTrunk>();
+                
+                // Boot
                 GameObject trunkTrigger = new GameObject("MOP_Trunk");
-                trunk = trunkTrigger.AddComponent<SatsumaTrunk>();
+                SatsumaTrunk trunk = trunkTrigger.AddComponent<SatsumaTrunk>();
+                trunk.Initialize(new Vector3(0, 0.15f, -1.37f), new Vector3(1.25f, 0.4f, 0.75f), GameObject.Find("bootlid(Clone)").transform.Find("Handles").gameObject);
+                Trunks.Add(trunk);
+
+                // Glovebox
+                //GameObject glovePrim = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                //Object.Destroy(glovePrim.GetComponent<Collider>());
+                //glovePrim.transform.parent = transform;
+                //glovePrim.name = "MOP_FUCK";
+                GameObject gloveboxTrigger = new GameObject("MOP_Glovebox");
+                SatsumaTrunk glovebox = gloveboxTrigger.AddComponent<SatsumaTrunk>();
+                glovebox.Initialize(new Vector3(0.32f, 0.3f, 0.6f), new Vector3(0.3f, 0.12f, 0.1f), GameObject.Find("dashboard(Clone)").transform.Find("glovbox").gameObject);
             }
         }
 
@@ -280,9 +294,10 @@ namespace MOP
                 AfterFirstEnable = true;
                 HoodFix();
 
-                if (trunk != null)
+                if (Trunks != null)
                 {
-                    trunk.Initialize();
+                    foreach (var trunk in Trunks)
+                        trunk.Initialize();
                 }
             }
         }

@@ -2,6 +2,11 @@
 
 ## 2.8.3 (tba)
 
+### Added
+
+- Experimental Trunk: Added support for multiple storages
+  - Added a storage in a glovebox
+
 ### Bug Fixes
 
 - Fixed firewood carrier resetting to the default position
@@ -36,7 +41,7 @@
 - Fixed wasp hives not saving their state
 - Fixed fish trap not working
 - Fixed coffee pan and jerry cans resetting its value
-- Experimental hood system will not disable objects, if they rear seat is not attached
+- Experimental trunk system will not disable objects, if they rear seat is not attached
 - Fixed wrong slash for you lovely Linux users
 - Fixed batteries not charging when leaving the yard
 - Addressed an issue of flatbed support log getting stuck under the map

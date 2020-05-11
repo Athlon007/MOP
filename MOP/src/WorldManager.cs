@@ -896,9 +896,10 @@ namespace MOP
                 // Disable SatsumaTrunk.
                 if (mode == ToggleAllMode.OnSave)
                 {
-                    if (SatsumaTrunk.Instance != null)
+                    if (Satsuma.instance.Trunks != null)
                     {
-                        SatsumaTrunk.Instance.OnSaveStop();
+                        foreach (var trunk in Satsuma.instance.Trunks)
+                            trunk.OnSaveStop();
                     }
                 }
 
