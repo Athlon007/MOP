@@ -76,6 +76,14 @@ namespace MOP
             PlayMakerFSM playMakerFSM = GetComponent<PlayMakerFSM>();
             renderer = GetComponent<Renderer>();
 
+            if (CompatibilityManager.CDPlayerEnhanced)
+            {
+                if (gameObject.name == "cd(itemy)" || gameObject.name.StartsWith("cd case"))
+                {
+                    Toggle = ToggleActiveOldMethod;
+                }
+            }
+
             // From PlayMakerFSM, find states that contain one of the names that relate to destroying object,
             // and inject RemoveSelf void.
             if (playMakerFSM != null)
@@ -169,25 +177,27 @@ namespace MOP
                 dataFsm.Fsm.RestartOnEnable = false;
             }
 
-            // Don't reset the fluid level for jerry cans.
-            if (gameObject.name.EqualsAny("diesel(itemx)", "gasoline(itemx)"))
+            // Fixes for particular items.
+            switch (gameObject.name)
             {
-                transform.Find("FluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-            }
-
-            if (gameObject.name == "motor oil(itemx)")
-            {
-                transform.Find("MotorOilTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-            }
-
-            if (gameObject.name == "coolant(itemx)")
-            {
-                transform.Find("CoolantTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-            }
-
-            if (gameObject.name == "brake fluid(itemx)")
-            {
-                transform.Find("BrakeFluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                case "diesel(itemx)":
+                    transform.Find("FluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    break;
+                case "gasoline(itemx)":
+                    transform.Find("FluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    break;
+                case "motor oil(itemx)":
+                    transform.Find("MotorOilTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    break;
+                case "coolant(itemx)":
+                    transform.Find("CoolantTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    break;
+                case "brake fluid(itemx)":
+                    transform.Find("BrakeFluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    break;
+                case "wood carrier(itemx)":
+                    transform.Find("WoodTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    break;
             }
         }
 
@@ -296,6 +306,22 @@ namespace MOP
                 if (CompatibilityManager.CarryMore && transform.position.y < -900)
                 {
                     return;
+                }
+
+                // CD Player Enhanced mod
+                if (CompatibilityManager.CDPlayerEnhanced && this.transform.parent != null)
+                {
+                    // Prevent CDs to clip through CD Case
+                    if (this.gameObject.name == "cd(itemy)" && this.transform.parent.name == "PivotCD")
+                        return;
+
+                    // Prevent CDs from clipping through the Radio
+                    if (this.gameObject.name == "cd(itemy)" && this.transform.parent.name == "cd_sled_pivot")
+                        return;
+
+                    // Prevents CD cases from clipping through the CD rack
+                    if (this.gameObject.name.StartsWith("cd case") && this.transform.parent.name.StartsWith("cd_trigger"))
+                        return;
                 }
 
                 if (enabled && this.gameObject.name == "battery(Clone)" && !batteryOnCharged.Value)

@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.8.3 (tba)
+
+### Bug Fixes
+
+- Fixed firewood carrier resetting to the default position
+- Fixed compatiblity with CDPlayer Enhanced mod
+
+## 2.8.2 (10.05.2020)
+
+### Bug Fixes
+
+- Fixed MOP not working on the official version of the game
+- Fixed kilju bucket getting disabled, resulting in a very long kilju brewing time
+
 ## 2.8.1 (09.05.2020)
 
 ### Added

@@ -25,6 +25,10 @@ namespace MOP
         // This method is only used in certain special cases.
         // Current correct method is to use rule files!
 
+        // CD Player Enhanced
+        // https://www.racedepartment.com/downloads/cd-player-enhanced.19002/
+        public static bool CDPlayerEnhanced { get; private set; }
+
         // CarryMore
         // https://www.racedepartment.com/downloads/carry-more-backpack-alternative.22396/
         public static bool CarryMore { get; private set; }
@@ -32,6 +36,7 @@ namespace MOP
 
         public CompatibilityManager()
         {
+            CDPlayerEnhanced = ModLoader.IsModPresent("CDPlayer");
             CarryMore = ModLoader.IsModPresent("CarryMore");
         }
     }
