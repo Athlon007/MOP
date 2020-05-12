@@ -502,6 +502,14 @@ namespace MOP
                             }
                             Rules.instance.SpecialRules.ExperimentalSatsumaTrunk = true;
                             break;
+                        case "experimental_optimization":
+                            if (fileName != "Custom.txt")
+                            {
+                                ModConsole.Error($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
+                                continue;
+                            }
+                            Rules.instance.SpecialRules.ExperimentalOptimization = true;
+                            break;
                     }
                 }
             }

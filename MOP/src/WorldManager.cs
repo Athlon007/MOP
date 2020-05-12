@@ -720,6 +720,16 @@ namespace MOP
                             jesusFixTheFramerate = false;
                         }
 
+                        if (Rules.instance.SpecialRules.ExperimentalOptimization)
+                        {
+                            if (i == 0 && !Satsuma.instance.IsKeyInserted() && SatsumaInGarage.Instance.AreGarageDoorsClose() && SatsumaInGarage.IsSatsumaInGarage)
+                            {
+                                vehicles[i].ToggleUnityCar(false);
+                                vehicles[i].Toggle(false);
+                                continue;
+                            }
+                        }
+
                         vehicles[i].ToggleUnityCar(IsVehicleEnabled(distance, toggleDistance, true));
                         vehicles[i].Toggle(IsVehicleEnabled(distance));
                     }

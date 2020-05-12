@@ -44,6 +44,7 @@ namespace MOP
         bool preventDespawnDuringThisSession;
 
         public List<SatsumaTrunk> Trunks;
+        readonly Transform key;
 
         /// <summary>
         /// Initialize class
@@ -234,6 +235,10 @@ namespace MOP
                 }
             }
 
+            // Fix for cd player disabling other vehicles radio.
+            GameObject.Find("cd player(Clone)").transform.Find("ButtonsCD/RadioVolume").gameObject.GetPlayMakerByName("Knob").Fsm.RestartOnEnable = false;
+            GameObject.Find("radio(Clone)").transform.Find("ButtonsRadio/RadioVolume").gameObject.GetPlayMakerByName("Knob").Fsm.RestartOnEnable = false;
+
             // Create trunk trigger.
             if (Rules.instance.SpecialRules.ExperimentalSatsumaTrunk)
             {
@@ -246,14 +251,13 @@ namespace MOP
                 Trunks.Add(trunk);
 
                 // Glovebox
-                //GameObject glovePrim = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                //Object.Destroy(glovePrim.GetComponent<Collider>());
-                //glovePrim.transform.parent = transform;
-                //glovePrim.name = "MOP_FUCK";
                 GameObject gloveboxTrigger = new GameObject("MOP_Glovebox");
                 SatsumaTrunk glovebox = gloveboxTrigger.AddComponent<SatsumaTrunk>();
                 glovebox.Initialize(new Vector3(0.32f, 0.3f, 0.6f), new Vector3(0.3f, 0.12f, 0.1f), GameObject.Find("dashboard(Clone)").transform.Find("glovbox").gameObject);
             }
+
+            if (Rules.instance.SpecialRules.ExperimentalOptimization)
+                key = transform.Find("Dashboard/Steering/steering_column2/Ignition/Keys/Key");
         }
 
         /// <summary>
@@ -291,14 +295,14 @@ namespace MOP
             // Applying hood fix after first enabling.
             if (!AfterFirstEnable && enabled)
             {
-                AfterFirstEnable = true;
-                HoodFix();
-
                 if (Trunks != null)
                 {
                     foreach (var trunk in Trunks)
                         trunk.Initialize();
                 }
+
+                AfterFirstEnable = true;
+                HoodFix();
             }
         }
 
@@ -388,6 +392,11 @@ namespace MOP
         public void HoodFix()
         {
             WorldManager.instance.HoodFix(transform.Find("Body/pivot_hood"), transform.Find("MiscParts/trigger_battery"), transform.Find("MiscParts/pivot_battery"));
+        }
+
+        public bool IsKeyInserted()
+        {
+            return key.gameObject.activeSelf;
         }
     }
 }

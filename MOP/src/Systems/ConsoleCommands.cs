@@ -71,6 +71,7 @@ namespace MOP
                     ModConsole.Print($"<b>SatsumaIgnoreRenderers:</b> {Rules.instance.SpecialRules.SatsumaIgnoreRenderers}");
                     ModConsole.Print($"<b>DrivewaySector:</b> {Rules.instance.SpecialRules.DrivewaySector}");
                     ModConsole.Print($"<b>ExperimentalSatsumaTrunk:</b> {Rules.instance.SpecialRules.ExperimentalSatsumaTrunk}");
+                    ModConsole.Print($"<b>ExperimentalOptimization:</b> {Rules.instance.SpecialRules.ExperimentalOptimization}");
 
                     // List rule files.
                     string output = "\n<color=yellow><b>Rule Files</b></color>\n";

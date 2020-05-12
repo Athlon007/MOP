@@ -193,6 +193,12 @@ namespace MOP
 
             sectorInfo.Initialize(size, ignoreList);
             sectors.Add(newSector);
+
+            if (Rules.instance.SpecialRules.ExperimentalOptimization)
+            {
+                if (ignoreList.Length > 0 && ignoreList[0] == "PierHome")
+                    newSector.AddComponent<SatsumaInGarage>();
+            }
         }
 
         void CreateNewSector(Vector3 position, Vector3 size, Vector3 rotation, params string[] ignoreList)

@@ -1,4 +1,12 @@
+### Added
+
+- Experimental Trunk: Added support for multiple storages
+  - Added a storage in a glovebox
+- Added experimental optimization system, that disables Satsuma, if it's parked at the garage
+  - You can enable it using custom rule file flag: experimental_optimization
+
 ### Bug Fixes
 
-- Fixed MOP not working on the official version of the game
-- Fixed kilju bucket getting disabled, resulting in a very long kilju brewing time
+- Fixed firewood carrier resetting to the default position
+- Fixed compatiblity with CDPlayer Enhanced mod
+- Fixed radio stopping playing, uppon Satsuma respawn

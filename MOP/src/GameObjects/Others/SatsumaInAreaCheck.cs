@@ -23,10 +23,10 @@ namespace MOP
         // Attaches to gameobject. This script checks if the Satsuma is in the object's area,
         // and sends the info to it about it.
 
+        const string ReferenceItem = "gearbox";
+        
         // Trigger collider
         BoxCollider collider;
-
-        const string ReferenceItem = "gearbox";
 
         public void Initialize(Vector3 size)
         {
@@ -50,6 +50,49 @@ namespace MOP
             {
                 Satsuma.instance.IsSatsumaInInspectionArea = false;
             }
+        }
+    }
+
+    class SatsumaInGarage : MonoBehaviour
+    {
+        // Attaches to gameobject. This script checks if the Satsuma is in the object's area,
+        // and sends the info to it about it.
+
+        public static SatsumaInGarage Instance;
+
+        const string ReferenceItem = "car body";
+        public static bool IsSatsumaInGarage;
+
+        readonly Transform doorLeft;
+        readonly Transform doorRight;
+
+        public SatsumaInGarage()
+        {
+            Instance = this;
+
+            doorLeft = GameObject.Find("GarageDoors").transform.Find("DoorLeft");
+            doorRight = GameObject.Find("GarageDoors").transform.Find("DoorRight");
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.name.StartsWith(ReferenceItem))
+            {
+                IsSatsumaInGarage = true;
+            }
+        }
+
+        void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.name.StartsWith(ReferenceItem))
+            {
+                IsSatsumaInGarage = false;
+            }
+        }
+
+        public bool AreGarageDoorsClose()
+        {
+            return doorLeft.localEulerAngles.z < 12 && (doorRight.localEulerAngles.z > 340 || doorRight.localEulerAngles.z < 10);
         }
     }
 }

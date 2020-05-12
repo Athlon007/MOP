@@ -6,11 +6,14 @@
 
 - Experimental Trunk: Added support for multiple storages
   - Added a storage in a glovebox
+- Added experimental optimization system, that disables Satsuma, if it's parked at the garage
+  - You can enable it using custom rule file flag: experimental_optimization
 
 ### Bug Fixes
 
 - Fixed firewood carrier resetting to the default position
 - Fixed compatiblity with CDPlayer Enhanced mod
+- Fixed radio stopping playing, uppon Satsuma respawn
 
 ## 2.8.2 (10.05.2020)
 
