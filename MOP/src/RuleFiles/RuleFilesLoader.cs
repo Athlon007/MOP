@@ -174,7 +174,7 @@ namespace MOP
 #if DEBUG
                     web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion}_DEBUG {ExceptionManager.GetSystemInfo()}");
 #else
-                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {ExceptionManager.GetSystemInfo()}{(ModLoader.CheckSteam() ? "" : "_PIRATE")}");
+                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {ExceptionManager.GetSystemInfo()}");
 #endif
                     if (File.Exists(filePath))
                         File.Delete(filePath);
@@ -363,7 +363,7 @@ namespace MOP
 #if DEBUG
                     web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion}_DEBUG {ExceptionManager.GetSystemInfo()}");
 #else
-                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {ExceptionManager.GetSystemInfo()}{(ModLoader.CheckSteam() ? "" : "_PIRATE")}");
+                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {ExceptionManager.GetSystemInfo()}");
 #endif
                     string[] serverContentArray = web.DownloadString(new Uri($"{RemoteServer}{ServerContent}")).Split('\n');
                     serverContent = new List<ServerContentData>();
@@ -408,7 +408,7 @@ namespace MOP
                 string[] content = File.ReadAllLines(rulePath).Where(s => s.Length > 0 && !s.StartsWith("##")).ToArray();
                 string fileName = Path.GetFileName(rulePath);
                 foreach (string s in content)
-                {
+                { 
                     string[] splitted = s.Split(':');
 
                     // Read flag and rules.
@@ -467,6 +467,13 @@ namespace MOP
                             break;
                         case "prevent_toggle_on_object":
                             Rules.instance.PreventToggleOnObjectRule.Add(new PreventToggleOnObjectRule(objects[0], objects[1]));
+                            break;
+                        case "sector":
+                            Vector3 pos = GetVector3(objects[0]);
+                            Vector3 scale = GetVector3(objects[1]);
+                            Vector3 rot = GetVector3(objects[2]);
+                            string[] whitelist = GetWhitelist(objects);
+                            Rules.instance.NewSectors.Add(new NewSector(pos, scale, rot, whitelist));
                             break;
 
                         // Custom.txt exclusives.
@@ -539,6 +546,27 @@ namespace MOP
         {
             foreach (PlayMakerFSM fsm in buttonsFsms)
                 fsm.enabled = enabled;
+        }
+
+        Vector3 GetVector3(string s)
+        {
+            float x, y, z;
+            string[] split = s.Split(',');
+            x = float.Parse(split[0]);
+            y = float.Parse(split[1]);
+            z = float.Parse(split[2]);
+            return new Vector3(x, y, z);
+        }
+
+        string[] GetWhitelist(string[] s)
+        {
+            int start = 3;
+            int end = s.Length;
+            List<string> newList = new List<string>();
+            for (int i = start; i < end; i++)
+                newList.Add(s[i]);
+
+            return newList.ToArray();
         }
     }
 }

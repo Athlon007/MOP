@@ -4,10 +4,16 @@
 
 ### Added
 
+- Added a data sending disclaimer, when starting MOP for the first time
 - Experimental Trunk: Added support for multiple storages
   - Added a storage in a glovebox
 - Added experimental optimization system, that disables Satsuma, if it's parked at the garage
   - You can enable it using custom rule file flag: experimental_optimization
+
+### Changes
+
+- 'mop rules' command won't show empty categories anymore
+- Changed max framerate limiter to 200 FPS
 
 ### Bug Fixes
 

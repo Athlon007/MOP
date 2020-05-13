@@ -42,6 +42,9 @@ namespace MOP
         // Distance after which car physics are toggled
         public const int UnityCarActiveDistance = 5;
 
+        // DEBUGGING
+        public static bool SectorDebugMode;
+
         public static void UpdateAll()
         {
             // Activating Objects
@@ -88,6 +91,11 @@ namespace MOP
                 case 1:
                     return 2;
             }
+        }
+
+        public static bool DataSendingAgreed()
+        {
+            return System.IO.File.Exists($"{MOP.ModConfigPath}/DataAgreed.mop");
         }
     }
 }

@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using UnityEngine;
+
 namespace MOP
 {
     class IgnoreRule
@@ -64,5 +66,21 @@ namespace MOP
         public bool DrivewaySector;
         public bool ExperimentalSatsumaTrunk;
         public bool ExperimentalOptimization;
+    }
+
+    class NewSector
+    {
+        public Vector3 Position;
+        public Vector3 Rotation;
+        public Vector3 Scale;
+        public string[] Whitelist;
+
+        public NewSector(Vector3 Position, Vector3 Scale, Vector3 Rotation, string[] Whitelist)
+        {
+            this.Position = Position;
+            this.Scale = Scale;
+            this.Rotation = Rotation;
+            this.Whitelist = Whitelist;
+        }
     }
 }

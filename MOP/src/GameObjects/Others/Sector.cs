@@ -37,13 +37,12 @@ namespace MOP
 
             if (ignoreList != null)
                 this.ignoreList = ignoreList;
-#if DEBUG
+
             if (gameObject.name == "MOP_SECTOR_DEBUG")
             {
                 collider.size = new Vector3(1, 1, 1);
                 gameObject.layer = 0;
             }
-#endif
         }
 
         void OnTriggerEnter(Collider other)
@@ -176,15 +175,32 @@ namespace MOP
             if (Rules.instance.SpecialRules.DrivewaySector)
                 CreateNewSector(new Vector3(-18.5f, -0.5062422f, 11.9f), new Vector3(11f, 5, 9.5f), 
                     "PierHome", "TREES_SMALL1", "BUSHES7", "BUSHES3", "BUSHES6", "TREES_MEDIUM3", "YARD", "LakeNice", "Tile"); // Driveway.
+
+            // Generating sectors from rule files.
+            if (Rules.instance.NewSectors.Count > 0)
+            {
+                foreach (NewSector sector in Rules.instance.NewSectors)
+                {
+                    CreateNewSector(sector.Position, sector.Scale, sector.Rotation, sector.Whitelist);
+                }
+            }
         }
 
         void CreateNewSector(Vector3 position, Vector3 size, params string[] ignoreList)
         {
-            GameObject newSector = new GameObject("MOP_Sector");
-            //GameObject newSector = GameObject.CreatePrimitive(PrimitiveType.Cube); // DEBUG
-            //newSector.name = "MOP_SECTOR_DEBUG"; //DEBUG
-            //newSector.transform.localScale = size; // DEBUG
-            //Object.Destroy(newSector.GetComponent<Collider>()); // DEBUG
+            GameObject newSector = null;
+            if (MopSettings.SectorDebugMode)
+            {
+                newSector = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                newSector.name = "MOP_SECTOR_DEBUG";
+                newSector.transform.localScale = size;
+                Object.Destroy(newSector.GetComponent<Collider>());
+                newSector.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            }
+            else
+            {
+                newSector = new GameObject("MOP_Sector");
+            }
             newSector.transform.position = position;
             Sector sectorInfo = newSector.AddComponent<Sector>();
 
@@ -203,11 +219,19 @@ namespace MOP
 
         void CreateNewSector(Vector3 position, Vector3 size, Vector3 rotation, params string[] ignoreList)
         {
-            GameObject newSector = new GameObject("MOP_Sector");
-            //GameObject newSector = GameObject.CreatePrimitive(PrimitiveType.Cube); // DEBUG
-            //newSector.name = "MOP_SECTOR"; //DEBUG
-            //newSector.transform.localScale = size; // DEBUG
-            //Object.Destroy(newSector.GetComponent<Collider>()); // DEBUG
+            GameObject newSector = null;
+            if (MopSettings.SectorDebugMode)
+            {
+                newSector = GameObject.CreatePrimitive(PrimitiveType.Cube); // DEBUG
+                newSector.name = "MOP_SECTOR_DEBUG"; //DEBUG
+                newSector.transform.localScale = size; // DEBUG
+                Object.Destroy(newSector.GetComponent<Collider>()); // DEBUG
+                newSector.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            }
+            else
+            {
+                newSector = new GameObject("MOP_Sector");
+            }
             newSector.transform.position = position;
             newSector.transform.localEulerAngles = rotation;
             Sector sectorInfo = newSector.AddComponent<Sector>();

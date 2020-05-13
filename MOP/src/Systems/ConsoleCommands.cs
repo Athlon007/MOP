@@ -50,21 +50,40 @@ namespace MOP
                         "<color=yellow>delete-custom</color> - Delete custom rule file");
                     break;
                 case "rules":
-                    ModConsole.Print("<color=yellow><b>Ignore Rules</b></color>");
-                    foreach (IgnoreRule r in Rules.instance.IgnoreRules)
-                        ModConsole.Print($"<b>Object:</b> {r.ObjectName}");
+                    if (Rules.instance.IgnoreRules.Count > 0)
+                    {
+                        ModConsole.Print("<color=yellow><b>Ignore Rules</b></color>");
+                        foreach (IgnoreRule r in Rules.instance.IgnoreRules)
+                            ModConsole.Print($"<b>Object:</b> {r.ObjectName}");
+                    }
 
-                    ModConsole.Print("\n<color=yellow><b>Ignore Rules At Place</b></color>");
-                    foreach (IgnoreRuleAtPlace r in Rules.instance.IgnoreRulesAtPlaces)
-                        ModConsole.Print($"<b>Place:</b> {r.Place} <b>Object:</b> {r.ObjectName}");
+                    if (Rules.instance.IgnoreRulesAtPlaces.Count > 0)
+                        {
+                        ModConsole.Print("\n<color=yellow><b>Ignore Rules At Place</b></color>");
+                        foreach (IgnoreRuleAtPlace r in Rules.instance.IgnoreRulesAtPlaces)
+                            ModConsole.Print($"<b>Place:</b> {r.Place} <b>Object:</b> {r.ObjectName}");
+                    }
 
-                    ModConsole.Print("\n<color=yellow><b>Prevent Toggle On Object Rule</b></color>");
-                    foreach (PreventToggleOnObjectRule r in Rules.instance.PreventToggleOnObjectRule)
-                        ModConsole.Print($"<b>Main Object:</b> {r.MainObject} <b>Object:</b> {r.ObjectName}");
+                    if (Rules.instance.PreventToggleOnObjectRule.Count > 0)
+                    {
+                        ModConsole.Print("\n<color=yellow><b>Prevent Toggle On Object Rule</b></color>");
+                        foreach (PreventToggleOnObjectRule r in Rules.instance.PreventToggleOnObjectRule)
+                            ModConsole.Print($"<b>Main Object:</b> {r.MainObject} <b>Object:</b> {r.ObjectName}");
+                    }
 
-                    ModConsole.Print("\n<color=yellow><b>Toggle Rules</b></color>");
-                    foreach (ToggleRule r in Rules.instance.ToggleRules)
-                        ModConsole.Print($"<b>Object:</b> {r.ObjectName} <b>Toggle Mode:</b> {r.ToggleMode}");
+                    if (Rules.instance.ToggleRules.Count > 0)
+                    {
+                        ModConsole.Print("\n<color=yellow><b>Toggle Rules</b></color>");
+                        foreach (ToggleRule r in Rules.instance.ToggleRules)
+                            ModConsole.Print($"<b>Object:</b> {r.ObjectName} <b>Toggle Mode:</b> {r.ToggleMode}");
+                    }
+
+                    if (Rules.instance.NewSectors.Count > 0)
+                    {
+                        ModConsole.Print("\n<color=yellow><b>New Sectors</b></color>");
+                        foreach (NewSector r in Rules.instance.NewSectors)
+                            ModConsole.Print($"<b>Pos:</b> {r.Position} <b>Scale:</b> {r.Scale} <b>Rot:</b> {r.Rotation} <b>Ignore:</b> {string.Join(", ", r.Whitelist)}");
+                    }
 
                     ModConsole.Print("\n<color=yellow><b>Special Rules</b></color>");
                     ModConsole.Print($"<b>DontDestroyEmptyBeerBottles:</b> {Rules.instance.SpecialRules.DontDestroyEmptyBeerBottles}");
@@ -152,6 +171,15 @@ namespace MOP
                                     "            (__)\\          )\\/\\\n" +
                                     "                ||  ----w  |\n" +
                                     "                ||           || ");
+                    break;
+                case "sector_debug":
+                    if (args.Length == 1)
+                    {
+                        ModConsole.Print($"Sector debug mode is set to {MopSettings.SectorDebugMode}");
+                        return;
+                    }
+                    MopSettings.SectorDebugMode = args[1].ToLower() == "true";
+                    ModConsole.Print($"Sector debug mode is {(MopSettings.SectorDebugMode ? "on" : "off")}!");
                     break;
             }
         }

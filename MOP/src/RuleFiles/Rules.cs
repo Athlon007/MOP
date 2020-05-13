@@ -40,6 +40,9 @@ namespace MOP
         // Rules applied by sectors.
         public List<string> SectorRules;
 
+        // Sectors (adds a new sector).
+        public List<NewSector> NewSectors;
+
         public Rules(bool overrideUpdateCheck = false)
         {
             instance = this;
@@ -48,6 +51,7 @@ namespace MOP
             IgnoreRulesAtPlaces = new List<IgnoreRuleAtPlace>();
             PreventToggleOnObjectRule = new List<PreventToggleOnObjectRule>();
             SectorRules = new List<string>();
+            NewSectors = new List<NewSector>();
 
             ToggleRules = new List<ToggleRule>();
 

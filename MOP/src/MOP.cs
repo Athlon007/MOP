@@ -46,11 +46,19 @@ namespace MOP
         public override void OnMenuLoad()
         {
             System.GC.Collect();
+            ModConfigPath = ModLoader.GetModConfigFolder(this).Replace('\\', '/');
+            if (!MopSettings.DataSendingAgreed())
+            {
+                ModUI.ShowMessage($"Welcome to Modern Optimization Plugin <color=yellow>{Version}</color>!\n\n" +
+                    $"While using rule files auto updates, MOP sends following data:\n" +
+                    "• MOP Version\n" +
+                    "• Operating System Version", "MOP");
+                AgreeData();
+            }
         }
 
         public override void ModSettingsLoaded()
         {
-            ModConfigPath = ModLoader.GetModConfigFolder(this).Replace('\\', '/');
             MopSettings.UpdateAll();
             ModVersion = Version;
             ModConsole.Print($"<color=green>MOP {ModVersion} initialized!</color>");
@@ -144,7 +152,7 @@ namespace MOP
             // Graphics
             Settings.AddHeader(this, "Graphics", headerColor);
             Settings.AddCheckBox(this, enableFramerateLimiter);
-            Settings.AddSlider(this, framerateLimiter, 20, 120);
+            Settings.AddSlider(this, framerateLimiter, 20, 200);
 
             // Mod Rules
             Settings.AddHeader(this, "Mod Rules", headerColor);
@@ -271,6 +279,11 @@ namespace MOP
             }
 
             return output;
+        }
+
+        static void AgreeData()
+        {
+            File.Create($"{ModConfigPath}/DataAgreed.mop");
         }
     }
 }
