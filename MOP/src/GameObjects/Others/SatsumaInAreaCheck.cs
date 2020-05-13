@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using System.Collections;
 using UnityEngine;
 
 namespace MOP
@@ -61,10 +62,21 @@ namespace MOP
         public static SatsumaInGarage Instance;
 
         const string ReferenceItem = "car body";
-        public static bool IsSatsumaInGarage;
+        bool isSatsumaInGarage;
+        public bool IsSatsumaInGarage()
+        {
+            if (!initialized)
+            {
+                return false;
+            }
+
+            return !isSatsumaInGarage;
+        }
 
         readonly Transform doorLeft;
         readonly Transform doorRight;
+
+        bool initialized;
 
         public SatsumaInGarage()
         {
@@ -72,13 +84,22 @@ namespace MOP
 
             doorLeft = GameObject.Find("GarageDoors").transform.Find("DoorLeft");
             doorRight = GameObject.Find("GarageDoors").transform.Find("DoorRight");
+
+            StartCoroutine(DelayedInitialization());
+        }
+
+        // Gives some time for the hood fix script to properly load.
+        IEnumerator DelayedInitialization()
+        {
+            yield return new WaitForSeconds(5);
+            initialized = true;
         }
 
         void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.name.StartsWith(ReferenceItem))
             {
-                IsSatsumaInGarage = true;
+                isSatsumaInGarage = true;
             }
         }
 
@@ -86,7 +107,7 @@ namespace MOP
         {
             if (other.gameObject.name.StartsWith(ReferenceItem))
             {
-                IsSatsumaInGarage = false;
+                isSatsumaInGarage = false;
             }
         }
 

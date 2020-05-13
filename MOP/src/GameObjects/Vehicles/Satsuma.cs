@@ -254,6 +254,7 @@ namespace MOP
                 GameObject gloveboxTrigger = new GameObject("MOP_Glovebox");
                 SatsumaTrunk glovebox = gloveboxTrigger.AddComponent<SatsumaTrunk>();
                 glovebox.Initialize(new Vector3(0.32f, 0.3f, 0.6f), new Vector3(0.3f, 0.12f, 0.1f), GameObject.Find("dashboard(Clone)").transform.Find("glovbox").gameObject);
+                Trunks.Add(glovebox);
             }
 
             if (Rules.instance.SpecialRules.ExperimentalOptimization)

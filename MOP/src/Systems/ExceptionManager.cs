@@ -109,9 +109,9 @@ namespace MOP
             output += $"SatsumaTogglePhysicsOnly: {MopSettings.SatsumaTogglePhysicsOnly}\n";
             output += $"ToggleVehiclePhysicsOnly: {Rules.instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";
             output += $"IgnoreModVehicles: {Rules.instance.SpecialRules.IgnoreModVehicles}\n";
-            output += $"EnableFramerateLimiter: {((bool)MOP.enableFramerateLimiter.GetValue())}\n";
-            output += $"FramerateLimiter: {MOP.framerateLimiter.GetValue()}\n";
-            output += $"RulesAutoUpdate: {MOP.rulesAutoUpdate.GetValue()}\n"; 
+            output += $"EnableFramerateLimiter: {((bool)MOP.EnableFramerateLimiter.GetValue())}\n";
+            output += $"FramerateLimiter: {MOP.FramerateLimiter.GetValue()}\n";
+            output += $"RulesAutoUpdate: {MOP.RulesAutoUpdate.GetValue()}\n"; 
             output += $"RulesAutoUpdateFrequency: {MopSettings.GetRuleFilesUpdateDaysFrequency()}\n";
             output += $"CustomRuleFile: {customRuleFile}\n\n";
             output += $"CheckSteam: {ModLoader.CheckSteam()} \n";
@@ -158,8 +158,7 @@ namespace MOP
             int build = int.Parse(fullOS.Split('(')[1].Split(')')[0].Split('.')[2]);
             if (build > 9600)
             {
-                string realOS = fullOS.Split('(')[0].Trim();
-                realOS = $"Windows 10 (10.0.{build})";
+                string realOS = $"Windows 10 (10.0.{build})";
                 
                 if (SystemInfo.operatingSystem.Contains("64bit"))
                 {

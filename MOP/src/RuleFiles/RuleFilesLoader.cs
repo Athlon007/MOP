@@ -55,7 +55,6 @@ namespace MOP
         bool fileDownloadCompleted;
         bool overrideUpdateCheck;
 
-        List<PlayMakerFSM> buttonsFsms;
         TextMesh message;
         TextMesh shadow;
 
@@ -84,17 +83,10 @@ namespace MOP
                 NewMessage("");
             }
 
-            buttonsFsms = new List<PlayMakerFSM>
-            {
-                GameObject.Find("Interface/Buttons/ButtonContinue").GetComponent<PlayMakerFSM>(),
-                GameObject.Find("Interface/Buttons/ButtonNewgame").GetComponent<PlayMakerFSM>()
-            };
-
             if (!MopSettings.RuleFilesAutoUpdateEnabled && !overrideUpdateCheck)
             {
                 ModConsole.Print("<color=orange>[MOP] Rule files auto update is disabled.</color>");
                 GetAndReadRules();
-                ToggleButtons(true);
                 return;
             }
 
@@ -104,7 +96,6 @@ namespace MOP
                 ModConsole.Print("<color=red>[MOP] Connection error. Check your Internet connection.</color>");
 
                 GetAndReadRules();
-                ToggleButtons(true);
                 return;
             }
 
@@ -193,7 +184,6 @@ namespace MOP
                         {
                             ModConsole.Error("[MOP] Downloading failed. Skipping downloading.");
                             NewMessage("MOP: Downloading failed. Skipping downloading.");
-                            ToggleButtons(true);
                             GetAndReadRules();
                             yield break;
                         }
@@ -235,7 +225,6 @@ namespace MOP
                 {
                     ModConsole.Print($"[MOP] No rule files found.");
                     NewMessage("");
-                    ToggleButtons(true);
                     return;
                 }
 
@@ -258,7 +247,7 @@ namespace MOP
                     // Delete rules for mods that don't exist.
                     if (ModLoader.LoadedMods.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name)) == null && file.Name != "Custom.txt")
                     {
-                        if ((bool)MOP.noDeleteRuleFiles.GetValue())
+                        if ((bool)MOP.NoDeleteRuleFiles.GetValue())
                         {
                             ModConsole.Print($"<color=yellow>[MOP] Skipped {file.Name} rule, " +
                                 $"because the corresponding mod is not present.</color>");
@@ -281,8 +270,6 @@ namespace MOP
             {
                 ExceptionManager.New(ex, "RULE_FILES_READ_ERROR");
             }
-
-            ToggleButtons(true);
         }
 
         /// <summary>
@@ -524,7 +511,6 @@ namespace MOP
             {
                 ModConsole.Error($"[MOP] Error loading rule {rulePath}: {ex}.");
                 NewMessage($"<color=red>MOP: Error loading rule :(");
-                ToggleButtons(true);
             }
         }
 
@@ -538,35 +524,40 @@ namespace MOP
             shadow.text = value;
         }
 
-        /// <summary>
-        /// Toggles FSMs of Continue and New Game buttons.
-        /// </summary>
-        /// <param name="enabled"></param>
-        void ToggleButtons(bool enabled)
-        {
-            foreach (PlayMakerFSM fsm in buttonsFsms)
-                fsm.enabled = enabled;
-        }
-
         Vector3 GetVector3(string s)
         {
-            float x, y, z;
-            string[] split = s.Split(',');
-            x = float.Parse(split[0]);
-            y = float.Parse(split[1]);
-            z = float.Parse(split[2]);
-            return new Vector3(x, y, z);
+            try
+            {
+                float x, y, z;
+                string[] split = s.Split(',');
+                x = float.Parse(split[0]);
+                y = float.Parse(split[1]);
+                z = float.Parse(split[2]);
+                return new Vector3(x, y, z);
+            }
+            catch
+            {
+                ModConsole.Error($"[MOP] Incorrect vector format! Refer to MOP wiki.");
+                return Vector3.zero;
+            }
         }
 
         string[] GetWhitelist(string[] s)
         {
-            int start = 3;
-            int end = s.Length;
-            List<string> newList = new List<string>();
-            for (int i = start; i < end; i++)
-                newList.Add(s[i]);
+            try
+            {
+                int start = 3;
+                int end = s.Length;
+                List<string> newList = new List<string>();
+                for (int i = start; i < end; i++)
+                    newList.Add(s[i]);
 
-            return newList.ToArray();
+                return newList.ToArray();
+            }
+            catch
+            {
+                return new string[] { };
+            }
         }
     }
 }

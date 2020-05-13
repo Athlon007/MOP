@@ -14,12 +14,18 @@
 
 - 'mop rules' command won't show empty categories anymore
 - Changed max framerate limiter to 200 FPS
+- Minor code improvements and enhancements
 
 ### Bug Fixes
 
 - Fixed firewood carrier resetting to the default position
 - Fixed compatiblity with CDPlayer Enhanced mod
 - Fixed radio stopping playing, uppon Satsuma respawn
+- Fixed car jack potentially resetting to the default position
+
+### Removed
+
+- Removed unused code
 
 ## 2.8.2 (10.05.2020)
 

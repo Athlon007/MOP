@@ -18,6 +18,7 @@ using MSCLoader;
 using System.IO;
 using System.Diagnostics;
 using System;
+using System.Reflection;
 
 namespace MOP
 {
@@ -86,11 +87,11 @@ namespace MOP
                     }
 
                     ModConsole.Print("\n<color=yellow><b>Special Rules</b></color>");
-                    ModConsole.Print($"<b>DontDestroyEmptyBeerBottles:</b> {Rules.instance.SpecialRules.DontDestroyEmptyBeerBottles}");
-                    ModConsole.Print($"<b>SatsumaIgnoreRenderers:</b> {Rules.instance.SpecialRules.SatsumaIgnoreRenderers}");
-                    ModConsole.Print($"<b>DrivewaySector:</b> {Rules.instance.SpecialRules.DrivewaySector}");
-                    ModConsole.Print($"<b>ExperimentalSatsumaTrunk:</b> {Rules.instance.SpecialRules.ExperimentalSatsumaTrunk}");
-                    ModConsole.Print($"<b>ExperimentalOptimization:</b> {Rules.instance.SpecialRules.ExperimentalOptimization}");
+                    FieldInfo[] fields = typeof(SpecialRules).GetFields(); // Obtain all fields
+                    foreach (var field in fields) // Loop through fields
+                    {
+                        ModConsole.Print($"<b>{field.Name}</b>: {field.GetValue(Rules.instance.SpecialRules)}");
+                    }
 
                     // List rule files.
                     string output = "\n<color=yellow><b>Rule Files</b></color>\n";
@@ -155,14 +156,14 @@ namespace MOP
                 case "cowsay":
                     string say = String.Join(" ", args, 1, args.Length - 1);
 
-                    if (say == "Tell me your secrets")
+                    switch (say)
                     {
-                        say = "all pls fix and no appreciation makes Athlon an angry boy";
-                    }
-
-                    if (say == "Tell me your wisdoms")
-                    {
-                        say = "people saying that MOP is just improved KruFPS are straight up wrong";
+                        case "Tell me your secrets":
+                            say = "all pls fix and no appreciation makes Athlon an angry boy";
+                            break;
+                        case "Tell me your wisdoms":
+                            say = "people saying that MOP is just improved KruFPS are straight up wrong";
+                            break;
                     }
 
                     ModConsole.Print($"< {say} >\n" +

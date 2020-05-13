@@ -25,7 +25,6 @@ namespace MOP
     class SatsumaTrunk : MonoBehaviour
     {
         bool isDisabled;
-        bool afterFirstLoad;
 
         List<GameObject> trunkContent;
         Rigidbody rb;
@@ -71,7 +70,6 @@ namespace MOP
         {
             yield return new WaitForSeconds(3);
             OnBootAction();
-            afterFirstLoad = true;
         }
 
         void OnTriggerEnter(Collider other)

@@ -37,27 +37,26 @@ namespace MOP
         public static bool SatsumaTogglePhysicsOnly { get => satsumaTogglePhysicsOnly; }
 
         // RULE FILES
-        public static bool RuleFilesAutoUpdateEnabled { get => (bool)MOP.rulesAutoUpdate.GetValue(); }
-
-        // Distance after which car physics are toggled
+        public static bool RuleFilesAutoUpdateEnabled { get => (bool)MOP.RulesAutoUpdate.GetValue(); }
+        // Distance after which car physics is toggled.
         public const int UnityCarActiveDistance = 5;
 
-        // DEBUGGING
+        // Debugging functionality.
         public static bool SectorDebugMode;
 
         public static void UpdateAll()
         {
             // Activating Objects
-            ActiveDistance = int.Parse(MOP.activeDistance.GetValue().ToString());
+            ActiveDistance = int.Parse(MOP.ActiveDistance.GetValue().ToString());
             ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
-            SafeMode = (bool)MOP.safeMode.GetValue();
+            SafeMode = (bool)MOP.SafeMode.GetValue();
 
             // Others
-            removeEmptyBeerBottles = (bool)MOP.removeEmptyBeerBottles.GetValue();
-            satsumaTogglePhysicsOnly = (bool)MOP.satsumaTogglePhysicsOnly.GetValue();
+            removeEmptyBeerBottles = (bool)MOP.RemoveEmptyBeerBottles.GetValue();
+            satsumaTogglePhysicsOnly = (bool)MOP.SatsumaTogglePhysicsOnly.GetValue();
 
             // Framerate limiter
-            Application.targetFrameRate = (bool)MOP.enableFramerateLimiter.GetValue() ? int.Parse(MOP.framerateLimiter.GetValue().ToString()) : -1;
+            Application.targetFrameRate = (bool)MOP.EnableFramerateLimiter.GetValue() ? int.Parse(MOP.FramerateLimiter.GetValue().ToString()) : -1;
         }
 
         /// <summary>
@@ -82,7 +81,7 @@ namespace MOP
 
         public static int GetRuleFilesUpdateDaysFrequency()
         {
-            switch (int.Parse(MOP.rulesAutoUpdateFrequency.GetValue().ToString()))
+            switch (int.Parse(MOP.RulesAutoUpdateFrequency.GetValue().ToString()))
             {
                 default:
                     return 7;

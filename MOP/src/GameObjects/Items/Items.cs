@@ -138,7 +138,7 @@ namespace MOP
                 itemCheck.AddComponent<ShopModItemSpawnCheck>();
             }
 
-            // get items from ITEMS object.
+            // Get items from ITEMS object.
             GameObject itemsObject = GameObject.Find("ITEMS");
             for (int i = 0; i < itemsObject.transform.childCount; i++)
             {
@@ -156,6 +156,9 @@ namespace MOP
                     ExceptionManager.New(ex, "ITEM_LIST_AT_ITEMS_LOAD_ERROR");
                 }
             }
+
+            // Also disable the on laod for that sunnuva bitch.
+            itemsObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
             // Fucking wheels.
             GameObject[] wheels = Object.FindObjectsOfType<GameObject>().Where(gm => gm.name == "wheel_regula" && gm.activeSelf).ToArray();

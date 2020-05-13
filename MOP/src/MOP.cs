@@ -30,23 +30,24 @@ namespace MOP
         public override string Name => "Modern Optimization Plugin"; //You mod name
 #endif
         public override string Author => "Athlon"; //Your Username
-
         public override string Version => "2.8.3"; //Version
 
-        // Set this to true if you will be load custom assets from Assets folder.
-        // This will create subfolder in Assets folder for your mod.
-        public override bool UseAssetsFolder => false;
+        // ModLoader configuration.
         public override bool SecondPass => true;
-
-        public static string ModConfigPath;
-        public static string ModVersion;
-
         public override bool LoadInMenu => true;
+
+        // Stores the config path of mod.
+        static string modConfigPath;
+        public static string ModConfigPath { get => modConfigPath; }
+
+        // Stores the version of the mod.
+        static string modVersion;
+        public static string ModVersion { get => modVersion; }
 
         public override void OnMenuLoad()
         {
             System.GC.Collect();
-            ModConfigPath = ModLoader.GetModConfigFolder(this).Replace('\\', '/');
+            modConfigPath = ModLoader.GetModConfigFolder(this).Replace('\\', '/');
             if (!MopSettings.DataSendingAgreed())
             {
                 ModUI.ShowMessage($"Welcome to Modern Optimization Plugin <color=yellow>{Version}</color>!\n\n" +
@@ -60,7 +61,7 @@ namespace MOP
         public override void ModSettingsLoaded()
         {
             MopSettings.UpdateAll();
-            ModVersion = Version;
+            modVersion = Version;
             ModConsole.Print($"<color=green>MOP {ModVersion} initialized!</color>");
             new Rules();
             ConsoleCommand.Add(new ConsoleCommands());
@@ -89,25 +90,25 @@ namespace MOP
         readonly Settings donate = new Settings("donate", "Donate", OpenDonateDialog);
 
         // ACTIVATING OBJECTS
-        public static Settings activeDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
+        public static Settings ActiveDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
-        public static Settings safeMode = new Settings("safeMode", "Safe Mode (requires restart)", false, MopSettings.UpdateAll);
+        public static Settings SafeMode = new Settings("safeMode", "Safe Mode (requires restart)", false, MopSettings.UpdateAll);
 
         // GRAPHICS
-        public static Settings enableFramerateLimiter = new Settings("enableFramerateLimiter", "Enable Framerate Limiter", false, MopSettings.UpdateAll);
-        public static Settings framerateLimiter = new Settings("framerateLimiter", "Limit Framerate", 60, MopSettings.UpdateAll);
+        public static Settings EnableFramerateLimiter = new Settings("enableFramerateLimiter", "Enable Framerate Limiter", false, MopSettings.UpdateAll);
+        public static Settings FramerateLimiter = new Settings("framerateLimiter", "Limit Framerate", 60, MopSettings.UpdateAll);
 
         // MOD RULES
-        public static Settings rulesAutoUpdate = new Settings("rulesAutoUpdate", "Rules Auto Update", true, MopSettings.UpdateAll);
-        public static Settings rulesAutoUpdateFrequency = new Settings("rulesAutoUpdateFrequency", "Auto Update Frequency", 2);
+        public static Settings RulesAutoUpdate = new Settings("rulesAutoUpdate", "Rules Auto Update", true, MopSettings.UpdateAll);
+        public static Settings RulesAutoUpdateFrequency = new Settings("rulesAutoUpdateFrequency", "Auto Update Frequency", 2);
         readonly string[] rulesAutoUpdateFrequencyText = { "Daily", "Every 2 days", "Weekly" };
         readonly Settings forceRuleUpdate = new Settings("forceRuleUpdate", "Force Update", ForceRuleFilesUpdate);
         readonly Settings rulesLearnMore = new Settings("rulesLearnMore", "Learn More", OpenRulesWebsiteDialog);
-        public static Settings noDeleteRuleFiles = new Settings("noDeleteRuleFiles", "Don't delete unused rule files", false, MopSettings.UpdateAll);
+        public static Settings NoDeleteRuleFiles = new Settings("noDeleteRuleFiles", "Don't delete unused rule files", false, MopSettings.UpdateAll);
 
         // OTHERS
-        public static Settings removeEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Destroy Empty Beer Bottles", false, MopSettings.UpdateAll);
-        public static Settings satsumaTogglePhysicsOnly = new Settings("satsumaTogglePhysicsOnly", "SATSUMA: Toggle Physics Only", false, MopSettings.UpdateAll);
+        public static Settings RemoveEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Destroy Empty Beer Bottles", false, MopSettings.UpdateAll);
+        public static Settings SatsumaTogglePhysicsOnly = new Settings("satsumaTogglePhysicsOnly", "SATSUMA: Toggle Physics Only", false, MopSettings.UpdateAll);
 
         // LOGGING
         readonly Settings openOutputLog = new Settings("openOutputLog", "Open output_log.txt", ExceptionManager.OpenOutputLog);
@@ -144,28 +145,28 @@ namespace MOP
 
             // Activating Objects
             Settings.AddHeader(this, "Activating Objects", headerColor);
-            Settings.AddSlider(this, activeDistance, 0, 3, activeDistanceText);
-            Settings.AddCheckBox(this, safeMode);
+            Settings.AddSlider(this, ActiveDistance, 0, 3, activeDistanceText);
+            Settings.AddCheckBox(this, SafeMode);
             Settings.AddText(this, "Safe Mode will only allow to toggle objects that should not cause any issues with game.\n" +
                 "Note: this option will dramatically decrease performance!");
 
             // Graphics
             Settings.AddHeader(this, "Graphics", headerColor);
-            Settings.AddCheckBox(this, enableFramerateLimiter);
-            Settings.AddSlider(this, framerateLimiter, 20, 200);
+            Settings.AddCheckBox(this, EnableFramerateLimiter);
+            Settings.AddSlider(this, FramerateLimiter, 20, 200);
 
             // Mod Rules
             Settings.AddHeader(this, "Mod Rules", headerColor);
-            Settings.AddCheckBox(this, rulesAutoUpdate);
-            Settings.AddSlider(this, rulesAutoUpdateFrequency, 0, 2, rulesAutoUpdateFrequencyText);
-            Settings.AddCheckBox(this, noDeleteRuleFiles);
+            Settings.AddCheckBox(this, RulesAutoUpdate);
+            Settings.AddSlider(this, RulesAutoUpdateFrequency, 0, 2, rulesAutoUpdateFrequencyText);
+            Settings.AddCheckBox(this, NoDeleteRuleFiles);
             Settings.AddButton(this, forceRuleUpdate, "This will force MOP to re-download all mod rule files.");
             Settings.AddButton(this, rulesLearnMore);
 
             // Others
             Settings.AddHeader(this, "Other", headerColor);
-            Settings.AddCheckBox(this, removeEmptyBeerBottles);
-            Settings.AddCheckBox(this, satsumaTogglePhysicsOnly);
+            Settings.AddCheckBox(this, RemoveEmptyBeerBottles);
+            Settings.AddCheckBox(this, SatsumaTogglePhysicsOnly);
             Settings.AddText(this, "May fix issues with disappearing body panels in some cases.\n" +
                 "Note: this will decrease the performance");
 

@@ -714,15 +714,11 @@ namespace MOP
                         float toggleDistance = MopSettings.ActiveDistance == 0
                             ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
 
-                        if (jesusFixTheFramerate && i == 0)
-                        {
-                            toggleDistance = 9999;
-                            jesusFixTheFramerate = false;
-                        }
-
                         if (Rules.instance.SpecialRules.ExperimentalOptimization)
                         {
-                            if (i == 0 && !Satsuma.instance.IsKeyInserted() && SatsumaInGarage.Instance.AreGarageDoorsClose() && SatsumaInGarage.IsSatsumaInGarage)
+                            if (i == 0 && SatsumaInGarage.Instance.AreGarageDoorsClose() 
+                                       && SatsumaInGarage.Instance.IsSatsumaInGarage()
+                                       && !Satsuma.instance.IsKeyInserted())
                             {
                                 vehicles[i].ToggleUnityCar(false);
                                 vehicles[i].Toggle(false);
@@ -1070,7 +1066,5 @@ namespace MOP
             vehicles[6].transform.position = vehicles[6].Position;
             PlayMakerFSM.BroadcastEvent("TRAILERATTACH");
         }
-
-        bool jesusFixTheFramerate;
     }
 }
