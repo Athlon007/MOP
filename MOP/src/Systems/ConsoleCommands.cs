@@ -157,13 +157,26 @@ namespace MOP
                 case "cowsay":
                     string say = string.Join(" ", args, 1, args.Length - 1);
 
-                    switch (say)
+                    switch (say.ToLower())
                     {
-                        case "Tell me your secrets":
+                        case "tell me your secrets":
                             say = "all pls fix and no appreciation makes Athlon an angry boy";
                             break;
-                        case "Tell me your wisdoms":
+                        case "tell me your wisdoms":
                             say = "people saying that MOP is just improved KruFPS are straight up wrong";
+                            break;
+                        case "wieski":
+                            say = "it really do be like dat doe sometimes";
+                            break;
+                        case "embu":
+                            say = "pee vee good";
+                            break;
+                        case "owo":
+                            say = "UwU";
+                            break;
+                        case "mop sucks":
+                            say = "no u";
+                            Process.Start("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
                             break;
                     }
 

@@ -236,7 +236,8 @@ namespace MOP
             }
 
             // Fix for cd player disabling other vehicles radio.
-            GameObject.Find("cd player(Clone)").transform.Find("ButtonsCD/RadioVolume").gameObject.GetPlayMakerByName("Knob").Fsm.RestartOnEnable = false;
+            Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "cd player(Clone)")
+                .transform.Find("ButtonsCD/RadioVolume").gameObject.GetPlayMakerByName("Knob").Fsm.RestartOnEnable = false;
             GameObject.Find("radio(Clone)").transform.Find("ButtonsRadio/RadioVolume").gameObject.GetPlayMakerByName("Knob").Fsm.RestartOnEnable = false;
 
             // Create trunk trigger.

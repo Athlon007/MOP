@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.8.4 (14.05.2020)
+
+### Bug Fixes
+
+- Fixed MOP not starting, if player didn't buy CD player
+
 ## 2.8.3 (14.05.2020)
 
 ### Added
