@@ -38,7 +38,6 @@ namespace MOP
             if (other.gameObject.name.ContainsAny(items) && other.gameObject.GetComponent<ItemHook>() == null)
             {
                 other.gameObject.AddComponent<ItemHook>();
-
                 GameObject gm = other.gameObject;
 
                 // If the obj is cd case, find cd inside of it and attach ItemHook to it.

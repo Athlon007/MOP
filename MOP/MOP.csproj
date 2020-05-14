@@ -56,6 +56,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="src\GameFixes.cs" />
     <Compile Include="src\GameObjects\Items\CashRegisterHook.cs" />
     <Compile Include="src\GameObjects\Items\UncleBeerCaseHook.cs" />
     <Compile Include="src\GameObjects\Items\Items.cs" />
@@ -90,15 +91,18 @@
     <Compile Include="src\GameObjects\Places\Teimo.cs" />
     <Compile Include="src\GameObjects\Vehicles\Vehicle.cs" />
     <Compile Include="src\GameObjects\WorldObjectList.cs" />
+    <Compile Include="src\RuleFiles\Cases\NewSector.cs" />
+    <Compile Include="src\RuleFiles\Cases\SpecialRules.cs" />
     <Compile Include="src\Systems\CompatibilityManager.cs" />
     <Compile Include="src\Systems\ConsoleCommands.cs" />
     <Compile Include="src\Systems\CustomExtensions.cs" />
     <Compile Include="src\Systems\ExceptionManager.cs" />
+    <Compile Include="src\Systems\ExternalExecuting.cs" />
     <Compile Include="src\Systems\MopSettings.cs" />
-    <Compile Include="src\RuleFiles\IgnoreRule.cs" />
+    <Compile Include="src\RuleFiles\Cases\IgnoreRule.cs" />
     <Compile Include="src\RuleFiles\Rules.cs" />
     <Compile Include="src\RuleFiles\RuleFilesLoader.cs" />
-    <Compile Include="src\RuleFiles\ToggleRule.cs" />
+    <Compile Include="src\RuleFiles\Cases\ToggleRule.cs" />
     <Compile Include="src\WorldManager.cs" />
     <Compile Include="src\MOP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

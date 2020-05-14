@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using System.IO;
 using UnityEngine;
 
 namespace MOP
@@ -38,6 +39,7 @@ namespace MOP
 
         // RULE FILES
         public static bool RuleFilesAutoUpdateEnabled { get => (bool)MOP.RulesAutoUpdate.GetValue(); }
+        
         // Distance after which car physics is toggled.
         public const int UnityCarActiveDistance = 5;
 
@@ -92,9 +94,14 @@ namespace MOP
             }
         }
 
+        public static void AgreeData()
+        {
+            File.Create($"{MOP.ModConfigPath}/DataAgreed.mop");
+        }
+
         public static bool DataSendingAgreed()
         {
-            return System.IO.File.Exists($"{MOP.ModConfigPath}/DataAgreed.mop");
+            return File.Exists($"{MOP.ModConfigPath}/DataAgreed.mop");
         }
     }
 }

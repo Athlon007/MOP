@@ -14,25 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using MSCLoader;
-using UnityEngine;
-
 namespace MOP
 {
-    class CompatibilityManager
+    // This class is intended for special flags used in specific cases.
+    class SpecialRules
     {
-        // This script manages the compatibility between other mods
-        // This method is only used in certain special cases.
-        // Current correct method is to use rule files!
+        public bool SatsumaIgnoreRenderers;
+        public bool DontDestroyEmptyBeerBottles;
 
-        // CarryMore
-        // https://www.racedepartment.com/downloads/carry-more-backpack-alternative.22396/
-        public static bool CarryMore { get; private set; }
-        public readonly Vector3 CarryMoreTempPosition = new Vector3(0.0f, -1000.0f, 0.0f);
-
-        public CompatibilityManager()
-        {
-            CarryMore = ModLoader.IsModPresent("CarryMore");
-        }
+        // Custom rule files.
+        public bool IgnoreModVehicles;
+        public bool ToggleAllVehiclesPhysicsOnly;
+        public bool DrivewaySector;
+        public bool ExperimentalSatsumaTrunk;
+        public bool ExperimentalOptimization;
     }
 }

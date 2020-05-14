@@ -7,7 +7,7 @@
 
 <img align="right" src="images/icon.png" alt="icon" width=128 />
 
-MOP (Modern Optimization Plugin) is the ultimate performance enchancing project for My Summer Car. Seemingly improve framerate of MSC by up to 50 FPS!
+MOP (Modern Optimization Plugin) is the ultimate performance enhancing project for My Summer Car. Seemingly improve framerate of MSC by up to 50 FPS!
 
 The only FPS improver mod, that does all of this without any user interaction! No need to remember keybinds and select what things you want to disable at the time!
 

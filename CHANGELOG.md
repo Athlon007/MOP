@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.8.3 (tba)
+## 2.8.3 (14.05.2020)
 
 ### Added
 
@@ -9,12 +9,15 @@
   - Added a storage in a glovebox
 - Added experimental optimization system, that disables Satsuma, if it's parked at the garage
   - You can enable it using custom rule file flag: experimental_optimization
+- Added new rule file flag "min_ver", which tells MOP what's the minimum required version of MOP for that rule file to work
 
 ### Changes
 
+- Improved hood fix script
 - 'mop rules' command won't show empty categories anymore
-- Changed max framerate limiter to 200 FPS
-- Minor code improvements and enhancements
+- Changed max framerate limiter value to 144 FPS
+- Partial code refactoring
+- Minor changes in the mod settings
 
 ### Bug Fixes
 

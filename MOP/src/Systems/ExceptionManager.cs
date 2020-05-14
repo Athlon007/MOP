@@ -94,8 +94,9 @@ namespace MOP
         /// <returns></returns>
         static string GetGameInfo()
         {
-            string output = "MSC Mod Loader Version: " + ModLoader.MSCLoader_Ver + "\n";
-            output += "Date and Time: " + DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ") + "\n";
+            string output = $"Modern Optimization Plugin\nVersion: {MOP.ModVersion}\n";
+            output += $"MSC Mod Loader Version: {ModLoader.MSCLoader_Ver}\n";
+            output += $"Date and Time: {DateTime.Now:yyyy-MM-ddTHH:mm:ssZ}\n";
             output += $"{GetSystemInfo()} \n\n";
 
             output += "=== MOP SETTINGS ===\n\n";
@@ -121,20 +122,15 @@ namespace MOP
             output += "\n=== MODS ===\n\n";
             foreach (var mod in ModLoader.LoadedMods)
             {
-                if (mod.ID == "MOP")
-                {
-                    output = $"{mod.Name}\nVersion: {mod.Version}\n{output}";
-                    continue;
-                }
-
-                // Ignore MSCLoader components
-                if (mod.ID == "MSCLoader_Console" || mod.ID == "MSCLoader_Settings")
+                // Ignore MSCLoader or MOP.
+                if (mod.ID.EqualsAny("MSCLoader_Console", "MSCLoader_Settings", "MOP"))
                     continue;
 
                 output += $"{mod.Name}:\n  ID: {mod.ID}\n  Version: {mod.Version}\n  Author: {mod.Author}\n\n";
             }
 
-            if (ModLoader.LoadedMods.Count == 3)
+            // If only 3 mods have been found, that means the only mods active are MOP and two ModLoader modules.
+            if (ModLoader.LoadedMods.Count <= 3)
             {
                 output += "No other mods found!\n\n";
             }
@@ -159,7 +155,7 @@ namespace MOP
             if (build > 9600)
             {
                 string realOS = $"Windows 10 (10.0.{build})";
-                
+
                 if (SystemInfo.operatingSystem.Contains("64bit"))
                 {
                     realOS += " 64bit";

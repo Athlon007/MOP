@@ -76,14 +76,6 @@ namespace MOP
             PlayMakerFSM playMakerFSM = GetComponent<PlayMakerFSM>();
             renderer = GetComponent<Renderer>();
 
-            if (CompatibilityManager.CDPlayerEnhanced)
-            {
-                if (gameObject.name == "cd(itemy)" || gameObject.name.StartsWith("cd case"))
-                {
-                    Toggle = ToggleActiveOldMethod;
-                }
-            }
-
             // From PlayMakerFSM, find states that contain one of the names that relate to destroying object,
             // and inject RemoveSelf void.
             if (playMakerFSM != null)
@@ -309,7 +301,7 @@ namespace MOP
                 }
 
                 // CD Player Enhanced mod
-                if (CompatibilityManager.CDPlayerEnhanced && this.transform.parent != null)
+                if (this.gameObject.name.StartsWith("cd") && this.transform.parent != null)
                 {
                     // Prevent CDs to clip through CD Case
                     if (this.gameObject.name == "cd(itemy)" && this.transform.parent.name == "PivotCD")

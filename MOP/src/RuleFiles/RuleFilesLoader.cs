@@ -462,6 +462,55 @@ namespace MOP
                             string[] whitelist = GetWhitelist(objects);
                             Rules.instance.NewSectors.Add(new NewSector(pos, scale, rot, whitelist));
                             break;
+                        case "min_ver":
+                            if (fileName == "Custom.txt")
+                            {
+                                break;
+                            }
+                            int major, minor, revision = 0;
+                            string[] verSplitted = objects[0].Split('.');
+                            major = int.Parse(verSplitted[0]);
+                            minor = int.Parse(verSplitted[1]);
+                            if (verSplitted.Length == 3)
+                                revision = int.Parse(verSplitted[2]);
+
+                            int modMajor, modMinor, modRevision = 0;
+                            string[] modVersionSpliited = MOP.ModVersion.Split('.');
+                            modMajor = int.Parse(modVersionSpliited[0]);
+                            modMinor = int.Parse(modVersionSpliited[1]);
+                            if (modVersionSpliited.Length == 3)
+                                modRevision = int.Parse(modVersionSpliited[2]);
+
+                            bool isOutdated = false;
+                            if (major > modMajor)
+                            {
+                                isOutdated = true;
+                            }
+                            else
+                            { 
+                                if (minor > modMinor && major == modMajor)
+                                {
+                                    isOutdated = true;
+                                }
+                                else
+                                {
+                                    if (revision > modRevision && minor == modMinor && major == modMajor)
+                                    {
+                                        isOutdated = true;
+                                    }
+                                }
+                            }
+
+                            if (isOutdated)
+                            {
+                                ModConsole.Error($"[MOP] Rule file {fileName} is for the newer version of MOP. Please update MOP now.\n" +
+                                    $"Your MOP version: {modMajor}.{modMinor}.{modRevision}\n" +
+                                    $"Required version: {major}.{minor}.{revision}");
+
+                                return;
+                            }
+
+                            break;
 
                         // Custom.txt exclusives.
                         case "ignore_mod_vehicles":

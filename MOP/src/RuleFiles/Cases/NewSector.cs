@@ -14,25 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using MSCLoader;
 using UnityEngine;
 
 namespace MOP
 {
-    class CompatibilityManager
+    class NewSector
     {
-        // This script manages the compatibility between other mods
-        // This method is only used in certain special cases.
-        // Current correct method is to use rule files!
+        public Vector3 Position;
+        public Vector3 Rotation;
+        public Vector3 Scale;
+        public string[] Whitelist;
 
-        // CarryMore
-        // https://www.racedepartment.com/downloads/carry-more-backpack-alternative.22396/
-        public static bool CarryMore { get; private set; }
-        public readonly Vector3 CarryMoreTempPosition = new Vector3(0.0f, -1000.0f, 0.0f);
-
-        public CompatibilityManager()
+        public NewSector(Vector3 Position, Vector3 Scale, Vector3 Rotation, string[] Whitelist)
         {
-            CarryMore = ModLoader.IsModPresent("CarryMore");
+            this.Position = Position;
+            this.Scale = Scale;
+            this.Rotation = Rotation;
+            this.Whitelist = Whitelist;
         }
     }
 }

@@ -34,7 +34,7 @@ namespace MOP
         // by simply saving the Transform.position and Transform.rotation parameters just before disabling the object, and then loading these values,
         // just after loading them.
 
-        public GameObject gameObject { get; set; }
+        public GameObject gameObject { get; private set; }
 
         // Values that are being saved or loaded
         public Vector3 Position { get; set; }
@@ -279,7 +279,7 @@ namespace MOP
 
                 if (isKekmet && MopFsmManager.IsTrailerAttached())
                 {
-                    WorldManager.instance.KekmetTrailerAttach();
+                    GameFixes.Instance.KekmetTrailerAttach();
                 }
             }
         }

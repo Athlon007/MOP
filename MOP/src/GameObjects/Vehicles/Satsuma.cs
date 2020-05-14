@@ -277,6 +277,9 @@ namespace MOP
 
             if (MopSettings.SatsumaTogglePhysicsOnly) return;
 
+            if (!GameFixes.Instance.HoodFixDone)
+                enabled = true;
+
             if (preventDespawnDuringThisSession || MopFsmManager.IsRepairshopJobOrdered())
             {
                 enabled = true;
@@ -392,7 +395,7 @@ namespace MOP
 
         public void HoodFix()
         {
-            WorldManager.instance.HoodFix(transform.Find("Body/pivot_hood"), transform.Find("MiscParts/trigger_battery"), transform.Find("MiscParts/pivot_battery"));
+            GameFixes.Instance.HoodFix(transform.Find("Body/pivot_hood"), transform.Find("MiscParts/trigger_battery"), transform.Find("MiscParts/pivot_battery"));
         }
 
         public bool IsKeyInserted()

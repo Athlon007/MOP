@@ -188,7 +188,7 @@ namespace MOP
 
         void CreateNewSector(Vector3 position, Vector3 size, params string[] ignoreList)
         {
-            GameObject newSector = null;
+            GameObject newSector;
             if (MopSettings.SectorDebugMode)
             {
                 newSector = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -219,13 +219,13 @@ namespace MOP
 
         void CreateNewSector(Vector3 position, Vector3 size, Vector3 rotation, params string[] ignoreList)
         {
-            GameObject newSector = null;
+            GameObject newSector;
             if (MopSettings.SectorDebugMode)
             {
-                newSector = GameObject.CreatePrimitive(PrimitiveType.Cube); // DEBUG
-                newSector.name = "MOP_SECTOR_DEBUG"; //DEBUG
-                newSector.transform.localScale = size; // DEBUG
-                Object.Destroy(newSector.GetComponent<Collider>()); // DEBUG
+                newSector = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                newSector.name = "MOP_SECTOR_DEBUG";
+                newSector.transform.localScale = size; 
+                Object.Destroy(newSector.GetComponent<Collider>());
                 newSector.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             }
             else

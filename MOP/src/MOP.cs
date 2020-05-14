@@ -15,7 +15,6 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
-using System.Diagnostics;
 using System.IO;
 using UnityEngine;
 
@@ -54,7 +53,7 @@ namespace MOP
                     $"While using rule files auto updates, MOP sends following data:\n" +
                     "• MOP Version\n" +
                     "• Operating System Version", "MOP");
-                AgreeData();
+                MopSettings.AgreeData();
             }
         }
 
@@ -85,9 +84,9 @@ namespace MOP
         }
 
         // BUTTONS
-        readonly Settings faq = new Settings("faq", "FAQ", OpenFAQDialog);
-        readonly Settings wiki = new Settings("wiki", "MOP Wiki", OpenWikiDialog);
-        readonly Settings donate = new Settings("donate", "Donate", OpenDonateDialog);
+        readonly Settings faq = new Settings("faq", "FAQ", ExternalExecuting.OpenFAQDialog);
+        readonly Settings wiki = new Settings("wiki", "MOP Wiki", ExternalExecuting.OpenWikiDialog);
+        readonly Settings donate = new Settings("donate", "Donate", ExternalExecuting.OpenDonateDialog);
 
         // ACTIVATING OBJECTS
         public static Settings ActiveDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
@@ -103,7 +102,7 @@ namespace MOP
         public static Settings RulesAutoUpdateFrequency = new Settings("rulesAutoUpdateFrequency", "Auto Update Frequency", 2);
         readonly string[] rulesAutoUpdateFrequencyText = { "Daily", "Every 2 days", "Weekly" };
         readonly Settings forceRuleUpdate = new Settings("forceRuleUpdate", "Force Update", ForceRuleFilesUpdate);
-        readonly Settings rulesLearnMore = new Settings("rulesLearnMore", "Learn More", OpenRulesWebsiteDialog);
+        readonly Settings rulesLearnMore = new Settings("rulesLearnMore", "Learn More", ExternalExecuting.OpenRulesWebsiteDialog);
         public static Settings NoDeleteRuleFiles = new Settings("noDeleteRuleFiles", "Don't delete unused rule files", false, MopSettings.UpdateAll);
 
         // OTHERS
@@ -153,15 +152,15 @@ namespace MOP
             // Graphics
             Settings.AddHeader(this, "Graphics", headerColor);
             Settings.AddCheckBox(this, EnableFramerateLimiter);
-            Settings.AddSlider(this, FramerateLimiter, 20, 200);
+            Settings.AddSlider(this, FramerateLimiter, 20, 144);
 
             // Mod Rules
             Settings.AddHeader(this, "Mod Rules", headerColor);
+            Settings.AddButton(this, rulesLearnMore);
             Settings.AddCheckBox(this, RulesAutoUpdate);
             Settings.AddSlider(this, RulesAutoUpdateFrequency, 0, 2, rulesAutoUpdateFrequencyText);
             Settings.AddCheckBox(this, NoDeleteRuleFiles);
             Settings.AddButton(this, forceRuleUpdate, "This will force MOP to re-download all mod rule files.");
-            Settings.AddButton(this, rulesLearnMore);
 
             // Others
             Settings.AddHeader(this, "Other", headerColor);
@@ -179,46 +178,6 @@ namespace MOP
             // Changelog
             Settings.AddHeader(this, "Changelog", headerColor);
             Settings.AddText(this, GetChangelog());
-        }
-
-        static void OpenFAQDialog()
-        {
-            ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenFAQ);
-        }
-
-        static void OpenFAQ()
-        {
-            Process.Start("https://github.com/Athlon007/MOP/blob/master/FAQ.md");
-        }
-
-        static void OpenWikiDialog()
-        {
-            ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenWiki);
-        }
-
-        static void OpenWiki()
-        {
-            Process.Start("https://github.com/Athlon007/MOP/wiki");
-        }
-
-        static void OpenDonateDialog()
-        {
-            ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenDonate);
-        }
-
-        static void OpenDonate()
-        {
-            Process.Start("https://paypal.me/figurakonrad");
-        }
-
-        static void OpenRulesWebsiteDialog()
-        {
-            ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenRulesWebsite);
-        }
-
-        static void OpenRulesWebsite()
-        {
-            Process.Start("http://athlon.kkmr.pl/mop");
         }
 
         static void ForceRuleFilesUpdate()
@@ -280,11 +239,6 @@ namespace MOP
             }
 
             return output;
-        }
-
-        static void AgreeData()
-        {
-            File.Create($"{ModConfigPath}/DataAgreed.mop");
         }
     }
 }

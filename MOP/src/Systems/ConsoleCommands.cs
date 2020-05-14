@@ -48,7 +48,8 @@ namespace MOP
                         "<color=yellow>reload</color> - Forces MOP to reload rule files\n" +
                         "<color=yellow>new</color> - Create custom rule file\n" +
                         "<color=yellow>open-custom</color> - Open custom rule file\n" +
-                        "<color=yellow>delete-custom</color> - Delete custom rule file");
+                        "<color=yellow>delete-custom</color> - Delete custom rule file\n" +
+                        "<color=yellow>sector-debug</color> - Shows the renderers of sectors");
                     break;
                 case "rules":
                     if (Rules.instance.IgnoreRules.Count > 0)
@@ -154,7 +155,7 @@ namespace MOP
                     ModConsole.Print(MOP.ModVersion);
                     break;
                 case "cowsay":
-                    string say = String.Join(" ", args, 1, args.Length - 1);
+                    string say = string.Join(" ", args, 1, args.Length - 1);
 
                     switch (say)
                     {
@@ -173,7 +174,7 @@ namespace MOP
                                     "                ||  ----w  |\n" +
                                     "                ||           || ");
                     break;
-                case "sector_debug":
+                case "sector-debug":
                     if (args.Length == 1)
                     {
                         ModConsole.Print($"Sector debug mode is set to {MopSettings.SectorDebugMode}");
