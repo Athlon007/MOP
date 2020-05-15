@@ -94,14 +94,12 @@ namespace MOP
         /// <returns></returns>
         static string GetGameInfo()
         {
-            string output = $"Modern Optimization Plugin\nVersion: {MOP.ModVersion}\n";
+            string output = $"Modern Optimization Plugin\nVersion: {MOP.ModVersion}{(MOP.ModVersion.EndsWith(".0") ? " Development" : "")}\n";
             output += $"MSC Mod Loader Version: {ModLoader.MSCLoader_Ver}\n";
             output += $"Date and Time: {DateTime.Now:yyyy-MM-ddTHH:mm:ssZ}\n";
             output += $"{GetSystemInfo()} \n\n";
 
             output += "=== MOP SETTINGS ===\n\n";
-
-            bool customRuleFile = File.Exists($"{MOP.ModConfigPath}\\Custom.txt");
 
             output += $"ActiveDistance: {MopSettings.ActiveDistance}\n";
             output += $"ActiveDistanceMultiplicationValue: {MopSettings.ActiveDistanceMultiplicationValue}\n";
@@ -114,7 +112,7 @@ namespace MOP
             output += $"FramerateLimiter: {MOP.FramerateLimiter.GetValue()}\n";
             output += $"RulesAutoUpdate: {MOP.RulesAutoUpdate.GetValue()}\n"; 
             output += $"RulesAutoUpdateFrequency: {MopSettings.GetRuleFilesUpdateDaysFrequency()}\n";
-            output += $"CustomRuleFile: {customRuleFile}\n\n";
+            output += $"CustomRuleFile: {File.Exists($"{MOP.ModConfigPath}\\Custom.txt")}\n\n";
             output += $"CheckSteam: {ModLoader.CheckSteam()} \n";
             output += $"ExperimentalBranch: {ModLoader.CheckIfExperimental()}\n";
 

@@ -100,8 +100,8 @@ namespace MOP
             bucketPassanger.AddComponent<SatsumaSeatsManager>();
             
             // Fix for doors getting jammed.
-            GameObject.Find("door right(Clone)").AddComponent<SatsumaDoorManager>();
-            GameObject.Find("door left(Clone)").AddComponent<SatsumaDoorManager>();
+            //GameObject.Find("door right(Clone)").AddComponent<SatsumaDoorManager>();
+            //GameObject.Find("door left(Clone)").AddComponent<SatsumaDoorManager>();
             
             // Fix for mechanical wear of the car.
             PlayMakerFSM mechanicalWearFsm = transform.Find("CarSimulation/MechanicalWear").gameObject.GetComponent<PlayMakerFSM>();

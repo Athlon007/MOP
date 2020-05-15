@@ -25,20 +25,6 @@ namespace MOP
     {
         public static Items instance;
 
-        // List of all whitelisted objects that can appear on the minorObjects list
-        // Note: batteries aren't included
-        public string[] blackList = {
-        "ax", "booze", "brake fluid", "cigarettes", "coffee pan", "coffee cup", "coolant", "diesel",
-        "empty plastic can", "fire extinguisher", "gasoline", "grill", "grill charcoal", "ground coffee",
-        "juice", "kilju", "lamp", "macaron box", "milk", "moosemeat", "mosquito spray", "motor oil",
-        "oil filter", "pike", "pizza", "ratchet set", "potato chips", "sausages", "sugar", "spanner set",
-        "spray can", "two stroke fuel", "wiring mess", "wood carrier", "yeast", "shopping bag", "flashlight",
-        "beer case", "fireworks bag", "lantern", "dipper", "coffee pan", "fireworks bag", "camera",
-        "water bucket", "car jack", "warning triangle", "spirit", "diskette", "empty", "empty bottle", "battery",
-        "alternator belt", "spark plug box", "car light bulb box", "light bulb", "spark plug" };
-
-        public string[] whiteList = { "grille gt" };
-
         // List of ObjectHooks attached to minor objects
         public List<ItemHook> ItemsHooks = new List<ItemHook>();
 
@@ -94,8 +80,7 @@ namespace MOP
             // Get all minor objects from the game world (like beer cases, sausages)
             // Only items that are in the listOfMinorObjects list, and also contain "(itemx)" in their name will be loaded
             GameObject[] items = Object.FindObjectsOfType<GameObject>()
-                .Where(gm => gm.name.ContainsAny(blackList)
-                && gm.name.ContainsAny("(itemx)", "(Clone)") && gm.activeSelf).ToArray();
+                .Where(gm => gm.name.ContainsAny("(itemx)", "(Clone)") && gm.activeSelf).ToArray();
 
             for (int i = 0; i < items.Length; i++)
             {

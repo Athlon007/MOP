@@ -44,7 +44,7 @@ namespace MOP
 
         public bool IsInHood;
 
-        readonly FsmBool batteryOnCharged;
+        FsmBool batteryOnCharged;
 
         public ItemHook()
         {
@@ -135,62 +135,7 @@ namespace MOP
             // We're preventing the execution of State 1 and Load,
             // because these two reset the variables of the item
             // (such as position, state or rotation).
-            PlayMakerFSM useFsm = gameObject.GetPlayMakerByName("Use");
-            if (useFsm != null)
-            {
-                useFsm.Fsm.RestartOnEnable = false;
-                FsmState state1 = useFsm.FindFsmState("State 1");
-                if (state1 != null)
-                {
-                    List<FsmStateAction> emptyState1 = state1.Actions.ToList();
-                    emptyState1.Insert(0, new CustomStopAction());
-                    state1.Actions = emptyState1.ToArray();
-                    state1.SaveActions();
-                }
-
-                FsmState loadState = useFsm.FindFsmState("Load");
-                if (loadState != null)
-                {
-                    List<FsmStateAction> emptyActions = loadState.Actions.ToList();
-                    emptyActions.Insert(0, new CustomStopAction());
-                    loadState.Actions = emptyActions.ToArray();
-                    loadState.SaveActions();
-                }
-
-                if (this.gameObject.name == "battery(Clone)")
-                {
-                    batteryOnCharged = useFsm.FsmVariables.GetFsmBool("OnCharged");
-                }
-            }
-
-            PlayMakerFSM dataFsm = gameObject.GetPlayMakerByName("Data");
-            if (dataFsm != null)
-            {
-                dataFsm.Fsm.RestartOnEnable = false;
-            }
-
-            // Fixes for particular items.
-            switch (gameObject.name)
-            {
-                case "diesel(itemx)":
-                    transform.Find("FluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    break;
-                case "gasoline(itemx)":
-                    transform.Find("FluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    break;
-                case "motor oil(itemx)":
-                    transform.Find("MotorOilTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    break;
-                case "coolant(itemx)":
-                    transform.Find("CoolantTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    break;
-                case "brake fluid(itemx)":
-                    transform.Find("BrakeFluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    break;
-                case "wood carrier(itemx)":
-                    transform.Find("WoodTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    break;
-            }
+            FsmFixes();
         }
 
         // Triggered before the object is destroyed.
@@ -227,6 +172,11 @@ namespace MOP
                 }
 
                 if (gameObject.activeSelf == enabled)
+                {
+                    return;
+                }
+
+                if (transform.root.gameObject.name == "SATSUMA(557kg, 248)")
                 {
                     return;
                 }
@@ -405,6 +355,69 @@ namespace MOP
         public float GetMass()
         {
             return rb.mass;
+        }
+
+        void FsmFixes()
+        {
+            PlayMakerFSM useFsm = gameObject.GetPlayMakerByName("Use");
+            if (useFsm != null)
+            {
+                useFsm.Fsm.RestartOnEnable = false;
+
+                if (gameObject.name.StartsWith("door ")) return;
+
+                FsmState state1 = useFsm.FindFsmState("State 1");
+                if (state1 != null)
+                {
+                    List<FsmStateAction> emptyState1 = state1.Actions.ToList();
+                    emptyState1.Insert(0, new CustomStopAction());
+                    state1.Actions = emptyState1.ToArray();
+                    state1.SaveActions();
+                }
+
+                FsmState loadState = useFsm.FindFsmState("Load");
+                if (loadState != null)
+                {
+                    List<FsmStateAction> emptyActions = loadState.Actions.ToList();
+                    emptyActions.Insert(0, new CustomStopAction());
+                    loadState.Actions = emptyActions.ToArray();
+                    loadState.SaveActions();
+                }
+
+                if (this.gameObject.name == "battery(Clone)")
+                {
+                    batteryOnCharged = useFsm.FsmVariables.GetFsmBool("OnCharged");
+                }
+            }
+
+            PlayMakerFSM dataFsm = gameObject.GetPlayMakerByName("Data");
+            if (dataFsm != null)
+            {
+                dataFsm.Fsm.RestartOnEnable = false;
+            }
+
+            // Fixes for particular items.
+            switch (gameObject.name)
+            {
+                case "diesel(itemx)":
+                    transform.Find("FluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    break;
+                case "gasoline(itemx)":
+                    transform.Find("FluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    break;
+                case "motor oil(itemx)":
+                    transform.Find("MotorOilTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    break;
+                case "coolant(itemx)":
+                    transform.Find("CoolantTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    break;
+                case "brake fluid(itemx)":
+                    transform.Find("BrakeFluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    break;
+                case "wood carrier(itemx)":
+                    transform.Find("WoodTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    break;
+            }
         }
     }
 }

@@ -78,16 +78,7 @@ namespace MOP
 
             if (other.gameObject.GetComponent<ItemHook>() != null && !trunkContent.Contains(other.gameObject))
             {
-                /*
-                if (afterFirstLoad && !storageOpen.Value)
-                {
-                    Vector3 newItemPosition = other.gameObject.transform.position;
-                    newItemPosition.y += 1;
-                    other.gameObject.transform.position = newItemPosition;
-                    other.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                    return;
-                }
-                */
+                if (other.gameObject.transform.root.gameObject.name == "SATSUMA(557kg, 248)") return;
 
                 trunkContent.Add(other.gameObject);
                 currentMass += other.gameObject.GetComponent<ItemHook>().GetMass();

@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.9 (tba)
+
+### Added
+
+- Car parts are now toggled
+
+### Changes
+
+- Tweaked how vehicles physics is now toggled, eliminating the bug that would cause sudden FPS drop
+
 ## 2.8.4 (14.05.2020)
 
 ### Bug Fixes
