@@ -1,3 +1,12 @@
+### Added
+
+- Car parts are now toggled
+
+### Changes
+
+- Tweaked how vehicles physics is now toggled, eliminating the bug that would cause sudden FPS drop
+
 ### Bug Fixes
 
-- Fixed MOP not starting, if player didn't buy CD player
+- Fixed a bug with a trailer being attached, while in fact it wasn't
+- Fixed a bug in which Custom.txt wouldn't be loaded, if no other rule file was present

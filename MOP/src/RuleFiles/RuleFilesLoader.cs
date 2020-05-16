@@ -221,18 +221,18 @@ namespace MOP
                 // Find and .mopconfig files.
                 DirectoryInfo dir = new DirectoryInfo(MOP.ModConfigPath);
                 List<FileInfo> files = dir.GetFiles().Where(d => d.Name.EndsWith(".mopconfig")).ToList();
-                if (files.Count == 0)
-                {
-                    ModConsole.Print($"[MOP] No rule files found.");
-                    NewMessage("");
-                    return;
-                }
-
                 // Load custom rule file.
                 if (File.Exists($"{dir}\\Custom.txt"))
                 {
                     files.Add(new FileInfo($"{dir}\\Custom.txt"));
                     ModConsole.Print("[MOP] User custom rule file found!");
+                }
+
+                if (files.Count == 0)
+                {
+                    ModConsole.Print($"[MOP] No rule files found.");
+                    NewMessage("");
+                    return;
                 }
 
                 string message = $"[MOP] Found {files.Count} rule file{(files.Count > 1 ? "s" : "")}!";

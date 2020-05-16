@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using MSCLoader;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -150,7 +149,7 @@ namespace MOP
             for (int i = 0; i < 10; i++)
             {
                 PlayMakerFSM.BroadcastEvent("TRAILERATTACH");
-                yield return new WaitForSeconds(.2f);
+                yield return new WaitForSeconds(.1f);
             }
         }
     }

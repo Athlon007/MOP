@@ -389,6 +389,10 @@ namespace MOP
                     batteryOnCharged = useFsm.FsmVariables.GetFsmBool("OnCharged");
                 }
             }
+            else
+            {
+                ModConsole.Error("Use " + gameObject.name);
+            }
 
             PlayMakerFSM dataFsm = gameObject.GetPlayMakerByName("Data");
             if (dataFsm != null)

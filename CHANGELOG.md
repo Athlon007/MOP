@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.9 (tba)
+## 2.9 Development 1 (16.05.2020)
 
 ### Added
 
@@ -13,6 +13,7 @@
 ### Bug Fixes
 
 - Fixed a bug with a trailer being attached, while in fact it wasn't
+- Fixed a bug in which Custom.txt wouldn't be loaded, if no other rule file was present
 
 ## 2.8.4 (14.05.2020)
 
