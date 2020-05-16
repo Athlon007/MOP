@@ -30,7 +30,7 @@ namespace MOP
                 return;
             }
 
-            Object.Destroy(GetComponent<HingeJoint>());
+            Destroy(GetComponent<HingeJoint>());
         }
     }
 }

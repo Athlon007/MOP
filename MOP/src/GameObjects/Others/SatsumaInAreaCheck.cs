@@ -111,7 +111,7 @@ namespace MOP
             }
         }
 
-        public bool AreGarageDoorsClose()
+        public bool AreGarageDoorsClosed()
         {
             return doorLeft.localEulerAngles.z < 12 && (doorRight.localEulerAngles.z > 340 || doorRight.localEulerAngles.z < 10);
         }

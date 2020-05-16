@@ -26,12 +26,11 @@ namespace MOP
 
         public UncleBeerCaseHook()
         {
-            try
-            {
-                FsmHook.FsmInject(this.gameObject, "Remove bottle", DestroyBeerBottles);
-                FsmHook.FsmInject(this.gameObject, "Remove bottle", HookBottles);
-            }
-            catch { }
+            if (GetComponent<PlayMakerFSM>() == null)
+                return;
+
+            FsmHook.FsmInject(this.gameObject, "Remove bottle", DestroyBeerBottles);
+            FsmHook.FsmInject(this.gameObject, "Remove bottle", HookBottles);
         }
 
         /// <summary>

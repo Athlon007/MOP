@@ -155,7 +155,9 @@ namespace MOP
             perajarvi.transform.Find("ChickenHouse").parent = buildings;
 
             // Chicken house (barn) close to player's house
-            buildings.Find("ChickenHouse").parent = null;
+            Transform playerChickenHouse = buildings.Find("ChickenHouse");
+            playerChickenHouse.parent = null;
+            worldObjectList.Add(playerChickenHouse.gameObject);
 
             // Fix for church wall. Changing it's parent to NULL, so it will not be loaded or unloaded.
             // It used to be changed to CHURCH gameobject, 
@@ -468,6 +470,8 @@ namespace MOP
             float money = PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerMoney").Value;
             finalMessage = money >= 69420.0f && money < 69420.5f ? finalMessage.Rainbowmize() : $"<color=green>{finalMessage}</color>";
             ModConsole.Print(finalMessage);
+
+            GC.Collect();
         }
 
         /// <summary>
@@ -561,16 +565,19 @@ namespace MOP
                     isPlayerAtYard = true;
 
                 int half = worldObjectList.Count / 2;
-                int i = 0;
 
                 // Disable Satsuma engine renderer, if player is in Satsuma
                 Satsuma.instance.ToggleEngineRenderers(!MopFsmManager.IsPlayerInSatsuma());
                 yield return null;
 
-                try
+                int i;
+                // World Objects.
+                for (i = 0; i < worldObjectList.Count; i++)
                 {
-                    // Go through the list worldObjectList list
-                    for (i = 0; i < half; i++)
+                    if (i % worldObjectList.Count / 2 == 0)
+                        yield return null;
+
+                    try
                     {
                         WorldObject worldObject = worldObjectList.Get(i);
 
@@ -583,49 +590,17 @@ namespace MOP
                             if (worldObject.gameObject.name == "NPC_CARS" && inSectorMode)
                                 continue;
 
-                            bool toggle = worldObject.ReverseToggle ? isPlayerAtYard : !isPlayerAtYard;
-                            worldObject.Toggle(toggle);
+                            worldObject.Toggle(worldObject.ReverseToggle ? isPlayerAtYard : !isPlayerAtYard);
                             continue;
                         }
 
                         // The object will be disables, if the player is in the range of that object.
                         worldObject.Toggle(IsEnabled(worldObject.transform, worldObject.Distance));
                     }
-                }
-                catch (Exception ex)
-                {
-                    ExceptionManager.New(ex, "WORLD_OBJECT_TOGGLE_ERROR_0");
-                }
-
-                yield return null;
-
-                try
-                {
-                    for (; i < worldObjectList.Count; i++)
+                    catch (Exception ex)
                     {
-                        WorldObject worldObject = worldObjectList.Get(i);
-
-                        if (Rules.instance.SectorRulesContains(worldObject.gameObject.name))
-                            continue;
-
-                        // Should the object be disabled when the player leaves the house?
-                        if (worldObject.AwayFromHouse)
-                        {
-                            if (worldObject.gameObject.name == "NPC_CARS" && inSectorMode)
-                                continue;
-
-                            bool toggle = worldObject.ReverseToggle ? isPlayerAtYard : !isPlayerAtYard;
-                            worldObject.Toggle(toggle);
-                            continue;
-                        }
-
-                        // The object will be disables, if the player is in the range of that object.
-                        worldObject.Toggle(IsEnabled(worldObject.transform, worldObject.Distance));
+                        ExceptionManager.New(ex, "WORLD_OBJECT_TOGGLE_ERROR");
                     }
-                }
-                catch (Exception ex)
-                {
-                    ExceptionManager.New(ex, "WORLD_OBJECT_TOGGLE_ERROR_1");
                 }
 
                 // Safe mode prevents toggling elemenets that MAY case some issues (vehicles, items, etc.)
@@ -641,8 +616,8 @@ namespace MOP
                 // And the opposite happens if we disable vehicles before disabling items.
                 // So if we are disabling items, we need to do that BEFORE we disable vehicles.
                 // And we need to enable items AFTER we enable vehicles.
-                itemsToEnable = new List<ItemHook>();
-                itemsToDisable = new List<ItemHook>();
+                itemsToEnable.Clear();
+                itemsToDisable.Clear();
                 for (i = 0; i < Items.instance.ItemsHooks.Count; i++)
                 {
                     if (half != 0)
@@ -719,7 +694,7 @@ namespace MOP
 
                         if (Rules.instance.SpecialRules.ExperimentalOptimization)
                         {
-                            if (i == 0 && SatsumaInGarage.Instance.AreGarageDoorsClose() 
+                            if (i == 0 && SatsumaInGarage.Instance.AreGarageDoorsClosed() 
                                        && SatsumaInGarage.Instance.IsSatsumaInGarage()
                                        && !Satsuma.instance.IsKeyInserted())
                             {
@@ -759,38 +734,24 @@ namespace MOP
                     }
                 }
 
-                // Places
-                try
+                // Places (New)
+                full = places.Count;
+                for (i = 0; i < full; ++i)
                 {
-                    half = places.Count / 2;
-                    for (i = 0; i < half; ++i)
+                    if (i % full / 2 == 0)
+                        yield return null;
+
+                    try
                     {
                         if (Rules.instance.SectorRulesContains(places[i].gameObject.name))
                             continue;
 
                         places[i].ToggleActive(IsPlaceEnabled(places[i].transform, places[i].ToggleDistance));
                     }
-                }
-                catch (Exception ex)
-                {
-                    ExceptionManager.New(ex, "PLACE_TOGGLE_ERORR_0");
-                }
-
-                yield return null;
-
-                try
-                {
-                    for (; i < places.Count; ++i)
+                    catch (Exception ex)
                     {
-                        if (Rules.instance.SectorRulesContains(places[i].gameObject.name))
-                            continue;
-
-                        places[i].ToggleActive(IsPlaceEnabled(places[i].transform, places[i].ToggleDistance));
+                        ExceptionManager.New(ex, $"PLACE_TOGGLE_ERROR_{i}");
                     }
-                }
-                catch (Exception ex)
-                {
-                    ExceptionManager.New(ex, "PLACE_TOGGLE_ERORR_1");
                 }
 
                 yield return new WaitForSeconds(1);
@@ -858,7 +819,7 @@ namespace MOP
                     {
                         ModConsole.Error("[MOP] Restart attempt failed. Enabling Safe Mode.");
                         ModConsole.Error("[MOP] Please contact mod developer. Make sure you send output_log and last MOP crash log!");
-                        MopSettings.SafeMode = true;
+                        MopSettings.EnableSafeMode();
                         ToggleAll(true);
                     }
 
@@ -908,7 +869,7 @@ namespace MOP
                     if (Satsuma.instance.Trunks != null)
                     {
                         foreach (var trunk in Satsuma.instance.Trunks)
-                            trunk.OnSaveStop();
+                            trunk.OnGameSave();
                     }
                 }
 
@@ -939,9 +900,6 @@ namespace MOP
             }
         }
 
-        /// <summary>
-        /// Activate sectors.
-        /// </summary>
         void ActivateSectors()
         {
             if (gameObject.GetComponent<SectorManager>() == null)

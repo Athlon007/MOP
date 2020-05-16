@@ -39,6 +39,10 @@ namespace MOP
         /// </summary>
         public bool AwayFromHouse { get; private set; }
 
+        /// <summary>
+        /// Used only in combination with AwayFromHouse.
+        /// If true, the item will be enabled, if player is at home, instead of disabling it.
+        /// </summary>
         public bool ReverseToggle { get; private set; }
 
         public Transform transform => gameObject.transform;

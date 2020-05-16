@@ -2,6 +2,14 @@
 
 ## 2.9 Development 2 (tba)
 
+### Added
+
+- Offset wheels are now also toggled
+
+### Changes
+
+- Overall code optimization and improvements
+
 ### Bug Fixes
 
 - Fixed player dropping a helmet after putting it on
@@ -10,7 +18,7 @@
 
 ### Added
 
-- Car parts are now toggled
+- All items in the game are now toggled
 
 ### Changes
 

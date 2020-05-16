@@ -45,7 +45,6 @@ namespace MOP
 
         public override void OnMenuLoad()
         {
-            System.GC.Collect();
             modConfigPath = ModLoader.GetModConfigFolder(this).Replace('\\', '/');
             if (!MopSettings.DataSendingAgreed())
             {
@@ -55,6 +54,8 @@ namespace MOP
                     "• Operating System Version", "MOP");
                 MopSettings.AgreeData();
             }
+
+            System.GC.Collect();
         }
 
         public override void ModSettingsLoaded()

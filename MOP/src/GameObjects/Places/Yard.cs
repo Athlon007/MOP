@@ -76,8 +76,7 @@ namespace MOP
             DisableableChilds.Remove(fridgeMesh);
 
             // TV.
-            DisableableChilds.Add(transform.Find("Building/LIVINGROOM/TV/Switch"));
-            DisableableChilds.Add(transform.Find("Building/LIVINGROOM/TV/SmokeHomeTV"));
+            DisableableChilds.Add(transform.Find("Building/LIVINGROOM/TV"));
         }
 
         Transform[] GetDoors()

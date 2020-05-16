@@ -15,8 +15,8 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using MSCLoader;
 
 namespace MOP
 {
@@ -58,7 +58,7 @@ namespace MOP
 
             if (gm == null)
             {
-                MSCLoader.ModConsole.Print($"[MOP] Couldn't find {gameObjectName}");
+                ModConsole.Print($"[MOP] Couldn't find {gameObjectName}");
                 return;
             }
 
@@ -87,7 +87,7 @@ namespace MOP
 
             if (gm == null)
             {
-                MSCLoader.ModConsole.Print($"[MOP] Couldn't find {gameObjectName}");
+                ModConsole.Print($"[MOP] Couldn't find {gameObjectName}");
                 return;
             }
 
@@ -95,12 +95,32 @@ namespace MOP
         }
 
         /// <summary>
+        /// Finds the game object by gameObjectName. If it finds it, adds it to the list.
+        /// </summary>
+        /// <param name="gameObject">Game object that will be toggled.</param>
+        /// <param name="distance">Distance after which the object gets toggled.</param>
+        /// <param name="rendererOnly">If true, only game object's renderer will get toggled.</param>
+        public void Add(GameObject gameObject, int distance = 200, bool rendererOnly = false)
+        {
+            IgnoreRule rule = Rules.instance.IgnoreRules.Find(f => f.ObjectName == gameObject.name);
+            if (rule != null)
+            {
+                if (rule.TotalIgnore)
+                    return;
+
+                rendererOnly = true;
+            }
+
+            worldObjects.Add(new WorldObject(gameObject, distance, rendererOnly));
+        }
+
+        /// <summary>
         /// Returns the element i from the list.
         /// </summary>
-        /// <param name="i">Element number.</param>
-        public WorldObject Get(int i)
+        /// <param name="index">Element number.</param>
+        public WorldObject Get(int index)
         {
-            return worldObjects[i];
+            return worldObjects[index];
         }
     }
 }

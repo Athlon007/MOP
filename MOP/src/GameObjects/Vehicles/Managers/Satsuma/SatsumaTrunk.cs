@@ -100,7 +100,7 @@ namespace MOP
         {
             for (int i = 0; i < trunkContent.Count; i++)
             {
-                trunkContent[i].GetComponent<ItemHook>().IsInHood = !storageOpen.Value;
+                trunkContent[i].GetComponent<ItemHook>().IsInStorage = !storageOpen.Value;
                 trunkContent[i].SetActive(storageOpen.Value);
                 trunkContent[i].transform.parent = storageOpen.Value ? null : gameObject.transform;
 
@@ -115,13 +115,13 @@ namespace MOP
             return rearSeatPivot.childCount > 0;
         }
 
-        public void OnSaveStop()
+        public void OnGameSave()
         {
             isDisabled = true;
 
             foreach (GameObject gm in trunkContent)
             {
-                gm.GetComponent<ItemHook>().IsInHood = false;
+                gm.GetComponent<ItemHook>().IsInStorage = false;
                 gm.SetActive(true);
             }
 

@@ -40,7 +40,7 @@ namespace MOP
                 other.gameObject.AddComponent<ItemHook>();
                 GameObject gm = other.gameObject;
 
-                // If the obj is cd case, find cd inside of it and attach ItemHook to it.
+                // If the object is cd case, find cd inside of it and attach ItemHook to it.
                 if (gm.name == "cd case(itemy)")
                     foreach (var t in gm.GetComponentsInChildren<Transform>(true))
                         if (t.gameObject.name == "cd(itemy)")

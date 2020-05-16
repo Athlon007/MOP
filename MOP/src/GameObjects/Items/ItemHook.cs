@@ -42,7 +42,7 @@ namespace MOP
 
         bool firstLoad;
 
-        public bool IsInHood;
+        public bool IsInStorage;
 
         FsmBool batteryOnCharged;
 
@@ -154,69 +154,69 @@ namespace MOP
         /// <param name="enabled"></param>
         void ToggleActive(bool enabled)
         {
-            try
+            // If the item has fallen under the detection range of the game's built in garbage collector,
+            // teleport that item manually to the landfill.
+            if (!firstLoad)
             {
-                // If the item has fallen under the detection range of the game's built in garbage collector,
-                // teleport that item manually to the landfill.
-                if (!firstLoad)
-                {
-                    if (transform.position.y < -100 && transform.position.x != 0 && transform.position.z != 0)
-                        transform.position = GameObject.Find("LostSpawner").transform.position;
+                if (transform.position.y < -100 && transform.position.x != 0 && transform.position.z != 0)
+                    transform.position = GameObject.Find("LostSpawner").transform.position;
 
-                    firstLoad = true;
-                }
+                firstLoad = true;
+            }
 
-                if (IsInHood)
-                {
-                    return;
-                }
+            // This is for the hood system.
+            // If the item is stored in the Satsuma's storages (trunk or glovebox),
+            // the storage itself toggles the item.
+            if (IsInStorage)
+            {
+                return;
+            }
 
-                if (gameObject.activeSelf == enabled)
-                {
-                    return;
-                }
+            // Don't execute rest of the code, if the enabled is the same as activeSelf.
+            if (gameObject.activeSelf == enabled)
+            {
+                return;
+            }
 
-                if (transform.root.gameObject.name == "SATSUMA(557kg, 248)")
-                {
-                    return;
-                }
+            // Don't toggle, if the item is attached to Satsuma.
+            if (transform.root.gameObject.name == "SATSUMA(557kg, 248)")
+            {
+                return;
+            }
 
-                // Toggle only rigidbody if the battery is on charge.
-                if (!enabled && this.gameObject.name == "battery(Clone)" && batteryOnCharged.Value)
-                {
-                    return;
-                }
-
-                // Don't disabler wheels that are attached to the car.
-                if (this.gameObject.name == "wheel_regula")
-                {
+            switch (gameObject.name)
+            {
+                // Don't disable wheels that are attached to the car.
+                case "wheel_regula":
                     Transform root = this.gameObject.transform.parent;
                     if (root != null && root.gameObject.name == "pivot_wheel_standard")
                         return;
-                }
-
+                    break;
                 // Fix for batteries popping out of the car.
-                if (this.gameObject.name == "battery(Clone)" && this.gameObject.transform.parent.gameObject.name == "pivot_battery")
-                {
-                    return;
-                }
+                case "battery(Clone)":
+                    if (gameObject.transform.parent.gameObject.name == "pivot_battery")
+                        return;
 
+                    // Don't toggle if battery is left on charger.
+                    if (!enabled && batteryOnCharged.Value)
+                        return;
+
+                    break;
                 // Don't disable the helmet, if player has put it on.
-                if (this.gameObject.name == "helmet(itemx)" && Vector3.Distance(gameObject.transform.position, WorldManager.instance.GetPlayer().position) < 5)
-                {
-                    return;
-                }
-
-                // Check if item is in CarryMore inventory.
-                // If so, ignore that item.
-                if (CompatibilityManager.CarryMore && transform.position.y < -900)
-                {
-                    return;
-                }
-
-                gameObject.SetActive(enabled);
+                case "helmet(itemx)":
+                    if (Vector3.Distance(gameObject.transform.position, WorldManager.instance.GetPlayer().position) < 5)
+                        return;
+                    break;
             }
-            catch { }
+
+            // Check if item is in CarryMore inventory.
+            // If so, ignore that item.
+            if (CompatibilityManager.CarryMore && transform.position.y < -900)
+            {
+                return;
+            }
+
+            gameObject.SetActive(enabled);
         }
 
         void ToggleActiveOldMethod(bool enabled)
@@ -388,10 +388,6 @@ namespace MOP
                 {
                     batteryOnCharged = useFsm.FsmVariables.GetFsmBool("OnCharged");
                 }
-            }
-            else
-            {
-                ModConsole.Error("Use " + gameObject.name);
             }
 
             PlayMakerFSM dataFsm = gameObject.GetPlayMakerByName("Data");

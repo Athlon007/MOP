@@ -74,8 +74,7 @@ namespace MOP
     {
         public static SectorManager instance;
 
-        readonly List<GameObject> disabledObjects;
-        public List<GameObject> DisabledObjects { get => disabledObjects; }
+        public List<GameObject> DisabledObjects { get; }
 
         public bool PlayerInSector;
 
@@ -87,7 +86,7 @@ namespace MOP
 
             ModConsole.Print("[MOP] Loading sectors...");
 
-            disabledObjects = new List<GameObject>
+            DisabledObjects = new List<GameObject>
             {
                 GameObject.Find("ELEC_POLES"),
                 GameObject.Find("ELEC_POLES_COLL"),
@@ -115,15 +114,15 @@ namespace MOP
             // Lake vegation added in Experimental release (as of 27.03.2020)
             GameObject lakeVegation = GameObject.Find("MAP/MESH/FOLIAGE/LAKE_VEGETATION");
             if (lakeVegation != null)
-                disabledObjects.Add(lakeVegation);
+                DisabledObjects.Add(lakeVegation);
 
             GameObject lakeSimpleTile = GameObject.Find("MAP/LakeSimple/Tile");
             if (lakeSimpleTile != null)
-                disabledObjects.Add(lakeSimpleTile);
+                DisabledObjects.Add(lakeSimpleTile);
 
             GameObject lakeNice = GameObject.Find("MAP/LakeNice");
             if (lakeNice != null)
-                disabledObjects.Add(lakeNice);
+                DisabledObjects.Add(lakeNice);
 
             sectors = new List<GameObject>();
 
@@ -131,7 +130,7 @@ namespace MOP
             if (Rules.instance.IgnoreRules.Count > 0)
             {
                 List<GameObject> newList = new List<GameObject>();
-                foreach (GameObject obj in disabledObjects)
+                foreach (GameObject obj in DisabledObjects)
                 {
                     try
                     {
@@ -146,7 +145,7 @@ namespace MOP
                         ExceptionManager.New(ex, "SECTOR_RULES_LOAD_ERROR");
                     }
                 }
-                disabledObjects = newList;
+                DisabledObjects = newList;
             }
 
             // Garage

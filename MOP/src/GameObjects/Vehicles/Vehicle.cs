@@ -313,8 +313,8 @@ namespace MOP
                 if (!enabled && !lastGoodRotationSaved)
                 {
                     lastGoodRotationSaved = true;
-                    lastGoodRotation = transform.rotation;
-                    lastGoodPosition = transform.position;
+                    lastGoodRotation = transform.localRotation;
+                    lastGoodPosition = transform.localPosition;
                 }
                 
                 if (enabled)
@@ -342,8 +342,8 @@ namespace MOP
                 if (!enabled && !lastGoodRotationSaved)
                 {
                     lastGoodRotationSaved = true;
-                    lastGoodRotation = transform.rotation;
-                    lastGoodPosition = transform.position;
+                    lastGoodRotation = transform.localRotation;
+                    lastGoodPosition = transform.localPosition;
                 }
 
                 if (enabled)

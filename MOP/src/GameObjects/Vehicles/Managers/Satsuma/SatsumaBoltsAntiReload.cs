@@ -37,16 +37,14 @@ namespace MOP
                 }
 
                 FsmState loadArray = fsm.FindFsmState(fsmName == "Use" ? "Load" : "Load array");
-                List<FsmStateAction> loadArrayActions = new List<FsmStateAction>();
-                loadArrayActions.Add(new CustomNullState());
+                List<FsmStateAction> loadArrayActions = new List<FsmStateAction> { new CustomNullState() };
                 loadArray.Actions = loadArrayActions.ToArray();
                 loadArray.SaveActions();
 
                 if (fsmName == "Use") return;
 
                 FsmState loadFloat = fsm.FindFsmState("Load float");
-                List<FsmStateAction> loadFloatActions = new List<FsmStateAction>();
-                loadFloatActions.Add(new CustomNullState());
+                List<FsmStateAction> loadFloatActions = new List<FsmStateAction> { new CustomNullState() };
                 loadFloat.Actions = loadFloatActions.ToArray();
                 loadFloat.SaveActions();
 

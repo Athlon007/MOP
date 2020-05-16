@@ -47,7 +47,7 @@ namespace MOP
         /// </summary>
         public RepairShop() : base("REPAIRSHOP", 250)
         {
-            for (int i = 1; i <=4; i++)
+            for (int i = 1; transform.Find($"JunkCar{i}") != null; i++)
             {
                 Transform junk = transform.Find($"JunkCar{i}");
                 if (junk != null)

@@ -30,21 +30,35 @@ namespace MOP
 
         public static Satsuma instance;
 
+        // If true, prevents Satsuma physics from disabling.
         public bool IsSatsumaInInspectionArea;
+
+        // If is false, the first enabling script will be toggled.
         public bool AfterFirstEnable;
 
+        // Objects that can be toggled.
         readonly Transform[] disableableObjects;
+
+        // Whitelist of object that cannot be toggled.
         readonly string[] whiteList;
 
+        // Renderers.
+        // Renderes of the entire car.
         readonly List<Renderer> renderers;
+        // Engine bay renderers
         readonly List<Renderer> engineBayRenderers;
         
+        // Pivot transform of hood.
         readonly Transform pivotHood;
 
+        // If this boolean is ticket, Satsuma won't be despawned.
         bool preventDespawnDuringThisSession;
 
+        // Storage system.
         public List<SatsumaTrunk> Trunks;
-        readonly Transform key;
+
+        // Key object.
+        readonly GameObject key;
 
         /// <summary>
         /// Initialize class
@@ -80,8 +94,8 @@ namespace MOP
                     IsActive = false;
             }
 
-            lastGoodRotation = transform.rotation;
-            lastGoodPosition = transform.position;
+            lastGoodRotation = transform.localRotation;
+            lastGoodPosition = transform.localPosition;
 
             // Adding components to normal and bucket seats.
             GameObject.Find("seat driver(Clone)").AddComponent<SatsumaSeatsManager>();
@@ -259,7 +273,7 @@ namespace MOP
             }
 
             if (Rules.instance.SpecialRules.ExperimentalOptimization)
-                key = transform.Find("Dashboard/Steering/steering_column2/Ignition/Keys/Key");
+                key = transform.Find("Dashboard/Steering/steering_column2/Ignition/Keys/Key").gameObject;
         }
 
         /// <summary>
@@ -389,8 +403,8 @@ namespace MOP
 
             if (!carDynamics.enabled)
             {
-                transform.rotation = lastGoodRotation;
-                transform.position = lastGoodPosition;
+                transform.localRotation = lastGoodRotation;
+                transform.localPosition = lastGoodPosition;
             }
         }
 
@@ -401,7 +415,7 @@ namespace MOP
 
         public bool IsKeyInserted()
         {
-            return key.gameObject.activeSelf;
+            return key.activeSelf;
         }
     }
 }

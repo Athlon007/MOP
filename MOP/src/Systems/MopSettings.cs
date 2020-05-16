@@ -28,14 +28,9 @@ namespace MOP
         public static int ActiveDistance { get; private set; }
         public static float ActiveDistanceMultiplicationValue { get; private set; }
 
-        public static bool SafeMode { get; set; }
-
-        // OTHERS
-        static bool removeEmptyBeerBottles;
-        public static bool RemoveEmptyBeerBottles { get => removeEmptyBeerBottles; }
-
-        static bool satsumaTogglePhysicsOnly;
-        public static bool SatsumaTogglePhysicsOnly { get => satsumaTogglePhysicsOnly; }
+        public static bool SafeMode { get; private set; }
+        public static bool RemoveEmptyBeerBottles { get; private set; }
+        public static bool SatsumaTogglePhysicsOnly { get; private set; }
 
         // RULE FILES
         public static bool RuleFilesAutoUpdateEnabled { get => (bool)MOP.RulesAutoUpdate.GetValue(); }
@@ -54,8 +49,8 @@ namespace MOP
             SafeMode = (bool)MOP.SafeMode.GetValue();
 
             // Others
-            removeEmptyBeerBottles = (bool)MOP.RemoveEmptyBeerBottles.GetValue();
-            satsumaTogglePhysicsOnly = (bool)MOP.SatsumaTogglePhysicsOnly.GetValue();
+            RemoveEmptyBeerBottles = (bool)MOP.RemoveEmptyBeerBottles.GetValue();
+            SatsumaTogglePhysicsOnly = (bool)MOP.SatsumaTogglePhysicsOnly.GetValue();
 
             // Framerate limiter
             Application.targetFrameRate = (bool)MOP.EnableFramerateLimiter.GetValue() ? int.Parse(MOP.FramerateLimiter.GetValue().ToString()) : -1;
@@ -102,6 +97,11 @@ namespace MOP
         public static bool DataSendingAgreed()
         {
             return File.Exists($"{MOP.ModConfigPath}/DataAgreed.mop");
+        }
+
+        public static void EnableSafeMode()
+        {
+            SafeMode = true;
         }
     }
 }

@@ -17,7 +17,7 @@
 namespace MOP
 {
     // This class is intended for special flags used in specific cases.
-    class SpecialRules
+    struct SpecialRules
     {
         public bool SatsumaIgnoreRenderers;
         public bool DontDestroyEmptyBeerBottles;
