@@ -967,5 +967,10 @@ namespace MOP
         {
             return vehicles[6];
         }
+
+        public Transform GetPlayer()
+        {
+            return player;
+        }
     }
 }

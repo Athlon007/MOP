@@ -202,7 +202,7 @@ namespace MOP
                 }
 
                 // Don't disable the helmet, if player has put it on.
-                if (this.gameObject.name == "helmet(itemx)" && MopFsmManager.PlayerHelmetOn())
+                if (this.gameObject.name == "helmet(itemx)" && Vector3.Distance(gameObject.transform.position, WorldManager.instance.GetPlayer().position) < 5)
                 {
                     return;
                 }

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.9 Development 2 (tba)
+
+### Bug Fixes
+
+- Fixed player dropping a helmet after putting it on
+
 ## 2.9 Development 1 (16.05.2020)
 
 ### Added
