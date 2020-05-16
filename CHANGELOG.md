@@ -5,6 +5,7 @@
 ### Added
 
 - Offset wheels are now also toggled
+- Trunks now add weight to the car
 
 ### Changes
 

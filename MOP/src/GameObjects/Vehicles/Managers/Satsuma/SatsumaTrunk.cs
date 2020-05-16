@@ -49,9 +49,9 @@ namespace MOP
             collider.isTrigger = true;
 
             rb = gameObject.AddComponent<Rigidbody>();
-            rb.isKinematic = true;
+            rb.isKinematic = false;
             rb.useGravity = true;
-            rb.mass = 0;
+            rb.mass = .1f;
             
             trunkContent = new List<GameObject>();
 
@@ -59,6 +59,12 @@ namespace MOP
             FsmHook.FsmInject(triggerObject, "Mouse off", OnBootAction);
 
             rearSeatPivot = GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Interior/pivot_seat_rear");
+
+            FixedJoint joint = gameObject.AddComponent<FixedJoint>();
+            joint.connectedBody = transform.parent.root.gameObject.GetComponent<Rigidbody>();
+            joint.breakForce = Mathf.Infinity;
+            joint.breakTorque = Mathf.Infinity;
+            joint.enablePreprocessing = true;
         }
 
         public void Initialize()
@@ -107,7 +113,7 @@ namespace MOP
                 trunkContent[i].transform.localScale = new Vector3(1, 1, 1);
             }
 
-            rb.mass = storageOpen.Value ? 0 : currentMass;
+            rb.mass = storageOpen.Value ? .1f : currentMass + .1f;
         }
 
         bool IsRearSeatAttached()
