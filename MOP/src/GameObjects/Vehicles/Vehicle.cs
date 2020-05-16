@@ -184,15 +184,11 @@ namespace MOP
                 trailerLogUnderFloorCheck.AddComponent<TrailerLogUnderFloor>();
             }
 
-            if (gameObject.name == "KEKMET(350-400psi)")
-            {
-                isKekmet = true;
-            }
-
             // Set default toggling method - that is entire vehicle
             Toggle = ToggleActive;
 
             isHayosiko = gameObject.name == "HAYOSIKO(1500kg, 250)";
+            isKekmet = gameObject.name == "KEKMET(350-400psi)";
 
             // If the user selected to toggle vehicle's physics only, it overrided any previous set for Toggle method
             if (Rules.instance.SpecialRules.ToggleAllVehiclesPhysicsOnly)

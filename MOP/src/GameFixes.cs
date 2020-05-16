@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using MSCLoader;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -145,7 +146,12 @@ namespace MOP
 
             flatbed.transform.rotation = flatbed.Rotation;
             flatbed.transform.position = flatbed.Position;
-            PlayMakerFSM.BroadcastEvent("TRAILERATTACH");
+
+            for (int i = 0; i < 10; i++)
+            {
+                PlayMakerFSM.BroadcastEvent("TRAILERATTACH");
+                yield return new WaitForSeconds(.2f);
+            }
         }
     }
 }

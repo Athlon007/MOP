@@ -10,6 +10,10 @@
 
 - Tweaked how vehicles physics is now toggled, eliminating the bug that would cause sudden FPS drop
 
+### Bug Fixes
+
+- Fixed a bug with a trailer being attached, while in fact it wasn't
+
 ## 2.8.4 (14.05.2020)
 
 ### Bug Fixes

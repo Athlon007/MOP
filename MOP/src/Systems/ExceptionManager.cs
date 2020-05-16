@@ -100,7 +100,6 @@ namespace MOP
             output += $"{GetSystemInfo()} \n\n";
 
             output += "=== MOP SETTINGS ===\n\n";
-
             output += $"ActiveDistance: {MopSettings.ActiveDistance}\n";
             output += $"ActiveDistanceMultiplicationValue: {MopSettings.ActiveDistanceMultiplicationValue}\n";
             output += $"SafeMode: {MopSettings.SafeMode}\n";
