@@ -236,6 +236,11 @@ namespace MOP
                     line = line.Replace("(Development)", "<color=orange>Development: </color>");
                 }
 
+                if (line.Contains("(My Summer Car Bug)"))
+                {
+                    line = line.Replace("(My Summer Car Bug)", "<color=green>My Summer Car Bug: </color>");
+                }
+
                 output += line + "\n";
             }
 

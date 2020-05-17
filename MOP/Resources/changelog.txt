@@ -1,12 +1,20 @@
 ### Added
 
-- Car parts are now toggled
+- Offset wheels are now also toggled
+- Trunks now add weight to the car
 
 ### Changes
 
-- Tweaked how vehicles physics is now toggled, eliminating the bug that would cause sudden FPS drop
+- Changed how MSC fixes are applied
+- Overall code optimization and improvements
 
 ### Bug Fixes
 
-- Fixed a bug with a trailer being attached, while in fact it wasn't
-- Fixed a bug in which Custom.txt wouldn't be loaded, if no other rule file was present
+- (Development) Fixed hood fix sometimes not working properly
+- (Development) Fixed a bug in which Satsuma would sometimes be frozen
+- Fixed player dropping a helmet after putting it on
+- (My Summer Car Bug) Fixed rear bumper sometimes detaching on game load
+
+### Removed
+
+- (Development) Removed accidentally left error messages

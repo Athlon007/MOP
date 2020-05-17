@@ -27,8 +27,8 @@ namespace MOP
 
         public static GameFixes Instance;
 
-        bool hoodFixDone;
-        public bool HoodFixDone { get => hoodFixDone; }
+        public bool HoodFixDone { get; private set; }
+        public bool RearBumperFixDone { get; private set; }
 
         public GameFixes()
         {
@@ -45,10 +45,10 @@ namespace MOP
 
         IEnumerator HoodFixCoroutine(Transform hoodPivot, Transform batteryPivot, Transform batteryTrigger)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(2);
 
             // Hood
-            Transform hood = GameObject.Find("hood(Clone)").transform;
+            Transform hood = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "hood(Clone)").transform;
             CustomPlayMakerFixedUpdate hoodFixedUpdate = hood.gameObject.AddComponent<CustomPlayMakerFixedUpdate>();
 
             // Fiber Hood
@@ -60,6 +60,9 @@ namespace MOP
             int retries = 0;
             if (MopFsmManager.IsStockHoodBolted() && hood.parent != hoodPivot)
             {
+                hood.gameObject.GetComponent<ItemHook>().enabled = false;
+                hood.gameObject.SetActive(true);
+
                 while (hood.parent != hoodPivot)
                 {
                     // Satsuma got disabled while trying to fix the hood.
@@ -127,7 +130,8 @@ namespace MOP
                 batteryTrigger.gameObject.GetComponent<PlayMakerFSM>().SendEvent("ASSEMBLE");
             }
 
-            hoodFixDone = true;
+            HoodFixDone = true;
+            hood.gameObject.GetComponent<ItemHook>().enabled = true;
         }
 
         public void KekmetTrailerAttach()
@@ -151,6 +155,35 @@ namespace MOP
                 PlayMakerFSM.BroadcastEvent("TRAILERATTACH");
                 yield return new WaitForSeconds(.1f);
             }
+        }
+
+        public void RearBumperFix(GameObject triggerBumper, GameObject bumper)
+        {
+            StartCoroutine(RearBumperCoroutine(triggerBumper, bumper));
+        }
+
+        IEnumerator RearBumperCoroutine(GameObject triggerBumper, GameObject bumper)
+        {
+            yield return new WaitForSeconds(2);
+            triggerBumper.GetComponent<PlayMakerFSM>().SendEvent("ASSEMBLE");
+
+            bumper.GetComponent<ItemHook>().enabled = false;
+            
+            int childsNumber = bumper.transform.Find("Bolts").childCount;
+            for (int i = 0; i < childsNumber; i++)
+            {
+                PlayMakerFSM fsm = bumper.transform.Find("Bolts").GetChild(i).gameObject.GetComponent<PlayMakerFSM>();
+                fsm.FsmVariables.GetFsmInt("Stage").Value = 7;
+                yield return null;
+                fsm.SendEvent("ASSEMBLE");
+                yield return null;
+                fsm.SendEvent("TIGHTEN");
+                yield return null;
+                fsm.SendEvent("FINISHED");
+            }
+
+            bumper.GetComponent<ItemHook>().enabled = true;
+            RearBumperFixDone = true;
         }
     }
 }

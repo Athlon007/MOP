@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
+using MSCLoader;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -59,6 +60,8 @@ namespace MOP
 
         // Key object.
         readonly GameObject key;
+
+        GameObject rearBumper;
 
         /// <summary>
         /// Initialize class
@@ -249,9 +252,9 @@ namespace MOP
                 }
             }
 
-            // Fix for cd player disabling other vehicles radio.
+             // Fix for cd player disabling other vehicles radio.
             Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "cd player(Clone)")
-                .transform.Find("ButtonsCD/RadioVolume").gameObject.GetPlayMakerByName("Knob").Fsm.RestartOnEnable = false;
+            .transform.Find("ButtonsCD/RadioVolume").gameObject.GetPlayMakerByName("Knob").Fsm.RestartOnEnable = false;
             GameObject.Find("radio(Clone)").transform.Find("ButtonsRadio/RadioVolume").gameObject.GetPlayMakerByName("Knob").Fsm.RestartOnEnable = false;
 
             // Create trunk trigger.
@@ -274,6 +277,24 @@ namespace MOP
 
             if (Rules.instance.SpecialRules.ExperimentalOptimization)
                 key = transform.Find("Dashboard/Steering/steering_column2/Ignition/Keys/Key").gameObject;
+
+            // Rear bumper detachng fix.
+            rearBumper = GameObject.Find("bumper rear(Clone)");
+
+            HoodFix();
+            // Rear bumper fix.
+            if (rearBumper.transform.parent == null)
+            {
+                GameObject databaseBumper = GameObject.Find("Database/DatabaseBody/Bumper_Rear");
+                databaseBumper.SetActive(false);
+                databaseBumper.SetActive(true);
+                if (databaseBumper.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("Bolted").Value)
+                {
+                    GameObject triggerBumper = transform.Find("Body/trigger_bumper_rear").gameObject;
+                    GameObject bumper = GameObject.Find("bumper rear(Clone)");
+                    GameFixes.Instance.RearBumperFix(triggerBumper, bumper);
+                }
+            }
         }
 
         /// <summary>
@@ -283,6 +304,8 @@ namespace MOP
         {
             // Don't run the code, if the value is the same
             if (gameObject == null || disableableObjects[0].gameObject.activeSelf == enabled) return;
+
+            if (!GameFixes.Instance.HoodFixDone && !GameFixes.Instance.RearBumperFixDone) return;
 
             if (!enabled)
             {
@@ -314,14 +337,12 @@ namespace MOP
             // Applying hood fix after first enabling.
             if (!AfterFirstEnable && enabled)
             {
+                AfterFirstEnable = true;
                 if (Trunks != null)
                 {
                     foreach (var trunk in Trunks)
                         trunk.Initialize();
                 }
-
-                AfterFirstEnable = true;
-                HoodFix();
             }
         }
 

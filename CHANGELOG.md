@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.9 Development 2 (tba)
+## 2.9 Development 2 (17.05.2020)
 
 ### Added
 
@@ -9,11 +9,19 @@
 
 ### Changes
 
+- Changed how MSC fixes are applied
 - Overall code optimization and improvements
 
 ### Bug Fixes
 
+- (Development) Fixed hood fix sometimes not working properly
+- (Development) Fixed a bug in which Satsuma would sometimes be frozen
 - Fixed player dropping a helmet after putting it on
+- (My Summer Car Bug) Fixed rear bumper sometimes detaching on game load
+
+### Removed
+
+- (Development) Removed accidentally left error messages
 
 ## 2.9 Development 1 (16.05.2020)
 

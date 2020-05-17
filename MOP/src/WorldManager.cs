@@ -155,9 +155,7 @@ namespace MOP
             perajarvi.transform.Find("ChickenHouse").parent = buildings;
 
             // Chicken house (barn) close to player's house
-            Transform playerChickenHouse = buildings.Find("ChickenHouse");
-            playerChickenHouse.parent = null;
-            worldObjectList.Add(playerChickenHouse.gameObject);
+            buildings.Find("ChickenHouse").parent = null;
 
             // Fix for church wall. Changing it's parent to NULL, so it will not be loaded or unloaded.
             // It used to be changed to CHURCH gameobject, 

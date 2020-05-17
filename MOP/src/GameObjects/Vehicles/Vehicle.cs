@@ -286,7 +286,10 @@ namespace MOP
         /// <param name="enabled"></param>
         public void ToggleUnityCar(bool enabled)
         {
-            if ((gameObject == null) || gameObject.name == "BOAT" || (rb.isKinematic == !enabled) || !IsActive)
+            if ((gameObject == null) || gameObject.name == "BOAT" || !IsActive)
+                return;
+
+            if (rb.isKinematic == !enabled && carDynamics.enabled == enabled)
                 return;
 
             // Don't toggle physics, unless car's on ground
