@@ -58,6 +58,7 @@
     </Compile>
     <Compile Include="src\GameFixes.cs" />
     <Compile Include="src\GameObjects\Items\CashRegisterHook.cs" />
+    <Compile Include="src\GameObjects\Items\Packages\EnvelopeOrderBuyHook.cs" />
     <Compile Include="src\GameObjects\Items\UncleBeerCaseHook.cs" />
     <Compile Include="src\GameObjects\Items\Items.cs" />
     <Compile Include="src\GameObjects\Items\ItemHook.cs" />

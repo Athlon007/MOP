@@ -60,7 +60,6 @@ namespace MOP
             int retries = 0;
             if (MopFsmManager.IsStockHoodBolted() && hood.parent != hoodPivot)
             {
-                hood.gameObject.GetComponent<ItemHook>().enabled = false;
                 hood.gameObject.SetActive(true);
 
                 while (hood.parent != hoodPivot)
@@ -69,7 +68,6 @@ namespace MOP
                     // Attempt to fix it later.
                     if (!hoodPivot.gameObject.activeSelf)
                     {
-                        Satsuma.instance.AfterFirstEnable = false;
                         yield break;
                     }
 
@@ -131,7 +129,6 @@ namespace MOP
             }
 
             HoodFixDone = true;
-            hood.gameObject.GetComponent<ItemHook>().enabled = true;
         }
 
         public void KekmetTrailerAttach()

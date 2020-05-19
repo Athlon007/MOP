@@ -40,7 +40,7 @@ namespace MOP
             "sauna", "COMPUTER", "SYSTEM", "Computer", "TriggerPlayMode", "Meshes", "386",
             "monitor", "mouse", "cord", "Button", "Sound", "led", "DiskDrive", "Sled",
             "disk", "Power", "power", "Floppy", "LCD", "Screen", "Memory", "Mesh",
-            "Dynamics", "Light", "Electric", "KWH", "kwh", "Clock", "TV", "Program", "program",
+            "Dynamics", "Light", "Electric", "KWH", "kwh", "Clock", "Program", "program",
             "Buzz", "switch", "Switch", "Fines", "Colliders", "coll", "Shower", "Water", "Tap",
             "Valve", "Telephone", "Cord", "Socket", "Logic", "Phone", "table", "MAP", "Darts", "Booze",
             "Shit", "Wood", "Grandma", "SAVEGAME", "Shelf", "shelf", "Garage", "Building", "LIVINGROOM",
@@ -74,9 +74,6 @@ namespace MOP
             // Remove fridge mesh from the list of disabled objects
             Transform fridgeMesh = DisableableChilds.Find(w => w.name == "mesh" && w.transform.parent.name == "Fridge");
             DisableableChilds.Remove(fridgeMesh);
-
-            // TV.
-            DisableableChilds.Add(transform.Find("Building/LIVINGROOM/TV"));
         }
 
         Transform[] GetDoors()

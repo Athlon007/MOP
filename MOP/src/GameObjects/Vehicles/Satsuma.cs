@@ -15,7 +15,6 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
-using MSCLoader;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -61,7 +60,8 @@ namespace MOP
         // Key object.
         readonly GameObject key;
 
-        GameObject rearBumper;
+        // Rear bumper transform.
+        readonly GameObject rearBumper;
 
         /// <summary>
         /// Initialize class
@@ -257,32 +257,14 @@ namespace MOP
             .transform.Find("ButtonsCD/RadioVolume").gameObject.GetPlayMakerByName("Knob").Fsm.RestartOnEnable = false;
             GameObject.Find("radio(Clone)").transform.Find("ButtonsRadio/RadioVolume").gameObject.GetPlayMakerByName("Knob").Fsm.RestartOnEnable = false;
 
-            // Create trunk trigger.
-            if (Rules.instance.SpecialRules.ExperimentalSatsumaTrunk)
-            {
-                Trunks = new List<SatsumaTrunk>();
-                
-                // Boot
-                GameObject trunkTrigger = new GameObject("MOP_Trunk");
-                SatsumaTrunk trunk = trunkTrigger.AddComponent<SatsumaTrunk>();
-                trunk.Initialize(new Vector3(0, 0.15f, -1.37f), new Vector3(1.25f, 0.4f, 0.75f), GameObject.Find("bootlid(Clone)").transform.Find("Handles").gameObject);
-                Trunks.Add(trunk);
-
-                // Glovebox
-                GameObject gloveboxTrigger = new GameObject("MOP_Glovebox");
-                SatsumaTrunk glovebox = gloveboxTrigger.AddComponent<SatsumaTrunk>();
-                glovebox.Initialize(new Vector3(0.32f, 0.3f, 0.6f), new Vector3(0.3f, 0.12f, 0.1f), GameObject.Find("dashboard(Clone)").transform.Find("glovbox").gameObject);
-                Trunks.Add(glovebox);
-            }
-
-            if (Rules.instance.SpecialRules.ExperimentalOptimization)
-                key = transform.Find("Dashboard/Steering/steering_column2/Ignition/Keys/Key").gameObject;
-
-            // Rear bumper detachng fix.
-            rearBumper = GameObject.Find("bumper rear(Clone)");
+            // Fix for window grille paint resetting to the default.
+            Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "window grille(Clone)" && g.GetPlayMakerByName("Paint") != null)
+                .GetPlayMakerByName("Paint").Fsm.RestartOnEnable = false;
 
             HoodFix();
-            // Rear bumper fix.
+            
+            // Rear bumper detachng fix.
+            rearBumper = GameObject.Find("bumper rear(Clone)");
             if (rearBumper.transform.parent == null)
             {
                 GameObject databaseBumper = GameObject.Find("Database/DatabaseBody/Bumper_Rear");
@@ -295,6 +277,30 @@ namespace MOP
                     GameFixes.Instance.RearBumperFix(triggerBumper, bumper);
                 }
             }
+
+            if (Rules.instance.SpecialRules.ExperimentalSatsumaTrunk)
+            {
+                // Create trunk trigger.
+                Trunks = new List<SatsumaTrunk>();
+
+                // Boot
+                GameObject trunkTrigger = new GameObject("MOP_Trunk");
+                SatsumaTrunk trunk = trunkTrigger.AddComponent<SatsumaTrunk>();
+                trunk.Initialize(new Vector3(0, 0.15f, -1.37f), new Vector3(1.25f, 0.4f, 0.75f), GameObject.Find("bootlid(Clone)").transform.Find("Handles").gameObject);
+                Trunks.Add(trunk);
+
+                // Glovebox
+                GameObject gloveboxTrigger = new GameObject("MOP_Glovebox");
+                SatsumaTrunk glovebox = gloveboxTrigger.AddComponent<SatsumaTrunk>();
+                glovebox.Initialize(new Vector3(0.32f, 0.3f, 0.6f), new Vector3(0.3f, 0.12f, 0.1f), GameObject.Find("dashboard(Clone)").transform.Find("glovbox").gameObject);
+                Trunks.Add(glovebox);
+
+                foreach (var storage in Trunks)
+                    storage.Initialize();
+            }
+
+            if (Rules.instance.SpecialRules.ExperimentalOptimization)
+                key = transform.Find("Dashboard/Steering/steering_column2/Ignition/Keys/Key").gameObject;
         }
 
         /// <summary>
@@ -302,6 +308,12 @@ namespace MOP
         /// </summary>
         new void ToggleActive(bool enabled)
         {
+            // Applying hood fix after first enabling.
+            if (!AfterFirstEnable && enabled)
+            {
+                AfterFirstEnable = true;
+            }
+
             // Don't run the code, if the value is the same
             if (gameObject == null || disableableObjects[0].gameObject.activeSelf == enabled) return;
 
@@ -333,17 +345,6 @@ namespace MOP
             }
 
             ToggleAllRenderers(enabled);
-
-            // Applying hood fix after first enabling.
-            if (!AfterFirstEnable && enabled)
-            {
-                AfterFirstEnable = true;
-                if (Trunks != null)
-                {
-                    foreach (var trunk in Trunks)
-                        trunk.Initialize();
-                }
-            }
         }
 
         /// <summary>

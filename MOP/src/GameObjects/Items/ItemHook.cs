@@ -418,6 +418,12 @@ namespace MOP
                     transform.Find("WoodTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
                     break;
             }
+
+            PlayMakerFSM paintFSM = gameObject.GetPlayMakerByName("Paint");
+            if (paintFSM != null)
+            {
+                paintFSM.Fsm.RestartOnEnable = false;
+            }
         }
     }
 }

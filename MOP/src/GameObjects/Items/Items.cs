@@ -25,7 +25,7 @@ namespace MOP
     {
         public static Items instance;
 
-        public string[] blackList = {
+        public static string[] BlackList = {
         "airfilter", "alternator", "alternator belt", "amplifier", "antenna", "ax",
         "back panel", "basketball", "battery", "beer case", "berry box",
         "block", "bootlid", "booze", "box", "brake fluid",
@@ -91,6 +91,27 @@ namespace MOP
         {
             instance = this;
             cashRegisterHook = GameObject.Find("STORE/StoreCashRegister/Register").AddComponent<CashRegisterHook>();
+
+            // Car parts order bill hook.
+            bool toDisable = false;
+            GameObject postOrder = GameObject.Find("STORE").transform.Find("LOD/ActivateStore/PostOffice/PostOrderBuy").gameObject;
+            if (!postOrder.activeSelf)
+            {
+                toDisable = true;
+                postOrder.SetActive(true);
+            }
+
+            GameObject storeLOD = GameObject.Find("STORE").transform.Find("LOD").gameObject;
+            storeLOD.SetActive(true);
+
+            EnvelopeOrderBuyHook h = postOrder.AddComponent<EnvelopeOrderBuyHook>();
+            h.Initialize(cashRegisterHook);
+
+            if (toDisable)
+            {
+                postOrder.SetActive(false);
+            }
+
             InitializeList();
 
             // Uncle's beer case bottle despawner
@@ -134,7 +155,7 @@ namespace MOP
             // Get all minor objects from the game world (like beer cases, sausages)
             // Only items that are in the listOfMinorObjects list, and also contain "(itemx)" in their name will be loaded
             GameObject[] items = Object.FindObjectsOfType<GameObject>()
-                .Where(gm => gm.name.ContainsAny(blackList) && gm.name.ContainsAny("(itemx)", "(Clone)") && gm.activeSelf).ToArray();
+                .Where(gm => gm.name.ContainsAny(BlackList) && gm.name.ContainsAny("(itemx)", "(Clone)") && gm.activeSelf).ToArray();
 
             for (int i = 0; i < items.Length; i++)
             {

@@ -62,7 +62,7 @@ namespace MOP
             // Destroy old rule files loader object, if it exists.
             GameObject oldRuleFilesLoader = GameObject.Find("MOP_RuleFilesLoader");
             if (oldRuleFilesLoader != null)
-                GameObject.Destroy(oldRuleFilesLoader);
+                Object.Destroy(oldRuleFilesLoader);
 
             GameObject ruleFileDownloader = new GameObject("MOP_RuleFilesLoader");
             RuleFilesLoader ruleFilesLoader = ruleFileDownloader.AddComponent<RuleFilesLoader>();
@@ -100,6 +100,8 @@ namespace MOP
             RuleFileNames = new List<string>();
 
             SectorRules = new List<string>();
+
+            NewSectors = new List<NewSector>();
 
             // Destroy old rule files loader object, if it exists.
             GameObject oldRuleFilesLoader = GameObject.Find("MOP_RuleFilesLoader");

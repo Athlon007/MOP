@@ -56,7 +56,20 @@ namespace MOP
             trunkContent = new List<GameObject>();
 
             storageOpen = triggerObject.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("Open");
+
+            bool disableAfterHook = false;
+            if (!triggerObject.activeSelf)
+            {
+                disableAfterHook = true;
+                triggerObject.SetActive(true);
+            }
+
             FsmHook.FsmInject(triggerObject, "Mouse off", OnBootAction);
+
+            if (disableAfterHook)
+            {
+                triggerObject.SetActive(false);
+            }
 
             rearSeatPivot = GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Interior/pivot_seat_rear");
 

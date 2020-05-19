@@ -220,13 +220,12 @@ namespace MOP
             GameObject.Find("COTTAGE").transform.Find("MESH/Cottage_chimney").parent = null;
 
             // Fix for floppies at Jokke's new house
-            Transform diskette = perajarvi.transform.Find("TerraceHouse/diskette(itemx)");
-            if (diskette != null && diskette.parent != null)
-                diskette.parent = null;
-
-            diskette = perajarvi.transform.Find("TerraceHouse/diskette(itemx)");
-            if (diskette != null && diskette.parent != null)
-                diskette.parent = null;
+            while (perajarvi.transform.Find("TerraceHouse/diskette(itemx)") != null)
+            {
+                Transform diskette = perajarvi.transform.Find("TerraceHouse/diskette(itemx)");
+                if (diskette != null && diskette.parent != null)
+                    diskette.parent = null;
+            }
 
             // Fix for Jokke's house furnitures clipping through floor
             perajarvi.transform.Find("TerraceHouse/Apartments/Colliders").parent = null;
@@ -247,7 +246,7 @@ namespace MOP
             loadFanbelt.SaveActions();
 
             // Junk cars - setting Load game to null.
-            for (int i = 1; i <= 4; i++)
+            for (int i = 1; GameObject.Find($"JunkCar{i}") != null; i++)
             {
                 GameObject junk = GameObject.Find($"JunkCar{i}");
                 PlayMakerFSM junkFsm = junk.GetComponent<PlayMakerFSM>();
@@ -284,10 +283,6 @@ namespace MOP
             FsmState stateDropTool = pickUp.FindFsmState("Drop tool");
             stateDropTool.Actions[0] = new CustomNullState();
             stateDropTool.SaveActions();
-
-            //FsmState stateMotorKinematic = pickUp.FindFsmState("Motor kinematic");
-            //stateMotorKinematic.Actions[3] = new CustomNullState();
-            //stateMotorKinematic.SaveActions();
 
             // Preventing mattres from being disabled.
             Transform mattres = GameObject.Find("DINGONBIISI").transform.Find("mattres");
@@ -758,6 +753,7 @@ namespace MOP
 
         void Update()
         {
+
             if (!MopSettings.IsModActive || Satsuma.instance == null) return;
             Satsuma.instance.ForceFuckingRotation();
         }
@@ -842,16 +838,23 @@ namespace MOP
         /// </summary>
         public void ToggleAll(bool enabled, ToggleAllMode mode = ToggleAllMode.Default)
         {
-            try
+            // World objects
+            for (int i = 0; i < worldObjectList.Count; i++)
             {
-                // World objects
-                for (int i = 0; i < worldObjectList.Count; i++)
+                try
                 {
                     worldObjectList.Get(i).Toggle(enabled);
                 }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, "TOGGLE_ALL_WORLD_OBJECTS_ERROR");
+                }
+            }
 
-                // Vehicles
-                for (int i = 0; i < vehicles.Count; i++)
+            // Vehicles
+            for (int i = 0; i < vehicles.Count; i++)
+            {
+                try
                 {
                     vehicles[i].Toggle(enabled);
 
@@ -860,9 +863,16 @@ namespace MOP
                         vehicles[i].ForceToggleUnityCar(false);
                     }
                 }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, $"TOGGLE_ALL_VEHICLE_ERROR_{i}");
+                }
+            }
 
-                // Disable SatsumaTrunk.
-                if (mode == ToggleAllMode.OnSave)
+            // Disable SatsumaTrunk.
+            if (mode == ToggleAllMode.OnSave)
+            {
+                try
                 {
                     if (Satsuma.instance.Trunks != null)
                     {
@@ -870,9 +880,16 @@ namespace MOP
                             trunk.OnGameSave();
                     }
                 }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, "TOGGLE_ALL_SATSUMA_TRUNK_ERROR");
+                }
+            }
 
-                // Items
-                for (int i = 0; i < Items.instance.ItemsHooks.Count; i++)
+            // Items
+            for (int i = 0; i < Items.instance.ItemsHooks.Count; i++)
+            {
+                try
                 {
                     Items.instance.ItemsHooks[i].Toggle(enabled);
 
@@ -885,16 +902,23 @@ namespace MOP
                             fsm.SendEvent("SAVEGAME");
                     }
                 }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, "TOGGLE_ALL_ITEMS_ERROR");
+                }
+            }
 
-                // Places
-                for (int i = 0; i < places.Count; i++)
+            // Places
+            for (int i = 0; i < places.Count; i++)
+            {
+                try
                 {
                     places[i].ToggleActive(enabled);
                 }
-            }
-            catch (Exception ex)
-            {
-                ExceptionManager.New(ex, "TOGGLE_ALL_ERROR");
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, $"TOGGLE_ALL_PLACES_{i}");
+                }
             }
         }
 

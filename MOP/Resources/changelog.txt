@@ -1,20 +1,5 @@
-### Added
-
-- Offset wheels are now also toggled
-- Trunks now add weight to the car
-
-### Changes
-
-- Changed how MSC fixes are applied
-- Overall code optimization and improvements
-
 ### Bug Fixes
 
-- (Development) Fixed hood fix sometimes not working properly
-- (Development) Fixed a bug in which Satsuma would sometimes be frozen
-- Fixed player dropping a helmet after putting it on
-- (My Summer Car Bug) Fixed rear bumper sometimes detaching on game load
-
-### Removed
-
-- (Development) Removed accidentally left error messages
+- Fixed 'mop reload' not resetting sectors
+- Fixed how yard TV is loaded, which would prevent rule files not work with it
+- Fixed rear view window grille paint resetting

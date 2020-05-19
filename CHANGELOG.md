@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.9 Development 3 (19.05.2020)
+
+### Added
+
+- Added hook to car part boxes
+
+### Bug Fixes
+
+- (Development) Fixed MOP not loading, if bootlid wasn't installed in the car, and the Satsuma trunk system is enabled
+- Fixed 'mop reload' not resetting sectors
+- Fixed how yard TV is loaded, which would prevent rule files not work with it
+- Fixed rear view window grille paint resetting
+
 ## 2.9 Development 2 (17.05.2020)
 
 ### Added
@@ -35,7 +48,7 @@
 
 ### Bug Fixes
 
-- Fixed a bug with a trailer being attached, while in fact it wasn't
+- Fixed a bug with a trailer being attached, while the log was still there
 - Fixed a bug in which Custom.txt wouldn't be loaded, if no other rule file was present
 
 ## 2.8.4 (14.05.2020)

@@ -59,7 +59,7 @@ namespace MOP
             yield return new WaitForSeconds(2);
             // Find shopping bags in the list
             GameObject[] items = FindObjectsOfType<GameObject>()
-                .Where(gm => gm.name.ContainsAny(Items.instance.blackList) && gm.name.ContainsAny("(itemx)", "(Clone)"))
+                .Where(gm => gm.name.ContainsAny(Items.BlackList) && gm.name.ContainsAny("(itemx)", "(Clone)"))
                 .ToArray();
 
             if (items.Length > 0)
@@ -126,6 +126,31 @@ namespace MOP
 
                 if (plugs[i].GetComponent<ItemHook>() == null)
                     plugs[i].AddComponent<ItemHook>();
+            }
+        }
+
+        IEnumerator packagesRoutine; 
+
+        public void Packages()
+        {
+            if (packagesRoutine != null)
+            {
+                StopCoroutine(packagesRoutine);
+            }
+
+            packagesRoutine = PackagesCoroutine();
+            StartCoroutine(packagesRoutine);
+        }
+
+        IEnumerator PackagesCoroutine()
+        {
+            yield return new WaitForSeconds(2);
+            GameObject[] packages = Resources.FindObjectsOfTypeAll<GameObject>()
+                .Where(g => g.name == "amis-auto ky package(xxxxx)" && g.activeSelf).ToArray();
+
+            foreach (GameObject package in packages)
+            {
+                FsmHook.FsmInject(package, "State 1", TriggerMinorObjectRefresh);
             }
         }
     }
