@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.9 Development 4 (19.05.2020)
+
+### Bug Fixes
+
+- Fixed MOP not being recognized
+
 ## 2.9 Development 3 (19.05.2020)
 
 ### Added

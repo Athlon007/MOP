@@ -59,7 +59,7 @@ namespace MOP
             yield return new WaitForSeconds(2);
             // Find shopping bags in the list
             GameObject[] items = FindObjectsOfType<GameObject>()
-                .Where(gm => gm.name.ContainsAny(Items.BlackList) && gm.name.ContainsAny("(itemx)", "(Clone)"))
+                .Where(gm => gm.name.ContainsAny(Items.instance.BlackList) && gm.name.ContainsAny("(itemx)", "(Clone)"))
                 .ToArray();
 
             if (items.Length > 0)

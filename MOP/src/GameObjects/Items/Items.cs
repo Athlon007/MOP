@@ -25,7 +25,7 @@ namespace MOP
     {
         public static Items instance;
 
-        public static string[] BlackList = {
+        public string[] BlackList = {
         "airfilter", "alternator", "alternator belt", "amplifier", "antenna", "ax",
         "back panel", "basketball", "battery", "beer case", "berry box",
         "block", "bootlid", "booze", "box", "brake fluid",
