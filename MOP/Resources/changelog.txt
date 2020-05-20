@@ -1,5 +1,24 @@
+### Added
+
+- All items in the game are now toggled
+- Offset wheels are now also toggled
+- Trunks now add weight to the car
+- Added hook to car part boxes
+- MSC's default LOD scripts for yard, store, repairshop, inspection and farm are now disabled, to save some processing power
+
+### Changes
+
+- Tweaked how vehicles physics is now toggled, eliminating the bug that would cause sudden FPS drop
+- Changed how MSC fixes are applied
+- Overall code optimization and improvements
+
 ### Bug Fixes
 
+- (My Summer Car Bug) Fixed rear bumper sometimes detaching on game load
+- Fixed a bug with a trailer being attached, while the log was still there
+- Fixed a bug in which Custom.txt wouldn't be loaded, if no other rule file was present
+- Fixed player dropping a helmet after putting it on
 - Fixed 'mop reload' not resetting sectors
 - Fixed how yard TV is loaded, which would prevent rule files not work with it
 - Fixed rear view window grille paint resetting
+- Fixed MOP throwing a bug related to uncle's beer case

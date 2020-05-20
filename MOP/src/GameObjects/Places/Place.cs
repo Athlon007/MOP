@@ -62,6 +62,10 @@ namespace MOP
                     GameObjectBlackList.Add(rule.ObjectName);
 
             ToggleDistance = distance;
+
+            PlayMakerFSM lod = gameObject.GetPlayMakerByName("LOD");
+            if (lod != null)
+                lod.enabled = false;
         }
 
         /// <summary>

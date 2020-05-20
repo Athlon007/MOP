@@ -1,61 +1,31 @@
 # Changelog
 
-## 2.9 Development 4 (19.05.2020)
-
-### Bug Fixes
-
-- Fixed MOP not being recognized
-
-## 2.9 Development 3 (19.05.2020)
+## 2.9 (20.05.2020)
 
 ### Added
 
-- Added hook to car part boxes
-
-### Bug Fixes
-
-- (Development) Fixed MOP not loading, if bootlid wasn't installed in the car, and the Satsuma trunk system is enabled
-- Fixed 'mop reload' not resetting sectors
-- Fixed how yard TV is loaded, which would prevent rule files not work with it
-- Fixed rear view window grille paint resetting
-
-## 2.9 Development 2 (17.05.2020)
-
-### Added
-
+- All items in the game are now toggled
 - Offset wheels are now also toggled
 - Trunks now add weight to the car
+- Added hook to car part boxes
+- MSC's default LOD scripts for yard, store, repairshop, inspection and farm are now disabled, to save some processing power
 
 ### Changes
 
+- Tweaked how vehicles physics is now toggled, eliminating the bug that would cause sudden FPS drop
 - Changed how MSC fixes are applied
 - Overall code optimization and improvements
 
 ### Bug Fixes
 
-- (Development) Fixed hood fix sometimes not working properly
-- (Development) Fixed a bug in which Satsuma would sometimes be frozen
-- Fixed player dropping a helmet after putting it on
 - (My Summer Car Bug) Fixed rear bumper sometimes detaching on game load
-
-### Removed
-
-- (Development) Removed accidentally left error messages
-
-## 2.9 Development 1 (16.05.2020)
-
-### Added
-
-- All items in the game are now toggled
-
-### Changes
-
-- Tweaked how vehicles physics is now toggled, eliminating the bug that would cause sudden FPS drop
-
-### Bug Fixes
-
 - Fixed a bug with a trailer being attached, while the log was still there
 - Fixed a bug in which Custom.txt wouldn't be loaded, if no other rule file was present
+- Fixed player dropping a helmet after putting it on
+- Fixed 'mop reload' not resetting sectors
+- Fixed how yard TV is loaded, which would prevent rule files not work with it
+- Fixed rear view window grille paint resetting
+- Fixed MOP throwing a bug related to uncle's beer case
 
 ## 2.8.4 (14.05.2020)
 

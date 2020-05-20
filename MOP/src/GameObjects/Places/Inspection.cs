@@ -24,7 +24,7 @@ namespace MOP
         // It is so to prevent from restock script and Teimo's bike routine not working
 
         readonly string[] blackList = {
-           "INSPECTION", "BoozeJobTrigger", "Building", "inspection_concrete", "inspection_floor",
+            "INSPECTION", "BoozeJobTrigger", "Building", "inspection_concrete", "inspection_floor",
             "garage_doors", "glass", "Light", "register plate", "InspectionProcess", "Recipiet", "Order",
             "Audio", "Functions", "DoorWhite" };
 

@@ -34,7 +34,7 @@ namespace MOP
             "YARD", "Spawn", "VenttiPigHouse", "Capsule", "Target", "Pivot", "skeleton", "bodymesh",
             "COPS", "Trigger", "Cop", "Collider", "thig", "pelvis", "knee", "ankle", "spine",
             "PlayerMailBox", "mailbox", "envelope", "Envelope", "Letter", "Ad", "UNCLE",
-            "Uncle", "GifuKeys", "key", "anim", "Pos", "GraveYardSpawn", "LOD", "HOUSEFIRE",
+            "Uncle", "GifuKeys", "key", "anim", "Pos", "GraveYardSpawn", "HOUSEFIRE",
             "Livingroom", "Fire", "0", "1", "2", "Particle", "smoke", "Flame", "livingroom",
             "Kitchen", "kitchen", "Bathroom", "bathroom", "Bedroom", "bedroom", "Sauna",
             "sauna", "COMPUTER", "SYSTEM", "Computer", "TriggerPlayMode", "Meshes", "386",

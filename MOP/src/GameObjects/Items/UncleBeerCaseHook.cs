@@ -24,13 +24,13 @@ namespace MOP
     {
         // This script hooks to unkkel alkohol beer case
 
-        public UncleBeerCaseHook()
+        void Start()
         {
             if (GetComponent<PlayMakerFSM>() == null)
                 return;
 
             FsmHook.FsmInject(this.gameObject, "Remove bottle", DestroyBeerBottles);
-            FsmHook.FsmInject(this.gameObject, "Remove bottle", HookBottles);
+            FsmHook.FsmInject(this.gameObject, "Remove bottle", HookBottles);  
         }
 
         /// <summary>

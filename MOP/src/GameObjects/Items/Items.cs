@@ -93,24 +93,9 @@ namespace MOP
             cashRegisterHook = GameObject.Find("STORE/StoreCashRegister/Register").AddComponent<CashRegisterHook>();
 
             // Car parts order bill hook.
-            bool toDisable = false;
             GameObject postOrder = GameObject.Find("STORE").transform.Find("LOD/ActivateStore/PostOffice/PostOrderBuy").gameObject;
-            if (!postOrder.activeSelf)
-            {
-                toDisable = true;
-                postOrder.SetActive(true);
-            }
-
-            GameObject storeLOD = GameObject.Find("STORE").transform.Find("LOD").gameObject;
-            storeLOD.SetActive(true);
-
             EnvelopeOrderBuyHook h = postOrder.AddComponent<EnvelopeOrderBuyHook>();
             h.Initialize(cashRegisterHook);
-
-            if (toDisable)
-            {
-                postOrder.SetActive(false);
-            }
 
             InitializeList();
 
