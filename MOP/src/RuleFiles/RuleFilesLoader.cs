@@ -553,6 +553,7 @@ namespace MOP
                             }
                             Rules.instance.SpecialRules.ExperimentalOptimization = true;
                             break;
+                            /*
                         case "experimental_lod":
                             if (fileName != "Custom.txt")
                             {
@@ -561,6 +562,7 @@ namespace MOP
                             }
                             Rules.instance.SpecialRules.ExperimentalLOD = true;
                             break;
+                            */
                     }
                 }
             }

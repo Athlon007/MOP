@@ -63,12 +63,14 @@ namespace MOP
 
             ToggleDistance = distance;
 
+            /*
             if (Rules.instance.SpecialRules.ExperimentalLOD)
             {
                 PlayMakerFSM lod = gameObject.GetPlayMakerByName("LOD");
                 if (lod != null)
                     lod.enabled = false;
             }
+            */
         }
 
         /// <summary>

@@ -40,7 +40,7 @@ namespace MOP
             "TireCatcher", "Ropes", "Note", "note", "inspection_desk 1", "Office", "Furniture",
             "Building", "office_floor", "coll", "wall_base", "JunkYardJob", "PayMoney", "100mk", "GaugeMeshTach",
             "gauge_glass_fbx", "Pivot", "needle", "Bolt", "bolt", "grille", "wheel_steel5", "gear_stick",
-            "Platform", "Coll", "Buy", "Product", "Key(Clone)" };
+            "Platform", "Coll", "Buy", "Product", "Key(Clone)", "LOD" };
 
         /// <summary>
         /// Initialize the RepairShop class
