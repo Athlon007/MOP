@@ -7,6 +7,7 @@ Really sorry for everyone that encountered the bug with some elements of yard an
 ### Bug Fixes
 
 - Fixed places LOD not loading correctly for some people
+- Fixed a bug in which Flettari would not greet player, and buying parts not working
 
 ## 2.9 (20.05.2020)
 
