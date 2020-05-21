@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.9.1 (21.05.2020)
+
+Really sorry for everyone that encountered the bug with some elements of yard and other places not loading correctly, but it only happpens to some specific people, at a specific occasion, which I yet have to figure out. 10 other people have been testing MOP 2.9 and nobody reported that issue.
+
+### Bug Fixes
+
+- Fixed places LOD not loading correctly for some people
+
 ## 2.9 (20.05.2020)
 
 ### Added

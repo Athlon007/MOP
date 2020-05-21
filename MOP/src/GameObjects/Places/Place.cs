@@ -63,9 +63,12 @@ namespace MOP
 
             ToggleDistance = distance;
 
-            PlayMakerFSM lod = gameObject.GetPlayMakerByName("LOD");
-            if (lod != null)
-                lod.enabled = false;
+            if (Rules.instance.SpecialRules.ExperimentalLOD)
+            {
+                PlayMakerFSM lod = gameObject.GetPlayMakerByName("LOD");
+                if (lod != null)
+                    lod.enabled = false;
+            }
         }
 
         /// <summary>

@@ -154,69 +154,73 @@ namespace MOP
         /// <param name="enabled"></param>
         void ToggleActive(bool enabled)
         {
-            // If the item has fallen under the detection range of the game's built in garbage collector,
-            // teleport that item manually to the landfill.
-            if (!firstLoad)
+            try
             {
-                if (transform.position.y < -100 && transform.position.x != 0 && transform.position.z != 0)
-                    transform.position = GameObject.Find("LostSpawner").transform.position;
+                // If the item has fallen under the detection range of the game's built in garbage collector,
+                // teleport that item manually to the landfill.
+                if (!firstLoad)
+                {
+                    if (transform.position.y < -100 && transform.position.x != 0 && transform.position.z != 0)
+                        transform.position = GameObject.Find("LostSpawner").transform.position;
 
-                firstLoad = true;
+                    firstLoad = true;
+                }
+
+                // This is for the hood system.
+                // If the item is stored in the Satsuma's storages (trunk or glovebox),
+                // the storage itself toggles the item.
+                if (IsInStorage)
+                {
+                    return;
+                }
+
+                // Don't execute rest of the code, if the enabled is the same as activeSelf.
+                if (gameObject.activeSelf == enabled)
+                {
+                    return;
+                }
+
+                // Don't toggle, if the item is attached to Satsuma.
+                if (transform.root.gameObject.name == "SATSUMA(557kg, 248)")
+                {
+                    return;
+                }
+
+                switch (gameObject.name)
+                {
+                    // Don't disable wheels that are attached to the car.
+                    case "wheel_regula":
+                        Transform root = this.gameObject.transform.parent;
+                        if (root != null && root.gameObject.name == "pivot_wheel_standard")
+                            return;
+                        break;
+                    // Fix for batteries popping out of the car.
+                    case "battery(Clone)":
+                        if (gameObject.transform.parent.gameObject.name == "pivot_battery")
+                            return;
+
+                        // Don't toggle if battery is left on charger.
+                        if (!enabled && batteryOnCharged.Value)
+                            return;
+
+                        break;
+                    // Don't disable the helmet, if player has put it on.
+                    case "helmet(itemx)":
+                        if (Vector3.Distance(gameObject.transform.position, WorldManager.instance.GetPlayer().position) < 5)
+                            return;
+                        break;
+                }
+
+                // Check if item is in CarryMore inventory.
+                // If so, ignore that item.
+                if (CompatibilityManager.CarryMore && transform.position.y < -900)
+                {
+                    return;
+                }
+
+                gameObject.SetActive(enabled);
             }
-
-            // This is for the hood system.
-            // If the item is stored in the Satsuma's storages (trunk or glovebox),
-            // the storage itself toggles the item.
-            if (IsInStorage)
-            {
-                return;
-            }
-
-            // Don't execute rest of the code, if the enabled is the same as activeSelf.
-            if (gameObject.activeSelf == enabled)
-            {
-                return;
-            }
-
-            // Don't toggle, if the item is attached to Satsuma.
-            if (transform.root.gameObject.name == "SATSUMA(557kg, 248)")
-            {
-                return;
-            }
-
-            switch (gameObject.name)
-            {
-                // Don't disable wheels that are attached to the car.
-                case "wheel_regula":
-                    Transform root = this.gameObject.transform.parent;
-                    if (root != null && root.gameObject.name == "pivot_wheel_standard")
-                        return;
-                    break;
-                // Fix for batteries popping out of the car.
-                case "battery(Clone)":
-                    if (gameObject.transform.parent.gameObject.name == "pivot_battery")
-                        return;
-
-                    // Don't toggle if battery is left on charger.
-                    if (!enabled && batteryOnCharged.Value)
-                        return;
-
-                    break;
-                // Don't disable the helmet, if player has put it on.
-                case "helmet(itemx)":
-                    if (Vector3.Distance(gameObject.transform.position, WorldManager.instance.GetPlayer().position) < 5)
-                        return;
-                    break;
-            }
-
-            // Check if item is in CarryMore inventory.
-            // If so, ignore that item.
-            if (CompatibilityManager.CarryMore && transform.position.y < -900)
-            {
-                return;
-            }
-
-            gameObject.SetActive(enabled);
+            catch { }
         }
 
         void ToggleActiveOldMethod(bool enabled)

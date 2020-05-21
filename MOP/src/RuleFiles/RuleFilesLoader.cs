@@ -22,7 +22,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using UnityEngine;
 
 namespace MOP
@@ -553,6 +552,14 @@ namespace MOP
                                 continue;
                             }
                             Rules.instance.SpecialRules.ExperimentalOptimization = true;
+                            break;
+                        case "experimental_lod":
+                            if (fileName != "Custom.txt")
+                            {
+                                ModConsole.Error($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
+                                continue;
+                            }
+                            Rules.instance.SpecialRules.ExperimentalLOD = true;
                             break;
                     }
                 }
