@@ -27,6 +27,8 @@ namespace MOP
     {
         // This MonoBehaviour hooks to all items from shop and other interactable ones. (Such as sausages, or beer cases)
         // ObjectHook class by Konrad "Athlon" Figura
+        
+        bool firstLoad;
 
         /// <summary>
         /// Rigidbody of this object.
@@ -40,9 +42,10 @@ namespace MOP
 
         Vector3 position;
 
-        bool firstLoad;
-
+        // Used by Satsuma storage system.
         public bool IsInStorage;
+
+        public bool DontDisable;
 
         FsmBool batteryOnCharged;
 
@@ -136,6 +139,13 @@ namespace MOP
             // because these two reset the variables of the item
             // (such as position, state or rotation).
             FsmFixes();
+
+            // HACK: For some reason the trigger that's supposed to fix tire job not working doesn't really work on game load,
+            // toggle DontDisable to true, if tire is close to repair shop cash register.
+            if (this.gameObject.name.StartsWith("wheel_") && Vector3.Distance(gameObject.transform.position, GameObject.Find("REPAIRSHOP").transform.Find("LOD/Store/ShopCashRegister").position) < 5)
+            {
+                DontDisable = true;
+            }
         }
 
         // Triggered before the object is destroyed.
@@ -171,6 +181,12 @@ namespace MOP
                 // the storage itself toggles the item.
                 if (IsInStorage)
                 {
+                    return;
+                }
+
+                if (DontDisable)
+                {
+                    ToggleActiveOldMethod(enabled);
                     return;
                 }
 

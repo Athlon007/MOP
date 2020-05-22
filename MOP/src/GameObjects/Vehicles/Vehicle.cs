@@ -223,7 +223,7 @@ namespace MOP
             PreventToggleOnObjectRule preventToggleOnObjectRule = Rules.instance.PreventToggleOnObjectRule.Find(v => v.MainObject == this.gameObject.name);
             if (preventToggleOnObjectRule != null)
             {
-                Transform t = transform.Find(preventToggleOnObjectRule.ObjectName);
+                Transform t = transform.FindRecursive(preventToggleOnObjectRule.ObjectName);
                 if (t != null)
                     preventToggleOnObjects.Add(new PreventToggleOnObject(t));
                 else

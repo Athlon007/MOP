@@ -209,6 +209,12 @@ namespace MOP
             GameObject[] wheels = Object.FindObjectsOfType<GameObject>().Where(gm => gm.name.EqualsAny("wheel_regula", "wheel_offset") && gm.activeSelf).ToArray();
             foreach (GameObject wheel in wheels)
                 wheel.AddComponent<ItemHook>();
+
+            // Tires trigger at Fleetari's.
+            GameObject wheelTrigger = new GameObject("MOP_WheelTrigger");
+            wheelTrigger.transform.localPosition = new Vector3(1555.49f, 4.8f, 737);
+            wheelTrigger.transform.localEulerAngles = new Vector3(1.16f, 335, 1.16f);
+            wheelTrigger.AddComponent<WheelRepairJobTrigger>();
         }
 
         /// <summary>

@@ -179,5 +179,16 @@ namespace MOP
 
             return null;
         }
+
+        public static Transform FindRecursive(this Transform obj, string name)
+        {
+            foreach (Transform g in obj.GetComponentsInChildren<Transform>())
+            {
+                if (g.name == name)
+                    return g;
+            }
+
+            return null;
+        }
     }
 }
