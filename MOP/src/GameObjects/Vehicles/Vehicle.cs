@@ -275,7 +275,14 @@ namespace MOP
 
                 if (isKekmet && MopFsmManager.IsTrailerAttached())
                 {
-                    GameFixes.Instance.KekmetTrailerAttach();
+                    if (Vector3.Distance(transform.Find("Trailer/Hook").position, WorldManager.instance.GetFlatbed().transform.Find("HookTarget").position) >= 0.4f)
+                    {
+                        GameFixes.Instance.KekmetTrailerDetach();
+                    }
+                    else
+                    {
+                        GameFixes.Instance.KekmetTrailerAttach();
+                    }
                 }
             }
         }

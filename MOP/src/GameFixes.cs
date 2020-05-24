@@ -17,6 +17,8 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using HutongGames.PlayMaker;
+using System.Collections.Generic;
 
 namespace MOP
 {
@@ -133,12 +135,12 @@ namespace MOP
 
         public void KekmetTrailerAttach()
         {
-            Vehicle flatbed = WorldManager.instance.GetFlatbed();
-            StartCoroutine(KekmetTrailerAttachCoroutine(flatbed));
+            StartCoroutine(KekmetTrailerAttachCoroutine());
         }
 
-        IEnumerator KekmetTrailerAttachCoroutine(Vehicle flatbed)
+        IEnumerator KekmetTrailerAttachCoroutine()
         {
+            Vehicle flatbed = WorldManager.instance.GetFlatbed();
             while (!flatbed.gameObject.activeSelf)
             {
                 yield return new WaitForSeconds(1f);
@@ -152,6 +154,58 @@ namespace MOP
                 PlayMakerFSM.BroadcastEvent("TRAILERATTACH");
                 yield return new WaitForSeconds(.1f);
             }
+        }
+        
+        Vehicle flatbed;
+        PlayMakerFSM kekmetTrailerHook;
+        GameObject kekmetTrailerRemove;
+
+        public void KekmetTrailerDetach()
+        {
+            if (flatbed == null)
+            {
+                flatbed = WorldManager.instance.GetFlatbed();
+                kekmetTrailerHook = GameObject.Find("KEKMET(350-400psi)").transform.Find("Trailer/Hook").GetComponent<PlayMakerFSM>();
+                kekmetTrailerHook.Fsm.RestartOnEnable = false;
+                kekmetTrailerRemove = GameObject.Find("KEKMET(350-400psi)").transform.Find("Trailer/Remove").gameObject;
+                kekmetTrailerRemove.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            }
+
+            StartCoroutine(KekmetTrailerDetachCoroutine());
+        }
+
+        // HACK: Pretty much everything you find in this class is hack.
+        // God bless you bug fixing it.
+        // My frustration level reached a peak while coding this part.
+        IEnumerator KekmetTrailerDetachCoroutine()
+        {
+            while (!flatbed.gameObject.activeSelf)
+            {
+                yield return new WaitForSeconds(1f);
+            }
+
+            PlayMakerFSM removeFSM = kekmetTrailerRemove.GetComponent<PlayMakerFSM>();
+            FsmState waitButtonState = removeFSM.FindFsmState("Wait button");
+            List<FsmStateAction> waitButtonStateActions = waitButtonState.Actions.ToList();
+            waitButtonStateActions.Insert(0, new CustomStopAction());
+            waitButtonState.Actions = waitButtonStateActions.ToArray();
+            waitButtonState.SaveActions();
+
+            for (int i = 0; i < 2; i++)
+            {
+                PlayMakerFSM.BroadcastEvent("TRAILERDETACH");
+                kekmetTrailerHook.SendEvent("GLOBALEVENT");
+                removeFSM.SendEvent("USE");
+                yield return new WaitForSeconds(.1f);
+
+            }
+
+            flatbed.transform.rotation = flatbed.Rotation;
+            flatbed.transform.position = flatbed.Position;
+            waitButtonStateActions.RemoveAt(0);
+            waitButtonState.Actions = waitButtonStateActions.ToArray();
+            waitButtonState.SaveActions();
+            kekmetTrailerRemove.SetActive(false);
         }
 
         public void RearBumperFix(GameObject triggerBumper, GameObject bumper)

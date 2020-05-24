@@ -61,21 +61,4 @@ namespace MOP
             }
         }
     }
-
-    public class CustomNullState : FsmStateAction
-    {
-        public override void OnEnter()
-        {
-            Finish();
-        }
-    }
-
-    public class CustomStopAction : FsmStateAction
-    {
-        public override void OnEnter()
-        {
-            Fsm.Event("FINISHED");
-            Finish();
-        }
-    }
 }

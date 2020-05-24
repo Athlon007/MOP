@@ -1,5 +1,26 @@
 # Changelog
 
+## 2.9.3 (24.05.2020)
+
+### Added
+
+- MOP sectors are disabled when you're far away from them
+- Command 'mop new' now can create mods rule files using 'mop new modID'
+- Added 'mop open-folder' command that opens MOP config folder
+
+### Changes
+
+- Sector game objects are now parented to MOP_WorldManager
+
+### Bug Fixes
+
+- (My Summer Car Bug) Fixed Satsuma license plates Z fighting bug
+- (My Summer Car Bug) Fixed Z fighting bug of a slot machine in store
+- (My Summer Car Bug) Fixed Z fighting of wrist watch dials
+- Fixed kilju bottles sometimes not teleporting to junkyard and still being full, after selling them to Jokke
+- Car jack and floor jack doesn't despawn, if it's not in it's default position
+- Fixed Flatbed being attatched to the Kekmet, even when both were far apart
+
 ## 2.9.2 (22.05.2020)
 
 ### Bug Fixes

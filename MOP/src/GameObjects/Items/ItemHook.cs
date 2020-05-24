@@ -49,6 +49,8 @@ namespace MOP
 
         FsmBool batteryOnCharged;
 
+        FsmFloat floorJackTriggerY;
+
         public ItemHook()
         {
             Toggle = ToggleActive;
@@ -133,6 +135,11 @@ namespace MOP
             if (this.gameObject.name == "helmet(itemx)")
             {
                 return;
+            }
+
+            if (this.gameObject.name.EqualsAny("floor jack(itemx)", "car jack(itemx)"))
+            {
+                floorJackTriggerY = gameObject.transform.Find("Trigger").gameObject.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmFloat("Y");
             }
 
             // We're preventing the execution of State 1 and Load,
@@ -223,6 +230,15 @@ namespace MOP
                     // Don't disable the helmet, if player has put it on.
                     case "helmet(itemx)":
                         if (Vector3.Distance(gameObject.transform.position, WorldManager.instance.GetPlayer().position) < 5)
+                            return;
+                        break;
+                    // Don't despawn floor or car jack if it's not in it's default position.
+                    case "floor jack(itemx)":
+                        if (floorJackTriggerY.Value >= 0.15f)
+                            return;
+                        break;
+                    case "car jack(itemx)":
+                        if (floorJackTriggerY.Value >= 0.15f)
                             return;
                         break;
                 }

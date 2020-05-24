@@ -46,10 +46,11 @@ namespace MOP
                         "<color=yellow>rules</color> - Show the list of active rules and loaded rule files\n" +
                         "<color=yellow>wiki</color> - Open wiki page of rule files\n" +
                         "<color=yellow>reload</color> - Forces MOP to reload rule files\n" +
-                        "<color=yellow>new</color> - Create custom rule file\n" +
+                        "<color=yellow>new [ModID]</color> - Create custom rule file (if no ModID is provided, will create Custom.txt)\n" +
                         "<color=yellow>open-custom</color> - Open custom rule file\n" +
                         "<color=yellow>delete-custom</color> - Delete custom rule file\n" +
-                        "<color=yellow>sector-debug</color> - Shows the renderers of sectors");
+                        "<color=yellow>sector-debug [true/false]</color> - Shows the renderers of sectors\n" +
+                        "<color=yellow>open-folder</color> - Opens MOP config folder");
                     break;
                 case "rules":
                     if (Rules.instance.IgnoreRules.Count > 0)
@@ -116,6 +117,11 @@ namespace MOP
                 case "new":
                     string path = $"{MOP.ModConfigPath}\\Custom.txt";
 
+                    if (args.Length > 1)
+                    {
+                        path = $"{MOP.ModConfigPath}\\{args[1]}.mopconfig";
+                    }
+
                     if (File.Exists(path))
                     {
                         ModConsole.Print("Custom file already exists. Use \"mop open\" to edit it now.");
@@ -128,8 +134,15 @@ namespace MOP
                         "## WARNING: Using custom rule files may cause issues. Use only at your own risk!");
 
                     Process.Start(path);
-                    ModConsole.Print("A custom rule file has been created. You can find it as Custom.txt.\n" +
-                        "<color=red>Careless use of rule files may cause bugs and glitchess. Use only at yout own risk!</color>");
+                    if (path.EndsWith("Custom.txt"))
+                    {
+                        ModConsole.Print("A custom rule file has been created. You can find it as Custom.txt.\n" +
+                            "<color=red>Careless use of rule files may cause bugs and glitchess. Use only at yout own risk!</color>");
+                    }
+                    else
+                    {
+                        ModConsole.Print($"A rule file for {args[1]} mod has been created.");
+                    }
                     break;
                 case "open-custom":
                     if (!File.Exists($"{MOP.ModConfigPath}\\Custom.txt"))
@@ -195,6 +208,9 @@ namespace MOP
                     }
                     MopSettings.SectorDebugMode = args[1].ToLower() == "true";
                     ModConsole.Print($"Sector debug mode is {(MopSettings.SectorDebugMode ? "on" : "off")}!");
+                    break;
+                case "open-folder":
+                    Process.Start(MOP.ModConfigPath);
                     break;
             }
         }

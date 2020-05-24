@@ -295,6 +295,15 @@ namespace MOP
             area.transform.eulerAngles = new Vector3(0, 343.0013f, 0);
             area.AddComponent<ItemAntiClip>();
 
+            // Z-fighting fix for wristwatch.
+            GameObject.Find("PLAYER")
+                .transform.Find("Pivot/AnimPivot/Camera/FPSCamera/FPSCamera/Watch/Animate/BreathAnim/WristwatchHand/Clock/Pivot/Hour/hour")
+                .gameObject.GetComponent<Renderer>().material.renderQueue = 3001;
+
+            GameObject.Find("PLAYER")
+                .transform.Find("Pivot/AnimPivot/Camera/FPSCamera/FPSCamera/Watch/Animate/BreathAnim/WristwatchHand/Clock/Pivot/Minute/minute")
+                .gameObject.GetComponent<Renderer>().material.renderQueue = 3002;
+
             ModConsole.Print("[MOP] Finished applying fixes");
 
             //Things that should be enabled when out of proximity of the house
@@ -461,9 +470,8 @@ namespace MOP
 
             string finalMessage = "[MOP] MOD LOADED SUCCESFULLY!";
             float money = PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerMoney").Value;
-            finalMessage = money >= 69420.0f && money < 69420.5f ? finalMessage.Rainbowmize() : $"<color=green>{finalMessage}</color>";
+            finalMessage = Mathf.Approximately(69420.0f, 69420.9f) ? finalMessage.Rainbowmize() : $"<color=green>{finalMessage}</color>";
             ModConsole.Print(finalMessage);
-
             GC.Collect();
         }
 
@@ -753,7 +761,6 @@ namespace MOP
 
         void Update()
         {
-
             if (!MopSettings.IsModActive || Satsuma.instance == null) return;
             Satsuma.instance.ForceFuckingRotation();
         }
@@ -920,6 +927,19 @@ namespace MOP
                     ExceptionManager.New(ex, $"TOGGLE_ALL_PLACES_{i}");
                 }
             }
+
+            if (mode == ToggleAllMode.OnSave)
+            {
+                // Force teleport kilju bottles.
+                GameObject canTrigger = GameObject.Find("JOBS").transform.Find("HouseDrunkNew/BeerCampNew/BeerCamp/KiljuBuyer/CanTrigger").gameObject;
+
+                // If canTrigger object is not located at new house, get one from the old Jokke's house.
+                if (canTrigger == null)
+                    canTrigger = GameObject.Find("JOBS").transform.Find("HouseDrunk/BeerCampOld/BeerCamp/KiljuBuyer/CanTrigger").gameObject;
+
+                canTrigger.GetComponent<PlayMakerFSM>().SendEvent("STOP");
+
+            }
         }
 
         void ActivateSectors()
@@ -951,6 +971,11 @@ namespace MOP
         public Transform GetPlayer()
         {
             return player;
+        }
+
+        public WorldObjectList GetWorldObjectList()
+        {
+            return worldObjectList;
         }
     }
 }

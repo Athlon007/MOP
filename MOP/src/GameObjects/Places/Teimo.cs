@@ -67,7 +67,7 @@ namespace MOP
             GameObjectBlackList.AddRange(blackList);
             DisableableChilds = GetDisableableChilds();
 
-            // Fix for the bar fighte
+            // Fix for the bar fighter
             Transform fighter = gameObject.transform.Find("Fighter2/Pivot");
             if (fighter)
                 DisableableChilds.Remove(fighter);
@@ -76,6 +76,9 @@ namespace MOP
             Transform videoPoker = gameObject.transform.Find("LOD/VideoPoker/HookSlot");
             if (videoPoker)
                 FsmHook.FsmInject(videoPoker.gameObject, "Activate cable", RemoveVideoPokerParent);
+
+            // Fix for Z-fighting of slot machine glass.
+            transform.Find("LOD/GFX_Store/SlotMachine/slot_machine 1/slot_machine_glass").gameObject.GetComponent<Renderer>().material.renderQueue = 3001;
         }
 
         /// <summary>

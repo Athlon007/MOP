@@ -23,8 +23,11 @@ namespace MOP
         // Objects from that whitelist will not be disabled
         // It is so to prevent from restock script and Teimo's bike routine not working
 
-        readonly string[] blackList = { "Farm", "Job", "combine", "pile", "MachineHall", "TargetHaybales",
-            "TargetCombine", "collider", "floor_coll", "hall_base", "SpawnToFarm" };
+        readonly string[] blackList =
+        {
+            "Farm", "Job", "combine", "pile", "MachineHall", "TargetHaybales",
+            "TargetCombine", "collider", "floor_coll", "hall_base", "SpawnToFarm"
+        };
 
         /// <summary>
         /// Initialize the Store class
