@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.9.4 (24.05.2020)
+
+### Added
+
+- Pikes are now toggled when removed
+- Added spawn hook to fish trap
+
+### Bug Fixes
+
+- Fixed Teimo's cap and glasses disappearing, when he's riding on a bike
+- Fixed not being able to save the game, if player didn't finish the Jokke moving job
+
 ## 2.9.3 (24.05.2020)
 
 ### Added

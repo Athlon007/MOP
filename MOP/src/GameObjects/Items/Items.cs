@@ -77,7 +77,7 @@ namespace MOP
             "wheel cover leopard", "wheel cover plush", "wheel cover suomi", "wheel cover zebra", "wheelset hayosiko",
             "wheelset octo", "wheelset racing", "wheelset rally", "wheelset slot", "wheelset spoke",
             "wheelset steelwide", "wheelset turbine", "window grille", "windows black wrap", "wiring mess",
-            "wishbone fl", "wishbone fr", "wood carrier", "xmas lights", "yeast" 
+            "wishbone fl", "wishbone fr", "wood carrier", "xmas lights", "yeast", "pike"
         };
 
 
@@ -98,6 +98,9 @@ namespace MOP
             GameObject postOrder = GameObject.Find("STORE").transform.Find("LOD/ActivateStore/PostOffice/PostOrderBuy").gameObject;
             EnvelopeOrderBuyHook h = postOrder.AddComponent<EnvelopeOrderBuyHook>();
             h.Initialize(cashRegisterHook);
+
+            // Fish trap spawner.
+            FsmHook.FsmInject(GameObject.Find("fish trap(itemx)").transform.Find("Spawn").gameObject, "Create product", cashRegisterHook.Fishes);
 
             InitializeList();
 

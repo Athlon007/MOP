@@ -928,18 +928,21 @@ namespace MOP
                 }
             }
 
-            if (mode == ToggleAllMode.OnSave)
+            try
             {
-                // Force teleport kilju bottles.
-                GameObject canTrigger = GameObject.Find("JOBS").transform.Find("HouseDrunkNew/BeerCampNew/BeerCamp/KiljuBuyer/CanTrigger").gameObject;
+                if (mode == ToggleAllMode.OnSave)
+                {
+                    // Force teleport kilju bottles.
+                    Transform canTrigger = GameObject.Find("JOBS").transform.Find("HouseDrunkNew/BeerCampNew/BeerCamp/KiljuBuyer/CanTrigger");
 
-                // If canTrigger object is not located at new house, get one from the old Jokke's house.
-                if (canTrigger == null)
-                    canTrigger = GameObject.Find("JOBS").transform.Find("HouseDrunk/BeerCampOld/BeerCamp/KiljuBuyer/CanTrigger").gameObject;
+                    // If canTrigger object is not located at new house, get one from the old Jokke's house.
+                    if (canTrigger == null)
+                        canTrigger = GameObject.Find("JOBS").transform.Find("HouseDrunk/BeerCampOld/BeerCamp/KiljuBuyer/CanTrigger");
 
-                canTrigger.GetComponent<PlayMakerFSM>().SendEvent("STOP");
-
+                    canTrigger.gameObject.GetComponent<PlayMakerFSM>().SendEvent("STOP");
+                }
             }
+            catch { }
         }
 
         void ActivateSectors()

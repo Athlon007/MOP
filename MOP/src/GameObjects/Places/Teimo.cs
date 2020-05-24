@@ -51,7 +51,7 @@ namespace MOP
             "TargetSelf", "AudioClips", "HitPosition", "HumanCol", "Ray", "bodymesh_fighter", "Char", "ThrowBody",
             "PlayerRigid", "GrillboxMicro", "PhysHead", "Shades", "hat", "glasses", "FighterFist", "GameLogic",
             "Buttons", "Bet", "Double", "Hold", "InsertCoin", "Deal", "TakeWin", "Pokeri", "CashSound", "videopoker_on",
-            "Hatch", "HookSlot", "Disabled", "slot_machine_off", "Money", "Lock", "Cash" };
+            "Hatch", "HookSlot", "Disabled", "slot_machine_off", "Money", "Lock", "Cash", "Accessories" };
 
         /// <summary>
         /// Initialize the Store class

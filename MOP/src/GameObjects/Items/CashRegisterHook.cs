@@ -153,5 +153,30 @@ namespace MOP
                 FsmHook.FsmInject(package, "State 1", TriggerMinorObjectRefresh);
             }
         }
+
+        IEnumerator fishesRoutine;
+
+        public void Fishes()
+        {
+            if (fishesRoutine != null)
+            {
+                StopCoroutine(fishesRoutine);
+            }
+
+            fishesRoutine = FishesCoroutine();
+            StartCoroutine(fishesRoutine);
+        }
+
+        IEnumerator FishesCoroutine()
+        {
+            yield return new WaitForSeconds(2);
+            GameObject[] fishes = Resources.FindObjectsOfTypeAll<GameObject>()
+                .Where(g => g.name == "pike(itemx)" && g.activeSelf).ToArray();
+
+            foreach (GameObject fish in fishes)
+            {
+                fish.AddComponent<ItemHook>();
+            }
+        }
     }
 }
