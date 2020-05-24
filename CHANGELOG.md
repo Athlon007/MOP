@@ -4,7 +4,7 @@
 
 ### Added
 
-- Pikes are now toggled when removed
+- Pikes are now toggled when removed from the fish trap
 - Added spawn hook to fish trap
 
 ### Bug Fixes
