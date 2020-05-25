@@ -24,7 +24,7 @@ namespace MOP
     class Satsuma : Vehicle
     {
         // Satsuma class - made by Konrad "Athlon" Figura
-        // 
+        //
         // This class extends the functionality of Vehicle class, which is tailored for Gifu.
         // It fixes the issue with Gifu's beams being turned on after respawn.
 
@@ -47,7 +47,7 @@ namespace MOP
         readonly List<Renderer> renderers;
         // Engine bay renderers
         readonly List<Renderer> engineBayRenderers;
-        
+
         // Pivot transform of hood.
         readonly Transform pivotHood;
 
@@ -75,13 +75,13 @@ namespace MOP
             disableableObjects = GetDisableableChilds();
 
             Toggle = ToggleActive;
-            
+
             // Get engine bay renderers
             engineBayRenderers = new List<Renderer>();
             Transform block = this.gameObject.transform.Find("Chassis/sub frame(xxxxx)/CarMotorPivot");
             engineBayRenderers = block.GetComponentsInChildren<Renderer>(true).ToList();
             pivotHood = this.gameObject.transform.Find("Body/pivot_hood");
-            
+
             // Get all the other renderers
             renderers = new List<Renderer>();
             renderers = this.gameObject.transform.GetComponentsInChildren<Renderer>(true)
@@ -103,33 +103,33 @@ namespace MOP
             // Adding components to normal and bucket seats.
             GameObject.Find("seat driver(Clone)").AddComponent<SatsumaSeatsManager>();
             GameObject.Find("seat passenger(Clone)").AddComponent<SatsumaSeatsManager>();
-            
+
             GameObject bucketDriver = GameObject.Find("bucket seat driver(Clone)");
             GameObject bucketPassanger = GameObject.Find("bucket seat passenger(Clone)");
             if (bucketDriver == null)
             {
-                bucketDriver = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "bucket seat driver(Clone)" 
+                bucketDriver = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "bucket seat driver(Clone)"
                 && g.transform.parent.gameObject.name == "Parts");
-                bucketPassanger = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "bucket seat passenger(Clone)" 
+                bucketPassanger = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "bucket seat passenger(Clone)"
                 && g.transform.parent.gameObject.name == "Parts");
             }
             bucketDriver.AddComponent<SatsumaSeatsManager>();
             bucketPassanger.AddComponent<SatsumaSeatsManager>();
-            
+
             // Fix for doors getting jammed.
             //GameObject.Find("door right(Clone)").AddComponent<SatsumaDoorManager>();
             //GameObject.Find("door left(Clone)").AddComponent<SatsumaDoorManager>();
-            
+
             // Fix for mechanical wear of the car.
             PlayMakerFSM mechanicalWearFsm = transform.Find("CarSimulation/MechanicalWear").gameObject.GetComponent<PlayMakerFSM>();
             FsmState loadGame = mechanicalWearFsm.FindFsmState("Load game");
             List<FsmStateAction> loadArrayActions = new List<FsmStateAction> { new CustomNullState() };
             loadGame.Actions = loadArrayActions.ToArray();
             loadGame.SaveActions();
-            
+
             // Fix for engine freezing car.
             GameObject.Find("block(Clone)").AddComponent<SatsumaEngineManager>();
-            
+
             // Fix for not working handbrake after respawn.
             GameObject.Find("HandBrake").AddComponent<SatsumaHandbrakeManager>();
 
@@ -140,7 +140,7 @@ namespace MOP
             List<FsmStateAction> loadHandbrakeArrayActions = new List<FsmStateAction> { new CustomNullState() };
             loadHandbrake.Actions = loadHandbrakeArrayActions.ToArray();
             loadGame.SaveActions();
-            
+
             // Get all bolts.
             GameObject[] bolts = Resources.FindObjectsOfTypeAll<GameObject>().Where(obj => obj.name == "BoltPM").ToArray();
             foreach (GameObject bolt in bolts)
@@ -252,7 +252,7 @@ namespace MOP
                 }
             }
 
-             // Fix for cd player disabling other vehicles radio.
+            // Fix for cd player disabling other vehicles radio.
             Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "cd player(Clone)")
             .transform.Find("ButtonsCD/RadioVolume").gameObject.GetPlayMakerByName("Knob").Fsm.RestartOnEnable = false;
             GameObject.Find("radio(Clone)").transform.Find("ButtonsRadio/RadioVolume").gameObject.GetPlayMakerByName("Knob").Fsm.RestartOnEnable = false;
@@ -262,7 +262,7 @@ namespace MOP
                 .GetPlayMakerByName("Paint").Fsm.RestartOnEnable = false;
 
             HoodFix();
-            
+
             // Rear bumper detachng fix.
             rearBumper = GameObject.Find("bumper rear(Clone)");
             if (rearBumper.transform.parent == null)
@@ -301,6 +301,10 @@ namespace MOP
 
             if (Rules.instance.SpecialRules.ExperimentalOptimization)
                 key = transform.Find("Dashboard/Steering/steering_column2/Ignition/Keys/Key").gameObject;
+
+            // Fix for reg plates Z fighting.
+            GameObject.Find("bootlid(Clone)").transform.Find("RegPlateRear").gameObject.GetComponent<Renderer>().material.renderQueue = 100;
+            GameObject.Find("bumper front(Clone)").transform.Find("RegPlateFront").gameObject.GetComponent<Renderer>().material.renderQueue = 100;
         }
 
         /// <summary>
@@ -362,7 +366,7 @@ namespace MOP
         {
             if (Rules.instance.SpecialRules.SatsumaIgnoreRenderers || engineBayRenderers.Count == 0
                 || engineBayRenderers[0].enabled == enabled || !IsHoodAttached()) return;
-            
+
             // Don't disable engine renderers, if the all car's renderers are disabled.
             if (!renderers[0].enabled && !enabled) return;
 
@@ -370,7 +374,7 @@ namespace MOP
             {
                 try
                 {
-                    if (engineBayRenderers[i] == null) 
+                    if (engineBayRenderers[i] == null)
                         continue;
 
                     // Skip renderer if it's root is not Satsuma.
