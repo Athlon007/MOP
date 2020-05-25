@@ -43,6 +43,9 @@ namespace MOP
                 collider.size = new Vector3(1, 1, 1);
                 gameObject.layer = 0;
             }
+
+            WorldManager.instance.GetWorldObjectList().Add(this.gameObject, 500);
+            this.transform.parent = WorldManager.instance.gameObject.transform;
         }
 
         void OnTriggerEnter(Collider other)

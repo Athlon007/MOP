@@ -14,20 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using UnityEngine;
+using MSCLoader;
+
 namespace MOP
 {
-    // This class is intended for special flags used in specific cases.
-    struct SpecialRules
+    class EnvelopeOrderBuyHook : MonoBehaviour
     {
-        public bool SatsumaIgnoreRenderers;
-        public bool DontDestroyEmptyBeerBottles;
+        CashRegisterHook cashRegisterHook;
 
-        // Custom rule files.
-        public bool IgnoreModVehicles;
-        public bool ToggleAllVehiclesPhysicsOnly;
-        public bool DrivewaySector;
-        public bool ExperimentalSatsumaTrunk;
-        public bool ExperimentalOptimization;
-        //public bool ExperimentalLOD;
+        public void Initialize(CashRegisterHook cashRegisterHook)
+        {
+            this.cashRegisterHook = cashRegisterHook;
+        }
+
+        void Start()
+        {
+            FsmHook.FsmInject(this.gameObject, "State 3", cashRegisterHook.Packages);
+        }
     }
 }

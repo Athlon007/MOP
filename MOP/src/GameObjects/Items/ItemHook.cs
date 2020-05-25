@@ -27,6 +27,8 @@ namespace MOP
     {
         // This MonoBehaviour hooks to all items from shop and other interactable ones. (Such as sausages, or beer cases)
         // ObjectHook class by Konrad "Athlon" Figura
+        
+        bool firstLoad;
 
         /// <summary>
         /// Rigidbody of this object.
@@ -40,11 +42,14 @@ namespace MOP
 
         Vector3 position;
 
-        bool firstLoad;
-
+        // Used by Satsuma storage system.
         public bool IsInStorage;
 
+        public bool DontDisable;
+
         FsmBool batteryOnCharged;
+
+        FsmFloat floorJackTriggerY;
 
         public ItemHook()
         {
@@ -63,7 +68,7 @@ namespace MOP
             }
 
             // Use the old method, if for some reason item cannot be disabled.
-            if (this.gameObject.name.EqualsAny("fish trap(itemx)", "bucket(itemx)"))
+            if (this.gameObject.name.EqualsAny("fish trap(itemx)", "bucket(itemx)", "pike(itemx)"))
             {
                 Toggle = ToggleActiveOldMethod;
             }
@@ -132,10 +137,22 @@ namespace MOP
                 return;
             }
 
+            if (this.gameObject.name.EqualsAny("floor jack(itemx)", "car jack(itemx)"))
+            {
+                floorJackTriggerY = gameObject.transform.Find("Trigger").gameObject.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmFloat("Y");
+            }
+
             // We're preventing the execution of State 1 and Load,
             // because these two reset the variables of the item
             // (such as position, state or rotation).
             FsmFixes();
+
+            // HACK: For some reason the trigger that's supposed to fix tire job not working doesn't really work on game load,
+            // toggle DontDisable to true, if tire is close to repair shop cash register.
+            if (this.gameObject.name.StartsWith("wheel_") && Vector3.Distance(gameObject.transform.position, GameObject.Find("REPAIRSHOP").transform.Find("LOD/Store/ShopCashRegister").position) < 5)
+            {
+                DontDisable = true;
+            }
         }
 
         // Triggered before the object is destroyed.
@@ -154,69 +171,88 @@ namespace MOP
         /// <param name="enabled"></param>
         void ToggleActive(bool enabled)
         {
-            // If the item has fallen under the detection range of the game's built in garbage collector,
-            // teleport that item manually to the landfill.
-            if (!firstLoad)
+            try
             {
-                if (transform.position.y < -100 && transform.position.x != 0 && transform.position.z != 0)
-                    transform.position = GameObject.Find("LostSpawner").transform.position;
+                // If the item has fallen under the detection range of the game's built in garbage collector,
+                // teleport that item manually to the landfill.
+                if (!firstLoad)
+                {
+                    if (transform.position.y < -100 && transform.position.x != 0 && transform.position.z != 0)
+                        transform.position = GameObject.Find("LostSpawner").transform.position;
 
-                firstLoad = true;
+                    firstLoad = true;
+                }
+
+                // This is for the hood system.
+                // If the item is stored in the Satsuma's storages (trunk or glovebox),
+                // the storage itself toggles the item.
+                if (IsInStorage)
+                {
+                    return;
+                }
+
+                if (DontDisable)
+                {
+                    ToggleActiveOldMethod(enabled);
+                    return;
+                }
+
+                // Don't execute rest of the code, if the enabled is the same as activeSelf.
+                if (gameObject.activeSelf == enabled)
+                {
+                    return;
+                }
+
+                // Don't toggle, if the item is attached to Satsuma.
+                if (transform.root.gameObject.name == "SATSUMA(557kg, 248)")
+                {
+                    return;
+                }
+
+                switch (gameObject.name)
+                {
+                    // Don't disable wheels that are attached to the car.
+                    case "wheel_regula":
+                        Transform root = this.gameObject.transform.parent;
+                        if (root != null && root.gameObject.name == "pivot_wheel_standard")
+                            return;
+                        break;
+                    // Fix for batteries popping out of the car.
+                    case "battery(Clone)":
+                        if (gameObject.transform.parent.gameObject.name == "pivot_battery")
+                            return;
+
+                        // Don't toggle if battery is left on charger.
+                        if (!enabled && batteryOnCharged.Value)
+                            return;
+
+                        break;
+                    // Don't disable the helmet, if player has put it on.
+                    case "helmet(itemx)":
+                        if (Vector3.Distance(gameObject.transform.position, WorldManager.instance.GetPlayer().position) < 5)
+                            return;
+                        break;
+                    // Don't despawn floor or car jack if it's not in it's default position.
+                    case "floor jack(itemx)":
+                        if (floorJackTriggerY.Value >= 0.15f)
+                            return;
+                        break;
+                    case "car jack(itemx)":
+                        if (floorJackTriggerY.Value >= 0.15f)
+                            return;
+                        break;
+                }
+
+                // Check if item is in CarryMore inventory.
+                // If so, ignore that item.
+                if (CompatibilityManager.CarryMore && transform.position.y < -900)
+                {
+                    return;
+                }
+
+                gameObject.SetActive(enabled);
             }
-
-            // This is for the hood system.
-            // If the item is stored in the Satsuma's storages (trunk or glovebox),
-            // the storage itself toggles the item.
-            if (IsInStorage)
-            {
-                return;
-            }
-
-            // Don't execute rest of the code, if the enabled is the same as activeSelf.
-            if (gameObject.activeSelf == enabled)
-            {
-                return;
-            }
-
-            // Don't toggle, if the item is attached to Satsuma.
-            if (transform.root.gameObject.name == "SATSUMA(557kg, 248)")
-            {
-                return;
-            }
-
-            switch (gameObject.name)
-            {
-                // Don't disable wheels that are attached to the car.
-                case "wheel_regula":
-                    Transform root = this.gameObject.transform.parent;
-                    if (root != null && root.gameObject.name == "pivot_wheel_standard")
-                        return;
-                    break;
-                // Fix for batteries popping out of the car.
-                case "battery(Clone)":
-                    if (gameObject.transform.parent.gameObject.name == "pivot_battery")
-                        return;
-
-                    // Don't toggle if battery is left on charger.
-                    if (!enabled && batteryOnCharged.Value)
-                        return;
-
-                    break;
-                // Don't disable the helmet, if player has put it on.
-                case "helmet(itemx)":
-                    if (Vector3.Distance(gameObject.transform.position, WorldManager.instance.GetPlayer().position) < 5)
-                        return;
-                    break;
-            }
-
-            // Check if item is in CarryMore inventory.
-            // If so, ignore that item.
-            if (CompatibilityManager.CarryMore && transform.position.y < -900)
-            {
-                return;
-            }
-
-            gameObject.SetActive(enabled);
+            catch { }
         }
 
         void ToggleActiveOldMethod(bool enabled)

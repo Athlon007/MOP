@@ -223,7 +223,7 @@ namespace MOP
             PreventToggleOnObjectRule preventToggleOnObjectRule = Rules.instance.PreventToggleOnObjectRule.Find(v => v.MainObject == this.gameObject.name);
             if (preventToggleOnObjectRule != null)
             {
-                Transform t = transform.Find(preventToggleOnObjectRule.ObjectName);
+                Transform t = transform.FindRecursive(preventToggleOnObjectRule.ObjectName);
                 if (t != null)
                     preventToggleOnObjects.Add(new PreventToggleOnObject(t));
                 else
@@ -275,7 +275,14 @@ namespace MOP
 
                 if (isKekmet && MopFsmManager.IsTrailerAttached())
                 {
-                    GameFixes.Instance.KekmetTrailerAttach();
+                    if (Vector3.Distance(transform.Find("Trailer/Hook").position, WorldManager.instance.GetFlatbed().transform.Find("HookTarget").position) >= 0.4f)
+                    {
+                        GameFixes.Instance.KekmetTrailerDetach();
+                    }
+                    else
+                    {
+                        GameFixes.Instance.KekmetTrailerAttach();
+                    }
                 }
             }
         }

@@ -23,7 +23,7 @@ namespace MOP
         // Used for items bought via Item Shop mod
         // Adds the trigger collider at the Teimo's shop table.
 
-        readonly string[] items = new string[] { "cd case(itemy)", "CD Rack(itemy)", "cd(itemy)" };
+        readonly string[] items = { "cd case(itemy)", "CD Rack(itemy)", "cd(itemy)" };
 
         public ShopModItemSpawnCheck()
         {

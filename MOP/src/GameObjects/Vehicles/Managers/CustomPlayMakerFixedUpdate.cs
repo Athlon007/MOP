@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using HutongGames.PlayMaker;
 using UnityEngine;
 
 namespace MOP
@@ -55,6 +56,23 @@ namespace MOP
         public void StartFixedUpdate()
         {
             isRunning = true;
+        }
+    }
+
+    public class CustomNullState : FsmStateAction
+    {
+        public override void OnEnter()
+        {
+            Finish();
+        }
+    }
+
+    public class CustomStopAction : FsmStateAction
+    {
+        public override void OnEnter()
+        {
+            Fsm.Event("FINISHED");
+            Finish();
         }
     }
 }
