@@ -23,14 +23,8 @@ namespace MOP
     {
         public static Yard Instance;
 
-        // Yard Class
-        //
-        // Extends Place.cs
-        // It's responsbile for loading and unloading the YARD game object (player's house).
-        // NOTE: That script DOES NOT disable the yard itself, rather some of its childrens.
-
-        // Objects from that blacklist will NOT be disabled
-        readonly string[] blackList = {
+        readonly string[] blackList = 
+        {
             "YARD", "Spawn", "VenttiPigHouse", "Capsule", "Target", "Pivot", "skeleton", "bodymesh",
             "COPS", "Trigger", "Cop", "Collider", "thig", "pelvis", "knee", "ankle", "spine",
             "PlayerMailBox", "mailbox", "envelope", "Envelope", "Letter", "Ad", "UNCLE",
@@ -78,7 +72,7 @@ namespace MOP
 
         Transform[] GetDoors()
         {
-            return transform.GetComponentsInChildren<Transform>()
+            return GetTransform().GetComponentsInChildren<Transform>()
                 .Where(t => t.gameObject.name.Contains("Door") && t.Find("Pivot") != null).ToArray();
         }
     }

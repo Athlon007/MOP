@@ -18,19 +18,13 @@ namespace MOP
 {
     class Inspection : Place
     {
-        // Inspection class
-
-        // Objects from that whitelist will not be disabled
-        // It is so to prevent from restock script and Teimo's bike routine not working
-
-        readonly string[] blackList = {
+        readonly string[] blackList = 
+        {
             "INSPECTION", "BoozeJobTrigger", "Building", "inspection_concrete", "inspection_floor",
             "garage_doors", "glass", "Light", "register plate", "InspectionProcess", "Recipiet", "Order",
-            "Audio", "Functions", "DoorWhite" };
+            "Audio", "Functions", "DoorWhite" 
+        };
 
-        /// <summary>
-        /// Initialize the Store class
-        /// </summary>
         public Inspection() : base("INSPECTION")
         {
             GameObjectBlackList.AddRange(blackList);

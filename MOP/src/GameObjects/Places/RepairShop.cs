@@ -21,17 +21,8 @@ namespace MOP
 {
     class RepairShop : Place
     {
-        // RepairShop Class - made by Konrad "Athlon" Figura
-        //
-        // Extends Place.cs
-        //
-        // It is responsible for loading and unloading parts of the repair shop, that are safe to be unloaded or loaded again.
-        // It gives some performance bennefit, while still letting the shop and Teimo routines running without any issues.
-        // Some objects on the WhiteList can be removed, but that needs testing.
-        //
-        // NOTE: That script DOES NOT disable the repairshop itself, rather some of its childrens.
-
-        readonly string[] blackList = {
+        readonly string[] blackList = 
+        {
             "REPAIRSHOP", "JunkCar", "sats_burn_masse", "TireOld(Clone)", "Order", "JunkYardJob",
             "BoozeJob", "Spawn", "SatsumaSpawns", "SeatPivot", "DistanceTarget", "SpawnToRepair",
             "PartsDistanceTarget", "JunkCarSpawns", "Parts", "wheel_regul", "rpm gauge(Clone)",
@@ -40,16 +31,18 @@ namespace MOP
             "TireCatcher", "Ropes", "Note", "note", "inspection_desk 1", "Office", "Furniture",
             "Building", "office_floor", "coll", "wall_base", "JunkYardJob", "PayMoney", "100mk", "GaugeMeshTach",
             "gauge_glass_fbx", "Pivot", "needle", "Bolt", "bolt", "grille", "wheel_steel5", "gear_stick",
-            "Platform", "Coll", "Buy", "Product", "Key(Clone)", "LOD" };
+            "Platform", "Coll", "Buy", "Product", "Key(Clone)", "LOD" 
+        };
 
         /// <summary>
         /// Initialize the RepairShop class
         /// </summary>
         public RepairShop() : base("REPAIRSHOP", 250)
         {
-            for (int i = 1; transform.Find($"JunkCar{i}") != null; i++)
+            // Set junk car objects parent to null.
+            for (int i = 1; GetTransform().Find($"JunkCar{i}") != null; i++)
             {
-                Transform junk = transform.Find($"JunkCar{i}");
+                Transform junk = GetTransform().Find($"JunkCar{i}");
                 if (junk != null)
                     junk.parent = null;
             }

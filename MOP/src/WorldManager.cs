@@ -586,8 +586,8 @@ namespace MOP
                     ticks = 0;
 
                 inSectorMode = SectorManager.instance != null && SectorManager.instance.PlayerInSector;
-                isPlayerAtYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, places[0].transform.position) < 100
-                    : Vector3.Distance(player.position, places[0].transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
+                isPlayerAtYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, places[0].GetTransform().position) < 100
+                    : Vector3.Distance(player.position, places[0].GetTransform().position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 
                 // When player is in any of the sectors, MOP will act like the player is at yard.
                 if (SectorManager.instance.PlayerInSector)
@@ -772,10 +772,10 @@ namespace MOP
 
                     try
                     {
-                        if (Rules.instance.SectorRulesContains(places[i].gameObject.name))
+                        if (Rules.instance.SectorRulesContains(places[i].GetName()))
                             continue;
 
-                        places[i].ToggleActive(IsPlaceEnabled(places[i].transform, places[i].ToggleDistance));
+                        places[i].ToggleActive(IsPlaceEnabled(places[i].GetTransform(), places[i].GetToggleDistance()));
                     }
                     catch (Exception ex)
                     {

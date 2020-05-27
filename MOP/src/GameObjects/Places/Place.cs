@@ -22,13 +22,9 @@ namespace MOP
 {
     class Place
     {
-        // Place Class
-        // It is responsible for loading and unloading important to the game places, it is extended by other classes.
-        // NOTE: That script DOES NOT disable the place itself, rather some of its childrens.
-
-        public GameObject gameObject { get; set; }
-
-        public float ToggleDistance { get; private set; }
+        readonly GameObject gameObject;
+        readonly string name;
+        readonly float toggleDistance;
 
         // Objects from that list will not be disabled
         // It is so to prevent from restock script and Teimo's bike routine not working
@@ -38,15 +34,12 @@ namespace MOP
         /// List of childs that are allowed to be disabled
         /// </summary>
         internal List<Transform> DisableableChilds;
-
         internal Transform[] Doors;
-
-        public Transform transform => gameObject.transform;
 
         /// <summary>
         /// Saves what value has been last used, to prevent unnescesary launch of loop.
         /// </summary>
-        internal bool lastValue = true;
+        internal bool isActive = true;
 
         /// <summary>
         /// Initialize the Store class
@@ -54,14 +47,14 @@ namespace MOP
         public Place(string placeName, float distance = 200)
         {
             gameObject = GameObject.Find(placeName);
+            name = placeName;
+            toggleDistance = distance;
             GameObjectBlackList = new List<string>();
 
             IgnoreRuleAtPlace[] ignoreRulesAtThisPlace = Rules.instance.IgnoreRulesAtPlaces.Where(r => r.Place == placeName).ToArray();
             if (ignoreRulesAtThisPlace.Length > 0)
                 foreach (IgnoreRuleAtPlace rule in ignoreRulesAtThisPlace)
                     GameObjectBlackList.Add(rule.ObjectName);
-
-            ToggleDistance = distance;
         }
 
         /// <summary>
@@ -70,11 +63,14 @@ namespace MOP
         /// <param name="enabled"></param>
         public void ToggleActive(bool enabled)
         {
-            if (lastValue == enabled) return;
-            lastValue = enabled;
+            // Don't execute the code, if the enabled value is the same as the activity status.
+            if (isActive == enabled) 
+                return;
+
+            isActive = enabled;
 
             // In case of yard, reset doors pivots
-            if (!enabled && gameObject.name == "YARD" && Doors.Length > 0)
+            if (gameObject.name == "YARD" && !enabled && Doors.Length > 0)
             {
                 for (int i = 0; i < Doors.Length; i++)
                 {
@@ -100,8 +96,35 @@ namespace MOP
         /// <returns></returns>
         internal List<Transform> GetDisableableChilds()
         {
-            return transform.GetComponentsInChildren<Transform>(true)
+            return gameObject.GetComponentsInChildren<Transform>(true)
                 .Where(trans => !trans.gameObject.name.ContainsAny(GameObjectBlackList)).ToList();
+        }
+
+        /// <summary>
+        /// Returns the transform of this object.
+        /// </summary>
+        /// <returns></returns>
+        public Transform GetTransform()
+        {
+            return gameObject.transform;
+        }
+
+        /// <summary>
+        /// Returns the gameo object name.
+        /// </summary>
+        /// <returns></returns>
+        public string GetName()
+        {
+            return name;
+        }
+
+        /// <summary>
+        /// Returns toggling distance of the place.
+        /// </summary>
+        /// <returns></returns>
+        public float GetToggleDistance()
+        {
+            return toggleDistance;
         }
     }
 }
