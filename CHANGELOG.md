@@ -6,10 +6,13 @@
 
 - Improved how MOP is loading, so it will not break completly, if something goes wrong during initialization
 - Improved Rules class loading
+- Refactored Places class
 
 ### Bug Fixes
 
 - Fixed registry plates glowing bug
+- Fixed "Open output_log" not working under Linux
+- Fixed rule files potentially not working under Linux
 
 ## 2.9.4 (24.05.2020)
 

@@ -60,8 +60,8 @@ namespace MOP
 
         public void Initialize(bool overrideUpdateCheck)
         {
-            lastModListPath = $"{MOP.ModConfigPath}\\LastModList.mop";
-            lastDateFilePath = $"{MOP.ModConfigPath}\\LastUpdate.mop";
+            lastModListPath = $"{MOP.ModConfigPath}/LastModList.mop";
+            lastDateFilePath = $"{MOP.ModConfigPath}/LastUpdate.mop";
             this.overrideUpdateCheck = overrideUpdateCheck;
 
             if (GameObject.Find("MOP_Messager") != null)
@@ -121,7 +121,7 @@ namespace MOP
                 modListString += $"{modId}\n";
 
                 string ruleUrl = $"{RemoteServer}{modId}.mopconfig";
-                string filePath = $"{MOP.ModConfigPath}\\{modId}.mopconfig";
+                string filePath = $"{MOP.ModConfigPath}/{modId}.mopconfig";
 
                 // Prevent downloading, if file is on the server.
                 if (lastModList.Contains(mod.ID) && !isUpdateTime)
@@ -222,9 +222,9 @@ namespace MOP
                 DirectoryInfo dir = new DirectoryInfo(MOP.ModConfigPath);
                 List<FileInfo> files = dir.GetFiles().Where(d => d.Name.EndsWith(".mopconfig")).ToList();
                 // Load custom rule file.
-                if (File.Exists($"{dir}\\Custom.txt"))
+                if (File.Exists($"{dir}/Custom.txt"))
                 {
-                    files.Add(new FileInfo($"{dir}\\Custom.txt"));
+                    files.Add(new FileInfo($"{dir}/Custom.txt"));
                     ModConsole.Print("[MOP] User custom rule file found!");
                 }
 
@@ -552,15 +552,6 @@ namespace MOP
                                 continue;
                             }
                             Rules.instance.SpecialRules.ExperimentalOptimization = true;
-                            break;
-
-                        case "destroy":
-                            if (fileName != "Custom.txt")
-                            {
-                                ModConsole.Error($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
-                                continue;
-                            }
-                            Rules.instance.DestroyRules.Add(new DestroyRule(objects[0]));
                             break;
                     }
                 }

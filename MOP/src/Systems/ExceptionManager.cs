@@ -64,9 +64,9 @@ namespace MOP
 
         public static void OpenOutputLog()
         {
-            if (File.Exists("mysummercar_Data\\output_log.txt"))
+            if (File.Exists("mysummercar_Data/output_log.txt"))
             {
-                Process.Start("mysummercar_Data\\output_log.txt");
+                Process.Start("mysummercar_Data/output_log.txt");
             }
         }
 

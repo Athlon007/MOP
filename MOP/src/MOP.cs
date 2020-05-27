@@ -189,11 +189,11 @@ namespace MOP
                 return;
             }
 
-            if (File.Exists($"{ModConfigPath}\\LastModList.mop"))
-                File.Delete($"{ModConfigPath}\\LastModList.mop");
+            if (File.Exists($"{ModConfigPath}/LastModList.mop"))
+                File.Delete($"{ModConfigPath}/LastModList.mop");
 
-            if (File.Exists($"{ModConfigPath}\\LastUpdate.mop"))
-                File.Delete($"{ModConfigPath}\\LastUpdate.mop");
+            if (File.Exists($"{ModConfigPath}/LastUpdate.mop"))
+                File.Delete($"{ModConfigPath}/LastUpdate.mop");
 
             new Rules(true);
         }

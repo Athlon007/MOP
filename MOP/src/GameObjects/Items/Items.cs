@@ -211,7 +211,8 @@ namespace MOP
             itemsObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
             // Fucking wheels.
-            GameObject[] wheels = Object.FindObjectsOfType<GameObject>().Where(gm => gm.name.EqualsAny("wheel_regula", "wheel_offset") && gm.activeSelf).ToArray();
+            GameObject[] wheels = Object.FindObjectsOfType<GameObject>().
+                Where(gm => gm.name.EqualsAny("wheel_regula", "wheel_offset") && gm.activeSelf).ToArray();
             foreach (GameObject wheel in wheels)
                 wheel.AddComponent<ItemHook>();
 

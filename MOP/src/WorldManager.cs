@@ -268,10 +268,10 @@ namespace MOP
 
             // Fixed Ventii bet resetting to default on cabin load.
             PlayMakerFSM cabinGameManagerUseFsm = GameObject.Find("CABIN").transform.Find("Cabin/Ventti/Table/GameManager").gameObject.GetPlayMakerByName("Use");
-            FsmState loadFanbelt = cabinGameManagerUseFsm.FindFsmState("Load game");
+            FsmState loadGameVentti = cabinGameManagerUseFsm.FindFsmState("Load game");
             List<FsmStateAction> emptyActions = new List<FsmStateAction> { new CustomNullState() };
-            loadFanbelt.Actions = emptyActions.ToArray();
-            loadFanbelt.SaveActions();
+            loadGameVentti.Actions = emptyActions.ToArray();
+            loadGameVentti.SaveActions();
 
             // Junk cars - setting Load game to null.
             for (int i = 1; GameObject.Find($"JunkCar{i}") != null; i++)
