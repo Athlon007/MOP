@@ -553,16 +553,15 @@ namespace MOP
                             }
                             Rules.instance.SpecialRules.ExperimentalOptimization = true;
                             break;
-                            /*
-                        case "experimental_lod":
+
+                        case "destroy":
                             if (fileName != "Custom.txt")
                             {
                                 ModConsole.Error($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
                                 continue;
                             }
-                            Rules.instance.SpecialRules.ExperimentalLOD = true;
+                            Rules.instance.DestroyRules.Add(new DestroyRule(objects[0]));
                             break;
-                            */
                     }
                 }
             }

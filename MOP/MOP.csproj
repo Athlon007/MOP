@@ -93,6 +93,7 @@
     <Compile Include="src\GameObjects\Places\Teimo.cs" />
     <Compile Include="src\GameObjects\Vehicles\Vehicle.cs" />
     <Compile Include="src\GameObjects\WorldObjectList.cs" />
+    <Compile Include="src\RuleFiles\Cases\DestroyRule.cs" />
     <Compile Include="src\RuleFiles\Cases\NewSector.cs" />
     <Compile Include="src\RuleFiles\Cases\SpecialRules.cs" />
     <Compile Include="src\Systems\CompatibilityManager.cs" />

@@ -62,15 +62,6 @@ namespace MOP
                     GameObjectBlackList.Add(rule.ObjectName);
 
             ToggleDistance = distance;
-
-            /*
-            if (Rules.instance.SpecialRules.ExperimentalLOD)
-            {
-                PlayMakerFSM lod = gameObject.GetPlayMakerByName("LOD");
-                if (lod != null)
-                    lod.enabled = false;
-            }
-            */
         }
 
         /// <summary>
@@ -109,7 +100,8 @@ namespace MOP
         /// <returns></returns>
         internal List<Transform> GetDisableableChilds()
         {
-            return transform.GetComponentsInChildren<Transform>(true).Where(trans => !trans.gameObject.name.ContainsAny(GameObjectBlackList)).ToList();
+            return transform.GetComponentsInChildren<Transform>(true)
+                .Where(trans => !trans.gameObject.name.ContainsAny(GameObjectBlackList)).ToList();
         }
     }
 }

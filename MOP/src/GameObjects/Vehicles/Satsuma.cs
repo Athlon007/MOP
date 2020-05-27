@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
+using MSCLoader;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -298,13 +299,20 @@ namespace MOP
                 foreach (var storage in Trunks)
                     storage.Initialize();
             }
-
+            
             if (Rules.instance.SpecialRules.ExperimentalOptimization)
                 key = transform.Find("Dashboard/Steering/steering_column2/Ignition/Keys/Key").gameObject;
 
             // Fix for reg plates Z fighting.
-            GameObject.Find("bootlid(Clone)").transform.Find("RegPlateRear").gameObject.GetComponent<Renderer>().material.renderQueue = 100;
-            GameObject.Find("bumper front(Clone)").transform.Find("RegPlateFront").gameObject.GetComponent<Renderer>().material.renderQueue = 100;
+            try
+            {
+                GameObject.Find("bootlid(Clone)").transform.Find("RegPlateRear").gameObject.GetComponent<Renderer>().material.renderQueue = 100;
+                GameObject.Find("bumper front(Clone)").transform.Find("RegPlateFront").gameObject.GetComponent<Renderer>().material.renderQueue = 100;
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, "SATSUMA_REG_PLATE_FIX_ERROR");
+            }
         }
 
         /// <summary>

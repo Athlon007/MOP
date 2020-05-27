@@ -31,11 +31,24 @@ namespace MOP
     {
         public static WorldManager instance;
 
+        readonly string[] vehicleArray =
+        {
+            "SATSUMA(557kg, 248)",
+            "HAYOSIKO(1500kg, 250)",
+            "JONNEZ ES(Clone)",
+            "KEKMET(350-400psi)",
+            "RCO_RUSCKO12(270)",
+            "FERNDALE(1630kg)",
+            "FLATBED",
+            "GIFU(750/450psi)",
+            "BOAT",
+            "COMBINE(350-400psi)"
+        };
+
         Transform player;
 
         List<Vehicle> vehicles;
         List<Place> places;
-
         WorldObjectList worldObjectList;
 
         bool isPlayerAtYard;
@@ -97,22 +110,37 @@ namespace MOP
             gameObject.AddComponent<GameFixes>();
 
             // Loading vehicles
-            vehicles = new List<Vehicle>
+            vehicles = new List<Vehicle>();
+            foreach (string vehicle in vehicleArray)
             {
-                new Satsuma("SATSUMA(557kg, 248)"),
-                new Vehicle("HAYOSIKO(1500kg, 250)"),
-                new Vehicle("JONNEZ ES(Clone)"),
-                new Vehicle("KEKMET(350-400psi)"),
-                new Vehicle("RCO_RUSCKO12(270)"),
-                new Vehicle("FERNDALE(1630kg)"),
-                new Vehicle("FLATBED"),
-                new Vehicle("GIFU(750/450psi)"),
-                new Boat("BOAT"),
-            };
+                try
+                {
+                    if (GameObject.Find(vehicle) == null) continue;
 
-            // Added in Experimental 02.04.2020.
-            if (GameObject.Find("Farm") != null)
-                vehicles.Add(new Combine());
+                    Vehicle newVehicle = null;
+                    switch (vehicle)
+                    {
+                        case "SATSUMA(557kg, 248)":
+                            newVehicle = new Satsuma(vehicle);
+                            break;
+                        case "BOAT":
+                            newVehicle = new Boat(vehicle);
+                            break;
+                        case "COMBINE(350-400psi)":
+                            newVehicle = new Combine(vehicle);
+                            break;
+                        default:
+                            newVehicle = new Vehicle(vehicle);
+                            break;
+                    }
+
+                    vehicles.Add(newVehicle);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, $"VEHICLE_LOAD_ERROR_{vehicle}");
+                }
+            }
 
             ModConsole.Print("[MOP] Vehicles loaded");
 
@@ -130,7 +158,7 @@ namespace MOP
 
             ModConsole.Print("[MOP] Main world objects loaded");
 
-            // Initialize shops
+            // Initialize places.
             places = new List<Place>
             {
                 new Yard(),

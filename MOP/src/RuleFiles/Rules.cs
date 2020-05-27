@@ -43,30 +43,12 @@ namespace MOP
         // Sectors (adds a new sector).
         public List<NewSector> NewSectors;
 
+        public List<DestroyRule> DestroyRules;
+
         public Rules(bool overrideUpdateCheck = false)
         {
             instance = this;
-
-            IgnoreRules = new List<IgnoreRule>();
-            IgnoreRulesAtPlaces = new List<IgnoreRuleAtPlace>();
-            PreventToggleOnObjectRule = new List<PreventToggleOnObjectRule>();
-            SectorRules = new List<string>();
-            NewSectors = new List<NewSector>();
-
-            ToggleRules = new List<ToggleRule>();
-
-            SpecialRules = new SpecialRules();
-
-            RuleFileNames = new List<string>();
-
-            // Destroy old rule files loader object, if it exists.
-            GameObject oldRuleFilesLoader = GameObject.Find("MOP_RuleFilesLoader");
-            if (oldRuleFilesLoader != null)
-                Object.Destroy(oldRuleFilesLoader);
-
-            GameObject ruleFileDownloader = new GameObject("MOP_RuleFilesLoader");
-            RuleFilesLoader ruleFilesLoader = ruleFileDownloader.AddComponent<RuleFilesLoader>();
-            ruleFilesLoader.Initialize(overrideUpdateCheck);
+            WipeAll(overrideUpdateCheck);
         }
 
         public void AddSectorRule(params string[] names)
@@ -87,30 +69,26 @@ namespace MOP
             return SectorRules.Contains(name);
         }
 
-        public void WipeAll()
+        public void WipeAll(bool overrideUpdateCheck)
         {
             IgnoreRules = new List<IgnoreRule>();
             IgnoreRulesAtPlaces = new List<IgnoreRuleAtPlace>();
             PreventToggleOnObjectRule = new List<PreventToggleOnObjectRule>();
-
             ToggleRules = new List<ToggleRule>();
-
             SpecialRules = new SpecialRules();
-
             RuleFileNames = new List<string>();
-
             SectorRules = new List<string>();
-
             NewSectors = new List<NewSector>();
+            DestroyRules = new List<DestroyRule>();
 
             // Destroy old rule files loader object, if it exists.
             GameObject oldRuleFilesLoader = GameObject.Find("MOP_RuleFilesLoader");
             if (oldRuleFilesLoader != null)
-                GameObject.Destroy(oldRuleFilesLoader);
+                Object.Destroy(oldRuleFilesLoader);
 
             GameObject ruleFileDownloader = new GameObject("MOP_RuleFilesLoader");
             RuleFilesLoader ruleFilesLoader = ruleFileDownloader.AddComponent<RuleFilesLoader>();
-            ruleFilesLoader.Initialize(false);
+            ruleFilesLoader.Initialize(overrideUpdateCheck);
         }
     }
 }

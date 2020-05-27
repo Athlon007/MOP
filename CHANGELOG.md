@@ -2,9 +2,14 @@
 
 ## 2.9.5 (tba)
 
+### Changes
+
+- Improved how MOP is loading, so it will not break completly, if something goes wrong during initialization
+- Improved Rules class loading
+
 ### Bug Fixes
 
-- Fixed rear plate weird glowing bug
+- Fixed registry plates glowing bug
 
 ## 2.9.4 (24.05.2020)
 

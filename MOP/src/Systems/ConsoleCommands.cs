@@ -112,7 +112,7 @@ namespace MOP
                         return;
                     }
 
-                    Rules.instance.WipeAll();
+                    Rules.instance.WipeAll(false);
                     break;
                 case "new":
                     string path = $"{MOP.ModConfigPath}\\Custom.txt";
