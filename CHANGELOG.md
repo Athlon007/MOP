@@ -2,11 +2,16 @@
 
 ## 2.9.5 (tba)
 
+### Added
+
+- You can now adjust the shadow distance
+
 ### Changes
 
 - Improved how MOP is loading, so it will not break completly, if something goes wrong during initialization
 - Improved Rules class loading
 - Refactored Places class
+- Moved MOP rule files info label in the main menu to center, so it displays correctly on 4:3 displays
 
 ### Bug Fixes
 

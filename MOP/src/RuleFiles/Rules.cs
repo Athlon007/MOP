@@ -43,8 +43,6 @@ namespace MOP
         // Sectors (adds a new sector).
         public List<NewSector> NewSectors;
 
-        public List<DestroyRule> DestroyRules;
-
         public Rules(bool overrideUpdateCheck = false)
         {
             instance = this;
@@ -79,7 +77,6 @@ namespace MOP
             RuleFileNames = new List<string>();
             SectorRules = new List<string>();
             NewSectors = new List<NewSector>();
-            DestroyRules = new List<DestroyRule>();
 
             // Destroy old rule files loader object, if it exists.
             GameObject oldRuleFilesLoader = GameObject.Find("MOP_RuleFilesLoader");

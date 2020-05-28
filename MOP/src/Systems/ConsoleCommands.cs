@@ -17,8 +17,8 @@
 using MSCLoader;
 using System.IO;
 using System.Diagnostics;
-using System;
 using System.Reflection;
+using UnityEngine;
 
 namespace MOP
 {
@@ -53,6 +53,22 @@ namespace MOP
                         "<color=yellow>open-folder</color> - Opens MOP config folder");
                     break;
                 case "rules":
+                    if (args.Length > 1 && args[1] == "roll")
+                    {
+                        ModConsole.Print("\n<color=yellow>You know the rules and so do I\n" +
+                                        "A full commitment's what I'm thinking of\n" +
+                                        "You wouldn't get this from any other guy\n" +
+                                        "I just wanna tell you how I'm feeling\n" +
+                                        "Gotta make you understand\n" +
+                                        "Never gonna give you up\n" +
+                                        "Never gonna let you down\n" +
+                                        "Never gonna run around and desert you\n" +
+                                        "Never gonna make you cry\n" +
+                                        "Never gonna say goodbye\n" +
+                                        "Never gonna tell a lie and hurt you</color>\n\n");
+                        return;
+                    }
+
                     if (Rules.instance.IgnoreRules.Count > 0)
                     {
                         ModConsole.Print("<color=yellow><b>Ignore Rules</b></color>");
@@ -89,8 +105,10 @@ namespace MOP
                     }
 
                     ModConsole.Print("\n<color=yellow><b>Special Rules</b></color>");
-                    FieldInfo[] fields = typeof(SpecialRules).GetFields(); // Obtain all fields
-                    foreach (var field in fields) // Loop through fields
+                    // Obtain all fields
+                    FieldInfo[] fields = typeof(SpecialRules).GetFields();
+                    // Loop through fields
+                    foreach (var field in fields) 
                     {
                         ModConsole.Print($"<b>{field.Name}</b>: {field.GetValue(Rules.instance.SpecialRules)}");
                     }
@@ -115,11 +133,11 @@ namespace MOP
                     Rules.instance.WipeAll(false);
                     break;
                 case "new":
-                    string path = $"{MOP.ModConfigPath}\\Custom.txt";
+                    string path = $"{MOP.ModConfigPath}/Custom.txt";
 
                     if (args.Length > 1)
                     {
-                        path = $"{MOP.ModConfigPath}\\{args[1]}.mopconfig";
+                        path = $"{MOP.ModConfigPath}/{args[1]}.mopconfig";
                     }
 
                     if (File.Exists(path))
@@ -145,23 +163,23 @@ namespace MOP
                     }
                     break;
                 case "open-custom":
-                    if (!File.Exists($"{MOP.ModConfigPath}\\Custom.txt"))
+                    if (!File.Exists($"{MOP.ModConfigPath}/Custom.txt"))
                     {
                         ModConsole.Print("<color=red>Custom rule file doesn't exist. Create one using \"mop new\".</color>");
                         return;
                     }
 
-                    Process.Start($"{MOP.ModConfigPath}\\Custom.txt");
+                    Process.Start($"{MOP.ModConfigPath}/Custom.txt");
                     ModConsole.Print("Custom rule file opened");
                     break;
                 case "delete-custom":
-                    if (!File.Exists($"{MOP.ModConfigPath}\\Custom.txt"))
+                    if (!File.Exists($"{MOP.ModConfigPath}/Custom.txt"))
                     {
                         ModConsole.Print("<color=red>Custom rule file doesn't exist.</color>");
                         return;
                     }
                     
-                    File.Delete($"{MOP.ModConfigPath}\\Custom.txt");
+                    File.Delete($"{MOP.ModConfigPath}/Custom.txt");
                     ModConsole.Print("Custom file succesfully deleted. Use \"mop reload\" to reload the rule files list.");
                     break;
                 case "version":
@@ -211,6 +229,15 @@ namespace MOP
                     break;
                 case "open-folder":
                     Process.Start(MOP.ModConfigPath);
+                    break;
+                case "shadow-distance":
+                    if (args.Length == 1)
+                    {
+                        ModConsole.Print("Shadow distance: " + QualitySettings.shadowDistance);
+                        return;
+                    }
+
+                    QualitySettings.shadowDistance = float.Parse(args[1]);
                     break;
             }
         }

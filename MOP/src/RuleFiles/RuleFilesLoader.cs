@@ -72,14 +72,14 @@ namespace MOP
             else
             {
                 GameObject text = GameObject.Instantiate(GameObject.Find("Interface/Songs/Text"));
-                text.transform.localPosition = new Vector3(6f, 2.6f, 0.01f);
+                text.transform.localPosition = new Vector3(0f, 2.6f, 0.01f);
                 text.name = "MOP_Messager";
                 message = text.GetComponent<TextMesh>();
                 message.alignment = TextAlignment.Right;
-                message.anchor = TextAnchor.UpperRight;
+                message.anchor = TextAnchor.UpperCenter;
                 shadow = text.transform.GetChild(0).gameObject.GetComponent<TextMesh>();
                 shadow.alignment = TextAlignment.Right;
-                shadow.anchor = TextAnchor.UpperRight;
+                shadow.anchor = TextAnchor.UpperCenter;
                 NewMessage("");
             }
 
