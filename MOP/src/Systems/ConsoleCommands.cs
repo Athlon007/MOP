@@ -230,15 +230,6 @@ namespace MOP
                 case "open-folder":
                     Process.Start(MOP.ModConfigPath);
                     break;
-                case "shadow-distance":
-                    if (args.Length == 1)
-                    {
-                        ModConsole.Print("Shadow distance: " + QualitySettings.shadowDistance);
-                        return;
-                    }
-
-                    QualitySettings.shadowDistance = float.Parse(args[1]);
-                    break;
             }
         }
     }

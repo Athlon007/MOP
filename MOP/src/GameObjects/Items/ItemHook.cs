@@ -68,7 +68,7 @@ namespace MOP
             }
 
             // Use the old method, if for some reason item cannot be disabled.
-            if (this.gameObject.name.EqualsAny("fish trap(itemx)", "bucket(itemx)", "pike(itemx)"))
+            if (this.gameObject.name.EqualsAny("fish trap(itemx)", "bucket(itemx)", "pike(itemx)", "envelope(xxxxx)", "lottery ticket(xxxxx)"))
             {
                 Toggle = ToggleActiveOldMethod;
             }
@@ -311,14 +311,17 @@ namespace MOP
                 rb.isKinematic = !enabled;
                 rb.useGravity = enabled;
 
-                if (enabled)
+                if (gameObject.name != "lottery ticket(xxxxx)")
                 {
-                    transform.position = position;
-                    rb.velocity = Vector3.zero;
-                }
-                else
-                {
-                    position = transform.position;
+                    if (enabled)
+                    {
+                        transform.position = position;
+                        rb.velocity = Vector3.zero;
+                    }
+                    else
+                    {
+                        position = transform.position;
+                    }
                 }
 
                 // Disable object's renderer on distance
@@ -401,6 +404,7 @@ namespace MOP
                 useFsm.Fsm.RestartOnEnable = false;
 
                 if (gameObject.name.StartsWith("door ")) return;
+                if (gameObject.name == "lottery ticket(xxxxx)") return;
 
                 FsmState state1 = useFsm.FindFsmState("State 1");
                 if (state1 != null)

@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MOP
@@ -39,7 +40,7 @@ namespace MOP
             "STORE", "SpawnToStore", "BikeStore", "BikeHome", "Inventory", "Collider", "TeimoInShop", "Bicycle",
             "bicycle_pedals", "Pedal", "Teimo", "bodymesh", "skeleton", "pelvs", "spine", "collar", "shoulder",
             "hand", "ItemPivot", "finger", "collar", "arm", "fingers", "HeadPivot", "head", "eye_glasses_regular",
-            "teimo_hat", "thig", "knee", "ankle", "TeimoCollider", "OriginalPos", "TeimoInBike", "Pivot", "pelvis",
+            "teimo_hat", "thig", "knee", "ankle", "OriginalPos", "TeimoInBike", "Pivot", "pelvis",
             "bicycle", "Collider", "collider", "StoreCashRegister", "cash_register", "Register", "store_", "MESH",
             "tire", "rim", "MailBox", "GeneralItems", "(Clone)", "(itemx)", "Boxes", "n2obottle", "RagDoll",
             "thigh", "shopping bag", "Advert", "advert", "ActivateBar", "FoodSpawnPoint", "BagCreator",
@@ -82,6 +83,16 @@ namespace MOP
             // Fix for Z-fighting of slot machine glass.
             GetTransform().Find("LOD/GFX_Store/SlotMachine/slot_machine 1/slot_machine_glass")
                 .gameObject.GetComponent<Renderer>().material.renderQueue = 3001;
+
+            PlayMakers.AddRange(GetTransform().Find("TeimoInShop").GetComponents<PlayMakerFSM>());
+            PlayMakers.AddRange(GetTransform().Find("TeimoInShop").GetComponents<PlayMakerFSM>());
+
+            List<Transform> teimoShit = new List<Transform>();
+            teimoShit.Add(GetTransform().Find("TeimoInShop/Pivot/Speak"));
+            teimoShit.Add(GetTransform().Find("TeimoInShop/Pivot/FacePissTrigger"));
+            teimoShit.Add(GetTransform().Find("TeimoInShop/Pivot/TeimoCollider"));
+            teimoShit.Add(GetTransform().Find("GasolineFire"));
+            DisableableChilds.AddRange(teimoShit);
         }
 
         /// <summary>

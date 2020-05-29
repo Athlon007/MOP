@@ -332,6 +332,9 @@ namespace MOP
                 .transform.Find("Pivot/AnimPivot/Camera/FPSCamera/FPSCamera/Watch/Animate/BreathAnim/WristwatchHand/Clock/Pivot/Minute/minute")
                 .gameObject.GetComponent<Renderer>().material.renderQueue = 3002;
 
+            // Adds bus roll fix to the bus.
+            GameObject.Find("BUS").AddComponent<BusRollFix>();
+
             ModConsole.Print("[MOP] Finished applying fixes");
 
             //Things that should be enabled when out of proximity of the house

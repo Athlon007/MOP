@@ -41,6 +41,8 @@ namespace MOP
         // Debugging functionality.
         public static bool SectorDebugMode;
 
+        static float shadowDistanceOriginalValue;
+
         public static void UpdateAll()
         {
             // Activating Objects
@@ -54,6 +56,11 @@ namespace MOP
 
             // Framerate limiter
             Application.targetFrameRate = (bool)MOP.EnableFramerateLimiter.GetValue() ? int.Parse(MOP.FramerateLimiter.GetValue().ToString()) : -1;
+
+            // Shadow distance.
+            if (shadowDistanceOriginalValue == 0)
+                shadowDistanceOriginalValue = QualitySettings.shadowDistance;
+            QualitySettings.shadowDistance = (bool)MOP.EnableShadowAdjusting.GetValue() ? float.Parse(MOP.ShadowDistance.GetValue().ToString()) : shadowDistanceOriginalValue;
         }
 
         /// <summary>

@@ -5,6 +5,7 @@
 ### Added
 
 - You can now adjust the shadow distance
+- Envelopes and lottery tickets physics is now toggled
 
 ### Changes
 
@@ -12,12 +13,15 @@
 - Improved Rules class loading
 - Refactored Places class
 - Moved MOP rule files info label in the main menu to center, so it displays correctly on 4:3 displays
+- Home chimeny is not toggled anymore, so objects wont fall through it
 
 ### Bug Fixes
 
 - Fixed registry plates glowing bug
 - Fixed "Open output_log" not working under Linux
 - Fixed rule files potentially not working under Linux
+- Fixed following items not toggling: macaron box, milk, potato chips, pizza
+- Fixed bus randomly ending up on its side
 
 ## 2.9.4 (24.05.2020)
 

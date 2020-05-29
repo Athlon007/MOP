@@ -1,9 +1,20 @@
 ### Added
 
-- Pikes are now toggled when removed
-- Added spawn hook to fish trap
+- You can now adjust the shadow distance
+- Envelopes and lottery tickets physics is now toggled
+
+### Changes
+
+- Improved how MOP is loading, so it will not break completly, if something goes wrong during initialization
+- Improved Rules class loading
+- Refactored Places class
+- Moved MOP rule files info label in the main menu to center, so it displays correctly on 4:3 displays
+- Home chimeny is not toggled anymore, so objects wont fall through it
 
 ### Bug Fixes
 
-- Fixed Teimo's cap and glasses disappearing, when he's riding on a bike
-- Fixed not being able to save the game, if player didn't finish the Jokke moving job
+- Fixed registry plates glowing bug
+- Fixed "Open output_log" not working under Linux
+- Fixed rule files potentially not working under Linux
+- Fixed following items not toggling: macaron box, milk, potato chips, pizza
+- Fixed bus randomly ending up on its side

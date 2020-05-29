@@ -77,7 +77,8 @@ namespace MOP
             "wheel cover leopard", "wheel cover plush", "wheel cover suomi", "wheel cover zebra", "wheelset hayosiko",
             "wheelset octo", "wheelset racing", "wheelset rally", "wheelset slot", "wheelset spoke",
             "wheelset steelwide", "wheelset turbine", "window grille", "windows black wrap", "wiring mess",
-            "wishbone fl", "wishbone fr", "wood carrier", "xmas lights", "yeast", "pike"
+            "wishbone fl", "wishbone fr", "wood carrier", "xmas lights", "yeast", "pike", "macaron box", "milk", "potato chips",
+            "pizza"
         };
 
 
@@ -221,6 +222,11 @@ namespace MOP
             wheelTrigger.transform.localPosition = new Vector3(1555.49f, 4.8f, 737);
             wheelTrigger.transform.localEulerAngles = new Vector3(1.16f, 335, 1.16f);
             wheelTrigger.AddComponent<WheelRepairJobTrigger>();
+
+            // Hook up the envelope.
+            GameObject[] envelopes = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name.EqualsAny("envelope(xxxxx)", "lottery ticket(xxxxx)")).ToArray();
+            foreach (var g in envelopes)
+                g.AddComponent<ItemHook>();
         }
 
         /// <summary>

@@ -43,7 +43,8 @@ namespace MOP
             "Chair", "TablePlastic", "LOD_middleroom", "hotwaterkeeper", "house_roof",
             "WC", "Hallway", "Entry", "ContactPivot", "DoorRight", "DoorLeft", "GarageDoors", "BatteryCharger",
             "Clamps", "ChargerPivot", "Clamp", "BatteryPivot", "battery_charger", "Wire", "cable", "TriggerCharger",
-            "tvtable", "VHS_Screen", "tv_table(Clone)", "scart_con", "Haybale", "Combine", "UncleWalking", "LOD"
+            "tvtable", "VHS_Screen", "tv_table(Clone)", "scart_con", "Haybale", "Combine", "UncleWalking", "LOD", "house_wall_brick",
+            "houseuncle_roof", "houseuncle_walls"
         };
 
         /// <summary>

@@ -35,6 +35,7 @@ namespace MOP
         /// </summary>
         internal List<Transform> DisableableChilds;
         internal Transform[] Doors;
+        internal List<PlayMakerFSM> PlayMakers;
 
         /// <summary>
         /// Saves what value has been last used, to prevent unnescesary launch of loop.
@@ -50,6 +51,7 @@ namespace MOP
             name = placeName;
             toggleDistance = distance;
             GameObjectBlackList = new List<string>();
+            PlayMakers = new List<PlayMakerFSM>();
 
             IgnoreRuleAtPlace[] ignoreRulesAtThisPlace = Rules.instance.IgnoreRulesAtPlaces.Where(r => r.Place == placeName).ToArray();
             if (ignoreRulesAtThisPlace.Length > 0)
@@ -87,6 +89,14 @@ namespace MOP
                     continue;
 
                 DisableableChilds[i].gameObject.SetActive(enabled);
+            }
+
+            if (PlayMakers.Count > 0)
+            {
+                for (int i = 0; i < PlayMakers.Count; i++)
+                {
+                    PlayMakers[i].enabled = enabled;
+                }
             }
         }
 
