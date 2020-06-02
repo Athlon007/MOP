@@ -259,6 +259,16 @@ namespace MOP
         {
             try
             {
+                // If the item has fallen under the detection range of the game's built in garbage collector,
+                // teleport that item manually to the landfill.
+                if (!firstLoad)
+                {
+                    if (transform.position.y < -100 && transform.position.x != 0 && transform.position.z != 0)
+                        transform.position = GameObject.Find("LostSpawner").transform.position;
+
+                    firstLoad = true;
+                }
+
                 if (rb == null || rb.useGravity == enabled)
                 {
                     return;
