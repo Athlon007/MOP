@@ -46,6 +46,7 @@ namespace MOP
         };
 
         Transform player;
+        Transform lostSpawner;
 
         List<Vehicle> vehicles;
         List<Place> places;
@@ -105,6 +106,7 @@ namespace MOP
 
             // Looking for player and yard
             player = GameObject.Find("PLAYER").transform;
+            lostSpawner = GameObject.Find("LostSpawner").transform;
 
             // Add GameFixes MonoBehaviour.
             gameObject.AddComponent<GameFixes>();
@@ -1010,6 +1012,11 @@ namespace MOP
         public WorldObjectList GetWorldObjectList()
         {
             return worldObjectList;
+        }
+
+        public Transform GetLostSpawner()
+        {
+            return lostSpawner;
         }
     }
 }

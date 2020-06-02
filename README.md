@@ -13,18 +13,6 @@ The only FPS improver mod, that does all of this without any user interaction! N
 
 Originates from [KruFPS](https://github.com/Krutonium/KruFPS).
 
-## Performance
-
-MOP aims for the maximum performance. Compared to KruFPS, it has the object loading lag reduced to minimum.
-
-|                 | Vanilla | KruFPS v3 |  MOP 2.0 | MOP 2.7 |
-|:---------------:|---------|--------|--------|--------|
-|       Home      | 25 FPS  | 35 FPS | 45 FPS | 48 FPS |
-| Driving Satsuma | 23 FPS  | 33 FPS | 40 FPS | 45 FPS |
-| Away from house | 29 FPS  | 43 FPS | 60 FPS | 85 FPS |
-
-Note: tested on Xiaomi Mi Notebook Air laptop with Intel Core i5-8250U, 8 GB RAM and Nvidia MX150.
-
 **Results may vary!**
 
 ## Requirements

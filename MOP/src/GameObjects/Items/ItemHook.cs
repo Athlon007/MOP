@@ -178,7 +178,7 @@ namespace MOP
                 if (!firstLoad)
                 {
                     if (transform.position.y < -100 && transform.position.x != 0 && transform.position.z != 0)
-                        transform.position = GameObject.Find("LostSpawner").transform.position;
+                        transform.position = WorldManager.instance.GetLostSpawner().position;
 
                     firstLoad = true;
                 }
@@ -264,7 +264,7 @@ namespace MOP
                 if (!firstLoad)
                 {
                     if (transform.position.y < -100 && transform.position.x != 0 && transform.position.z != 0)
-                        transform.position = GameObject.Find("LostSpawner").transform.position;
+                        transform.position = WorldManager.instance.GetLostSpawner().position;
 
                     firstLoad = true;
                 }
