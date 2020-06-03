@@ -1,5 +1,24 @@
 # Changelog
 
+## 2.9.6 (tba)
+
+### Added
+
+- Some element of Satsuma (such as expensive simulations) will be disabled, if the player is not in the car
+
+### Changes
+
+- Overall performance enhancements
+
+### Bug Fixes
+
+- (My Summer Car Bug) Fixed repair shop cash register trigger
+- Fixed steering rods resetting their value
+- Fixed assemble sound playing on Satsuma respawn
+- Fixed Jonnez kickstand resetting to default value on respawn
+- Fixed Jonnez making collision noises
+- Fixed Satsuma without wheels making collision noises
+
 ## 2.9.5 (29.05.2020)
 
 ### Added

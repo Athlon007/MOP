@@ -75,4 +75,33 @@ namespace MOP
             Finish();
         }
     }
+
+    public class MasterAudioAssembleCustom : FsmStateAction
+    {
+        // This script makes so the assemble sound from the engine block is played only if player is close.
+
+        Transform player;
+        Transform thisTransform;
+        Transform masterAudioTransform;
+        AudioSource masterAudioSource;
+
+        public override void OnEnter()
+        {
+            if (player == null)
+            {
+                player = GameObject.Find("PLAYER").transform;
+                thisTransform = Fsm.GameObject.transform;
+                masterAudioTransform = GameObject.Find("MasterAudio/CarBuilding/assemble").transform;
+                masterAudioSource = masterAudioTransform.gameObject.GetComponent<AudioSource>();
+            }
+
+            if (Vector3.Distance(player.position, thisTransform.position) < 5)
+            {
+                masterAudioTransform.position = thisTransform.position;
+                masterAudioSource.Play();
+            }
+
+            Finish();
+        }
+    }
 }

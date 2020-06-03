@@ -412,7 +412,6 @@ namespace MOP
 
             // Initialize Items class
             new Items();
-
             ModConsole.Print("[MOP] Items class loaded");
 
             HookPreSaveGame();
@@ -738,6 +737,19 @@ namespace MOP
                             }
                         }
 
+                        switch (i)
+                        {
+                            // Satsuma
+                            case 0:
+                                Satsuma.instance.ToggleElements(distance);
+                                vehicles[i].ToggleEventSounds(distance < 5);
+                                break;
+                            // Jonnez
+                            case 2:
+                                vehicles[i].ToggleEventSounds(distance < 2);
+                                break;
+                        }
+
                         vehicles[i].ToggleUnityCar(IsVehicleEnabled(distance, toggleDistance, true));
                         vehicles[i].Toggle(IsVehicleEnabled(distance));
                     }
@@ -973,6 +985,15 @@ namespace MOP
                         canTrigger = GameObject.Find("JOBS").transform.Find("HouseDrunk/BeerCampOld/BeerCamp/KiljuBuyer/CanTrigger");
 
                     canTrigger.gameObject.GetComponent<PlayMakerFSM>().SendEvent("STOP");
+                }
+            }
+            catch { }
+
+            try
+            {
+                if (mode == ToggleAllMode.OnSave)
+                {
+                    Satsuma.instance.ToggleElements(0);
                 }
             }
             catch { }

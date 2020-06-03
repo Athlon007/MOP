@@ -28,6 +28,5 @@ namespace MOP
         public bool DrivewaySector;
         public bool ExperimentalSatsumaTrunk;
         public bool ExperimentalOptimization;
-        //public bool ExperimentalLOD;
     }
 }

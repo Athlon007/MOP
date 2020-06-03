@@ -64,6 +64,12 @@ namespace MOP
         // Rear bumper transform.
         readonly GameObject rearBumper;
 
+        // Elements toggling.
+        List<GameObject> onEngineOffToggle;
+        List<GameObject> onCloseToggle;
+        List<PlayMakerFSM> onCloseTogglePlayMaker;
+        List<GameObject> onFarToggle;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -117,10 +123,6 @@ namespace MOP
             bucketDriver.AddComponent<SatsumaSeatsManager>();
             bucketPassanger.AddComponent<SatsumaSeatsManager>();
 
-            // Fix for doors getting jammed.
-            //GameObject.Find("door right(Clone)").AddComponent<SatsumaDoorManager>();
-            //GameObject.Find("door left(Clone)").AddComponent<SatsumaDoorManager>();
-
             // Fix for mechanical wear of the car.
             PlayMakerFSM mechanicalWearFsm = transform.Find("CarSimulation/MechanicalWear").gameObject.GetComponent<PlayMakerFSM>();
             FsmState loadGame = mechanicalWearFsm.FindFsmState("Load game");
@@ -143,6 +145,7 @@ namespace MOP
             loadGame.SaveActions();
 
             // Get all bolts.
+            List<SatsumaBoltsAntiReload> satsumaBoltsAntiReloads = new List<SatsumaBoltsAntiReload>();
             GameObject[] bolts = Resources.FindObjectsOfTypeAll<GameObject>().Where(obj => obj.name == "BoltPM").ToArray();
             foreach (GameObject bolt in bolts)
             {
@@ -189,7 +192,10 @@ namespace MOP
                     continue;
 
                 if (parent.gameObject.GetComponent<SatsumaBoltsAntiReload>() == null)
-                    parent.gameObject.AddComponent<SatsumaBoltsAntiReload>();
+                {
+                    SatsumaBoltsAntiReload s = parent.gameObject.AddComponent<SatsumaBoltsAntiReload>();
+                    satsumaBoltsAntiReloads.Add(s);
+                }
             }
 
             // Halfshafts hook.
@@ -197,11 +203,21 @@ namespace MOP
             foreach (GameObject halfshaft in halfshafts)
             {
                 if (halfshaft.GetComponent<SatsumaBoltsAntiReload>() == null)
-                    halfshaft.AddComponent<SatsumaBoltsAntiReload>();
+                    satsumaBoltsAntiReloads.Add(halfshaft.AddComponent<SatsumaBoltsAntiReload>());
             }
 
             // Engine Block.
-            GameObject.Find("block(Clone)").AddComponent<SatsumaBoltsAntiReload>();
+            satsumaBoltsAntiReloads.Add(GameObject.Find("block(Clone)").AddComponent<SatsumaBoltsAntiReload>());
+
+            // Steering rods.
+            satsumaBoltsAntiReloads.Add(transform.Find("Chassis/steering rod fr(xxxxx)").gameObject.AddComponent<SatsumaBoltsAntiReload>());
+            satsumaBoltsAntiReloads.Add(transform.Find("Chassis/steering rod fl(xxxxx)").gameObject.AddComponent<SatsumaBoltsAntiReload>());
+
+            // Destroy all bolt anti reloads.
+            ModConsole.Print($"[MOP] Found {satsumaBoltsAntiReloads.Count} bolts.");
+            foreach (var s in satsumaBoltsAntiReloads)
+                Object.Destroy(s);
+            satsumaBoltsAntiReloads.Clear();
 
             // Fixes car body color resetting to default.
             PlayMakerFSM carBodyPaintFsm = transform.Find("Body/car body(xxxxx)").gameObject.GetPlayMakerByName("Paint");
@@ -313,6 +329,35 @@ namespace MOP
             {
                 ExceptionManager.New(ex, "SATSUMA_REG_PLATE_FIX_ERROR");
             }
+
+            // Setup stuff that gets disabled using ToggleElements
+            onEngineOffToggle = new List<GameObject>();
+            onCloseToggle = new List<GameObject>();
+            onFarToggle = new List<GameObject>();
+
+            onEngineOffToggle.Add(transform.Find("CarSimulation/MechanicalWear").gameObject);
+            onEngineOffToggle.Add(transform.Find("CarSimulation/Fixes").gameObject);
+            onEngineOffToggle.Add(transform.Find("CarSimulation/DynoDistance").gameObject);
+            onEngineOffToggle.Add(transform.Find("CarSimulation/RandomBolt").gameObject);
+            
+            onCloseToggle.Add(transform.Find("RainScript").gameObject);
+            onCloseToggle.Add(transform.Find("DriverHeadPivot").gameObject);
+            //onCloseToggle.Add(transform.Find("Dashboard").gameObject);
+            onCloseToggle.Add(transform.Find("AirIntake").gameObject);
+            
+            onFarToggle.Add(transform.Find("Chassis").gameObject);
+
+            onCloseTogglePlayMaker = new List<PlayMakerFSM>();
+            onCloseTogglePlayMaker.Add(this.gameObject.GetPlayMakerByName("ButtonShifter"));
+            onCloseTogglePlayMaker.Add(this.gameObject.GetPlayMakerByName("SteerLimit"));
+
+            // Replace on assemble sound playing with custom script.
+            PlayMakerFSM blockBoltCheck = GameObject.Find("block(Clone)").GetPlayMakerByName("BoltCheck");
+            FsmState boltsONState = blockBoltCheck.FindFsmState("Bolts ON");
+            FsmStateAction[] boltsONActions = boltsONState.Actions;
+            boltsONActions[1] = new MasterAudioAssembleCustom();
+            boltsONState.Actions = boltsONActions;
+            boltsONState.SaveActions();
         }
 
         /// <summary>
@@ -450,6 +495,42 @@ namespace MOP
         public bool IsKeyInserted()
         {
             return key.activeSelf;
+        }
+
+        public void ToggleElements(float distance)
+        {
+            if (Toggle == IgnoreToggle)
+                distance = 0;
+
+            try
+            {
+                bool onEngine = distance < 2;
+                bool onClose = distance <= 10 * MopSettings.ActiveDistanceMultiplicationValue;
+                bool onFar = distance <= 20 * MopSettings.ActiveDistanceMultiplicationValue;
+
+                if (IsKeyInserted() || IsSatsumaInInspectionArea || IsMoving())
+                {
+                    onEngine = true;
+                    onClose = true;
+                    onFar = true;
+                }
+
+                for (int i = 0; i < onEngineOffToggle.Count; i++)
+                    onEngineOffToggle[i].SetActive(onEngine);
+
+                for (int i = 0; i < onCloseToggle.Count; i++)
+                    onCloseToggle[i].SetActive(onClose);
+
+                for (int i = 0; i < onCloseTogglePlayMaker.Count; i++)
+                    onCloseTogglePlayMaker[i].enabled = onClose;
+
+                for (int i = 0; i < onFarToggle.Count; i++)
+                    onFarToggle[i].SetActive(onFar);
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, "SATSUMA_TOGGLE_ELEMENTS_ERROR");
+            }
         }
     }
 }

@@ -80,6 +80,8 @@ namespace MOP
         internal Vector3 lastGoodPosition;
         bool lastGoodRotationSaved;
 
+        EventSounds eventSounds;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -144,6 +146,17 @@ namespace MOP
                 
                 PlayMakerFSM shitFsm = gameObject.transform.Find("ShitTank").gameObject.GetComponent<PlayMakerFSM>();
                 FsmState loadGame = shitFsm.FindFsmState("Load game");
+                List<FsmStateAction> loadArrayActions = new List<FsmStateAction> { new CustomNullState() };
+                loadArrayActions.Add(new CustomNullState());
+                loadGame.Actions = loadArrayActions.ToArray();
+                loadGame.SaveActions();
+            }
+
+            // Fixed kickstand resetting to the default value.
+            if (gameObject.name == "JONNEZ ES(Clone)")
+            {
+                PlayMakerFSM kickstandFsm = gameObject.transform.Find("Kickstand").gameObject.GetComponent<PlayMakerFSM>();
+                FsmState loadGame = kickstandFsm.FindFsmState("Load game");
                 List<FsmStateAction> loadArrayActions = new List<FsmStateAction> { new CustomNullState() };
                 loadArrayActions.Add(new CustomNullState());
                 loadGame.Actions = loadArrayActions.ToArray();
@@ -230,6 +243,8 @@ namespace MOP
                     ModConsole.Error($"[MOP] Couldn't find {preventToggleOnObjectRule.ObjectName} in {preventToggleOnObjectRule.MainObject}.");
 
             }
+
+            eventSounds = gameObject.GetComponent<EventSounds>();
         }
 
         public delegate void ToggleHandler(bool enabled);
@@ -399,7 +414,7 @@ namespace MOP
         /// Because onGroundDown for Jonnez doesn't work the same way as for others, it will check if the Jonnnez's engine torque.
         /// </summary>
         /// <returns></returns>
-        bool IsOnGround()
+        internal bool IsOnGround()
         {
             if (this.gameObject.name == "JONNEZ ES(Clone)" || (this.gameObject.name == "SATSUMA(557kg, 248)" && !wheel.enabled))
                 return drivetrain.torque == 0;
@@ -407,9 +422,14 @@ namespace MOP
             return wheel.onGroundDown;
         }
 
-        bool IsMoving()
+        internal bool IsMoving()
         {
             return rb.velocity.magnitude > 0.1f;
+        }
+
+        public void ToggleEventSounds(bool enabled)
+        {
+            eventSounds.disableSounds = !enabled;
         }
     }
 }

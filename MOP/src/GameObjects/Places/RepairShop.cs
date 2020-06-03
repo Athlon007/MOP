@@ -54,6 +54,13 @@ namespace MOP
             List<Transform> productsMesh = DisableableChilds.FindAll(t => t.name == "mesh" && t.parent.name.Contains("Product"));
             foreach (Transform product in productsMesh)
                 DisableableChilds.Remove(product);
+
+            // Fix Sphere Collider of the cash register.
+            SphereCollider registerCollider = GetTransform().Find("LOD/Store/ShopCashRegister/Register").gameObject.GetComponent<SphereCollider>();
+            registerCollider.radius = 70;
+            Vector3 newBounds = registerCollider.center;
+            newBounds.x = 5;
+            registerCollider.center = newBounds;
         }
     }
 }
