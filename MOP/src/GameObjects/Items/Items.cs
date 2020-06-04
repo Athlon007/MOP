@@ -208,7 +208,7 @@ namespace MOP
                 }
             }
 
-            // Also disable the on laod for that sunnuva bitch.
+            // Also disable the restart for that sunnuva bitch.
             itemsObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
             // Fucking wheels.

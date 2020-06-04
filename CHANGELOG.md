@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.9.7 (04.06.2020)
+
+### Bug Fixes
+
+- Fixed MOP not working, if the experimental_optimization flag was not set
+
 ## 2.9.6 (04.06.2020)
 
 ### Added

@@ -1,26 +1,3 @@
-### Added
-
-- Some element of Satsuma (such as expensive simulations) will be disabled, if the player is not in the car
-- Added new commands:
-  - mop delete [ModID]
-  - mop open [ModID]
-
-### Changes
-
-- Renamed "Enable Shadow Adjusting" to "Adjust Shadows"
-- Lowered the distance after which the haybales are re-enabled
-- Overall performance enhancements
-
 ### Bug Fixes
 
-- (My Summer Car Bug) Fixed repair shop cash register trigger
-- Fixed steering rods resetting their value
-- Fixed assemble sound playing on Satsuma respawn
-- Fixed Jonnez kickstand resetting to default value on respawn
-- Fixed Jonnez making collision noises
-- Fixed Satsuma without wheels making collision noises
-- Fixed shadow adjusting not saving correctly
-
-### Removed
-
-- Removed "SATSUMA: Toggle Physics Only" form the mod settings
+- Fixed MOP not working, if the experimental_optimization flag was not set

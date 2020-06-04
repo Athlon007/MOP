@@ -315,9 +315,8 @@ namespace MOP
                 foreach (var storage in Trunks)
                     storage.Initialize();
             }
-            
-            if (Rules.instance.SpecialRules.ExperimentalOptimization)
-                key = transform.Find("Dashboard/Steering/steering_column2/Ignition/Keys/Key").gameObject;
+           
+            key = transform.Find("Dashboard/Steering/steering_column2/Ignition/Keys/Key").gameObject;
 
             // Fix for reg plates Z fighting.
             try
