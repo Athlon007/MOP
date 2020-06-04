@@ -76,7 +76,7 @@ namespace MOP
         public Satsuma(string gameObject) : base(gameObject)
         {
             instance = this;
-            satsumaScript = this;
+            SatsumaScript = this;
 
             whiteList = Properties.Resources.whitelist_satsuma.Replace("\n", "").Split(',');
             disableableObjects = GetDisableableChilds();
@@ -382,8 +382,6 @@ namespace MOP
                 lastGoodPosition = transform.position;
             }
 
-            if (MopSettings.SatsumaTogglePhysicsOnly) return;
-
             if (!GameFixes.Instance.HoodFixDone)
                 enabled = true;
 
@@ -450,7 +448,7 @@ namespace MOP
 
         void ToggleAllRenderers(bool enabled)
         {
-            if (Rules.instance.SpecialRules.SatsumaIgnoreRenderers || MopSettings.SatsumaTogglePhysicsOnly) return;
+            if (Rules.instance.SpecialRules.SatsumaIgnoreRenderers) return;
 
             for (int i = 0; i < renderers.Count; i++)
             {

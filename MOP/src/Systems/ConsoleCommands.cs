@@ -18,7 +18,6 @@ using MSCLoader;
 using System.IO;
 using System.Diagnostics;
 using System.Reflection;
-using UnityEngine;
 
 namespace MOP
 {
@@ -47,10 +46,10 @@ namespace MOP
                         "<color=yellow>wiki</color> - Open wiki page of rule files\n" +
                         "<color=yellow>reload</color> - Forces MOP to reload rule files\n" +
                         "<color=yellow>new [ModID]</color> - Create custom rule file (if no ModID is provided, will create Custom.txt)\n" +
-                        "<color=yellow>open-custom</color> - Open custom rule file\n" +
-                        "<color=yellow>delete-custom</color> - Delete custom rule file\n" +
-                        "<color=yellow>sector-debug [true/false]</color> - Shows the renderers of sectors\n" +
-                        "<color=yellow>open-folder</color> - Opens MOP config folder");
+                        "<color=yellow>open [ModID]</color> - Opens the .modconfig for mod\n" +
+                        "<color=yellow>open-folder</color> - Opens MOP config folder\n" +
+                        "<color=yellow>delete [ModID]</color> - Delete rule file\n" +
+                        "<color=yellow>sector-debug [true/false]</color> - Shows the renderers of sectors\n");
                     break;
                 case "rules":
                     if (args.Length > 1 && args[1] == "roll")
@@ -162,26 +161,6 @@ namespace MOP
                         ModConsole.Print($"A rule file for {args[1]} mod has been created.");
                     }
                     break;
-                case "open-custom":
-                    if (!File.Exists($"{MOP.ModConfigPath}/Custom.txt"))
-                    {
-                        ModConsole.Print("<color=red>Custom rule file doesn't exist. Create one using \"mop new\".</color>");
-                        return;
-                    }
-
-                    Process.Start($"{MOP.ModConfigPath}/Custom.txt");
-                    ModConsole.Print("Custom rule file opened");
-                    break;
-                case "delete-custom":
-                    if (!File.Exists($"{MOP.ModConfigPath}/Custom.txt"))
-                    {
-                        ModConsole.Print("<color=red>Custom rule file doesn't exist.</color>");
-                        return;
-                    }
-                    
-                    File.Delete($"{MOP.ModConfigPath}/Custom.txt");
-                    ModConsole.Print("Custom file succesfully deleted. Use \"mop reload\" to reload the rule files list.");
-                    break;
                 case "version":
                     ModConsole.Print(MOP.ModVersion);
                     break;
@@ -229,6 +208,57 @@ namespace MOP
                     break;
                 case "open-folder":
                     Process.Start(MOP.ModConfigPath);
+                    break;
+                case "open":
+                    if (args.Length == 1)
+                    {
+                        ModConsole.Print($"Missing argument.");
+                        return;
+                    }
+
+                    if (args[1].StartsWith("Custom"))
+                    {
+                        if (!args[1].EndsWith(".txt"))
+                            args[1] += ".txt";
+                    }
+                    else
+                    {
+                        if (!args[1].EndsWith(".mopconfig"))
+                            args[1] += ".mopconfig";
+                    }
+
+                    if (!File.Exists($"{MOP.ModConfigPath}/{args[1]}"))
+                    { 
+                        ModConsole.Print($"File {args[1]} doesn't exist.");
+                        return;
+                    }
+
+                    Process.Start($"{MOP.ModConfigPath}/{args[1]}");
+                    break;
+                case "delete":
+                    if (args.Length == 1)
+                    {
+                        ModConsole.Print($"Missing argument.");
+                        return;
+                    }
+
+                    if (args[1].StartsWith("Custom") && !args[1].EndsWith(".txt"))
+                    {
+                        args[1] += ".txt";
+                    }
+                    else
+                    {
+                        if (!args[1].EndsWith(".mopconfig"))
+                            args[1] += ".mopconfig";
+                    }
+
+                    if (!File.Exists($"{MOP.ModConfigPath}/{args[1]}"))
+                    {
+                        ModConsole.Print($"File {args[1]} doesn't exist.");
+                        return;
+                    }
+
+                    File.Delete($"{MOP.ModConfigPath}/{args[1]}");
                     break;
             }
         }

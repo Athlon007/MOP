@@ -97,7 +97,7 @@ namespace MOP
         // GRAPHICS
         public static Settings EnableFramerateLimiter = new Settings("enableFramerateLimiter", "Enable Framerate Limiter", false, MopSettings.UpdateAll);
         public static Settings FramerateLimiter = new Settings("framerateLimiter", "Limit Framerate", 60, MopSettings.UpdateAll);
-        public static Settings EnableShadowAdjusting = new Settings("enableFramerateLimiter", "Enable Shadow Adjusting", false, MopSettings.UpdateAll);
+        public static Settings EnableShadowAdjusting = new Settings("enableShadowAdjusting", "Adjust Shadows", false, MopSettings.UpdateAll);
         public static Settings ShadowDistance = new Settings("shadowDistance", "Shadow Distance", 200, MopSettings.UpdateAll);
 
         // MOD RULES
@@ -110,7 +110,6 @@ namespace MOP
 
         // OTHERS
         public static Settings RemoveEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Destroy Empty Beer Bottles", false, MopSettings.UpdateAll);
-        public static Settings SatsumaTogglePhysicsOnly = new Settings("satsumaTogglePhysicsOnly", "SATSUMA: Toggle Physics Only", false, MopSettings.UpdateAll);
 
         // LOGGING
         readonly Settings openOutputLog = new Settings("openOutputLog", "Open output_log.txt", ExceptionManager.OpenOutputLog);
@@ -170,9 +169,6 @@ namespace MOP
             // Others
             Settings.AddHeader(this, "Other", headerColor);
             Settings.AddCheckBox(this, RemoveEmptyBeerBottles);
-            Settings.AddCheckBox(this, SatsumaTogglePhysicsOnly);
-            Settings.AddText(this, "May fix issues with disappearing body panels in some cases.\n" +
-                "Note: this will decrease the performance");
 
             // Logging
             Settings.AddHeader(this, "Logging", headerColor);

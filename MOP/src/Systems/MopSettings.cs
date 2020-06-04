@@ -27,10 +27,10 @@ namespace MOP
         // ACTIVATING OBJECTS
         public static int ActiveDistance { get; private set; }
         public static float ActiveDistanceMultiplicationValue { get; private set; }
-
         public static bool SafeMode { get; private set; }
+        
+        // OTHER
         public static bool RemoveEmptyBeerBottles { get; private set; }
-        public static bool SatsumaTogglePhysicsOnly { get; private set; }
 
         // RULE FILES
         public static bool RuleFilesAutoUpdateEnabled { get => (bool)MOP.RulesAutoUpdate.GetValue(); }
@@ -52,7 +52,6 @@ namespace MOP
 
             // Others
             RemoveEmptyBeerBottles = (bool)MOP.RemoveEmptyBeerBottles.GetValue();
-            SatsumaTogglePhysicsOnly = (bool)MOP.SatsumaTogglePhysicsOnly.GetValue();
 
             // Framerate limiter
             Application.targetFrameRate = (bool)MOP.EnableFramerateLimiter.GetValue() ? int.Parse(MOP.FramerateLimiter.GetValue().ToString()) : -1;

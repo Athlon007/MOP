@@ -1,13 +1,17 @@
 # Changelog
 
-## 2.9.6 (tba)
+## 2.9.6 (04.06.2020)
 
 ### Added
 
 - Some element of Satsuma (such as expensive simulations) will be disabled, if the player is not in the car
+- Added new commands:
+  - mop delete [ModID]
+  - mop open [ModID]
 
 ### Changes
 
+- Renamed "Enable Shadow Adjusting" to "Adjust Shadows"
 - Overall performance enhancements
 
 ### Bug Fixes
@@ -18,6 +22,11 @@
 - Fixed Jonnez kickstand resetting to default value on respawn
 - Fixed Jonnez making collision noises
 - Fixed Satsuma without wheels making collision noises
+- Fixed shadow adjusting not saving correctly
+
+### Removed
+
+- Removed "SATSUMA: Toggle Physics Only" form the mod settings
 
 ## 2.9.5 (29.05.2020)
 

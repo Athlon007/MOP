@@ -54,7 +54,7 @@ namespace MOP
         public Transform transform => gameObject.transform;
 
         // Loaded only for Satsuma
-        public Satsuma satsumaScript;
+        internal Satsuma SatsumaScript;
 
         // Unity car systems and rigidbody
         internal CarDynamics carDynamics;
@@ -211,7 +211,7 @@ namespace MOP
 
             // Get all HingeJoints and add HingeManager to them
             // Ignore for Satsuma or cars that use ToggleUnityCar method (and force for Hayosiko - no matter what)
-            if (satsumaScript == null && Toggle != ToggleUnityCar || isHayosiko)
+            if (SatsumaScript == null && Toggle != ToggleUnityCar || isHayosiko)
             {
                 HingeJoint[] joints = gameObject.transform.GetComponentsInChildren<HingeJoint>();
                 foreach (HingeJoint joint in joints)
@@ -320,7 +320,7 @@ namespace MOP
 
             // If satsumaScript in this is not null, and Satsuma is in inspection area and is enabled, 
             // don't toggle unitycar
-            if (satsumaScript != null && satsumaScript.IsSatsumaInInspectionArea && !enabled)
+            if (SatsumaScript != null && SatsumaScript.IsSatsumaInInspectionArea && !enabled)
                 enabled = true;
 
             // Prevent disabling car physics if the rope is hooked
