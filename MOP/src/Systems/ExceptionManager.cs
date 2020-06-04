@@ -111,7 +111,9 @@ namespace MOP
             output += $"FramerateLimiter: {MOP.FramerateLimiter.GetValue()}\n";
             output += $"RulesAutoUpdate: {MOP.RulesAutoUpdate.GetValue()}\n"; 
             output += $"RulesAutoUpdateFrequency: {MopSettings.GetRuleFilesUpdateDaysFrequency()}\n";
-            output += $"CustomRuleFile: {File.Exists($"{MOP.ModConfigPath}\\Custom.txt")}\n\n";
+            output += $"CustomRuleFile: {File.Exists($"{MOP.ModConfigPath}/Custom.txt")}\n\n";
+            
+            // Steam stuff.
             output += $"CheckSteam: {ModLoader.CheckSteam()} \n";
             output += $"ExperimentalBranch: {ModLoader.CheckIfExperimental()}\n";
 
