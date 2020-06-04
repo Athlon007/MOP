@@ -26,7 +26,7 @@
 - Many static elements of the world (such as buildings)
 - Items (such as sausages)
 
-All of them are either turned off by player approaching those items, leaving house area, or entering special sectors.
+All of them are either turned off by player approaching those items, leaving house area, or entering sectors.
 
 ## What are sectors and where are they located
 

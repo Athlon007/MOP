@@ -406,7 +406,7 @@ namespace MOP
                 // And now we add all child haybale to world objects.
                 foreach (Transform haybale in haybalesParent.transform.GetComponentInChildren<Transform>())
                 {
-                    worldObjectList.Add(haybale.gameObject.name, 150);
+                    worldObjectList.Add(haybale.gameObject.name, 120);
                 }
             }
 

@@ -12,6 +12,7 @@
 ### Changes
 
 - Renamed "Enable Shadow Adjusting" to "Adjust Shadows"
+- Lowered the distance after which the haybales are re-enabled
 - Overall performance enhancements
 
 ### Bug Fixes

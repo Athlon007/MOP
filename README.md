@@ -32,10 +32,6 @@ Visit [Compatibility Wiki](https://github.com/Athlon007/MOP/wiki/Mod-Compatibili
 
 Got any questions? Please refer to the [FAQ](FAQ.md) first!
 
-## Occlusion Culling
-
-Occlusion Culling has been a feature introduced in the first Beta of MOP, and has been removed in MOP 2.2. If you want to bring it back, you can download a separete mod that adds that function back in from [Occlusion Core repository](https://github.com/Athlon007/MopOcclusionCore). Occlusion Core is not actively developed, so it may not work properly as it is.
-
 ## License
 
 This program is distributed under GNU General Public License v3. Feel free to use its source code as long as you mention the author and state the changes. You can also modify, share and distribute it, as long as you state changes. For more, see [LICENSE](LICENSE.md) file.
