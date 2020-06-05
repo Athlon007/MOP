@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.9.8 (tba)
+
+### Bug Fixes
+
+- Fixed video poker object bugs
+
 ## 2.9.7 (04.06.2020)
 
 ### Bug Fixes

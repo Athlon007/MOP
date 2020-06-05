@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using MSCLoader;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,7 +34,7 @@ namespace MOP
         // Objects from that whitelist will not be disabled
         // It is so to prevent from restock script and Teimo's bike routine not working
 
-        readonly string[] blackList = 
+        readonly string[] blackList =
         {
             "STORE", "SpawnToStore", "BikeStore", "BikeHome", "Inventory", "Collider", "TeimoInShop", "Bicycle",
             "bicycle_pedals", "Pedal", "Teimo", "bodymesh", "skeleton", "pelvs", "spine", "collar", "shoulder",
@@ -53,7 +52,7 @@ namespace MOP
             "TargetSelf", "AudioClips", "HitPosition", "HumanCol", "Ray", "bodymesh_fighter", "Char", "ThrowBody",
             "PlayerRigid", "GrillboxMicro", "PhysHead", "Shades", "hat", "glasses", "FighterFist", "GameLogic",
             "Buttons", "Bet", "Double", "Hold", "InsertCoin", "Deal", "TakeWin", "Pokeri", "CashSound", "videopoker_on",
-            "Hatch", "HookSlot", "Disabled", "slot_machine_off", "Money", "Lock", "Cash", "Accessories" 
+            "Hatch", "HookSlot", "Disabled", "slot_machine_off", "Money", "Lock", "Cash", "Accessories", "VideoPoker", "videopoker"
         };
 
         /// <summary>
@@ -66,19 +65,19 @@ namespace MOP
 
             // Fix for advertisement pile disappearing when taken
             GetTransform().Find("AdvertSpawn").transform.parent = null;
+            
+            // We're nulling the parent of the fucking video poker game,
+            // because that's much easier than hooking it...
+            Transform videoPoker = GetTransform().Find("LOD/VideoPoker");
+            WorldManager.instance.GetWorldObjectList().Add(videoPoker.gameObject);
 
             GameObjectBlackList.AddRange(blackList);
             DisableableChilds = GetDisableableChilds();
 
             // Fix for the bar fighter
             Transform fighter = GetTransform().Find("Fighter2/Pivot");
-            if (fighter)
-                DisableableChilds.Remove(fighter);
+            DisableableChilds.Remove(fighter);
 
-            // Injecting HookSlot of VideoPoker object
-            Transform videoPoker = GetTransform().transform.Find("LOD/VideoPoker/HookSlot");
-            if (videoPoker)
-                FsmHook.FsmInject(videoPoker.gameObject, "Activate cable", RemoveVideoPokerParent);
 
             // Fix for Z-fighting of slot machine glass.
             GetTransform().Find("LOD/GFX_Store/SlotMachine/slot_machine 1/slot_machine_glass")
@@ -93,20 +92,6 @@ namespace MOP
             teimoShit.Add(GetTransform().Find("TeimoInShop/Pivot/TeimoCollider"));
             teimoShit.Add(GetTransform().Find("GasolineFire"));
             DisableableChilds.AddRange(teimoShit);
-        }
-
-        /// <summary>
-        /// If triggered, sets the VideoPoker parent object to null.
-        /// This fixes issues with it disappearing while towing it too far from store.
-        /// </summary>
-        void RemoveVideoPokerParent()
-        {
-            Transform poker = GetTransform().Find("LOD/VideoPoker");
-            if (poker == null)
-                return;
-
-            DisableableChilds.Remove(poker);
-            poker.transform.parent = null;
         }
     }
 }
