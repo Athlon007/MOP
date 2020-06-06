@@ -278,7 +278,9 @@ namespace MOP
             Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "window grille(Clone)" && g.GetPlayMakerByName("Paint") != null)
                 .GetPlayMakerByName("Paint").Fsm.RestartOnEnable = false;
 
-            HoodFix();
+            // Apply hood fix.
+            GameFixes.Instance.HoodFix(transform.Find("Body/pivot_hood"),
+                transform.Find("MiscParts/trigger_battery"), transform.Find("MiscParts/pivot_battery"));
 
             // Rear bumper detachng fix.
             rearBumper = GameObject.Find("bumper rear(Clone)");
@@ -481,11 +483,6 @@ namespace MOP
                 transform.localRotation = lastGoodRotation;
                 transform.localPosition = lastGoodPosition;
             }
-        }
-
-        public void HoodFix()
-        {
-            GameFixes.Instance.HoodFix(transform.Find("Body/pivot_hood"), transform.Find("MiscParts/trigger_battery"), transform.Find("MiscParts/pivot_battery"));
         }
 
         public bool IsKeyInserted()

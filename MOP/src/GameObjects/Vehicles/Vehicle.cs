@@ -320,11 +320,11 @@ namespace MOP
 
             // If satsumaScript in this is not null, and Satsuma is in inspection area and is enabled, 
             // don't toggle unitycar
-            if (SatsumaScript != null && SatsumaScript.IsSatsumaInInspectionArea && !enabled)
+            if (!enabled && SatsumaScript != null && SatsumaScript.IsSatsumaInInspectionArea)
                 enabled = true;
 
             // Prevent disabling car physics if the rope is hooked
-            if (IsRopeHooked() && gameObject.activeSelf == true && !enabled)
+            if (!enabled && gameObject.activeSelf == true && IsRopeHooked())
                 enabled = true;
 
             carDynamics.enabled = enabled;
@@ -380,6 +380,10 @@ namespace MOP
             }
         }
 
+        /// <summary>
+        /// This is an empty void for when the toggling is meant to be ignored.
+        /// </summary>
+        /// <param name="enabled"></param>
         internal void IgnoreToggle(bool enabled) 
         {
             return;
@@ -416,8 +420,15 @@ namespace MOP
         /// <returns></returns>
         internal bool IsOnGround()
         {
-            if (this.gameObject.name == "JONNEZ ES(Clone)" || (this.gameObject.name == "SATSUMA(557kg, 248)" && !wheel.enabled))
-                return drivetrain.torque == 0;
+            switch (this.gameObject.name)
+            {
+                case "JONNEZ ES(Clone)":
+                    return drivetrain.torque == 0;
+                case "SATSUMA(557kg, 248)":
+                    if (!wheel.enabled)
+                        return drivetrain.torque == 0;
+                    break;
+            }
 
             return wheel.onGroundDown;
         }
