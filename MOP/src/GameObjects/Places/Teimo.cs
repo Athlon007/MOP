@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using MSCLoader;
 
 namespace MOP
 {
@@ -52,7 +53,8 @@ namespace MOP
             "TargetSelf", "AudioClips", "HitPosition", "HumanCol", "Ray", "bodymesh_fighter", "Char", "ThrowBody",
             "PlayerRigid", "GrillboxMicro", "PhysHead", "Shades", "hat", "glasses", "FighterFist", "GameLogic",
             "Buttons", "Bet", "Double", "Hold", "InsertCoin", "Deal", "TakeWin", "Pokeri", "CashSound", "videopoker_on",
-            "Hatch", "HookSlot", "Disabled", "slot_machine_off", "Money", "Lock", "Cash", "Accessories", "VideoPoker", "videopoker"
+            "Hatch", "HookSlot", "Disabled", "slot_machine_off", "Money", "Lock", "Cash", "Accessories", "VideoPoker", "videopoker",
+            "Monitor", "screen", "button_"
         };
 
         /// <summary>
@@ -68,16 +70,18 @@ namespace MOP
             
             // We're nulling the parent of the fucking video poker game,
             // because that's much easier than hooking it...
-            Transform videoPoker = GetTransform().Find("LOD/VideoPoker");
-            WorldManager.instance.GetWorldObjectList().Add(videoPoker.gameObject);
+            Transform videoPoker = GetTransform().Find("LOD/VideoPoker/HookSlot");
+            FsmHook.FsmInject(videoPoker.gameObject, "Activate cable", RemoveVideoPokerParent);
 
             GameObjectBlackList.AddRange(blackList);
             DisableableChilds = GetDisableableChilds();
 
+            // Remove video poker meshes.
+            DisableableChilds.Remove(GetTransform().Find("LOD/VideoPoker/Hatch/Pivot/mesh"));
+
             // Fix for the bar fighter
             Transform fighter = GetTransform().Find("Fighter2/Pivot");
             DisableableChilds.Remove(fighter);
-
 
             // Fix for Z-fighting of slot machine glass.
             GetTransform().Find("LOD/GFX_Store/SlotMachine/slot_machine 1/slot_machine_glass")
@@ -92,6 +96,17 @@ namespace MOP
             teimoShit.Add(GetTransform().Find("TeimoInShop/Pivot/TeimoCollider"));
             teimoShit.Add(GetTransform().Find("GasolineFire"));
             DisableableChilds.AddRange(teimoShit);
+        }
+
+        /// <summary>
+        /// If triggered, sets the VideoPoker parent object to null.
+        /// This fixes issues with it disappearing while towing it too far from store.
+        /// </summary>
+        void RemoveVideoPokerParent()
+        {
+            Transform poker = GameObject.Find("VideoPoker").transform;
+            DisableableChilds.Remove(poker);
+            poker.transform.parent = null;
         }
     }
 }

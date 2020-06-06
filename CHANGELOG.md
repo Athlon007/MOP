@@ -2,9 +2,22 @@
 
 ## 2.9.8 (tba)
 
+Warning: My Summer Car update from June 2020 is now required!
+
+### Added
+
+- Rule files are now verified if they are trusted by default
+  - Untrusted rule files will be deleted
+  - You can disable it in the MOP settings
+- You can now make MOP to check rule files auto update on every restart
+
+## Changes
+
+- MOP now checks for rule files auto update every 2 days by default
+
 ### Bug Fixes
 
-- Fixed video poker object bugs
+- Fixed video poker stealing object bugs
 
 ## 2.9.7 (04.06.2020)
 

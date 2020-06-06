@@ -241,6 +241,8 @@ namespace MOP
 
                 ModConsole.Print(message);
 
+                int removed = 0;
+
                 // Read rule files.
                 foreach (FileInfo file in files)
                 {
@@ -256,7 +258,21 @@ namespace MOP
                         File.Delete(file.FullName);
                         ModConsole.Print($"<color=yellow>[MOP] Rule file {file.Name} has been deleted, " +
                             $"because corresponding mod is not present.</color>");
+                        removed++;
                         continue;
+                    }
+
+                    // Verify if the servercontent has that rule file.
+                    // Some mod makers may include poorly configured rule files,
+                    // that's why they have to be only provided by the server.
+                    if (serverContent != null && (bool)MOP.VerifyRuleFiles.GetValue() && file.Name != "Custom.txt")
+                    {
+                        if (serverContent.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name)) == null)
+                        {
+                            File.Delete(file.FullName);
+                            ModConsole.Warning($"[MOP] Rule file {file.Name} has been deleted, because it couldn't be verified.");
+                            removed++;
+                        }
                     }
 
                     Rules.instance.RuleFileNames.Add(file.Name);
@@ -264,7 +280,7 @@ namespace MOP
                 }
 
                 ModConsole.Print("<color=green>[MOP] Loading rule files done!</color>");
-                NewMessage($"MOP: Loading {files.Count} rule file{(files.Count > 1 ? "s" : "")} done!");
+                NewMessage($"MOP: Loading {files.Count - removed} rule file{(files.Count - removed > 1 ? "s" : "")} done!");
             }
             catch (Exception ex)
             {
@@ -330,6 +346,9 @@ namespace MOP
         /// </summary>
         bool IsUpdateTime()
         {
+            if (MopSettings.RuleFilesUpdateChecked) return false;
+            MopSettings.RuleFilesUpdateChecked = true;
+
             if (DateTime.TryParse(File.ReadAllText(lastDateFilePath), out DateTime past))
             {
                 int fileThresholdsHours = MopSettings.GetRuleFilesUpdateDaysFrequency() * 24;

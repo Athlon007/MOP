@@ -43,6 +43,8 @@ namespace MOP
 
         static float shadowDistanceOriginalValue;
 
+        public static bool RuleFilesUpdateChecked;
+
         public static void UpdateAll()
         {
             // Activating Objects
@@ -86,12 +88,14 @@ namespace MOP
         {
             switch (int.Parse(MOP.RulesAutoUpdateFrequency.GetValue().ToString()))
             {
+                case 0:
+                    return 0;
+                case 1:
+                    return 1;
+                case 2:
+                    return 2;
                 default:
                     return 7;
-                case 0:
-                    return 1;
-                case 1:
-                    return 2;
             }
         }
 
@@ -108,6 +112,18 @@ namespace MOP
         public static void EnableSafeMode()
         {
             SafeMode = true;
+        }
+
+        public static void ToggleVerifyRuleFiles()
+        {
+            if (!(bool)MOP.VerifyRuleFiles.GetValue())
+            {
+                MSCLoader.ModUI.ShowMessage("<color=yellow>Warning!</color>\n\n" +
+                    "For the security reasons, MOP verifies all rule files. Disabling rule file verification " +
+                    "may lead to dangerous rule files being installed, that potentially may harm performance, " +
+                    "or even damage your save game.\n\n" +
+                    "Do not disable this, unless you're a mod maker.", "MOP");
+            }
         }
     }
 }

@@ -103,10 +103,11 @@ namespace MOP
         // MOD RULES
         public static Settings RulesAutoUpdate = new Settings("rulesAutoUpdate", "Rules Auto Update", true, MopSettings.UpdateAll);
         public static Settings RulesAutoUpdateFrequency = new Settings("rulesAutoUpdateFrequency", "Auto Update Frequency", 2);
-        readonly string[] rulesAutoUpdateFrequencyText = { "Daily", "Every 2 days", "Weekly" };
+        readonly string[] rulesAutoUpdateFrequencyText = { "On Restart", "Daily", "Every 2 days", "Weekly" };
         readonly Settings forceRuleUpdate = new Settings("forceRuleUpdate", "Force Update", ForceRuleFilesUpdate);
         readonly Settings rulesLearnMore = new Settings("rulesLearnMore", "Learn More", ExternalExecuting.OpenRulesWebsiteDialog);
         public static Settings NoDeleteRuleFiles = new Settings("noDeleteRuleFiles", "Don't delete unused rule files", false, MopSettings.UpdateAll);
+        public static Settings VerifyRuleFiles = new Settings("verifyRuleFiles", "Verify Rule Files", true, MopSettings.ToggleVerifyRuleFiles);
 
         // OTHERS
         public static Settings RemoveEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Destroy Empty Beer Bottles", false, MopSettings.UpdateAll);
@@ -162,9 +163,10 @@ namespace MOP
             Settings.AddHeader(this, "Mod Rules", headerColor);
             Settings.AddButton(this, rulesLearnMore);
             Settings.AddCheckBox(this, RulesAutoUpdate);
-            Settings.AddSlider(this, RulesAutoUpdateFrequency, 0, 2, rulesAutoUpdateFrequencyText);
+            Settings.AddSlider(this, RulesAutoUpdateFrequency, 0, 3, rulesAutoUpdateFrequencyText);
             Settings.AddCheckBox(this, NoDeleteRuleFiles);
             Settings.AddButton(this, forceRuleUpdate, "This will force MOP to re-download all mod rule files.");
+            Settings.AddCheckBox(this, VerifyRuleFiles);
 
             // Others
             Settings.AddHeader(this, "Other", headerColor);

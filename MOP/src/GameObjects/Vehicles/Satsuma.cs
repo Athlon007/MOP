@@ -341,7 +341,6 @@ namespace MOP
             
             onCloseToggle.Add(transform.Find("RainScript").gameObject);
             onCloseToggle.Add(transform.Find("DriverHeadPivot").gameObject);
-            //onCloseToggle.Add(transform.Find("Dashboard").gameObject);
             onCloseToggle.Add(transform.Find("AirIntake").gameObject);
             
             onFarToggle.Add(transform.Find("Chassis").gameObject);

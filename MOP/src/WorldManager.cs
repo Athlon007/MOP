@@ -617,12 +617,6 @@ namespace MOP
                         if (Rules.instance.SectorRulesContains(worldObject.gameObject.name))
                             continue;
 
-                        if (worldObject.gameObject.name == "VideoPoker" && worldObject.transform.parent != null && IsEnabled(worldObject.transform, worldObject.Distance))
-                        {
-                            worldObject.transform.parent = null;
-                            worldObject.gameObject.GetPlayMakerByName("Data").Fsm.RestartOnEnable = false;
-                        }
-
                         // Should the object be disabled when the player leaves the house?
                         if (worldObject.AwayFromHouse)
                         {
