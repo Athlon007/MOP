@@ -6,10 +6,11 @@ Warning: My Summer Car update from June 2020 is now required!
 
 ### Added
 
-- Rule files are now verified if they are trusted by default
-  - Untrusted rule files will be deleted
+- By default, Rule files are now verified if they are coming from trusted source
+  - Untrusted rule file will be deleted
   - You can disable it in the MOP settings
 - You can now make MOP to check rule files auto update on every restart
+- Added "mop cat" command - it prints the content of a rule file
 
 ## Changes
 
@@ -18,6 +19,11 @@ Warning: My Summer Car update from June 2020 is now required!
 ### Bug Fixes
 
 - Fixed video poker stealing object bugs
+- Fixed steering assist being turned on, despite disabling it in the settings
+- Probably fixed bouncy Satsuma bug, if it wasn't fully assembled
+- Computer won't be disabled, if it is left on
+- Fixed bouncy Jonnez bug
+- Fixed missing new line in new custom rule file
 
 ## 2.9.7 (04.06.2020)
 

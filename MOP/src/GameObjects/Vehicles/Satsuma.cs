@@ -29,6 +29,8 @@ namespace MOP
         // This class extends the functionality of Vehicle class, which is tailored for Gifu.
         // It fixes the issue with Gifu's beams being turned on after respawn.
 
+        const int MinimumBolts = 163;
+
         public static Satsuma instance;
 
         // If true, prevents Satsuma physics from disabling.
@@ -215,9 +217,15 @@ namespace MOP
 
             // Destroy all bolt anti reloads.
             ModConsole.Print($"[MOP] Found {satsumaBoltsAntiReloads.Count} bolts.");
+            // If there's less bolts found than the value, warn user.
+            if (satsumaBoltsAntiReloads.Count < MinimumBolts)
+            {
+                ModConsole.Error($"[MOP] Only {satsumaBoltsAntiReloads.Count}/{MinimumBolts} have been reset!");
+            }
             foreach (var s in satsumaBoltsAntiReloads)
                 Object.Destroy(s);
             satsumaBoltsAntiReloads.Clear();
+
 
             // Fixes car body color resetting to default.
             PlayMakerFSM carBodyPaintFsm = transform.Find("Body/car body(xxxxx)").gameObject.GetPlayMakerByName("Paint");
@@ -349,7 +357,6 @@ namespace MOP
 
             onCloseTogglePlayMaker = new List<PlayMakerFSM>();
             onCloseTogglePlayMaker.Add(this.gameObject.GetPlayMakerByName("ButtonShifter"));
-            onCloseTogglePlayMaker.Add(this.gameObject.GetPlayMakerByName("SteerLimit"));
 
             // Replace on assemble sound playing with custom script.
             PlayMakerFSM blockBoltCheck = GameObject.Find("block(Clone)").GetPlayMakerByName("BoltCheck");

@@ -106,7 +106,7 @@ namespace MOP
             Rotation = gameObject.transform.localRotation;
 
             // Creates a new gameobject that is names after the original file + '_TEMP' (ex. "SATSUMA(557kg, 248)_TEMP")
-            temporaryParent = new GameObject(gameObject.name + "_TEMP").transform;
+            temporaryParent = new GameObject($"{gameObject.name}_TEMP").transform;
 
             preventToggleOnObjects = new List<PreventToggleOnObject>();
 
@@ -161,6 +161,14 @@ namespace MOP
                 loadArrayActions.Add(new CustomNullState());
                 loadGame.Actions = loadArrayActions.ToArray();
                 loadGame.SaveActions();
+
+                // Disable on restart for wheels script.
+                Transform wheelsParent = transform.Find("Wheels");
+                foreach (Transform wheel in wheelsParent.GetComponentsInChildren<Transform>())
+                {
+                    if (!wheel.gameObject.name.StartsWith("Moped_wheel")) continue;
+                    wheel.gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                }
             }
 
             carDynamics = gameObject.GetComponent<CarDynamics>();

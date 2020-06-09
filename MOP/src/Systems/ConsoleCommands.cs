@@ -37,7 +37,7 @@ namespace MOP
             switch (args[0])
             {
                 default:
-                    ModConsole.Print("Invalid command. See \"mop help\" for command list.");
+                    ModConsole.Print("Invalid command. Type \"mop help\" for command list.");
                     break;
                 case "help":
                     ModConsole.Print("<color=yellow>help</color> - Show this list\n" +
@@ -49,7 +49,8 @@ namespace MOP
                         "<color=yellow>open [ModID]</color> - Opens the .modconfig for mod\n" +
                         "<color=yellow>open-folder</color> - Opens MOP config folder\n" +
                         "<color=yellow>delete [ModID]</color> - Delete rule file\n" +
-                        "<color=yellow>sector-debug [true/false]</color> - Shows the renderers of sectors\n");
+                        "<color=yellow>sector-debug [true/false]</color> - Shows the renderers of sectors\n" +
+                        "<color=yellow>cat [File Name]</color> - Print the content of a rule file");
                     break;
                 case "rules":
                     if (args.Length > 1 && args[1] == "roll")
@@ -146,7 +147,7 @@ namespace MOP
                     }
 
                     File.WriteAllText(path, "## Every line which starts with ## will be ignored.\n" +
-                        "## All new flags MUST be written in a new line." + 
+                        "## All new flags MUST be written in a new line.\n" + 
                         "## Visit https://github.com/Athlon007/MOP/wiki/Rule-Files-Documentation for documentation.\n" +
                         "## WARNING: Using custom rule files may cause issues. Use only at your own risk!");
 
@@ -259,6 +260,31 @@ namespace MOP
                     }
 
                     File.Delete($"{MOP.ModConfigPath}/{args[1]}");
+                    break;
+                case "cat":
+                    if (args.Length == 1)
+                    {
+                        ModConsole.Print($"Missing argument.");
+                        return;
+                    }
+
+                    if (args[1].StartsWith("Custom") && !args[1].EndsWith(".txt"))
+                    {
+                        args[1] += ".txt";
+                    }
+                    else
+                    {
+                        if (!args[1].EndsWith(".mopconfig"))
+                            args[1] += ".mopconfig";
+                    }
+
+                    if (!File.Exists($"{MOP.ModConfigPath}/{args[1]}"))
+                    {
+                        ModConsole.Print($"File {args[1]} doesn't exist.");
+                        return;
+                    }
+
+                    ModConsole.Print(File.ReadAllText($"{MOP.ModConfigPath}/{args[1]}"));
                     break;
             }
         }

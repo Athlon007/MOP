@@ -623,6 +623,9 @@ namespace MOP
                             if (worldObject.gameObject.name == "NPC_CARS" && inSectorMode)
                                 continue;
 
+                            if (worldObject.gameObject.name == "COMPUTER" && worldObject.gameObject.transform.Find("SYSTEM").gameObject.activeSelf)
+                                continue;
+
                             worldObject.Toggle(worldObject.ReverseToggle ? isPlayerAtYard : !isPlayerAtYard);
                             continue;
                         }
@@ -989,14 +992,22 @@ namespace MOP
             }
             catch { }
 
+            // ToggleElements class of Satsuma.
             try
             {
                 if (mode == ToggleAllMode.OnSave)
                 {
                     Satsuma.instance.ToggleElements(0);
                 }
+                else
+                {
+                    Satsuma.instance.ToggleElements(enabled ? 1000 : 0);
+                }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, "TOGGLE_ALL_SATSUMA_TOGGLE_ELEMENTS");
+            }
         }
 
         void ActivateSectors()
