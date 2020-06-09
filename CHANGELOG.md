@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.9.8 (tba)
+## 2.9.8 (09.06.2020)
 
 Warning: My Summer Car update from June 2020 is now required!
 
