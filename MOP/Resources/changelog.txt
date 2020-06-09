@@ -8,7 +8,7 @@ Warning: My Summer Car update from June 2020 is now required!
 - You can now make MOP to check rule files auto update on every restart
 - Added "mop cat" command - it prints the content of a rule file
 
-## Changes
+### Changes
 
 - MOP now checks for rule files auto update every 2 days by default
 
