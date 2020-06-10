@@ -173,10 +173,10 @@ namespace MOP
             Settings.AddHeader(this, "Mod Rules", headerColor);
             Settings.AddButton(this, rulesLearnMore);
             Settings.AddCheckBox(this, RulesAutoUpdate);
+            Settings.AddCheckBox(this, VerifyRuleFiles);
             Settings.AddSlider(this, RulesAutoUpdateFrequency, 0, 3, rulesAutoUpdateFrequencyText);
             Settings.AddCheckBox(this, NoDeleteRuleFiles);
             Settings.AddButton(this, forceRuleUpdate, "This will force MOP to re-download all mod rule files.");
-            Settings.AddCheckBox(this, VerifyRuleFiles);
 
             // Others
             Settings.AddHeader(this, "Other", headerColor);
