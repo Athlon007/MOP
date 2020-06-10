@@ -6,6 +6,7 @@
 
 - Added "Run in Background" toggle in the MOP settings, letting you choose if the game pauses on ALT+TAB
 - Added CheatBox warning (it will NEVER be supported, stop messaging me, here's an explanation: https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+- Added info at the bottom of MOP settings
 
 ### Bug Fixes
 

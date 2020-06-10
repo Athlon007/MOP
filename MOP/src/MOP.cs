@@ -17,6 +17,7 @@
 using MSCLoader;
 using System.IO;
 using UnityEngine;
+using System;
 
 namespace MOP
 {
@@ -61,7 +62,7 @@ namespace MOP
             }
 
             Resources.UnloadUnusedAssets();
-            System.GC.Collect();
+            GC.Collect();
         }
 
         public override void ModSettingsLoaded()
@@ -94,6 +95,7 @@ namespace MOP
         readonly Settings faq = new Settings("faq", "FAQ", ExternalExecuting.OpenFAQDialog);
         readonly Settings wiki = new Settings("wiki", "MOP Wiki", ExternalExecuting.OpenWikiDialog);
         readonly Settings donate = new Settings("donate", "Donate", ExternalExecuting.OpenDonateDialog);
+        readonly Settings homepage = new Settings("homepage", "Homepage", ExternalExecuting.OpenHomepageDialog);
 
         // ACTIVATING OBJECTS
         public static Settings ActiveDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
@@ -189,6 +191,14 @@ namespace MOP
             // Changelog
             Settings.AddHeader(this, "Changelog", headerColor);
             Settings.AddText(this, GetChangelog());
+
+            // Info
+            Settings.AddHeader(this, "Information", headerColor);
+            Settings.AddText(this, $"<color=yellow>MOP</color> {Version}{(Version.EndsWith(".0") ? " Development" : "")}\n" +
+                $"<color=yellow>ModLoader</color> {ModLoader.MSCLoader_Ver}\n" +
+                $"{ExceptionManager.GetSystemInfo()}\n" +
+                $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}");
+            Settings.AddButton(this, homepage);
         }
 
         static void ForceRuleFilesUpdate()

@@ -62,5 +62,15 @@ namespace MOP
         {
             Process.Start("http://athlon.kkmr.pl/mop");
         }
+
+        public static void OpenHomepageDialog()
+        {
+            ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenHomepage);
+        }
+
+        public static void OpenHomepage()
+        {
+            Process.Start("http://athlon.kkmr.pl/");
+        }
     }
 }
