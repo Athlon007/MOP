@@ -22,13 +22,11 @@ namespace MOP
 {
     class SatsumaBoltsAntiReload : MonoBehaviour
     {
-        string fsmName;
-
         public SatsumaBoltsAntiReload()
         {
             try
             {
-                fsmName = gameObject.ContainsPlayMakerByName("BoltCheck") ? "BoltCheck" : "Use";
+                string fsmName = gameObject.ContainsPlayMakerByName("BoltCheck") ? "BoltCheck" : "Use";
                 PlayMakerFSM fsm = gameObject.GetPlayMakerByName(fsmName);
 
                 if (fsm == null)

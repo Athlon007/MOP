@@ -125,5 +125,10 @@ namespace MOP
                     "Do not disable this, unless you're a mod maker.", "MOP");
             }
         }
+
+        public static void ToggleBackgroundRunning()
+        {
+            Application.runInBackground = (bool)MOP.KeepRunningInBackground.GetValue();
+        }
     }
 }

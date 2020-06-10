@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.9.9 (tba)
+
+### Added
+
+- Added "Run in Background" toggle in the MOP settings, letting you choose if the game pauses on ALT+TAB
+- Added CheatBox warning (it will NEVER be supported, stop messaging me, here's an explanation: https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+
+### Bug Fixes
+
+- Fixed saving potentially breaking, if the Safe Mode is on
+
+### Removed
+
+- Removed error logging for the reg plates fix, because it really only happens rarely and is not even noticable
+
 ## 2.9.8 (09.06.2020)
 
 Warning: My Summer Car update from June 2020 is now required!

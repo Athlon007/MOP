@@ -504,6 +504,7 @@ namespace MOP
             float money = PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerMoney").Value;
             finalMessage = Mathf.Approximately(69420.0f, 69420.9f) ? finalMessage.Rainbowmize() : $"<color=green>{finalMessage}</color>";
             ModConsole.Print(finalMessage);
+            Resources.UnloadUnusedAssets();
             GC.Collect();
         }
 
@@ -906,6 +907,8 @@ namespace MOP
                 }
             }
 
+            if (MopSettings.SafeMode) return;
+
             // Vehicles
             for (int i = 0; i < vehicles.Count; i++)
             {
@@ -976,11 +979,11 @@ namespace MOP
                 }
             }
 
+            // Force teleport kilju bottles.
             try
             {
                 if (mode == ToggleAllMode.OnSave)
                 {
-                    // Force teleport kilju bottles.
                     Transform canTrigger = GameObject.Find("JOBS").transform.Find("HouseDrunkNew/BeerCampNew/BeerCamp/KiljuBuyer/CanTrigger");
 
                     // If canTrigger object is not located at new house, get one from the old Jokke's house.
@@ -990,7 +993,10 @@ namespace MOP
                     canTrigger.gameObject.GetComponent<PlayMakerFSM>().SendEvent("STOP");
                 }
             }
-            catch { }
+            catch (Exception ex) 
+            {
+                ExceptionManager.New(ex, "TOGGLE_ALL_JOBS_DRUNK");
+            }
 
             // ToggleElements class of Satsuma.
             try

@@ -334,10 +334,7 @@ namespace MOP
                 GameObject.Find("bootlid(Clone)").transform.Find("RegPlateRear").gameObject.GetComponent<Renderer>().material.renderQueue = 100;
                 GameObject.Find("bumper front(Clone)").transform.Find("RegPlateFront").gameObject.GetComponent<Renderer>().material.renderQueue = 100;
             }
-            catch (System.Exception ex)
-            {
-                ExceptionManager.New(ex, "SATSUMA_REG_PLATE_FIX_ERROR");
-            }
+            catch { }
 
             // Setup stuff that gets disabled using ToggleElements
             onEngineOffToggle = new List<GameObject>();

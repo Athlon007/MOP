@@ -45,6 +45,11 @@ namespace MOP
 
         public override void OnMenuLoad()
         {
+            if (ModLoader.IsModPresent("CheatBox"))
+            {
+                ModConsole.Warning("[MOP] CheatBox is not supported by MOP!");
+            }
+
             modConfigPath = ModLoader.GetModConfigFolder(this).Replace('\\', '/');
             if (!MopSettings.DataSendingAgreed())
             {
@@ -55,6 +60,7 @@ namespace MOP
                 MopSettings.AgreeData();
             }
 
+            Resources.UnloadUnusedAssets();
             System.GC.Collect();
         }
 
@@ -99,6 +105,7 @@ namespace MOP
         public static Settings FramerateLimiter = new Settings("framerateLimiter", "Limit Framerate", 60, MopSettings.UpdateAll);
         public static Settings EnableShadowAdjusting = new Settings("enableShadowAdjusting", "Adjust Shadows", false, MopSettings.UpdateAll);
         public static Settings ShadowDistance = new Settings("shadowDistance", "Shadow Distance", 200, MopSettings.UpdateAll);
+        public static Settings KeepRunningInBackground = new Settings("keepRunningInBackground", "Run in Background", true, MopSettings.ToggleBackgroundRunning);
 
         // MOD RULES
         public static Settings RulesAutoUpdate = new Settings("rulesAutoUpdate", "Rules Auto Update", true, MopSettings.UpdateAll);
@@ -158,6 +165,7 @@ namespace MOP
             Settings.AddSlider(this, FramerateLimiter, 20, 144);
             Settings.AddCheckBox(this, EnableShadowAdjusting);
             Settings.AddSlider(this, ShadowDistance, 0, 4000);
+            Settings.AddCheckBox(this, KeepRunningInBackground);
 
             // Mod Rules
             Settings.AddHeader(this, "Mod Rules", headerColor);
