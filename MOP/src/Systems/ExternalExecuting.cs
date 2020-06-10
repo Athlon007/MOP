@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
+using System;
 using System.Diagnostics;
 
 namespace MOP
@@ -23,54 +24,49 @@ namespace MOP
     {
         // This class manages executing third-party stuff, such as websites.
 
-        public static void OpenFAQDialog()
+        static string url;
+
+        static string GetDialog()
         {
-            ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenFAQ);
+            string urlDisplayed = url;
+            if (urlDisplayed.Length > 45)
+                urlDisplayed = urlDisplayed.Substring(0, 42) + "...";
+            return $"This will open this link:\n<color=yellow>{urlDisplayed}</color>\n\nAre you sure you want to continue?";
         }
 
-        public static void OpenFAQ()
+        static void OpenWebsite()
         {
-            Process.Start("https://github.com/Athlon007/MOP/blob/master/FAQ.md");
+            Process.Start(url);
+        }
+
+        public static void OpenFAQDialog()
+        {
+            url = "https://github.com/Athlon007/MOP/blob/master/FAQ.md";
+            ModUI.ShowYesNoMessage(GetDialog(), "MOP", OpenWebsite);
         }
 
         public static void OpenWikiDialog()
         {
-            ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenWiki);
-        }
-
-        public static void OpenWiki()
-        {
-            Process.Start("https://github.com/Athlon007/MOP/wiki");
+            url = "https://github.com/Athlon007/MOP/wiki";
+            ModUI.ShowYesNoMessage(GetDialog(), "MOP", OpenWebsite);
         }
 
         public static void OpenDonateDialog()
         {
-            ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenDonate);
-        }
-
-        public static void OpenDonate()
-        {
-            Process.Start("https://paypal.me/figurakonrad");
+            url = "https://paypal.me/figurakonrad";
+            ModUI.ShowYesNoMessage(GetDialog(), "MOP", OpenWebsite);
         }
 
         public static void OpenRulesWebsiteDialog()
         {
-            ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenRulesWebsite);
-        }
-
-        public static void OpenRulesWebsite()
-        {
-            Process.Start("http://athlon.kkmr.pl/mop");
+            url = "http://athlon.kkmr.pl/mop";
+            ModUI.ShowYesNoMessage(GetDialog(), "MOP", OpenWebsite);
         }
 
         public static void OpenHomepageDialog()
         {
-            ModUI.ShowYesNoMessage("This will open a new web browser window. Are you sure you want to continue?", OpenHomepage);
-        }
-
-        public static void OpenHomepage()
-        {
-            Process.Start("http://athlon.kkmr.pl/");
+            url = "http://athlon.kkmr.pl/";
+            ModUI.ShowYesNoMessage(GetDialog(), "MOP", OpenWebsite);
         }
     }
 }

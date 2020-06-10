@@ -8,6 +8,10 @@
 - Added CheatBox warning (it will NEVER be supported, stop messaging me, here's an explanation: https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 - Added info at the bottom of MOP settings
 
+### Changes
+
+- Improved the dialog uppon clicking a link in the settings
+
 ### Bug Fixes
 
 - Fixed saving potentially breaking, if the Safe Mode is on
