@@ -109,6 +109,8 @@ namespace MOP
             output += $"EnableFramerateLimiter: {((bool)MOP.EnableFramerateLimiter.GetValue())}\n";
             output += $"FramerateLimiter: {MOP.FramerateLimiter.GetValue()}\n";
             output += $"EnableShadowAdjusting: {((bool)MOP.EnableShadowAdjusting.GetValue())}\n";
+            output += $"KeepRunningInBackground: {((bool)MOP.KeepRunningInBackground.GetValue())}\n";
+            output += $"DynamicDrawDistance: {((bool)MOP.DynamicDrawDistance.GetValue())}\n";
             output += $"ShadowDistance: {MOP.ShadowDistance.GetValue()}\n";
             output += $"RulesAutoUpdate: {MOP.RulesAutoUpdate.GetValue()}\n"; 
             output += $"RulesAutoUpdateFrequency: {MopSettings.GetRuleFilesUpdateDaysFrequency()}\n";
@@ -142,7 +144,7 @@ namespace MOP
 
             if (Rules.instance.RuleFileNames.Count == 0)
             {
-                output += $"No rule files loaded!";
+                output += $"No rule files loaded!\n\n";
             }
 
             return output;

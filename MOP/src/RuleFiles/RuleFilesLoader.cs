@@ -46,7 +46,6 @@ namespace MOP
     {
         const string RemoteServer = "http://athlon.kkmr.pl/mop/rulefiles/";
         const string ServerContent = "servercontent.mop";
-        //const int FileThresholdHours = 168; // 1 week
 
         List<ServerContentData> serverContent;
         string lastModListPath;
@@ -381,7 +380,7 @@ namespace MOP
                     web.Dispose();
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 ExceptionManager.New(ex, "SERVER_CONTENT_DOWNLOAD_ERROR");
             }

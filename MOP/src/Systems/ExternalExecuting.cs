@@ -15,7 +15,6 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
-using System;
 using System.Diagnostics;
 
 namespace MOP
@@ -25,13 +24,14 @@ namespace MOP
         // This class manages executing third-party stuff, such as websites.
 
         static string url;
+        const int CharacterLimit = 45;
 
         static string GetDialog()
         {
             string urlDisplayed = url;
-            if (urlDisplayed.Length > 45)
-                urlDisplayed = urlDisplayed.Substring(0, 42) + "...";
-            return $"This will open this link:\n<color=yellow>{urlDisplayed}</color>\n\nAre you sure you want to continue?";
+            if (urlDisplayed.Length > CharacterLimit)
+                urlDisplayed = urlDisplayed.Substring(0, CharacterLimit - 3) + "...";
+            return $"This will open following link:\n<color=yellow>{urlDisplayed}</color>\n\nAre you sure you want to continue?";
         }
 
         static void OpenWebsite()
@@ -39,34 +39,35 @@ namespace MOP
             Process.Start(url);
         }
 
+        public static void ShowDialog(string newUrl)
+        {
+            url = newUrl;
+            ModUI.ShowYesNoMessage(GetDialog(), "MOP", OpenWebsite);
+        }
+
         public static void OpenFAQDialog()
         {
-            url = "https://github.com/Athlon007/MOP/blob/master/FAQ.md";
-            ModUI.ShowYesNoMessage(GetDialog(), "MOP", OpenWebsite);
+            ShowDialog("https://github.com/Athlon007/MOP/blob/master/FAQ.md");
         }
 
         public static void OpenWikiDialog()
         {
-            url = "https://github.com/Athlon007/MOP/wiki";
-            ModUI.ShowYesNoMessage(GetDialog(), "MOP", OpenWebsite);
+            ShowDialog("https://github.com/Athlon007/MOP/wiki");
         }
 
         public static void OpenDonateDialog()
         {
-            url = "https://paypal.me/figurakonrad";
-            ModUI.ShowYesNoMessage(GetDialog(), "MOP", OpenWebsite);
+            ShowDialog("https://paypal.me/figurakonrad");
         }
 
         public static void OpenRulesWebsiteDialog()
         {
-            url = "http://athlon.kkmr.pl/mop";
-            ModUI.ShowYesNoMessage(GetDialog(), "MOP", OpenWebsite);
+            ShowDialog("http://athlon.kkmr.pl/mop");
         }
 
         public static void OpenHomepageDialog()
         {
-            url = "http://athlon.kkmr.pl/";
-            ModUI.ShowYesNoMessage(GetDialog(), "MOP", OpenWebsite);
+            ShowDialog("http://athlon.kkmr.pl/");
         }
     }
 }

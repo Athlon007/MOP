@@ -872,7 +872,7 @@ namespace MOP
                         ModConsole.Error("[MOP] Restart attempt failed. Enabling Safe Mode.");
                         ModConsole.Error("[MOP] Please contact mod developer. Make sure you send output_log and last MOP crash log!");
                         MopSettings.EnableSafeMode();
-                        ToggleAll(true);
+                        try { ToggleAll(true); } catch { }
                         yield break;
                     }
 
