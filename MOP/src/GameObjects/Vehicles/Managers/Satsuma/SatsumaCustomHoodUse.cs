@@ -28,10 +28,10 @@ namespace MOP
 
         void Start()
         {
-            FsmHook.FsmInject(gameObject, "State 2", OnClose);
-            FsmHook.FsmInject(gameObject, "Mouse off", OnCloseAbandon);
-            FsmHook.FsmInject(gameObject, "Open hood 2", HoodOpen);
-            FsmHook.FsmInject(gameObject, "Close hood 2", HoodClose);
+            FsmHook.FsmInject(gameObject, "State 2", () => isActive = true);
+            FsmHook.FsmInject(gameObject, "Mouse off", () => isActive = false);
+            FsmHook.FsmInject(gameObject, "Open hood 2", () => isHoodOpen = true);
+            FsmHook.FsmInject(gameObject, "Close hood 2", () => isHoodOpen = false);
 
             useFsm = gameObject.GetPlayMakerByName("Use");
         }
@@ -45,26 +45,6 @@ namespace MOP
             { 
                 useFsm.SendEvent("CLOSE");
             }
-        }
-
-        void OnClose()
-        {
-            isActive = true;
-        }
-
-        void OnCloseAbandon()
-        {
-            isActive = false;
-        }
-
-        void HoodOpen()
-        {
-            isHoodOpen = true;
-        }
-
-        void HoodClose()
-        {
-            isHoodOpen = false;
         }
 
         void OnEnable()

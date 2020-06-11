@@ -63,15 +63,6 @@ namespace MOP
 
         const string ReferenceItem = "car body";
         bool isSatsumaInGarage;
-        public bool IsSatsumaInGarage()
-        {
-            if (!initialized)
-            {
-                return false;
-            }
-
-            return !isSatsumaInGarage;
-        }
 
         readonly Transform doorLeft;
         readonly Transform doorRight;
@@ -114,6 +105,16 @@ namespace MOP
         public bool AreGarageDoorsClosed()
         {
             return doorLeft.localEulerAngles.z < 12 && (doorRight.localEulerAngles.z > 340 || doorRight.localEulerAngles.z < 10);
+        }
+
+        public bool IsSatsumaInGarage()
+        {
+            if (!initialized)
+            {
+                return false;
+            }
+
+            return !isSatsumaInGarage;
         }
     }
 }

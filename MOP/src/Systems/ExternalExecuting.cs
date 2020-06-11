@@ -31,7 +31,7 @@ namespace MOP
             string urlDisplayed = url;
             if (urlDisplayed.Length > CharacterLimit)
                 urlDisplayed = urlDisplayed.Substring(0, CharacterLimit - 3) + "...";
-            return $"This will open following link:\n<color=yellow>{urlDisplayed}</color>\n\nAre you sure you want to continue?";
+            return $"This will open the following link:\n<color=yellow>{urlDisplayed}</color>\n\nAre you sure you want to continue?";
         }
 
         static void OpenWebsite()

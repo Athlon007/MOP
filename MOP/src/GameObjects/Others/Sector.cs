@@ -78,10 +78,11 @@ namespace MOP
         public static SectorManager instance;
 
         public List<GameObject> DisabledObjects { get; }
+        readonly List<GameObject> sectors;
 
         public bool PlayerInSector;
 
-        readonly List<GameObject> sectors;
+        int loadedSectors;
 
         public SectorManager()
         {
@@ -187,6 +188,8 @@ namespace MOP
                     CreateNewSector(sector.Position, sector.Scale, sector.Rotation, sector.Whitelist);
                 }
             }
+
+            ModConsole.Print($"[MOP] Loaded {loadedSectors} sectors");
         }
 
         void CreateNewSector(Vector3 position, Vector3 size, params string[] ignoreList)
@@ -218,6 +221,8 @@ namespace MOP
                 if (ignoreList.Length > 0 && ignoreList[0] == "PierHome")
                     newSector.AddComponent<SatsumaInGarage>();
             }
+
+            loadedSectors++;
         }
 
         void CreateNewSector(Vector3 position, Vector3 size, Vector3 rotation, params string[] ignoreList)
@@ -244,6 +249,8 @@ namespace MOP
 
             sectorInfo.Initialize(size, ignoreList);
             sectors.Add(newSector);
+
+            loadedSectors++;
         }
 
         /// <summary>

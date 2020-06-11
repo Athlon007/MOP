@@ -61,7 +61,8 @@ namespace MOP
 
             GameObject.Find("GarageDoors").transform.parent = null;
 
-            Doors = GetDoors();
+            Doors = GetTransform().GetComponentsInChildren<Transform>()
+                .Where(t => t.gameObject.name.Contains("Door") && t.Find("Pivot") != null).ToArray();
 
             GameObjectBlackList.AddRange(blackList);
             DisableableChilds = GetDisableableChilds();
@@ -69,12 +70,6 @@ namespace MOP
             // Remove fridge mesh from the list of disabled objects
             Transform fridgeMesh = DisableableChilds.Find(w => w.name == "mesh" && w.transform.parent.name == "Fridge");
             DisableableChilds.Remove(fridgeMesh);
-        }
-
-        Transform[] GetDoors()
-        {
-            return GetTransform().GetComponentsInChildren<Transform>()
-                .Where(t => t.gameObject.name.Contains("Door") && t.Find("Pivot") != null).ToArray();
         }
     }
 }

@@ -9,7 +9,7 @@
   - And it will be lowered, if you're in the building
   - You can enable it in the settings
 - Added "Run in Background" toggle in the MOP settings, letting you choose if the game pauses on ALT+TAB
-- Added CheatBox warning (it will NEVER be supported, stop messaging me about it, here's an explanation: https://www.youtu.be/watch?v=dQw4w9WgXcQ)
+- Added CheatBox warning (it will NEVER be supported, stop messaging me about it, here's an explanation: youtu.be/watch?v=dQw4w9WgXcQ)
 - Added info at the bottom of MOP settings
 - If the incorrect flag has been found in rule file, the error line will be displayed
 
@@ -26,6 +26,7 @@
 - Rule Files API: toggle_vehicle_physics_only is now obsolete! Please use "toggle: < object_name > vehicle_physics" instead
 - Rule Files API: prevent_toggle_on_object is now obsolete! Please use ignore: < vehicle_name > < object_name > instead
 - Overall improvements in rule files loading
+- Code optimization and improvements
 
 ### Bug Fixes
 
@@ -35,6 +36,7 @@
 - Fixed Safe Mode not initializing properly if the toggling routine failed, and getting stuck in constant "trying to restart" loop
 - Fixed toggle ignoring on objects inside of vehicles working only for the first item in the rule file
 - Fixed MOP rules loading not working, if the mod has been disabled and the game has been restarted
+- Fixed MOP not working, if player stole the video poker machine
 
 ### Removed
 

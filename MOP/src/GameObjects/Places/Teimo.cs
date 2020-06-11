@@ -71,17 +71,14 @@ namespace MOP
             // We're nulling the parent of the fucking video poker game,
             // because that's much easier than hooking it...
             Transform videoPoker = GetTransform().Find("LOD/VideoPoker/HookSlot");
-            FsmHook.FsmInject(videoPoker.gameObject, "Activate cable", RemoveVideoPokerParent);
+            if (videoPoker != null)
+                FsmHook.FsmInject(videoPoker.gameObject, "Activate cable", RemoveVideoPokerParent);
 
             GameObjectBlackList.AddRange(blackList);
             DisableableChilds = GetDisableableChilds();
 
             // Remove video poker meshes.
             DisableableChilds.Remove(GetTransform().Find("LOD/VideoPoker/Hatch/Pivot/mesh"));
-
-            // Fix for the bar fighter
-            Transform fighter = GetTransform().Find("Fighter2/Pivot");
-            DisableableChilds.Remove(fighter);
 
             // Fix for Z-fighting of slot machine glass.
             GetTransform().Find("LOD/GFX_Store/SlotMachine/slot_machine 1/slot_machine_glass")

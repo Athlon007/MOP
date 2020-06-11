@@ -29,27 +29,18 @@ namespace MOP
         // ObjectHook class by Konrad "Athlon" Figura
         
         bool firstLoad;
+        public bool DontDisable;
 
-        /// <summary>
-        /// Rigidbody of this object.
-        /// </summary>
         readonly Rigidbody rb;
-
-        /// <summary>
-        /// Object's renderer
-        /// </summary>
         readonly Renderer renderer;
 
         Vector3 position;
 
+        FsmBool batteryOnCharged;
+        FsmFloat floorJackTriggerY;
+        
         // Used by Satsuma storage system.
         public bool IsInStorage;
-
-        public bool DontDisable;
-
-        FsmBool batteryOnCharged;
-
-        FsmFloat floorJackTriggerY;
 
         public ItemHook()
         {

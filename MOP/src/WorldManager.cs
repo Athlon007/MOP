@@ -806,6 +806,12 @@ namespace MOP
                 }
 
                 yield return new WaitForSeconds(1);
+
+                if (retries > 0 && !restartSucceedMessaged)
+                {
+                    restartSucceedMessaged = true;
+                    ModConsole.Print("<color=green>[MOP] Restart succeed!</color>");
+                }
             }
         }
 
@@ -850,6 +856,7 @@ namespace MOP
         int lastTick;
         int retries;
         const int MaxRetries = 3;
+        bool restartSucceedMessaged;
 
         /// <summary>
         /// Every 10 seconds check if the coroutine is still active.
@@ -867,7 +874,7 @@ namespace MOP
 
                 if (lastTick == ticks)
                 {
-                    if (retries > MaxRetries)
+                    if (retries >= MaxRetries)
                     {
                         ModConsole.Error("[MOP] Restart attempt failed. Enabling Safe Mode.");
                         ModConsole.Error("[MOP] Please contact mod developer. Make sure you send output_log and last MOP crash log!");
@@ -877,6 +884,7 @@ namespace MOP
                     }
 
                     retries++;
+                    restartSucceedMessaged = false;
                     ModConsole.Warning($"[MOP] MOP has stopped working! Restart attempt {retries}/{MaxRetries}...");
                     StopCoroutine(currentLoop);
                     currentLoop = LoopRoutine();
