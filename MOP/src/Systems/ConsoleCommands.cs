@@ -83,13 +83,6 @@ namespace MOP
                             ModConsole.Print($"<b>Place:</b> {r.Place} <b>Object:</b> {r.ObjectName}");
                     }
 
-                    if (Rules.instance.PreventToggleOnObjectRule.Count > 0)
-                    {
-                        ModConsole.Print("\n<color=yellow><b>Prevent Toggle On Object Rule</b></color>");
-                        foreach (PreventToggleOnObjectRule r in Rules.instance.PreventToggleOnObjectRule)
-                            ModConsole.Print($"<b>Main Object:</b> {r.MainObject} <b>Object:</b> {r.ObjectName}");
-                    }
-
                     if (Rules.instance.ToggleRules.Count > 0)
                     {
                         ModConsole.Print("\n<color=yellow><b>Toggle Rules</b></color>");
@@ -217,7 +210,7 @@ namespace MOP
                         return;
                     }
 
-                    if (args[1].StartsWith("Custom"))
+                    if (args[1].StartsWith("Custom") || args[1].StartsWith("custom"))
                     {
                         if (!args[1].EndsWith(".txt"))
                             args[1] += ".txt";

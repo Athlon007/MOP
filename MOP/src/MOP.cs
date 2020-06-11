@@ -30,7 +30,7 @@ namespace MOP
         public override string Name => "Modern Optimization Plugin"; //You mod name
 #endif
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "2.9.9"; //Version
+        public override string Version => "2.10.0"; //Version
 
         // ModLoader configuration.
         public override bool SecondPass => true;
@@ -261,6 +261,11 @@ namespace MOP
                 if (line.Contains("(My Summer Car Bug)"))
                 {
                     line = line.Replace("(My Summer Car Bug)", "<color=green>My Summer Car Bug: </color>");
+                }
+
+                if (line.Contains("Rule Files API:"))
+                {
+                    line = line.Replace("Rule Files API:", "<color=cyan>Rule Files API:</color>");
                 }
 
                 output += line + "\n";

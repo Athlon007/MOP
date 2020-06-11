@@ -26,7 +26,6 @@ namespace MOP
         // Ignore rules.
         public List<IgnoreRule> IgnoreRules;
         public List<IgnoreRuleAtPlace> IgnoreRulesAtPlaces;
-        public List<PreventToggleOnObjectRule> PreventToggleOnObjectRule;
 
         // Toggling rules.
         public List<ToggleRule> ToggleRules;
@@ -71,7 +70,6 @@ namespace MOP
         {
             IgnoreRules = new List<IgnoreRule>();
             IgnoreRulesAtPlaces = new List<IgnoreRuleAtPlace>();
-            PreventToggleOnObjectRule = new List<PreventToggleOnObjectRule>();
             ToggleRules = new List<ToggleRule>();
             SpecialRules = new SpecialRules();
             RuleFileNames = new List<string>();

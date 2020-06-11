@@ -241,15 +241,21 @@ namespace MOP
             }
 
             // Prevent Toggle On Object Rule.
-            PreventToggleOnObjectRule preventToggleOnObjectRule = Rules.instance.PreventToggleOnObjectRule.Find(v => v.MainObject == this.gameObject.name);
-            if (preventToggleOnObjectRule != null)
+            IgnoreRuleAtPlace[] preventToggleOnObjectRule = Rules.instance.IgnoreRulesAtPlaces
+                .Where(v => v.Place == this.gameObject.name).ToArray();
+            if (preventToggleOnObjectRule.Length > 0)
             {
-                Transform t = transform.FindRecursive(preventToggleOnObjectRule.ObjectName);
-                if (t != null)
+                foreach (var p in preventToggleOnObjectRule)
+                {
+                    Transform t = transform.FindRecursive(p.ObjectName);
+                    if (t == null)
+                    {
+                        ModConsole.Error($"[MOP] Couldn't find {p.ObjectName} in {p.Place}.");
+                        continue;
+                    }
+                    
                     preventToggleOnObjects.Add(new PreventToggleOnObject(t));
-                else
-                    ModConsole.Error($"[MOP] Couldn't find {preventToggleOnObjectRule.ObjectName} in {preventToggleOnObjectRule.MainObject}.");
-
+                }
             }
 
             eventSounds = gameObject.GetComponent<EventSounds>();

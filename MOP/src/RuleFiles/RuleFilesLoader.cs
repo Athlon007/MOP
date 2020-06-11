@@ -47,6 +47,8 @@ namespace MOP
         const string RemoteServer = "http://athlon.kkmr.pl/mop/rulefiles/";
         const string ServerContent = "servercontent.mop";
 
+        readonly string[] illegalValues = { "MOP", "MSCLoader", "MSCUnloader", "Steam", "PLAYER", "cObject", "FPSCamera" };
+
         List<ServerContentData> serverContent;
         string lastModListPath;
         string lastDateFilePath;
@@ -412,8 +414,10 @@ namespace MOP
             {
                 string[] content = File.ReadAllLines(rulePath).Where(s => s.Length > 0 && !s.StartsWith("##")).ToArray();
                 string fileName = Path.GetFileName(rulePath);
+                int lines = File.ReadAllLines(rulePath).Where(s => s.StartsWith("##")).ToArray().Length;
                 foreach (string s in content)
-                { 
+                {
+                    lines++;
                     string[] splitted = s.Split(':');
 
                     // Read flag and rules.
@@ -426,7 +430,7 @@ namespace MOP
                             objects[i] = objects[i].Replace("%20", " ");
                     }
 
-                    if (objects.Length > 0 && objects.ContainsAny("MOP", "MSCLoader", "MSCUnloader", "Steam", "PLAYER", "cObject", "FPSCamera"))
+                    if (objects.Length > 0 && objects.ContainsAny(illegalValues))
                     {
                         ModConsole.Error($"[MOP] Illegal object: {objects[0]} in rule file {fileName}.");
                         continue;
@@ -436,32 +440,77 @@ namespace MOP
                     switch (flag)
                     {
                         default:
-                            ModConsole.Error($"[MOP] Unrecognized flag '{flag}' in file {rulePath}");
+                            ModConsole.Error($"[MOP] Unrecognized flag '{flag}' in {fileName} ({lines}).");
                             break;
                         case "ignore":
+                            // Ignore at place
+                            if (objects.Length > 1)
+                            {
+                                Rules.instance.IgnoreRulesAtPlaces.Add(new IgnoreRuleAtPlace(objects[0], objects[1]));
+                                break;
+                            }
+
                             Rules.instance.IgnoreRules.Add(new IgnoreRule(objects[0], false));
                             break;
                         case "ignore_full":
                             Rules.instance.IgnoreRules.Add(new IgnoreRule(objects[0], true));
                             break;
                         case "ignore_at_place":
+                            // OBSOLETE!!!
+                            ObsoleteWarning(flag, fileName, lines, s, "ignore: <place> <object_name>");
                             string place = objects[0];
                             string obj = objects[1];
                             Rules.instance.IgnoreRulesAtPlaces.Add(new IgnoreRuleAtPlace(place, obj));
                             break;
+                        case "prevent_toggle_on_object":
+                            // OBSOLETE!!!
+                            ObsoleteWarning(flag, fileName, lines, s, "ignore: <vehicle_name> <object_name>");
+                            Rules.instance.IgnoreRulesAtPlaces.Add(new IgnoreRuleAtPlace(objects[0], objects[1]));
+                            break;
                         case "toggle":
-                            Rules.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Normal));
+                            ToggleModes mode = ToggleModes.Normal;
+                            if (objects.Length > 1)
+                            {
+                                switch (objects[1])
+                                {
+                                    default:
+                                        ModConsole.Error($"[MOP] Unrecognized method '{objects[1]}' in {fileName} ({lines}).");
+                                        break;
+                                    case "renderer":
+                                        mode = ToggleModes.Renderer;
+                                        break;
+                                    case "item":
+                                        mode = ToggleModes.Item;
+                                        break;
+                                    case "vehicle":
+                                        mode = ToggleModes.Vehicle;
+                                        break;
+                                    case "vehicle_physics":
+                                        mode = ToggleModes.VehiclePhysics;
+                                        break;
+                                }
+                            }
+
+                            Rules.instance.ToggleRules.Add(new ToggleRule(objects[0], mode));
                             break;
                         case "toggle_renderer":
+                            // OBSOLETE!!!
+                            ObsoleteWarning(flag, fileName, lines, s, "toggle: <object_name> <method>");
                             Rules.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Renderer));
                             break;
                         case "toggle_item":
+                            // OBSOLETE!!!
+                            ObsoleteWarning(flag, fileName, lines, s, "toggle: <object_name> <method>");
                             Rules.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Item));
                             break;
                         case "toggle_vehicle":
+                            // OBSOLETE!!!
+                            ObsoleteWarning(flag, fileName, lines, s, "toggle: <object_name> <method>");
                             Rules.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Vehicle));
                             break;
                         case "toggle_vehicle_physics_only":
+                            // OBSOLETE!!!
+                            ObsoleteWarning(flag, fileName, lines, s, "toggle: <object_name> <method>");
                             Rules.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.VehiclePhysics));
                             break;
                         case "satsuma_ignore_renderer":
@@ -470,13 +519,10 @@ namespace MOP
                         case "dont_destroy_empty_beer_bottles":
                             Rules.instance.SpecialRules.DontDestroyEmptyBeerBottles = true;
                             break;
-                        case "prevent_toggle_on_object":
-                            Rules.instance.PreventToggleOnObjectRule.Add(new PreventToggleOnObjectRule(objects[0], objects[1]));
-                            break;
                         case "sector":
-                            Vector3 pos = GetVector3(objects[0]);
-                            Vector3 scale = GetVector3(objects[1]);
-                            Vector3 rot = GetVector3(objects[2]);
+                            Vector3 pos = ParseToVector3(objects[0]);
+                            Vector3 scale = ParseToVector3(objects[1]);
+                            Vector3 rot = ParseToVector3(objects[2]);
                             string[] whitelist = GetWhitelist(objects);
                             Rules.instance.NewSectors.Add(new NewSector(pos, scale, rot, whitelist));
                             break;
@@ -521,7 +567,7 @@ namespace MOP
 
                             if (isOutdated)
                             {
-                                ModConsole.Error($"[MOP] Rule file {fileName} is for the newer version of MOP. Please update MOP now.\n" +
+                                ModConsole.Error($"[MOP] Rule file {fileName} is for the newer version of MOP. Please update MOP right now!\n\n" +
                                     $"Your MOP version: {modMajor}.{modMinor}.{modRevision}\n" +
                                     $"Required version: {major}.{minor}.{revision}");
 
@@ -576,7 +622,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                ModConsole.Error($"[MOP] Error loading rule {rulePath}: {ex}.");
+                ModConsole.Error($"[MOP] Error loading rule {Path.GetFileName(rulePath)}: {ex}.");
                 NewMessage($"<color=red>MOP: Error loading rule :(");
             }
         }
@@ -591,7 +637,7 @@ namespace MOP
             shadow.text = value;
         }
 
-        Vector3 GetVector3(string s)
+        Vector3 ParseToVector3(string s)
         {
             try
             {
@@ -625,6 +671,17 @@ namespace MOP
             {
                 return new string[] { };
             }
+        }
+
+        void ObsoleteWarning(string flag, string fileName, int lines, string content, string alternative)
+        {
+            ModConsole.Print($"\n=================================" +
+                                $"\n\n<color=cyan>[MOP] Flag '{flag}' is obsolete.\n" +
+                                $"Please use '{alternative}' instead!\n\n" +
+                                $"File: {fileName}\n" +
+                                $"Line: {lines}\n" +
+                                $"Content: {content}\n\n" +
+                                $"You can ignore that message.</color>");
         }
     }
 }

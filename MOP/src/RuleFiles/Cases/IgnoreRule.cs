@@ -39,16 +39,4 @@ namespace MOP
             this.ObjectName = ObjectName;
         }
     }
-
-    class PreventToggleOnObjectRule
-    {
-        public string MainObject;
-        public string ObjectName;
-
-        public PreventToggleOnObjectRule(string MainObject, string ObjectName)
-        {
-            this.MainObject = MainObject;
-            this.ObjectName = ObjectName;
-        }
-    }
 }

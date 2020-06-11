@@ -144,7 +144,7 @@ namespace MOP
 
             if (Rules.instance.RuleFileNames.Count == 0)
             {
-                output += $"No rule files loaded!\n\n";
+                output += $"No rule files loaded!\n";
             }
 
             return output;
