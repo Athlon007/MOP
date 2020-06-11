@@ -81,6 +81,7 @@ namespace MOP
             if (gtGrille != null)
             {
                 Transform gtGrilleTransform = gtGrille.transform;
+
                 while (MopFsmManager.IsGTGrilleInstalled() && gtGrilleTransform.parent.name != "pivot_grille")
                 {
                     yield return new WaitForSeconds(1);
