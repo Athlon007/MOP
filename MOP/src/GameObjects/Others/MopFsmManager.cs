@@ -34,6 +34,7 @@ namespace MOP
         static FsmFloat battery1;
         static FsmFloat battery2;
         static FsmBool playerHelmet;
+        static FsmFloat drawDistance;
 
         /// <summary>
         /// Checks if the player has the keys to the Hayosiko.
@@ -163,6 +164,14 @@ namespace MOP
                 playerHelmet = PlayMakerGlobals.Instance.Variables.GetFsmBool("PlayerHelmet");
 
             return playerHelmet.Value;
+        }
+
+        public static float GetDrawDistance()
+        {
+            if (drawDistance == null)
+                drawDistance = GameObject.Find("Systems/Options").GetPlayMakerByName("GFX").FsmVariables.GetFsmFloat("DrawDistance");
+
+            return drawDistance.Value;
         }
     }
 }

@@ -489,6 +489,9 @@ namespace MOP
             // Initialzie sector manager
             ActivateSectors();
 
+            // Add DynamicDrawDistance component.
+            gameObject.AddComponent<DynamicDrawDistance>();
+
             if (!MopSettings.SafeMode)
                 ToggleAll(false, ToggleAllMode.OnLoad);
 
@@ -1054,6 +1057,11 @@ namespace MOP
         public Transform GetLostSpawner()
         {
             return lostSpawner;
+        }
+
+        public bool IsInSector()
+        {
+            return inSectorMode;
         }
     }
 }

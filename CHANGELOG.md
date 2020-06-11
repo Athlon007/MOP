@@ -4,6 +4,9 @@
 
 ### Added
 
+- Added Dynamic Draw Distance
+  - The draw distance will be doubled, if player is above certain level - so you can see entirity of the map
+  - And it will be lowered, if you're in the building
 - Added "Run in Background" toggle in the MOP settings, letting you choose if the game pauses on ALT+TAB
 - Added CheatBox warning (it will NEVER be supported, stop messaging me, here's an explanation: https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 - Added info at the bottom of MOP settings

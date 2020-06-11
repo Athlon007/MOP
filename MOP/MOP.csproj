@@ -64,6 +64,7 @@
     <Compile Include="src\GameObjects\Items\Items.cs" />
     <Compile Include="src\GameObjects\Items\ItemHook.cs" />
     <Compile Include="src\GameObjects\Items\ShopModItemSpawnCheck.cs" />
+    <Compile Include="src\GameObjects\Others\DynamicDrawDistance.cs" />
     <Compile Include="src\GameObjects\Others\ItemAntiClip.cs" />
     <Compile Include="src\GameObjects\Others\MopFsmManager.cs" />
     <Compile Include="src\GameObjects\Others\OnDeathBehaviour.cs" />

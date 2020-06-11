@@ -28,6 +28,9 @@ namespace MOP
         public static int ActiveDistance { get; private set; }
         public static float ActiveDistanceMultiplicationValue { get; private set; }
         public static bool SafeMode { get; private set; }
+
+        // GRAPHICS
+        public static bool DynamicDrawDistance { get; private set; }
         
         // OTHER
         public static bool RemoveEmptyBeerBottles { get; private set; }
@@ -51,6 +54,9 @@ namespace MOP
             ActiveDistance = int.Parse(MOP.ActiveDistance.GetValue().ToString());
             ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
             SafeMode = (bool)MOP.SafeMode.GetValue();
+
+            // GRAPHICS
+            DynamicDrawDistance = (bool)MOP.DynamicDrawDistance.GetValue();
 
             // Others
             RemoveEmptyBeerBottles = (bool)MOP.RemoveEmptyBeerBottles.GetValue();

@@ -108,6 +108,7 @@ namespace MOP
         public static Settings EnableShadowAdjusting = new Settings("enableShadowAdjusting", "Adjust Shadows", false, MopSettings.UpdateAll);
         public static Settings ShadowDistance = new Settings("shadowDistance", "Shadow Distance", 200, MopSettings.UpdateAll);
         public static Settings KeepRunningInBackground = new Settings("keepRunningInBackground", "Run in Background", true, MopSettings.ToggleBackgroundRunning);
+        public static Settings DynamicDrawDistance = new Settings("dynamicDrawDistance", "Dynamic Draw Distance", false, MopSettings.UpdateAll);
 
         // MOD RULES
         public static Settings RulesAutoUpdate = new Settings("rulesAutoUpdate", "Rules Auto Update", true, MopSettings.UpdateAll);
@@ -168,6 +169,7 @@ namespace MOP
             Settings.AddCheckBox(this, EnableShadowAdjusting);
             Settings.AddSlider(this, ShadowDistance, 0, 4000);
             Settings.AddCheckBox(this, KeepRunningInBackground);
+            Settings.AddCheckBox(this, DynamicDrawDistance);
 
             // Mod Rules
             Settings.AddHeader(this, "Mod Rules", headerColor);
