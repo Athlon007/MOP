@@ -10,12 +10,16 @@
 
 ### Changes
 
+- Tweakes Repair Shop sector to be less aggresive
 - Improved the dialog uppon clicking a link in the settings
 - Minor changes in the settings
 
 ### Bug Fixes
 
+- (My Summer Car Bug) Added missing collisions to the car parked at the Fleetari's repair shop
 - Fixed saving potentially breaking, if the Safe Mode is on
+- Fixed potential bug in PlayerTaxiManager class
+- Fixed Safe Mode not initializing if the toggling routine failed
 
 ### Removed
 

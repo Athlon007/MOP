@@ -167,18 +167,14 @@ namespace MOP
                 new Teimo(),
                 new RepairShop(),
                 new Inspection(),
+                new Farm()
             };
-
-            // Added in Experimental 02.04.2020.
-            if (GameObject.Find("Farm") != null)
-                places.Add(new Farm());
 
             ModConsole.Print("[MOP] Initialized places");
 
             Transform buildings = GameObject.Find("Buildings").transform;
 
             // Find house of Teimo and detach it from Perajarvi, so it can be loaded and unloaded separately
-            // It shouldn't cause any issues, but that needs testing.
             GameObject perajarvi = GameObject.Find("PERAJARVI");
             perajarvi.transform.Find("HouseRintama4").parent = buildings;
             // Same for chicken house.
@@ -188,7 +184,7 @@ namespace MOP
             buildings.Find("ChickenHouse").parent = null;
 
             // Fix for church wall. Changing it's parent to NULL, so it will not be loaded or unloaded.
-            // It used to be changed to CHURCH gameobject, 
+            // It used to be attached to CHURCH gameobject, 
             // but the Amis cars (yellow and grey cars) used to end up in the graveyard area.
             GameObject.Find("CHURCHWALL").transform.parent = null;
 
@@ -260,9 +256,6 @@ namespace MOP
             // Fix for Jokke's house furnitures clipping through floor
             perajarvi.transform.Find("TerraceHouse/Apartments/Colliders").parent = null;
 
-            // Prevents togglign the house in front of Repair Shop
-            buildings.Find("HouseOld2").parent = null;
-
             // Applying a script to vehicles that can pick up and drive the player as a passanger to his house.
             // This script makes it so when the player enters the car, the parent of the vehicle is set to null.
             GameObject.Find("TRAFFIC").transform.Find("VehiclesDirtRoad/Rally/FITTAN").gameObject.AddComponent<PlayerTaxiManager>();
@@ -319,22 +312,26 @@ namespace MOP
             if (mattres != null)
                 mattres.parent = null;
 
-            // Item anti stuck for cottage.
+            // Item anti clip for cottage.
             GameObject area = new GameObject("MOP_ItemAntiClip");
             area.transform.position = new Vector3(-848.3f, -5.4f, 505.5f);
             area.transform.eulerAngles = new Vector3(0, 343.0013f, 0);
             area.AddComponent<ItemAntiClip>();
 
             // Z-fighting fix for wristwatch.
-            GameObject.Find("PLAYER")
-                .transform.Find("Pivot/AnimPivot/Camera/FPSCamera/FPSCamera/Watch/Animate/BreathAnim/WristwatchHand/Clock/Pivot/Hour/hour")
-                .gameObject.GetComponent<Renderer>().material.renderQueue = 3001;
+            try
+            {
+                GameObject.Find("PLAYER")
+                    .transform.Find("Pivot/AnimPivot/Camera/FPSCamera/FPSCamera/Watch/Animate/BreathAnim/WristwatchHand/Clock/Pivot/Hour/hour")
+                    .gameObject.GetComponent<Renderer>().material.renderQueue = 3001;
 
-            GameObject.Find("PLAYER")
-                .transform.Find("Pivot/AnimPivot/Camera/FPSCamera/FPSCamera/Watch/Animate/BreathAnim/WristwatchHand/Clock/Pivot/Minute/minute")
-                .gameObject.GetComponent<Renderer>().material.renderQueue = 3002;
+                GameObject.Find("PLAYER")
+                    .transform.Find("Pivot/AnimPivot/Camera/FPSCamera/FPSCamera/Watch/Animate/BreathAnim/WristwatchHand/Clock/Pivot/Minute/minute")
+                    .gameObject.GetComponent<Renderer>().material.renderQueue = 3002;
+            }
+            catch { }
 
-            // Adds bus roll fix to the bus.
+            // Adds roll fix to the bus.
             GameObject.Find("BUS").AddComponent<BusRollFix>();
 
             ModConsole.Print("[MOP] Finished applying fixes");
@@ -376,10 +373,10 @@ namespace MOP
             SatsumaInAreaCheck lifterArea = GameObject.Find("REPAIRSHOP/Lifter/Platform").AddComponent<SatsumaInAreaCheck>();
             lifterArea.Initialize(new Vector3(5, 5, 5));
 
-            ModConsole.Print("[MOP] Satsuma Area Checks loaded");
+            ModConsole.Print("[MOP] Satsuma triggers loaded");
 
             // Jokke's furnitures.
-            // Only renderers will be toggled
+            // Only renderers are going to be toggled.
             if (GameObject.Find("tv(Clo01)") != null)
             {
                 worldObjectList.Add("tv(Clo01)", 100, true);
@@ -424,7 +421,7 @@ namespace MOP
                     switch (v.ToggleMode)
                     {
                         default:
-                            ModConsole.Error($"[MOP] Unrecognized toggle mode {v.ObjectName}.");
+                            ModConsole.Error($"[MOP] Unrecognized toggle mode for {v.ObjectName}: {v.ToggleMode}.");
                             break;
                         case ToggleModes.Normal:
                             if (GameObject.Find(v.ObjectName) == null)
@@ -571,10 +568,11 @@ namespace MOP
         /// </summary>
         void PreSaveGame()
         {
-            ModConsole.Print("[MOP] Initializing Pre-Save Actions");
+            ModConsole.Print("[MOP] Initializing Pre-Save Actions...");
             MopSettings.IsModActive = false;
             StopCoroutine(currentLoop);
             ToggleAll(true, ToggleAllMode.OnSave);
+            ModConsole.Print("[MOP] Pre-Save Actions Completed!");
         }
 
         /// <summary>
@@ -847,7 +845,8 @@ namespace MOP
 
         int ticks;
         int lastTick;
-        bool restartTried;
+        int retries;
+        const int MaxRetries = 3;
 
         /// <summary>
         /// Every 10 seconds check if the coroutine is still active.
@@ -865,23 +864,23 @@ namespace MOP
 
                 if (lastTick == ticks)
                 {
-                    if (restartTried)
+                    if (retries > MaxRetries)
                     {
                         ModConsole.Error("[MOP] Restart attempt failed. Enabling Safe Mode.");
                         ModConsole.Error("[MOP] Please contact mod developer. Make sure you send output_log and last MOP crash log!");
                         MopSettings.EnableSafeMode();
                         ToggleAll(true);
+                        yield break;
                     }
 
-                    restartTried = true;
-                    ModConsole.Warning("[MOP] MOP has stopped working! Trying to restart it now...");
+                    retries++;
+                    ModConsole.Warning($"[MOP] MOP has stopped working! Restart attempt {retries}/{MaxRetries}...");
+                    StopCoroutine(currentLoop);
                     currentLoop = LoopRoutine();
                     StartCoroutine(currentLoop);
                 }
-
-                if (lastTick != ticks)
+                else
                 {
-                    restartTried = false;
                     lastTick = ticks;
                 }
             }

@@ -61,6 +61,14 @@ namespace MOP
             Vector3 newBounds = registerCollider.center;
             newBounds.x = 5;
             registerCollider.center = newBounds;
+
+            // Add collider to Fury.
+            BoxCollider collBox0 = GetTransform().Find("LOD/Vehicle/FURY").gameObject.AddComponent<BoxCollider>();
+            BoxCollider collBox1 = GetTransform().Find("LOD/Vehicle/FURY").gameObject.AddComponent<BoxCollider>();
+            collBox0.center = new Vector3(0, 0, -.2f);
+            collBox0.size = new Vector3(2.2f, 1.3f, 5);
+            collBox1.center = new Vector3(0, 0, -.25f);
+            collBox1.size = new Vector3(1.4f, 2.3f, 1.1f);
         }
     }
 }

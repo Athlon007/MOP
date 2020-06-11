@@ -24,7 +24,7 @@ namespace MOP
         // This script hooks up to all vehicles that can drive the player as a passenger to his house.
         // Uppon entering the car, parent of the object is set to null.
 
-        public PlayerTaxiManager()
+        void Start()
         {
             FsmHook.FsmInject(transform.Find("PlayerTrigger/DriveTrigger").gameObject, "Player in car", RemoveParent);
         }
