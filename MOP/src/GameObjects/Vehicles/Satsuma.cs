@@ -136,7 +136,7 @@ namespace MOP
             GameObject.Find("block(Clone)").AddComponent<SatsumaEngineManager>();
 
             // Fix for not working handbrake after respawn.
-            GameObject.Find("HandBrake").AddComponent<SatsumaHandbrakeManager>();
+            GameObject.Find("HandBrake").GetComponent<PlayMakerFSM>().enabled = true;
 
             // Fixes handbrake lever position.
             PlayMakerFSM handbrakeLeverFsm = transform.Find("MiscParts/HandBrake/handbrake(xxxxx)/handbrake lever")

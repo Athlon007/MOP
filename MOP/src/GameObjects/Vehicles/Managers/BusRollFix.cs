@@ -40,7 +40,7 @@ namespace MOP
         {
             yield return new WaitForSeconds(5);
 
-            if (transform.localEulerAngles.z > 20 && transform.localEulerAngles.z <  340)
+            if (transform.localEulerAngles.z > 20 && transform.localEulerAngles.z < 340)
             {
                 Vector3 fixedPosition = transform.localEulerAngles;
                 fixedPosition.z = 0;

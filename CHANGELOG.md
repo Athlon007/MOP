@@ -34,6 +34,7 @@
 - Fixed potential bug in PlayerTaxiManager class
 - Fixed Safe Mode not initializing properly if the toggling routine failed, and getting stuck in constant "trying to restart" loop
 - Fixed toggle ignoring on objects inside of vehicles working only for the first item in the rule file
+- Fixed MOP rules loading not working, if the mod has been disabled and the game has been restarted
 
 ### Removed
 

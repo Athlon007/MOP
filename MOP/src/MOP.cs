@@ -67,6 +67,8 @@ namespace MOP
 
         public override void ModSettingsLoaded()
         {
+            if (modConfigPath == null)
+                modConfigPath = ModLoader.GetModConfigFolder(this).Replace('\\', '/');
             MopSettings.UpdateAll();
             modVersion = Version;
             ModConsole.Print($"<color=green>MOP {ModVersion} initialized!</color>");
