@@ -6,6 +6,7 @@
 
 - (Development) Fixed a typo
 - Fixed on MOP crash Safe Mode enabling not working as intended
+- Fixed Teimo counting the broken windows multiple times, if you broke one, left the shop area and came back
 
 ## 2.10 Development 1 (11.06.2020)
 

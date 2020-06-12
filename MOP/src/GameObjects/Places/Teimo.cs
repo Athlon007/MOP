@@ -54,7 +54,7 @@ namespace MOP
             "PlayerRigid", "GrillboxMicro", "PhysHead", "Shades", "hat", "glasses", "FighterFist", "GameLogic",
             "Buttons", "Bet", "Double", "Hold", "InsertCoin", "Deal", "TakeWin", "Pokeri", "CashSound", "videopoker_on",
             "Hatch", "HookSlot", "Disabled", "slot_machine_off", "Money", "Lock", "Cash", "Accessories", "VideoPoker", "videopoker",
-            "Monitor", "screen", "button_"
+            "Monitor", "screen", "button_", "BreakableWindows", "BreakableWindows"
         };
 
         /// <summary>
@@ -93,6 +93,20 @@ namespace MOP
             teimoShit.Add(GetTransform().Find("TeimoInShop/Pivot/TeimoCollider"));
             teimoShit.Add(GetTransform().Find("GasolineFire"));
             DisableableChilds.AddRange(teimoShit);
+
+            // Disable resetting of the breakable windows.
+            Transform storeBreakableWindow = GameObject.Find("STORE").transform.Find("LOD/GFX_Store/BreakableWindows/BreakableWindow");
+            if (storeBreakableWindow != null)
+            {
+                foreach (PlayMakerFSM fsm in storeBreakableWindow.gameObject.GetComponents<PlayMakerFSM>())
+                    fsm.Fsm.RestartOnEnable = false;
+            }
+            Transform storeBreakableWindowPub = GameObject.Find("STORE").transform.Find("LOD/GFX_Pub/BreakableWindowsPub/BreakableWindowPub");
+            if (storeBreakableWindowPub != null)
+            {
+                foreach (PlayMakerFSM fsm in storeBreakableWindowPub.gameObject.GetComponents<PlayMakerFSM>())
+                    fsm.Fsm.RestartOnEnable = false;
+            }
         }
 
         /// <summary>
