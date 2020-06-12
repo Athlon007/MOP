@@ -415,9 +415,11 @@ namespace MOP
                 string[] content = File.ReadAllLines(rulePath).Where(s => s.Length > 0 && !s.StartsWith("##")).ToArray();
                 string fileName = Path.GetFileName(rulePath);
                 int lines = File.ReadAllLines(rulePath).Where(s => s.StartsWith("##")).ToArray().Length;
+                int currentLine = 0;
                 foreach (string s in content)
                 {
                     lines++;
+                    currentLine++;
                     string[] splitted = s.Split(':');
 
                     // Read flag and rules.
@@ -531,6 +533,16 @@ namespace MOP
                             {
                                 break;
                             }
+
+                            if (currentLine != 1)
+                            {
+                                ModConsole.Print($"\n=================================" +
+                                $"\n\n<color=cyan>[MOP] Flag '{flag}' must be first in the order!\n\n" +
+                                $"File: {fileName}\n" +
+                                $"Line: {lines}\n" +
+                                $"You can ignore that message.</color>");
+                            }
+
                             int major, minor, revision = 0;
                             string[] verSplitted = objects[0].Split('.');
                             major = int.Parse(verSplitted[0]);

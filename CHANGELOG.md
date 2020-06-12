@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.10 Development 2 (tba)
+
+### Bug Fixes
+
+- (Development) Fixed a typo
+- Fixed on MOP crash Safe Mode enabling not working as intended
+
 ## 2.10 Development 1 (11.06.2020)
 
 ### Added
@@ -9,7 +16,7 @@
   - And it will be lowered, if you're in the building
   - You can enable it in the settings
 - Added "Run in Background" toggle in the MOP settings, letting you choose if the game pauses on ALT+TAB
-- Added CheatBox warning (it will NEVER be supported, stop messaging me about it, here's an explanation: youtu.be/watch?v=dQw4w9WgXcQ)
+- Added CheatBox warning (it will NEVER be supported, stop messaging me about it, here's an explanation: http://youtube.com/watch?v=dQw4w9WgXcQ)
 - Added info at the bottom of MOP settings
 - If the incorrect flag has been found in rule file, the error line will be displayed
 
@@ -37,10 +44,6 @@
 - Fixed toggle ignoring on objects inside of vehicles working only for the first item in the rule file
 - Fixed MOP rules loading not working, if the mod has been disabled and the game has been restarted
 - Fixed MOP not working, if player stole the video poker machine
-
-### Removed
-
-- Removed error logging for the reg plates fix, because it really only happens rarely and is not even noticable
 
 ## 2.9.8 (09.06.2020)
 

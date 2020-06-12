@@ -811,13 +811,18 @@ namespace MOP
                 if (retries > 0 && !restartSucceedMessaged)
                 {
                     restartSucceedMessaged = true;
-                    ModConsole.Print("<color=green>[MOP] Restart succeed!</color>");
+                    ModConsole.Print("<color=green>[MOP] Restart succeeded!</color>");
                 }
             }
         }
 
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                StopCoroutine(currentLoop);
+            }
+
             if (!MopSettings.IsModActive || Satsuma.instance == null) return;
             Satsuma.instance.ForceFuckingRotation();
         }
@@ -853,6 +858,7 @@ namespace MOP
             return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
 
+        #region System Control & Crash Protection
         int ticks;
         int lastTick;
         int retries;
@@ -879,8 +885,8 @@ namespace MOP
                     {
                         ModConsole.Error("[MOP] Restart attempt failed. Enabling Safe Mode.");
                         ModConsole.Error("[MOP] Please contact mod developer. Make sure you send output_log and last MOP crash log!");
-                        MopSettings.EnableSafeMode();
                         try { ToggleAll(true); } catch { }
+                        MopSettings.EnableSafeMode();
                         yield break;
                     }
 
@@ -897,6 +903,7 @@ namespace MOP
                 }
             }
         }
+        #endregion
 
         public enum ToggleAllMode { Default, OnSave, OnLoad }
 
