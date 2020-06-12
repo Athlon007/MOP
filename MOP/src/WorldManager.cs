@@ -509,6 +509,7 @@ namespace MOP
             GC.Collect();
         }
 
+        #region Save Game Actions
         /// <summary>
         /// Looks for gamobject named SAVEGAME, and hooks PreSaveGame into them.
         /// </summary>
@@ -578,6 +579,7 @@ namespace MOP
             ToggleAll(true, ToggleAllMode.OnSave);
             ModConsole.Print("[MOP] Pre-Save Actions Completed!");
         }
+        #endregion
 
         /// <summary>
         /// This coroutine runs
@@ -818,11 +820,6 @@ namespace MOP
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                StopCoroutine(currentLoop);
-            }
-
             if (!MopSettings.IsModActive || Satsuma.instance == null) return;
             Satsuma.instance.ForceFuckingRotation();
         }
