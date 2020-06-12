@@ -924,6 +924,14 @@ namespace MOP
 
             if (MopSettings.SafeMode) return;
 
+            // Force save the database of motor.
+            if (mode == ToggleAllMode.OnSave)
+            {
+                GameObject databaseMotor = GameObject.Find("Database/DatabaseMotor");
+                foreach (PlayMakerFSM fsm in databaseMotor.GetComponentsInChildren<PlayMakerFSM>())
+                    fsm.SendEvent("SAVEGAME");
+            }
+
             // Vehicles
             for (int i = 0; i < vehicles.Count; i++)
             {
@@ -934,6 +942,36 @@ namespace MOP
                     if (mode == ToggleAllMode.OnLoad)
                     {
                         vehicles[i].ForceToggleUnityCar(false);
+                    }
+                    else if (mode == ToggleAllMode.OnSave)
+                    {
+                        vehicles[i].ToggleUnityCar(enabled);
+                        PlayMakerFSM lodFSM = vehicles[i].gameObject.GetPlayMakerByName("LOD");
+
+                        // For some fucking reason, sometimes position, fuel level and other shit doesn't wanna save.
+                        // So we gotta force it.
+                        // Force save position of vehicle.
+                        if (lodFSM != null)
+                            lodFSM.SendEvent("SAVEGAME");
+
+                        // Save fuel tank level.
+                        Transform fuelTank = vehicles[i].transform.Find("FuelTank");
+                        if (fuelTank)
+                            fuelTank.gameObject.GetPlayMakerByName("Data").SendEvent("SAVEGAME");
+
+                        // Force bolts save in Satsuma.
+                        if (vehicles[i].gameObject.name == "SATSUMA(557kg, 248)")
+                        {
+                            vehicles[i].SatsumaScript.SaveAllBolts();
+                        }
+
+                        // Fix for Gifu shit tank not saving.
+                        if (vehicles[i].gameObject.name == "GIFU(750/450psi)")
+                        {
+                            PlayMakerFSM wasteFSM = vehicles[i].transform.Find("ShitTank").gameObject.GetPlayMakerByName("Waste");
+                            if (wasteFSM)
+                                wasteFSM.SendEvent("SAVEGAME");
+                        }
                     }
                 }
                 catch (Exception ex)

@@ -72,6 +72,8 @@ namespace MOP
         List<PlayMakerFSM> onCloseTogglePlayMaker;
         List<GameObject> onFarToggle;
 
+        List<SatsumaBoltsAntiReload> satsumaBoltsAntiReloads;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -147,7 +149,7 @@ namespace MOP
             loadGame.SaveActions();
 
             // Get all bolts.
-            List<SatsumaBoltsAntiReload> satsumaBoltsAntiReloads = new List<SatsumaBoltsAntiReload>();
+            satsumaBoltsAntiReloads = new List<SatsumaBoltsAntiReload>();
             GameObject[] bolts = Resources.FindObjectsOfTypeAll<GameObject>().Where(obj => obj.name == "BoltPM").ToArray();
             foreach (GameObject bolt in bolts)
             {
@@ -222,10 +224,6 @@ namespace MOP
             {
                 ModConsole.Error($"[MOP] Only {satsumaBoltsAntiReloads.Count}/{MinimumBolts} have been reset!");
             }
-            foreach (var s in satsumaBoltsAntiReloads)
-                Object.Destroy(s);
-            satsumaBoltsAntiReloads.Clear();
-
 
             // Fixes car body color resetting to default.
             PlayMakerFSM carBodyPaintFsm = transform.Find("Body/car body(xxxxx)").gameObject.GetPlayMakerByName("Paint");
@@ -528,6 +526,15 @@ namespace MOP
             {
                 ExceptionManager.New(ex, "SATSUMA_TOGGLE_ELEMENTS_ERROR");
             }
+        }
+
+        /// <summary>
+        /// This void goes through all of the SatsumaBotlsAntiReload scripts and forces the status save on them.
+        /// </summary>
+        public void SaveAllBolts()
+        {
+            foreach (SatsumaBoltsAntiReload bolt in satsumaBoltsAntiReloads)
+                bolt.ForceSave();
         }
     }
 }

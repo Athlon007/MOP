@@ -1,12 +1,14 @@
 # Changelog
 
-## 2.10 Development 2 (tba)
+## 2.10 Development 2 (12.06.2020)
 
 ### Bug Fixes
 
 - (Development) Fixed a typo
-- Fixed on MOP crash Safe Mode enabling not working as intended
+- Fixed enabling of all objects on MOP crash
 - Fixed Teimo counting the broken windows multiple times, if you broke one, left the shop area and came back
+- Fixed Gifu position and waste tank level sometimes not saving properly
+- Fixed Satsuma bolts sometimes not saving their values
 
 ## 2.10 Development 1 (11.06.2020)
 

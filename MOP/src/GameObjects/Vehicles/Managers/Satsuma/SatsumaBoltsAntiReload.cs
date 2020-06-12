@@ -22,12 +22,14 @@ namespace MOP
 {
     class SatsumaBoltsAntiReload : MonoBehaviour
     {
+        PlayMakerFSM fsm;
+
         public SatsumaBoltsAntiReload()
         {
             try
             {
                 string fsmName = gameObject.ContainsPlayMakerByName("BoltCheck") ? "BoltCheck" : "Use";
-                PlayMakerFSM fsm = gameObject.GetPlayMakerByName(fsmName);
+                fsm = gameObject.GetPlayMakerByName(fsmName);
 
                 if (fsm == null)
                 {
@@ -57,6 +59,16 @@ namespace MOP
             {
                 ExceptionManager.New(ex, $"BOLTS_ANTI_LOAD_SCRIPT_ERROR_{gameObject.transform.parent.gameObject.name}/{gameObject.name}");
             }
+        }
+
+        public void ForceSave()
+        {
+            if (fsm == null)
+            {
+                return;
+            }
+
+            fsm.SendEvent("SAVEGAME");
         }
     }
 }
