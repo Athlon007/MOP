@@ -3,9 +3,9 @@
 Visit GitHub repository for newest updates, previews and changelogs!
 https://github.com/Athlon007/MOP
 
-Download the newest update from RaceDepartment,
-or NexusMods.
+Download the newest update from GitHub, RaceDepartment or NexusMods.
 
+GitHub: https://github.com/Athlon007/MOP/releases
 RaceDepartment: https://www.racedepartment.com/downloads/mop-modern-optimization-plugin.30073/
 NexusMods: https://www.nexusmods.com/mysummercar/mods/146
 
