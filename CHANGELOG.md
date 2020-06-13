@@ -15,8 +15,8 @@
 
 ### Changes
 
-- Tweakes Repair Shop sector to be less aggresive
-- Improved the dialog uppon clicking a link in the settings
+- Tweaked Repair Shop sector to be less aggresive
+- Improved the dialog upon clicking a link in the settings
 - Minor changes in the settings
 - Improved fuel tank level saving script
 - Multiple rule files API changes
