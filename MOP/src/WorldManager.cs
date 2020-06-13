@@ -123,6 +123,9 @@ namespace MOP
                     Vehicle newVehicle = null;
                     switch (vehicle)
                     {
+                        default:
+                            newVehicle = new Vehicle(vehicle);
+                            break;
                         case "SATSUMA(557kg, 248)":
                             newVehicle = new Satsuma(vehicle);
                             break;
@@ -131,9 +134,6 @@ namespace MOP
                             break;
                         case "COMBINE(350-400psi)":
                             newVehicle = new Combine(vehicle);
-                            break;
-                        default:
-                            newVehicle = new Vehicle(vehicle);
                             break;
                     }
 
@@ -516,7 +516,7 @@ namespace MOP
         void HookPreSaveGame()
         {
             GameObject[] saveGames = Resources.FindObjectsOfTypeAll<GameObject>()
-                .Where(obj => obj.name == "SAVEGAME").ToArray();
+                .Where(obj => obj.name.Contains("SAVEGAME")).ToArray();
 
             try
             {
@@ -532,7 +532,7 @@ namespace MOP
                         saveGames[i].SetActive(true);
                     }
 
-                    if (saveGames[i].transform.parent.name == "JAIL" && saveGames[i].transform.parent.gameObject.activeSelf == false)
+                    if (saveGames[i].transform.parent != null && saveGames[i].transform.parent.name == "JAIL" && saveGames[i].transform.parent.gameObject.activeSelf == false)
                     {
                         useInnactiveFix = true;
                         isJail = true;

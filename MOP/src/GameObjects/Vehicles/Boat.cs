@@ -30,7 +30,7 @@ namespace MOP
         {
             Toggle = ToggleActive;
 
-            preventToggleOnObjects.Add(new PreventToggleOnObject(transform.Find("GFX/Motor/Pivot/FuelTank")));
+            transform.Find("GFX/Motor/Pivot/FuelTank").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
             rb = this.gameObject.GetComponent<Rigidbody>();
 
             // Ignore Rule

@@ -121,6 +121,8 @@ namespace MOP
                     resetState.Actions = new FsmStateAction[] { new CustomStopAction() };
                     resetState.SaveActions();
                 }
+
+                lodFSM.FindFsmState("Load game").Actions = new FsmStateAction[] { new CustomNullState() };
             }
 
             if (gameObject.name == "BOAT")
@@ -136,14 +138,18 @@ namespace MOP
             Transform fuelTank = gameObject.transform.Find("FuelTank");
             if (fuelTank != null)
             {
-                preventToggleOnObjects.Add(new PreventToggleOnObject(fuelTank));
+                PlayMakerFSM fuelTankFSM = fuelTank.GetComponent<PlayMakerFSM>();
+                if (fuelTankFSM)
+                    fuelTankFSM.Fsm.RestartOnEnable = false;
             }
 
             // If the vehicle is Gifu, find knobs and add them to list of unloadable objects
             if (gameObject.name == "GIFU(750/450psi)")
             {
-                preventToggleOnObjects.Add(new PreventToggleOnObject(gameObject.transform.Find("Dashboard").Find("Knobs")));
-                
+                Transform knobs = gameObject.transform.Find("Dashboard/Knobs");
+                foreach (PlayMakerFSM knobsFSMs in knobs.GetComponentsInChildren<PlayMakerFSM>())
+                    knobsFSMs.Fsm.RestartOnEnable = false;
+
                 PlayMakerFSM shitFsm = gameObject.transform.Find("ShitTank").gameObject.GetComponent<PlayMakerFSM>();
                 FsmState loadGame = shitFsm.FindFsmState("Load game");
                 List<FsmStateAction> loadArrayActions = new List<FsmStateAction> { new CustomNullState() };

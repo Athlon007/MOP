@@ -30,7 +30,7 @@ namespace MOP
         public override string Name => "Modern Optimization Plugin"; //You mod name
 #endif
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "2.10.0"; //Version
+        public override string Version => "2.10"; //Version
 
         // ModLoader configuration.
         public override bool SecondPass => true;

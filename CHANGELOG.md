@@ -1,16 +1,6 @@
 # Changelog
 
-## 2.10 Development 2 (12.06.2020)
-
-### Bug Fixes
-
-- (Development) Fixed a typo
-- Fixed enabling of all objects on MOP crash
-- Fixed Teimo counting the broken windows multiple times, if you broke one, left the shop area and came back
-- Fixed Gifu position and waste tank level sometimes not saving properly
-- Fixed Satsuma bolts sometimes not saving their values
-
-## 2.10 Development 1 (11.06.2020)
+## 2.10 (13.06.2020)
 
 ### Added
 
@@ -28,13 +18,14 @@
 - Tweakes Repair Shop sector to be less aggresive
 - Improved the dialog uppon clicking a link in the settings
 - Minor changes in the settings
+- Improved fuel tank level saving script
 - Multiple rule files API changes
-- Rule Files API: ignore_at_place is now obsolete! Please use ignore: < place > < object_name > instead
-- Rule Files API: toggle_renderer is now obsolete! Please use "toggle: < object_name > renderer" instead
-- Rule Files API: toggle_item is now obsolete! Please use "toggle: < object_name > item" instead
-- Rule Files API: toggle_vehicle is now obsolete! Please use "toggle: < object_name > vehicle" instead
-- Rule Files API: toggle_vehicle_physics_only is now obsolete! Please use "toggle: < object_name > vehicle_physics" instead
-- Rule Files API: prevent_toggle_on_object is now obsolete! Please use ignore: < vehicle_name > < object_name > instead
+- Rule Files API: ignore_at_place is now obsolete! Please use ignore: [place] [object_name] instead
+- Rule Files API: toggle_renderer is now obsolete! Please use "toggle: [object_name] renderer" instead
+- Rule Files API: toggle_item is now obsolete! Please use "toggle: [object_name] item" instead
+- Rule Files API: toggle_vehicle is now obsolete! Please use "toggle: [object_name] vehicle" instead
+- Rule Files API: toggle_vehicle_physics_only is now obsolete! Please use "toggle: [object_name] vehicle_physics" instead
+- Rule Files API: prevent_toggle_on_object is now obsolete! Please use ignore: [vehicle_name] [object_name] instead
 - Overall improvements in rule files loading
 - Code optimization and improvements
 
@@ -47,6 +38,11 @@
 - Fixed toggle ignoring on objects inside of vehicles working only for the first item in the rule file
 - Fixed MOP rules loading not working, if the mod has been disabled and the game has been restarted
 - Fixed MOP not working, if player stole the video poker machine
+- Fixed enabling of all objects on MOP crash
+- Fixed Teimo counting the broken windows multiple times, if you broke one, left the shop area and came back
+- Fixed Gifu position and waste tank level sometimes not saving properly
+- Fixed Satsuma bolts sometimes not saving their values
+- Fixed the save game hook not working for the Rent Apartment mod save point
 
 ## 2.9.8 (09.06.2020)
 
