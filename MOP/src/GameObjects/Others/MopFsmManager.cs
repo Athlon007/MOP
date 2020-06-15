@@ -15,6 +15,8 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
+using System;
+using System.Reflection;
 using UnityEngine;
 
 namespace MOP
@@ -35,6 +37,16 @@ namespace MOP
         static FsmFloat battery2;
         static FsmBool playerHelmet;
         static FsmFloat drawDistance;
+
+        public static void ResetAll()
+        {
+            FieldInfo[] fields = typeof(MopFsmManager).GetFields();
+            // Loop through fields
+            foreach (var field in fields)
+            {
+                field.SetValue(field, null);
+            }
+        }
 
         /// <summary>
         /// Checks if the player has the keys to the Hayosiko.

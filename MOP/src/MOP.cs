@@ -32,6 +32,7 @@ namespace MOP
         public override string Author => "Athlon"; //Your Username
         public override string Version => "2.10"; //Version
 
+        #region Settings & Configuration
         // ModLoader configuration.
         public override bool SecondPass => true;
         public override bool LoadInMenu => true;
@@ -43,55 +44,6 @@ namespace MOP
         // Stores the version of the mod.
         static string modVersion;
         public static string ModVersion { get => modVersion; }
-
-        public override void OnMenuLoad()
-        {
-            if (ModLoader.IsModPresent("CheatBox"))
-            {
-                ModConsole.Warning("[MOP] CheatBox is not supported by MOP!");
-            }
-
-            modConfigPath = ModLoader.GetModConfigFolder(this).Replace('\\', '/');
-            if (!MopSettings.DataSendingAgreed())
-            {
-                ModUI.ShowMessage($"Welcome to Modern Optimization Plugin <color=yellow>{Version}</color>!\n\n" +
-                    $"While using rule files auto updates, MOP sends following data:\n" +
-                    "• MOP Version\n" +
-                    "• Operating System Version", "MOP");
-                MopSettings.AgreeData();
-            }
-
-            Resources.UnloadUnusedAssets();
-            GC.Collect();
-        }
-
-        public override void ModSettingsLoaded()
-        {
-            if (modConfigPath == null)
-                modConfigPath = ModLoader.GetModConfigFolder(this).Replace('\\', '/');
-            MopSettings.UpdateAll();
-            modVersion = Version;
-            ModConsole.Print($"<color=green>MOP {ModVersion} initialized!</color>");
-            new Rules();
-            ConsoleCommand.Add(new ConsoleCommands());
-        }
-
-        /// <summary>
-        /// Called once, when mod is loading after game is fully loaded.
-        /// </summary>
-        public override void SecondPassOnLoad()
-        {
-            MopSettings.UpdateAll();
-
-            // Create WorldManager game object
-            GameObject worldManager = new GameObject("MOP_WorldManager");
-
-            // Initialize CompatibiliyManager
-            new CompatibilityManager();
-
-            // Add WorldManager class
-            worldManager.AddComponent<WorldManager>();
-        }
 
         // BUTTONS
         readonly Settings faq = new Settings("faq", "FAQ", ExternalExecuting.OpenFAQDialog);
@@ -204,6 +156,59 @@ namespace MOP
                 $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}");
             Settings.AddButton(this, homepage);
         }
+        #endregion
+
+        public override void OnMenuLoad()
+        {
+            if (ModLoader.IsModPresent("CheatBox"))
+            {
+                ModConsole.Warning("[MOP] CheatBox is not supported by MOP!");
+            }
+
+            modConfigPath = ModLoader.GetModConfigFolder(this).Replace('\\', '/');
+            if (!MopSettings.DataSendingAgreed())
+            {
+                ModUI.ShowMessage($"Welcome to Modern Optimization Plugin <color=yellow>{Version}</color>!\n\n" +
+                    $"While using rule files auto updates, MOP sends following data:\n" +
+                    "• MOP Version\n" +
+                    "• Operating System Version", "MOP");
+                MopSettings.AgreeData();
+            }
+
+            MopFsmManager.ResetAll();
+
+            Resources.UnloadUnusedAssets();
+            GC.Collect();
+        }
+
+        public override void ModSettingsLoaded()
+        {
+            if (modConfigPath == null)
+                modConfigPath = ModLoader.GetModConfigFolder(this).Replace('\\', '/');
+            MopSettings.UpdateAll();
+            modVersion = Version;
+            ModConsole.Print($"<color=green>MOP {ModVersion} initialized!</color>");
+            new Rules();
+            ConsoleCommand.Add(new ConsoleCommands());
+        }
+
+        /// <summary>
+        /// Called once, when mod is loading after game is fully loaded.
+        /// </summary>
+        public override void SecondPassOnLoad()
+        {
+            MopSettings.UpdateAll();
+
+            // Create WorldManager game object
+            GameObject worldManager = new GameObject("MOP_WorldManager");
+
+            // Initialize CompatibiliyManager
+            new CompatibilityManager();
+
+            // Add WorldManager class
+            worldManager.AddComponent<WorldManager>();
+        }
+
 
         static void ForceRuleFilesUpdate()
         {

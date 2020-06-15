@@ -360,6 +360,16 @@ namespace MOP
             boltsONActions[1] = new MasterAudioAssembleCustom();
             boltsONState.Actions = boltsONActions;
             boltsONState.SaveActions();
+
+            /*
+            if (System.IO.File.Exists("sats.txt"))
+                System.IO.File.Delete("sats.txt");
+            string vehiclez = "";
+            foreach (var w in disableableObjects)
+                vehiclez += w.gameObject.name + ", ";
+            System.IO.File.WriteAllText("sats.txt", vehiclez);
+            System.Diagnostics.Process.Start("sats.txt");
+            */
         }
 
         /// <summary>
@@ -534,7 +544,16 @@ namespace MOP
         public void SaveAllBolts()
         {
             foreach (SatsumaBoltsAntiReload bolt in satsumaBoltsAntiReloads)
-                bolt.ForceSave();
+            {
+                try
+                {
+                    bolt.ForceSave();
+                }
+                catch (System.Exception ex)
+                {
+                    ExceptionManager.New(ex, "SATSUMA_SAVE_BOLT");
+                }
+            }
         }
     }
 }

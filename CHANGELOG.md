@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.10.1 (tba)
+
+### Bug Fixes
+
+- Fixed MOP sometimes not initializing after starting a new game
+
 ## 2.10 (13.06.2020)
 
 ### Added

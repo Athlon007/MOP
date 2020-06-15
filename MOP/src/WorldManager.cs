@@ -507,6 +507,65 @@ namespace MOP
             ModConsole.Print(finalMessage);
             Resources.UnloadUnusedAssets();
             GC.Collect();
+
+            /*
+            if (System.IO.File.Exists("world.txt"))
+                System.IO.File.Delete("world.txt");
+            string world = "";
+            foreach (var w in worldObjectList.GetList())
+            {
+                if (world.Contains(w.gameObject.name)) continue;
+                world += w.gameObject.name + ", ";
+            }
+            System.IO.File.WriteAllText("world.txt", world);
+            System.Diagnostics.Process.Start("world.txt");
+
+            if (System.IO.File.Exists("vehicle.txt"))
+                System.IO.File.Delete("vehicle.txt");
+            string vehiclez = "";
+            foreach (var w in vehicles)
+                vehiclez += w.gameObject.name + ", ";
+            System.IO.File.WriteAllText("vehicle.txt", vehiclez);
+            System.Diagnostics.Process.Start("vehicle.txt");
+
+            if (System.IO.File.Exists("items.txt"))
+                System.IO.File.Delete("items.txt");
+            string items = "";
+            foreach (var w in Items.instance.ItemsHooks)
+            {
+                if (items.Contains(w.gameObject.name)) continue;
+                items += w.gameObject.name + ", ";
+            }
+            System.IO.File.WriteAllText("items.txt", items);
+            System.Diagnostics.Process.Start("items.txt");
+
+            if (System.IO.File.Exists("place.txt"))
+                System.IO.File.Delete("place.txt");
+            string place = "";
+            foreach (var w in places)
+            {
+                place += w.GetName() + ": ";
+                foreach (var f in w.GetDisableableChilds())
+                {
+                    if (place.Contains(f.gameObject.name)) continue;
+                    place += f.gameObject.name + ", ";
+                }
+
+                place += "\n\n";
+            }
+            System.IO.File.WriteAllText("place.txt", place);
+            System.Diagnostics.Process.Start("place.txt");
+
+            if (System.IO.File.Exists("sector.txt"))
+                System.IO.File.Delete("sector.txt");
+            string sector = "";
+            foreach (var w in SectorManager.instance.DisabledObjects)
+            {
+                sector += w.name + ", ";
+            }
+            System.IO.File.WriteAllText("sector.txt", sector);
+            System.Diagnostics.Process.Start("sector.txt");
+            */
         }
 
         #region Save Game Actions
@@ -617,7 +676,7 @@ namespace MOP
 
                     try
                     {
-                        WorldObject worldObject = worldObjectList.Get(i);
+                        WorldObject worldObject = worldObjectList[i];
 
                         if (Rules.instance.SectorRulesContains(worldObject.gameObject.name))
                             continue;
@@ -669,6 +728,7 @@ namespace MOP
 
                     try
                     {
+                        if (Items.instance.ItemsHooks[i].name.EndsWith("_INVENTORY")) continue;
                         if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
                         {
                             // Remove item at the current i
@@ -914,7 +974,7 @@ namespace MOP
             {
                 try
                 {
-                    worldObjectList.Get(i).Toggle(enabled);
+                    worldObjectList[i].Toggle(enabled);
                 }
                 catch (Exception ex)
                 {
@@ -959,18 +1019,18 @@ namespace MOP
                         if (fuelTank)
                             fuelTank.gameObject.GetPlayMakerByName("Data").SendEvent("SAVEGAME");
 
-                        // Force bolts save in Satsuma.
-                        if (vehicles[i].gameObject.name == "SATSUMA(557kg, 248)")
+                        switch (vehicles[i].gameObject.name)
                         {
-                            vehicles[i].SatsumaScript.SaveAllBolts();
-                        }
-
-                        // Fix for Gifu shit tank not saving.
-                        if (vehicles[i].gameObject.name == "GIFU(750/450psi)")
-                        {
-                            PlayMakerFSM wasteFSM = vehicles[i].transform.Find("ShitTank").gameObject.GetPlayMakerByName("Waste");
-                            if (wasteFSM)
-                                wasteFSM.SendEvent("SAVEGAME");
+                            // Force bolts save in Satsuma.
+                            case "SATSUMA(557kg, 248)":
+                                vehicles[i].SatsumaScript.SaveAllBolts();
+                                break;
+                            // Fix for Gifu shit tank not saving.
+                            case "GIFU(750/450psi)":
+                                PlayMakerFSM wasteFSM = vehicles[i].transform.Find("ShitTank").gameObject.GetPlayMakerByName("Waste");
+                                if (wasteFSM)
+                                    wasteFSM.SendEvent("SAVEGAME");
+                                break;
                         }
                     }
                 }

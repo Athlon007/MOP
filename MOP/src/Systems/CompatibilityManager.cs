@@ -32,7 +32,7 @@ namespace MOP
 
         public CompatibilityManager()
         {
-            CarryMore = ModLoader.IsModPresent("CarryMore");
+            CarryMore = ModLoader.IsModPresent("CarryMore") || ModLoader.IsModPresent("CarryEvenMore");
         }
     }
 }

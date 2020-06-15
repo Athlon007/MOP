@@ -25,6 +25,8 @@ namespace MOP
         // This script manages the list of WorldObjects.
         // Basically, objects that are static, such as buildings.
 
+        public WorldObject this[int index] => worldObjects[index];
+
         readonly List<WorldObject> worldObjects;
 
         /// <summary>
@@ -112,15 +114,6 @@ namespace MOP
             }
 
             worldObjects.Add(new WorldObject(gameObject, distance, rendererOnly));
-        }
-
-        /// <summary>
-        /// Returns the element i from the list.
-        /// </summary>
-        /// <param name="index">Element number.</param>
-        public WorldObject Get(int index)
-        {
-            return worldObjects[index];
         }
     }
 }
