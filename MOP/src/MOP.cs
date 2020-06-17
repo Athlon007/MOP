@@ -30,7 +30,7 @@ namespace MOP
         public override string Name => "Modern Optimization Plugin"; //You mod name
 #endif
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "2.10"; //Version
+        public override string Version => "2.10.1"; //Version
 
         #region Settings & Configuration
         // ModLoader configuration.
@@ -176,7 +176,6 @@ namespace MOP
             }
 
             MopFsmManager.ResetAll();
-
             Resources.UnloadUnusedAssets();
             GC.Collect();
         }

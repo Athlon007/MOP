@@ -178,6 +178,9 @@ namespace MOP
                         case "owo":
                             say = "UwU";
                             break;
+                        case "uwu":
+                            say = "OwO";
+                            break;
                         case "mop sucks":
                             say = "no u";
                             Process.Start("https://www.youtube.com/watch?v=dQw4w9WgXcQ");

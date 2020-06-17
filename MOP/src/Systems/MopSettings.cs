@@ -70,6 +70,8 @@ namespace MOP
             QualitySettings.shadowDistance = (bool)MOP.EnableShadowAdjusting.GetValue() ? float.Parse(MOP.ShadowDistance.GetValue().ToString()) : shadowDistanceOriginalValue;
 
             ToggleBackgroundRunning();
+
+            System.GC.Collect();
         }
 
         /// <summary>

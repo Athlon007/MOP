@@ -335,6 +335,9 @@ namespace MOP
             // Adds roll fix to the bus.
             GameObject.Find("BUS").AddComponent<BusRollFix>();
 
+            // Fixes bedroom window wrap resetting to default value.
+            GameObject.Find("YARD/Building/BEDROOM1/trigger_window_wrap").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+
             ModConsole.Print("[MOP] Finished applying fixes");
 
             //Things that should be enabled when out of proximity of the house
@@ -728,7 +731,9 @@ namespace MOP
 
                     try
                     {
-                        if (Items.instance.ItemsHooks[i].name.EndsWith("_INVENTORY")) continue;
+                        if (CompatibilityManager.CarryEvenMore)
+                            if (Items.instance.ItemsHooks[i].name.EndsWith("_INVENTORY")) continue;
+
                         if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
                         {
                             // Remove item at the current i
@@ -1114,14 +1119,7 @@ namespace MOP
             // ToggleElements class of Satsuma.
             try
             {
-                if (mode == ToggleAllMode.OnSave)
-                {
-                    Satsuma.instance.ToggleElements(0);
-                }
-                else
-                {
-                    Satsuma.instance.ToggleElements(enabled ? 1000 : 0);
-                }
+                Satsuma.instance.ToggleElements((mode == ToggleAllMode.OnSave) ? 0 : (enabled ? 1000 : 0));
             }
             catch (Exception ex)
             {

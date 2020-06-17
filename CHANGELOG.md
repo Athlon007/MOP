@@ -5,6 +5,7 @@
 ### Bug Fixes
 
 - Fixed MOP sometimes not initializing after starting a new game
+- Fixed player's bedroom window wrap resetting to default value
 
 ## 2.10 (13.06.2020)
 
