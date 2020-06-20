@@ -2,10 +2,18 @@
 
 ## 2.10.1 (tba)
 
+### Changes
+
+- Minor performance enchancements
+
 ### Bug Fixes
 
 - Fixed MOP sometimes not initializing after starting a new game
 - Fixed player's bedroom window wrap resetting to default value
+
+### Removed
+
+- Removed unused code
 
 ## 2.10 (13.06.2020)
 

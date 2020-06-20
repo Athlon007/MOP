@@ -15,7 +15,6 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
-using System;
 using System.Reflection;
 using UnityEngine;
 
@@ -141,14 +140,6 @@ namespace MOP
 
             triggerHood.SetActive(true);
             triggerHood.GetComponent<PlayMakerFSM>().SendEvent("ASSEMBLE");
-        }
-
-        public static bool IsSuskiLargeCall()
-        {
-            if (suskiLarge == null)
-                suskiLarge = GameObject.Find("YARD/Building/LIVINGROOM/Telephone/Logic/PhoneLogic").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("SuskiLarge");
-
-            return suskiLarge.Value;
         }
 
         public static bool IsTrailerAttached()

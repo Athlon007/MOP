@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
+using HutongGames.PlayMaker.Actions;
 using MSCLoader;
 using System;
 using System.Collections;
@@ -502,7 +503,8 @@ namespace MOP
             // Initialize the coroutines.
             currentLoop = LoopRoutine();
             StartCoroutine(currentLoop);
-            StartCoroutine(ControlCoroutine());
+            currentControlCoroutine = ControlCoroutine();
+            StartCoroutine(currentControlCoroutine);
 
             string finalMessage = "[MOP] MOD LOADED SUCCESFULLY!";
             float money = PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerMoney").Value;
@@ -638,6 +640,7 @@ namespace MOP
             ModConsole.Print("[MOP] Initializing Pre-Save Actions...");
             MopSettings.IsModActive = false;
             StopCoroutine(currentLoop);
+            StopCoroutine(currentControlCoroutine);
             ToggleAll(true, ToggleAllMode.OnSave);
             ModConsole.Print("[MOP] Pre-Save Actions Completed!");
         }
@@ -926,6 +929,7 @@ namespace MOP
         int retries;
         const int MaxRetries = 3;
         bool restartSucceedMessaged;
+        private IEnumerator currentControlCoroutine;
 
         /// <summary>
         /// Every 10 seconds check if the coroutine is still active.
@@ -989,13 +993,6 @@ namespace MOP
 
             if (MopSettings.SafeMode) return;
 
-            // Force save the database of motor.
-            if (mode == ToggleAllMode.OnSave)
-            {
-                GameObject databaseMotor = GameObject.Find("Database/DatabaseMotor");
-                foreach (PlayMakerFSM fsm in databaseMotor.GetComponentsInChildren<PlayMakerFSM>())
-                    fsm.SendEvent("SAVEGAME");
-            }
 
             // Vehicles
             for (int i = 0; i < vehicles.Count; i++)
@@ -1124,6 +1121,23 @@ namespace MOP
             catch (Exception ex)
             {
                 ExceptionManager.New(ex, "TOGGLE_ALL_SATSUMA_TOGGLE_ELEMENTS");
+            }
+
+            // Force save the database of motor.
+            if (mode == ToggleAllMode.OnSave)
+            {
+                GameObject databaseMotor = GameObject.Find("Database/DatabaseMotor");
+                foreach (PlayMakerFSM fsm in databaseMotor.GetComponentsInChildren<PlayMakerFSM>())
+                {
+                    try
+                    {
+                        fsm.SendEvent("SAVEGAME");
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionManager.New(ex, "SAVE_BOLTS");
+                    }
+                }
             }
         }
 
