@@ -22,10 +22,15 @@ namespace MOP
 {
     class SaveManager
     {
+        /// <summary>
+        /// For some reason, the save files get marked as read only files, not allowing MSC to save the game.
+        /// This script is ran in PreSaveGame() script and removes ReadOnly attribute.
+        /// </summary>
         public static void RemoveReadOnlyAttribute()
         {
             if (File.Exists(GetDefaultES2SavePosition()))
                 File.SetAttributes(GetDefaultES2SavePosition(), File.GetAttributes(GetDefaultES2SavePosition()) & ~FileAttributes.ReadOnly);
+
             if (File.Exists(GetItemsPosition()))
                 File.SetAttributes(GetItemsPosition(), File.GetAttributes(GetDefaultES2SavePosition()) & ~FileAttributes.ReadOnly);
         }

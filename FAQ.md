@@ -44,7 +44,8 @@ Besides that, MOP fixes some more or less known bugs of vanilla My Summer Car. N
   - Wrist watch dials Z fighting with the watchface and themselves (2.9.3)
 - Annoyingly small hitbox for the repair shop cash register (2.9.6)
 - Missing collisions to the car parked at the Fleetari's repair shop (2.10)
-- Negative battery terminal disappearing seemingly for no reason at all (2.10.1)
+- Negative battery terminal disappearing seemingly for no reason at all (2.11)
+- Save files staying in the "read only" state (2.11)
 
 ## What are sectors and where are they located
 

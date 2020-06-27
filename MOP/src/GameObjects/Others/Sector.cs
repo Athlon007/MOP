@@ -112,13 +112,9 @@ namespace MOP
                 GameObject.Find("YARD/UNCLE/Building"),
                 GameObject.Find("MAP/RadioMast"),
                 GameObject.Find("MAP/Bottom"),
-                GameObject.Find("MAP/PierHome")
+                GameObject.Find("MAP/PierHome"),
+                GameObject.Find("MAP/MESH/FOLIAGE/LAKE_VEGETATION")
             };
-
-            // Lake vegation added in Experimental release (as of 27.03.2020)
-            GameObject lakeVegation = GameObject.Find("MAP/MESH/FOLIAGE/LAKE_VEGETATION");
-            if (lakeVegation != null)
-                DisabledObjects.Add(lakeVegation);
 
             GameObject lakeSimpleTile = GameObject.Find("MAP/LakeSimple/Tile");
             if (lakeSimpleTile != null)

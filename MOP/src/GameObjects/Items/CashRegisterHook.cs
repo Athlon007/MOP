@@ -101,6 +101,7 @@ namespace MOP
             currentRoutine = null;
         }
 
+        #region Light Bulbs & Spark Pluugs Hook
         public void WipeUseLoadOnSparkPlugs()
         {
             StartCoroutine(SparkPlugRoutine());
@@ -126,7 +127,8 @@ namespace MOP
                     plugs[i].AddComponent<ItemHook>();
             }
         }
-
+        #endregion
+        #region Amis-Auto Packages
         IEnumerator packagesRoutine; 
 
         public void Packages()
@@ -151,7 +153,8 @@ namespace MOP
                 FsmHook.FsmInject(package, "State 1", TriggerMinorObjectRefresh);
             }
         }
-
+        #endregion
+        #region Fish Trap
         IEnumerator fishesRoutine;
 
         public void Fishes()
@@ -176,5 +179,6 @@ namespace MOP
                 fish.AddComponent<ItemHook>();
             }
         }
+        #endregion
     }
 }

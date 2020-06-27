@@ -81,7 +81,6 @@
     <Compile Include="src\GameObjects\Vehicles\Managers\HingeManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Boat.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaCustomHoodUse.cs" />
-    <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaEngineManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaBoltsAntiReload.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaSeatsManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaTrunk.cs" />

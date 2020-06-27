@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.11 Development 2 (tba)
+
+### Added
+
+- If the Custom.txt rule file is present, the content of it will be showed in MOP log and mod report
+
+### Bug Fixes
+
+- Fixed the parc ferme fix not working as intended
+
+### Removed
+
+- Removed unused code
+
 ## 2.11 Development 1 (27.06.2020)
 
 ### Added
