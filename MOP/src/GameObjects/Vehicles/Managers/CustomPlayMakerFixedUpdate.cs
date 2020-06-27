@@ -15,6 +15,9 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
+using HutongGames.PlayMaker.Actions;
+using System;
+using System.Collections;
 using UnityEngine;
 
 namespace MOP
@@ -36,7 +39,7 @@ namespace MOP
                 return;
             }
 
-            Object.Destroy(hoodFixedUpdate);
+            UnityEngine.Object.Destroy(hoodFixedUpdate);
             fsms = GetComponents<PlayMakerFSM>();
         }
 
@@ -74,7 +77,7 @@ namespace MOP
             Fsm.Event("FINISHED");
             Finish();
         }
-    }
+    }    
 
     public class MasterAudioAssembleCustom : FsmStateAction
     {
@@ -101,6 +104,40 @@ namespace MOP
                 masterAudioSource.Play();
             }
 
+            Finish();
+        }
+    }
+
+    /// <summary>
+    /// Replaces the "Disable battery wires" state actions in SATSUMA/Wiring object PlayMaker script called "Status".
+    /// The default one for some reasome sometimes decides to permamently disable the battery terminal, breaking the save.
+    /// </summary>
+    public class CustomBatteryDisable : FsmStateAction
+    {
+        FsmBool fsmBoolInstalled;
+        GameObject batteryTerminalMinus;
+
+        public override void OnEnter()
+        {
+            if (fsmBoolInstalled == null)
+            {
+                fsmBoolInstalled = GameObject.Find("Database/DatabaseWiring/WiringBatteryMinus").GetPlayMakerByName("Data").FsmVariables.FindFsmBool("Installed");
+                batteryTerminalMinus = GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Wiring/Parts/battery_terminal_minus(xxxxx)").gameObject;
+            }
+
+            batteryTerminalMinus.SetActive(fsmBoolInstalled.Value);
+            Finish();
+        }
+    }
+
+    /// <summary>
+    /// This custom action trigger save game, if the player picks up the phone when it's the "large Suski" call.
+    /// </summary>
+    public class CustomSuskiLargeFlip : FsmStateAction
+    {
+        public override void OnEnter()
+        {
+            WorldManager.instance.DelayedPreSave();
             Finish();
         }
     }

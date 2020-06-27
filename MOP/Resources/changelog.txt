@@ -1,3 +1,38 @@
+### Added
+
+- Added "Disable empty items" option in the MOP settings, under Other section
+  - Objects that are marked as "empty" by the game (like coolant bottles) are automatically disabled
+- Stolen machine slot is now disabled
+- Human NPCs now despawn
+- Added new console command `mop generate-list [true/false]` - it generates the list of what items are despawned by MOP (useful for mod makers that want to create rule files for their mods)
+- Added experimental save file optimization (disabled by default)
+  - Can reduce the save file size, from 10% to 30% (depending on how old is the save file)
+  - Reduces the load time (especially for older saves)
+  - You can enable it using flag "experimental_save_optimization" in the custom rule file
+  - MOP generates a save (defaultES2File and items) backup on each save with ".mopbackup" suffix (ex. defaultES2File.txt.mopbackup)
+  - If something wrong has happened to your save, you can issue command "mop restore-save", that restores last save backup
+  - WARNING: This is a highly experimental version, I recommend making your own backup of entire save folder! **USE ONLY AT YOUR OWN RISK!**
+
+### Changes
+
+- (My Summer Car) Restocking now works no matter the player the player's distance to the store (previously, if player was too close to the store, the restocking script wouldn't trigger)
+- Optimized how anti bolt resetting script works
+- Renamed "Open last log" to "Open last MOP log" in the MOP settings, to avoid confusion
+- MOP will not check if the server is online, on each menu opening, reducing the main menu load time if you're offline
+- Minor performance enchancements
+- Minor changes to console outputs
+
 ### Bug Fixes
 
+- (My Summer Car Bug) Fixed negative battery terminal disappearing seemingly for no reason at all
+- (My Summer Car Bug) Fixed save files staying in "read only" state, if the game crashed when trying to switch from the game scene to main menu after saving, causing saving to not work properly
 - Fixed MOP sometimes not initializing after starting a new game
+- Fixed player's bedroom window wrap resetting to default value
+- Fixed Satsuma engine not being re-enabled, if ToggleAll function has been called, potentially causing some parts to not save their bolt states
+- Fixes pre game save actions not executing, if the Suski has called the player during the game ending
+- Fixed floppy eject button on the computer not working
+- Fixed a bug in which player would get the 60 seconds parc ferme penalty during the rally
+
+### Removed
+
+- Removed unused code

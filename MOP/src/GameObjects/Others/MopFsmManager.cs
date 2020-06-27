@@ -176,5 +176,13 @@ namespace MOP
 
             return drawDistance.Value;
         }
+
+        public static bool IsSuskiLargeCall()
+        {
+            if (suskiLarge == null)
+                suskiLarge = GameObject.Find("Telephone/Logic/UseHandle").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("SuskiLarge");
+
+            return suskiLarge.Value;
+        }
     }
 }

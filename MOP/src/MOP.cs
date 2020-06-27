@@ -30,7 +30,7 @@ namespace MOP
         public override string Name => "Modern Optimization Plugin"; //You mod name
 #endif
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "2.10.1"; //Version
+        public override string Version => "2.11.0"; //Version
 
         #region Settings & Configuration
         // ModLoader configuration.
@@ -75,10 +75,11 @@ namespace MOP
 
         // OTHERS
         public static Settings RemoveEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Destroy Empty Beer Bottles", false, MopSettings.UpdateAll);
+        public static Settings RemoveEmptyItems = new Settings("removeEmptyItems", "Disable empty items", false, MopSettings.UpdateAll);
 
         // LOGGING
         readonly Settings openOutputLog = new Settings("openOutputLog", "Open output_log.txt", ExceptionManager.OpenOutputLog);
-        readonly Settings openLastLog = new Settings("openLastLog", "Open last log", ExceptionManager.Open);
+        readonly Settings openLastLog = new Settings("openLastLog", "Open last MOP log", ExceptionManager.Open);
         readonly Settings generateReport = new Settings("generateReport", "Generate mod report", ExceptionManager.GenerateReport);
 
         readonly Color32 headerColor = new Color32(29, 29, 29, 255);
@@ -137,9 +138,11 @@ namespace MOP
             // Others
             Settings.AddHeader(this, "Other", headerColor);
             Settings.AddCheckBox(this, RemoveEmptyBeerBottles);
+            Settings.AddCheckBox(this, RemoveEmptyItems);
 
             // Logging
             Settings.AddHeader(this, "Logging", headerColor);
+            Settings.AddText(this, "<color=yellow>WARNING:</color> If you're about to send the mod report, please attach BOTH output_log and MOP log.");
             Settings.AddButton(this, openOutputLog);
             Settings.AddButton(this, openLastLog);
             Settings.AddButton(this, generateReport);
@@ -162,7 +165,7 @@ namespace MOP
         {
             if (ModLoader.IsModPresent("CheatBox"))
             {
-                ModConsole.Warning("[MOP] CheatBox is not supported by MOP!");
+                ModConsole.Warning("[MOP] CheatBox is not supported by MOP! See FAQ for more info.");
             }
 
             modConfigPath = ModLoader.GetModConfigFolder(this).Replace('\\', '/');
@@ -173,7 +176,7 @@ namespace MOP
                     "• MOP Version\n" +
                     "• Operating System Version", "MOP");
                 MopSettings.AgreeData();
-            }
+            }            
 
             MopFsmManager.ResetAll();
             Resources.UnloadUnusedAssets();
@@ -189,6 +192,8 @@ namespace MOP
             ModConsole.Print($"<color=green>MOP {ModVersion} initialized!</color>");
             new Rules();
             ConsoleCommand.Add(new ConsoleCommands());
+
+            SaveManager.RestoreSaveInMainMenu();
         }
 
         /// <summary>
@@ -233,7 +238,7 @@ namespace MOP
         string GetChangelog()
         {
             string[] changelog = Properties.Resources.changelog.Split('\n');
-            string output = "";
+            string output = "";            
             for (int i = 0; i < changelog.Length; i++)
             {
                 string line = changelog[i];
@@ -267,6 +272,11 @@ namespace MOP
                 if (line.Contains("(My Summer Car Bug)"))
                 {
                     line = line.Replace("(My Summer Car Bug)", "<color=green>My Summer Car Bug: </color>");
+                }
+
+                if (line.Contains("(My Summer Car)"))
+                {
+                    line = line.Replace("(My Summer Car)", "<color=green>My Summer Car: </color>");
                 }
 
                 if (line.Contains("Rule Files API:"))

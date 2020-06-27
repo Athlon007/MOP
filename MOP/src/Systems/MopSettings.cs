@@ -31,22 +31,22 @@ namespace MOP
 
         // GRAPHICS
         public static bool DynamicDrawDistance { get; private set; }
+        static float shadowDistanceOriginalValue;
         
         // OTHER
         public static bool RemoveEmptyBeerBottles { get; private set; }
+        public static bool RemoveEmptyItems { get; private set; }
 
         // RULE FILES
         public static bool RuleFilesAutoUpdateEnabled { get => (bool)MOP.RulesAutoUpdate.GetValue(); }
+        public static bool RuleFilesUpdateChecked;
         
         // Distance after which car physics is toggled.
         public const int UnityCarActiveDistance = 5;
 
         // Debugging functionality.
         public static bool SectorDebugMode;
-
-        static float shadowDistanceOriginalValue;
-
-        public static bool RuleFilesUpdateChecked;
+        public static bool GenerateToggledItemsListDebug;
 
         public static void UpdateAll()
         {
@@ -60,6 +60,7 @@ namespace MOP
 
             // Others
             RemoveEmptyBeerBottles = (bool)MOP.RemoveEmptyBeerBottles.GetValue();
+            RemoveEmptyItems = (bool)MOP.RemoveEmptyItems.GetValue();
 
             // Framerate limiter
             Application.targetFrameRate = (bool)MOP.EnableFramerateLimiter.GetValue() ? int.Parse(MOP.FramerateLimiter.GetValue().ToString()) : -1;

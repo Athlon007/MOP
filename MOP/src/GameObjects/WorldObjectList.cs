@@ -45,7 +45,7 @@ namespace MOP
         /// <param name="gameObjectName">Name of the game object.</param>
         /// <param name="distance">Distance after which the object gets toggled.</param>
         /// <param name="rendererOnly">If true, only game object's renderer will get toggled.</param>
-        public void Add(string gameObjectName, int distance = 200, bool rendererOnly = false)
+        public void Add(string gameObjectName, int distance = 200, bool rendererOnly = false, bool silent = false)
         {
             IgnoreRule rule = Rules.instance.IgnoreRules.Find(f => f.ObjectName == gameObjectName);
             if (rule != null)
@@ -60,7 +60,8 @@ namespace MOP
 
             if (gm == null)
             {
-                ModConsole.Print($"[MOP] Couldn't find {gameObjectName}");
+                if (!silent)
+                    ModConsole.Print($"[MOP] Couldn't find {gameObjectName}");
                 return;
             }
 
@@ -114,6 +115,11 @@ namespace MOP
             }
 
             worldObjects.Add(new WorldObject(gameObject, distance, rendererOnly));
+        }
+
+        public List<WorldObject> GetList()
+        {
+            return worldObjects;
         }
     }
 }

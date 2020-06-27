@@ -188,6 +188,13 @@ namespace MOP
                     return;
                 }
 
+                // Disable empty items function.
+                // Items thata are marked as empty are disabled by the game.
+                if (MopSettings.RemoveEmptyItems && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent == null)
+                {
+                    enabled = !MopSettings.IsModActive;
+                }
+
                 // Don't execute rest of the code, if the enabled is the same as activeSelf.
                 if (gameObject.activeSelf == enabled)
                 {
@@ -258,6 +265,11 @@ namespace MOP
                         transform.position = WorldManager.instance.GetLostSpawner().position;
 
                     firstLoad = true;
+                }
+
+                if (MopSettings.RemoveEmptyItems && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent.gameObject.name != "ItemPivot")
+                {
+                    enabled = !MopSettings.IsModActive;
                 }
 
                 if (rb == null || rb.useGravity == enabled)

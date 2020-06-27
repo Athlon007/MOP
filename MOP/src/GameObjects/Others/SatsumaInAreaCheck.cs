@@ -42,6 +42,11 @@ namespace MOP
             if (other.gameObject.name.StartsWith(ReferenceItem))
             {
                 Satsuma.instance.IsSatsumaInInspectionArea = true;
+                if (this.gameObject.name == "MOP_ParcFermeTrigger")
+                {
+                    MSCLoader.ModConsole.Print("Satsuma in Parc Ferme");
+                    Satsuma.instance.IsSatsumaInParcFerme = true;
+                }
             }
         }
 
@@ -50,6 +55,11 @@ namespace MOP
             if (other.gameObject.name.StartsWith(ReferenceItem))
             {
                 Satsuma.instance.IsSatsumaInInspectionArea = false;
+                if (this.gameObject.name == "MOP_ParcFermeTrigger")
+                {
+                    MSCLoader.ModConsole.Print("Satsuma left Parc Ferme");
+                    Satsuma.instance.IsSatsumaInParcFerme = false;
+                }
             }
         }
     }

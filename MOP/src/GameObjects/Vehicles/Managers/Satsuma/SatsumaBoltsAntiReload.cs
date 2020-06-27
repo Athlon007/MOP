@@ -14,12 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using HutongGames.PlayMaker;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace MOP
 {
+    /// <summary>
+    /// This scripts looksa for the BoltCheck or Use scripts and disables restting of the playmaker scripts.
+    /// </summary>
     class SatsumaBoltsAntiReload : MonoBehaviour
     {
         PlayMakerFSM fsm;
@@ -36,24 +37,7 @@ namespace MOP
                     return;
                 }
 
-                FsmState loadArray = fsm.FindFsmState(fsmName == "Use" ? "Load" : "Load array");
-                List<FsmStateAction> loadArrayActions = new List<FsmStateAction> { new CustomNullState() };
-                loadArray.Actions = loadArrayActions.ToArray();
-                loadArray.SaveActions();
-
-                if (fsmName == "Use") return;
-
-                FsmState loadFloat = fsm.FindFsmState("Load float");
-                List<FsmStateAction> loadFloatActions = new List<FsmStateAction> { new CustomNullState() };
-                loadFloat.Actions = loadFloatActions.ToArray();
-                loadFloat.SaveActions();
-
-                if (fsm.FindFsmState("Load float 2") != null)
-                {
-                    FsmState loadFloatX = fsm.FindFsmState("Load float 2");
-                    loadFloatX.Actions = new FsmStateAction[] { new CustomNullState() };
-                    loadFloatX.SaveActions();
-                }
+                fsm.Fsm.RestartOnEnable = false;
             }
             catch (System.Exception ex)
             {

@@ -50,7 +50,8 @@ namespace MOP
                         "<color=yellow>open-folder</color> - Opens MOP config folder\n" +
                         "<color=yellow>delete [ModID]</color> - Delete rule file\n" +
                         "<color=yellow>sector-debug [true/false]</color> - Shows the renderers of sectors\n" +
-                        "<color=yellow>cat [File Name]</color> - Print the content of a rule file");
+                        "<color=yellow>cat [File Name]</color> - Print the content of a rule file\n" +
+                        "<color=yellow>generate-list [true/false]</color> - Generates text files which contain the list of items that are toggled by MOP");
                     break;
                 case "rules":
                     if (args.Length > 1 && args[1] == "roll")
@@ -281,6 +282,63 @@ namespace MOP
                     }
 
                     ModConsole.Print(File.ReadAllText($"{MOP.ModConfigPath}/{args[1]}"));
+                    break;
+                case "restore-save":
+                    if (ModLoader.GetCurrentScene() != CurrentScene.MainMenu)
+                    {
+                        ModConsole.Print("You can only restore game save in the main menu.");
+                        break;
+                    }
+
+                    bool defaultBackupMissing = false;
+                    bool itemsBackupMissing = false;
+                    if (!File.Exists(SaveManager.GetDefaultES2SavePosition() + ".mopbackup"))
+                    {
+                        defaultBackupMissing = true;
+                        ModConsole.Print("defaultES2Save.txt.mopbackup file is missing.");
+                    }
+
+                    if (!File.Exists(SaveManager.GetItemsPosition() + ".mopbackup"))
+                    {
+                        itemsBackupMissing = true;
+                        ModConsole.Print("items.txt.mopbackup file is missing.");
+                    }
+
+                    if (defaultBackupMissing && itemsBackupMissing)
+                    {
+                        ModConsole.Print("Save backups don't exists. Do you use the save optimization?");
+                        break;
+                    }
+
+                    if (!defaultBackupMissing)
+                    {
+                        File.Delete(SaveManager.GetDefaultES2SavePosition());
+                        File.Move(SaveManager.GetDefaultES2SavePosition() + ".mopbackup", SaveManager.GetDefaultES2SavePosition());
+                    }
+
+                    if (!itemsBackupMissing)
+                    {
+                        File.Delete(SaveManager.GetItemsPosition());
+                        File.Move(SaveManager.GetItemsPosition() + ".mopbackup", SaveManager.GetItemsPosition());
+                    }
+
+                    ModConsole.Print("Save backup succesfully restored!");
+                    break;
+                case "generate-list":
+                    if (args.Length == 1)
+                    {
+                        ModConsole.Print($"Generating toggled elements list is set to {MopSettings.GenerateToggledItemsListDebug}");
+                        return;
+                    }
+
+                    if (Rules.instance.IgnoreRules.Count > 0 || Rules.instance.IgnoreRulesAtPlaces.Count > 0 || Rules.instance.NewSectors.Count > 0 ||
+                        Rules.instance.SectorRules.Count > 0 || Rules.instance.ToggleRules.Count > 0)
+                    {
+                        ModConsole.Print("<color=red>WARNING:</color> For accurate results, disable all rule files!");
+                    }
+
+                    MopSettings.GenerateToggledItemsListDebug = args[1].ToLower() == "true";
+                    ModConsole.Print($"Generating toggled elements list is {(MopSettings.GenerateToggledItemsListDebug ? "on" : "off")}!");
                     break;
             }
         }

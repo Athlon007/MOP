@@ -91,11 +91,17 @@ namespace MOP
                 return;
             }
 
+            // Don't check if the server is online, if the update check has been done already.
+            if (MopSettings.RuleFilesUpdateChecked)
+            {
+                GetAndReadRules();
+                return;
+            }
+
             // If server or user is offline, skip downloading and simply load available files.
             if (!IsServerOnline())
             {
                 ModConsole.Print("<color=red>[MOP] Connection error. Check your Internet connection.</color>");
-
                 GetAndReadRules();
                 return;
             }
@@ -330,6 +336,7 @@ namespace MOP
         /// </summary>
         bool IsServerOnline()
         {
+            MopSettings.RuleFilesUpdateChecked = true;
             TcpClient tcpClient = new TcpClient();
             try
             {
@@ -628,6 +635,14 @@ namespace MOP
                                 continue;
                             }
                             Rules.instance.SpecialRules.ExperimentalOptimization = true;
+                            break;
+                        case "experimental_save_optimization":
+                            if (fileName != "Custom.txt")
+                            {
+                                ModConsole.Error($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
+                                continue;
+                            }
+                            Rules.instance.SpecialRules.ExperimentalSaveOptimization = true;
                             break;
                     }
                 }
