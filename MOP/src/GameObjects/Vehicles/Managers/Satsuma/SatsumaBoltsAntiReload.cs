@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using HutongGames.PlayMaker;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MOP
@@ -37,7 +39,32 @@ namespace MOP
                     return;
                 }
 
-                fsm.Fsm.RestartOnEnable = false;
+                // For some reason suspension breaks if it doesn't get restarted, so we use older method
+                if (this.gameObject.name.ContainsAny("strut", "coil spring", "shock absorber"))
+                {
+                    FsmState loadArray = fsm.FindFsmState(fsmName == "Use" ? "Load" : "Load array");
+                    List<FsmStateAction> loadArrayActions = new List<FsmStateAction> { new CustomNullState() };
+                    loadArray.Actions = loadArrayActions.ToArray();
+                    loadArray.SaveActions();
+
+                    if (fsmName == "Use") return;
+
+                    FsmState loadFloat = fsm.FindFsmState("Load float");
+                    List<FsmStateAction> loadFloatActions = new List<FsmStateAction> { new CustomNullState() };
+                    loadFloat.Actions = loadFloatActions.ToArray();
+                    loadFloat.SaveActions();
+
+                    if (fsm.FindFsmState("Load float 2") != null)
+                    {
+                        FsmState loadFloatX = fsm.FindFsmState("Load float 2");
+                        loadFloatX.Actions = new FsmStateAction[] { new CustomNullState() };
+                        loadFloatX.SaveActions();
+                    }
+                }
+                else
+                {
+                    fsm.Fsm.RestartOnEnable = false;
+                }
             }
             catch (System.Exception ex)
             {
