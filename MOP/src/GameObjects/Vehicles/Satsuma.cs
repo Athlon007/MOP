@@ -387,6 +387,10 @@ namespace MOP
                 AfterFirstEnable = true;
             }
 
+            // If the car is left in ParcFerme, the renderes may not re-enable, so just in case we force them to re-enable.
+            if (IsSatsumaInParcFerme && !renderers[0].enabled)
+                ToggleAllRenderers(enabled);
+
             // Don't run the code, if the value is the same
             if (gameObject == null || disableableObjects[0].gameObject.activeSelf == enabled) return;
 
@@ -465,7 +469,7 @@ namespace MOP
 
         void ToggleAllRenderers(bool enabled)
         {
-            if (Rules.instance.SpecialRules.SatsumaIgnoreRenderers) return;
+            if (Rules.instance.SpecialRules.SatsumaIgnoreRenderers) enabled = true;
 
             for (int i = 0; i < renderers.Count; i++)
             {

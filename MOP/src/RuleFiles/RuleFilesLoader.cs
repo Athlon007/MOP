@@ -464,18 +464,6 @@ namespace MOP
                         case "ignore_full":
                             Rules.instance.IgnoreRules.Add(new IgnoreRule(objects[0], true));
                             break;
-                        case "ignore_at_place":
-                            // OBSOLETE!!!
-                            ObsoleteWarning(flag, fileName, lines, s, "ignore: <place> <object_name>");
-                            string place = objects[0];
-                            string obj = objects[1];
-                            Rules.instance.IgnoreRulesAtPlaces.Add(new IgnoreRuleAtPlace(place, obj));
-                            break;
-                        case "prevent_toggle_on_object":
-                            // OBSOLETE!!!
-                            ObsoleteWarning(flag, fileName, lines, s, "ignore: <vehicle_name> <object_name>");
-                            Rules.instance.IgnoreRulesAtPlaces.Add(new IgnoreRuleAtPlace(objects[0], objects[1]));
-                            break;
                         case "toggle":
                             ToggleModes mode = ToggleModes.Normal;
                             if (objects.Length > 1)
@@ -501,26 +489,6 @@ namespace MOP
                             }
 
                             Rules.instance.ToggleRules.Add(new ToggleRule(objects[0], mode));
-                            break;
-                        case "toggle_renderer":
-                            // OBSOLETE!!!
-                            ObsoleteWarning(flag, fileName, lines, s, "toggle: <object_name> <method>");
-                            Rules.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Renderer));
-                            break;
-                        case "toggle_item":
-                            // OBSOLETE!!!
-                            ObsoleteWarning(flag, fileName, lines, s, "toggle: <object_name> <method>");
-                            Rules.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Item));
-                            break;
-                        case "toggle_vehicle":
-                            // OBSOLETE!!!
-                            ObsoleteWarning(flag, fileName, lines, s, "toggle: <object_name> <method>");
-                            Rules.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.Vehicle));
-                            break;
-                        case "toggle_vehicle_physics_only":
-                            // OBSOLETE!!!
-                            ObsoleteWarning(flag, fileName, lines, s, "toggle: <object_name> <method>");
-                            Rules.instance.ToggleRules.Add(new ToggleRule(objects[0], ToggleModes.VehiclePhysics));
                             break;
                         case "satsuma_ignore_renderer":
                             Rules.instance.SpecialRules.SatsumaIgnoreRenderers = true;

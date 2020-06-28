@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.11 Development 2 (tba)
+## 2.11 Development 2 (28.06.2020)
 
 ### Added
 
@@ -9,9 +9,11 @@
 ### Bug Fixes
 
 - Fixed the parc ferme fix not working as intended
+- Fixed Satsuma renderers not being reenabled, if the car was left in the parc ferme
 
 ### Removed
 
+- Rule Files API: Removed obsolete flags
 - Removed unused code
 
 ## 2.11 Development 1 (27.06.2020)

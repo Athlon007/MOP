@@ -15,9 +15,6 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
-using HutongGames.PlayMaker.Actions;
-using System;
-using System.Collections;
 using UnityEngine;
 
 namespace MOP
@@ -39,7 +36,7 @@ namespace MOP
                 return;
             }
 
-            UnityEngine.Object.Destroy(hoodFixedUpdate);
+            Object.Destroy(hoodFixedUpdate);
             fsms = GetComponents<PlayMakerFSM>();
         }
 

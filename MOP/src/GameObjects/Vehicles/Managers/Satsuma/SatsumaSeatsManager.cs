@@ -21,7 +21,7 @@ namespace MOP
 {
     class SatsumaSeatsManager : MonoBehaviour
     {
-        // So this is stupid fix.
+        // So this is a stupid fix.
         // Sets the weight of the seats rigidbody to 1, if seat is not bolted.
         // And sets it to their default value, if the screw tightness level is more than 7.
 
@@ -33,10 +33,7 @@ namespace MOP
         public SatsumaSeatsManager()
         {
             rb = GetComponent<Rigidbody>();
-            Component[] fsms = GetComponents(typeof(PlayMakerFSM));            
-            foreach (PlayMakerFSM f in fsms)
-                if (f.FsmVariables.GetFsmFloat("Tightness") != null)
-                    tightness = f.FsmVariables.GetFsmFloat("Tightness");
+            tightness = gameObject.GetPlayMakerByName("BoltCheck").FsmVariables.GetFsmFloat("Tightness");
 
             defaultMass = rb.mass;
             lastTightnessValue = tightness.Value;
