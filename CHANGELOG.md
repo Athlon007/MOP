@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.11.1 (29.06.2020)
+
+### Bug Fixes
+
+- Fixed MOP not working, if you player hasn't bought the computer
+
 ## 2.11 (29.06.2020)
 
 ### Added

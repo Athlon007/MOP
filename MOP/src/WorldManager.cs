@@ -352,7 +352,7 @@ namespace MOP
             GameObject.Find("YARD/Building/BEDROOM1/trigger_window_wrap").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
             // Fixes diskette ejecting not wokring.
-            GameObject.Find("TriggerDiskette").GetPlayMakerByName("Assembly").Fsm.RestartOnEnable = false;
+            Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "TriggerDiskette").GetPlayMakerByName("Assembly").Fsm.RestartOnEnable = false;
 
             ModConsole.Print("[MOP] Finished applying fixes");
 
