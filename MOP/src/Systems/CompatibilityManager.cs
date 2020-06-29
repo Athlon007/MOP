@@ -28,11 +28,13 @@ namespace MOP
         // CarryMore
         // https://www.racedepartment.com/downloads/carry-more-backpack-alternative.22396/
         public static bool CarryMore { get; private set; }
+        public static bool CarryEvenMore { get; private set; }
         public readonly Vector3 CarryMoreTempPosition = new Vector3(0.0f, -1000.0f, 0.0f);
 
         public CompatibilityManager()
         {
             CarryMore = ModLoader.IsModPresent("CarryMore");
+            CarryEvenMore = ModLoader.IsModPresent("CarryEvenMore");
         }
     }
 }

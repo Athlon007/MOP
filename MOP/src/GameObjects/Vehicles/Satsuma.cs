@@ -35,6 +35,7 @@ namespace MOP
 
         // If true, prevents Satsuma physics from disabling.
         public bool IsSatsumaInInspectionArea;
+        public bool IsSatsumaInParcFerme;
 
         // If is false, the first enabling script will be toggled.
         public bool AfterFirstEnable;
@@ -134,19 +135,18 @@ namespace MOP
             loadGame.Actions = loadArrayActions.ToArray();
             loadGame.SaveActions();
 
-            // Fix for engine freezing car.
-            GameObject.Find("block(Clone)").AddComponent<SatsumaEngineManager>();
-
             // Fix for not working handbrake after respawn.
             GameObject.Find("HandBrake").GetComponent<PlayMakerFSM>().enabled = true;
 
             // Fixes handbrake lever position.
-            PlayMakerFSM handbrakeLeverFsm = transform.Find("MiscParts/HandBrake/handbrake(xxxxx)/handbrake lever")
-                .gameObject.GetPlayMakerByName("Use");
-            FsmState loadHandbrake = handbrakeLeverFsm.FindFsmState("Load");
-            List<FsmStateAction> loadHandbrakeArrayActions = new List<FsmStateAction> { new CustomNullState() };
-            loadHandbrake.Actions = loadHandbrakeArrayActions.ToArray();
-            loadGame.SaveActions();
+            transform.Find("MiscParts/HandBrake/handbrake(xxxxx)/handbrake lever").gameObject.GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
+
+            // Battery terminal.
+            // For some reason in the vanilla game, the negative battery terminal sometimes gets disabled, and the game doesn't allow to reenable it.
+            FsmState wiringBatteryDisable = transform.Find("Wiring").gameObject.GetPlayMakerByName("Status").FindFsmState("Disable battery wires");
+            List<FsmStateAction> disableBatteryActions = new List<FsmStateAction>();
+            disableBatteryActions.Add(new CustomBatteryDisable());
+            wiringBatteryDisable.Actions = disableBatteryActions.ToArray();
 
             // Get all bolts.
             satsumaBoltsAntiReloads = new List<SatsumaBoltsAntiReload>();
@@ -303,6 +303,15 @@ namespace MOP
                 }
             }
 
+            // Fix suspension adding a weight to the car on each car respawn.
+            GameObject[] suspensionParts = Resources.FindObjectsOfTypeAll<GameObject>()
+                .Where(g => g.name.ContainsAny("strut", "coil spring", "shock absorber") 
+                         && g.transform.root != null 
+                         && g.transform.root == this.gameObject.transform)
+                .ToArray();
+            foreach (GameObject part in suspensionParts)
+                part.AddComponent<SatsumaSuspensionMassManager>();
+
             if (Rules.instance.SpecialRules.ExperimentalSatsumaTrunk)
             {
                 // Create trunk trigger.
@@ -360,6 +369,17 @@ namespace MOP
             boltsONActions[1] = new MasterAudioAssembleCustom();
             boltsONState.Actions = boltsONActions;
             boltsONState.SaveActions();
+
+            if (MopSettings.GenerateToggledItemsListDebug)
+            {
+                if (System.IO.File.Exists("sats.txt"))
+                    System.IO.File.Delete("sats.txt");
+                string vehiclez = "";
+                foreach (var w in disableableObjects)
+                    vehiclez += w.gameObject.name + ", ";
+                System.IO.File.WriteAllText("sats.txt", vehiclez);
+                System.Diagnostics.Process.Start("sats.txt");
+            }
         }
 
         /// <summary>
@@ -372,6 +392,10 @@ namespace MOP
             {
                 AfterFirstEnable = true;
             }
+
+            // If the car is left in ParcFerme, the renderes may not re-enable, so just in case we force them to re-enable.
+            if (IsSatsumaInParcFerme && !renderers[0].enabled)
+                ToggleAllRenderers(enabled);
 
             // Don't run the code, if the value is the same
             if (gameObject == null || disableableObjects[0].gameObject.activeSelf == enabled) return;
@@ -398,7 +422,8 @@ namespace MOP
                 if (disableableObjects[i] == null)
                     continue;
 
-                disableableObjects[i].gameObject.SetActive(enabled);
+                bool isElementEnabled = Satsuma.instance.IsSatsumaInParcFerme ? true : enabled;
+                disableableObjects[i].gameObject.SetActive(isElementEnabled);
             }
 
             ToggleAllRenderers(enabled);
@@ -450,7 +475,7 @@ namespace MOP
 
         void ToggleAllRenderers(bool enabled)
         {
-            if (Rules.instance.SpecialRules.SatsumaIgnoreRenderers) return;
+            if (Rules.instance.SpecialRules.SatsumaIgnoreRenderers) enabled = true;
 
             for (int i = 0; i < renderers.Count; i++)
             {
@@ -526,15 +551,6 @@ namespace MOP
             {
                 ExceptionManager.New(ex, "SATSUMA_TOGGLE_ELEMENTS_ERROR");
             }
-        }
-
-        /// <summary>
-        /// This void goes through all of the SatsumaBotlsAntiReload scripts and forces the status save on them.
-        /// </summary>
-        public void SaveAllBolts()
-        {
-            foreach (SatsumaBoltsAntiReload bolt in satsumaBoltsAntiReloads)
-                bolt.ForceSave();
         }
     }
 }

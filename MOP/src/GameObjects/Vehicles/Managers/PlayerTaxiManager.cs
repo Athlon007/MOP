@@ -26,12 +26,7 @@ namespace MOP
 
         void Start()
         {
-            FsmHook.FsmInject(transform.Find("PlayerTrigger/DriveTrigger").gameObject, "Player in car", RemoveParent);
-        }
-
-        void RemoveParent()
-        {
-            transform.parent = null;
+            FsmHook.FsmInject(transform.Find("PlayerTrigger/DriveTrigger").gameObject, "Player in car", () => transform.parent = null);
         }
     }
 }

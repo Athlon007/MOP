@@ -26,7 +26,7 @@ namespace MOP
         static string url;
         const int CharacterLimit = 45;
 
-        static string GetDialog()
+        static string GetDialogMessage()
         {
             string urlDisplayed = url;
             if (urlDisplayed.Length > CharacterLimit)
@@ -42,7 +42,7 @@ namespace MOP
         public static void ShowDialog(string newUrl)
         {
             url = newUrl;
-            ModUI.ShowYesNoMessage(GetDialog(), "MOP", OpenWebsite);
+            ModUI.ShowYesNoMessage(GetDialogMessage(), "MOP", OpenWebsite);
         }
 
         public static void OpenFAQDialog()

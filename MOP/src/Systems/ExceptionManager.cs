@@ -147,6 +147,12 @@ namespace MOP
                 output += $"No rule files loaded!\n";
             }
 
+            if (File.Exists($"{MOP.ModConfigPath}/Custom.txt"))
+            {
+                output += "=== CUSTOM.TXT CONTENT ===\n\n";
+                output += File.ReadAllText($"{MOP.ModConfigPath}/Custom.txt") + "\n\n";
+            }
+
             return output;
         }
 

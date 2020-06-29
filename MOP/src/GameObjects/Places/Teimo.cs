@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MSCLoader;
+using HutongGames.PlayMaker.Actions;
 
 namespace MOP
 {
@@ -107,6 +108,10 @@ namespace MOP
                 foreach (PlayMakerFSM fsm in storeBreakableWindowPub.gameObject.GetComponents<PlayMakerFSM>())
                     fsm.Fsm.RestartOnEnable = false;
             }
+
+            // Disables the idiotic distance limit, below which if player is too close to the Teimo's, the restocking won't be executed.
+            FloatCompare checkDistance = GetTransform().Find("Inventory").gameObject.GetComponent<PlayMakerFSM>().FindFsmState("Check distance").Actions[1] as FloatCompare;
+            checkDistance.float2 = 0;
         }
 
         /// <summary>

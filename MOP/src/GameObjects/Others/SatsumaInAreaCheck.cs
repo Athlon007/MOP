@@ -24,7 +24,7 @@ namespace MOP
         // Attaches to gameobject. This script checks if the Satsuma is in the object's area,
         // and sends the info to it about it.
 
-        const string ReferenceItem = "gearbox";
+        const string ReferenceItem = "car body";
         
         // Trigger collider
         BoxCollider collider;
@@ -42,6 +42,10 @@ namespace MOP
             if (other.gameObject.name.StartsWith(ReferenceItem))
             {
                 Satsuma.instance.IsSatsumaInInspectionArea = true;
+                if (this.gameObject.name == "MOP_ParcFermeTrigger")
+                {
+                    Satsuma.instance.IsSatsumaInParcFerme = true;
+                }
             }
         }
 
@@ -50,6 +54,10 @@ namespace MOP
             if (other.gameObject.name.StartsWith(ReferenceItem))
             {
                 Satsuma.instance.IsSatsumaInInspectionArea = false;
+                if (this.gameObject.name == "MOP_ParcFermeTrigger")
+                {
+                    Satsuma.instance.IsSatsumaInParcFerme = false;
+                }
             }
         }
     }

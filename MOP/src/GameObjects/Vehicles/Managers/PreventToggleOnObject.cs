@@ -18,7 +18,7 @@ using UnityEngine;
 
 namespace MOP
 {
-    class PreventToggleOnObject
+    struct PreventToggleOnObject
     {
         // This script manages the objects that aren't meant to be unloaded, because it may result in weird glitches in-game.
 

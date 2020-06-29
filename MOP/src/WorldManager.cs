@@ -31,6 +31,7 @@ namespace MOP
     {
         public static WorldManager instance;
 
+        // List of object namaes that MOP looks for for the Vehicles list.
         readonly string[] vehicleArray =
         {
             "SATSUMA(557kg, 248)",
@@ -70,6 +71,7 @@ namespace MOP
             StartCoroutine(DelayedInitializaitonRoutine());
         }
 
+        #region MOP Initialization
         IEnumerator DelayedInitializaitonRoutine()
         {
             yield return new WaitForSeconds(2);
@@ -145,7 +147,7 @@ namespace MOP
                 }
             }
 
-            ModConsole.Print("[MOP] Vehicles loaded");
+            ModConsole.Print("[MOP] Vehicles initialized");
 
             // World Objects
             worldObjectList.Add("CABIN");
@@ -158,8 +160,10 @@ namespace MOP
             worldObjectList.Add("StrawberryField", 400);
             worldObjectList.Add("MAP/Buildings/DINGONBIISI", 400);
             worldObjectList.Add("RALLY/PartsSalesman", 400);
+            worldObjectList.Add("machine", 200, false, true); // Stolen slot machine.
 
-            ModConsole.Print("[MOP] Main world objects loaded");
+            ModConsole.Print("[MOP] World objects (1) loaded");
+            ModConsole.Print("[MOP] Initialized places");
 
             // Initialize places.
             places = new List<Place>
@@ -171,7 +175,7 @@ namespace MOP
                 new Farm()
             };
 
-            ModConsole.Print("[MOP] Initialized places");
+            ModConsole.Print("[MOP] Places initialized");
 
             Transform buildings = GameObject.Find("Buildings").transform;
 
@@ -281,6 +285,15 @@ namespace MOP
                 worldObjectList.Add(junk.name);
             }
 
+            // Toggle Humans (apart from Farmer and Fighter2).
+            foreach (Transform t in GameObject.Find("HUMANS").GetComponentsInChildren<Transform>())
+            {
+                if (t.gameObject.name.EqualsAny("HUMANS", "Fighter2", "Farmer"))
+                    continue;
+
+                worldObjectList.Add(t.gameObject);
+            }
+
             // Fixes wasp hives resetting to on load values.
             GameObject[] wasphives = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "WaspHive").ToArray();
             foreach (GameObject wasphive in wasphives)
@@ -335,6 +348,12 @@ namespace MOP
             // Adds roll fix to the bus.
             GameObject.Find("BUS").AddComponent<BusRollFix>();
 
+            // Fixes bedroom window wrap resetting to default value.
+            GameObject.Find("YARD/Building/BEDROOM1/trigger_window_wrap").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+
+            // Fixes diskette ejecting not wokring.
+            GameObject.Find("TriggerDiskette").GetPlayMakerByName("Assembly").Fsm.RestartOnEnable = false;
+
             ModConsole.Print("[MOP] Finished applying fixes");
 
             //Things that should be enabled when out of proximity of the house
@@ -364,7 +383,7 @@ namespace MOP
             worldObjectList.Add("COMPUTER", true, false, true);
             worldObjectList.Add("JOBS/HouseDrunkNew", true);
 
-            ModConsole.Print("[MOP] Away from house world objects loaded");
+            ModConsole.Print("[MOP] World objects (2) loaded");
 
             // Adding area check if Satsuma is in the inspection's area
             SatsumaInAreaCheck inspectionArea = GameObject.Find("INSPECTION").AddComponent<SatsumaInAreaCheck>();
@@ -373,6 +392,13 @@ namespace MOP
             // Check for when Satsuma is on the lifter
             SatsumaInAreaCheck lifterArea = GameObject.Find("REPAIRSHOP/Lifter/Platform").AddComponent<SatsumaInAreaCheck>();
             lifterArea.Initialize(new Vector3(5, 5, 5));
+
+            // Area for the parc ferme.
+            GameObject parcFermeTrigger = new GameObject("MOP_ParcFermeTrigger");
+            parcFermeTrigger.transform.parent = GameObject.Find("RALLY").transform.Find("Scenery");
+            parcFermeTrigger.transform.position = new Vector3(-1383f, 3f, 1260f);
+            SatsumaInAreaCheck parcFerme = parcFermeTrigger.AddComponent<SatsumaInAreaCheck>();
+            parcFerme.Initialize(new Vector3(41, 12, 35));
 
             ModConsole.Print("[MOP] Satsuma triggers loaded");
 
@@ -410,7 +436,7 @@ namespace MOP
 
             // Initialize Items class
             new Items();
-            ModConsole.Print("[MOP] Items class loaded");
+            ModConsole.Print("[MOP] Items class initialized");
 
             HookPreSaveGame();
 
@@ -499,7 +525,8 @@ namespace MOP
             // Initialize the coroutines.
             currentLoop = LoopRoutine();
             StartCoroutine(currentLoop);
-            StartCoroutine(ControlCoroutine());
+            currentControlCoroutine = ControlCoroutine();
+            StartCoroutine(currentControlCoroutine);
 
             string finalMessage = "[MOP] MOD LOADED SUCCESFULLY!";
             float money = PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerMoney").Value;
@@ -507,6 +534,67 @@ namespace MOP
             ModConsole.Print(finalMessage);
             Resources.UnloadUnusedAssets();
             GC.Collect();
+
+            // If generate-list command is set to true, generate the list of items that are disabled by MOP.
+            if (MopSettings.GenerateToggledItemsListDebug)
+            {
+                if (System.IO.File.Exists("world.txt"))
+                    System.IO.File.Delete("world.txt");
+                string world = "";
+                foreach (var w in worldObjectList.GetList())
+                {
+                    if (world.Contains(w.gameObject.name)) continue;
+                    world += w.gameObject.name + ", ";
+                }
+                System.IO.File.WriteAllText("world.txt", world);
+                System.Diagnostics.Process.Start("world.txt");
+
+                if (System.IO.File.Exists("vehicle.txt"))
+                    System.IO.File.Delete("vehicle.txt");
+                string vehiclez = "";
+                foreach (var w in vehicles)
+                    vehiclez += w.gameObject.name + ", ";
+                System.IO.File.WriteAllText("vehicle.txt", vehiclez);
+                System.Diagnostics.Process.Start("vehicle.txt");
+
+                if (System.IO.File.Exists("items.txt"))
+                    System.IO.File.Delete("items.txt");
+                string items = "";
+                foreach (var w in Items.instance.ItemsHooks)
+                {
+                    if (items.Contains(w.gameObject.name)) continue;
+                    items += w.gameObject.name + ", ";
+                }
+                System.IO.File.WriteAllText("items.txt", items);
+                System.Diagnostics.Process.Start("items.txt");
+
+                if (System.IO.File.Exists("place.txt"))
+                    System.IO.File.Delete("place.txt");
+                string place = "";
+                foreach (var w in places)
+                {
+                    place += w.GetName() + ": ";
+                    foreach (var f in w.GetDisableableChilds())
+                    {
+                        if (place.Contains(f.gameObject.name)) continue;
+                        place += f.gameObject.name + ", ";
+                    }
+
+                    place += "\n\n";
+                }
+                System.IO.File.WriteAllText("place.txt", place);
+                System.Diagnostics.Process.Start("place.txt");
+
+                if (System.IO.File.Exists("sector.txt"))
+                    System.IO.File.Delete("sector.txt");
+                string sector = "";
+                foreach (var w in SectorManager.instance.DisabledObjects)
+                {
+                    sector += w.name + ", ";
+                }
+                System.IO.File.WriteAllText("sector.txt", sector);
+                System.Diagnostics.Process.Start("sector.txt");
+            }
         }
 
         #region Save Game Actions
@@ -560,6 +648,14 @@ namespace MOP
                 behaviour.Initialize(PreSaveGame);
                 i++;
 
+                // Adding custom action to state that will trigger PreSaveGame, if the player picks up the phone with large Suski.
+                PlayMakerFSM useHandleFSM = GameObject.Find("Telephone/Logic/UseHandle").GetComponent<PlayMakerFSM>();
+                FsmState phoneFlip = useHandleFSM.FindFsmState("Pick phone");
+                List<FsmStateAction> phoneFlipActions = phoneFlip.Actions.ToList();
+                phoneFlipActions.Insert(0, new CustomSuskiLargeFlip());
+                phoneFlip.Actions = phoneFlipActions.ToArray();
+                i++;
+
                 ModConsole.Print($"[MOP] Hooked {i} save points!");
             }
             catch (Exception ex)
@@ -576,8 +672,32 @@ namespace MOP
             ModConsole.Print("[MOP] Initializing Pre-Save Actions...");
             MopSettings.IsModActive = false;
             StopCoroutine(currentLoop);
+            StopCoroutine(currentControlCoroutine);
+
+            SaveManager.RemoveReadOnlyAttribute();
+            SaveManager.RemoveOldSaveFile();
+
             ToggleAll(true, ToggleAllMode.OnSave);
             ModConsole.Print("[MOP] Pre-Save Actions Completed!");
+        }
+
+        public void DelayedPreSave()
+        {
+            if (currentDelayedSaveRoutine != null)
+            {
+                StopCoroutine(currentDelayedSaveRoutine);
+            }
+
+            currentDelayedSaveRoutine = DelayedSaveRoutine();
+            StartCoroutine(currentDelayedSaveRoutine);
+        }
+
+        private IEnumerator currentDelayedSaveRoutine;
+        IEnumerator DelayedSaveRoutine()
+        {
+            yield return new WaitForSeconds(1);
+            if (MopFsmManager.IsSuskiLargeCall())
+                PreSaveGame();
         }
         #endregion
 
@@ -617,7 +737,7 @@ namespace MOP
 
                     try
                     {
-                        WorldObject worldObject = worldObjectList.Get(i);
+                        WorldObject worldObject = worldObjectList[i];
 
                         if (Rules.instance.SectorRulesContains(worldObject.gameObject.name))
                             continue;
@@ -669,6 +789,9 @@ namespace MOP
 
                     try
                     {
+                        if (CompatibilityManager.CarryEvenMore)
+                            if (Items.instance.ItemsHooks[i].name.EndsWith("_INVENTORY")) continue;
+
                         if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
                         {
                             // Remove item at the current i
@@ -817,9 +940,18 @@ namespace MOP
                 }
             }
         }
+        #endregion
 
         void Update()
         {
+#if DEBUG
+            if (Input.GetKeyDown(KeyCode.F5))
+            {
+                PreSaveGame();
+                Application.LoadLevel(1);
+            }
+#endif
+
             if (!MopSettings.IsModActive || Satsuma.instance == null) return;
             Satsuma.instance.ForceFuckingRotation();
         }
@@ -861,6 +993,7 @@ namespace MOP
         int retries;
         const int MaxRetries = 3;
         bool restartSucceedMessaged;
+        private IEnumerator currentControlCoroutine;
 
         /// <summary>
         /// Every 10 seconds check if the coroutine is still active.
@@ -914,7 +1047,7 @@ namespace MOP
             {
                 try
                 {
-                    worldObjectList.Get(i).Toggle(enabled);
+                    worldObjectList[i].Toggle(enabled);
                 }
                 catch (Exception ex)
                 {
@@ -923,14 +1056,6 @@ namespace MOP
             }
 
             if (MopSettings.SafeMode) return;
-
-            // Force save the database of motor.
-            if (mode == ToggleAllMode.OnSave)
-            {
-                GameObject databaseMotor = GameObject.Find("Database/DatabaseMotor");
-                foreach (PlayMakerFSM fsm in databaseMotor.GetComponentsInChildren<PlayMakerFSM>())
-                    fsm.SendEvent("SAVEGAME");
-            }
 
             // Vehicles
             for (int i = 0; i < vehicles.Count; i++)
@@ -947,31 +1072,6 @@ namespace MOP
                     {
                         vehicles[i].ToggleUnityCar(enabled);
                         PlayMakerFSM lodFSM = vehicles[i].gameObject.GetPlayMakerByName("LOD");
-
-                        // For some fucking reason, sometimes position, fuel level and other shit doesn't wanna save.
-                        // So we gotta force it.
-                        // Force save position of vehicle.
-                        if (lodFSM != null)
-                            lodFSM.SendEvent("SAVEGAME");
-
-                        // Save fuel tank level.
-                        Transform fuelTank = vehicles[i].transform.Find("FuelTank");
-                        if (fuelTank)
-                            fuelTank.gameObject.GetPlayMakerByName("Data").SendEvent("SAVEGAME");
-
-                        // Force bolts save in Satsuma.
-                        if (vehicles[i].gameObject.name == "SATSUMA(557kg, 248)")
-                        {
-                            vehicles[i].SatsumaScript.SaveAllBolts();
-                        }
-
-                        // Fix for Gifu shit tank not saving.
-                        if (vehicles[i].gameObject.name == "GIFU(750/450psi)")
-                        {
-                            PlayMakerFSM wasteFSM = vehicles[i].transform.Find("ShitTank").gameObject.GetPlayMakerByName("Waste");
-                            if (wasteFSM)
-                                wasteFSM.SendEvent("SAVEGAME");
-                        }
                     }
                 }
                 catch (Exception ex)
@@ -1009,8 +1109,8 @@ namespace MOP
                     if (mode == ToggleAllMode.OnSave)
                     {
                         PlayMakerFSM fsm = Items.instance.ItemsHooks[i].gameObject.GetComponent<PlayMakerFSM>();
-                        if (fsm != null)
-                            fsm.SendEvent("SAVEGAME");
+                        //if (fsm != null)
+                            //fsm.SendEvent("SAVEGAME");
                     }
                 }
                 catch (Exception ex)
@@ -1054,18 +1154,17 @@ namespace MOP
             // ToggleElements class of Satsuma.
             try
             {
-                if (mode == ToggleAllMode.OnSave)
-                {
-                    Satsuma.instance.ToggleElements(0);
-                }
-                else
-                {
-                    Satsuma.instance.ToggleElements(enabled ? 1000 : 0);
-                }
+                Satsuma.instance.ToggleElements((mode == ToggleAllMode.OnSave) ? 0 : (enabled ? 0 : 10000));
             }
             catch (Exception ex)
             {
                 ExceptionManager.New(ex, "TOGGLE_ALL_SATSUMA_TOGGLE_ELEMENTS");
+            }
+
+            // Force save all
+            if (mode == ToggleAllMode.OnSave)
+            {
+                //PlayMakerFSM.BroadcastEvent("SAVEGAME");
             }
         }
 

@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
+using System.Reflection;
 using UnityEngine;
 
 namespace MOP
@@ -35,6 +36,16 @@ namespace MOP
         static FsmFloat battery2;
         static FsmBool playerHelmet;
         static FsmFloat drawDistance;
+
+        public static void ResetAll()
+        {
+            FieldInfo[] fields = typeof(MopFsmManager).GetFields();
+            // Loop through fields
+            foreach (var field in fields)
+            {
+                field.SetValue(field, null);
+            }
+        }
 
         /// <summary>
         /// Checks if the player has the keys to the Hayosiko.
@@ -131,14 +142,6 @@ namespace MOP
             triggerHood.GetComponent<PlayMakerFSM>().SendEvent("ASSEMBLE");
         }
 
-        public static bool IsSuskiLargeCall()
-        {
-            if (suskiLarge == null)
-                suskiLarge = GameObject.Find("YARD/Building/LIVINGROOM/Telephone/Logic/PhoneLogic").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("SuskiLarge");
-
-            return suskiLarge.Value;
-        }
-
         public static bool IsTrailerAttached()
         {
             if (kekmetTrailerRemove == null)
@@ -172,6 +175,14 @@ namespace MOP
                 drawDistance = GameObject.Find("Systems/Options").GetPlayMakerByName("GFX").FsmVariables.GetFsmFloat("DrawDistance");
 
             return drawDistance.Value;
+        }
+
+        public static bool IsSuskiLargeCall()
+        {
+            if (suskiLarge == null)
+                suskiLarge = GameObject.Find("Telephone/Logic/UseHandle").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("SuskiLarge");
+
+            return suskiLarge.Value;
         }
     }
 }

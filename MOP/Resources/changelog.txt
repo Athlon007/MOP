@@ -1,41 +1,42 @@
 ### Added
 
-- Added Dynamic Draw Distance
-  - The draw distance will be doubled, if player is above certain level - so you can see entirity of the map
-  - And it will be lowered, if you're in the building
-  - You can enable it in the settings
-- Added "Run in Background" toggle in the MOP settings, letting you choose if the game pauses on ALT+TAB
-- Added CheatBox warning (it will NEVER be supported, stop messaging me about it, here's an explanation: https://youtube.com/watch?v=dQw4w9WgXcQ)
-- Added info at the bottom of MOP settings
-- If the incorrect flag has been found in rule file, the error line will be displayed
+- Added "Disable empty items" option in the MOP settings, under Other section
+  - Objects that are marked as "empty" by the game (like used coolant bottles) are automatically disabled
+- Stolen machine slot now despawns
+- Pedastrians NPCs now despawn
+- Added new console command `mop generate-list [true/false]` - it generates the list of what items are despawned by MOP (useful for mod makers that want to create rule files for their mods)
+- If the Custom.txt rule file is present, the content of it will be showed in MOP log and mod report
+- Added experimental save file optimization (disabled by default)
+  - WARNING: This is a highly experimental function, I recommend making your own backup of entire save folder! **USE ONLY AT YOUR OWN RISK!**
+  - Can reduce the save file size, from 10% to 30% (depending on how old is the save file)
+  - Should reduce the load time (especially for older saves)
+  - You can enable it using flag "experimental_save_optimization" in the custom rule file
+  - MOP generates a save (defaultES2File and items) backup on each save with ".mopbackup" suffix (ex. defaultES2File.txt.mopbackup)
+  - If something wrong has happened to your save, you can issue command "mop restore-save", that restores last save backup
 
 ### Changes
 
-- Tweakes Repair Shop sector to be less aggresive
-- Improved the dialog uppon clicking a link in the settings
-- Minor changes in the settings
-- Improved fuel tank level saving script
-- Multiple rule files API changes
-- Rule Files API: ignore_at_place is now obsolete! Please use ignore: [place] [object_name] instead
-- Rule Files API: toggle_renderer is now obsolete! Please use "toggle: [object_name] renderer" instead
-- Rule Files API: toggle_item is now obsolete! Please use "toggle: [object_name] item" instead
-- Rule Files API: toggle_vehicle is now obsolete! Please use "toggle: [object_name] vehicle" instead
-- Rule Files API: toggle_vehicle_physics_only is now obsolete! Please use "toggle: [object_name] vehicle_physics" instead
-- Rule Files API: prevent_toggle_on_object is now obsolete! Please use ignore: [vehicle_name] [object_name] instead
-- Overall improvements in rule files loading
-- Code optimization and improvements
+- (My Summer Car) Restocking now works no matter the player's distance to the store (previously, if player was too close to the store, the restocking script wouldn't trigger)
+- Optimized how anti bolt resetting script works
+- Renamed "Open last log" to "Open last MOP log" in the MOP settings, to avoid confusion
+- MOP will not check if the server is online on each menu opening, reducing the main menu load time if you're offline
+- Minor performance enhancements
+- Minor changes to console outputs
 
 ### Bug Fixes
 
-- (My Summer Car Bug) Added missing collisions to the car parked at the Fleetari's repair shop
-- Fixed saving potentially breaking, if the Safe Mode is on
-- Fixed potential bug in PlayerTaxiManager class
-- Fixed Safe Mode not initializing properly if the toggling routine failed, and getting stuck in constant "trying to restart" loop
-- Fixed toggle ignoring on objects inside of vehicles working only for the first item in the rule file
-- Fixed MOP rules loading not working, if the mod has been disabled and the game has been restarted
-- Fixed MOP not working, if player stole the video poker machine
-- Fixed enabling of all objects on MOP crash
-- Fixed Teimo counting the broken windows multiple times, if you broke one, left the shop area and came back
-- Fixed Gifu position and waste tank level sometimes not saving properly
-- Fixed Satsuma bolts sometimes not saving their values
-- Fixed the save game hook not working for the Rent Apartment mod save point
+- (My Summer Car Bug) Fixed save files staying in "read only" state, if the game crashed when trying to switch from the game scene to main menu after saving, in result causing saving to not work properly (yes, it was not MOP's bug...)
+- (My Summer Car Bug) Fixed negative battery terminal disappearing seemingly for no reason at all
+- Fixed MOP sometimes not initializing after starting a new game
+- Fixed player's bedroom window wrap resetting to default value
+- Fixed Satsuma engine not being re-enabled, if ToggleAll function has been called, potentially causing some parts to not save their bolt states
+- Fixes pre game save actions not executing, if the Suski has called the player during the game ending
+- Fixed floppy eject button on the computer not working
+- Fixed a bug in which player would get the 60 seconds parc ferme penalty during the rally
+- Fixed a bug in which Satsuma would get heavier and heavier after each respawn
+- Fixed a bug in which there would be a sunlight shining through the floor inside of the home early in the morning (around 2-6 AM)
+
+### Removed
+
+- Rule Files API: Removed obsolete flags
+- Removed unused code

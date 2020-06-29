@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using HutongGames.PlayMaker;
 using MSCLoader;
 using System.Collections.Generic;
 using System.Linq;
@@ -155,22 +156,31 @@ namespace MOP
                     items[i].AddComponent<ItemHook>();
 
                     // Hook the TriggerMinorObjectRefresh to Confirm and Spawn all actions
-                    if (items[i].name.Contains("shopping bag"))
+                    if (items[i].name.Equals("shopping bag(itemx)"))
                     {
                         FsmHook.FsmInject(items[i], "Confirm", cashRegisterHook.TriggerMinorObjectRefresh);
                         FsmHook.FsmInject(items[i], "Spawn all", cashRegisterHook.TriggerMinorObjectRefresh);
                     }
-
-                    if (items[i].name.EqualsAny("spark plug box(Clone)", "car light bulb box(Clone)"))
+                    else if (items[i].name.EqualsAny("spark plug box(Clone)", "car light bulb box(Clone)"))
                     {
                         FsmHook.FsmInject(items[i], "Create Plug", cashRegisterHook.WipeUseLoadOnSparkPlugs);
                     }
+                    else if (items[i].name.EqualsAny("alternator belt(Clone)", "oil filter(Clone)", "battery(Clone)"))
+                    {
+                        PlayMakerFSM fanbeltUse = items[i].GetPlayMakerByName("Use");
+                        FsmState loadFanbelt = fanbeltUse.FindFsmState("Load");
+                        List<FsmStateAction> emptyActions = new List<FsmStateAction> { new CustomNullState() };
+                        loadFanbelt.Actions = emptyActions.ToArray();
+                        loadFanbelt.SaveActions();
+                    }
+
                 }
                 catch (System.Exception ex)
                 {
                     ExceptionManager.New(ex, "ITEM_LIST_LOAD_ERROR");
                 }
             }
+            cashRegisterHook.WipeUseLoadOnSparkPlugs();
 
             // CD Player Enhanced compatibility
             if (ModLoader.IsModPresent("CDPlayer"))

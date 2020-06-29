@@ -69,6 +69,7 @@
     <Compile Include="src\GameObjects\Others\MopFsmManager.cs" />
     <Compile Include="src\GameObjects\Others\OnDeathBehaviour.cs" />
     <Compile Include="src\GameObjects\Others\SatsumaInAreaCheck.cs" />
+    <Compile Include="src\GameObjects\Others\SaveManager.cs" />
     <Compile Include="src\GameObjects\Places\Farm.cs" />
     <Compile Include="src\GameObjects\Places\Inspection.cs" />
     <Compile Include="src\GameObjects\Others\Sector.cs" />
@@ -80,10 +81,9 @@
     <Compile Include="src\GameObjects\Vehicles\Managers\HingeManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Boat.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaCustomHoodUse.cs" />
-    <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaEngineManager.cs" />
-    <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaDoorManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaBoltsAntiReload.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaSeatsManager.cs" />
+    <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaSuspensionMassManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaTrunk.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\TrailerLogUnderFloor.cs" />
     <Compile Include="src\GameObjects\Vehicles\Satsuma.cs" />

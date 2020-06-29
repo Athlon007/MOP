@@ -78,18 +78,16 @@ namespace MOP
                     items[i].AddComponent<ItemHook>();
 
                     // Hook the TriggerMinorObjectRefresh to Confirm and Spawn all actions
-                    if (items[i].name.Contains("shopping bag"))
+                    if (items[i].name.Equals("shopping bag(itemx)"))
                     {
                         FsmHook.FsmInject(items[i], "Confirm", TriggerMinorObjectRefresh);
                         FsmHook.FsmInject(items[i], "Spawn all", TriggerMinorObjectRefresh);
                     }
-
-                    if (items[i].name.StartsWith("spark plug box"))
+                    else if (items[i].name.EqualsAny("spark plug box(Clone)", "car light bulb box(Clone)"))
                     {
                         FsmHook.FsmInject(items[i], "Create Plug", WipeUseLoadOnSparkPlugs);
                     }
-
-                    if (items[i].name.ContainsAny("alternator belt(Clone)", "oil filter(Clone)", "battery(Clone)"))
+                    else if (items[i].name.EqualsAny("alternator belt(Clone)", "oil filter(Clone)", "battery(Clone)"))
                     {
                         PlayMakerFSM fanbeltUse = items[i].GetPlayMakerByName("Use");
                         FsmState loadFanbelt = fanbeltUse.FindFsmState("Load");
@@ -103,6 +101,7 @@ namespace MOP
             currentRoutine = null;
         }
 
+        #region Light Bulbs & Spark Pluugs Hook
         public void WipeUseLoadOnSparkPlugs()
         {
             StartCoroutine(SparkPlugRoutine());
@@ -128,7 +127,8 @@ namespace MOP
                     plugs[i].AddComponent<ItemHook>();
             }
         }
-
+        #endregion
+        #region Amis-Auto Packages
         IEnumerator packagesRoutine; 
 
         public void Packages()
@@ -153,7 +153,8 @@ namespace MOP
                 FsmHook.FsmInject(package, "State 1", TriggerMinorObjectRefresh);
             }
         }
-
+        #endregion
+        #region Fish Trap
         IEnumerator fishesRoutine;
 
         public void Fishes()
@@ -178,5 +179,6 @@ namespace MOP
                 fish.AddComponent<ItemHook>();
             }
         }
+        #endregion
     }
 }
