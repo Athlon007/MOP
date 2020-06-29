@@ -4,7 +4,7 @@
 
 ### Bug Fixes
 
-- Fixed MOP not working, if you player hasn't bought the computer
+- Fixed MOP not working, if player hasn't bought the computer
 
 ## 2.11 (29.06.2020)
 
