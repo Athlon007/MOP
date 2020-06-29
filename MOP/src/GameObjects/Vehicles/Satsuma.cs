@@ -135,9 +135,6 @@ namespace MOP
             loadGame.Actions = loadArrayActions.ToArray();
             loadGame.SaveActions();
 
-            // Fix for engine freezing car.
-            //GameObject.Find("block(Clone)").AddComponent<SatsumaEngineManager>();
-
             // Fix for not working handbrake after respawn.
             GameObject.Find("HandBrake").GetComponent<PlayMakerFSM>().enabled = true;
 
@@ -305,6 +302,15 @@ namespace MOP
                     GameFixes.Instance.RearBumperFix(triggerBumper, bumper);
                 }
             }
+
+            // Fix suspension adding a weight to the car on each car respawn.
+            GameObject[] suspensionParts = Resources.FindObjectsOfTypeAll<GameObject>()
+                .Where(g => g.name.ContainsAny("strut", "coil spring", "shock absorber") 
+                         && g.transform.root != null 
+                         && g.transform.root == this.gameObject.transform)
+                .ToArray();
+            foreach (GameObject part in suspensionParts)
+                part.AddComponent<SatsumaSuspensionMassManager>();
 
             if (Rules.instance.SpecialRules.ExperimentalSatsumaTrunk)
             {
@@ -544,24 +550,6 @@ namespace MOP
             catch (System.Exception ex)
             {
                 ExceptionManager.New(ex, "SATSUMA_TOGGLE_ELEMENTS_ERROR");
-            }
-        }
-
-        /// <summary>
-        /// This void goes through all of the SatsumaBotlsAntiReload scripts and forces the status save on them.
-        /// </summary>
-        public void SaveAllBolts()
-        {
-            foreach (SatsumaBoltsAntiReload bolt in satsumaBoltsAntiReloads)
-            {
-                try
-                {
-                    bolt.ForceSave();
-                }
-                catch (System.Exception ex)
-                {
-                    ExceptionManager.New(ex, "SATSUMA_SAVE_BOLT");
-                }
             }
         }
     }

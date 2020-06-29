@@ -279,6 +279,7 @@ namespace MOP
                             File.Delete(file.FullName);
                             ModConsole.Warning($"[MOP] Rule file {file.Name} has been deleted, because it couldn't be verified.");
                             removed++;
+                            continue;
                         }
                     }
 

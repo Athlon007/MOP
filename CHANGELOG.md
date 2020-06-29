@@ -1,27 +1,11 @@
 # Changelog
 
-## 2.11 Development 2 (28.06.2020)
-
-### Added
-
-- If the Custom.txt rule file is present, the content of it will be showed in MOP log and mod report
-
-### Bug Fixes
-
-- Fixed the parc ferme fix not working as intended
-- Fixed Satsuma renderers not being reenabled, if the car was left in the parc ferme
-
-### Removed
-
-- Rule Files API: Removed obsolete flags
-- Removed unused code
-
-## 2.11 Development 1 (27.06.2020)
+## 2.11 (29.06.2020)
 
 ### Added
 
 - Added "Disable empty items" option in the MOP settings, under Other section
-  - Objects that are marked as "empty" by the game (like coolant bottles) are automatically disabled
+  - Objects that are marked as "empty" by the game (like used coolant bottles) are automatically disabled
 - Stolen machine slot now despawns
 - Pedastrians NPCs now despawn
 - Added new console command `mop generate-list [true/false]` - it generates the list of what items are despawned by MOP (useful for mod makers that want to create rule files for their mods)
@@ -53,10 +37,13 @@
 - Fixes pre game save actions not executing, if the Suski has called the player during the game ending
 - Fixed floppy eject button on the computer not working
 - Fixed a bug in which player would get the 60 seconds parc ferme penalty during the rally
+- Fixed a bug in which Satsuma would get heavier and heavier after each respawn
+- Fixed a bug in which there would be a sunlight shining through the floor inside of the home early in the morning (around 2-6 AM)
+- Fixed MOP throwing an error, if the rule file couldn't be verified
 
 ### Removed
 
-- Rule Files API: Removed obsolete flag
+- Rule Files API: Removed obsolete flags
 - Removed unused code
 
 ## 2.10 (13.06.2020)

@@ -65,7 +65,7 @@ Notice: some mods may include their own sectors in their respective rule files.
 
 You can enable the framerate limiter in the MOP settings under the Graphics section, or simply use V-Sync.
 
-## When I enter the Satsuma, my framerate suddenly drops down
+## When I walk close to the Satsuma, my framerate suddenly drops
 
 Satsuma is the biggest resource hog of the entire game. There's literally nothing I can do about it.
 
@@ -99,7 +99,7 @@ MOP cannot be compatible with CheatBox for one simple reason - in order to Cheat
 
 There is only 1 scenarion where MOP and CheatBox would work together, with none of them loosing their core functionality:
 
-CheatBox author modifying the CheatBox itself, so instead of it using GameObject.Find(), it would use `Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == objectName)`
+CheatBox author modifying the CheatBox itself, so instead of it using `GameObject.Find()`, it would use `Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == objectName)`
 
 If you want to retain the item teleporting function, you can enable Safe Mode in the MOP settings (which will harm the performance), or you can create the Custom.txt rule file, with flags "ignore: objectName", for the items that you want to be able to teleport.
 
@@ -110,6 +110,20 @@ First navigate to the folder where your MSC Mods are. Then go to:
 Config -> Mod Settings -> MOP
 
 And unpack the content of the zip file here.
+
+## After deleting the mod, a rule file corresponding to that mod is gone
+
+This is an intended behaviour of MOP which goal is to reduce the load time and disk space usage.
+
+If you wish for the MOP to not do that, you can disable it by going int Mod Settings -> MOP Settings -> Rule Files -> Check "Don't delete unused rule files".
+
+**Note:** These rule files won't be loaded nontheless.
+
+## Rule file that I made for my mod has been deleted by MOP
+
+MOP by default tries to verify if the installed rule files are trusted, to avoid having any malicous ones potentially breaking the game or MOP itself.
+
+If you're mod maker, you can disable that function by going into Mod Settings -> MOP Settings -> Rule Files -> Uncheck "Verify Rule Files".
 
 ## Something broke (ex. item fell through the ground) after I teleported it or self
 

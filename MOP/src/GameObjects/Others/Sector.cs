@@ -111,7 +111,6 @@ namespace MOP
                 GameObject.Find("YARD/UNCLE/Home"),
                 GameObject.Find("YARD/UNCLE/Building"),
                 GameObject.Find("MAP/RadioMast"),
-                GameObject.Find("MAP/Bottom"),
                 GameObject.Find("MAP/PierHome"),
                 GameObject.Find("MAP/MESH/FOLIAGE/LAKE_VEGETATION")
             };

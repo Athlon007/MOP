@@ -39,47 +39,12 @@ namespace MOP
                     return;
                 }
 
-                // For some reason suspension breaks if it doesn't get restarted, so we use older method
-                if (this.gameObject.name.ContainsAny("strut", "coil spring", "shock absorber"))
-                {
-                    FsmState loadArray = fsm.FindFsmState(fsmName == "Use" ? "Load" : "Load array");
-                    List<FsmStateAction> loadArrayActions = new List<FsmStateAction> { new CustomNullState() };
-                    loadArray.Actions = loadArrayActions.ToArray();
-                    loadArray.SaveActions();
-
-                    if (fsmName == "Use") return;
-
-                    FsmState loadFloat = fsm.FindFsmState("Load float");
-                    List<FsmStateAction> loadFloatActions = new List<FsmStateAction> { new CustomNullState() };
-                    loadFloat.Actions = loadFloatActions.ToArray();
-                    loadFloat.SaveActions();
-
-                    if (fsm.FindFsmState("Load float 2") != null)
-                    {
-                        FsmState loadFloatX = fsm.FindFsmState("Load float 2");
-                        loadFloatX.Actions = new FsmStateAction[] { new CustomNullState() };
-                        loadFloatX.SaveActions();
-                    }
-                }
-                else
-                {
-                    fsm.Fsm.RestartOnEnable = false;
-                }
+                fsm.Fsm.RestartOnEnable = false;
             }
             catch (System.Exception ex)
             {
                 ExceptionManager.New(ex, $"BOLTS_ANTI_LOAD_SCRIPT_ERROR_{gameObject.transform.parent.gameObject.name}/{gameObject.name}");
             }
-        }
-
-        public void ForceSave()
-        {
-            if (fsm == null)
-            {
-                return;
-            }
-
-            fsm.SendEvent("SAVEGAME");
         }
     }
 }

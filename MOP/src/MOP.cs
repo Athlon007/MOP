@@ -30,7 +30,7 @@ namespace MOP
         public override string Name => "Modern Optimization Plugin"; //You mod name
 #endif
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "2.11.0"; //Version
+        public override string Version => "2.11"; //Version
 
         #region Settings & Configuration
         // ModLoader configuration.
@@ -41,7 +41,7 @@ namespace MOP
         static string modConfigPath;
         public static string ModConfigPath { get => modConfigPath; }
 
-        // Stores the version of the mod.
+        // Stores version number of the mod.
         static string modVersion;
         public static string ModVersion { get => modVersion; }
 
