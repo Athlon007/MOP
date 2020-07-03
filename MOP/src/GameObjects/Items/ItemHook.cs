@@ -174,6 +174,11 @@ namespace MOP
                     firstLoad = true;
                 }
 
+                if (!WorldManager.instance.IsItemInitializationDone())
+                {
+                    transform.position = position;
+                }
+
                 // This is for the hood system.
                 // If the item is stored in the Satsuma's storages (trunk or glovebox),
                 // the storage itself toggles the item.
@@ -265,6 +270,11 @@ namespace MOP
                         transform.position = WorldManager.instance.GetLostSpawner().position;
 
                     firstLoad = true;
+                }
+
+                if (!WorldManager.instance.IsItemInitializationDone())
+                {
+                    transform.position = position;
                 }
 
                 if (MopSettings.RemoveEmptyItems && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent.gameObject.name != "ItemPivot")

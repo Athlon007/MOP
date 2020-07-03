@@ -71,16 +71,6 @@ namespace MOP
 
             isActive = enabled;
 
-            // In case of yard, reset doors pivots
-            if (gameObject.name == "YARD" && !enabled && Doors.Length > 0)
-            {
-                for (int i = 0; i < Doors.Length; i++)
-                {
-                    Transform pivot = Doors[i].Find("Pivot");
-                    pivot.localEulerAngles = Vector3.zero;
-                }
-            }
-
             // Load and unload only the objects that aren't on the whitelist.
             for (int i = 0; i < DisableableChilds.Count; i++)
             {

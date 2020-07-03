@@ -75,6 +75,14 @@ namespace MOP
 
         List<SatsumaBoltsAntiReload> satsumaBoltsAntiReloads;
 
+        Transform itemPivot;
+
+        // Fix for clutch cover plates bolts.
+        //GameObject maskedClutchCover;
+        //bool isMaskedClutchCoverEnabled;
+        Dictionary<GameObject, bool> maskedElements;
+        int maskedFixStages;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -311,6 +319,14 @@ namespace MOP
                 .ToArray();
             foreach (GameObject part in suspensionParts)
                 part.AddComponent<SatsumaSuspensionMassManager>();
+            // Appparently not only suspension fucks over the Satsuma...
+            GameObject[] others = Resources.FindObjectsOfTypeAll<GameObject>()
+                .Where(g => g.name.EqualsAny("grille gt(Clone)", "grille(Clone)", "subwoofer panel(Clone)",
+                "seat rear(Clone)", "amplifier(Clone)", "rearlight(leftx)", "rearlight(right)", "racing radiator(xxxxx)", "radiator(xxxxx)",
+                "radiator hose1(xxxxx)", "radiator hose3(xxxxx)", "marker light left(xxxxx)", "marker light right(xxxxx)", "antenna(leftx)",
+                "antenna(right)", "dashboard(Clone)")).ToArray();
+            foreach (GameObject other in others)
+                other.AddComponent<SatsumaSuspensionMassManager>();
 
             if (Rules.instance.SpecialRules.ExperimentalSatsumaTrunk)
             {
@@ -369,6 +385,26 @@ namespace MOP
             boltsONActions[1] = new MasterAudioAssembleCustom();
             boltsONState.Actions = boltsONActions;
             boltsONState.SaveActions();
+
+            // Disable the "Fix Collider" state in FSM Setup, so it won't make items fall through the car.
+            this.gameObject.GetPlayMakerByName("Setup").Fsm.RestartOnEnable = false;
+            itemPivot = new GameObject("MOP_ItemPivot").transform;
+            itemPivot.parent = transform;
+            itemPivot.localPosition = new Vector3(0, 0.3f, -1.5f);
+
+            MeshCollider bootFloor = transform.Find("Colliders/collider_floor3").gameObject.GetComponent<MeshCollider>();
+            bootFloor.isTrigger = false;
+            bootFloor.enabled = true;
+
+            maskedElements = new Dictionary<GameObject, bool>();
+            maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedClutchCover"), key.activeSelf);
+            maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedBearing2"), key.activeSelf);
+            maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedBearing3"), key.activeSelf);
+            maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedFlywheel"), key.activeSelf);
+            maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedFlywheelRacing"), key.activeSelf);
+            maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedPiston2"), key.activeSelf);
+            maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedPiston3"), key.activeSelf);
+            maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedPiston4"), key.activeSelf);
 
             if (MopSettings.GenerateToggledItemsListDebug)
             {
@@ -546,11 +582,33 @@ namespace MOP
 
                 for (int i = 0; i < onFarToggle.Count; i++)
                     onFarToggle[i].SetActive(onFar);
+
+                // this script fixes the issue with bolts staying unbolted, with parts internally being fully bolted.
+                if (onEngine && maskedFixStages < 2)
+                {
+                    switch (maskedFixStages)
+                    {
+                        case 0:
+                            for (int i = 0; i < maskedElements.Count; i++)
+                                maskedElements.ElementAt(i).Key.SetActive(true);
+                            break;
+                        case 1:
+                            for (int i = 0; i < maskedElements.Count; i++)
+                                maskedElements.ElementAt(i).Key.SetActive(maskedElements.ElementAt(i).Value);
+                            break;
+                    }
+                    maskedFixStages++;
+                }
             }
             catch (System.Exception ex)
             {
                 ExceptionManager.New(ex, "SATSUMA_TOGGLE_ELEMENTS_ERROR");
             }
+        }
+
+        public Vector3 ItemPivotPosition()
+        {
+            return itemPivot.position;
         }
     }
 }

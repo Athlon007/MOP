@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.11.2 (03.07.2020)
+
+### Added
+
+- Added loading screen
+
+### Bug Fixes
+
+- Probably fixed items falling through Satsuma (the game is such a mess, that I can't be 100% sure)
+- Fixed more cases in which Satsuma would "gain on weight" for no reason
+- Fixed doors at yard being closed after respawn
+- Fixed some parts bolts seeming to be unbolted, even tho internally the part was fully bolted, making it impossible to detach the part (mostly applies for saves that were used pre-2.11 update. If you started your save after 2.11 update, you're good)
+
 ## 2.11.1 (29.06.2020)
 
 ### Bug Fixes

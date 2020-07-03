@@ -21,6 +21,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MOP
 {
@@ -56,8 +57,15 @@ namespace MOP
         bool isPlayerAtYard;
         bool inSectorMode;
 
+        CharacterController playerController;
+        bool itemInitializationDelayDone;
+        int waitTime;
+        const int WaitDone = 3;
+
         List<ItemHook> itemsToEnable = new List<ItemHook>();
         List<ItemHook> itemsToDisable = new List<ItemHook>();
+
+        GameObject mopCanvas;
 
         public WorldManager()
         {
@@ -66,6 +74,21 @@ namespace MOP
                 ModConsole.Error("[MOP] Rule Files haven't been loaded! Please exit to the main menu and start the game again.");
                 return;
             }
+
+            mopCanvas = GameObject.Instantiate(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MSCLoader Canvas"));
+            mopCanvas.name = "MOP_Canvas";
+            Destroy(mopCanvas.transform.Find("MSCLoader Console").gameObject);
+            Destroy(mopCanvas.transform.Find("MSCLoader Settings").gameObject);
+            Destroy(mopCanvas.transform.Find("MSCLoader Settings button").gameObject);
+            Destroy(mopCanvas.transform.Find("MSCLoader pbar").gameObject);
+            Destroy(mopCanvas.transform.Find("MSCLoader Info").gameObject);
+            Destroy(mopCanvas.transform.Find("MSCLoader loading screen/Title").gameObject);
+            Destroy(mopCanvas.transform.Find("MSCLoader loading screen/Progress").gameObject);
+            mopCanvas.transform.Find("MSCLoader loading screen/ModName").gameObject.GetComponent<Text>().text = "Loading Modern Optimization Plugin";
+            mopCanvas.transform.Find("MSCLoader loading screen/Loading").gameObject.GetComponent<Text>().text = "Please wait...";
+            mopCanvas.SetActive(true);
+            playerController = GameObject.Find("PLAYER").GetComponent<CharacterController>();
+            playerController.enabled = false;
 
             // Start the delayed initialization routine
             StartCoroutine(DelayedInitializaitonRoutine());
@@ -95,7 +118,17 @@ namespace MOP
                 }
             }
 
-            Initialize();
+            try
+            {
+                Initialize();
+            }
+            catch (Exception ex)
+            {
+                ModConsole.Error("[MOP] A fatal error has occured. Contact mod author immedietally!");
+                ExceptionManager.New(ex, "MASTER_LOAD_ERROR");
+                mopCanvas.SetActive(false);
+                playerController.enabled = true;
+            }
         }
 
         void Initialize()
@@ -728,6 +761,17 @@ namespace MOP
                 Satsuma.instance.ToggleEngineRenderers(!MopFsmManager.IsPlayerInSatsuma());
                 yield return null;
 
+                if (!itemInitializationDelayDone)
+                {
+                    waitTime += 1;
+                    if (waitTime >= WaitDone)
+                    {
+                        itemInitializationDelayDone = true;
+                        mopCanvas.SetActive(false);
+                        playerController.enabled = true;
+                    }
+                }
+
                 int i;
                 // World Objects.
                 for (i = 0; i < worldObjectList.Count; i++)
@@ -1212,6 +1256,11 @@ namespace MOP
         public bool IsInSector()
         {
             return inSectorMode;
+        }
+
+        public bool IsItemInitializationDone()
+        {
+            return itemInitializationDelayDone;
         }
     }
 }

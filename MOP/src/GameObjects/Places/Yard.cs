@@ -62,7 +62,13 @@ namespace MOP
             GameObject.Find("GarageDoors").transform.parent = null;
 
             Doors = GetTransform().GetComponentsInChildren<Transform>()
-                .Where(t => t.gameObject.name.Contains("Door") && t.Find("Pivot") != null).ToArray();
+                .Where(t => t.root == GetTransform() && t.gameObject.name.Contains("Door") && t.Find("Pivot") != null).ToArray();
+
+            foreach (Transform door in Doors)
+            {
+                if (door.Find("Pivot/Handle") != null)
+                    door.Find("Pivot/Handle").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            }
 
             GameObjectBlackList.AddRange(blackList);
             DisableableChilds = GetDisableableChilds();
