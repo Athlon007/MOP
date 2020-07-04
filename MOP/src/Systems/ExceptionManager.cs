@@ -149,7 +149,7 @@ namespace MOP
 
             if (File.Exists($"{MOP.ModConfigPath}/Custom.txt"))
             {
-                output += "=== CUSTOM.TXT CONTENT ===\n\n";
+                output += "\n=== CUSTOM.TXT CONTENT ===\n\n";
                 output += File.ReadAllText($"{MOP.ModConfigPath}/Custom.txt") + "\n\n";
             }
 

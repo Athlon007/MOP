@@ -46,6 +46,7 @@ Besides that, MOP fixes some more or less known bugs of vanilla My Summer Car. N
 - Missing collisions to the car parked at the Fleetari's repair shop (2.10)
 - Negative battery terminal disappearing seemingly for no reason at all (2.11)
 - Save files staying in the "read only" state (2.11)
+- Satsuma dashboard needles Z-fighting (2.11.3)
 
 ## What are sectors and where are they located
 

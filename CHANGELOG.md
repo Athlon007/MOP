@@ -1,5 +1,34 @@
 # Changelog
 
+## 2.11.3 (tba)
+
+### Bug Fixes
+
+- (My Summer Car Bug) Fixed Z fighting of Satsuma dashboard needles
+- Fixed a bug in which the Satsuma could potentially be sent into the air, if the player Alt+Tabbed during MOP loading screen
+- Fixed bus roll fix not working as intended
+- Fixed a bug in which MOP would throw an error while trying to hook the save game to the phone handle/
+- Fixing items falling out of the Satsuma's boot 2: The Electric Boogaloo
+
+## 2.11.2 (03.07.2020)
+
+### Added
+
+- Added loading screen
+
+### Bug Fixes
+
+- Probably fixed items falling through Satsuma (the game is such a mess, that I can't be 100% sure)
+- Fixed more cases in which Satsuma would "gain on weight" for no reason
+- Fixed doors at yard being closed after respawn
+- Fixed some parts bolts seeming to be unbolted, even tho internally the part was fully bolted, making it impossible to detach the part (mostly applies for saves that were used pre-2.11 update. If you started your save after 2.11 update, you're good)
+
+## 2.11.1 (29.06.2020)
+
+### Bug Fixes
+
+- Fixed MOP not working, if player hasn't bought the computer
+
 ## 2.11 (29.06.2020)
 
 ### Added

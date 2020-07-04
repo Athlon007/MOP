@@ -268,13 +268,14 @@ namespace MOP
                 else
                 {
                     FsmState installState = useFsm.FindFsmState("Install");
+                    if (part.name.Contains("_INVENTORY")) continue;
                     FsmStateAction[] installActions = installState.Actions;
                     installActions[2] = new CustomNullState();
                     installState.Actions = installActions;
                     installState.SaveActions();
                 }
             }
-
+            
             // Fix for cd player disabling other vehicles radio.
             Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "cd player(Clone)")
             .transform.Find("ButtonsCD/RadioVolume").gameObject.GetPlayMakerByName("Knob").Fsm.RestartOnEnable = false;

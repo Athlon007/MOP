@@ -38,13 +38,19 @@ namespace MOP
         IEnumerator currentPositionFixRoutine;
         IEnumerator PositionFixRoutine()
         {
-            yield return new WaitForSeconds(5);
-
-            if (transform.localEulerAngles.z > 20 && transform.localEulerAngles.z < 340)
+            while (MopSettings.IsModActive)
             {
-                Vector3 fixedPosition = transform.localEulerAngles;
-                fixedPosition.z = 0;
-                transform.localEulerAngles = fixedPosition;
+                yield return new WaitForSeconds(5);
+                if (transform.localEulerAngles.z > 20 && transform.localEulerAngles.z < 340)
+                {
+                    // Bus won't be flipped back, if player's too close.
+                    if (Vector3.Distance(WorldManager.instance.GetPlayer().position, transform.position) < 300) 
+                        continue;
+
+                    Vector3 fixedPosition = transform.localEulerAngles;
+                    fixedPosition.z = 0;
+                    transform.localEulerAngles = fixedPosition;
+                }
             }
         }
     }
