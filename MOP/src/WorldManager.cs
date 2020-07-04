@@ -56,6 +56,11 @@ namespace MOP
         bool isPlayerAtYard;
         bool inSectorMode;
 
+        CharacterController playerController;
+        bool itemInitializationDelayDone;
+        int waitTime;
+        const int WaitDone = 4;
+
         List<ItemHook> itemsToEnable = new List<ItemHook>();
         List<ItemHook> itemsToDisable = new List<ItemHook>();
 
@@ -344,6 +349,14 @@ namespace MOP
                     .gameObject.GetComponent<Renderer>().material.renderQueue = 3002;
             }
             catch { }
+
+            // Z-fighting of the Satsuma dashboard meters.
+            GameObject.Find("dashboard(Clone)").transform.Find("pivot_meters/dashboard meters(Clone)/Gauges/Fuel/needle_small")
+                .gameObject.GetComponent<Renderer>().material.renderQueue = 3001;
+            GameObject.Find("dashboard(Clone)").transform.Find("pivot_meters/dashboard meters(Clone)/Gauges/Temp/needle_small")
+                .gameObject.GetComponent<Renderer>().material.renderQueue = 3001;
+            GameObject.Find("dashboard(Clone)").transform.Find("pivot_meters/dashboard meters(Clone)/Gauges/Speedometer/needle_large")
+                .gameObject.GetComponent<Renderer>().material.renderQueue = 3001;
 
             // Adds roll fix to the bus.
             GameObject.Find("BUS").AddComponent<BusRollFix>();
@@ -649,7 +662,7 @@ namespace MOP
                 i++;
 
                 // Adding custom action to state that will trigger PreSaveGame, if the player picks up the phone with large Suski.
-                PlayMakerFSM useHandleFSM = GameObject.Find("Telephone/Logic/UseHandle").GetComponent<PlayMakerFSM>();
+                PlayMakerFSM useHandleFSM = GameObject.Find("Telephone").transform.Find("Logic/UseHandle").GetComponent<PlayMakerFSM>();
                 FsmState phoneFlip = useHandleFSM.FindFsmState("Pick phone");
                 List<FsmStateAction> phoneFlipActions = phoneFlip.Actions.ToList();
                 phoneFlipActions.Insert(0, new CustomSuskiLargeFlip());
@@ -1071,7 +1084,6 @@ namespace MOP
                     else if (mode == ToggleAllMode.OnSave)
                     {
                         vehicles[i].ToggleUnityCar(enabled);
-                        PlayMakerFSM lodFSM = vehicles[i].gameObject.GetPlayMakerByName("LOD");
                     }
                 }
                 catch (Exception ex)
@@ -1109,8 +1121,7 @@ namespace MOP
                     if (mode == ToggleAllMode.OnSave)
                     {
                         PlayMakerFSM fsm = Items.instance.ItemsHooks[i].gameObject.GetComponent<PlayMakerFSM>();
-                        //if (fsm != null)
-                            //fsm.SendEvent("SAVEGAME");
+                        Items.instance.ItemsHooks[i].Freeze();
                     }
                 }
                 catch (Exception ex)
@@ -1159,12 +1170,6 @@ namespace MOP
             catch (Exception ex)
             {
                 ExceptionManager.New(ex, "TOGGLE_ALL_SATSUMA_TOGGLE_ELEMENTS");
-            }
-
-            // Force save all
-            if (mode == ToggleAllMode.OnSave)
-            {
-                //PlayMakerFSM.BroadcastEvent("SAVEGAME");
             }
         }
 

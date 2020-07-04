@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 ### Added
 
 - Added "Disable empty items" option in the MOP settings, under Other section
@@ -40,3 +41,11 @@
 
 - Rule Files API: Removed obsolete flags
 - Removed unused code
+=======
+### Bug Fixes
+
+- Fixed a bug in which the Satsuma could potentially be sent into the air, if the player Alt+Tabbed during MOP loading screen
+- Fixed bus roll fix not working as intended
+- Fixed a bug in which MOP would throw an error while trying to hook the save game to the phone handle/
+- Fixing items falling out of the Satsuma's boot 2: The Electric Boogaloo
+>>>>>>> Stashed changes

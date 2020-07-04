@@ -174,6 +174,15 @@ namespace MOP
                     firstLoad = true;
                 }
 
+<<<<<<< Updated upstream
+=======
+                if (!WorldManager.instance.IsItemInitializationDone())
+                {
+                    if (transform.root != Satsuma.instance.transform)
+                        transform.position = position;
+                }
+
+>>>>>>> Stashed changes
                 // This is for the hood system.
                 // If the item is stored in the Satsuma's storages (trunk or glovebox),
                 // the storage itself toggles the item.
@@ -477,6 +486,32 @@ namespace MOP
             {
                 paintFSM.Fsm.RestartOnEnable = false;
             }
+        }
+
+        public void Freeze()
+        {
+            gameObject.AddComponent<ItemFreezer>();
+            if (rb != null)
+            {
+                rb.isKinematic = true;
+                rb.constraints = RigidbodyConstraints.FreezeAll;
+            }
+        }
+    }
+
+    class ItemFreezer : MonoBehaviour
+    {
+        // It's purpose is to literally freeze the item in place while saving the game, so the motherfucker won't move.
+        Vector3 position;
+
+        public ItemFreezer()
+        {
+            position = transform.position;
+        }
+
+        void Update()
+        {
+            transform.position = position;
         }
     }
 }
