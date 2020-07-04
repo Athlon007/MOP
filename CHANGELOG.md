@@ -7,7 +7,7 @@
 - (My Summer Car Bug) Fixed Z fighting of Satsuma dashboard needles
 - Fixed a bug in which the Satsuma could potentially be sent into the air, if the player Alt+Tabbed during MOP loading screen
 - Fixed bus roll fix not working as intended
-- Fixed a bug in which MOP would throw an error while trying to hook the save game to the phone handle/
+- Fixed a bug in which MOP would throw an error while trying to hook the save game to the phone handle
 - Fixing items falling out of the Satsuma's boot 2: The Electric Boogaloo
 
 ## 2.11.2 (03.07.2020)
