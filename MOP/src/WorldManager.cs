@@ -21,6 +21,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MOP
 {
@@ -64,6 +65,8 @@ namespace MOP
         List<ItemHook> itemsToEnable = new List<ItemHook>();
         List<ItemHook> itemsToDisable = new List<ItemHook>();
 
+        GameObject mopCanvas;
+
         public WorldManager()
         {
             if (Rules.instance == null)
@@ -71,6 +74,21 @@ namespace MOP
                 ModConsole.Error("[MOP] Rule Files haven't been loaded! Please exit to the main menu and start the game again.");
                 return;
             }
+
+            mopCanvas = GameObject.Instantiate(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MSCLoader Canvas"));
+            mopCanvas.name = "MOP_Canvas";
+            Destroy(mopCanvas.transform.Find("MSCLoader Console").gameObject);
+            Destroy(mopCanvas.transform.Find("MSCLoader Settings").gameObject);
+            Destroy(mopCanvas.transform.Find("MSCLoader Settings button").gameObject);
+            Destroy(mopCanvas.transform.Find("MSCLoader pbar").gameObject);
+            Destroy(mopCanvas.transform.Find("MSCLoader Info").gameObject);
+            Destroy(mopCanvas.transform.Find("MSCLoader loading screen/Title").gameObject);
+            Destroy(mopCanvas.transform.Find("MSCLoader loading screen/Progress").gameObject);
+            mopCanvas.transform.Find("MSCLoader loading screen/ModName").gameObject.GetComponent<Text>().text = "Loading Modern Optimization Plugin";
+            mopCanvas.transform.Find("MSCLoader loading screen/Loading").gameObject.GetComponent<Text>().text = "Please wait...";
+            mopCanvas.SetActive(true);
+            playerController = GameObject.Find("PLAYER").GetComponent<CharacterController>();
+            playerController.enabled = false;
 
             // Start the delayed initialization routine
             StartCoroutine(DelayedInitializaitonRoutine());
@@ -100,7 +118,17 @@ namespace MOP
                 }
             }
 
-            Initialize();
+            try
+            {
+                Initialize();
+            }
+            catch (Exception ex)
+            {
+                ModConsole.Error("[MOP] A fatal error has occured. Contact mod author immedietally!");
+                ExceptionManager.New(ex, "MASTER_LOAD_ERROR");
+                mopCanvas.SetActive(false);
+                playerController.enabled = true;
+            }
         }
 
         void Initialize()
@@ -194,7 +222,7 @@ namespace MOP
             buildings.Find("ChickenHouse").parent = null;
 
             // Fix for church wall. Changing it's parent to NULL, so it will not be loaded or unloaded.
-            // It used to be attached to CHURCH gameobject, 
+            // It used to be attached to CHURCH gameobject,
             // but the Amis cars (yellow and grey cars) used to end up in the graveyard area.
             GameObject.Find("CHURCHWALL").transform.parent = null;
 
@@ -302,14 +330,14 @@ namespace MOP
             // Fixes wasp hives resetting to on load values.
             GameObject[] wasphives = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "WaspHive").ToArray();
             foreach (GameObject wasphive in wasphives)
-            { 
+            {
                 wasphive.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
             }
 
             // Disabling the script that sets the kinematic state of Satsuma to False.
             GameObject hand = GameObject.Find("PLAYER/Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/Hand");
             PlayMakerFSM pickUp = hand.GetPlayMakerByName("PickUp");
-            
+
             FsmState stateDropPart = pickUp.FindFsmState("Drop part");
             stateDropPart.Actions[0] = new CustomNullState();
             stateDropPart.SaveActions();
@@ -365,7 +393,7 @@ namespace MOP
             GameObject.Find("YARD/Building/BEDROOM1/trigger_window_wrap").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
             // Fixes diskette ejecting not wokring.
-            GameObject.Find("TriggerDiskette").GetPlayMakerByName("Assembly").Fsm.RestartOnEnable = false;
+            Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "TriggerDiskette").GetPlayMakerByName("Assembly").Fsm.RestartOnEnable = false;
 
             ModConsole.Print("[MOP] Finished applying fixes");
 
@@ -741,6 +769,17 @@ namespace MOP
                 Satsuma.instance.ToggleEngineRenderers(!MopFsmManager.IsPlayerInSatsuma());
                 yield return null;
 
+                if (!itemInitializationDelayDone)
+                {
+                    waitTime += 1;
+                    if (waitTime >= WaitDone)
+                    {
+                        itemInitializationDelayDone = true;
+                        mopCanvas.SetActive(false);
+                        playerController.enabled = true;
+                    }
+                }
+
                 int i;
                 // World Objects.
                 for (i = 0; i < worldObjectList.Count; i++)
@@ -871,7 +910,7 @@ namespace MOP
 
                         if (Rules.instance.SpecialRules.ExperimentalOptimization)
                         {
-                            if (i == 0 && SatsumaInGarage.Instance.AreGarageDoorsClosed() 
+                            if (i == 0 && SatsumaInGarage.Instance.AreGarageDoorsClosed()
                                        && SatsumaInGarage.Instance.IsSatsumaInGarage()
                                        && !Satsuma.instance.IsKeyInserted())
                             {
@@ -1157,7 +1196,7 @@ namespace MOP
                     canTrigger.gameObject.GetComponent<PlayMakerFSM>().SendEvent("STOP");
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 ExceptionManager.New(ex, "TOGGLE_ALL_JOBS_DRUNK");
             }
@@ -1217,6 +1256,11 @@ namespace MOP
         public bool IsInSector()
         {
             return inSectorMode;
+        }
+
+        public bool IsItemInitializationDone()
+        {
+            return itemInitializationDelayDone;
         }
     }
 }

@@ -27,7 +27,7 @@ namespace MOP
     {
         // This MonoBehaviour hooks to all items from shop and other interactable ones. (Such as sausages, or beer cases)
         // ObjectHook class by Konrad "Athlon" Figura
-        
+
         bool firstLoad;
         public bool DontDisable;
 
@@ -38,7 +38,7 @@ namespace MOP
 
         FsmBool batteryOnCharged;
         FsmFloat floorJackTriggerY;
-        
+
         // Used by Satsuma storage system.
         public bool IsInStorage;
 
@@ -174,15 +174,12 @@ namespace MOP
                     firstLoad = true;
                 }
 
-<<<<<<< Updated upstream
-=======
                 if (!WorldManager.instance.IsItemInitializationDone())
                 {
                     if (transform.root != Satsuma.instance.transform)
                         transform.position = position;
                 }
 
->>>>>>> Stashed changes
                 // This is for the hood system.
                 // If the item is stored in the Satsuma's storages (trunk or glovebox),
                 // the storage itself toggles the item.
@@ -276,6 +273,11 @@ namespace MOP
                     firstLoad = true;
                 }
 
+                if (!WorldManager.instance.IsItemInitializationDone())
+                {
+                    transform.position = position;
+                }
+
                 if (MopSettings.RemoveEmptyItems && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent.gameObject.name != "ItemPivot")
                 {
                     enabled = !MopSettings.IsModActive;
@@ -354,7 +356,7 @@ namespace MOP
             }
             catch { }
         }
-        
+
         /// <summary>
         /// Used when this item is a beer case.
         /// Starts the coroutine that initializes Items.DestroyEmptyBottles after 7 seconds.

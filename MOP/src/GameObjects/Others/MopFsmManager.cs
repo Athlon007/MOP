@@ -31,6 +31,7 @@ namespace MOP
         static FsmBool fiberHoodBolted;
         static FsmBool suskiLarge;
         static GameObject triggerHood;
+        static GameObject triggerBumperRear;
         static GameObject kekmetTrailerRemove;
         static FsmFloat battery1;
         static FsmFloat battery2;
@@ -140,6 +141,15 @@ namespace MOP
 
             triggerHood.SetActive(true);
             triggerHood.GetComponent<PlayMakerFSM>().SendEvent("ASSEMBLE");
+        }
+
+        public static void ForceRearBumperAssemble()
+        {
+            if (triggerBumperRear == null)
+                triggerBumperRear = GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Body/trigger_bumper_rear").gameObject;
+
+            triggerBumperRear.SetActive(true);
+            triggerBumperRear.GetComponent<PlayMakerFSM>().SendEvent("ASSEMBLE");
         }
 
         public static bool IsTrailerAttached()
