@@ -36,34 +36,14 @@ namespace MOP
         // Used for mod report only.
         public List<string> RuleFileNames;
 
-        // Rules applied by sectors.
-        public List<string> SectorRules;
-
         // Sectors (adds a new sector).
         public List<NewSector> NewSectors;
+
 
         public Rules(bool overrideUpdateCheck = false)
         {
             instance = this;
             WipeAll(overrideUpdateCheck);
-        }
-
-        public void AddSectorRule(params string[] names)
-        {
-            SectorRules.AddRange(names);
-        }
-
-        public void ClearSectorRules()
-        {
-            SectorRules.Clear();
-        }
-
-        public bool SectorRulesContains(string name)
-        {
-            if (SectorRules.Count == 0)
-                return false;
-
-            return SectorRules.Contains(name);
         }
 
         public void WipeAll(bool overrideUpdateCheck)
@@ -73,7 +53,6 @@ namespace MOP
             ToggleRules = new List<ToggleRule>();
             SpecialRules = new SpecialRules();
             RuleFileNames = new List<string>();
-            SectorRules = new List<string>();
             NewSectors = new List<NewSector>();
 
             // Destroy old rule files loader object, if it exists.

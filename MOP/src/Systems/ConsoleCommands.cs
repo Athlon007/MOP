@@ -335,8 +335,8 @@ namespace MOP
                         return;
                     }
 
-                    if (Rules.instance.IgnoreRules.Count > 0 || Rules.instance.IgnoreRulesAtPlaces.Count > 0 || Rules.instance.NewSectors.Count > 0 ||
-                        Rules.instance.SectorRules.Count > 0 || Rules.instance.ToggleRules.Count > 0)
+                    if (Rules.instance.IgnoreRules.Count > 0 || Rules.instance.IgnoreRulesAtPlaces.Count > 0 || 
+                        Rules.instance.NewSectors.Count > 0 || Rules.instance.ToggleRules.Count > 0)
                     {
                         ModConsole.Print("<color=red>WARNING:</color> For accurate results, disable all rule files!");
                     }

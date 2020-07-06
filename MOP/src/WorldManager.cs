@@ -756,13 +756,19 @@ namespace MOP
                 if (ticks > 1000)
                     ticks = 0;
 
-                inSectorMode = SectorManager.instance != null && SectorManager.instance.PlayerInSector;
                 isPlayerAtYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, places[0].GetTransform().position) < 100
                     : Vector3.Distance(player.position, places[0].GetTransform().position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 
                 // When player is in any of the sectors, MOP will act like the player is at yard.
-                if (SectorManager.instance.PlayerInSector)
+                if (SectorManager.instance.IsPlayerInSector())
+                {
+                    inSectorMode = true;
                     isPlayerAtYard = true;
+                }
+                else
+                {
+                    inSectorMode = false;
+                }
 
                 int half = worldObjectList.Count / 2;
 
@@ -799,8 +805,11 @@ namespace MOP
                             continue;
                         }
 
-                        if (Rules.instance.SectorRulesContains(worldObject.gameObject.name))
+                        if (SectorManager.instance.SectorRulesContains(worldObject.gameObject.name))
+                        {
+                            worldObject.gameObject.SetActive(true);
                             continue;
+                        }
 
                         // Should the object be disabled when the player leaves the house?
                         if (worldObject.AwayFromHouse)
@@ -981,7 +990,7 @@ namespace MOP
 
                     try
                     {
-                        if (Rules.instance.SectorRulesContains(places[i].GetName()))
+                        if (SectorManager.instance.SectorRulesContains(places[i].GetName()))
                             continue;
 
                         places[i].ToggleActive(IsPlaceEnabled(places[i].GetTransform(), places[i].GetToggleDistance()));

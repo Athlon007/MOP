@@ -2,6 +2,10 @@
 
 ## 2.11.3 (tba)
 
+### Changes
+
+- Improved the performance of sectors
+
 ### Bug Fixes
 
 - (My Summer Car Bug) Fixed Z fighting of Satsuma dashboard needles

@@ -52,10 +52,7 @@ namespace MOP
         {
             if (other.gameObject.name == ReferenceObjectName)
             {
-                if (ignoreList != null)
-                    Rules.instance.AddSectorRule(ignoreList);
-
-                SectorManager.instance.PlayerInSector = true;
+                SectorManager.instance.AddActiveSector(this);
                 SectorManager.instance.ToggleActive(false);
             }
         }
@@ -64,12 +61,14 @@ namespace MOP
         {
             if (other.gameObject.name == ReferenceObjectName)
             {
-                SectorManager.instance.PlayerInSector = false;
+                SectorManager.instance.RemoveActiveSector(this);
                 SectorManager.instance.ToggleActive(true);
-
-                if (ignoreList.Length > 0)
-                    Rules.instance.ClearSectorRules();
             }
+        }
+
+        public string[] GetIgnoreList()
+        {
+            return ignoreList;
         }
     }
 
@@ -80,15 +79,16 @@ namespace MOP
         public List<GameObject> DisabledObjects { get; }
         readonly List<GameObject> sectors;
 
-        public bool PlayerInSector;
-
         int loadedSectors;
+
+        List<Sector> activeSectors;
 
         public SectorManager()
         {
             instance = this;
-
+            
             ModConsole.Print("[MOP] Loading sectors...");
+            activeSectors = new List<Sector>();
 
             DisabledObjects = new List<GameObject>
             {
@@ -189,35 +189,7 @@ namespace MOP
 
         void CreateNewSector(Vector3 position, Vector3 size, params string[] ignoreList)
         {
-            GameObject newSector;
-            if (MopSettings.SectorDebugMode)
-            {
-                newSector = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                newSector.name = "MOP_SECTOR_DEBUG";
-                newSector.transform.localScale = size;
-                Object.Destroy(newSector.GetComponent<Collider>());
-                newSector.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-            }
-            else
-            {
-                newSector = new GameObject("MOP_Sector");
-            }
-            newSector.transform.position = position;
-            Sector sectorInfo = newSector.AddComponent<Sector>();
-
-            if (ignoreList.Length == 0)
-                ignoreList = new string[0];
-
-            sectorInfo.Initialize(size, ignoreList);
-            sectors.Add(newSector);
-
-            if (Rules.instance.SpecialRules.ExperimentalOptimization)
-            {
-                if (ignoreList.Length > 0 && ignoreList[0] == "PierHome")
-                    newSector.AddComponent<SatsumaInGarage>();
-            }
-
-            loadedSectors++;
+            CreateNewSector(position, size, Vector3.zero, ignoreList);
         }
 
         void CreateNewSector(Vector3 position, Vector3 size, Vector3 rotation, params string[] ignoreList)
@@ -245,20 +217,13 @@ namespace MOP
             sectorInfo.Initialize(size, ignoreList);
             sectors.Add(newSector);
 
+            if (Rules.instance.SpecialRules.ExperimentalOptimization)
+            {
+                if (ignoreList.Length > 0 && ignoreList[0] == "PierHome")
+                    newSector.AddComponent<SatsumaInGarage>();
+            }
+
             loadedSectors++;
-        }
-
-        /// <summary>
-        /// Destroys all sectors and reeanbles all disabled objects
-        /// </summary>
-        public void DestroyAllSectors()
-        {
-            for (int i = 0; i < sectors.Count; i++)
-                GameObject.Destroy(sectors[i]);
-
-            PlayerInSector = false;
-            for (int i = 0; i < DisabledObjects.Count; i++)
-                DisabledObjects[i].SetActive(true);
         }
 
         public void ToggleActive(bool enabled)
@@ -273,11 +238,43 @@ namespace MOP
                 if (obj == null)
                     continue;
 
-                if (Rules.instance.SectorRulesContains(obj.name))
+                if (SectorRulesContains(obj.name))
+                {
+                    obj.SetActive(true);
                     continue;
+                }
 
                 obj.SetActive(enabled);
             }
+        }
+
+        internal void AddActiveSector(Sector sector)
+        {
+            activeSectors.Add(sector);
+        }
+
+        internal void RemoveActiveSector(Sector sector)
+        {
+            activeSectors.Remove(sector);
+        }
+
+        public bool SectorRulesContains(string name)
+        {
+            if (activeSectors.Count == 0)
+                return false;
+
+            for (int i = 0; i < activeSectors.Count; i++)
+            {
+                if (activeSectors[i].GetIgnoreList().Contains(name))
+                    return true;
+            }
+
+            return false;
+        }
+        
+        public bool IsPlayerInSector()
+        {
+            return activeSectors.Count > 0;
         }
     }
 }
