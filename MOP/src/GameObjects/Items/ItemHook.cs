@@ -144,6 +144,15 @@ namespace MOP
             {
                 DontDisable = true;
             }
+
+            if (gameObject.name.Equals("empty plastic can(itemx)"))
+            {
+                if (Vector3.Distance(position, WorldManager.instance.GetCanTrigger().position) < 2)
+                {
+                    position = WorldManager.instance.GetLostSpawner().position;
+                    return;
+                }
+            }
         }
 
         // Triggered before the object is destroyed.
@@ -245,11 +254,16 @@ namespace MOP
                         if (floorJackTriggerY.Value >= 0.15f)
                             return;
                         break;
+                    // Fixes infinitely burnign garbage barrel fire.
+                    case "garbage barrel(itemx)":
+                        if (!enabled)
+                            transform.Find("Fire").gameObject.SetActive(false);
+                        break;
                 }
 
                 // Check if item is in CarryMore inventory.
                 // If so, ignore that item.
-                if (CompatibilityManager.CarryMore && transform.position.y < -900)
+                if ((CompatibilityManager.CarryMore || CompatibilityManager.CarryEvenMore) && transform.position.y < -900)
                 {
                     return;
                 }
@@ -492,6 +506,15 @@ namespace MOP
 
         public void Freeze()
         {
+            if (gameObject.name.ContainsAny("empty plastic can", "kilju"))
+            {
+                if (Vector3.Distance(position, WorldManager.instance.GetCanTrigger().position) < 2)
+                {
+                    transform.position = WorldManager.instance.GetLostSpawner().position;
+                    return;
+                }
+            }
+
             gameObject.AddComponent<ItemFreezer>();
             if (rb != null)
             {

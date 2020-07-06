@@ -393,7 +393,8 @@ namespace MOP
             GameObject.Find("YARD/Building/BEDROOM1/trigger_window_wrap").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
             // Fixes diskette ejecting not wokring.
-            Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "TriggerDiskette").GetPlayMakerByName("Assembly").Fsm.RestartOnEnable = false;
+            Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "TriggerDiskette")
+                .GetPlayMakerByName("Assembly").Fsm.RestartOnEnable = false;
 
             ModConsole.Print("[MOP] Finished applying fixes");
 
@@ -791,6 +792,13 @@ namespace MOP
                     {
                         WorldObject worldObject = worldObjectList[i];
 
+                        // Check if object was destroyed (mostly intended for AI pedastrians).
+                        if (worldObject.gameObject == null)
+                        {
+                            worldObjectList.Remove(worldObject);
+                            continue;
+                        }
+
                         if (Rules.instance.SectorRulesContains(worldObject.gameObject.name))
                             continue;
 
@@ -841,8 +849,6 @@ namespace MOP
 
                     try
                     {
-                        if (CompatibilityManager.CarryEvenMore)
-                            if (Items.instance.ItemsHooks[i].name.EndsWith("_INVENTORY")) continue;
 
                         if (Items.instance.ItemsHooks[i] == null || Items.instance.ItemsHooks[i].gameObject == null)
                         {
@@ -855,6 +861,9 @@ namespace MOP
                             half = Items.instance.ItemsHooks.Count / 2;
                             continue;
                         }
+                        
+                        if (CompatibilityManager.CarryEvenMore)
+                            if (Items.instance.ItemsHooks[i].name.EndsWith("_INVENTORY")) continue;
 
                         bool toEnable = IsEnabled(Items.instance.ItemsHooks[i].transform, 150);
                         if (toEnable)
@@ -1155,11 +1164,9 @@ namespace MOP
                 {
                     Items.instance.ItemsHooks[i].Toggle(enabled);
 
-                    // If we're saving, MOP forces on items the "SAVEGAME" event.
-                    // This fixes an issue with items not getting saved, for some reason.
+                    // We're freezing the object on save, so it won't move at all.
                     if (mode == ToggleAllMode.OnSave)
                     {
-                        PlayMakerFSM fsm = Items.instance.ItemsHooks[i].gameObject.GetComponent<PlayMakerFSM>();
                         Items.instance.ItemsHooks[i].Freeze();
                     }
                 }
@@ -1187,13 +1194,7 @@ namespace MOP
             {
                 if (mode == ToggleAllMode.OnSave)
                 {
-                    Transform canTrigger = GameObject.Find("JOBS").transform.Find("HouseDrunkNew/BeerCampNew/BeerCamp/KiljuBuyer/CanTrigger");
-
-                    // If canTrigger object is not located at new house, get one from the old Jokke's house.
-                    if (canTrigger == null)
-                        canTrigger = GameObject.Find("JOBS").transform.Find("HouseDrunk/BeerCampOld/BeerCamp/KiljuBuyer/CanTrigger");
-
-                    canTrigger.gameObject.GetComponent<PlayMakerFSM>().SendEvent("STOP");
+                    GetCanTrigger().gameObject.GetComponent<PlayMakerFSM>().SendEvent("STOP");
                 }
             }
             catch (Exception ex)
@@ -1261,6 +1262,17 @@ namespace MOP
         public bool IsItemInitializationDone()
         {
             return itemInitializationDelayDone;
+        }
+
+        public Transform GetCanTrigger()
+        {
+            Transform canTrigger = GameObject.Find("JOBS").transform.Find("HouseDrunkNew/BeerCampNew/BeerCamp/KiljuBuyer/CanTrigger");
+
+            // If canTrigger object is not located at new house, get one from the old Jokke's house.
+            if (canTrigger == null)
+                canTrigger = GameObject.Find("JOBS").transform.Find("HouseDrunk/BeerCampOld/BeerCamp/KiljuBuyer/CanTrigger");
+
+            return canTrigger;
         }
     }
 }

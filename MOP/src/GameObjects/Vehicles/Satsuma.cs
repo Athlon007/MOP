@@ -260,6 +260,8 @@ namespace MOP
                 loadState.Actions = emptyActions.ToArray();
                 loadState.SaveActions();
 
+                if (part.name.Contains("_INVENTORY")) continue;
+
                 // Fix for a bug that prevents player detaching the some of the parts.
                 if (part.name == "spark plug(Clone)")
                 {
@@ -276,7 +278,6 @@ namespace MOP
                 else
                 {
                     FsmState installState = useFsm.FindFsmState("Install");
-                    if (part.name.Contains("_INVENTORY")) continue;
                     FsmStateAction[] installActions = installState.Actions;
                     installActions[2] = new CustomNullState();
                     installState.Actions = installActions;
@@ -584,7 +585,7 @@ namespace MOP
                 for (int i = 0; i < onFarToggle.Count; i++)
                     onFarToggle[i].SetActive(onFar);
 
-                // this script fixes the issue with bolts staying unbolted, with parts internally being fully bolted.
+                // This script fixes the issue with bolts staying unbolted, with parts internally being fully bolted.
                 if (onEngine && maskedFixStages < 2)
                 {
                     switch (maskedFixStages)

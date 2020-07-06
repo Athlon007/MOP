@@ -121,5 +121,10 @@ namespace MOP
         {
             return worldObjects;
         }
+
+        public void Remove(WorldObject worldObject)
+        {
+            worldObjects.Remove(worldObject);
+        }
     }
 }

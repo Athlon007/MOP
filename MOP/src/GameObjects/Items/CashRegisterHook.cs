@@ -101,7 +101,7 @@ namespace MOP
             currentRoutine = null;
         }
 
-        #region Light Bulbs & Spark Pluugs Hook
+        #region Light Bulbs & Spark Plugs Hook
         public void WipeUseLoadOnSparkPlugs()
         {
             StartCoroutine(SparkPlugRoutine());
