@@ -79,8 +79,7 @@ namespace MOP
         internal Quaternion lastGoodRotation;
         internal Vector3 lastGoodPosition;
         bool lastGoodRotationSaved;
-
-        EventSounds eventSounds;
+        readonly EventSounds eventSounds;
 
         /// <summary>
         /// Initialize class

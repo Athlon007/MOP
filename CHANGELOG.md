@@ -2,6 +2,10 @@
 
 ## 2.11.3 (tba)
 
+### Added
+
+- Added a message, if player tries to open output log, or last MOP_LOG when there is none
+
 ### Changes
 
 - Improved the performance of sectors

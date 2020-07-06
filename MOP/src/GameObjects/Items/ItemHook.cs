@@ -37,7 +37,7 @@ namespace MOP
         Vector3 position;
 
         FsmBool batteryOnCharged;
-        FsmFloat floorJackTriggerY;
+        readonly FsmFloat floorJackTriggerY;
 
         // Used by Satsuma storage system.
         public bool IsInStorage;

@@ -56,17 +56,25 @@ namespace MOP
 
         public static void Open()
         {
-            if (File.Exists("MOP_LOG.txt"))
+            if (File.Exists(Directory.GetCurrentDirectory() + "/MOP_LOG.txt"))
             {
-                Process.Start("MOP_LOG.txt");
+                Process.Start(Directory.GetCurrentDirectory() + "/MOP_LOG.txt");
+            }
+            else
+            {
+                ModUI.ShowMessage("No MOP log has been found, because no crash log has been generated yet.", "MOP");
             }
         }
 
         public static void OpenOutputLog()
         {
-            if (File.Exists("mysummercar_Data/output_log.txt"))
+            if (File.Exists(Directory.GetCurrentDirectory() + "/mysummercar_Data/output_log.txt"))
             {
-                Process.Start("mysummercar_Data/output_log.txt");
+                Process.Start(Directory.GetCurrentDirectory() + "/mysummercar_Data/output_log.txt");
+            }
+            else
+            {
+                ModUI.ShowMessage("output_log.txt doesn't exixst.", "MOP");
             }
         }
 
@@ -106,11 +114,11 @@ namespace MOP
             output += $"RemoveEmptyBeerBottles: {MopSettings.RemoveEmptyBeerBottles}\n";
             output += $"ToggleVehiclePhysicsOnly: {Rules.instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";
             output += $"IgnoreModVehicles: {Rules.instance.SpecialRules.IgnoreModVehicles}\n";
-            output += $"EnableFramerateLimiter: {((bool)MOP.EnableFramerateLimiter.GetValue())}\n";
+            output += $"EnableFramerateLimiter: {(bool)MOP.EnableFramerateLimiter.GetValue()}\n";
             output += $"FramerateLimiter: {MOP.FramerateLimiter.GetValue()}\n";
-            output += $"EnableShadowAdjusting: {((bool)MOP.EnableShadowAdjusting.GetValue())}\n";
-            output += $"KeepRunningInBackground: {((bool)MOP.KeepRunningInBackground.GetValue())}\n";
-            output += $"DynamicDrawDistance: {((bool)MOP.DynamicDrawDistance.GetValue())}\n";
+            output += $"EnableShadowAdjusting: {(bool)MOP.EnableShadowAdjusting.GetValue()}\n";
+            output += $"KeepRunningInBackground: {(bool)MOP.KeepRunningInBackground.GetValue()}\n";
+            output += $"DynamicDrawDistance: {(bool)MOP.DynamicDrawDistance.GetValue()}\n";
             output += $"ShadowDistance: {MOP.ShadowDistance.GetValue()}\n";
             output += $"RulesAutoUpdate: {MOP.RulesAutoUpdate.GetValue()}\n"; 
             output += $"RulesAutoUpdateFrequency: {MopSettings.GetRuleFilesUpdateDaysFrequency()}\n";

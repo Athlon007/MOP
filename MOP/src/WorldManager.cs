@@ -57,7 +57,7 @@ namespace MOP
         bool isPlayerAtYard;
         bool inSectorMode;
 
-        CharacterController playerController;
+        readonly CharacterController playerController;
         bool itemInitializationDelayDone;
         int waitTime;
         const int WaitDone = 4;
@@ -65,7 +65,7 @@ namespace MOP
         List<ItemHook> itemsToEnable = new List<ItemHook>();
         List<ItemHook> itemsToDisable = new List<ItemHook>();
 
-        GameObject mopCanvas;
+        readonly GameObject mopCanvas;
 
         public WorldManager()
         {
@@ -805,7 +805,7 @@ namespace MOP
                             continue;
                         }
 
-                        if (SectorManager.instance.SectorRulesContains(worldObject.gameObject.name))
+                        if (SectorManager.instance.IsPlayerInSector() && SectorManager.instance.SectorRulesContains(worldObject.gameObject.name))
                         {
                             worldObject.gameObject.SetActive(true);
                             continue;
@@ -990,8 +990,10 @@ namespace MOP
 
                     try
                     {
-                        if (SectorManager.instance.SectorRulesContains(places[i].GetName()))
+                        if (SectorManager.instance.IsPlayerInSector() && SectorManager.instance.SectorRulesContains(places[i].GetName()))
+                        {
                             continue;
+                        }
 
                         places[i].ToggleActive(IsPlaceEnabled(places[i].GetTransform(), places[i].GetToggleDistance()));
                     }

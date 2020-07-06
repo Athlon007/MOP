@@ -173,7 +173,7 @@ namespace MOP
             // Driveway sector
             if (Rules.instance.SpecialRules.DrivewaySector)
                 CreateNewSector(new Vector3(-18.5f, -0.5062422f, 11.9f), new Vector3(11f, 5, 9.5f), 
-                    "PierHome", "TREES_SMALL1", "BUSHES7", "BUSHES3", "BUSHES6", "TREES_MEDIUM3", "YARD", "LakeNice", "Tile"); // Driveway.
+                    "PierHome", "TREES_SMALL1", "BUSHES7", "BUSHES3", "BUSHES6", "TREES_MEDIUM3", "YARD", "LakeNice", "Tile"); 
 
             // Generating sectors from rule files.
             if (Rules.instance.NewSectors.Count > 0)
