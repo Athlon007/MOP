@@ -74,7 +74,7 @@ namespace MOP
             }
             else
             {
-                ModUI.ShowMessage("output_log.txt doesn't exixst.", "MOP");
+                ModUI.ShowMessage("File \"output_log.txt\" doesn't exist.", "MOP");
             }
         }
 
