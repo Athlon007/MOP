@@ -264,6 +264,23 @@ namespace MOP
             }
 
             eventSounds = gameObject.GetComponent<EventSounds>();
+
+            // Odometers fix.
+            switch (gameObject.name)
+            {
+                case "GIFU(750/450psi)":
+                    transform.Find("Dashboard/Odometer").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    break;
+                case "HAYOSIKO(1500kg, 250)":
+                    transform.Find("Odometer").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    break;
+                case "KEKMET(350-400psi)":
+                    transform.Find("Dashboard/HourMeter").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    break;
+                case "SATSUMA(557kg, 248)":
+                    GameObject.Find("dashboard meters(Clone)").transform.Find("Gauges/Odometer").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    break;
+            }
         }
 
         public delegate void ToggleHandler(bool enabled);

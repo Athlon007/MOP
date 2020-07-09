@@ -261,6 +261,12 @@ namespace MOP
                         break;
                 }
 
+                // CDs resetting fix.
+                if (this.gameObject.name.StartsWith("cd(item") && this.transform.parent != null && this.transform.parent.name == "cd_sled_pivot")
+                {
+                    return;
+                }
+
                 // Check if item is in CarryMore inventory.
                 // If so, ignore that item.
                 if ((CompatibilityManager.CarryMore || CompatibilityManager.CarryEvenMore) && transform.position.y < -900)
@@ -289,7 +295,8 @@ namespace MOP
 
                 if (!WorldManager.instance.IsItemInitializationDone())
                 {
-                    transform.position = position;
+                    if (transform.root != Satsuma.instance.transform)
+                        transform.position = position;
                 }
 
                 if (MopSettings.RemoveEmptyItems && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent.gameObject.name != "ItemPivot")
@@ -328,11 +335,11 @@ namespace MOP
                 if (this.gameObject.name.StartsWith("cd") && this.transform.parent != null)
                 {
                     // Prevent CDs to clip through CD Case
-                    if (this.gameObject.name == "cd(itemy)" && this.transform.parent.name == "PivotCD")
+                    if (this.gameObject.name.StartsWith("cd(item") && this.transform.parent.name == "PivotCD")
                         return;
 
                     // Prevent CDs from clipping through the Radio
-                    if (this.gameObject.name == "cd(itemy)" && this.transform.parent.name == "cd_sled_pivot")
+                    if (this.gameObject.name.StartsWith("cd(item") && this.transform.parent.name == "cd_sled_pivot")
                         return;
 
                     // Prevents CD cases from clipping through the CD rack

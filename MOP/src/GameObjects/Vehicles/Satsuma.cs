@@ -83,6 +83,10 @@ namespace MOP
         Dictionary<GameObject, bool> maskedElements;
         int maskedFixStages;
 
+        // Dashboard gauges.
+        List<Material> dashboardMaterials;
+        FsmInt lightSelection;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -104,8 +108,16 @@ namespace MOP
 
             // Get all the other renderers
             renderers = new List<Renderer>();
-            renderers = this.gameObject.transform.GetComponentsInChildren<Renderer>(true)
-                .Where(t => !t.gameObject.name.ContainsAny("Sphere", "Capsule", "Cube", "Mokia")).ToList();
+            if (Rules.instance.IgnoreRules.Count > 0)
+            {
+                renderers = this.gameObject.transform.GetComponentsInChildren<Renderer>(true)
+                    .Where(t => !t.gameObject.name.ContainsAny("Sphere", "Capsule", "Cube", "Mokia") && Rules.instance.IgnoreRules.Find(g => g.ObjectName == t.gameObject.name) == null).ToList();
+            }
+            else
+            {
+                renderers = this.gameObject.transform.GetComponentsInChildren<Renderer>(true)
+                    .Where(t => !t.gameObject.name.ContainsAny("Sphere", "Capsule", "Cube", "Mokia")).ToList();
+            }
 
             // Ignore Rule
             IgnoreRule vehicleRule = Rules.instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
@@ -358,6 +370,23 @@ namespace MOP
             {
                 GameObject.Find("bootlid(Clone)").transform.Find("RegPlateRear").gameObject.GetComponent<Renderer>().material.renderQueue = 100;
                 GameObject.Find("bumper front(Clone)").transform.Find("RegPlateFront").gameObject.GetComponent<Renderer>().material.renderQueue = 100;
+
+                // Z-fighting of the Satsuma dashboard meters.
+                if (!Rules.instance.SpecialRules.SatsumaIgnoreRenderers)
+                {
+                    dashboardMaterials = new List<Material>();
+                    dashboardMaterials.Add(GameObject.Find("dashboard meters(Clone)").transform.Find("Gauges/Fuel/needle_small").gameObject.GetComponent<Renderer>().material);
+                    dashboardMaterials.Add(GameObject.Find("dashboard meters(Clone)").transform.Find("Gauges/Temp/needle_small").gameObject.GetComponent<Renderer>().material);
+                    dashboardMaterials.Add(GameObject.Find("dashboard meters(Clone)").transform.Find("Gauges/Speedometer/needle_large").gameObject.GetComponent<Renderer>().material);
+                    dashboardMaterials.Add(GameObject.Find("rpm gauge(Clone)").transform.Find("Pivot/needle").gameObject.GetComponent<Renderer>().material);
+                    dashboardMaterials.Add(GameObject.Find("clock gauge(Clone)").transform.Find("ClockCar/hour/needle_hour").gameObject.GetComponent<Renderer>().material);
+                    dashboardMaterials.Add(GameObject.Find("clock gauge(Clone)").transform.Find("ClockCar/minute/needle_minute").gameObject.GetComponent<Renderer>().material);
+
+                    foreach (Material mat in dashboardMaterials)
+                        mat.renderQueue = 100;
+
+                    lightSelection = GameObject.Find("LightModes").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmInt("Selection");
+                }
             }
             catch { }
 
@@ -435,6 +464,21 @@ namespace MOP
             if (IsSatsumaInParcFerme && !renderers[0].enabled)
                 ToggleAllRenderers(enabled);
 
+            if (!Rules.instance.SpecialRules.SatsumaIgnoreRenderers)
+            {
+                if (IsKeyInserted())
+                {
+                    if (lightSelection.Value > 0)
+                        ToggleDashIllumination(true);
+                    else
+                        ToggleDashIllumination(false);
+                }
+                else
+                {
+                    ToggleDashIllumination(false);
+                }
+            }
+
             // Don't run the code, if the value is the same
             if (gameObject == null || disableableObjects[0].gameObject.activeSelf == enabled) return;
 
@@ -474,6 +518,12 @@ namespace MOP
         /// <returns></returns>
         internal Transform[] GetDisableableChilds()
         {
+            if (Rules.instance.IgnoreRules.Count > 0)
+            {
+                return gameObject.GetComponentsInChildren<Transform>(true)
+                    .Where(t => t.gameObject.name.ContainsAny(whiteList) && Rules.instance.IgnoreRules.Find(g => g.ObjectName == t.gameObject.name) == null).ToArray();
+            }
+
             return gameObject.GetComponentsInChildren<Transform>(true)
                 .Where(trans => trans.gameObject.name.ContainsAny(whiteList)).ToArray();
         }
@@ -611,6 +661,16 @@ namespace MOP
         public Vector3 ItemPivotPosition()
         {
             return itemPivot.position;
+        }
+
+        void ToggleDashIllumination(bool enabled)
+        {
+            if (dashboardMaterials == null) return;
+            if (dashboardMaterials[0].GetFloat("_Intensity") == 0 && !enabled) return;
+            else if (dashboardMaterials[0].GetFloat("_Intensity") == 0.2f && enabled) return;
+
+            for (int i = 0; i < dashboardMaterials.Count; i++)
+                dashboardMaterials[i].SetFloat("_Intensity", enabled ? 0.2f : 0);
         }
     }
 }
