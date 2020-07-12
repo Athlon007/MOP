@@ -528,15 +528,18 @@ namespace MOP
     {
         // It's purpose is to literally freeze the item in place while saving the game, so the motherfucker won't move.
         Vector3 position;
+        Quaternion rotation;
 
         public ItemFreezer()
         {
             position = transform.position;
+            rotation = transform.rotation;
         }
 
         void Update()
         {
             transform.position = position;
+            transform.rotation = rotation;
         }
     }
 }

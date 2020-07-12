@@ -1,5 +1,29 @@
 # Changelog
 
+## 2.11.5 (tba)
+
+### Bug Fixes
+
+- Fixed CD cases not appearing, if the player loaded the game away from 0,0,0 position
+- Fixed Satsuma potentially breaking on game save
+
+## 2.11.4 (09.07.2020)
+
+### Added
+
+- CDs and CD cases are now hooked by MOP
+- Rule Files API: "satsuma_ignore_rule" now affects Z-fighting fixes of Satsuma gauge neeldes
+- Rule Files API: "ignore" flag now affect Satsuma childs and renderers objects
+
+### Bug Fixes
+
+- (My Summer Car Bug) Fixed Z fighting of RPM gauge and clock
+- Fixed kilju not being hooked by MOP on game load
+- Fixed the dashboard gauges Z fighting bug fix not working, if the gauges panel haven't been attached to the car on game load
+- Fixed computer memory resetting to default value
+- Fixed compatibility with ColorfulGauges3 (requires rule files update)
+- Fixed odometer of Gifu, Hayosiko and Kekmet's hour meter resetting to the default values
+
 ## 2.11.3 (07.07.2020)
 
 ### Added

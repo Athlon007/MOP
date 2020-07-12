@@ -1022,6 +1022,11 @@ namespace MOP
                 PreSaveGame();
                 Application.LoadLevel(1);
             }
+
+            if (Input.GetKeyDown(KeyCode.F6))
+            {
+                PreSaveGame();
+            }
 #endif
 
             if (!MopSettings.IsModActive || Satsuma.instance == null) return;
@@ -1143,6 +1148,7 @@ namespace MOP
                     else if (mode == ToggleAllMode.OnSave)
                     {
                         vehicles[i].ToggleUnityCar(enabled);
+                        vehicles[i].Freeze();
                     }
                 }
                 catch (Exception ex)
@@ -1173,12 +1179,13 @@ namespace MOP
             {
                 try
                 {
-                    Items.instance.ItemsHooks[i].Toggle(enabled);
+                    ItemHook item = Items.instance.ItemsHooks[i];
+                    item.Toggle(enabled);
 
                     // We're freezing the object on save, so it won't move at all.
                     if (mode == ToggleAllMode.OnSave)
                     {
-                        Items.instance.ItemsHooks[i].Freeze();
+                        item.Freeze();
                     }
                 }
                 catch (Exception ex)

@@ -204,6 +204,7 @@ namespace MOP
             for (int i = 0; i < itemsObject.transform.childCount; i++)
             {
                 GameObject item = itemsObject.transform.GetChild(i).gameObject;
+                if (item.name == "CDs") continue;
 
                 try
                 {
@@ -237,6 +238,14 @@ namespace MOP
             GameObject[] envelopes = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name.EqualsAny("envelope(xxxxx)", "lottery ticket(xxxxx)")).ToArray();
             foreach (var g in envelopes)
                 g.AddComponent<ItemHook>();
+
+            // Unparent all childs of CDs object.
+            Transform cds = GameObject.Find("ITEMS").transform.Find("CDs");
+            if (cds != null)
+            {
+                for (int i = 0; i < cds.childCount; i++)
+                    cds.GetChild(i).parent = null;
+            }
         }
 
         /// <summary>
