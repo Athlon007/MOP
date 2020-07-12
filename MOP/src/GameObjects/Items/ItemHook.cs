@@ -569,6 +569,10 @@ namespace MOP
                     // First let's see if the Use is here, and by that get the tag of the item.
                     PlayMakerFSM use = gameObject.GetPlayMakerByName("Use");
 
+                    string saveFile = "items.txt";
+                    if (gameObject.name == "coffee cup(itemx)")
+                        saveFile = "defaultES2File.txt";
+
                     // Use FSM doesn't exist?
                     // Try t oget the Data FSM.
                     if (use == null)
@@ -580,7 +584,7 @@ namespace MOP
                         if (fsmThisItemTag != null)
                         {
                             thisItemTag = fsmThisItemTag.Value;
-                            return ES2.Load<Transform>($"{Application.persistentDataPath}//items.txt?tag={thisItemTag}").position;
+                            return ES2.Load<Transform>($"{Application.persistentDataPath}//{saveFile}?tag={thisItemTag}").position;
                         }
 
                         // Try UniqueTagPos.
@@ -588,23 +592,32 @@ namespace MOP
                         if (fsmThisItemTag != null)
                         {
                             thisItemTag = fsmThisItemTag.Value;
-                            return ES2.Load<Transform>($"{Application.persistentDataPath}//items.txt?tag={thisItemTag}").position;
+                            return ES2.Load<Transform>($"{Application.persistentDataPath}//{saveFile}?tag={thisItemTag}").position;
                         }
                     }
                 }
 
-                ModConsole.Print(gameObject.name);
                 return transform.position;
             }
             catch
             {
-                ModConsole.Print(gameObject.name);
                 return transform.position;
             }
         }
 
         string GetItemsTag()
         {
+            // Exceptions...
+            switch (gameObject.name)
+            {
+                case "diesel(itemx)":
+                    return "JerryCanDieselTransform";
+                case "gasoline(itemx)":
+                    return "JerryCanGasTransform";
+                case "radio(itemx)":
+                    return "PortableRadioTransform";
+            }
+
             PlayMakerFSM items = GameObject.Find("ITEMS").GetComponent<PlayMakerFSM>();
             foreach (var gameobjectVariable in items.FsmVariables.GameObjectVariables)
                 if (gameobjectVariable.Value == this.gameObject)
