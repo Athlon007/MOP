@@ -1,6 +1,10 @@
 # Changelog
 
-## 2.11.5 (tba)
+## 2.12 Development 1 (12.07.2020)
+
+### Added
+
+- On the game load, MOP will not get the saved position of items, meaning less chance for items to fall through car, etc.
 
 ### Bug Fixes
 

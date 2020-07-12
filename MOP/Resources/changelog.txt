@@ -1,0 +1,8 @@
+### Added
+
+- On the game load, MOP will not get the saved position of items, meaning less chance for items to fall through car, etc.
+
+### Bug Fixes
+
+- Fixed CD cases not appearing, if the player loaded the game away from 0,0,0 position
+- Fixed Satsuma potentially breaking on game save
