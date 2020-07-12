@@ -176,7 +176,7 @@ namespace MOP
                     "• MOP Version\n" +
                     "• Operating System Version", "MOP");
                 MopSettings.AgreeData();
-            }            
+            }
 
             MopFsmManager.ResetAll();
             Resources.UnloadUnusedAssets();
@@ -238,7 +238,7 @@ namespace MOP
         string GetChangelog()
         {
             string[] changelog = Properties.Resources.changelog.Split('\n');
-            string output = "";            
+            string output = "";
             for (int i = 0; i < changelog.Length; i++)
             {
                 string line = changelog[i];

@@ -79,7 +79,7 @@ namespace MOP
             "wheelset octo", "wheelset racing", "wheelset rally", "wheelset slot", "wheelset spoke",
             "wheelset steelwide", "wheelset turbine", "window grille", "windows black wrap", "wiring mess",
             "wishbone fl", "wishbone fr", "wood carrier", "xmas lights", "yeast", "pike", "macaron box", "milk", "potato chips",
-            "pizza"
+            "pizza", "kilju"
         };
 
 
@@ -197,6 +197,13 @@ namespace MOP
                 GameObject itemCheck = new GameObject("MOP_ItemAreaCheck");
                 itemCheck.transform.position = GameObject.Find("SpawnItemStore").transform.position;
                 itemCheck.AddComponent<ShopModItemSpawnCheck>();
+            }
+            else
+            {
+                GameObject[] cdItems = Resources.FindObjectsOfTypeAll<GameObject>()
+                    .Where(g => g.name.ContainsAny("cd case(item", "cd(item")).ToArray();
+                foreach (GameObject cd in cdItems)
+                    cd.AddComponent<ItemHook>();
             }
 
             // Get items from ITEMS object.

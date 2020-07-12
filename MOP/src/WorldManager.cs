@@ -122,10 +122,9 @@ namespace MOP
             {
                 Initialize();
             }
-            catch (Exception ex)
+            catch
             {
                 ModConsole.Error("[MOP] A fatal error has occured. Contact mod author immedietally!");
-                ExceptionManager.New(ex, "MASTER_LOAD_ERROR");
                 mopCanvas.SetActive(false);
                 playerController.enabled = true;
             }
@@ -378,14 +377,6 @@ namespace MOP
             }
             catch { }
 
-            // Z-fighting of the Satsuma dashboard meters.
-            GameObject.Find("dashboard(Clone)").transform.Find("pivot_meters/dashboard meters(Clone)/Gauges/Fuel/needle_small")
-                .gameObject.GetComponent<Renderer>().material.renderQueue = 3001;
-            GameObject.Find("dashboard(Clone)").transform.Find("pivot_meters/dashboard meters(Clone)/Gauges/Temp/needle_small")
-                .gameObject.GetComponent<Renderer>().material.renderQueue = 3001;
-            GameObject.Find("dashboard(Clone)").transform.Find("pivot_meters/dashboard meters(Clone)/Gauges/Speedometer/needle_large")
-                .gameObject.GetComponent<Renderer>().material.renderQueue = 3001;
-
             // Adds roll fix to the bus.
             GameObject.Find("BUS").AddComponent<BusRollFix>();
 
@@ -395,6 +386,9 @@ namespace MOP
             // Fixes diskette ejecting not wokring.
             Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "TriggerDiskette")
                 .GetPlayMakerByName("Assembly").Fsm.RestartOnEnable = false;
+
+            // Fixed computer memory resetting.
+            Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "TriggerPlayMode").GetPlayMakerByName("PlayerTrigger").Fsm.RestartOnEnable = false;
 
             ModConsole.Print("[MOP] Finished applying fixes");
 
