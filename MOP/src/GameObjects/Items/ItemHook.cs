@@ -120,7 +120,7 @@ namespace MOP
                 renderer = null;
             }
 
-            position = transform.position;
+            position = GetSavedPosition();
 
             // Fixes a bug which would prevent player from putting on the helmet, after taking it off.
             if (this.gameObject.name == "helmet(itemx)")
@@ -529,6 +529,91 @@ namespace MOP
                 rb.constraints = RigidbodyConstraints.FreezeAll;
             }
         }
+
+        /// <summary>
+        /// This script's purpose is to get the saved position from the game's save file.
+        /// </summary>
+        /// <returns></returns>
+        Vector3 GetSavedPosition()
+        {
+            try
+            {
+
+                // If the item parent is ITEMS, get the load position from that one.
+                if (transform.parent != null && transform.parent.gameObject.name == "ITEMS" && !gameObject.name.Contains("diskette"))
+                {
+                    thisItemTag = GetItemsTag();
+                    if (thisItemTag != "")
+                        return ES2.Load<Transform>($"{Application.persistentDataPath}//defaultES2File.txt?tag={thisItemTag}").position;
+                }
+                // Ignore if the root is Satsuma.
+                else if (transform.root != null && transform.root.gameObject.name == "SATSUMA(557kg, 248)")
+                {
+                    return transform.position;
+                }
+                // Use different method for wheels...
+                else if (gameObject.name.EqualsAny("wheel_regula", "wheel_offset"))
+                {
+                    // First let's see if the Use is here, and by that get the tag of the item.
+                    PlayMakerFSM use = gameObject.GetPlayMakerByName("Use");
+                    if (use != null)
+                    {
+                        thisItemTag = use.FsmVariables.GetFsmString("UniqueTagTransform").Value;
+                        if (!string.IsNullOrEmpty(thisItemTag))
+                            return ES2.Load<Transform>($"{Application.persistentDataPath}//defaultES2File.txt?tag={thisItemTag}").position;
+                    }
+                }
+                // For all of the others, get the tag from Use (or Data) PlayMakerFSM.
+                else
+                {
+                    // First let's see if the Use is here, and by that get the tag of the item.
+                    PlayMakerFSM use = gameObject.GetPlayMakerByName("Use");
+
+                    // Use FSM doesn't exist?
+                    // Try t oget the Data FSM.
+                    if (use == null)
+                        use = gameObject.GetPlayMakerByName("Data");
+
+                    if (use != null)
+                    {
+                        FsmString fsmThisItemTag = use.FsmVariables.GetFsmString("UniqueTagTransform");
+                        if (fsmThisItemTag != null)
+                        {
+                            thisItemTag = fsmThisItemTag.Value;
+                            return ES2.Load<Transform>($"{Application.persistentDataPath}//items.txt?tag={thisItemTag}").position;
+                        }
+
+                        // Try UniqueTagPos.
+                        fsmThisItemTag = use.FsmVariables.GetFsmString("UniqueTagPos");
+                        if (fsmThisItemTag != null)
+                        {
+                            thisItemTag = fsmThisItemTag.Value;
+                            return ES2.Load<Transform>($"{Application.persistentDataPath}//items.txt?tag={thisItemTag}").position;
+                        }
+                    }
+                }
+
+                ModConsole.Print(gameObject.name);
+                return transform.position;
+            }
+            catch
+            {
+                ModConsole.Print(gameObject.name);
+                return transform.position;
+            }
+        }
+
+        string GetItemsTag()
+        {
+            PlayMakerFSM items = GameObject.Find("ITEMS").GetComponent<PlayMakerFSM>();
+            foreach (var gameobjectVariable in items.FsmVariables.GameObjectVariables)
+                if (gameobjectVariable.Value == this.gameObject)
+                    return gameobjectVariable.Name + "Transform";
+
+            return "";
+        }
+
+        public string thisItemTag;
     }
 
     class ItemFreezer : MonoBehaviour
