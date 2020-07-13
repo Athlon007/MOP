@@ -21,7 +21,7 @@ using UnityEngine;
 
 namespace MOP
 {
-    class SatsumaSuspensionMassManager : MonoBehaviour
+    class SatsumaPartMassManager : MonoBehaviour
     {
         float objectMass;
         FsmFloat carMass;

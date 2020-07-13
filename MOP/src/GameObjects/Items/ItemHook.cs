@@ -35,6 +35,7 @@ namespace MOP
         readonly Renderer renderer;
 
         Vector3 position;
+        string thisItemTag;
 
         FsmBool batteryOnCharged;
         readonly FsmFloat floorJackTriggerY;
@@ -511,8 +512,13 @@ namespace MOP
             }
         }
 
+        /// <summary>
+        /// Freezes the item by adding the ItemFreezer item, and setting rigidbody to kinematic and freezing constraints.
+        /// </summary>
         public void Freeze()
         {
+            // If the item is an Kilju or Empty Plastic Can, and is close to the CanTrigger object,
+            // teleport the object to LostSpawner (junk yard).
             if (gameObject.name.ContainsAny("empty plastic can", "kilju"))
             {
                 if (Vector3.Distance(position, WorldManager.instance.GetCanTrigger().position) < 2)
@@ -542,7 +548,7 @@ namespace MOP
                 // If the item parent is ITEMS, get the load position from that one.
                 if (transform.parent != null && transform.parent.gameObject.name == "ITEMS" && !gameObject.name.Contains("diskette"))
                 {
-                    thisItemTag = GetItemsTag();
+                    thisItemTag = GetTagFromItemsGameObject();
                     if (thisItemTag != "")
                         return ES2.Load<Transform>($"{Application.persistentDataPath}//defaultES2File.txt?tag={thisItemTag}").position;
                 }
@@ -605,9 +611,14 @@ namespace MOP
             }
         }
 
-        string GetItemsTag()
+        /// <summary>
+        /// Looks for the tag in the ITEMS object, if the parent of that object on load is ITEMS.
+        /// </summary>
+        /// <returns></returns>
+        string GetTagFromItemsGameObject()
         {
             // Exceptions...
+            // Thanks Topless "Naming conventions? What is it?" Gun.
             switch (gameObject.name)
             {
                 case "diesel(itemx)":
@@ -625,8 +636,6 @@ namespace MOP
 
             return "";
         }
-
-        public string thisItemTag;
     }
 
     class ItemFreezer : MonoBehaviour

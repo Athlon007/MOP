@@ -469,16 +469,27 @@ namespace MOP
             return wheel.onGroundDown;
         }
 
+        /// <summary>
+        /// Returns true, if the vehicle is moving.
+        /// </summary>
+        /// <returns></returns>
         internal bool IsMoving()
         {
             return rb.velocity.magnitude > 0.1f;
         }
 
+        /// <summary>
+        /// Disable the EventSounds component.
+        /// </summary>
+        /// <param name="enabled"></param>
         public void ToggleEventSounds(bool enabled)
         {
             eventSounds.disableSounds = !enabled;
         }
 
+        /// <summary>
+        /// Freezes the car completely by adding ItemFreezer class.
+        /// </summary>
         public void Freeze()
         {
             gameObject.AddComponent<ItemFreezer>();

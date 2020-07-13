@@ -54,7 +54,7 @@ namespace MOP
         // ACTIVATING OBJECTS
         public static Settings ActiveDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
-        public static Settings SafeMode = new Settings("safeMode", "Safe Mode (requires restart)", false, MopSettings.UpdateAll);
+        public static Settings SafeMode = new Settings("safeMode", "Safe Mode", false, MopSettings.UpdateAll);
 
         // GRAPHICS
         public static Settings EnableFramerateLimiter = new Settings("enableFramerateLimiter", "Enable Framerate Limiter", false, MopSettings.UpdateAll);

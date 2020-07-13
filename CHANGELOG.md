@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.12 Development 2 (tba)
+
+### Added
+
+- Added a message when you try to enable Safe Mode in the game
+
+### Changes
+
+- Minor changes to the settings
+
+### Removed
+
+- Removed unused code
+
 ## 2.12 Development 1 (12.07.2020)
 
 ### Added

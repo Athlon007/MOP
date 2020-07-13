@@ -20,6 +20,9 @@ namespace MOP
 {
     class ItemAntiClip : MonoBehaviour
     {
+        // It attaches to a gameobject trigger under the cottage.
+        // It's purpose is to catch items that fall under the cottage floor and teleport them Y+1 position.
+
         void Start()
         {
             BoxCollider trigger = gameObject.AddComponent<BoxCollider>();

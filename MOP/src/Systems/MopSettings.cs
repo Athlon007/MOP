@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using MSCLoader;
 using System.IO;
 using UnityEngine;
 
@@ -53,6 +54,8 @@ namespace MOP
             // Activating Objects
             ActiveDistance = int.Parse(MOP.ActiveDistance.GetValue().ToString());
             ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
+            if (SafeMode != (bool)MOP.SafeMode.GetValue() && ModLoader.GetCurrentScene() != CurrentScene.MainMenu)
+                ModUI.ShowMessage("Safe Mode will be enabled on next game load.", "MOP");
             SafeMode = (bool)MOP.SafeMode.GetValue();
 
             // GRAPHICS
@@ -130,8 +133,8 @@ namespace MOP
         {
             if (!(bool)MOP.VerifyRuleFiles.GetValue())
             {
-                MSCLoader.ModUI.ShowMessage("<color=yellow>Warning!</color>\n\n" +
-                    "For the security reasons, MOP verifies all rule files. Disabling rule file verification " +
+                ModUI.ShowMessage("<color=yellow><b>Warning!</b></color>\n\n" +
+                    "For security reasons, MOP verifies all rule files. Disabling rule file verification " +
                     "may lead to dangerous rule files being installed, that potentially may harm performance, " +
                     "or even damage your save game.\n\n" +
                     "Do not disable this, unless you're a mod maker.", "MOP");

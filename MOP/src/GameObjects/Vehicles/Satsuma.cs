@@ -75,8 +75,6 @@ namespace MOP
 
         List<SatsumaBoltsAntiReload> satsumaBoltsAntiReloads;
 
-        Transform itemPivot;
-
         // Fix for clutch cover plates bolts.
         //GameObject maskedClutchCover;
         //bool isMaskedClutchCoverEnabled;
@@ -332,7 +330,7 @@ namespace MOP
                          && g.transform.root == this.gameObject.transform)
                 .ToArray();
             foreach (GameObject part in suspensionParts)
-                part.AddComponent<SatsumaSuspensionMassManager>();
+                part.AddComponent<SatsumaPartMassManager>();
             // Appparently not only suspension fucks over the Satsuma...
             GameObject[] others = Resources.FindObjectsOfTypeAll<GameObject>()
                 .Where(g => g.name.EqualsAny("grille gt(Clone)", "grille(Clone)", "subwoofer panel(Clone)",
@@ -340,7 +338,7 @@ namespace MOP
                 "radiator hose1(xxxxx)", "radiator hose3(xxxxx)", "marker light left(xxxxx)", "marker light right(xxxxx)", "antenna(leftx)",
                 "antenna(right)", "dashboard(Clone)")).ToArray();
             foreach (GameObject other in others)
-                other.AddComponent<SatsumaSuspensionMassManager>();
+                other.AddComponent<SatsumaPartMassManager>();
 
             if (Rules.instance.SpecialRules.ExperimentalSatsumaTrunk)
             {
@@ -419,9 +417,6 @@ namespace MOP
 
             // Disable the "Fix Collider" state in FSM Setup, so it won't make items fall through the car.
             this.gameObject.GetPlayMakerByName("Setup").Fsm.RestartOnEnable = false;
-            itemPivot = new GameObject("MOP_ItemPivot").transform;
-            itemPivot.parent = transform;
-            itemPivot.localPosition = new Vector3(0, 0.3f, -1.5f);
 
             MeshCollider bootFloor = transform.Find("Colliders/collider_floor3").gameObject.GetComponent<MeshCollider>();
             bootFloor.isTrigger = false;
@@ -528,6 +523,10 @@ namespace MOP
                 .Where(trans => trans.gameObject.name.ContainsAny(whiteList)).ToArray();
         }
 
+        /// <summary>
+        /// Toggles all renderes related to the car engine block.
+        /// </summary>
+        /// <param name="enabled"></param>
         public void ToggleEngineRenderers(bool enabled)
         {
             if (Rules.instance.SpecialRules.SatsumaIgnoreRenderers || engineBayRenderers.Count == 0
@@ -556,11 +555,19 @@ namespace MOP
             }
         }
 
+        /// <summary>
+        /// Returns true, if any hood is attached to the car.
+        /// </summary>
+        /// <returns></returns>
         bool IsHoodAttached()
         {
             return pivotHood.childCount > 0;
         }
 
+        /// <summary>
+        /// Toggles all renderers of the Satsuma,
+        /// </summary>
+        /// <param name="enabled"></param>
         void ToggleAllRenderers(bool enabled)
         {
             if (Rules.instance.SpecialRules.SatsumaIgnoreRenderers) enabled = true;
@@ -600,11 +607,19 @@ namespace MOP
             }
         }
 
+        /// <summary>
+        /// Returns true, if the key object is active.
+        /// </summary>
+        /// <returns></returns>
         public bool IsKeyInserted()
         {
             return key.activeSelf;
         }
 
+        /// <summary>
+        /// Toggles some of the elements of that car, depneding on the of player to Satsuma.
+        /// </summary>
+        /// <param name="distance"></param>
         public void ToggleElements(float distance)
         {
             if (Toggle == IgnoreToggle)
@@ -658,11 +673,10 @@ namespace MOP
             }
         }
 
-        public Vector3 ItemPivotPosition()
-        {
-            return itemPivot.position;
-        }
-
+        /// <summary>
+        /// Toggles Satsuma's dashboard illumination.
+        /// </summary>
+        /// <param name="enabled"></param>
         void ToggleDashIllumination(bool enabled)
         {
             if (dashboardMaterials == null) return;
