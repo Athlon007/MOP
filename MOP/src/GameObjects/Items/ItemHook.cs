@@ -543,7 +543,6 @@ namespace MOP
         {
             try
             {
-
                 // If the item parent is ITEMS, get the load position from that one.
                 if (transform.parent != null && transform.parent.gameObject.name == "ITEMS" && !gameObject.name.Contains("diskette"))
                 {
