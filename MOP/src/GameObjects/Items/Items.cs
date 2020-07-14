@@ -200,8 +200,7 @@ namespace MOP
             }
             else
             {
-                GameObject[] cdItems = Resources.FindObjectsOfTypeAll<GameObject>()
-                    .Where(g => g.name.ContainsAny("cd case(item", "cd(item")).ToArray();
+                GameObject[] cdItems = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name.ContainsAny("cd case(item", "cd(item")).ToArray();
                 foreach (GameObject cd in cdItems)
                     cd.AddComponent<ItemHook>();
             }

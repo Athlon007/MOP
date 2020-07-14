@@ -20,6 +20,9 @@ namespace MOP
 {
     class TrailerLogUnderFloor : MonoBehaviour
     {
+        // This objects hooks right above the log that is supposd to hold the trailer on ground.
+        // If the object collides with map, resets trailer rotation to default.
+
         readonly GameObject log;
         readonly Transform flatbed;
 

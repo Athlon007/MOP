@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.12 Development 2 (tba)
+## 2.12 Development 2 (14.07.2020)
 
 ### Added
 
@@ -9,6 +9,11 @@
 ### Changes
 
 - Minor changes to the settings
+
+### Bug Fixes
+
+- Improved "Open output_log.txt" button inner workings
+- Fixed Satsuma getting wrecked, if played died in the car while it was moving
 
 ### Removed
 

@@ -437,6 +437,10 @@ namespace MOP
             Items.instance.HookEmptyBeerBottles();
         }
 
+        /// <summary>
+        /// Returns the mass of object.
+        /// </summary>
+        /// <returns></returns>
         public float GetMass()
         {
             return rb.mass;
@@ -529,11 +533,6 @@ namespace MOP
             }
 
             gameObject.AddComponent<ItemFreezer>();
-            if (rb != null)
-            {
-                rb.isKinematic = true;
-                rb.constraints = RigidbodyConstraints.FreezeAll;
-            }
         }
 
         /// <summary>
@@ -644,14 +643,40 @@ namespace MOP
         Vector3 position;
         Quaternion rotation;
 
+        Rigidbody rb;
+
+        // This fixes a problem of items that have been moving going to stop, and teleporting back to the position initialy saved.
+        bool hasBeenMoving;
+
         public ItemFreezer()
         {
             position = transform.position;
             rotation = transform.rotation;
+
+            if (GetComponent<Rigidbody>() != null)
+                rb = GetComponent<Rigidbody>();
         }
 
         void Update()
         {
+            if (rb.velocity.magnitude > 0.1f)
+            {
+                hasBeenMoving = true;
+                return;
+            }
+
+            if (hasBeenMoving)
+            {
+                position = transform.position;
+                rotation = transform.rotation;
+            }
+            
+            if (rb != null)
+            {
+                rb.isKinematic = true;
+                rb.constraints = RigidbodyConstraints.FreezeAll;
+            }
+
             transform.position = position;
             transform.rotation = rotation;
         }

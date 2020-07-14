@@ -68,9 +68,9 @@ namespace MOP
 
         public static void OpenOutputLog()
         {
-            if (File.Exists(Directory.GetCurrentDirectory() + "/mysummercar_Data/output_log.txt"))
+            if (File.Exists(Application.dataPath + "/output_log.txt"))
             {
-                Process.Start(Directory.GetCurrentDirectory() + "/mysummercar_Data/output_log.txt");
+                Process.Start(Application.dataPath + "/output_log.txt");
             }
             else
             {

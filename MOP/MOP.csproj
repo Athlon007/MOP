@@ -91,7 +91,7 @@
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaCustomHoodUse.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaBoltsAntiReload.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaSeatsManager.cs" />
-    <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaSuspensionMassManager.cs" />
+    <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaPartMassManager.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\Satsuma\SatsumaTrunk.cs" />
     <Compile Include="src\GameObjects\Vehicles\Managers\TrailerLogUnderFloor.cs" />
     <Compile Include="src\GameObjects\Vehicles\Satsuma.cs" />

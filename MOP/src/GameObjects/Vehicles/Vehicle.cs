@@ -493,11 +493,6 @@ namespace MOP
         public void Freeze()
         {
             gameObject.AddComponent<ItemFreezer>();
-            if (rb != null)
-            {
-                rb.isKinematic = true;
-                rb.constraints = RigidbodyConstraints.FreezeAll;
-            }
         }
     }
 }
