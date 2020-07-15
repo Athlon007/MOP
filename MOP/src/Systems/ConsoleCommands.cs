@@ -188,7 +188,7 @@ namespace MOP
                             Process.Start("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
                             break;
                         case "a fact":
-                            say = "MOP 2.11.3 consists of 8590 lines of code!";
+                            say = "MOP 2.12 consists of 8860 lines of code!";
                             break;
                     }
 

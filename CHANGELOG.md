@@ -1,9 +1,10 @@
 # Changelog
 
-## 2.12 Development 2 (14.07.2020)
+## 2.12 (15.07.2020)
 
 ### Added
 
+- On the game load, MOP will not get the saved position of items, meaning less chance for items to fall through car, etc.
 - Added a message when you try to enable Safe Mode in the game
 
 ### Changes
@@ -12,23 +13,14 @@
 
 ### Bug Fixes
 
+- Fixed CD cases not appearing, if the player loaded the game away from 0,0,0 position
+- Fixed Satsuma potentially breaking on game save
 - Improved "Open output_log.txt" button inner workings
 - Fixed Satsuma getting wrecked, if played died in the car while it was moving
 
 ### Removed
 
 - Removed unused code
-
-## 2.12 Development 1 (12.07.2020)
-
-### Added
-
-- On the game load, MOP will not get the saved position of items, meaning less chance for items to fall through car, etc.
-
-### Bug Fixes
-
-- Fixed CD cases not appearing, if the player loaded the game away from 0,0,0 position
-- Fixed Satsuma potentially breaking on game save
 
 ## 2.11.4 (09.07.2020)
 

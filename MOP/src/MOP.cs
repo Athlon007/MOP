@@ -30,7 +30,7 @@ namespace MOP
         public override string Name => "Modern Optimization Plugin"; //You mod name
 #endif
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "2.12.0"; //Version
+        public override string Version => "2.12"; //Version
 
         #region Settings & Configuration
         // ModLoader configuration.
@@ -212,7 +212,6 @@ namespace MOP
             // Add WorldManager class
             worldManager.AddComponent<WorldManager>();
         }
-
 
         static void ForceRuleFilesUpdate()
         {
