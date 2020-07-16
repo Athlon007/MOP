@@ -525,7 +525,7 @@ namespace MOP
             // teleport the object to LostSpawner (junk yard).
             if (gameObject.name.ContainsAny("empty plastic can", "kilju"))
             {
-                if (Vector3.Distance(position, WorldManager.instance.GetCanTrigger().position) < 2)
+                if (Vector3.Distance(transform.position, WorldManager.instance.GetCanTrigger().position) < 2)
                 {
                     transform.position = WorldManager.instance.GetLostSpawner().position;
                     return;
@@ -543,6 +543,12 @@ namespace MOP
         {
             try
             {
+                // More fucking exceptions
+                if (gameObject.name.EqualsAny("hood(Clone)", "suitcase(itemx)", "lantern(itemx)", "diskette(itemx)", "door left(Clone)", "door right(Clone)", "coffee pan(itemx)"))
+                {
+                    return transform.position;
+                }
+
                 // If the item parent is ITEMS, get the load position from that one.
                 if (transform.parent != null && transform.parent.gameObject.name == "ITEMS" && !gameObject.name.Contains("diskette"))
                 {
@@ -573,31 +579,39 @@ namespace MOP
                     // First let's see if the Use is here, and by that get the tag of the item.
                     PlayMakerFSM use = gameObject.GetPlayMakerByName("Use");
 
+                    // Use FSM doesn't exist?
+                    // Try to get the Data FSM.
+                    if (use == null)
+                        use = gameObject.GetPlayMakerByName("Data");
+
+                    // use is still null?
+                    if (use == null)
+                        return transform.position;
+
                     string saveFile = "items.txt";
                     if (gameObject.name == "coffee cup(itemx)")
                         saveFile = "defaultES2File.txt";
 
-                    // Use FSM doesn't exist?
-                    // Try t oget the Data FSM.
-                    if (use == null)
-                        use = gameObject.GetPlayMakerByName("Data");
-
                     if (use != null)
                     {
                         FsmString fsmThisItemTag = use.FsmVariables.GetFsmString("UniqueTagTransform");
-                        if (fsmThisItemTag != null)
+                        if (fsmThisItemTag == null)
                         {
-                            thisItemTag = fsmThisItemTag.Value;
-                            return ES2.Load<Transform>($"{Application.persistentDataPath}//{saveFile}?tag={thisItemTag}").position;
+                            fsmThisItemTag = use.FsmVariables.GetFsmString("UniqueTagPos");
                         }
 
-                        // Try UniqueTagPos.
-                        fsmThisItemTag = use.FsmVariables.GetFsmString("UniqueTagPos");
-                        if (fsmThisItemTag != null)
-                        {
-                            thisItemTag = fsmThisItemTag.Value;
-                            return ES2.Load<Transform>($"{Application.persistentDataPath}//{saveFile}?tag={thisItemTag}").position;
-                        }
+                        if (fsmThisItemTag == null)
+                            return transform.position;
+
+                        thisItemTag = fsmThisItemTag.Value;
+                        if (!ES2.Exists($"{Application.persistentDataPath}//{saveFile}?tag={thisItemTag}"))
+                            return transform.position;
+
+                        Vector3 loadedPosition = ES2.Load<Transform>($"{Application.persistentDataPath}//{saveFile}?tag={thisItemTag}").position;
+                        if (loadedPosition == Vector3.zero)
+                            return transform.position;  
+
+                        return ES2.Load<Transform>($"{Application.persistentDataPath}//{saveFile}?tag={thisItemTag}").position;
                     }
                 }
 

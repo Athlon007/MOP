@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.12.1 (16.07.2020)
+
+### Bug Fixes
+
+- Fixed an error on game load, which would cause items to teleport to XYZ: 0,0,0
+
 ## 2.12 (15.07.2020)
 
 ### Added
