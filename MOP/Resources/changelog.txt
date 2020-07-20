@@ -1,3 +1,3 @@
-### Bug Fixes
+### Changes
 
-- Fixed an error on game load, which would cause items to teleport to XYZ: 0,0,0
+- Reverted to pre-2.12 method of getting items position

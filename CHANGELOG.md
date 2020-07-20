@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.12.2 (20.07.2020)
+
+### Changes
+
+- Reverted to pre-2.12 method of getting items position
+
 ## 2.12.1 (16.07.2020)
 
 ### Bug Fixes

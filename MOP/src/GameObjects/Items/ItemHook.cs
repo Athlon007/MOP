@@ -121,7 +121,7 @@ namespace MOP
                 renderer = null;
             }
 
-            position = GetSavedPosition();
+            position = transform.position;
 
             // Fixes a bug which would prevent player from putting on the helmet, after taking it off.
             if (this.gameObject.name == "helmet(itemx)")
