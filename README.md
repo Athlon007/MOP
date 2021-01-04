@@ -27,8 +27,6 @@ Originates from [KruFPS](https://github.com/Krutonium/KruFPS).
 3. ???
 4. Profit!
 
-Grab the mod from [GitHub](https://github.com/Athlon007/MOP/releases),  or [RaceDepartment](https://www.racedepartment.com/downloads/mop-modern-optimization-project.30073/), paste it in MSC Mod Loader Mods folder (ex. C:\Users\Athlon\Documents\MySummerCar\Mods) and start the game - that's it!
-
 ## Mod compatibility
 
 Visit [Compatibility Wiki](http://athlon.kkmr.pl/mop/wiki/#/compatibility) to see if your mod is supported.
