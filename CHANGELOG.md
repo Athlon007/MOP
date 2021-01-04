@@ -1,5 +1,86 @@
 # Changelog
 
+## 3.0 (04.01.2020)
+
+### Added
+
+- Added Modes of how MOP operates:
+  - Pick between Performance, Balanced, Quality or Safe operation modes
+  - Performance mode disables elements right "in your face", but gets you a bit more FPS
+  - Balanced mode is is intended to balance between obvious disabling of objects, and quality
+  - Quality mode tries to hide how MOP disables things, at the cost of speed
+- MOP will not execute any heavy operations, if the player is not moving.
+- Added "Session ID":
+  - GUID based identification system, which will mark this specific session
+  - Used mainly for crash log system
+- Added "mop open-logs" command
+- Garage doors are now being disabled if player is not in the yard area.
+- "mop help" command now supports search. You can search for command help by typing "mop help <command_name>", for instance "mop help version" will show you information about "mop version" command, or for instance, type "mop help generate-list" to show the info about "generate list" command
+- Added "mop load-rules [true/false]", if set to false, MOP won't load any rule files.
+- Rule Files API: Object names with space can be written using quotation marks, instead of using "%20", example: you can use ignore:"The Object" insted of ignore:The%20Object
+
+### Changes
+
+- Updated for MSCloader 1.1.8
+- Renamed "Run in Background" to "Run Game in Background"
+- Major overhaul of how world objects are handled
+- Many improvements in Vehicles logic
+- Optimized initialization of MOP
+  - MOP will not crash, if one or more elements couldn't be loaded
+  - You can keep using MOP and playing the game, even if something didn't finitialize
+- Dynamic Draw Distance is now smoother
+- The previously experimental optimization features are now enabled by default in Performance mode
+- Improved the reliability of the script that reinstalls the rear bumper after game load
+- Changed the welcome screen
+- Improved the script that prevents the trailer to get stuck under floor
+- Driveway sector now is enabled in the performance mode
+- Complete overhaul of error logging system
+  - Now mulitple error logs can be saved during the session (but only one for the error type)
+  - Logs are now saved into My Summer Car installation path, into "MOP_Logs" path, which are then saved inside of the current session ID folder
+  - Errors now are separated by critical and non critical errors. If non-critical error occures, the player can continue playing
+- Minor changes to settings UI
+- "mop open-folder" is now "mop open-config"
+- Rule Files API: ignore_full is now obsolete, and has been replaced with "ignore: <object_name> fullignore"
+- Renamed "Destroy Empty Beer Bottles" to "Destroy Empty Bottles"
+  - "Destroy Empty Bottles" now works for booze, coffee, spirit, milk and vodka shots
+- Many smaller optimization changes and improvements
+- Changed "Don't delete unused rule files" to "Delete unused rule files" (disabled by default)
+- If not in Performance mode, Perajarvi church is not disabled anymore, so it's always visible on the horizon
+- Lake house in Perajarvi won't be disabled in Quality mode
+- Satsuma is now being disabled, if left for repair works
+- "mop wiki" command now shows you the prompt before opening the browser
+- Major changes in the internal file structure
+- File folder structure now represents the structure of namespaces
+- Disabling and enabling objects is now 2x faster
+
+### Bug Fixes
+
+- Fixed "Critical error". Now if error happens will show where the issue happened specifically.
+- Fixed a bug in which the vehicles would sometimes get frozen while driving
+- Fixed a bug in which the MOP would potentially be stuck on load screen
+- Mouse movement is now also disabled on load screen
+- Fixed MOP not loading up the front hook of Kekmet
+- Fixed a bug in which player could interract with objects on MOP load screen
+- Fixed a bug in which the value "lightSelection" in Satsuma class would be null
+- Fixed a bug in which the vehicle audio sound would stay in place
+- Fixed engine renderers not showing up, if the car's hood got detached
+- Fixed the engine cooldown ticking sound replaying after the player walks away from the car and walks back to it
+- Fixed doors paint color potentially resetting
+- Fixed berry picking skill resetting to default
+- Fixed Gifu air pressure resetting to default
+- Fixes "open output_log.txt" not working properly
+- Fixed badly placed trigger for Shop Mod items
+- Fixed Gifu hand throttle stopping to work
+- Fixed Kekmet hand throttle stopping to work
+- Fixed a bug in which vsync would get re-enabled if the game has been Alt+Tabbed with disabled running in background
+- Fixed a bug in which the money amout in the suitcase would reset to the default value
+
+### Removed
+
+- Removed experimental Satsuma storage system
+- Removed many scripts that are not needed anymore
+- Removed much of now obsolete code
+
 ## 2.12.2 (20.07.2020)
 
 ### Changes

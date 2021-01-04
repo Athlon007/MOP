@@ -1,0 +1,18 @@
+min_ver:2.10
+ignore:YARD ElectricityBills
+ignore:YARD MurdererSpawn
+ignore:YARD PerajarviMap
+ignore:YARD Rally
+ignore:YARD Handle
+ignore:YARD UseHandle
+ignore:YARD MurdererSpawn
+ignore:YARD TV
+ignore:YARD Lens
+ignore:YARD Hatch
+ignore:YARD Use
+ignore:YARD TVScreen
+ignore:YARD SmokeHomeTV
+ignore:YARD Name
+ignore:tv%20remote%20control(itemx)
+ignore:COMPUTER fullignore
+ignore:tableHall(Clone) fullignore

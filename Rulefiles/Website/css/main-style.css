@@ -1,0 +1,103 @@
+/* Copyright (C) Konrad Figura 2019 */
+
+@font-face {
+    font-family: OpenSans;
+    src: local('Open Sans Regular'), local('OpenSans-Regular'), url(../font/OpenSans-Regular.ttf);
+}
+
+html, body {
+  height: 100%
+}
+
+body {
+  display: table;
+  background-color: #f3f8fa;
+  vertical-align: middle;
+  margin: 0 auto;
+  max-width: 50em;
+}
+
+.container {
+  height: 100%;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+a {
+  font-family: OpenSans;
+  color: #00868B;
+}
+
+p {
+  font-family: OpenSans;
+  color: #282936;
+  margin-bottom: 18px;
+}
+
+.last-update {
+  color: #00868B;
+}
+
+b {
+  color: #00688B;
+}
+
+li {
+  margin-left: 2%;
+}
+
+.button {
+  transition: filter cubic-bezier(0, 0, 0, 1.01) 1s, transform .2s;
+  font-family: OpenSans;
+  background-color: #282936;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 3em;
+  margin-top: 0.5em;
+  border-radius: 5px;
+  min-width: 12em;
+  min-height: 4ex;
+  vertical-align: middle;
+}
+
+.button:hover {
+  background-color: #3b3c52;
+  transition: background-color ease-out 100ms;
+  -webkit-transition: background-color ease-out 100ms;
+  cursor: pointer;
+  transform: scale(1.02);
+}
+
+.overlay {
+  position: absolute;
+  left: 30em;
+  top: 33em;
+  width: 200px;
+  height: 200px;
+}
+
+.title {
+  font-family: OpenSans;
+  font-weight: bold;
+  color: #282936;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.info {
+  font-size: 25px;
+}
+
+.download-icon {
+  content: url(../img/svg/down-arrow.svg);
+  display: flow-root;
+  color: #282936;
+  float: left;
+  height: 1em;
+  line-height: 20px;
+  margin-top: .2em;
+  vertical-align: top;
+}

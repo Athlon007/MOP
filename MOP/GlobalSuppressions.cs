@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
+[assembly: SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "False-positives.")]

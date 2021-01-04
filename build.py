@@ -40,12 +40,12 @@ shutil.rmtree(BASE_DIR + "\\build", True)
 
 os.mkdir("build")
 shutil.copyfile("MOP\\bin\\Release\\MOP.dll", "build\\MOP.dll")
-shutil.copyfile("PleaseReadMe.txt", "build\\PleaseReadMe.txt")
+# shutil.copyfile("PleaseReadMe.txt", "build\\PleaseReadMe.txt")
 os.chdir("build")
 
 FILES = []
 FILES.extend(["MOP.dll"])
-FILES.extend(["PleaseReadme.txt"])
+# FILES.extend(["PleaseReadme.txt"])
 make_zip(FILES, "MOP.zip")
 
 print("Done!\nQuitting...")

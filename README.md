@@ -7,9 +7,9 @@
 
 <img align="right" src="images/icon.png" alt="icon" width=128 />
 
-MOP (Modern Optimization Plugin) is the ultimate performance enhancing project for My Summer Car. Seemingly improve framerate of MSC by up to 50 FPS!
+MOP (Modern Optimization Plugin) is the ultimate performance enhancing project for My Summer Car. Quickly and easily improve FPS of MSC!
 
-The only FPS improver mod, that does all of this without any user interaction! No need to remember keybinds and select what things you want to disable at the time!
+The **only** mod that improves framerate seamlessly - without user having to do any configuration, pressing buttons, or any other magic tricks! Just install the mod and it's ready to go.
 
 Originates from [KruFPS](https://github.com/Krutonium/KruFPS).
 
@@ -18,19 +18,24 @@ Originates from [KruFPS](https://github.com/Krutonium/KruFPS).
 ## Requirements
 
 - My Summer Car (June 2020 update, or better)
-- [MSC Mod Loader 1.1.7](https://www.racedepartment.com/downloads/msc-mod-loader.15339/)
+- [MSC Mod Loader 1.1.8](https://github.com/piotrulos/MSCModLoader/releases)
 
 ## Installation
 
-Grab the mod from [GitHub](https://github.com/Athlon007/MOP/releases), [NexusMods](https://www.nexusmods.com/mysummercar/mods/146/) or [RaceDepartment](https://www.racedepartment.com/downloads/mop-modern-optimization-project.30073/), paste it in MSC Mod Loader Mods folder (ex. C:\Users\Athlon\Documents\MySummerCar\Mods) and start the game - that's it!
+1. Download the mod from [NexusMods](https://www.nexusmods.com/mysummercar/mods/146/).
+2. Navigate to your MSC Mod Loader Mods folder (ex. C:\Users\Athlon\Documents\MySummerCar\Mods) and paste the MOP.dll there.
+3. ???
+4. Profit!
+
+Grab the mod from [GitHub](https://github.com/Athlon007/MOP/releases),  or [RaceDepartment](https://www.racedepartment.com/downloads/mop-modern-optimization-project.30073/), paste it in MSC Mod Loader Mods folder (ex. C:\Users\Athlon\Documents\MySummerCar\Mods) and start the game - that's it!
 
 ## Mod compatibility
 
-Visit [Compatibility Wiki](https://github.com/Athlon007/MOP/wiki/Mod-Compatibility) to see if your mod is supported.
+Visit [Compatibility Wiki](http://athlon.kkmr.pl/mop/wiki/#/compatibility) to see if your mod is supported.
 
 ## Questions
 
-Got any questions? Please refer to the [FAQ](FAQ.md) first!
+Got any questions? Please refer to the [FAQ](http://athlon.kkmr.pl/mop/wiki/#/faq) first!
 
 ## License
 
@@ -42,7 +47,6 @@ This program is distributed under GNU General Public License v3. Feel free to us
   - RedJohn260
   - EPS
 - Est_Nbmstr - for clever name idea
-- Hawk031 - Moonshine Still Revived mod support
 - FESilencer - for helping me figure out how PlayMaker actions work
 - Icon made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](www.flaticon.com)
 
