@@ -35,6 +35,12 @@ Visit [Compatibility Wiki](http://athlon.kkmr.pl/mop/wiki/#/compatibility) to se
 
 Got any questions? Please refer to the [FAQ](http://athlon.kkmr.pl/mop/wiki/#/faq) first!
 
+## Preview builds
+
+Snapshot builds (old previews) are going to be released on GitHub with a tag "pre-release".
+
+For [nightly](https://en.wikipedia.org/wiki/Neutral_build) builds, visit [this link](https://mega.nz/fm/iyY2CJ7K).
+
 ## License
 
 This program is distributed under GNU General Public License v3. Feel free to use its source code as long as you mention the author and state the changes. You can also modify, share and distribute it, as long as you state changes. For more, see [LICENSE](LICENSE.md) file.
