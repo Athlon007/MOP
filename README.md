@@ -22,7 +22,7 @@ Originates from [KruFPS](https://github.com/Krutonium/KruFPS).
 
 ## Installation
 
-1. Download the mod from [NexusMods](https://www.nexusmods.com/mysummercar/mods/146/).
+1. Download the mod from [GitHub](https://github.com/Athlon007/MOP/releases) or [NexusMods](https://www.nexusmods.com/mysummercar/mods/146/).
 2. Navigate to your MSC Mod Loader Mods folder (ex. C:\Users\Athlon\Documents\MySummerCar\Mods) and paste the MOP.dll there.
 3. ???
 4. Profit!
