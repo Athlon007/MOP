@@ -631,24 +631,6 @@ namespace MOP
                 if (ticks > 1000)
                     ticks = 0;
 
-                if (itemInitializationDelayDone)
-                {
-                    if (Input.anyKey)
-                    {
-                        lastInputTimeCounter = 0;
-                    }
-                    else
-                    {
-                        // Don't execute anything, if player hasn't moved in few seconds.
-                        lastInputTimeCounter++;
-                        if (lastInputTimeCounter > WaitForInputTime)
-                        {
-                            yield return new WaitForSeconds(1);
-                            continue;
-                        }
-                    }
-                }
-
                 isPlayerAtYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, placeManager[0].transform.position) < 100
                     : Vector3.Distance(player.position, placeManager[0].transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 

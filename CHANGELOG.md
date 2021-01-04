@@ -1,5 +1,11 @@
 # Changelog
 
+## tba
+
+### Bug Fixes
+
+- Fixed MOP not working properly, if player is using analog controller
+
 ## 3.0 (04.01.2020)
 
 ### Added
