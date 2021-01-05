@@ -14,6 +14,7 @@
 
 ### Removed
 
+- For 3.0: Removed "mop sector-debug" command
 - Removed "mop sector-debug" command from the help list
 
 ## 3.0 (04.01.2020)
