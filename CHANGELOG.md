@@ -12,6 +12,7 @@
 - Freshly spawned firewood logs should despawn correctly
 - Fixed "mop generate-list" and "mop load-rules" commands not working as intended
 - Possible bug fix for player dying in Satsuma from low speed impacts
+- Fixed cursor showing up on MOP load screen
 
 ### Removed
 

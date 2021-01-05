@@ -60,6 +60,7 @@ namespace MOP
         int waitTime;
         const int WaitDone = 4;
         GameObject mopCanvas;
+        PlayMakerFSM cursorFSM;
         #endregion
 
         List<ItemBehaviour> itemsToEnable = new List<ItemBehaviour>();
@@ -94,6 +95,10 @@ namespace MOP
             playerController.enabled = false;
             
             FsmManager.PlayerInMenu = true;
+            
+            Cursor.visible = false;
+            cursorFSM = GameObject.Find("PLAYER").GetPlayMakerByName("Update Cursor");
+            cursorFSM.enabled = false;
 
             // Start the delayed initialization routine
             PlayMakerFSM[] gtGrille = GameObject.Find("grille gt(Clone)").GetComponents<PlayMakerFSM>();
@@ -682,6 +687,7 @@ namespace MOP
                         mopCanvas.SetActive(false);
                         playerController.enabled = true;
                         FsmManager.PlayerInMenu = false;
+                        cursorFSM.enabled = true;
                     }
                 }
 
