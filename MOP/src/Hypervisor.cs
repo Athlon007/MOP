@@ -67,6 +67,8 @@ namespace MOP
 
         int lastInputTimeCounter;
         const int WaitForInputTime = 5;
+        Vector3 lastPlayerPosition;
+        const float MinimumDifference = 0.5f;
 
         public Hypervisor()
         {
@@ -631,6 +633,26 @@ namespace MOP
                 if (ticks > 1000)
                     ticks = 0;
 
+                if (itemInitializationDelayDone)
+                {
+                    if (Vector3.Distance(player.position, lastPlayerPosition) > MinimumDifference)
+                    {
+                        lastInputTimeCounter = 0;
+                    }
+                    else
+                    {
+                        lastInputTimeCounter++;
+                        
+                        // Don't execute anything, if player hasn't moved in few seconds.
+                        if (lastInputTimeCounter > WaitForInputTime)
+                        {
+                            yield return new WaitForSeconds(1);
+                            continue;
+                        }
+                    }
+                }
+
+                lastPlayerPosition = player.position;
                 isPlayerAtYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, placeManager[0].transform.position) < 100
                     : Vector3.Distance(player.position, placeManager[0].transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 

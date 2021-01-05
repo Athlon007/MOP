@@ -2,9 +2,14 @@
 
 ## tba
 
+### Added
+
+- Firewood log prefab is now being hooked from the beginning, meaning the firewood logs will despawn accordingly
+
 ### Bug Fixes
 
 - Fixed MOP not working properly, if player is using analog controller
+- Freshly spawned firewood logs should despawn correctly
 
 ## 3.0 (04.01.2020)
 

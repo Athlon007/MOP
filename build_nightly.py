@@ -11,9 +11,11 @@ from zipfile import ZipFile
 from array import array
 import shutil
 import math
-from datetime import datetime
+from datetime import date
 
 print("=== Building the release... ===\n")
+
+VERSION = input("MOP version: ")
 
 BASE_DIR = os.getcwd()
 
@@ -47,10 +49,9 @@ os.chdir("build")
 FILES = []
 FILES.extend(["MOP.dll"])
 
-NOW = datetime.now;
-FORMATTED_TIME = NOW.strftime("%d%m%y")
+NOW = str(date.today()).replace("-", "")
 
-make_zip(FILES, "MOP-" + FORMATTED_TIME +".zip")
+make_zip(FILES, "MOP-" + VERSION + "-" + NOW +"-nightly.zip")
 
 print("Done!\nQuitting...")
 quit()

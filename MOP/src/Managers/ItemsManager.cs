@@ -172,10 +172,16 @@ namespace MOP.Managers
                     "empty glass(Clone)"
                 }
             };
-            foreach (GameObject gameObject in ((IEnumerable<GameObject>)Resources.FindObjectsOfTypeAll<GameObject>())
-                                              .Where(obj => names.ContainsKey(obj.name) && obj.GetComponent<PlayMakerFSM>() != null))
+            foreach (GameObject gameObject in Resources.FindObjectsOfTypeAll<GameObject>().Where(obj => names.ContainsKey(obj.name) && obj.GetComponent<PlayMakerFSM>() != null))
             {
                 gameObject.AddComponent<ThrowableJunkBehaviour>();
+            }
+
+            // Hook the prefab of firewood log.
+            GameObject firewoodPrefab = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(f => f.name == "firewood" && f.GetComponent<PlayMakerFSM>() == null).gameObject;
+            if (firewoodPrefab)
+            {
+                firewoodPrefab.AddComponent<ItemBehaviour>();
             }
         }
 
