@@ -345,7 +345,7 @@ namespace MOP.Common
                     ModConsole.Print("Save backup succesfully restored!");
                     break;
                 case "generate-list":
-                    if (args.Length > 2)
+                    if (args.Length > 1)
                     {
                         if (RulesManager.Instance.LoadRules && 
                             (RulesManager.Instance.IgnoreRules.Count > 0 || RulesManager.Instance.IgnoreRulesAtPlaces.Count > 0 ||
@@ -380,7 +380,7 @@ namespace MOP.Common
                     GameFixes.Instance.RearBumperFix(trigger, bumper);
                     break;
                 case "load-rules":
-                    if (args.Length > 2)
+                    if (args.Length > 1)
                     {
                         RulesManager.Instance.LoadRules = args[1].ToLower() == "true";
                         if (!RulesManager.Instance.LoadRules)

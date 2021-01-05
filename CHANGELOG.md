@@ -10,6 +10,7 @@
 
 - Fixed MOP not working properly, if player is using analog controller
 - Freshly spawned firewood logs should despawn correctly
+- Fixed "mop generate-list" and "mop load-rules" commands not working as intended
 
 ### Removed
 
