@@ -160,14 +160,22 @@ namespace MOP
                 worldObjectManager.Add("StrawberryField", DisableOn.Distance, 400);
                 worldObjectManager.Add("MAP/Buildings/DINGONBIISI", DisableOn.Distance, 400);
                 worldObjectManager.Add("RALLY/PartsSalesman", DisableOn.Distance, 400);
-                worldObjectManager.Add("machine", DisableOn.Distance, 200, silent: true); // Stolen slot machine.
                 worldObjectManager.Add("LakeSmallBottom1", DisableOn.Distance, 500);
+
+                // Stolen slot machine.
+                GameObject slotMachine = GameObject.Find("machine");
+                if (slotMachine)
+                {
+                    worldObjectManager.Add(slotMachine, DisableOn.Distance, 200);
+                }
+
                 ModConsole.Print("[MOP] World objects (1) loaded");
             }
             catch (Exception ex)
             {
                 ExceptionManager.New(ex, false, "WORLD_OBJECTS_1_INITIALIZAITON_FAIL");
             }
+
 
             // Initialize places.
             placeManager = new PlaceManager();
