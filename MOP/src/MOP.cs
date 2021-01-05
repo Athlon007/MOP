@@ -36,7 +36,7 @@ namespace MOP
 #endif
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.0.1"; //Version
-        public const string SubVersion = "NIGHTLY-20210104"; // NIGHTLY-yyyymmdd | SNAPSHOT_x | RC_x
+        public const string SubVersion = "NIGHTLY-20210105"; // NIGHTLY-yyyymmdd | SNAPSHOT_x | RC_x
 
         #region Settings & Configuration
         // ModLoader configuration.
@@ -194,11 +194,6 @@ namespace MOP
             modConfigPath = ModLoader.GetModConfigFolder(this).Replace('\\', '/');
             if (!MopSettings.HasFirstTimeWindowBeenShown())
             {
-                /*
-                ModUI.ShowYesNoMessage($"Welcome to Modern Optimization Plugin <color=yellow>{Version}</color>!\n\n" +
-                    $"Support the project on <color=orange>Patreon</color> or donate to it using <color=blue>PayPal</color>!\n\n" +
-                    $"Do you want to open project's <color=orange>Patreon?</color>", "MOP", ExternalExecuting.OpenPatreonDialog);
-                */
                 ModUI.ShowMessage($"Welcome to Modern Optimization Plugin <color=yellow>{Version}</color>!\n\n" +
                     $"Consider supporting to the project using <color=blue>PayPal</color>!", "MOP");
                 MopSettings.FirstTimeWindowShown();

@@ -380,6 +380,9 @@ namespace MOP.Vehicles
             bootFloor.isTrigger = false;
             bootFloor.enabled = true;
 
+            // Fixes driver dying way too easily from small impacts (hopefully).
+            transform.Find("DriverHeadPivot").GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+
             maskedElements = new Dictionary<GameObject, bool>();
             maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedClutchCover"), key.activeSelf);
             maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedBearing2"), key.activeSelf);
