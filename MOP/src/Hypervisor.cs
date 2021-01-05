@@ -513,7 +513,7 @@ namespace MOP
                 System.Diagnostics.Process.Start("place.txt");
             }
         }
-
+        #endregion
         #region Save Game Actions
         /// <summary>
         /// Looks for gamobject named SAVEGAME, and hooks PreSaveGame into them.
@@ -617,7 +617,7 @@ namespace MOP
                 PreSaveGame();
         }
         #endregion
-
+        #region Updating
         /// <summary>
         /// This coroutine runs
         /// </summary>
@@ -906,8 +906,6 @@ namespace MOP
                 }
             }
         }
-        #endregion
-
         void Update()
         {
 #if DEBUG
@@ -936,7 +934,8 @@ namespace MOP
                 }
             }
         }
-
+        #endregion
+        #region Item enabling checks
         /// <summary>
         /// Checks if the object is supposed to be enabled by calculating the distance between player and target.
         /// </summary>
@@ -969,7 +968,7 @@ namespace MOP
         {
             return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
-
+        #endregion
         #region System Control & Crash Protection
         int ticks;
         int lastTick;

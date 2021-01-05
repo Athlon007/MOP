@@ -51,7 +51,7 @@ FILES.extend(["MOP.dll"])
 
 NOW = str(date.today()).replace("-", "")
 
-make_zip(FILES, "MOP-" + VERSION + "-" + NOW +"-nightly.zip")
+make_zip(FILES, "build/MOP-" + VERSION + "-" + NOW +"-nightly.zip")
 
 print("Done!\nQuitting...")
 quit()
