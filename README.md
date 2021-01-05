@@ -39,7 +39,7 @@ Got any questions? Please refer to the [FAQ](http://athlon.kkmr.pl/mop/wiki/#/fa
 
 Snapshot builds (old previews) are going to be released on GitHub with a tag "pre-release".
 
-For [nightly](https://en.wikipedia.org/wiki/Neutral_build) builds, visit [this link](https://mega.nz/fm/iyY2CJ7K).
+For [nightly builds](https://en.wikipedia.org/wiki/Neutral_build), visit <a href="https://mega.nz/folder/WnYUiJ5Y#Yriz9ltnpHpVOxbYjo8hFw" target="_blank">this link</a>.
 
 ## License
 
