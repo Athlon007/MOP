@@ -6,6 +6,10 @@
 
 - Firewood log prefab is now being hooked from the beginning, meaning the firewood logs will despawn accordingly
 
+### Changes
+
+- MOP logs are not saved into session ID foler, instead they are called by the date time they were created in order to make it less confusing
+
 ### Bug Fixes
 
 - Fixed MOP not working properly, if player is using analog controller
@@ -14,6 +18,7 @@
 - Possible bug fix for player dying in Satsuma from low speed impacts
 - Fixed cursor showing up on MOP load screen
 - Fixed a harmless error appearing on game load, if the player didn't steal the slot machine
+- Fixed log folder appearing inside of mysummercar_Data, instead of the root MSC folder
 
 ### Removed
 

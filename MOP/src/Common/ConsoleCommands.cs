@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.Reflection;
 using UnityEngine;
 
+using MOP.Common;
 using MOP.Helpers;
 using MOP.Rules;
 using MOP.Rules.Types;
@@ -392,6 +393,14 @@ namespace MOP.Common
 
                     ModConsole.Print($"Loading rule files is set to " +
                                      $"<color={(RulesManager.Instance.LoadRules ? "green" : "red")}>{RulesManager.Instance.LoadRules}</color>");
+                    break;
+                case "force-crash":
+                    bool isCritical = false;
+                    if (args.Length > 1 && args[1].ToLower() == "critical")
+                    {
+                        isCritical = true;
+                    }
+                    ExceptionManager.New(new System.Exception("Test exception"), isCritical, "Test exception: " + System.Guid.NewGuid());
                     break;
             }
         }

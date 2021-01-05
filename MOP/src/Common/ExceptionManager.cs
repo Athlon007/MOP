@@ -28,7 +28,7 @@ namespace MOP.Common
     class ExceptionManager
     {
         public const string LogFolder = "MOP_Logs";
-        const string DefaultErrorLogName = "MOP_CrashLog";
+        const string DefaultErrorLogName = "MOP_Crash";
         const string DefaultReportLogName = "MOP_Report";
 
         static List<string> erorrsContainer = new List<string>();
@@ -43,11 +43,18 @@ namespace MOP.Common
             if (erorrsContainer.Contains(message))
                 return;
 
-            int crashesInFolder = 0;
-            while (File.Exists($"{GetLogFolder()}/{DefaultErrorLogName}_{crashesInFolder}.txt"))
-                crashesInFolder++;
+            string fileName = $"{DefaultErrorLogName}_{DateTime.Now.ToString("yyyy-MM-dd-HH-mm")}";
 
-            string logFilePath = $"{GetLogFolder()}/{DefaultErrorLogName}_{crashesInFolder}.txt";
+            if (File.Exists($"{GetLogFolder()}/{fileName}.txt"))
+            {
+                int crashesInFolder = 0;
+                while (File.Exists($"{GetLogFolder()}/{fileName}_{crashesInFolder}.txt"))
+                    crashesInFolder++;
+
+                fileName += $"_{crashesInFolder}";
+            }
+
+            string logFilePath = $"{GetLogFolder()}/{fileName}.txt";
             string gameInfo = GetGameInfo();
             string errorInfo = $"{ex.Message}\n{ex.StackTrace}\nTarget Site: {ex.TargetSite}";
 
@@ -213,14 +220,17 @@ namespace MOP.Common
 
         static string GetLogFolder()
         {
-            if (!Directory.Exists($"{Application.dataPath}/{LogFolder}"))
-                Directory.CreateDirectory($"{Application.dataPath}/{LogFolder}");
+            // Check if the old MOP_LOG.txt is still present and delete is, so dummies won't send a MOP log from 2019.
+            if (File.Exists("MOP_LOG.txt"))
+            {
+                File.Delete("MOP_LOG.txt");
+            }
 
-            string thisSesssionCrashFolder = $"{Application.dataPath}/{LogFolder}/{MOP.SessionID}";
-            if (!Directory.Exists(thisSesssionCrashFolder))
-                Directory.CreateDirectory(thisSesssionCrashFolder);
+            string path = $"{Application.dataPath.Replace("mysummercar_Data", "")}{LogFolder}";
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
 
-            return thisSesssionCrashFolder;
+            return path;
         }
 
         static bool LogDirectoryExists()
@@ -230,7 +240,7 @@ namespace MOP.Common
 
         static bool ThisSessionLogDirectoryExists()
         {
-            return Directory.Exists($"{Application.dataPath}/{LogFolder}/{MOP.SessionID}");
+            return Directory.Exists($"{Application.dataPath}/{LogFolder}");
         }
 
         /// <summary>
