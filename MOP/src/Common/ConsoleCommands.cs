@@ -42,7 +42,6 @@ namespace MOP.Common
                                 "<color=yellow>open-config</color> - Opens MOP config folder\n" +
                                 "<color=yellow>open-logs</color> - Opens logs folder\n" +
                                 "<color=yellow>delete [ModID]</color> - Delete rule file\n" +
-                                "<color=yellow>sector-debug [true/false]</color> - Shows the renderers of sectors\n" +
                                 "<color=yellow>cat [File Name]</color> - Print the content of a rule file\n" +
                                 "<color=yellow>generate-list [true/false]</color> - Generates text files which contain the list of items that are toggled by MOP\n" +
                                 "<color=yellow>restore-save</color> - If you use experimental save optimiztion, allows you to restore your last save file.\n" +

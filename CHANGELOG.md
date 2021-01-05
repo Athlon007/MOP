@@ -11,6 +11,10 @@
 - Fixed MOP not working properly, if player is using analog controller
 - Freshly spawned firewood logs should despawn correctly
 
+### Removed
+
+- Removed "mop sector-debug" command from the help list
+
 ## 3.0 (04.01.2020)
 
 ### Added

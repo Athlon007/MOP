@@ -42,7 +42,7 @@ namespace MOP
     class Hypervisor : MonoBehaviour
     {
         static Hypervisor instance;
-        public static Hypervisor Instance { get => instance; }
+        public static Hypervisor Instance => instance; 
 
         Transform player;
 
@@ -672,6 +672,7 @@ namespace MOP
                 Satsuma.Instance.EngineCulling(!FsmManager.IsPlayerInSatsuma());
                 yield return null;
 
+                // We are slightly delaying the initialization, so all items have chance to set in place, because fuck MSC and its physics.
                 if (!itemInitializationDelayDone)
                 {
                     waitTime += 1;
