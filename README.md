@@ -59,3 +59,5 @@ This program is distributed under GNU General Public License v3. Feel free to us
 Do you like MOP? Consider buying me a beer :)
 
 [![](http://athlon.kkmr.pl/images/svg/paypal.svg)](https://www.paypal.me/figurakonrad)
+
+**BTC:** 1QFSRzNK3RjNuAgoHdxWrUnM2W2Dwuwurt

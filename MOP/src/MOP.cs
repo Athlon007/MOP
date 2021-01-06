@@ -36,7 +36,7 @@ namespace MOP
 #endif
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.0.1"; //Version
-        public const string SubVersion = "NIGHTLY-20210105"; // NIGHTLY-yyyymmdd | SNAPSHOT_x | RC_x
+        public const string SubVersion = "NIGHTLY-20210106"; // NIGHTLY-yyyymmdd | SNAPSHOT_x | RC_x
 
         #region Settings & Configuration
         // ModLoader configuration.
@@ -70,7 +70,8 @@ namespace MOP
 
         // GRAPHICS
         public static Settings EnableFramerateLimiter = new Settings("enableFramerateLimiter", "Enable Framerate Limiter", false, MopSettings.UpdateAll);
-        public static Settings FramerateLimiter = new Settings("framerateLimiter", "Limit Framerate", 60, MopSettings.UpdateAll);
+        public static Settings FramerateLimiter = new Settings("framerateLimiterNew", "Limit Framerate", 4, MopSettings.UpdateAll);
+        public static readonly string[] FramerateLimiterText = { "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "180", "190", "200" };
         public static Settings EnableShadowAdjusting = new Settings("enableShadowAdjusting", "Adjust Shadows", false, MopSettings.UpdateAll);
         public static Settings ShadowDistance = new Settings("shadowDistance", "Shadow Distance", 200, MopSettings.UpdateAll);
         public static Settings KeepRunningInBackground = new Settings("keepRunningInBackground", "Run Game in Background", true, MopSettings.ToggleBackgroundRunning);
@@ -141,7 +142,7 @@ namespace MOP
             // Graphics
             Settings.AddHeader(this, "Graphics", headerColor);
             Settings.AddCheckBox(this, EnableFramerateLimiter);
-            Settings.AddSlider(this, FramerateLimiter, 20, 144);
+            Settings.AddSlider(this, FramerateLimiter, 0, FramerateLimiterText.Length - 1, FramerateLimiterText);
             Settings.AddCheckBox(this, EnableShadowAdjusting);
             Settings.AddSlider(this, ShadowDistance, 0, 4000);
             Settings.AddCheckBox(this, KeepRunningInBackground);

@@ -25,12 +25,12 @@ namespace MOP.Managers
 {
     class WorldObjectManager
     {
-        static WorldObjectManager instance;
-        public static WorldObjectManager Instance { get => instance; }
-
         // This script manages the list of WorldObjects.
         // Basically, objects that are static, such as buildings.
 
+        static WorldObjectManager instance;
+        public static WorldObjectManager Instance { get => instance; }
+        
         public WorldObject this[int index] => worldObjects[index];
 
         readonly List<WorldObject> worldObjects;
@@ -52,16 +52,18 @@ namespace MOP.Managers
         /// <param name="gameObjectName">Name of the game object.</param>
         /// <param name="distance">Distance after which the object gets toggled.</param>
         /// <param name="rendererOnly">If true, only game object's renderer will get toggled.</param>
-        /// <param name="silent">Skips </param>
+        /// <param name="silent">Skips the error message.</param>
         public void Add(string gameObjectName, DisableOn disableOn, int distance = 200, bool rendererOnly = false, bool silent = false)
         {
             GameObject gm = GameObject.Find(gameObjectName);
-            if (gm == null)
+            if (!gm)
             {
                 if (!silent)
                 {
-                    throw new System.Exception($"WorldObjectManager: Couldn't find {gameObjectName}.");
+                    throw new System.Exception($"WorldObjectManager: Couldn't find gameObjectName: \"{gameObjectName}\".");
                 }
+
+                return;
             }
 
             Add(gm, disableOn, distance, rendererOnly);
@@ -75,6 +77,11 @@ namespace MOP.Managers
         /// <param name="rendererOnly">If true, only game object's renderer will get toggled.</param>
         public void Add(GameObject gameObject, DisableOn disableOn, int distance = 200, bool rendererOnly = false)
         {
+            if (!gameObject)
+            {
+                throw new System.Exception($"WorldObjectManager: gameObject is null.");
+            }
+
             IgnoreRule rule = RulesManager.Instance.IgnoreRules.Find(f => f.ObjectName == gameObject.name);
             if (rule != null)
             {

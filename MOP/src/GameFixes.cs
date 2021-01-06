@@ -119,7 +119,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                throw new Exception("PERAJARVI_FIXES_ERROR", ex);
+                ExceptionManager.New(ex, false, "PERAJARVI_FIXES_ERROR");
             }
 
             // Fix for cottage items disappearing when moved
@@ -148,7 +148,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                throw new Exception("ITEMS_FIXES_ERROR", ex);
+                ExceptionManager.New(ex, false, "ITEMS_FIXES_ERROR");
             }
 
             // Applying a script to vehicles that can pick up and drive the player as a passanger to his house.
@@ -163,7 +163,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                throw new Exception("TAXI_MANAGERS_ERROR", ex);
+                ExceptionManager.New(ex, true, "TAXI_MANAGERS_ERROR");
             }
 
             // Fixed Ventii bet resetting to default on cabin load.
@@ -173,7 +173,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                throw new Exception("VENTII_FIX_ERROR", ex);
+                ExceptionManager.New(ex, false, "VENTII_FIX_ERROR");
             }
 
             // Junk cars - setting Load game to null.
@@ -190,7 +190,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                throw new Exception($"JUNK_CARS_{junkCarCounter}_ERROR", ex);
+                ExceptionManager.New(ex, false, $"JUNK_CARS_{junkCarCounter}_ERROR");;
             }
 
             // Toggle Humans (apart from Farmer and Fighter2).
@@ -206,7 +206,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                throw new Exception("HUMANS_ERROR", ex);
+                ExceptionManager.New(ex, false, "HUMANS_ERROR");
             }
 
             // Fixes wasp hives resetting to on load values.
@@ -220,7 +220,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                throw new Exception("WASPHIVES_ERROR", ex);
+                ExceptionManager.New(ex, false, "WASPHIVES_ERROR");
             }
 
             // Disabling the script that sets the kinematic state of Satsuma to False.
@@ -236,7 +236,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                throw new Exception("SATSUMA_HAND_BS_FIX", ex);
+                ExceptionManager.New(ex, true, "SATSUMA_HAND_BS_FIX");
             }
 
             // Preventing mattres from being disabled.
@@ -248,7 +248,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                throw new Exception("MANSION_MATTRES_ERROR", ex);
+                ExceptionManager.New(ex, false, "MANSION_MATTRES_ERROR");
             }
 
             // Item anti clip for cottage.
@@ -261,7 +261,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                throw new Exception("ITEM_ANTICLIP_ERROR", ex);
+                ExceptionManager.New(ex, true, "ITEM_ANTICLIP_ERROR");
             }
 
             // Z-fighting fix for wristwatch.
@@ -286,7 +286,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                throw new Exception("HANDWATCH_RENDERER_QUEUE_ERROR", ex);
+                ExceptionManager.New(ex, false, "HANDWATCH_RENDERER_QUEUE_ERROR");
             }
 
             // Adds roll fix to the bus.
@@ -300,7 +300,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                throw new Exception("BUS_ROLL_FIX_ERROR", ex);
+                ExceptionManager.New(ex, false, "BUS_ROLL_FIX_ERROR");
             }
 
             // Fixes bedroom window wrap resetting to default value.
@@ -312,7 +312,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                throw new Exception("TRIGGER_WINDOW_WRAP_ERROR", ex);
+                ExceptionManager.New(ex, false, "TRIGGER_WINDOW_WRAP_ERROR");
             }
 
             // Fixes diskette ejecting not wokring.
@@ -323,7 +323,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                throw new Exception("TRIGGER_DISKETTE_ERROR", ex);
+                ExceptionManager.New(ex, false, "TRIGGER_DISKETTE_ERROR");
             }
 
             // Fixed computer memory resetting.
@@ -333,7 +333,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                throw new Exception("TRIGGER_DISKETTE_ERROR", ex);
+                ExceptionManager.New(ex, false, "TRIGGER_DISKETTE_ERROR");
             }
 
             // Fixes berry picking skill resetting to default.
@@ -343,7 +343,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                throw new Exception("STRAWBERRY_FIELD_FSM", ex);
+                ExceptionManager.New(ex, false, "STRAWBERRY_FIELD_FSM");
             }
 
             ModConsole.Print("[MOP] Finished applying fixes");

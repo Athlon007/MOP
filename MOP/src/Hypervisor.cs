@@ -161,13 +161,7 @@ namespace MOP
                 worldObjectManager.Add("MAP/Buildings/DINGONBIISI", DisableOn.Distance, 400);
                 worldObjectManager.Add("RALLY/PartsSalesman", DisableOn.Distance, 400);
                 worldObjectManager.Add("LakeSmallBottom1", DisableOn.Distance, 500);
-
-                // Stolen slot machine.
-                GameObject slotMachine = GameObject.Find("machine");
-                if (slotMachine)
-                {
-                    worldObjectManager.Add(slotMachine, DisableOn.Distance, 200);
-                }
+                worldObjectManager.Add("machine", DisableOn.Distance, 200, silent: true);
 
                 ModConsole.Print("[MOP] World objects (1) loaded");
             }
@@ -181,14 +175,7 @@ namespace MOP
             placeManager = new PlaceManager();
 
             // Fixes
-            try
-            {
-                GameFixes.Instance.MainFixes();
-            }
-            catch (Exception ex)
-            {
-                ExceptionManager.New(ex, true, ex.ToString());
-            }
+            GameFixes.Instance.MainFixes();
 
             //Things that should be enabled when out of proximity of the house
             try
