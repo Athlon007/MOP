@@ -1,6 +1,6 @@
 # Changelog
 
-## tba
+## 3.0.1 Beta 1 (07.01.2021)
 
 ### Added
 
@@ -24,7 +24,6 @@
 
 ### Removed
 
-- For 3.0: Removed "mop sector-debug" command
 - Removed "mop sector-debug" command from the help list
 
 ## 3.0 (04.01.2020)
@@ -107,6 +106,7 @@
 - Removed experimental Satsuma storage system
 - Removed many scripts that are not needed anymore
 - Removed much of now obsolete code
+- Removed "mop sector-debug" command
 
 ## 2.12.2 (20.07.2020)
 
