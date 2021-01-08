@@ -193,7 +193,7 @@ namespace MOP
             }
 
             modConfigPath = ModLoader.GetModConfigFolder(this).Replace('\\', '/');
-            //if (!MopSettings.HasFirstTimeWindowBeenShown())
+            if (!MopSettings.HasFirstTimeWindowBeenShown())
             {
                 ModUI.ShowMessage($"Welcome to Modern Optimization Plugin <color=yellow>{Version}</color>!\n\n" +
                     $"Consider supporting to the project using <color=#3687D7>PayPal</color>,\n" +
