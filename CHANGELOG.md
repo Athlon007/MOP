@@ -21,6 +21,7 @@
 - Fixed cursor showing up on MOP load screen
 - Fixed a harmless error appearing on game load, if the player didn't steal the slot machine
 - Fixed log folder appearing inside of mysummercar_Data, instead of the root MSC folder
+- Fixed a typo in ignore_full obsolete warning
 
 ### Removed
 

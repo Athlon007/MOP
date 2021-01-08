@@ -195,7 +195,7 @@ namespace MOP.Rules.Configuration
                 File.WriteAllText(lastDateFilePath, DateTime.Now.ToString());
 
             // File downloading and updating completed!
-            // Start reading those files.   
+            // Start reading those files.
             GetAndReadRules();
         }
 
@@ -482,7 +482,7 @@ namespace MOP.Rules.Configuration
                             RulesManager.Instance.IgnoreRules.Add(new IgnoreRule(objects[0], fullIgnore));
                             break;
                         case "ignore_full":
-                            ObsoleteWarning(flag, fileName, lines, s, "ignore: <obect_name> fullIgnore");
+                            ObsoleteWarning(flag, fileName, lines, s, "ignore: <object_name> fullIgnore");
                             RulesManager.Instance.IgnoreRules.Add(new IgnoreRule(objects[0], true));
                             break;
                         case "toggle":
@@ -563,7 +563,7 @@ namespace MOP.Rules.Configuration
                                 isOutdated = true;
                             }
                             else
-                            { 
+                            {
                                 if (minor > modMinor && major == modMajor)
                                 {
                                     isOutdated = true;
