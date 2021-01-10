@@ -61,11 +61,5 @@ namespace MOP.Common
             Random rnd = new Random();
             return errorComments[rnd.Next(0, errorComments.Length - 1)];
         }
-
-        public static string GetLoadingMessage()
-        {
-            Random rnd = new Random();
-            return rnd.Next(0, 100) == 0 ? "HAVE A NICE DAY :)" : "LOADING MODERN OPTIMIZATION PLUGIN";
-        }
     }
 }

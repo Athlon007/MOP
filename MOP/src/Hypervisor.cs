@@ -89,7 +89,7 @@ namespace MOP
             Destroy(mopCanvas.transform.Find("MSCLoader Info").gameObject);
             Destroy(mopCanvas.transform.Find("MSCLoader loading screen/Title").gameObject);
             Destroy(mopCanvas.transform.Find("MSCLoader loading screen/Progress").gameObject);
-            mopCanvas.transform.Find("MSCLoader loading screen/ModName").gameObject.GetComponent<Text>().text = WittyComments.GetLoadingMessage();
+            mopCanvas.transform.Find("MSCLoader loading screen/ModName").gameObject.GetComponent<Text>().text = UnityEngine.Random.Range(0, 100) == 0 ? "HAVE A NICE DAY :)" : "LOADING MODERN OPTIMIZATION PLUGIN";
             mopCanvas.transform.Find("MSCLoader loading screen/Loading").gameObject.GetComponent<Text>().text = WittyComments.GetWittyText();
             mopCanvas.SetActive(true);
             playerController = GameObject.Find("PLAYER").GetComponent<CharacterController>();
