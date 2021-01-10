@@ -20,6 +20,8 @@ using UnityEngine;
 using MOP.Rules;
 using MOP.Rules.Types;
 using MOP.Common.Enumerations;
+using MOP.WorldObjects;
+using System;
 
 namespace MOP.Managers
 {
@@ -31,9 +33,9 @@ namespace MOP.Managers
         static WorldObjectManager instance;
         public static WorldObjectManager Instance { get => instance; }
         
-        public WorldObject this[int index] => worldObjects[index];
+        public GenericObject this[int index] => worldObjects[index];
 
-        readonly List<WorldObject> worldObjects;
+        readonly List<GenericObject> worldObjects;
 
         /// <summary>
         /// Returns the length of the list.
@@ -43,7 +45,7 @@ namespace MOP.Managers
         public WorldObjectManager()
         {
             instance = this;
-            worldObjects = new List<WorldObject>();
+            worldObjects = new List<GenericObject>();
         }
 
         /// <summary>
@@ -53,7 +55,7 @@ namespace MOP.Managers
         /// <param name="distance">Distance after which the object gets toggled.</param>
         /// <param name="rendererOnly">If true, only game object's renderer will get toggled.</param>
         /// <param name="silent">Skips the error message.</param>
-        public void Add(string gameObjectName, DisableOn disableOn, int distance = 200, bool rendererOnly = false, bool silent = false)
+        public void Add(string gameObjectName, DisableOn disableOn, int distance = 200, ToggleModes toggleMode = ToggleModes.Simple, bool silent = false)
         {
             GameObject gm = GameObject.Find(gameObjectName);
             if (!gm)
@@ -66,16 +68,16 @@ namespace MOP.Managers
                 return;
             }
 
-            Add(gm, disableOn, distance, rendererOnly);
+            Add(gm, disableOn, distance, toggleMode);
         }
 
         /// <summary>
-        /// Finds the game object by gameObjectName. If it finds it, adds it to the list.
+        /// Adds the gameObject to the list.
         /// </summary>
         /// <param name="gameObject">Game object that will be toggled.</param>
         /// <param name="distance">Distance after which the object gets toggled.</param>
         /// <param name="rendererOnly">If true, only game object's renderer will get toggled.</param>
-        public void Add(GameObject gameObject, DisableOn disableOn, int distance = 200, bool rendererOnly = false)
+        public void Add(GameObject gameObject, DisableOn disableOn, int distance = 200, ToggleModes toggleMode = ToggleModes.Simple)
         {
             if (!gameObject)
             {
@@ -88,18 +90,32 @@ namespace MOP.Managers
                 if (rule.TotalIgnore)
                     return;
 
-                rendererOnly = true;
+                toggleMode = ToggleModes.Renderer;
             }
 
-            worldObjects.Add(new WorldObject(gameObject, disableOn, distance, rendererOnly));
+            switch (toggleMode)
+            {
+                default:
+                    throw new NotImplementedException($"Toggle mode: {toggleMode} is not supported by WorldObjectManager!");
+                    break;
+                case ToggleModes.Simple:
+                    worldObjects.Add(new SimpleObjectToggle(gameObject, disableOn, distance));
+                    break;
+                case ToggleModes.Renderer:
+                    worldObjects.Add(new RendererToggle(gameObject, disableOn, distance));
+                    break;
+                case ToggleModes.MultipleRenderers:
+                    worldObjects.Add(new RenderersToggle(gameObject, disableOn, distance));
+                    break;
+            }
         }
 
-        public List<WorldObject> GetList()
+        public List<GenericObject> GetList()
         {
             return worldObjects;
         }
 
-        public void Remove(WorldObject worldObject)
+        public void Remove(GenericObject worldObject)
         {
             worldObjects.Remove(worldObject);
         }

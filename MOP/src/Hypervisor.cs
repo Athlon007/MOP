@@ -33,6 +33,7 @@ using MOP.Vehicles;
 using MOP.Helpers;
 using MOP.Rules;
 using MOP.Rules.Types;
+using MOP.WorldObjects;
 
 namespace MOP
 {
@@ -88,7 +89,7 @@ namespace MOP
             Destroy(mopCanvas.transform.Find("MSCLoader Info").gameObject);
             Destroy(mopCanvas.transform.Find("MSCLoader loading screen/Title").gameObject);
             Destroy(mopCanvas.transform.Find("MSCLoader loading screen/Progress").gameObject);
-            mopCanvas.transform.Find("MSCLoader loading screen/ModName").gameObject.GetComponent<Text>().text = "Loading Modern Optimization Plugin";
+            mopCanvas.transform.Find("MSCLoader loading screen/ModName").gameObject.GetComponent<Text>().text = WittyComments.GetLoadingMessage();
             mopCanvas.transform.Find("MSCLoader loading screen/Loading").gameObject.GetComponent<Text>().text = WittyComments.GetWittyText();
             mopCanvas.SetActive(true);
             playerController = GameObject.Find("PLAYER").GetComponent<CharacterController>();
@@ -257,17 +258,17 @@ namespace MOP
             {
                 if (GameObject.Find("tv(Clo01)") != null)
                 {
-                    worldObjectManager.Add("tv(Clo01)", DisableOn.Distance, 100, true);
-                    worldObjectManager.Add("chair(Clo02)", DisableOn.Distance, 100, true);
-                    worldObjectManager.Add("chair(Clo05)", DisableOn.Distance, 100, true);
-                    worldObjectManager.Add("bench(Clo01)", DisableOn.Distance, 100, true);
-                    worldObjectManager.Add("bench(Clo02)", DisableOn.Distance, 100, true);
-                    worldObjectManager.Add("table(Clo02)", DisableOn.Distance, 100, true);
-                    worldObjectManager.Add("table(Clo03)", DisableOn.Distance, 100, true);
-                    worldObjectManager.Add("table(Clo04)", DisableOn.Distance, 100, true);
-                    worldObjectManager.Add("table(Clo05)", DisableOn.Distance, 100, true);
-                    worldObjectManager.Add("desk(Clo01)", DisableOn.Distance, 100, true);
-                    worldObjectManager.Add("arm chair(Clo01)", DisableOn.Distance, 100, true);
+                    worldObjectManager.Add("tv(Clo01)", DisableOn.Distance, 100, ToggleModes.Renderer);
+                    worldObjectManager.Add("chair(Clo02)", DisableOn.Distance, 100, ToggleModes.Renderer);
+                    worldObjectManager.Add("chair(Clo05)", DisableOn.Distance, 100, ToggleModes.Renderer);
+                    worldObjectManager.Add("bench(Clo01)", DisableOn.Distance, 100, ToggleModes.Renderer);
+                    worldObjectManager.Add("bench(Clo02)", DisableOn.Distance, 100, ToggleModes.Renderer);
+                    worldObjectManager.Add("table(Clo02)", DisableOn.Distance, 100, ToggleModes.Renderer);
+                    worldObjectManager.Add("table(Clo03)", DisableOn.Distance, 100, ToggleModes.Renderer);
+                    worldObjectManager.Add("table(Clo04)", DisableOn.Distance, 100, ToggleModes.Renderer);
+                    worldObjectManager.Add("table(Clo05)", DisableOn.Distance, 100, ToggleModes.Renderer);
+                    worldObjectManager.Add("desk(Clo01)", DisableOn.Distance, 100, ToggleModes.Renderer);
+                    worldObjectManager.Add("arm chair(Clo01)", DisableOn.Distance, 100, ToggleModes.Renderer);
 
                     ModConsole.Print("[MOP] Jokke's furnitures found and loaded");
                 }
@@ -340,6 +341,20 @@ namespace MOP
                 ExceptionManager.New(ex, false, "LAKE_HOUSE_ERROR");
             }
 
+            // VehiclesHighway renderers.
+            try
+            {
+                Transform vehiclesHighway = GameObject.Find("TRAFFIC").transform.Find("VehiclesHighway");
+                foreach (var f in vehiclesHighway.GetComponentsInChildren<Transform>(true).Where(f => f.parent == vehiclesHighway))
+                {
+                    worldObjectManager.Add(f.gameObject, DisableOn.Distance, 600, ToggleModes.MultipleRenderers);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "TRAFFIC_VEHICLES_ERROR");
+            }
+
             // Initialize Items class
             try
             {
@@ -363,7 +378,7 @@ namespace MOP
                         default:
                             ModConsole.Error($"[MOP] Unrecognized toggle mode for {v.ObjectName}: {v.ToggleMode}.");
                             break;
-                        case ToggleModes.Normal:
+                        case ToggleModes.Simple:
                             if (GameObject.Find(v.ObjectName) == null)
                             {
                                 ModConsole.Error($"[MOP] Couldn't find world object {v.ObjectName}");
@@ -379,7 +394,7 @@ namespace MOP
                                 continue;
                             }
 
-                            worldObjectManager.Add(v.ObjectName, DisableOn.Distance, 200, true);
+                            worldObjectManager.Add(v.ObjectName, DisableOn.Distance, 200, ToggleModes.Renderer);
                             break;
                         case ToggleModes.Item:
                             GameObject g = GameObject.Find(v.ObjectName);
@@ -470,8 +485,8 @@ namespace MOP
                 string world = "";
                 foreach (var w in worldObjectManager.GetList())
                 {
-                    if (world.Contains(w.gameObject.name)) continue;
-                    world += w.gameObject.name + ", ";
+                    if (world.Contains(w.GetName())) continue;
+                    world += w.GetName() + ", ";
                 }
                 System.IO.File.WriteAllText("world.txt", world);
                 System.Diagnostics.Process.Start("world.txt");
@@ -696,28 +711,28 @@ namespace MOP
 
                     try
                     {
-                        WorldObject worldObject = worldObjectManager[i];
+                        GenericObject worldObject = worldObjectManager[i];
 
                         // Check if object was destroyed (mostly intended for AI pedastrians).
-                        if (worldObject.gameObject == null)
+                        if (worldObject.GameObject == null)
                         {
                             worldObjectManager.Remove(worldObject);
                             continue;
                         }
 
-                        if (SectorManager.Instance.IsPlayerInSector() && SectorManager.Instance.SectorRulesContains(worldObject.gameObject.name))
+                        if (SectorManager.Instance.IsPlayerInSector() && SectorManager.Instance.SectorRulesContains(worldObject.GameObject.name))
                         {
-                            worldObject.gameObject.SetActive(true);
+                            worldObject.GameObject.SetActive(true);
                             continue;
                         }
 
                         // Should the object be disabled when the player leaves the house?
                         if (worldObject.DisableOn.HasFlag(DisableOn.PlayerAwayFromHome) || worldObject.DisableOn.HasFlag(DisableOn.PlayerInHome))
                         {
-                            if (worldObject.gameObject.name == "NPC_CARS" && inSectorMode)
+                            if (worldObject.GameObject.name == "NPC_CARS" && inSectorMode)
                                 continue;
 
-                            if (worldObject.gameObject.name == "COMPUTER" && worldObject.gameObject.transform.Find("SYSTEM").gameObject.activeSelf)
+                            if (worldObject.GameObject.name == "COMPUTER" && worldObject.GameObject.transform.Find("SYSTEM").gameObject.activeSelf)
                                 continue;
 
                             worldObject.Toggle(worldObject.DisableOn.HasFlag(DisableOn.PlayerAwayFromHome) ? isPlayerAtYard : !isPlayerAtYard);

@@ -117,7 +117,6 @@
     <Compile Include="src\Vehicles\Cases\Satsuma.cs" />
     <Compile Include="src\Vehicles\Managers\PreventToggleOnObject.cs" />
     <Compile Include="src\Managers\VehicleManager.cs" />
-    <Compile Include="src\WorldObject.cs" />
     <Compile Include="src\Places\Cases\RepairShop.cs" />
     <Compile Include="src\Places\Place.cs" />
     <Compile Include="src\Places\Cases\Teimo.cs" />
@@ -141,6 +140,10 @@
     <Compile Include="src\Hypervisor.cs" />
     <Compile Include="src\MOP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\WorldObjects\GenericObject.cs" />
+    <Compile Include="src\WorldObjects\SimpleObjectToggle.cs" />
+    <Compile Include="src\WorldObjects\RenderersToggle.cs" />
+    <Compile Include="src\WorldObjects\RendererToggle.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

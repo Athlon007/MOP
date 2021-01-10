@@ -486,7 +486,7 @@ namespace MOP.Rules.Configuration
                             RulesManager.Instance.IgnoreRules.Add(new IgnoreRule(objects[0], true));
                             break;
                         case "toggle":
-                            ToggleModes mode = ToggleModes.Normal;
+                            ToggleModes mode = ToggleModes.Simple;
                             if (objects.Length > 1)
                             {
                                 switch (objects[1])

@@ -1,5 +1,16 @@
 # Changelog
 
+## tba
+
+### Added
+
+- Traffic vehicle renderers are now being disabled when not needed
+
+### Changes
+
+- Total rewrite of WorldObjects
+- "Loading Modern Optimization Plugin" message is now fully capitalized
+
 ## 3.0.1 Beta 1 (07.01.2021)
 
 ### Added

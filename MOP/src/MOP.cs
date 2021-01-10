@@ -35,8 +35,8 @@ namespace MOP
         public override string Name => "Modern Optimization Plugin"; //You mod name
 #endif
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.0.1"; //Version
-        public const string SubVersion = "BETA_1"; // NIGHTLY-yyyymmdd | BETA_x | RC_x
+        public override string Version => "3.1"; //Version
+        public const string SubVersion = "NIGHTLY-20210110"; // NIGHTLY-yyyymmdd | BETA_x | RC_x
 
         #region Settings & Configuration
         // ModLoader configuration.

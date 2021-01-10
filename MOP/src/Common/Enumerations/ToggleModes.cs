@@ -18,8 +18,9 @@ namespace MOP.Common.Enumerations
 {
     public enum ToggleModes 
     { 
-        Normal, 
-        Renderer, 
+        Simple, 
+        Renderer,
+        MultipleRenderers,
         Item, 
         Vehicle, 
         VehiclePhysics 
