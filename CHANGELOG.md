@@ -11,6 +11,10 @@
 - Total rewrite of WorldObjects
 - "Loading Modern Optimization Plugin" message is now fully capitalized
 
+### Bug Fixes
+
+- Fixed MSC bug, which caused a lag when the highway traffic was loading
+
 ## 3.0.1 Beta 1 (07.01.2021)
 
 ### Added

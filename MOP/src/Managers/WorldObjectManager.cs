@@ -62,7 +62,7 @@ namespace MOP.Managers
             {
                 if (!silent)
                 {
-                    throw new System.Exception($"WorldObjectManager: Couldn't find gameObjectName: \"{gameObjectName}\".");
+                    throw new Exception($"WorldObjectManager: Couldn't find gameObjectName: \"{gameObjectName}\".");
                 }
 
                 return;
@@ -81,7 +81,7 @@ namespace MOP.Managers
         {
             if (!gameObject)
             {
-                throw new System.Exception($"WorldObjectManager: gameObject is null.");
+                throw new Exception($"WorldObjectManager: gameObject is null.");
             }
 
             IgnoreRule rule = RulesManager.Instance.IgnoreRules.Find(f => f.ObjectName == gameObject.name);

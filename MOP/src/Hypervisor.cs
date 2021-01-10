@@ -349,10 +349,23 @@ namespace MOP
                 {
                     worldObjectManager.Add(f.gameObject, DisableOn.Distance, 600, ToggleModes.MultipleRenderers);
                 }
+
+                // Also we gonna fix the lag on initial traffic load.
+                vehiclesHighway.gameObject.SetActive(true);
             }
             catch (Exception ex)
             {
                 ExceptionManager.New(ex, false, "TRAFFIC_VEHICLES_ERROR");
+            }
+
+            // FITTAN renderers.
+            try
+            {
+                worldObjectManager.Add(GameObject.Find("TRAFFIC").transform.Find("VehiclesDirtRoad/Rally/FITTAN").gameObject, DisableOn.Distance, 600, ToggleModes.MultipleRenderers);
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "FITTAN_RENDERERS_ERROR");
             }
 
             // Initialize Items class
@@ -698,6 +711,12 @@ namespace MOP
                         playerController.enabled = true;
                         FsmManager.PlayerInMenu = false;
                         cursorFSM.enabled = true;
+
+                        GameObject vh = GameObject.Find("VehiclesHighway");
+                        if (vh)
+                        {
+                            vh.SetActive(false);
+                        }
                     }
                 }
 
