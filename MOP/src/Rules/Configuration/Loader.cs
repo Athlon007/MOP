@@ -268,8 +268,7 @@ namespace MOP.Rules.Configuration
                     {
                         if (serverContent.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name)) == null)
                         {
-                            File.Delete(file.FullName);
-                            ModConsole.Warning($"[MOP] Rule file {file.Name} has been deleted, because it couldn't be verified.");
+                            ModConsole.Warning($"[MOP] Rule file {file.Name} has been skipped, because it couldn't be verified.");
                             removed++;
                             continue;
                         }
