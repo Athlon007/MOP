@@ -59,7 +59,7 @@ namespace MOP
         CharacterController playerController;
         bool itemInitializationDelayDone;
         int waitTime;
-        const int WaitDone = 4;
+        const int WaitDone = 2;
         GameObject mopCanvas;
         PlayMakerFSM cursorFSM;
         #endregion
@@ -819,9 +819,15 @@ namespace MOP
                             toEnable = IsEnabled(ItemsManager.Instance.ItemsHooks[i].transform, 150);
 
                         if (toEnable)
+                        {
+                            if (ItemsManager.Instance.ItemsHooks[i].gameObject.activeSelf) continue;
                             itemsToEnable.Add(ItemsManager.Instance.ItemsHooks[i]);
+                        }
                         else
+                        {
+                            if (!ItemsManager.Instance.ItemsHooks[i].gameObject.activeSelf) continue;
                             itemsToDisable.Add(ItemsManager.Instance.ItemsHooks[i]);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -836,8 +842,8 @@ namespace MOP
                     half = itemsToDisable.Count >> 1;
                     for (i = 0; i < full; i++)
                     {
-                        if (half != 0)
-                            if (i == half) yield return null;
+                        if (half != 0 && i == half) 
+                            yield return null;
 
                         try
                         {
@@ -854,8 +860,7 @@ namespace MOP
                 half = vehicleManager.Count >> 1;
                 for (i = 0; i < vehicleManager.Count; i++)
                 {
-                    if (half != 0)
-                        if (i == half) yield return null;
+                    if (half != 0 && i == half) yield return null;
 
                     try
                     {
@@ -892,13 +897,12 @@ namespace MOP
 
                 // Items To Enable
                 full = itemsToEnable.Count;
-                half = full >> 1;
                 if (full > 0)
                 {
+                    half = full >> 1;
                     for (i = 0; i < full; i++)
                     {
-                        if (half != 0)
-                            if (i == half) yield return null;
+                        if (half != 0 && i == half) yield return null;
 
                         try
                         {
