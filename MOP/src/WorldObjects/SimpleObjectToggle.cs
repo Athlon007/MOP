@@ -9,7 +9,7 @@ namespace MOP.WorldObjects
     {
         public SimpleObjectToggle(GameObject gameObject, DisableOn disableOn = DisableOn.Distance, int distance = 200) : base(gameObject, distance, disableOn)
         {
-
+            return;
         }
 
         public override void Toggle(bool enabled)

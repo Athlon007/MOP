@@ -256,19 +256,21 @@ namespace MOP
             // Only renderers are going to be toggled.
             try
             {
-                if (GameObject.Find("tv(Clo01)") != null)
+                if (GameObject.Find("tv(Clo01)"))
                 {
-                    worldObjectManager.Add("tv(Clo01)", DisableOn.Distance, 100, ToggleModes.Renderer);
-                    worldObjectManager.Add("chair(Clo02)", DisableOn.Distance, 100, ToggleModes.Renderer);
-                    worldObjectManager.Add("chair(Clo05)", DisableOn.Distance, 100, ToggleModes.Renderer);
-                    worldObjectManager.Add("bench(Clo01)", DisableOn.Distance, 100, ToggleModes.Renderer);
-                    worldObjectManager.Add("bench(Clo02)", DisableOn.Distance, 100, ToggleModes.Renderer);
-                    worldObjectManager.Add("table(Clo02)", DisableOn.Distance, 100, ToggleModes.Renderer);
-                    worldObjectManager.Add("table(Clo03)", DisableOn.Distance, 100, ToggleModes.Renderer);
-                    worldObjectManager.Add("table(Clo04)", DisableOn.Distance, 100, ToggleModes.Renderer);
-                    worldObjectManager.Add("table(Clo05)", DisableOn.Distance, 100, ToggleModes.Renderer);
-                    worldObjectManager.Add("desk(Clo01)", DisableOn.Distance, 100, ToggleModes.Renderer);
-                    worldObjectManager.Add("arm chair(Clo01)", DisableOn.Distance, 100, ToggleModes.Renderer);
+                    string[] furnitures = { "tv(Clo01)", "chair(Clo02)", "chair(Clo05)", "bench(Clo01)", 
+                                            "bench(Clo02)", "table(Clo02)", "table(Clo03)", "table(Clo04)", 
+                                            "table(Clo05)", "desk(Clo01)", "arm chair(Clo01)" };
+
+                    foreach (string furniture in furnitures)
+                    {
+                        GameObject g = GameObject.Find(furniture);
+                        if (g)
+                        {
+                            g.transform.parent = null;
+                            worldObjectManager.Add(g, DisableOn.Distance, 100, ToggleModes.Renderer);
+                        }
+                    }
 
                     ModConsole.Print("[MOP] Jokke's furnitures found and loaded");
                 }
@@ -333,7 +335,6 @@ namespace MOP
                 if (MopSettings.Mode == PerformanceMode.Quality)
                 {
                     GameObject.Find("PERAJARVI").transform.Find("TerraceHouse").transform.parent = null;
-
                 }
             }
             catch (Exception ex)

@@ -217,6 +217,9 @@ namespace MOP
             ConsoleCommand.Add(new ConsoleCommands());
 
             SaveManager.RestoreSaveInMainMenu();
+
+            ModConsole.Print("TEST.mopconfig: " + Rules.Configuration.Loader.RemoteFileExists("https://raw.githubusercontent.com/Athlon007/MOP/master/Rulefiles/Database/TEST.mopconfig"));
+            ModConsole.Print("AthlonsTweaksPack.mopconfig: " + Rules.Configuration.Loader.RemoteFileExists("https://raw.githubusercontent.com/Athlon007/MOP/master/Rulefiles/Database/AthlonsTweaksPack.mopconfig"));
         }
 
         /// <summary>

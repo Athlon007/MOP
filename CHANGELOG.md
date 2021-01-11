@@ -10,10 +10,12 @@
 
 - Total rewrite of WorldObjects
 - "Loading Modern Optimization Plugin" message is now fully capitalized
+- Rule files that couldn't be verified are not deleted anymore, instead they are being skipped
 
 ### Bug Fixes
 
 - Fixed MSC bug, which caused a lag when the highway traffic was loading
+- Fixed Jokke's furnitures getting disabled when they shouldn't be
 
 ## 3.0.1 (11.01.2021)
 

@@ -120,14 +120,18 @@ namespace MOP.Rules.Configuration
                 string ruleUrl = $"{RemoteServer}/{modId}{RuleExtension}";
                 string filePath = $"{MOP.ModConfigPath}/{modId}{RuleExtension}";
 
-                // Prevent downloading, if file is on the server.
+                // Continue if it's not time for an update, and the mod is in the list of last mods.
                 if (lastModList.Contains(mod.ID) && !isUpdateTime)
+                {
                     continue;
+                }
 
                 // Check if rule file for mod is on the server.
                 // If not, continue.
                 if (!IsFileOnServer(modId))
+                {
                     continue;
+                }
 
                 // Check if the newer file is available on the server.
                 if (!overrideUpdateCheck)
