@@ -62,7 +62,7 @@ namespace MOP
         // ACTIVATING OBJECTS
         public static Settings ActiveDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
-        
+
         public static Settings ModeSafe = new Settings("modeSafe", "Safe Mode", false, MopSettings.UpdateAll);
         public static Settings ModePerformance = new Settings("modePerformance", "Performance", false, MopSettings.UpdateAll);
         public static Settings ModeBalanced = new Settings("modeBalanced", "Balanced", true, MopSettings.UpdateAll);
