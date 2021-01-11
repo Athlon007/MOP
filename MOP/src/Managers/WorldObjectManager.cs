@@ -81,7 +81,7 @@ namespace MOP.Managers
         {
             if (!gameObject)
             {
-                throw new Exception($"WorldObjectManager: gameObject is null.");
+                throw new NullReferenceException($"WorldObjectManager: gameObject is null.");
             }
 
             IgnoreRule rule = RulesManager.Instance.IgnoreRules.Find(f => f.ObjectName == gameObject.name);
@@ -97,7 +97,6 @@ namespace MOP.Managers
             {
                 default:
                     throw new NotImplementedException($"Toggle mode: {toggleMode} is not supported by WorldObjectManager!");
-                    break;
                 case ToggleModes.Simple:
                     worldObjects.Add(new SimpleObjectToggle(gameObject, disableOn, distance));
                     break;
@@ -105,7 +104,7 @@ namespace MOP.Managers
                     worldObjects.Add(new RendererToggle(gameObject, disableOn, distance));
                     break;
                 case ToggleModes.MultipleRenderers:
-                    worldObjects.Add(new RenderersToggle(gameObject, disableOn, distance));
+                    worldObjects.Add(new MultipleRenderersToggle(gameObject, disableOn, distance));
                     break;
             }
         }

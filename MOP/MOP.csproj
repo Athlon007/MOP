@@ -142,7 +142,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\WorldObjects\GenericObject.cs" />
     <Compile Include="src\WorldObjects\SimpleObjectToggle.cs" />
-    <Compile Include="src\WorldObjects\RenderersToggle.cs" />
+    <Compile Include="src\WorldObjects\MultipleRenderersToggle.cs" />
     <Compile Include="src\WorldObjects\RendererToggle.cs" />
   </ItemGroup>
   <ItemGroup>

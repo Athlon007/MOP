@@ -5,11 +5,11 @@ using MOP.Common.Enumerations;
 
 namespace MOP.WorldObjects
 {
-    class RenderersToggle : GenericObject
+    class MultipleRenderersToggle : GenericObject
     {
         Renderer[] renderers;
 
-        public RenderersToggle(GameObject gameObject, DisableOn disableOn = DisableOn.Distance, int distance = 200) : base(gameObject, distance, disableOn)
+        public MultipleRenderersToggle(GameObject gameObject, DisableOn disableOn = DisableOn.Distance, int distance = 200) : base(gameObject, distance, disableOn)
         {
             renderers = gameObject.GetComponentsInChildren<Renderer>(true).ToArray();
 
