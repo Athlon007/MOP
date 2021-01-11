@@ -1,5 +1,32 @@
 # Changelog
 
+## 3.0.1 (11.01.2021)
+
+### Added
+
+- Firewood log prefab is now being hooked from the beginning, meaning the firewood logs will despawn accordingly
+
+### Changes
+
+- MOP logs are not saved into session ID foler, instead they are called by the date time they were created in order to make it less confusing
+- Framerate limiter values now range from 20 to 200
+- Framerate limiter values now jump by 10, instead of by 1
+
+### Bug Fixes
+
+- Fixed MOP not working properly, if player is using analog controller
+- Freshly spawned firewood logs should despawn correctly
+- Fixed "mop generate-list" and "mop load-rules" commands not working as intended
+- Possible bug fix for player dying in Satsuma from low speed impacts
+- Fixed cursor showing up on MOP load screen
+- Fixed a harmless error appearing on game load, if the player didn't steal the slot machine
+- Fixed log folder appearing inside of mysummercar_Data, instead of the root MSC folder
+- Fixed a typo in ignore_full obsolete warning
+
+### Removed
+
+- Removed "mop sector-debug" command from the help list
+
 ## 3.0 (04.01.2020)
 
 ### Added
@@ -80,6 +107,7 @@
 - Removed experimental Satsuma storage system
 - Removed many scripts that are not needed anymore
 - Removed much of now obsolete code
+- Removed "mop sector-debug" command
 
 ## 2.12.2 (20.07.2020)
 

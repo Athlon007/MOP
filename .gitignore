@@ -349,3 +349,6 @@ MigrationBackup/
 build/
 
 MOP.zip
+MOP-*.zip
+
+.DS_Store

@@ -42,7 +42,7 @@ namespace MOP
     class Hypervisor : MonoBehaviour
     {
         static Hypervisor instance;
-        public static Hypervisor Instance { get => instance; }
+        public static Hypervisor Instance => instance; 
 
         Transform player;
 
@@ -60,6 +60,7 @@ namespace MOP
         int waitTime;
         const int WaitDone = 4;
         GameObject mopCanvas;
+        PlayMakerFSM cursorFSM;
         #endregion
 
         List<ItemBehaviour> itemsToEnable = new List<ItemBehaviour>();
@@ -67,6 +68,8 @@ namespace MOP
 
         int lastInputTimeCounter;
         const int WaitForInputTime = 5;
+        Vector3 lastPlayerPosition;
+        const float MinimumDifference = 0.5f;
 
         public Hypervisor()
         {
@@ -92,6 +95,10 @@ namespace MOP
             playerController.enabled = false;
             
             FsmManager.PlayerInMenu = true;
+            
+            Cursor.visible = false;
+            cursorFSM = GameObject.Find("PLAYER").GetPlayMakerByName("Update Cursor");
+            cursorFSM.enabled = false;
 
             // Start the delayed initialization routine
             PlayMakerFSM[] gtGrille = GameObject.Find("grille gt(Clone)").GetComponents<PlayMakerFSM>();
@@ -153,8 +160,9 @@ namespace MOP
                 worldObjectManager.Add("StrawberryField", DisableOn.Distance, 400);
                 worldObjectManager.Add("MAP/Buildings/DINGONBIISI", DisableOn.Distance, 400);
                 worldObjectManager.Add("RALLY/PartsSalesman", DisableOn.Distance, 400);
-                worldObjectManager.Add("machine", DisableOn.Distance, 200, silent: true); // Stolen slot machine.
                 worldObjectManager.Add("LakeSmallBottom1", DisableOn.Distance, 500);
+                worldObjectManager.Add("machine", DisableOn.Distance, 200, silent: true);
+
                 ModConsole.Print("[MOP] World objects (1) loaded");
             }
             catch (Exception ex)
@@ -162,18 +170,12 @@ namespace MOP
                 ExceptionManager.New(ex, false, "WORLD_OBJECTS_1_INITIALIZAITON_FAIL");
             }
 
+
             // Initialize places.
             placeManager = new PlaceManager();
 
             // Fixes
-            try
-            {
-                GameFixes.Instance.MainFixes();
-            }
-            catch (Exception ex)
-            {
-                ExceptionManager.New(ex, true, ex.ToString());
-            }
+            GameFixes.Instance.MainFixes();
 
             //Things that should be enabled when out of proximity of the house
             try
@@ -511,7 +513,7 @@ namespace MOP
                 System.Diagnostics.Process.Start("place.txt");
             }
         }
-
+        #endregion
         #region Save Game Actions
         /// <summary>
         /// Looks for gamobject named SAVEGAME, and hooks PreSaveGame into them.
@@ -615,7 +617,7 @@ namespace MOP
                 PreSaveGame();
         }
         #endregion
-
+        #region Updating
         /// <summary>
         /// This coroutine runs
         /// </summary>
@@ -633,14 +635,15 @@ namespace MOP
 
                 if (itemInitializationDelayDone)
                 {
-                    if (Input.anyKey)
+                    if (Vector3.Distance(player.position, lastPlayerPosition) > MinimumDifference)
                     {
                         lastInputTimeCounter = 0;
                     }
                     else
                     {
-                        // Don't execute anything, if player hasn't moved in few seconds.
                         lastInputTimeCounter++;
+                        
+                        // Don't execute anything, if player hasn't moved in few seconds.
                         if (lastInputTimeCounter > WaitForInputTime)
                         {
                             yield return new WaitForSeconds(1);
@@ -649,6 +652,7 @@ namespace MOP
                     }
                 }
 
+                lastPlayerPosition = player.position;
                 isPlayerAtYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, placeManager[0].transform.position) < 100
                     : Vector3.Distance(player.position, placeManager[0].transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 
@@ -668,6 +672,7 @@ namespace MOP
                 Satsuma.Instance.EngineCulling(!FsmManager.IsPlayerInSatsuma());
                 yield return null;
 
+                // We are slightly delaying the initialization, so all items have chance to set in place, because fuck MSC and its physics.
                 if (!itemInitializationDelayDone)
                 {
                     waitTime += 1;
@@ -677,6 +682,7 @@ namespace MOP
                         mopCanvas.SetActive(false);
                         playerController.enabled = true;
                         FsmManager.PlayerInMenu = false;
+                        cursorFSM.enabled = true;
                     }
                 }
 
@@ -902,8 +908,6 @@ namespace MOP
                 }
             }
         }
-        #endregion
-
         void Update()
         {
 #if DEBUG
@@ -932,7 +936,8 @@ namespace MOP
                 }
             }
         }
-
+        #endregion
+        #region Item enabling checks
         /// <summary>
         /// Checks if the object is supposed to be enabled by calculating the distance between player and target.
         /// </summary>
@@ -965,7 +970,7 @@ namespace MOP
         {
             return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
-
+        #endregion
         #region System Control & Crash Protection
         int ticks;
         int lastTick;

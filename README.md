@@ -2,7 +2,7 @@
 
 [![](https://img.shields.io/github/downloads/Athlon007/MOP/total?style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
 [![](https://img.shields.io/github/v/release/Athlon007/MOP?style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
-[![](https://img.shields.io/github/v/release/Athlon007/MOP?include_prereleases&label=Development&style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
+[![](https://img.shields.io/github/v/release/Athlon007/MOP?include_prereleases&label=Beta&style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
 [![](https://img.shields.io/github/license/Athlon007/MOP?style=for-the-badge)](LICENSE.md)
 
 <img align="right" src="images/icon.png" alt="icon" width=128 />
@@ -37,7 +37,7 @@ Got any questions? Please refer to the [FAQ](http://athlon.kkmr.pl/mop/wiki/#/fa
 
 ## Preview builds
 
-Snapshot builds (old previews) are going to be released on GitHub with a tag "pre-release".
+Beta builds are going to be released on GitHub with a tag "pre-release".
 
 For [nightly builds](https://en.wikipedia.org/wiki/Neutral_build), visit <a href="https://mega.nz/folder/WnYUiJ5Y#Yriz9ltnpHpVOxbYjo8hFw" target="_blank">this link</a>.
 
@@ -59,3 +59,5 @@ This program is distributed under GNU General Public License v3. Feel free to us
 Do you like MOP? Consider buying me a beer :)
 
 [![](http://athlon.kkmr.pl/images/svg/paypal.svg)](https://www.paypal.me/figurakonrad)
+
+**BTC:** 1QFSRzNK3RjNuAgoHdxWrUnM2W2Dwuwurt
