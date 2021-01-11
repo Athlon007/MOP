@@ -8,7 +8,7 @@
 
 ### Changes
 
-- MOP logs are not saved into session ID foler, instead they are called by the date time they were created in order to make it less confusing
+- MOP logs are not saved into session ID folder, instead they are called by the date time they were created in order to make it less confusing
 - Framerate limiter values now range from 20 to 200
 - Framerate limiter values now jump by 10, instead of by 1
 
