@@ -48,6 +48,11 @@ namespace MOP.Items
 
         public ItemBehaviour()
         {
+            if (gameObject.GetComponents<ItemBehaviour>().Length > 1)
+            {
+                Destroy(this);
+            }
+
             Toggle = ToggleActive;
 
             IgnoreRule rule = RulesManager.Instance.IgnoreRules.Find(f => f.ObjectName == this.gameObject.name);
@@ -67,9 +72,6 @@ namespace MOP.Items
             {
                 Toggle = TogglePhysicsOnly;
             }
-
-            // Add self to the MinorObjects.objectHooks list
-            ItemsManager.Instance.Add(this);
 
             // Get object's components
             rb = GetComponent<Rigidbody>();
@@ -154,6 +156,12 @@ namespace MOP.Items
                     return;
                 }
             }
+        }
+
+        void Awake()
+        {
+            // Add self to the MinorObjects.objectHooks list
+            ItemsManager.Instance.Add(this);
         }
 
         // Triggered before the object is destroyed.

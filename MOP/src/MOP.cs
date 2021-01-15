@@ -36,7 +36,7 @@ namespace MOP
 #endif
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.1"; //Version
-        public const string SubVersion = "NIGHTLY-20210110"; // NIGHTLY-yyyymmdd | BETA_x | RC_x
+        public const string SubVersion = "NIGHTLY-20210111"; // NIGHTLY-yyyymmdd | BETA_x | RC_x
 
         #region Settings & Configuration
         // ModLoader configuration.

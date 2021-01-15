@@ -153,7 +153,7 @@ namespace MOP
             {
                 worldObjectManager.Add("CABIN", DisableOn.Distance | DisableOn.IgnoreInQualityMode);
                 worldObjectManager.Add("COTTAGE", DisableOn.Distance, 400);
-                worldObjectManager.Add("DANCEHALL", DisableOn.Distance);
+                worldObjectManager.Add("DANCEHALL", DisableOn.Distance, 500);
                 worldObjectManager.Add("PERAJARVI", DisableOn.Distance | DisableOn.IgnoreInQualityMode, 400);
                 worldObjectManager.Add("SOCCER", DisableOn.Distance);
                 worldObjectManager.Add("WATERFACILITY", DisableOn.Distance, 300);
