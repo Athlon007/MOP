@@ -475,8 +475,15 @@ namespace MOP
                 ExceptionManager.New(ex, false, "DYNAMIC_DRAW_DISTANCE_ERROR");
             }
 
-            if (MopSettings.Mode != PerformanceMode.Safe)
-                ToggleAll(false, ToggleAllMode.OnLoad);
+            try
+            {
+                if (MopSettings.Mode != PerformanceMode.Safe)
+                    ToggleAll(false, ToggleAllMode.OnLoad);
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, true, "TOGGLE_ALL_ERROR");
+            }
 
             // Initialize the coroutines.
             currentLoop = LoopRoutine();
@@ -484,10 +491,7 @@ namespace MOP
             currentControlCoroutine = ControlCoroutine();
             StartCoroutine(currentControlCoroutine);
 
-            string finalMessage = "[MOP] MOD LOADED SUCCESFULLY!";
-            float money = PlayMakerGlobals.Instance.Variables.FindFsmFloat("PlayerMoney").Value;
-            finalMessage = Mathf.Approximately(69420.0f, 69420.9f) ? finalMessage.Rainbowmize() : $"<color=green>{finalMessage}</color>";
-            ModConsole.Print(finalMessage);
+            ModConsole.Print("[MOP] MOD LOADED SUCCESFULLY!");
             Resources.UnloadUnusedAssets();
             GC.Collect();
 
@@ -549,11 +553,11 @@ namespace MOP
         /// </summary>
         void HookPreSaveGame()
         {
+            try
+            {
             GameObject[] saveGames = Resources.FindObjectsOfTypeAll<GameObject>()
                 .Where(obj => obj.name.Contains("SAVEGAME")).ToArray();
 
-            try
-            {
                 int i = 0;
                 for (; i < saveGames.Length; i++)
                 {
@@ -707,17 +711,7 @@ namespace MOP
                     waitTime += 1;
                     if (waitTime >= WaitDone)
                     {
-                        itemInitializationDelayDone = true;
-                        mopCanvas.SetActive(false);
-                        playerController.enabled = true;
-                        FsmManager.PlayerInMenu = false;
-                        cursorFSM.enabled = true;
-
-                        GameObject vh = GameObject.Find("VehiclesHighway");
-                        if (vh)
-                        {
-                            vh.SetActive(false);
-                        }
+                        FinishLoading();
                     }
                 }
 
@@ -1171,6 +1165,21 @@ namespace MOP
         public bool IsItemInitializationDone()
         {
             return itemInitializationDelayDone;
+        }
+
+        void FinishLoading()
+        {
+            itemInitializationDelayDone = true;
+            mopCanvas.SetActive(false);
+            playerController.enabled = true;
+            FsmManager.PlayerInMenu = false;
+            cursorFSM.enabled = true;
+
+            GameObject vh = GameObject.Find("VehiclesHighway");
+            if (vh)
+            {
+                vh.SetActive(false);
+            }
         }
     }
 }

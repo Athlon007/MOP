@@ -26,6 +26,7 @@
 - Fixed possible cases of two or more ItemBehaviours being attached to a single object
 - Fixed "Open log folder" button not working
 - Fixed "Delete all logs" button not working
+- Fixed Satsuma doors occasionally having two FixedJoints, making the doors stuck
 
 ### Removed
 

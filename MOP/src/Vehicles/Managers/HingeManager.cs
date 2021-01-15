@@ -122,5 +122,13 @@ namespace MOP.Vehicles.Managers
         {
             StartCoroutine(InitializationRoutine(true));
         }
+
+        void OnEnable()
+        {
+            while (gameObject.GetComponents<FixedJoint>().Length > 1)
+            {
+                gameObject.GetComponent<FixedJoint>().breakForce = 0;
+            }
+        }
     }
 }
