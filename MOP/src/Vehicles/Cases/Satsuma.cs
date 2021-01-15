@@ -23,7 +23,7 @@ using UnityEngine;
 using MOP.FSM.Actions;
 using MOP.Common;
 using MOP.Common.Enumerations;
-using MOP.Vehicles.Managers;
+using MOP.Vehicles.Managers.SatsumaManagers;
 using MOP.Rules;
 using MOP.Rules.Types;
 
@@ -396,17 +396,17 @@ namespace MOP.Vehicles
             drivingAI = transform.Find("AI").GetPlayMakerByName("Driving");
 
             // radiator hose 3
-            GameObject radiatorHosePart = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(xxxxx)");
-            if (radiatorHosePart)
+            try
             {
-                PlayMakerFSM removalFSM = radiatorHosePart.GetPlayMakerByName("Removal");
-                GameObject hosePrefab = GameObject.Find("CARPARTS").transform.Find("PartsCar/radiator hose3(Clone)").gameObject;
-                removalFSM.FsmVariables.FindFsmGameObject("Part").Value = GameObject.Find("CARPARTS").transform.Find("PartsCar/radiator hose3(Clone)").gameObject;
-
-                List<FsmStateAction> actions = removalFSM.FindFsmState("Remove part").Actions.ToList();
-                CustomCreateObject newHose = new CustomCreateObject(radiatorHosePart, hosePrefab);
-                actions.Add(newHose);
-                removalFSM.FindFsmState("Remove part").Actions = actions.ToArray();
+                GameObject radiatorHosePart = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(xxxxx)");
+                if (radiatorHosePart)
+                {
+                    radiatorHosePart.AddComponent<SatsumaRadiatorHoseFix>();
+                }
+            }
+            catch
+            {
+                throw new System.Exception("Radiator hose 3 error");
             }
 
             if (MopSettings.GenerateToggledItemsListDebug)

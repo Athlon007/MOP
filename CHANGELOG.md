@@ -5,6 +5,8 @@
 ### Added
 
 - Traffic vehicle renderers are now being disabled when not needed
+- Added "I found a bug" button in MOP settings
+  - Generates a .zip fiel that contains output_log.txt, MOP report and all today MOP logs
 
 ### Changes
 
@@ -13,6 +15,7 @@
 - Rule files that couldn't be verified are not deleted anymore, instead they are being skipped
 - Improved load time
 - Increased dance hall toggling distance
+- Renamed "Open session log folder" to "Open log folder"
 
 ### Bug Fixes
 
@@ -20,6 +23,13 @@
 - Fixed Jokke's furnitures getting disabled when they shouldn't be
 - Fixed disappearing "radiator hose 3"
 - Fixed not appearing firewood logs, if they were picked from wood carrier
+- Fixed possible cases of two or more ItemBehaviours being attached to a single object
+- Fixed "Open log folder" button not working
+- Fixed "Delete all logs" button not working
+
+### Removed
+
+- Removed "mop open-logs" command
 
 ## 3.0.1 (11.01.2021)
 

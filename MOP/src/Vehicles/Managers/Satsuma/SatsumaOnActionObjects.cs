@@ -18,7 +18,7 @@ using UnityEngine;
 
 using MOP.Common.Enumerations;
 
-namespace MOP.Vehicles.Managers
+namespace MOP.Vehicles.Managers.SatsumaManagers
 { 
     class SatsumaOnActionObjects
     {

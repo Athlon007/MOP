@@ -17,7 +17,7 @@
 using UnityEngine;
 using MOP.Common;
 
-namespace MOP.Vehicles.Managers
+namespace MOP.Vehicles.Managers.SatsumaManagers
 {
     /// <summary>
     /// This scripts looksa for the BoltCheck or Use scripts and disables restting of the playmaker scripts.

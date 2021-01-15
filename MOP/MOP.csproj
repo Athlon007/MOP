@@ -46,6 +46,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\ES2.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="MSCLoader">
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\MSCLoader.dll</HintPath>
     </Reference>
@@ -111,7 +114,9 @@
     <Compile Include="src\FSM\Actions\CustomBatteryDisable.cs" />
     <Compile Include="src\Vehicles\Managers\Satsuma\SatsumaCustomHoodUse.cs" />
     <Compile Include="src\Vehicles\Managers\Satsuma\SatsumaBoltsAntiReload.cs" />
+    <Compile Include="src\Vehicles\Managers\Satsuma\SatsumaHingeManager.cs" />
     <Compile Include="src\Vehicles\Managers\Satsuma\SatsumaOnActionObjects.cs" />
+    <Compile Include="src\Vehicles\Managers\Satsuma\SatsumaRadiatorHoseFix.cs" />
     <Compile Include="src\Vehicles\Managers\Satsuma\SatsumaSeatsManager.cs" />
     <Compile Include="src\Vehicles\Managers\Satsuma\SatsumaPartMassManager.cs" />
     <Compile Include="src\Vehicles\Managers\TrailerLogUnderFloor.cs" />

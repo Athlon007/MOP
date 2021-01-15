@@ -40,7 +40,6 @@ namespace MOP.Common
                                 "<color=yellow>new [ModID]</color> - Create custom rule file (if no ModID is provided, will create Custom.txt)\n" +
                                 "<color=yellow>open [ModID]</color> - Opens the .modconfig for mod\n" +
                                 "<color=yellow>open-config</color> - Opens MOP config folder\n" +
-                                "<color=yellow>open-logs</color> - Opens logs folder\n" +
                                 "<color=yellow>delete [ModID]</color> - Delete rule file\n" +
                                 "<color=yellow>cat [File Name]</color> - Print the content of a rule file\n" +
                                 "<color=yellow>generate-list [true/false]</color> - Generates text files which contain the list of items that are toggled by MOP\n" +
@@ -223,9 +222,6 @@ namespace MOP.Common
                     break;
                 case "open-config":
                     Process.Start(MOP.ModConfigPath);
-                    break;
-                case "open-logs":
-                    Process.Start($"{Application.dataPath}/{ExceptionManager.LogFolder}");
                     break;
                 case "open":
                     if (args.Length == 1)

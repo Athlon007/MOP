@@ -53,9 +53,9 @@ namespace MOP
         public static string ModVersionShort { get => modVersion; }
 
         // BUTTONS
+        readonly Settings iFoundABug = new Settings("iFoundABug", "I found a bug", ExceptionManager.BugReport);
         readonly Settings faq = new Settings("faq", "FAQ", ExternalExecuting.OpenFAQDialog);
         readonly Settings wiki = new Settings("wiki", "Documentation", ExternalExecuting.OpenWikiDialog);
-        //readonly Settings patreon = new Settings("donatePatreon", "Patreon", ExternalExecuting.OpenPatreonDialog);
         readonly Settings paypal = new Settings("donatePaypal", "PayPal", ExternalExecuting.OpenPaypalDialog);
         readonly Settings homepage = new Settings("homepage", "Homepage", ExternalExecuting.OpenHomepageDialog);
 
@@ -92,7 +92,7 @@ namespace MOP
 
         // LOGGING
         readonly Settings openOutputLog = new Settings("openOutputLog", "Open output_log.txt", ExceptionManager.OpenOutputLog);
-        readonly Settings openLastLog = new Settings("openLastLog", "Open session log folder", ExceptionManager.OpenCurrentSessionLogFolder);
+        readonly Settings openLastLog = new Settings("openLastLog", "Open log folder", ExceptionManager.OpenCurrentSessionLogFolder);
         readonly Settings generateReport = new Settings("generateReport", "Generate mod report", ExceptionManager.GenerateReport);
         readonly Settings deleteAllLogs = new Settings("deleteAllLogs", "Delete all logs", ExceptionManager.DeleteAllLogs);
 
@@ -124,10 +124,10 @@ namespace MOP
             }
 
             // Links and utilities
+            Settings.AddButton(this, iFoundABug, new Color32(219, 182, 36, 255), new Color32(255, 226, 41, 255), new Color32(167, 139, 27, 255));
             Settings.AddButton(this, faq);
             Settings.AddButton(this, wiki);
             Settings.AddButton(this, homepage);
-            //Settings.AddButton(this, patreon, new Color32(249, 104, 84, 255), new Color32(5, 45, 73, 255), new Color32(249, 104, 84, 255));
             Settings.AddButton(this, paypal, new Color32(37, 59, 128, 255), new Color32(41, 151, 216, 255), new Color32(34, 45, 101, 255));
 
             // Activating Objects

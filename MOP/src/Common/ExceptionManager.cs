@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using UnityEngine;
+using Ionic.Zip;
 
 using MOP.Rules;
 
@@ -89,7 +90,7 @@ namespace MOP.Common
             }
             else
             {
-                ModUI.ShowMessage("No logs have been generated during this session.", "MOP");
+                ModUI.ShowMessage("Logs folder is doesn't exist.", "MOP");
             }
         }
 
@@ -235,12 +236,17 @@ namespace MOP.Common
 
         static bool LogDirectoryExists()
         {
-            return Directory.Exists($"{Application.dataPath}/{LogFolder}");
+            return Directory.Exists($"{GetRootPath()}/{LogFolder}");
         }
 
         static bool ThisSessionLogDirectoryExists()
         {
-            return Directory.Exists($"{Application.dataPath}/{LogFolder}");
+            return Directory.Exists($"{GetRootPath()}/{LogFolder}");
+        }
+
+        static string GetRootPath()
+        {
+            return Application.dataPath.Replace("mysummercar_Data", "");
         }
 
         /// <summary>
@@ -248,7 +254,7 @@ namespace MOP.Common
         /// </summary>
         public static void DeleteAllLogs()
         {
-            if (!Directory.Exists($"{Application.dataPath}/{LogFolder}"))
+            if (!Directory.Exists($"{GetRootPath()}/{LogFolder}"))
             {
                 ModUI.ShowMessage("Log folder doesn't exist.", "MOP");
                 return;
@@ -259,12 +265,71 @@ namespace MOP.Common
 
         static void DoDeleteAllLogs()
         {
-            Directory.Delete($"{Application.dataPath}/{LogFolder}", true);
+            Directory.Delete($"{GetRootPath()}/{LogFolder}", true);
         }
 
         static string GetOutputLogPath()
         {
-            return Application.dataPath.Replace("/mysummercar_Data", "") + "/output_log.txt";
+            return $"{GetRootPath()}/ output_log.txt";
+        }
+
+        public static void BugReport()
+        {
+            string bugReportPath = $"{GetRootPath()}/MOP_bugreport";
+            if (Directory.Exists(bugReportPath))
+            {
+                Directory.Delete(bugReportPath, true);
+            }
+
+            Directory.CreateDirectory(bugReportPath);
+
+            // Get output_log.txt
+            if (File.Exists($"{GetRootPath()}/output_log.txt"))
+            {
+                File.Copy($"{GetRootPath()}/output_log.txt", $"{bugReportPath}/output_log.txt");
+            }
+
+            // Now we are getting logs generated today.
+            string today = DateTime.Now.ToString("yyyy-MM-dd");
+            foreach (string log in Directory.GetFiles(GetLogFolder(), $"*{today}*.txt"))
+            {
+                string pathToFile = log.Replace("\\", "/");
+                string nameOfFile = log.Split('\\')[1];
+                ModConsole.Print(nameOfFile);
+                File.Copy(pathToFile, $"{bugReportPath}/{nameOfFile}");
+            }
+
+            using (StreamWriter sw = new StreamWriter($"{bugReportPath}/MOP_REPORT.txt"))
+            {
+                sw.WriteLine(GetGameInfo());
+            }
+
+            // Now we are packing up everything.
+            using (ZipFile zip = new ZipFile())
+            {
+                foreach (string file in Directory.GetFiles(bugReportPath, "*.txt"))
+                {
+                    zip.AddFile(file, "");
+                }
+
+                zip.Save($"{bugReportPath}/MOP Bug Report - {DateTime.Now:yyyy-MM-dd_HH-mm}.zip");
+            }
+
+            // Now we are deleting all .txt files.
+            foreach (string file in Directory.GetFiles(bugReportPath, "*.txt"))
+            {
+                File.Delete(file);
+            }
+
+            // Create the tutorial.
+            using (StreamWriter sw = new StreamWriter($"{bugReportPath}/README.txt"))
+            {
+                sw.WriteLine("A MOP report archive has been successfully generated.\n");
+                sw.WriteLine("Upload .zip file to some file hosting site, such as https://www.mediafire.com/.");
+            }
+
+            Process.Start(bugReportPath);
+            Process.Start($"{bugReportPath}/README.txt");
         }
     }
 }
