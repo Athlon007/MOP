@@ -1,6 +1,6 @@
 # Changelog
 
-## tba
+## 3.1 Beta 1 (15.01.2021)
 
 ### Added
 
@@ -27,6 +27,7 @@
 - Fixed "Open log folder" button not working
 - Fixed "Delete all logs" button not working
 - Fixed Satsuma doors occasionally having two FixedJoints, making the doors stuck
+- Fixed MOP potentially getting stuck on the "Loading Modern Optimization Plugin" load screen
 
 ### Removed
 

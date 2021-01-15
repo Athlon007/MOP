@@ -684,6 +684,15 @@ namespace MOP
                         }
                     }
                 }
+                else
+                {
+                    // We are slightly delaying the initialization, so all items have chance to set in place, because fuck MSC and its physics.
+                    waitTime += 1;
+                    if (waitTime >= WaitDone)
+                    {
+                        FinishLoading();
+                    }
+                }
 
                 lastPlayerPosition = player.position;
                 isPlayerAtYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, placeManager[0].transform.position) < 100
@@ -700,20 +709,9 @@ namespace MOP
                     inSectorMode = false;
                 }
 
-
                 // Disable Satsuma engine renderer, if player is in Satsuma
                 Satsuma.Instance.EngineCulling(!FsmManager.IsPlayerInSatsuma());
                 yield return null;
-
-                // We are slightly delaying the initialization, so all items have chance to set in place, because fuck MSC and its physics.
-                if (!itemInitializationDelayDone)
-                {
-                    waitTime += 1;
-                    if (waitTime >= WaitDone)
-                    {
-                        FinishLoading();
-                    }
-                }
 
                 int i;
                 long half = worldObjectManager.Count >> 1;
