@@ -322,9 +322,6 @@ namespace MOP.Vehicles
             // We're doing that AFTER we enable the object.
             if (enabled)
             {
-                gameObject.transform.localPosition = Position;
-                gameObject.transform.localRotation = Rotation;
-
                 MoveNonDisableableObjects(null);
 
                 if (vehicleType == VehiclesTypes.Kekmet && FsmManager.IsTrailerAttached())

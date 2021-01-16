@@ -61,9 +61,6 @@ namespace MOP.Vehicles.Cases
             if (!enabled)
             {
                 MoveNonDisableableObjects(temporaryParent);
-
-                Position = gameObject.transform.localPosition;
-                Rotation = gameObject.transform.localRotation;
             }
 
             gameObject.SetActive(enabled);
@@ -72,9 +69,6 @@ namespace MOP.Vehicles.Cases
             // We're doing that AFTER we enable the object.
             if (enabled)
             {
-                gameObject.transform.localPosition = Position;
-                gameObject.transform.localRotation = Rotation;
-
                 MoveNonDisableableObjects(null);
             }
         }

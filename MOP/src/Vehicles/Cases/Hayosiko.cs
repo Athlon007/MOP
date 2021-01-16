@@ -48,29 +48,25 @@ namespace MOP.Vehicles.Cases
         {
             if (!FsmManager.PlayerHasHayosikoKey())
             {
+                // We are using partial disabling to avoid any issues with MSC scripts relating uncle.
                 TogglePartial(enabled);
                 return;
             }
             else
             {
+                // We are not using partial disabling, if player has permanently obtained Hayosiko, as it is not needed anymore.
                 TogglePartial(true);
             }
 
             if (!enabled)
             {
                 MoveNonDisableableObjects(temporaryParent);
-
-                Position = gameObject.transform.localPosition;
-                Rotation = gameObject.transform.localRotation;
             }
 
             gameObject.SetActive(enabled);
 
             if (enabled)
             {
-                gameObject.transform.localPosition = Position;
-                gameObject.transform.localRotation = Rotation;
-
                 MoveNonDisableableObjects(null);
             }
         }
