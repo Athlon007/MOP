@@ -29,9 +29,9 @@ namespace MOP.Vehicles.Managers
     {
         // This class overwrites the hand throttle systems found in Kekmet and Gifu.
 
-        public Drivetrain drivetrain;
-        public AxisCarController axisCarController;
-        public FsmFloat handThrottleValue;
+        protected Drivetrain drivetrain;
+        protected AxisCarController axisCarController;
+        protected FsmFloat handThrottleValue;
 
         const float ThrottleMax = 1;
 
@@ -100,6 +100,7 @@ namespace MOP.Vehicles.Managers
             try
             {
                 key = transform.Find("LOD/Dashboard/KeyHole/Keys/Key").gameObject;
+                handThrottleValue.Value = 0.13f;
             }
             catch
             {
