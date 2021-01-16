@@ -56,8 +56,6 @@ namespace MOP.Vehicles.Cases
                 TogglePartial(true);
             }
 
-            // If we're disabling a car, set the audio child parent to TemporaryAudioParent, and save the position and rotation.
-            // We're doing that BEFORE we disable the object.
             if (!enabled)
             {
                 MoveNonDisableableObjects(temporaryParent);
@@ -68,8 +66,6 @@ namespace MOP.Vehicles.Cases
 
             gameObject.SetActive(enabled);
 
-            // Uppon enabling the object, set the localPosition and localRotation to the object's transform, and change audio source parents to Object
-            // We're doing that AFTER we enable the object.
             if (enabled)
             {
                 gameObject.transform.localPosition = Position;
