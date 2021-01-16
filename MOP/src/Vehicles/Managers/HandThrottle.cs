@@ -59,18 +59,18 @@ namespace MOP.Vehicles.Managers
             }
         }
 
-        internal void Invoke()
+        protected void Invoke()
         {
             InvokeRepeating("ThrottleUpdate", 0, 0.000015f);
         }
 
-        internal virtual void ThrottleUpdate()
+        protected virtual void ThrottleUpdate()
         {
             IdleThrottle = handThrottleValue.Value;
             Throttle = axisCarController.throttle + IdleThrottle;
         }
 
-        public float Throttle
+        protected float Throttle
         {
             get => drivetrain.throttle;
             set
@@ -82,7 +82,7 @@ namespace MOP.Vehicles.Managers
             }
         }
 
-        public float IdleThrottle
+        protected float IdleThrottle
         {
             get => drivetrain.idlethrottle;
             set => drivetrain.idlethrottle = value;
@@ -153,7 +153,7 @@ namespace MOP.Vehicles.Managers
             }
         }
 
-        override internal void ThrottleUpdate()
+        protected override void ThrottleUpdate()
         {
             base.ThrottleUpdate();
             MinRPM = IdleThrottle * 2500;
