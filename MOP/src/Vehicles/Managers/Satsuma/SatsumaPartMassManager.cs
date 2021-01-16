@@ -20,6 +20,7 @@ using System.Linq;
 using UnityEngine;
 
 using MOP.Common;
+using MOP.Vehicles.Cases;
 
 namespace MOP.Vehicles.Managers.SatsumaManagers
 {

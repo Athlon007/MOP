@@ -30,6 +30,7 @@ using MOP.FSM;
 using MOP.FSM.Actions;
 using MOP.Items;
 using MOP.Vehicles;
+using MOP.Vehicles.Cases;
 using MOP.Helpers;
 using MOP.Rules;
 using MOP.Rules.Types;

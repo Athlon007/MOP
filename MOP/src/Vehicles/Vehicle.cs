@@ -26,6 +26,7 @@ using MOP.FSM.Actions;
 using MOP.Items;
 using MOP.Common;
 using MOP.Common.Enumerations;
+using MOP.Vehicles.Cases;
 using MOP.Vehicles.Managers;
 using MOP.Rules;
 using MOP.Rules.Types;
@@ -177,9 +178,6 @@ namespace MOP.Vehicles
             // If the vehicle is Gifu, find knobs and add them to list of unloadable objects
             switch (vehicleType)
             {
-                case VehiclesTypes.Hayosiko:
-                    transform.Find("Odometer").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    break;
                 case VehiclesTypes.Gifu:
                     Transform knobs = gameObject.transform.Find("Dashboard/Knobs");
                     foreach (PlayMakerFSM knobsFSMs in knobs.GetComponentsInChildren<PlayMakerFSM>())
@@ -308,25 +306,11 @@ namespace MOP.Vehicles
         {
             if (gameObject == null || gameObject.activeSelf == enabled || !IsActive) return;
 
-            // Fix for when the player doesn't have keys for Hayosiko.
-            // Van will NOT be toggled
-            if (vehicleType == VehiclesTypes.Hayosiko && !FsmManager.PlayerHasHayosikoKey())
-            {
-                ToggleUnityCar(enabled);
-                return;
-            }
-
             // If we're disabling a car, set the audio child parent to TemporaryAudioParent, and save the position and rotation.
             // We're doing that BEFORE we disable the object.
             if (!enabled)
             {
-                for (int i = 0; i < preventToggleOnObjects.Count; i++)
-                {
-                    if (preventToggleOnObjects[i].ObjectTransform == null)
-                        continue;
-
-                    preventToggleOnObjects[i].ObjectTransform.parent = temporaryParent;
-                }
+                MoveNonDisableableObjects(temporaryParent);
 
                 Position = gameObject.transform.localPosition;
                 Rotation = gameObject.transform.localRotation;
@@ -341,13 +325,7 @@ namespace MOP.Vehicles
                 gameObject.transform.localPosition = Position;
                 gameObject.transform.localRotation = Rotation;
 
-                for (int i = 0; i < preventToggleOnObjects.Count; i++)
-                {
-                    if (preventToggleOnObjects[i].ObjectTransform == null)
-                        continue;
-
-                    preventToggleOnObjects[i].ObjectTransform.parent = preventToggleOnObjects[i].OriginalParent;
-                }
+                MoveNonDisableableObjects(null);
 
                 if (vehicleType == VehiclesTypes.Kekmet && FsmManager.IsTrailerAttached())
                 {
@@ -531,11 +509,15 @@ namespace MOP.Vehicles
         /// Returns true, if the root of Player object is this object.
         /// </summary>
         /// <returns></returns>
-        bool IsPlayerInThisCar()
+        protected bool IsPlayerInThisCar()
         {
             return Hypervisor.Instance.GetPlayer().transform.root == gameObject.transform;
         }
 
+        /// <summary>
+        /// Creates a hit collider around the car and checks if object of which root is NPC_CARS or TRAFFIC is in this zone.
+        /// </summary>
+        /// <returns></returns>
         public bool IsTrafficCarInArea()
         {
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, 5);
@@ -546,6 +528,22 @@ namespace MOP.Vehicles
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Moves objects that can never be disabled to the parent variable.
+        /// If parent is set to null, the object will be moved to its original parent.
+        /// </summary>
+        /// <param name="parent"></param>
+        protected void MoveNonDisableableObjects(Transform parent)
+        {
+            for (int i = 0; i < preventToggleOnObjects.Count; i++)
+            {
+                if (preventToggleOnObjects[i].ObjectTransform == null)
+                    continue;
+
+                preventToggleOnObjects[i].ObjectTransform.parent = parent == null ? preventToggleOnObjects[i].OriginalParent : parent;
+            }
         }
     }
 }

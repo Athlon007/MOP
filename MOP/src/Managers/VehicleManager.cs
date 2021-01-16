@@ -21,6 +21,7 @@ using System.Linq;
 using UnityEngine;
 
 using MOP.Vehicles;
+using MOP.Vehicles.Cases;
 using MOP.Common;
 using MOP.Common.Enumerations;
 
@@ -81,6 +82,9 @@ namespace MOP.Managers
                             break;
                         case "COMBINE(350-400psi)":
                             newVehicle = new Combine(vehicle);
+                            break;
+                        case "HAYOSIKO(1500kg, 250)":
+                            newVehicle = new Hayosiko(vehicle);
                             break;
                     }
 

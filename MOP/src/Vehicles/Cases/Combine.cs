@@ -18,7 +18,7 @@ using MOP.FSM;
 using MOP.Rules;
 using MOP.Rules.Types;
 
-namespace MOP.Vehicles
+namespace MOP.Vehicles.Cases
 {
     class Combine : Vehicle
     {

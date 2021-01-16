@@ -23,7 +23,7 @@ using UnityEngine;
 using MOP.Common;
 using MOP.FSM.Actions;
 using MOP.Managers;
-using MOP.Vehicles;
+using MOP.Vehicles.Cases;
 using MOP.Items.Cases;
 using MOP.Rules;
 using MOP.Rules.Types;

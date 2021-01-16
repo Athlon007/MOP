@@ -105,6 +105,7 @@
     <Compile Include="src\Sector.cs" />
     <Compile Include="src\Places\Cases\Yard.cs" />
     <Compile Include="src\Vehicles\Cases\Combine.cs" />
+    <Compile Include="src\Vehicles\Cases\Hayosiko.cs" />
     <Compile Include="src\Vehicles\Managers\BusRollFix.cs" />
     <Compile Include="src\FSM\Actions\CustomPlayMakerFixedUpdate.cs" />
     <Compile Include="src\Vehicles\Managers\HandThrottle.cs" />

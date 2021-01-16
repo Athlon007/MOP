@@ -27,7 +27,7 @@ using MOP.Vehicles.Managers.SatsumaManagers;
 using MOP.Rules;
 using MOP.Rules.Types;
 
-namespace MOP.Vehicles
+namespace MOP.Vehicles.Cases
 {
     class Satsuma : Vehicle
     {
@@ -426,6 +426,11 @@ namespace MOP.Vehicles
         /// </summary>
         new void ToggleActive(bool enabled)
         {
+            if (this.IsPlayerInThisCar())
+            {
+                enabled = true;
+            }
+
             if (enabled && rearBumperTrigger.activeSelf && rearBumper.activeSelf)
             {
                 DoBumperFix();

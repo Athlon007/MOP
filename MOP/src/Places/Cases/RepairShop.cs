@@ -17,7 +17,8 @@
 using MSCLoader;
 using System.Collections.Generic;
 using UnityEngine;
-using MOP.Vehicles;
+
+using MOP.Vehicles.Cases;
 
 namespace MOP.Places
 {

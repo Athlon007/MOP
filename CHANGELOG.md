@@ -1,5 +1,11 @@
 # Changelog
 
+## tba
+
+### Changes
+
+- Improved Hayosiko disabling during early part of the game
+
 ## 3.1 Beta 1 (15.01.2021)
 
 ### Added

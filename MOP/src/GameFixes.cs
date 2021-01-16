@@ -29,6 +29,7 @@ using MOP.FSM;
 using MOP.FSM.Actions;
 using MOP.Items;
 using MOP.Vehicles;
+using MOP.Vehicles.Cases;
 using MOP.Vehicles.Managers;
 using MOP.Vehicles.Managers.SatsumaManagers;
 using MOP.Helpers;

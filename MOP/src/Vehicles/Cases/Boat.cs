@@ -19,7 +19,7 @@ using UnityEngine;
 using MOP.Rules;
 using MOP.Rules.Types;
 
-namespace MOP.Vehicles
+namespace MOP.Vehicles.Cases
 {
     class Boat : Vehicle
     {
@@ -60,8 +60,7 @@ namespace MOP.Vehicles
             // We're doing that BEFORE we disable the object.
             if (!enabled)
             {
-                for (int i = 0; i < preventToggleOnObjects.Count; i++)
-                    preventToggleOnObjects[i].ObjectTransform.parent = temporaryParent;
+                MoveNonDisableableObjects(temporaryParent);
 
                 Position = gameObject.transform.localPosition;
                 Rotation = gameObject.transform.localRotation;
@@ -76,8 +75,7 @@ namespace MOP.Vehicles
                 gameObject.transform.localPosition = Position;
                 gameObject.transform.localRotation = Rotation;
 
-                for (int i = 0; i < preventToggleOnObjects.Count; i++)
-                    preventToggleOnObjects[i].ObjectTransform.parent = preventToggleOnObjects[i].OriginalParent;
+                MoveNonDisableableObjects(null);
             }
         }
 
