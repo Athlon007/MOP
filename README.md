@@ -54,6 +54,12 @@ This program is distributed under GNU General Public License v3. Feel free to us
 - FESilencer - for helping me figure out how PlayMaker actions work
 - Icon made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](www.flaticon.com)
 
+### Testers
+
+- Mazdafanboy69
+- CatAtTheDesert
+- Slavic_Dude001
+
 ## Support
 
 Do you like MOP? Consider buying me a beer :)
