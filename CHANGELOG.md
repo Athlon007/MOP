@@ -5,6 +5,7 @@
 ### Changes
 
 - Improved Hayosiko disabling during early part of the game
+- Changed how vehicle position is verified
 
 ## 3.1 Beta 2 (16.01.2021)
 
