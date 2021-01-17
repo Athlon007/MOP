@@ -281,11 +281,6 @@ namespace MOP.Items
 
         void TogglePhysicsOnly(bool enabled)
         {
-            if (gameObject.name == "fish trap(itemx)")
-            {
-                ModConsole.Print(gameObject.name + " " + enabled);
-            }
-
             try
             {
                 // If the item has fallen under the detection range of the game's built in garbage collector,
