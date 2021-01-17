@@ -812,12 +812,12 @@ namespace MOP
 
                         if (toEnable)
                         {
-                            if (ItemsManager.Instance.ItemsHooks[i].gameObject.activeSelf) continue;
+                            if (ItemsManager.Instance.ItemsHooks[i].ActiveSelf) continue;
                             itemsToEnable.Add(ItemsManager.Instance.ItemsHooks[i]);
                         }
                         else
                         {
-                            if (!ItemsManager.Instance.ItemsHooks[i].gameObject.activeSelf) continue;
+                            if (!ItemsManager.Instance.ItemsHooks[i].ActiveSelf) continue;
                             itemsToDisable.Add(ItemsManager.Instance.ItemsHooks[i]);
                         }
                     }

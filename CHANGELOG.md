@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.1 Beta 3 (17.01.2021)
+
+### Bug Fixes
+
+- Beta: Fixed items that use TogglePhysicsOnly method of disabling not being enabled back properly
+
 ## 3.1 Beta 2 (16.01.2021)
 
 ### Bug Fixes
