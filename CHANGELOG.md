@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.1 Beta 4 (17.01.2021)
+
+### Bug Fixes
+
+- Fixed hiking grandma animation playing while she's sitting in the car
+
 ## 3.1 Beta 3 (17.01.2021)
 
 ### Bug Fixes

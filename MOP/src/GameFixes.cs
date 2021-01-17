@@ -347,6 +347,32 @@ namespace MOP
                 ExceptionManager.New(ex, false, "STRAWBERRY_FIELD_FSM");
             }
 
+            // GrandmaHiker fixes.
+            try
+            {
+                GameObject grandmaHiker = GameObject.Find("GrannyHiker");
+                if (grandmaHiker)
+                {
+                    GameObject skeleton = grandmaHiker.transform.Find("Char/skeleton").gameObject;
+
+                    PlayMakerFSM logicFSM = grandmaHiker.GetPlayMakerByName("Logic");
+
+                    FsmState openDoorFsmState = logicFSM.FindFsmState("Open door");
+                    List<FsmStateAction> openDoorActions = openDoorFsmState.Actions.ToList();
+                    openDoorActions.Add(new GrandmaHikerDisable(skeleton));
+                    openDoorFsmState.Actions = openDoorActions.ToArray();
+
+                    FsmState setMass2State = logicFSM.FindFsmState("Set mass 2");
+                    List<FsmStateAction> setMass2Actions = setMass2State.Actions.ToList();
+                    setMass2Actions.Add(new GrandmaHikerEnable(skeleton));
+                    setMass2State.Actions = setMass2Actions.ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "GRANDMA_HIKER_FIXES");
+            }
+
             ModConsole.Print("[MOP] Finished applying fixes");
         }
 
