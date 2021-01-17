@@ -75,6 +75,9 @@ namespace MOP.Places
             // Remove fridge mesh from the list of disabled objects
             Transform fridgeMesh = DisableableChilds.Find(w => w.name == "mesh" && w.transform.parent.name == "Fridge");
             DisableableChilds.Remove(fridgeMesh);
+
+            // Disable restarting of FSM in UNCLE object.
+            transform.Find("UNCLE").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
         }
     }
 }
