@@ -81,6 +81,7 @@
     <Compile Include="src\Common\Enumerations\ToggleModes.cs" />
     <Compile Include="src\Common\Enumerations\VehiclesTypes.cs" />
     <Compile Include="src\FSM\Actions\CustomCreateObject.cs" />
+    <Compile Include="src\FSM\Actions\GrandmaHiker.cs" />
     <Compile Include="src\GameFixes.cs" />
     <Compile Include="src\Items\Cases\SuitcaseMoneyBehaviour.cs" />
     <Compile Include="src\Items\Cases\ThrowableJunkBehaviour.cs" />
