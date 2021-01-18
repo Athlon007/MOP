@@ -359,12 +359,12 @@ namespace MOP
 
                     FsmState openDoorFsmState = logicFSM.FindFsmState("Open door");
                     List<FsmStateAction> openDoorActions = openDoorFsmState.Actions.ToList();
-                    openDoorActions.Add(new GrandmaHikerDisable(skeleton));
+                    openDoorActions.Add(new GrandmaHiker(skeleton, false));
                     openDoorFsmState.Actions = openDoorActions.ToArray();
 
                     FsmState setMass2State = logicFSM.FindFsmState("Set mass 2");
                     List<FsmStateAction> setMass2Actions = setMass2State.Actions.ToList();
-                    setMass2Actions.Add(new GrandmaHikerEnable(skeleton));
+                    setMass2Actions.Add(new GrandmaHiker(skeleton, true));
                     setMass2State.Actions = setMass2Actions.ToArray();
                 }
             }

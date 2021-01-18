@@ -1,24 +1,6 @@
 # Changelog
 
-## 3.1 Beta 4 (17.01.2021)
-
-### Bug Fixes
-
-- Fixed hiking grandma animation playing while she's sitting in the car
-
-## 3.1 Beta 3 (17.01.2021)
-
-### Bug Fixes
-
-- Beta: Fixed items that use TogglePhysicsOnly method of disabling not being enabled back properly
-
-## 3.1 Beta 2 (16.01.2021)
-
-### Bug Fixes
-
--  Fixed Gifu possibly stalling, if hand throttle hasn't been adjusted
-
-## 3.1 Beta 1 (15.01.2021)
+## 3.1 (18.01.2021)
 
 ### Added
 
@@ -46,6 +28,8 @@
 - Fixed "Delete all logs" button not working
 - Fixed Satsuma doors occasionally having two FixedJoints, making the doors stuck
 - Fixed MOP potentially getting stuck on the "Loading Modern Optimization Plugin" load screen
+- Fixed Gifu possibly stalling, if hand throttle hasn't been adjusted
+- Fixed hiking grandma animation playing while she's sitting in the car
 
 ### Removed
 
