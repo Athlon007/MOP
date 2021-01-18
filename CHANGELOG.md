@@ -6,7 +6,7 @@
 
 - Traffic vehicle renderers are now being disabled when not needed
 - Added "I found a bug" button in MOP settings
-  - Generates a .zip fiel that contains output_log.txt, MOP report and all today MOP logs
+  - Generates a .zip file that contains output_log.txt, MOP report and all today MOP logs
 
 ### Changes
 
