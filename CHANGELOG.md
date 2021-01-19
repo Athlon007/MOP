@@ -1,5 +1,13 @@
 # Changelog
 
+## tba (tba)
+
+### Bug Fixes
+
+- Boombox is no longer getting disabled if it's playing music
+- Fixed MOP not being able to find the can trigger at Jokke
+- Possibly fixed renderer and physics being stuck disabled in some cases
+
 ## 3.1 (18.01.2021)
 
 ### Added

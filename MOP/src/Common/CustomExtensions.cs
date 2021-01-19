@@ -229,5 +229,22 @@ namespace MOP.Common
             newList.RemoveAt(index);
             return newList.ToArray<FsmStateAction>();
         }
+
+        public static string GetGameObjectPath(this Transform transform)
+        {
+            string path = "/" + transform.name;
+            while (transform.parent != null)
+            {
+                transform = transform.parent;
+                path = transform.parent + "/" + path;
+            }
+
+            return path;
+        }
+
+        public static string GetGameObjectPath(this GameObject gameObject)
+        {
+            return GetGameObjectPath(gameObject.transform);
+        }
     }
 }

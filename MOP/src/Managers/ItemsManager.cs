@@ -297,17 +297,18 @@ namespace MOP.Managers
             return lostSpawner;
         }
 
+
+        GameObject canTrigger;
         /// <summary>
         /// Returns the position of Jokke's kilju can trigger.
         /// </summary>
         /// <returns></returns>
-        public Transform GetCanTrigger()
+        public GameObject GetCanTrigger()
         {
-            Transform canTrigger = GameObject.Find("JOBS").transform.Find("HouseDrunkNew/BeerCampNew/BeerCamp/KiljuBuyer/CanTrigger");
-
-            // If canTrigger object is not located at new house, get one from the old Jokke's house.
-            if (canTrigger == null)
-                canTrigger = GameObject.Find("JOBS").transform.Find("HouseDrunk/BeerCampOld/BeerCamp/KiljuBuyer/CanTrigger");
+            if (!canTrigger)
+            {
+                canTrigger = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "CanTrigger").gameObject;
+            }
 
             return canTrigger;
         }

@@ -25,6 +25,7 @@ using MOP.FSM.Actions;
 using MOP.Managers;
 using MOP.Vehicles;
 using MOP.Items.Cases;
+using MOP.Items.Helpers;
 using MOP.Rules;
 using MOP.Rules.Types;
 
@@ -36,7 +37,21 @@ namespace MOP.Items
         // ObjectHook class by Konrad "Athlon" Figura
 
         bool firstLoad;
-        public bool DontDisable;
+        bool dontDisable;
+        internal bool DontDisable
+        {
+            get => dontDisable;
+            set
+            {
+                if (!value && dontDisable)
+                {
+                    TogglePhysicsOnly(true);
+                }
+
+                dontDisable = value;
+            }
+        }
+        //public bool DontDisable;
 
         readonly Rigidbody rb;
         readonly Renderer renderer;
@@ -150,7 +165,7 @@ namespace MOP.Items
             // If that's the case, we teleport the object to lost item spawner (junkyard).
             if (gameObject.name.Equals("empty plastic can(itemx)"))
             {
-                if (Vector3.Distance(position, ItemsManager.Instance.GetCanTrigger().position) < 2)
+                if (Vector3.Distance(position, ItemsManager.Instance.GetCanTrigger().transform.position) < 2)
                 {
                     position = ItemsManager.Instance.GetLostItemsSpawner().position;
                     return;
@@ -272,6 +287,20 @@ namespace MOP.Items
                 if ((CompatibilityManager.CarryMore || CompatibilityManager.CarryEvenMore) && transform.position.y < -900)
                 {
                     return;
+                }
+
+                // Fixing issue with objects not getting re-enabled (I hope).
+                if (renderer != null && renderer.enabled == false)
+                {
+                    renderer.enabled = true;
+                }
+
+                // Fixing disabled physics.
+                if (rb != null && (rb.isKinematic || !rb.useGravity || !rb.detectCollisions))
+                {
+                    rb.isKinematic = false;
+                    rb.useGravity = true;
+                    rb.detectCollisions = true;
                 }
 
                 gameObject.SetActive(enabled);
@@ -442,6 +471,9 @@ namespace MOP.Items
                 case "suitcase(itemx)":
                     transform.Find("Money").gameObject.AddComponent<SuitcaseMoneyBehaviour>();
                     break;
+                case "radio(itemx)":
+                    transform.Find("Channel").gameObject.AddComponent<RadioDisable>();
+                    break;
             }
 
             PlayMakerFSM paintFSM = gameObject.GetPlayMakerByName("Paint");
@@ -460,7 +492,7 @@ namespace MOP.Items
             // teleport the object to LostSpawner (junk yard).
             if (gameObject.name.ContainsAny("empty plastic can", "kilju"))
             {
-                if (Vector3.Distance(transform.position, ItemsManager.Instance.GetCanTrigger().position) < 2)
+                if (Vector3.Distance(transform.position, ItemsManager.Instance.GetCanTrigger().transform.position) < 2)
                 {
                     transform.position = ItemsManager.Instance.GetLostItemsSpawner().position;
                     return;

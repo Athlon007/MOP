@@ -86,6 +86,7 @@
     <Compile Include="src\Items\Cases\SuitcaseMoneyBehaviour.cs" />
     <Compile Include="src\Items\Cases\ThrowableJunkBehaviour.cs" />
     <Compile Include="src\Items\Helpers\CashRegisterBehaviour.cs" />
+    <Compile Include="src\Items\Helpers\RadioDisable.cs" />
     <Compile Include="src\Items\ItemFreezer.cs" />
     <Compile Include="src\Items\Helpers\WheelRepairJobTrigger.cs" />
     <Compile Include="src\Managers\ItemsManager.cs" />

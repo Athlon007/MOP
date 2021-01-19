@@ -1131,7 +1131,15 @@ namespace MOP
             {
                 if (mode == ToggleAllMode.OnSave)
                 {
-                    ItemsManager.Instance.GetCanTrigger().gameObject.GetComponent<PlayMakerFSM>().SendEvent("STOP");
+                    GameObject canTrigger = ItemsManager.Instance.GetCanTrigger();
+                    if (canTrigger)
+                    {
+                        if (!canTrigger.transform.parent.gameObject.activeSelf)
+                        {
+                            canTrigger.transform.parent.gameObject.SetActive(true);
+                        }
+                        canTrigger.GetComponent<PlayMakerFSM>().SendEvent("STOP");
+                    }
                 }
             }
             catch (Exception ex)

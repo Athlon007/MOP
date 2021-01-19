@@ -301,7 +301,16 @@ namespace MOP.Vehicles
                          && g.transform.root == this.gameObject.transform)
                 .ToArray();
             foreach (GameObject part in suspensionParts)
-                part.AddComponent<SatsumaPartMassManager>();
+            {
+                try
+                {
+                    part.AddComponent<SatsumaPartMassManager>();
+                }
+                catch
+                {
+                    ExceptionManager.New(new System.Exception("SatsumaPartMassManager: Suspension"), false, "SatsumaPartsMassManager: Adding to suspension parts");
+                }
+            }
             // Appparently not only suspension fucks over the Satsuma...
             GameObject[] others = Resources.FindObjectsOfTypeAll<GameObject>()
                 .Where(g => g.name.EqualsAny("grille gt(Clone)", "grille(Clone)", "subwoofer panel(Clone)",
@@ -309,7 +318,16 @@ namespace MOP.Vehicles
                 "radiator hose1(xxxxx)", "radiator hose3(xxxxx)", "marker light left(xxxxx)", "marker light right(xxxxx)", "antenna(leftx)",
                 "antenna(right)", "dashboard(Clone)")).ToArray();
             foreach (GameObject other in others)
-                other.AddComponent<SatsumaPartMassManager>();
+            {
+                try
+                {
+                    other.AddComponent<SatsumaPartMassManager>();
+                }
+                catch
+                {
+                    ExceptionManager.New(new System.Exception("SatsumaPartMassManager: Others"), false, "SatsumaPartsMassManager: Others adding.");
+                }
+            }
 
             key = transform.Find("Dashboard/Steering/steering_column2/Ignition/Keys/Key").gameObject;
             cooldownTick = GameObject.Find("block(Clone)").transform.Find("CooldownTick").gameObject;

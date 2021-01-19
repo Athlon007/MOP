@@ -35,46 +35,67 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
             if (!isClean)
             {
                 isClean = true;
-                PlayMakerFSM removalFSM = gameObject.GetPlayMakerByName("Removal");
-                objectMass = removalFSM.FsmVariables.GetFsmFloat("Mass").Value;
-                carMass = PlayMakerGlobals.Instance.Variables.FindFsmFloat("CarMass");
-                if (this.gameObject.name.ContainsAny("strut", "antenna", "marker light"))
-                {
-                    FsmState disableTrigger = removalFSM.FindFsmState("Disable trigger");
-                    List<FsmStateAction> actionList = disableTrigger.Actions.ToList();
-                    actionList.RemoveAt(0);
-                    disableTrigger.Actions = actionList.ToArray();
 
-                    FsmState removePart = removalFSM.FindFsmState("Remove part");
-                    List<FsmStateAction> rpActionList = removePart.Actions.ToList();
-                    rpActionList.RemoveAt(9);
-                    removePart.Actions = rpActionList.ToArray();
-                }
-                else
+                try
                 {
-                    FsmState disableTrigger = removalFSM.FindFsmState("Add mass");
-                    List<FsmStateAction> actionList = disableTrigger.Actions.ToList();
-                    actionList.RemoveAt(0);
-                    disableTrigger.Actions = actionList.ToArray();
+                    PlayMakerFSM removalFSM = gameObject.GetPlayMakerByName("Removal");
 
-                    FsmState removePart = removalFSM.FindFsmState("Remove part");
-                    List<FsmStateAction> rpActionList = removePart.Actions.ToList();
-                    rpActionList.RemoveAt(7);
-                    removePart.Actions = rpActionList.ToArray();
+                    if (!removalFSM)
+                    {
+                        throw new System.Exception($"SatsumaPartMassManager: {gameObject.name} - Removal PlayMakerFSM is missing!\n\n" +
+                                                   $"Path: {gameObject.GetGameObjectPath()}");
+                    }
+
+                    objectMass = removalFSM.FsmVariables.GetFsmFloat("Mass").Value;
+                    carMass = PlayMakerGlobals.Instance.Variables.FindFsmFloat("CarMass");
+                    if (this.gameObject.name.ContainsAny("strut", "antenna", "marker light"))
+                    {
+                        FsmState disableTrigger = removalFSM.FindFsmState("Disable trigger");
+                        List<FsmStateAction> actionList = disableTrigger.Actions.ToList();
+                        actionList.RemoveAt(0);
+                        disableTrigger.Actions = actionList.ToArray();
+
+                        FsmState removePart = removalFSM.FindFsmState("Remove part");
+                        List<FsmStateAction> rpActionList = removePart.Actions.ToList();
+                        rpActionList.RemoveAt(9);
+                        removePart.Actions = rpActionList.ToArray();
+                    }
+                    else
+                    {
+                        FsmState disableTrigger = removalFSM.FindFsmState("Add mass");
+                        List<FsmStateAction> actionList = disableTrigger.Actions.ToList();
+                        actionList.RemoveAt(0);
+                        disableTrigger.Actions = actionList.ToArray();
+
+                        FsmState removePart = removalFSM.FindFsmState("Remove part");
+                        List<FsmStateAction> rpActionList = removePart.Actions.ToList();
+                        rpActionList.RemoveAt(7);
+                        removePart.Actions = rpActionList.ToArray();
+                    }
+
+                    if (this.gameObject.activeSelf)
+                    {
+                        carMass.Value -= objectMass;
+                    }
                 }
-                
-                if (this.gameObject.activeSelf)
-                    carMass.Value -= objectMass;
+                catch
+                {
+                    throw new System.Exception($"SatsumaPartMassManager: There has been a problem with {gameObject.GetGameObjectPath()}");
+                }
             }
 
             if (gameObject.transform.root.gameObject == Satsuma.Instance.gameObject)
+            {
                 carMass.Value += objectMass;
+            }
         }
 
         void OnDisable()
         {
             if (gameObject.transform.root.gameObject == Satsuma.Instance.gameObject)
+            {
                 carMass.Value -= objectMass;
+            }
         }
     }
 }
