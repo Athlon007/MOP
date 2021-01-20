@@ -4,10 +4,12 @@
 
 ### Bug Fixes
 
-- Boombox is no longer getting disabled if it's playing music
+- Boombox is no longer disabled by MOP, if it's playing music
 - Fixed MOP not being able to find the can trigger at Jokke
-- Possibly fixed renderer and physics being stuck disabled in some cases
-- Fixed Kekmet and trailer not being connected together, if game was saved with trailer being attached to the tractor
+- In some cases physics and mesh renderer of the object could get stuck disabled, this is now fixed
+
+- Fixed Kekmet and trailer not being connected together, if the game was saved with trailer being attached to the tractor
+- Fixed items clipping through vehicles in Performance mode
 
 ## 3.1 (18.01.2021)
 

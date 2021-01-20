@@ -985,9 +985,7 @@ namespace MOP
         bool IsVehicleEnabled(float distance, float toggleDistance = 200)
         {
             if (inSectorMode)
-                toggleDistance = 30;            
-            else if (MopSettings.Mode == PerformanceMode.Performance)
-                toggleDistance = 100;
+                toggleDistance = 30; 
 
             return distance < toggleDistance;
         }
@@ -1069,6 +1067,26 @@ namespace MOP
             }
 
             if (MopSettings.Mode == PerformanceMode.Safe) return;
+            
+            // Items
+            for (int i = 0; i < ItemsManager.Instance.ItemsHooks.Count; i++)
+            {
+                try
+                {
+                    ItemBehaviour item = ItemsManager.Instance.ItemsHooks[i];
+                    item.Toggle(enabled);
+
+                    // We're freezing the object on save, so it won't move at all.
+                    if (mode == ToggleAllMode.OnSave)
+                    {
+                        item.Freeze();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, false, "TOGGLE_ALL_ITEMS_ERROR");
+                }
+            }
 
             // Vehicles
             for (int i = 0; i < vehicleManager.Count; i++)
@@ -1093,25 +1111,6 @@ namespace MOP
                 }
             }
 
-            // Items
-            for (int i = 0; i < ItemsManager.Instance.ItemsHooks.Count; i++)
-            {
-                try
-                {
-                    ItemBehaviour item = ItemsManager.Instance.ItemsHooks[i];
-                    item.Toggle(enabled);
-
-                    // We're freezing the object on save, so it won't move at all.
-                    if (mode == ToggleAllMode.OnSave)
-                    {
-                        item.Freeze();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ExceptionManager.New(ex, false, "TOGGLE_ALL_ITEMS_ERROR");
-                }
-            }
 
             // Places
             for (int i = 0; i < placeManager.Count; i++)
