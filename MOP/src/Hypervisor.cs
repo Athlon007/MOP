@@ -843,7 +843,7 @@ namespace MOP
                         }
                         catch (Exception ex)
                         {
-                            ExceptionManager.New(ex, false, "ITEM_TOGGLE_ENABLE_ERROR");
+                            ExceptionManager.New(ex, false, "ITEM_TOGGLE_DISABLE_ERROR - " + itemsToDisable[i] != null ? itemsToDisable[i].gameObject.name : "null");
                         }
                     }
                 }
@@ -902,7 +902,7 @@ namespace MOP
                         }
                         catch (Exception ex)
                         {
-                            ExceptionManager.New(ex, false, "ITEM_TOGGLE_ENABLE_ERROR");
+                            ExceptionManager.New(ex, false, "ITEM_TOGGLE_ENABLE_ERROR - " + itemsToEnable[i] != null ? itemsToDisable[i].gameObject.name : "null");
                         }
                     }
                 }

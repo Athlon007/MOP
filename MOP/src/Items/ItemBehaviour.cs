@@ -33,10 +33,8 @@ namespace MOP.Items
 {
     class ItemBehaviour : MonoBehaviour
     {
-        // This MonoBehaviour hooks to all items from shop and other interactable ones. (Such as sausages, or beer cases)
-        // ObjectHook class by Konrad "Athlon" Figura
-
         bool firstLoad;
+
         bool dontDisable;
         internal bool DontDisable
         {
@@ -51,10 +49,9 @@ namespace MOP.Items
                 dontDisable = value;
             }
         }
-        //public bool DontDisable;
 
         readonly Rigidbody rb;
-        readonly Renderer renderer;
+        Renderer renderer;
 
         Vector3 position;
 
@@ -68,25 +65,7 @@ namespace MOP.Items
                 Destroy(this);
             }
 
-            Toggle = ToggleActive;
-
-            IgnoreRule rule = RulesManager.Instance.IgnoreRules.Find(f => f.ObjectName == this.gameObject.name);
-            if (rule != null)
-            {
-                Toggle = TogglePhysicsOnly;
-
-                if (rule.TotalIgnore)
-                {
-                    Destroy(this);
-                    return;
-                }
-            }
-
-            // This items cannot be fully disabled, for one reason or another.
-            if (this.gameObject.name.EqualsAny("fish trap(itemx)", "bucket(itemx)", "pike(itemx)", "envelope(xxxxx)", "lottery ticket(xxxxx)"))
-            {
-                Toggle = TogglePhysicsOnly;
-            }
+            SetInitialTogglingMethod();
 
             // Get object's components
             rb = GetComponent<Rigidbody>();
@@ -126,12 +105,6 @@ namespace MOP.Items
                     ItemsManager.Instance.Remove(this);
                     Destroy(this.gameObject);
                 }
-            }
-
-            // If ignore, don't disable renderer.
-            if (rule != null)
-            {
-                renderer = null;
             }
 
             position = transform.position;
@@ -177,6 +150,12 @@ namespace MOP.Items
         {
             // Add self to the MinorObjects.objectHooks list
             ItemsManager.Instance.Add(this);
+
+            // Fixes a bug which would cause Toggle delegate being null.
+            if (Toggle == null)
+            {
+                SetInitialTogglingMethod();
+            }
         }
 
         // Triggered before the object is destroyed.
@@ -184,6 +163,11 @@ namespace MOP.Items
         public void RemoveSelf()
         {
             ItemsManager.Instance.Remove(this);
+        }
+
+        void OnDestroy()
+        {
+            RemoveSelf();
         }
 
         public delegate void ToggleHandler(bool enabled);
@@ -506,5 +490,37 @@ namespace MOP.Items
         /// Checks what disabling method object uses and then returns the correct value for that object.
         /// </summary>
         public bool ActiveSelf => (Toggle == TogglePhysicsOnly) ? rb.detectCollisions : gameObject.activeSelf;
+
+        /// <summary>
+        /// Sets up the toggling method.
+        /// </summary>
+        private void SetInitialTogglingMethod()
+        {
+            Toggle = ToggleActive;
+
+            IgnoreRule rule = RulesManager.Instance.IgnoreRules.Find(f => f.ObjectName == this.gameObject.name);
+            if (rule != null)
+            {
+                Toggle = TogglePhysicsOnly;
+
+                if (rule.TotalIgnore)
+                {
+                    Destroy(this);
+                    return;
+                }
+            }
+
+            // This items cannot be fully disabled, for one reason or another.
+            if (this.gameObject.name.EqualsAny("fish trap(itemx)", "bucket(itemx)", "pike(itemx)", "envelope(xxxxx)", "lottery ticket(xxxxx)"))
+            {
+                Toggle = TogglePhysicsOnly;
+            }
+
+            // If ignore, don't disable renderer.
+            if (rule != null)
+            {
+                renderer = null;
+            }
+        }
     }
 }

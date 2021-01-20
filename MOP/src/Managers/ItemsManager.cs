@@ -177,11 +177,24 @@ namespace MOP.Managers
                 gameObject.AddComponent<ThrowableJunkBehaviour>();
             }
 
-            // Hook the prefab of firewood log.
-            GameObject firewoodPrefab = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(f => f.name == "firewood" && f.GetComponent<PlayMakerFSM>() == null).gameObject;
+            // Hook the prefab of firewood.
+            GameObject firewoodPrefab = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(f => f.name.EqualsAny("firewood") && f.GetComponent<PlayMakerFSM>() == null).gameObject;
             if (firewoodPrefab)
             {
                 firewoodPrefab.AddComponent<ItemBehaviour>();
+            }
+
+            // Hook the prefab of log.
+            GameObject logPrefab = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(f => f.name.EqualsAny("log") && f.GetComponent<PlayMakerFSM>() == null).gameObject;
+            if (logPrefab)
+            {
+                logPrefab.AddComponent<ItemBehaviour>();
+                logPrefab.transform.Find("log(Clone)").gameObject.AddComponent<ItemBehaviour>();
+            }
+
+            foreach (var f in Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "log(Clone)"))
+            {
+                f.AddComponent<ItemBehaviour>();
             }
         }
 

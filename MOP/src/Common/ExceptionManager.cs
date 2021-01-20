@@ -151,7 +151,7 @@ namespace MOP.Common
             output += $"ToggleVehiclePhysicsOnly: {RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";
             output += $"IgnoreModVehicles: {RulesManager.Instance.SpecialRules.IgnoreModVehicles}\n";
             output += $"EnableFramerateLimiter: {(bool)MOP.EnableFramerateLimiter.GetValue()}\n";
-            output += $"FramerateLimiter: {MOP.FramerateLimiter.GetValue()}\n";
+            output += $"FramerateLimiter: {int.Parse(MOP.FramerateLimiterText[int.Parse(MOP.FramerateLimiter.GetValue().ToString())])}\n";
             output += $"EnableShadowAdjusting: {(bool)MOP.EnableShadowAdjusting.GetValue()}\n";
             output += $"KeepRunningInBackground: {(bool)MOP.KeepRunningInBackground.GetValue()}\n";
             output += $"DynamicDrawDistance: {(bool)MOP.DynamicDrawDistance.GetValue()}\n";
