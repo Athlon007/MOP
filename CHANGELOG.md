@@ -7,6 +7,7 @@
 - Boombox is no longer getting disabled if it's playing music
 - Fixed MOP not being able to find the can trigger at Jokke
 - Possibly fixed renderer and physics being stuck disabled in some cases
+- Fixed Kekmet and trailer not being connected together, if game was saved with trailer being attached to the tractor
 
 ## 3.1 (18.01.2021)
 

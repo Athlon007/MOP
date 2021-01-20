@@ -212,7 +212,11 @@ namespace MOP.Vehicles
                     transform.Find("Dashboard/HourMeter").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
                     
                     // Hand Throttle.
-                    gameObject.AddComponent<KekmetHandThrottle>(); 
+                    gameObject.AddComponent<KekmetHandThrottle>();
+
+                    // Trailer connection.
+                    transform.Find("Trailer/Hook").GetPlayMakerByName("Distance").Fsm.RestartOnEnable = false;
+                    transform.Find("Trailer/Remove").GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
                     break;
                 case VehiclesTypes.Flatbed:
                     transform.Find("Bed/LogTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
@@ -220,6 +224,9 @@ namespace MOP.Vehicles
                     GameObject trailerLogUnderFloorCheck = new GameObject("MOP_TrailerLogUnderFloorFix");
                     trailerLogUnderFloorCheck.transform.parent = gameObject.transform;
                     trailerLogUnderFloorCheck.AddComponent<TrailerLogUnderFloor>();
+
+                    // Tractor connection.
+                    gameObject.GetPlayMakerByName("Detach").Fsm.RestartOnEnable = false;
                     break;
 
             }
@@ -347,18 +354,6 @@ namespace MOP.Vehicles
                         continue;
 
                     preventToggleOnObjects[i].ObjectTransform.parent = preventToggleOnObjects[i].OriginalParent;
-                }
-
-                if (vehicleType == VehiclesTypes.Kekmet && FsmManager.IsTrailerAttached())
-                {
-                    if (Vector3.Distance(transform.Find("Trailer/Hook").position, VehicleManager.Instance.GetVehicle(VehiclesTypes.Flatbed).transform.Find("HookTarget").position) >= 0.4f)
-                    {
-                        GameFixes.Instance.KekmetTrailerDetach();
-                    }
-                    else
-                    {
-                        GameFixes.Instance.KekmetTrailerAttach();
-                    }
                 }
             }
         }
