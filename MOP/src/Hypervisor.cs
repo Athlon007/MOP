@@ -205,7 +205,7 @@ namespace MOP
                 worldObjectManager.Add("SwampColliders", DisableOn.PlayerInHome);
                 worldObjectManager.Add("RYKIPOHJA", DisableOn.PlayerInHome);
                 worldObjectManager.Add("COMPUTER", DisableOn.PlayerAwayFromHome);
-                worldObjectManager.Add("JOBS/HouseDrunkNew", DisableOn.PlayerInHome);
+                //worldObjectManager.Add("JOBS/HouseDrunkNew", DisableOn.PlayerInHome);
 
                 ModConsole.Print("[MOP] World objects (2) loaded");
             }

@@ -10,6 +10,7 @@
 
 - Fixed Kekmet and trailer not being connected together, if the game was saved with trailer being attached to the tractor
 - Fixed items clipping through vehicles in Performance mode
+- Fixed kilju bottles sometimes not being teleported to the landfill after selling to Jokke
 
 ## 3.1 (18.01.2021)
 

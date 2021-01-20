@@ -490,7 +490,7 @@ namespace MOP.Items
         {
             // If the item is an Kilju or Empty Plastic Can, and is close to the CanTrigger object,
             // teleport the object to LostSpawner (junk yard).
-            if (gameObject.name.ContainsAny("empty plastic can", "kilju"))
+            if (gameObject.name.ContainsAny("empty plastic can", "kilju", "emptyca"))
             {
                 if (Vector3.Distance(transform.position, ItemsManager.Instance.GetCanTrigger().transform.position) < 2)
                 {
