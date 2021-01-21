@@ -32,6 +32,7 @@ namespace MOP.FSM.Actions
 
         public override void OnEnter()
         {
+            // If grandma is entering the car, her animator will get disabled and vice-versa.
             animator.enabled = toEnable;
         }
     }
