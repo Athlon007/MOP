@@ -20,6 +20,8 @@ namespace MOP.Items.Helpers
 {
     class RadioDisable : MonoBehaviour
     {
+        // This class prevents radio from being disabled by MOP, if it's playing the music.
+
         ItemBehaviour item;
         bool dontAct;
 

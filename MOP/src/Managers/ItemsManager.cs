@@ -294,7 +294,7 @@ namespace MOP.Managers
 
             // Unparent all childs of CDs object.
             Transform cds = GameObject.Find("ITEMS").transform.Find("CDs");
-            if (cds != null)
+            if (cds)
             {
                 for (int i = 0; i < cds.childCount; i++)
                     cds.GetChild(i).parent = null;
@@ -304,7 +304,6 @@ namespace MOP.Managers
         /// <summary>
         /// Returns the transform of lost items spawner at junkyard.
         /// </summary>
-        /// <returns></returns>
         public Transform GetLostItemsSpawner()
         {
             return lostSpawner;
@@ -315,7 +314,6 @@ namespace MOP.Managers
         /// <summary>
         /// Returns the position of Jokke's kilju can trigger.
         /// </summary>
-        /// <returns></returns>
         public GameObject GetCanTrigger()
         {
             if (!canTrigger)

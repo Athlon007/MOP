@@ -230,6 +230,11 @@ namespace MOP.Common
             return newList.ToArray<FsmStateAction>();
         }
 
+        /// <summary>
+        /// Returns the path of the game object.
+        /// </summary>
+        /// <param name="transform"></param>
+        /// <returns></returns>
         public static string GetGameObjectPath(this Transform transform)
         {
             string path = "/" + transform.name;

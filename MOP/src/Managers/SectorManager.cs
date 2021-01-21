@@ -138,7 +138,6 @@ namespace MOP.Managers
             CreateNewSector(new Vector3(-165.55f, -3.7f, 1020.7f), new Vector3(5, 4, 3.5f), "LakeNice", "Tile", "BUSHES7", "TREES_SMALL1");
 
             // Driveway sector
-            //if (RulesManager.Instance.SpecialRules.DrivewaySector)
             if (MopSettings.Mode == PerformanceMode.Performance)
                 CreateNewSector(new Vector3(-18.5f, -0.5062422f, 11.9f), new Vector3(11f, 5, 9.5f),
                     "TREES_SMALL1", "BUSHES7", "BUSHES3", "BUSHES6", "TREES_MEDIUM3", "YARD", "LakeNice", "Tile", "PierHome");

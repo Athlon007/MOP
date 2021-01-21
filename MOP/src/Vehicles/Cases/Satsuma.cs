@@ -352,7 +352,7 @@ namespace MOP.Vehicles
                     foreach (Material mat in dashboardMaterials)
                         mat.renderQueue = 100;
 
-                    //lightSelection = GameObject.Find("LightModes").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmInt("Selection");
+
                     lightSelection = Resources.FindObjectsOfTypeAll<GameObject>()
                         .First(g => g.name == "dashboard meters(Clone)").transform.Find("Knobs/ButtonsDash/LightModes")
                         .gameObject.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmInt("Selection");

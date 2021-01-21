@@ -34,8 +34,7 @@ namespace MOP.Helpers
         {
             if (other.gameObject.tag == "PART")
             {
-                Vector3 pos = other.gameObject.transform.position;
-                pos.y += 1;
+                Vector3 pos = other.gameObject.transform.position + Vector3.up;
                 other.gameObject.transform.position = pos;  
             }
         }
