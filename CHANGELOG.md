@@ -1,6 +1,6 @@
 # Changelog
 
-## tba (tba)
+## 3.1.1 Beta 1 (21.01.2021)
 
 ### Bug Fixes
 
