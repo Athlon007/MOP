@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using System;
 using HutongGames.PlayMaker;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
 
                     if (!removalFSM)
                     {
-                        throw new System.Exception($"SatsumaPartMassManager: {gameObject.name} - Removal PlayMakerFSM is missing!\n\n" +
+                        throw new Exception($"SatsumaPartMassManager: {gameObject.name} - Removal PlayMakerFSM is missing!\n\n" +
                                                    $"Path: {gameObject.GetGameObjectPath()}");
                     }
 
@@ -51,24 +52,57 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
                     if (this.gameObject.name.ContainsAny("strut", "antenna", "marker light"))
                     {
                         FsmState disableTrigger = removalFSM.FindFsmState("Disable trigger");
+                        if (disableTrigger == null)
+                        {
+                            throw new Exception($"SatsumaPartMassManager: {gameObject.name} - disableTrigger is null or empty.");
+                        }
+
                         List<FsmStateAction> actionList = disableTrigger.Actions.ToList();
+                        if (actionList == null)
+                        {
+                            throw new Exception($"SatsumaPartMassManager: {gameObject.name} - actionList is null or empty.");
+                        }
                         actionList.RemoveAt(0);
                         disableTrigger.Actions = actionList.ToArray();
 
                         FsmState removePart = removalFSM.FindFsmState("Remove part");
+                        if (removePart == null)
+                        {
+                            throw new Exception($"SatsumaPartMassManager: {gameObject.name} - removePart is null or empty.");
+                        }
                         List<FsmStateAction> rpActionList = removePart.Actions.ToList();
+                        if (rpActionList == null)
+                        {
+                            throw new Exception($"SatsumaPartMassManager: {gameObject.name} - rpActionList is null or empty.");
+                        }
                         rpActionList.RemoveAt(9);
                         removePart.Actions = rpActionList.ToArray();
                     }
                     else
                     {
                         FsmState disableTrigger = removalFSM.FindFsmState("Add mass");
+                        if (disableTrigger == null)
+                        {
+                            throw new Exception($"SatsumaPartMassManager: {gameObject.name} - disableTrigger is null or empty.");
+                        }
                         List<FsmStateAction> actionList = disableTrigger.Actions.ToList();
+                        if (actionList == null)
+                        {
+                            throw new Exception($"SatsumaPartMassManager: {gameObject.name} - actionList is null or empty.");
+                        }
                         actionList.RemoveAt(0);
                         disableTrigger.Actions = actionList.ToArray();
 
                         FsmState removePart = removalFSM.FindFsmState("Remove part");
+                        if (removePart == null)
+                        {
+                            throw new Exception($"SatsumaPartMassManager: {gameObject.name} - removePart(2) is null or empty.");
+                        }
                         List<FsmStateAction> rpActionList = removePart.Actions.ToList();
+                        if (rpActionList == null)
+                        {
+                            throw new Exception($"SatsumaPartMassManager: {gameObject.name} - rpActionList(2) is null or empty.");
+                        }
                         rpActionList.RemoveAt(7);
                         removePart.Actions = rpActionList.ToArray();
                     }
@@ -78,9 +112,9 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
                         carMass.Value -= objectMass;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw new System.Exception($"SatsumaPartMassManager: There has been a problem with {gameObject.GetGameObjectPath()}");
+                    ExceptionManager.New(ex, true, "There was an error with SatsumaPartMassManager: " + gameObject.GetGameObjectPath());
                 }
             }
 

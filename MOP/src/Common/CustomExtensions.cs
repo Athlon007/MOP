@@ -237,6 +237,11 @@ namespace MOP.Common
         /// <returns></returns>
         public static string GetGameObjectPath(this Transform transform)
         {
+            if (transform == null)
+            {
+                return "null";
+            }
+
             string path = "/" + transform.name;
             while (transform.parent != null)
             {
@@ -249,6 +254,11 @@ namespace MOP.Common
 
         public static string GetGameObjectPath(this GameObject gameObject)
         {
+            if (gameObject == null)
+            {
+                return "null";
+            }
+
             return GetGameObjectPath(gameObject.transform);
         }
     }

@@ -666,28 +666,10 @@ namespace MOP
                 if (ticks > 1000)
                     ticks = 0;
 
-                if (itemInitializationDelayDone)
-                {
-                    if (Vector3.Distance(player.position, lastPlayerPosition) > MinimumDifference)
-                    {
-                        lastInputTimeCounter = 0;
-                    }
-                    else
-                    {
-                        lastInputTimeCounter++;
-                        
-                        // Don't execute anything, if player hasn't moved in few seconds.
-                        if (lastInputTimeCounter > WaitForInputTime)
-                        {
-                            yield return new WaitForSeconds(1);
-                            continue;
-                        }
-                    }
-                }
-                else
+                if (!itemInitializationDelayDone)
                 {
                     // We are slightly delaying the initialization, so all items have chance to set in place, because fuck MSC and its physics.
-                    waitTime += 1;
+                    waitTime++;
                     if (waitTime >= WaitDone)
                     {
                         FinishLoading();

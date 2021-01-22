@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.1.1 Beta 1 (21.01.2021)
+## 3.1.1 (22.01.2021)
 
 ### Bug Fixes
 
@@ -12,6 +12,11 @@
 - Fixed kilju bottles sometimes not being teleported to the landfill after selling to Jokke
 - Fixed possible case of delegating toggling method of ItemBehaviour being null
 - Fixed firewood logs not being hooked properly
+- Fixed an error where if player stood in a single place for long enough, traffic cars would pass by with renderers disabled
+
+### Removed
+
+- Removed "lazy updating" when player wasn't moving, due to it causing some issues.
 
 ## 3.1 (18.01.2021)
 
