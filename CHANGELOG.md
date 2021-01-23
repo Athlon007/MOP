@@ -1,5 +1,11 @@
 # Changelog
 
+## tba
+
+### Bug Fixes
+
+- Second attempt on fixing the bug, which left renderer and rigidbody of the object disabled
+
 ## 3.1.1 (22.01.2021)
 
 ### Bug Fixes

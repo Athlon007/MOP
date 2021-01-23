@@ -794,6 +794,7 @@ namespace MOP
 
                         if (toEnable)
                         {
+                            ItemsManager.Instance.ItemsHooks[i].ToggleChangeFix();
                             if (ItemsManager.Instance.ItemsHooks[i].ActiveSelf) continue;
                             itemsToEnable.Add(ItemsManager.Instance.ItemsHooks[i]);
                         }

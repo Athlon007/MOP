@@ -273,20 +273,6 @@ namespace MOP.Items
                     return;
                 }
 
-                // Fixing issue with objects not getting re-enabled (I hope).
-                if (renderer != null && renderer.enabled == false)
-                {
-                    renderer.enabled = true;
-                }
-
-                // Fixing disabled physics.
-                if (rb != null && (rb.isKinematic || !rb.useGravity || !rb.detectCollisions))
-                {
-                    rb.isKinematic = false;
-                    rb.useGravity = true;
-                    rb.detectCollisions = true;
-                }
-
                 gameObject.SetActive(enabled);
             }
             catch { }
@@ -520,6 +506,28 @@ namespace MOP.Items
             if (rule != null)
             {
                 renderer = null;
+            }
+        }
+
+        /// <summary>
+        /// Fixes renderers and physics being disabled, if item had Toggle method set to TogglePhysicsOnly and has switched to ToggleActive.
+        /// </summary>
+        internal void ToggleChangeFix()
+        {
+            if (Toggle != ToggleActive) return;
+
+            // Fixing issue with objects not getting re-enabled (I hope).
+            if (renderer != null && renderer.enabled == false)
+            {
+                renderer.enabled = true;
+            }
+
+            // Fixing disabled physics.
+            if (rb != null && (rb.isKinematic || !rb.useGravity || !rb.detectCollisions))
+            {
+                rb.isKinematic = false;
+                rb.useGravity = true;
+                rb.detectCollisions = true;
             }
         }
     }
