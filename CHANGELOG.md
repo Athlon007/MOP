@@ -10,6 +10,8 @@
 - Fixed an error in rule files loading, where if a "ignore" flag was set to TRAFFIC object, MOP would say that this object is not being disabled and would the ignore that flag
   - With that, fixed compatibility with CallYourCousin
 - Fixed kilju bottles sold to Jokke being teleported to the junkyard with kilju still in them
+- Fixed possible null reference exception in SatsumaSeatsManager class
+- Fixed windshield repair job not fixing the windshield
 
 ## 3.1.1 (22.01.2021)
 

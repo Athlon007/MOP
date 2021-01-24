@@ -427,6 +427,38 @@ namespace MOP.Vehicles
                 throw new System.Exception("Radiator hose 3 error");
             }
 
+            // Windscreen fixes :)
+            try
+            {
+                Transform windscreen = transform.Find("Body/Windshield");
+                if (!windscreen)
+                {
+                    throw new System.Exception("Couldn't find Windscreen.");
+                }
+                SatsumaWindscreenFixer swf = windscreen.gameObject.AddComponent<SatsumaWindscreenFixer>();
+                // And now we are hooking up the windscreen job in repairshop.
+                Transform windshieldJob = GameObject.Find("REPAIRSHOP").transform.Find("Jobs/Windshield");
+                if (!windshieldJob)
+                {
+                    throw new System.Exception("Couldn't find windshield job.");
+                }
+
+                if (!windshieldJob.parent.gameObject.activeSelf)
+                {
+                    windshieldJob.parent.gameObject.SetActive(true);
+                    windshieldJob.parent.gameObject.SetActive(false);
+                }
+
+                PlayMakerFSM windshieldJobFSM = windshieldJob.gameObject.GetComponent<PlayMakerFSM>();
+                List<FsmStateAction> wait1Actions = windshieldJobFSM.FindFsmState("Wait1").Actions.ToList();
+                wait1Actions.Insert(0, new WindscreenRepairJob(swf));
+                windshieldJobFSM.FindFsmState("Wait1").Actions = wait1Actions.ToArray();
+            }
+            catch
+            {
+                throw new System.Exception("Windshield repair fix error.");
+            }
+
             if (MopSettings.GenerateToggledItemsListDebug)
             {
                 if (System.IO.File.Exists("sats.txt"))
