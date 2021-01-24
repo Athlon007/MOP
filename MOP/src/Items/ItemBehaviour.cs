@@ -136,14 +136,7 @@ namespace MOP.Items
 
             // If is an empty plastic can (aka, empty kilju/orange juice bottle), we check if the distance to Jokke's can trigger is low.
             // If that's the case, we teleport the object to lost item spawner (junkyard).
-            if (gameObject.name.Equals("empty plastic can(itemx)"))
-            {
-                if (Vector3.Distance(position, ItemsManager.Instance.GetCanTrigger().transform.position) < 2)
-                {
-                    position = ItemsManager.Instance.GetLostItemsSpawner().position;
-                    return;
-                }
-            }
+            ResetKiljuContainer();
         }
 
         void Awake()
@@ -460,14 +453,7 @@ namespace MOP.Items
         {
             // If the item is an Kilju or Empty Plastic Can, and is close to the CanTrigger object,
             // teleport the object to LostSpawner (junk yard).
-            if (gameObject.name.ContainsAny("empty plastic can", "kilju", "emptyca"))
-            {
-                if (Vector3.Distance(transform.position, ItemsManager.Instance.GetCanTrigger().transform.position) < 2)
-                {
-                    transform.position = ItemsManager.Instance.GetLostItemsSpawner().position;
-                    return;
-                }
-            }
+            ResetKiljuContainer();
 
             gameObject.AddComponent<ItemFreezer>();
         }
@@ -528,6 +514,26 @@ namespace MOP.Items
                 rb.isKinematic = false;
                 rb.useGravity = true;
                 rb.detectCollisions = true;
+            }
+        }
+
+        void ResetKiljuContainer()
+        {
+            if (!gameObject.name.ContainsAny("empty plastic can", "kilju", "emptyca")) return;
+
+            if (Vector3.Distance(transform.position, ItemsManager.Instance.GetCanTrigger().transform.position) < 2)
+            {
+                transform.position = ItemsManager.Instance.GetLostItemsSpawner().position;
+
+                PlayMakerFSM fsm = gameObject.GetPlayMakerByName("Use");
+                if (fsm)
+                {
+                    fsm.FsmVariables.GetFsmBool("ContainsKilju").Value = false;
+                }
+
+                gameObject.name = "empty plastic can(itemx)";
+
+                return;
             }
         }
     }

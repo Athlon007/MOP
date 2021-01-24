@@ -93,6 +93,11 @@ namespace MOP.Places
             {
                 for (int i = 0; i < PlayMakers.Count; i++)
                 {
+                    if (PlayMakers[i] == null)
+                    {
+                        continue;
+                    }
+
                     PlayMakers[i].enabled = enabled;
                 }
             }
