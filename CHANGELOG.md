@@ -1,11 +1,10 @@
 # Changelog
 
-## tba
+## 3.1.2 Beta 1 (25.01.2021)
 
 ### Bug Fixes
 
 - Second attempt on fixing the bug, which left renderer and rigidbody of the object disabled
-
 - Fixed occassional null exception when toggling Teimo shop
 - Fixed an error in rule files loading, where if a "ignore" flag was set to TRAFFIC object, MOP would say that this object is not being disabled and would the ignore that flag
   - With that, fixed compatibility with CallYourCousin
