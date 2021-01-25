@@ -22,7 +22,7 @@ BASE_DIR = os.getcwd()
 
 def make_zip(files, zipName):
     print('Creating new zip: {0}'.format(zipName))
-    NEW_ZIP = ZipFile("{}/{}".format(BASE_DIR, zipName),
+    new_zip = ZipFile("{}/{}".format(BASE_DIR, zipName),
                       'w', zipfile.ZIP_DEFLATED)
 
     CURSOR_UP_ONE = '\x1b[1A'
@@ -30,14 +30,14 @@ def make_zip(files, zipName):
 
     x = 1
     for file in files:
-        NEW_ZIP.write(file)
+        new_zip.write(file)
         a = x / len(files) * 100
         print("Progress: {}% ({})".format(str(int(math.ceil(a))), file))
         sys.stdout.write(CURSOR_UP_ONE)
         sys.stdout.write(ERASE_LINE)
         x += 1
 
-    NEW_ZIP.close()
+    new_zip.close()
 
 
 os.chdir(BASE_DIR)
@@ -53,21 +53,33 @@ shutil.copyfile("{}/bin/Release/{}.dll".format(MOD_NAME,
                                                MOD_NAME), "build/{}.dll".format(MOD_NAME))
 os.chdir("build")
 
-FILES = []
-FILES.extend(["{}.dll".format(MOD_NAME)])
-ZIP_NAME = "{}.zip".format(MOD_NAME)
+files = []
+files.extend(["{}.dll".format(MOD_NAME)])
+zip_name = "{}.zip".format(MOD_NAME)
 
-option = input('Choose option:\n1 - Make release \n2 - Make nightly\nQ - Quit')
+option = input('Choose option:\n1 - Make release \n2 - Make nightly\nQ - Quit\n\n')
+print("\n")
 
-if option == 2:
-    NOW = str(date.today()).replace("-", "")
-    VERSION = input("{} version: ".format(MOD_NAME))
-    ZIP_NAME = "{}-{}-{}-nightly.zip".format(MOD_NAME, VERSION, NOW)
+if option == '2':
+    now = str(date.today()).replace("-", "")
+
+    # Read version from MOP.cs
+    mainfile = ""
+    with open("{}/{}/src/{}.cs".format(BASE_DIR, MOD_NAME, MOD_NAME), "r") as file:
+        mainfile = file.readlines()
+
+    version_string = ""
+    for line in mainfile:
+        if line.__contains__("override string Version"):
+            version_string = line
+
+    version_string = version_string.split("\"")[1]
+    zip_name = "{}-{}-{}-nightly.zip".format(MOD_NAME, version_string, now)
 
 elif option.lower() == 'q':
     quit()
 
-make_zip(FILES, "build/{}".format(ZIP_NAME))
+make_zip(files, "build/{}".format(zip_name))
 
 print("Done!\nQuitting...")
 quit()
