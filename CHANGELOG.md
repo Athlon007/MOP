@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.1.2 Beta 2 (25.01.2021)
+
+### Added
+
+- MOP will now ask, if you want to include your save file with bug report
+
+### Added
+
 ## 3.1.2 Beta 1 (25.01.2021)
 
 ### Bug Fixes

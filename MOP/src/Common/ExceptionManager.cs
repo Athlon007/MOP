@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using UnityEngine;
-using Ionic.Zip;
 
 using MOP.Rules;
 
@@ -135,7 +134,7 @@ namespace MOP.Common
         /// Generates the report about mod's settings and list of installed mods
         /// </summary>
         /// <returns></returns>
-        static string GetGameInfo()
+        internal static string GetGameInfo()
         {
             string output = $"Modern Optimization Plugin\nVersion: {MOP.ModVersion}\n";
             output += $"MSC Mod Loader Version: {ModLoader.MSCLoader_Ver}\n";
@@ -219,7 +218,7 @@ namespace MOP.Common
             return fullOS;
         }
 
-        static string GetLogFolder()
+        internal static string GetLogFolder()
         {
             // Check if the old MOP_LOG.txt is still present and delete is, so dummies won't send a MOP log from 2019.
             if (File.Exists("MOP_LOG.txt"))
@@ -244,7 +243,7 @@ namespace MOP.Common
             return Directory.Exists($"{GetRootPath()}/{LogFolder}");
         }
 
-        static string GetRootPath()
+        internal static string GetRootPath()
         {
             return Application.dataPath.Replace("mysummercar_Data", "");
         }
@@ -271,65 +270,6 @@ namespace MOP.Common
         static string GetOutputLogPath()
         {
             return $"{GetRootPath()}/ output_log.txt";
-        }
-
-        public static void BugReport()
-        {
-            string bugReportPath = $"{GetRootPath()}/MOP_bugreport";
-            if (Directory.Exists(bugReportPath))
-            {
-                Directory.Delete(bugReportPath, true);
-            }
-
-            Directory.CreateDirectory(bugReportPath);
-
-            // Get output_log.txt
-            if (File.Exists($"{GetRootPath()}/output_log.txt"))
-            {
-                File.Copy($"{GetRootPath()}/output_log.txt", $"{bugReportPath}/output_log.txt");
-            }
-
-            // Now we are getting logs generated today.
-            string today = DateTime.Now.ToString("yyyy-MM-dd");
-            foreach (string log in Directory.GetFiles(GetLogFolder(), $"*{today}*.txt"))
-            {
-                string pathToFile = log.Replace("\\", "/");
-                string nameOfFile = log.Split('\\')[1];
-                ModConsole.Print(nameOfFile);
-                File.Copy(pathToFile, $"{bugReportPath}/{nameOfFile}");
-            }
-
-            using (StreamWriter sw = new StreamWriter($"{bugReportPath}/MOP_REPORT.txt"))
-            {
-                sw.WriteLine(GetGameInfo());
-            }
-
-            // Now we are packing up everything.
-            using (ZipFile zip = new ZipFile())
-            {
-                foreach (string file in Directory.GetFiles(bugReportPath, "*.txt"))
-                {
-                    zip.AddFile(file, "");
-                }
-
-                zip.Save($"{bugReportPath}/MOP Bug Report - {DateTime.Now:yyyy-MM-dd_HH-mm}.zip");
-            }
-
-            // Now we are deleting all .txt files.
-            foreach (string file in Directory.GetFiles(bugReportPath, "*.txt"))
-            {
-                File.Delete(file);
-            }
-
-            // Create the tutorial.
-            using (StreamWriter sw = new StreamWriter($"{bugReportPath}/README.txt"))
-            {
-                sw.WriteLine("A MOP report archive has been successfully generated.\n");
-                sw.WriteLine("Upload .zip file to some file hosting site, such as https://www.mediafire.com/.");
-            }
-
-            Process.Start(bugReportPath);
-            Process.Start($"{bugReportPath}/README.txt");
         }
     }
 }

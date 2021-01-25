@@ -74,6 +74,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="src\Common\BugReporter.cs" />
     <Compile Include="src\Common\Enumerations\DisableOn.cs" />
     <Compile Include="src\Common\Enumerations\PerformanceMode.cs" />
     <Compile Include="src\Common\Enumerations\SatsumaEnableOn.cs" />

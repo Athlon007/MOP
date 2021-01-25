@@ -36,7 +36,7 @@ namespace MOP
 #endif
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.1.2"; //Version
-        public const string SubVersion = "BETA_1"; // NIGHTLY-yyyymmdd | BETA_x | RC_x
+        public const string SubVersion = "BETA_2"; // NIGHTLY-yyyymmdd | BETA_x | RC_x
 
         #region Settings & Configuration
         // ModLoader configuration.
@@ -53,7 +53,7 @@ namespace MOP
         public static string ModVersionShort { get => modVersion; }
 
         // BUTTONS
-        readonly Settings iFoundABug = new Settings("iFoundABug", "I found a bug", ExceptionManager.BugReport);
+        readonly Settings iFoundABug = new Settings("iFoundABug", "I found a bug", BugReporter.FileBugReport);
         readonly Settings faq = new Settings("faq", "FAQ", ExternalExecuting.OpenFAQDialog);
         readonly Settings wiki = new Settings("wiki", "Documentation", ExternalExecuting.OpenWikiDialog);
         readonly Settings paypal = new Settings("donatePaypal", "PayPal", ExternalExecuting.OpenPaypalDialog);
@@ -204,6 +204,9 @@ namespace MOP
             FsmManager.ResetAll();
             Resources.UnloadUnusedAssets();
             GC.Collect();
+
+            GameObject bugReporter = new GameObject("MOP_BugReporter");
+            bugReporter.AddComponent<BugReporter>();
         }
 
         public override void ModSettingsLoaded()

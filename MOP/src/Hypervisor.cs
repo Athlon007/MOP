@@ -67,11 +67,6 @@ namespace MOP
         List<ItemBehaviour> itemsToEnable = new List<ItemBehaviour>();
         List<ItemBehaviour> itemsToDisable = new List<ItemBehaviour>();
 
-        int lastInputTimeCounter;
-        const int WaitForInputTime = 5;
-        Vector3 lastPlayerPosition;
-        const float MinimumDifference = 0.5f;
-
         public Hypervisor()
         {
             if (RulesManager.Instance == null)
@@ -676,7 +671,6 @@ namespace MOP
                     }
                 }
 
-                lastPlayerPosition = player.position;
                 isPlayerAtYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, placeManager[0].transform.position) < 100
                     : Vector3.Distance(player.position, placeManager[0].transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 
