@@ -1,14 +1,6 @@
 # Changelog
 
-## 3.1.2 Beta 2 (25.01.2021)
-
-### Added
-
-- MOP will now ask, if you want to include your save file with bug report
-
-### Added
-
-## 3.1.2 Beta 1 (25.01.2021)
+## 3.1.2 (26.01.2021)
 
 ### Bug Fixes
 
@@ -19,6 +11,9 @@
 - Fixed kilju bottles sold to Jokke being teleported to the junkyard with kilju still in them
 - Fixed possible null reference exception in SatsumaSeatsManager class
 - Fixed windshield repair job not fixing the windshield
+- MOP will now ask, if you want to include your save file with bug report
+- Fixed repair shop door self resetting
+- Fixed cabin door self resetting
 
 ## 3.1.1 (22.01.2021)
 

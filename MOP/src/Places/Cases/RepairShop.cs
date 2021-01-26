@@ -81,6 +81,9 @@ namespace MOP.Places
             {
                 throw new System.Exception("Couldn't FsmHook RepairShop/Order object.");
             }
+
+            // Fix door resetting.
+            transform.Find("LOD/Door/Handle").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
         }
     }
 }

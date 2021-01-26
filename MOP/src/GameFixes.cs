@@ -373,6 +373,16 @@ namespace MOP
                 ExceptionManager.New(ex, false, "GRANDMA_HIKER_FIXES");
             }
 
+            // Cabin door resetting fix.
+            try
+            {
+                GameObject.Find("CABIN").transform.Find("Cabin/Door/Pivot/Handle").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "CABIN_DOOR_RESET_FIX_ERROR");
+            }
+
             ModConsole.Print("[MOP] Finished applying fixes");
         }
 

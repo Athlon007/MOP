@@ -1,7 +1,3 @@
-### Added
-
-- MOP will now ask, if you want to include your save file with bug report
-
 ### Bug Fixes
 
 - Second attempt on fixing the bug, which left renderer and rigidbody of the object disabled
@@ -11,3 +7,6 @@
 - Fixed kilju bottles sold to Jokke being teleported to the junkyard with kilju still in them
 - Fixed possible null reference exception in SatsumaSeatsManager class
 - Fixed windshield repair job not fixing the windshield
+- MOP will now ask, if you want to include your save file with bug report
+- Fixed repair shop door self resetting
+- Fixed cabin door self resetting
