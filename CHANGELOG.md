@@ -2,6 +2,10 @@
 
 ## 3.1.2 (26.01.2021)
 
+### Added
+
+- MOP will now ask, if you want to include your save file with bug report
+
 ### Bug Fixes
 
 - Second attempt on fixing the bug, which left renderer and rigidbody of the object disabled
