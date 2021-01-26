@@ -33,10 +33,9 @@ namespace MOP.Common
         string lastZipFilePath;
         
         bool startWaiting;
-        bool doAddZip;
-        bool waitEnd;
+        GameObject mscloaderMB;
 
-        string bugReportPath => $"{ExceptionManager.GetRootPath()}/MOP_bugreport";
+        string BugReportPath => $"{ExceptionManager.GetRootPath()}/MOP_bugreport";
 
         public BugReporter()
         {
@@ -48,10 +47,9 @@ namespace MOP.Common
         {
             if (!startWaiting) return;
 
-            if (waitEnd)
+            if (!mscloaderMB)
             {
                 startWaiting = false;
-                waitEnd = false;
                 ShowWindow();
             }
         }
@@ -63,17 +61,17 @@ namespace MOP.Common
 
         public void BugReport()
         {
-            if (Directory.Exists(bugReportPath))
+            if (Directory.Exists(BugReportPath))
             {
-                Directory.Delete(bugReportPath, true);
+                Directory.Delete(BugReportPath, true);
             }
 
-            Directory.CreateDirectory(bugReportPath);
+            Directory.CreateDirectory(BugReportPath);
 
             // Get output_log.txt
             if (File.Exists($"{ExceptionManager.GetRootPath()}/output_log.txt"))
             {
-                File.Copy($"{ExceptionManager.GetRootPath()}/output_log.txt", $"{bugReportPath}/output_log.txt");
+                File.Copy($"{ExceptionManager.GetRootPath()}/output_log.txt", $"{BugReportPath}/output_log.txt");
             }
 
             // Now we are getting logs generated today.
@@ -83,10 +81,11 @@ namespace MOP.Common
                 string pathToFile = log.Replace("\\", "/");
                 string nameOfFile = log.Split('\\')[1];
                 ModConsole.Print(nameOfFile);
-                File.Copy(pathToFile, $"{bugReportPath}/{nameOfFile}");
+                File.Copy(pathToFile, $"{BugReportPath}/{nameOfFile}");
             }
 
-            using (StreamWriter sw = new StreamWriter($"{bugReportPath}/MOP_REPORT.txt"))
+            // Generate a MOP report.
+            using (StreamWriter sw = new StreamWriter($"{BugReportPath}/MOP_REPORT.txt"))
             {
                 sw.WriteLine(ExceptionManager.GetGameInfo());
             }
@@ -94,72 +93,67 @@ namespace MOP.Common
             // Now we are packing up everything.
             using (ZipFile zip = new ZipFile())
             {
-                foreach (string file in Directory.GetFiles(bugReportPath, "*.txt"))
+                foreach (string file in Directory.GetFiles(BugReportPath, "*.txt"))
                 {
                     zip.AddFile(file, "");
                 }
 
-                lastZipFilePath = $"{bugReportPath}/MOP Bug Report - {DateTime.Now:yyyy-MM-dd_HH-mm}.zip";
+                lastZipFilePath = $"{BugReportPath}/MOP Bug Report - {DateTime.Now:yyyy-MM-dd_HH-mm}.zip";
                 zip.Save(lastZipFilePath);
             }
 
             // Now we are deleting all .txt files.
-            foreach (string file in Directory.GetFiles(bugReportPath, "*.txt"))
+            foreach (string file in Directory.GetFiles(BugReportPath, "*.txt"))
             {
                 File.Delete(file);
             }
 
             // Create the tutorial.
-            using (StreamWriter sw = new StreamWriter($"{bugReportPath}/README.txt"))
+            using (StreamWriter sw = new StreamWriter($"{BugReportPath}/README.txt"))
             {
                 sw.WriteLine("A MOP report archive has been successfully generated.\n");
                 sw.WriteLine("Upload .zip file to some file hosting site, such as https://www.mediafire.com/.");
             }
 
-            // We are askign the user if he wants to add a zip file.
+            // We are asking the user if he wants to add his game save to the zip file.
             startWaiting = true;
             if (File.Exists(SaveManager.GetDefaultES2SavePosition()))
             {
-                ModUI.ShowYesNoMessage("Would you like to include save file? This may greatly improve fixing the bug.", "MOP", DoAddZip);
-            }
-            else
-            {
-                waitEnd = true;
+                ModUI.ShowYesNoMessage("Would you like to include save file?\n\nThis may greatly improve finding and fixing the bug.", "MOP", DoAddZip);
+
+                // MOP will wait for this transform to be destroyed.
+                Transform messageBoxTransform = GameObject.Find("MSCLoader Canvas").transform.Find("MSCLoader MB(Clone)");
+                if (messageBoxTransform)
+                {
+                    mscloaderMB = messageBoxTransform.gameObject;
+                }
             }
         }
 
         void DoAddZip()
         {
-            try
+            using (ZipFile zip = ZipFile.Read(lastZipFilePath))
             {
-                using (ZipFile zip = ZipFile.Read(lastZipFilePath))
+                // Create folder called Save in the zip and get defaultES2Save.txt and items.txt.
+                zip.AddDirectoryByName("Save");
+                if (File.Exists(SaveManager.GetDefaultES2SavePosition()))
                 {
-                    zip.AddDirectoryByName("Save");
-                    if (File.Exists(SaveManager.GetDefaultES2SavePosition()))
-                    {
-                        zip.AddFile(SaveManager.GetDefaultES2SavePosition(), "Save");
-                    }
-
-                    if (File.Exists(SaveManager.GetItemsPosition()))
-                    {
-                        zip.AddFile(SaveManager.GetItemsPosition(), "Save");
-                    }
-
-                    zip.Save();
+                    zip.AddFile(SaveManager.GetDefaultES2SavePosition(), "Save");
                 }
-            }
-            catch (Exception ex)
-            {
-                ModConsole.Error(ex.ToString());
-            }
 
-            waitEnd = true;
+                if (File.Exists(SaveManager.GetItemsPosition()))
+                {
+                    zip.AddFile(SaveManager.GetItemsPosition(), "Save");
+                }
+
+                zip.Save();
+            }
         }
 
         void ShowWindow()
         {
-            Process.Start(bugReportPath);
-            Process.Start($"{bugReportPath}/README.txt");
+            Process.Start(BugReportPath);
+            Process.Start($"{BugReportPath}/README.txt");
         }
     }
 }
