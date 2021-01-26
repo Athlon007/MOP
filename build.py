@@ -1,6 +1,6 @@
 # MOP Builder
 # This script let's you quickly compress new release to .zip file.
-# Script version: 2.0 (25.01.2021)
+# Script version: 2.1 (26.01.2021)
 #
 # This file is distributed under the same license as the MOP is.
 
@@ -16,7 +16,12 @@ from os import path
 
 print("=== Building the release... ===\n")
 
+# CONFIG #
+# Name of the build folder.
 MOD_NAME = "MOP"
+# List of files that we want to pack up.
+FILES_TO_PACK = ["/bin/Release/MOP.dll"]
+
 BASE_DIR = os.getcwd()
 
 
@@ -40,6 +45,11 @@ def make_zip(files, zipName):
     new_zip.close()
 
 
+def get_file_name_from_path(path):
+    name = path.split("/")
+    return name[len(name) - 1]
+
+
 os.chdir(BASE_DIR)
 shutil.rmtree("{}/build".format(BASE_DIR), True)
 
@@ -49,15 +59,24 @@ if not path.exists("{}/bin/Release/{}.dll".format(MOD_NAME, MOD_NAME)):
     quit()
 
 os.mkdir("build")
-shutil.copyfile("{}/bin/Release/{}.dll".format(MOD_NAME,
-                                               MOD_NAME), "build/{}.dll".format(MOD_NAME))
-os.chdir("build")
 
 files = []
-files.extend(["{}.dll".format(MOD_NAME)])
+
+for file in FILES_TO_PACK:
+    file_name = get_file_name_from_path(file)
+    shutil.copyfile("{}/{}".format(MOD_NAME, file),
+                    "build/{}".format(file_name))
+
+os.chdir("build")
+
+for file in FILES_TO_PACK:
+    file_name = get_file_name_from_path(file)
+    files.extend([file_name])
+
 zip_name = "{}.zip".format(MOD_NAME)
 
-option = input('Choose option:\n1 - Make release \n2 - Make nightly\nQ - Quit\n\n')
+option = input(
+    'Choose option:\n1 - Make release \n2 - Make nightly\nQ - Quit\n\n')
 print("\n")
 
 if option == '2':
@@ -74,6 +93,7 @@ if option == '2':
             version_string = line
 
     version_string = version_string.split("\"")[1]
+
     zip_name = "{}-{}-{}-nightly.zip".format(MOD_NAME, version_string, now)
 
 elif option.lower() == 'q':
