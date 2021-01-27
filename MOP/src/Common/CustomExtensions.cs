@@ -242,11 +242,11 @@ namespace MOP.Common
                 return "null";
             }
 
-            string path = "/" + transform.name;
+            string path = transform.name;
             while (transform.parent != null)
             {
                 transform = transform.parent;
-                path = transform.parent + "/" + path;
+                path = transform.name + "/" + path;
             }
 
             return path;

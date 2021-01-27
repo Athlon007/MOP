@@ -1,5 +1,18 @@
 # Changelog
 
+## tba (tba)
+
+### Added
+
+- MOP Report:
+  - Added the number of installed mods
+  - Added game window width and height
+
+### Bug Fixes
+
+- Fixed an error, if object that was SatsumaMassManager was hooking didn't have Remove FSM
+- Fixed pathfinding of objects in error logs
+
 ## 3.1.2 (26.01.2021)
 
 ### Added

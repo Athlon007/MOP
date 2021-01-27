@@ -140,7 +140,8 @@ namespace MOP.Common
             output += $"MSC Mod Loader Version: {ModLoader.MSCLoader_Ver}\n";
             output += $"Date and Time: {DateTime.Now:yyyy-MM-ddTHH:mm:ssZ}\n";
             output += $"{GetSystemInfo()}\n";
-            output += $"Session ID: {MOP.SessionID}\n\n";
+            output += $"Session ID: {MOP.SessionID}\n";
+            output += $"Screen resolution: {Screen.width}x{Screen.height}\n\n";
 
             output += "=== MOP SETTINGS ===\n\n";
             output += $"ActiveDistance: {MopSettings.ActiveDistance}\n";
@@ -164,7 +165,7 @@ namespace MOP.Common
             output += $"ExperimentalBranch: {ModLoader.CheckIfExperimental()}\n";
 
             // List installed mods.
-            output += "\n=== MODS ===\n\n";
+            output += $"\n=== MODS ({ModLoader.LoadedMods.Count}) ===\n\n";
             foreach (var mod in ModLoader.LoadedMods)
             {
                 // Ignore MSCLoader or MOP.
