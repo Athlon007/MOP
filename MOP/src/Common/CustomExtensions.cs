@@ -229,5 +229,37 @@ namespace MOP.Common
             newList.RemoveAt(index);
             return newList.ToArray<FsmStateAction>();
         }
+
+        /// <summary>
+        /// Returns the path of the game object.
+        /// </summary>
+        /// <param name="transform"></param>
+        /// <returns></returns>
+        public static string GetGameObjectPath(this Transform transform)
+        {
+            if (transform == null)
+            {
+                return "null";
+            }
+
+            string path = transform.name;
+            while (transform.parent != null)
+            {
+                transform = transform.parent;
+                path = transform.name + "/" + path;
+            }
+
+            return path;
+        }
+
+        public static string GetGameObjectPath(this GameObject gameObject)
+        {
+            if (gameObject == null)
+            {
+                return "null";
+            }
+
+            return GetGameObjectPath(gameObject.transform);
+        }
     }
 }

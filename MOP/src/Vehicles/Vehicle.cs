@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-using MOP.Managers;
 using MOP.FSM;
 using MOP.FSM.Actions;
 using MOP.Items;
@@ -35,29 +34,19 @@ namespace MOP.Vehicles
 {
     class Vehicle
     {
-        // Vehicle class - made by Konrad "Athlon" Figura
-        // 
-        // It fixes known issue with missing vehicles engine sound by (admittedly hacky way) creating new GameObject,
-        // that stores GameObjects responsible for playing sounds in vehicle (named "audio", or "SoundSrc").
-        // Whenever the vehicle is disabled, all audio objects are changing parent to that temporary object.
-        //
-        // It also fixes the issue of vehicles going back to the original spawn position, instead of staying in the same place - as they should,
-        // by simply saving the Transform.position and Transform.rotation parameters just before disabling the object, and then loading these values,
-        // just after loading them.
-
         public bool IsActive = true;
 
         public GameObject gameObject { get; private set; }
 
         // Values that are being saved or loaded
-        public Vector3 Position { get; set; }
-        public Quaternion Rotation { get; set; }
+        protected Vector3 Position { get; set; }
+        protected Quaternion Rotation { get; set; }
         VehiclesTypes vehicleType;
         public VehiclesTypes VehicleType { get => vehicleType; }
 
         // All objects that cannot be unloaded (because it causes problems) land under that object
-        internal Transform temporaryParent;
-        internal List<PreventToggleOnObject> preventToggleOnObjects;
+        protected Transform temporaryParent;
+        protected List<PreventToggleOnObject> preventToggleOnObjects;
 
         // Unity car systems and rigidbody
         public Transform transform => gameObject.transform;
@@ -208,9 +197,13 @@ namespace MOP.Vehicles
                     break;
                 case VehiclesTypes.Kekmet:
                     transform.Find("Dashboard/HourMeter").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    
+
                     // Hand Throttle.
-                    gameObject.AddComponent<KekmetHandThrottle>(); 
+                    gameObject.AddComponent<KekmetHandThrottle>();
+
+                    // Trailer connection.
+                    transform.Find("Trailer/Hook").GetPlayMakerByName("Distance").Fsm.RestartOnEnable = false;
+                    transform.Find("Trailer/Remove").GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
                     break;
                 case VehiclesTypes.Flatbed:
                     transform.Find("Bed/LogTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
@@ -218,6 +211,9 @@ namespace MOP.Vehicles
                     GameObject trailerLogUnderFloorCheck = new GameObject("MOP_TrailerLogUnderFloorFix");
                     trailerLogUnderFloorCheck.transform.parent = gameObject.transform;
                     trailerLogUnderFloorCheck.AddComponent<TrailerLogUnderFloor>();
+
+                    // Tractor connection.
+                    gameObject.GetPlayMakerByName("Detach").Fsm.RestartOnEnable = false;
                     break;
 
             }
@@ -288,7 +284,7 @@ namespace MOP.Vehicles
                         ModConsole.Error($"[MOP] Couldn't find {p.ObjectName} in {p.Place}.");
                         continue;
                     }
-                    
+
                     preventToggleOnObjects.Add(new PreventToggleOnObject(t));
                 }
             }
@@ -380,7 +376,7 @@ namespace MOP.Vehicles
                     lastGoodRotation = transform.localRotation;
                     lastGoodPosition = transform.localPosition;
                 }
-                
+
                 if (enabled)
                 {
                     lastGoodRotationSaved = false;
@@ -427,7 +423,7 @@ namespace MOP.Vehicles
         /// This is an empty void for when the toggling is meant to be ignored.
         /// </summary>
         /// <param name="enabled"></param>
-        internal void IgnoreToggle(bool enabled) 
+        internal void IgnoreToggle(bool enabled)
         {
             return;
         }
@@ -456,7 +452,7 @@ namespace MOP.Vehicles
 
         /// <summary>
         /// Checks one of the wheels' onGroundDown value
-        /// 
+        ///
         /// WORKAROUND FOR JONNEZ:
         /// Because onGroundDown for Jonnez doesn't work the same way as for others, it will check if the Jonnnez's engine torque.
         /// </summary>

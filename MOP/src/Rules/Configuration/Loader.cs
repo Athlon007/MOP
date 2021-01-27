@@ -476,11 +476,6 @@ namespace MOP.Rules.Configuration
                             }
 
                             // Disabling some of the root object is pointless, so we inform abot that the user.
-                            if (objects[0].EqualsAny("TRAFFIC"))
-                            {
-                                WrongArgumentWarning($"The argument {objects[0]} is never being disabled, instead it's childrens are.", fileName, lines, s);
-                                break;
-                            }
 
                             RulesManager.Instance.IgnoreRules.Add(new IgnoreRule(objects[0], fullIgnore));
                             break;

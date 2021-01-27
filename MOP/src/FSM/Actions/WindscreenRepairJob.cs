@@ -15,25 +15,23 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
-using UnityEngine;
+
+using MOP.Vehicles.Managers.SatsumaManagers;
 
 namespace MOP.FSM.Actions
 {
-    class GrandmaHiker : FsmStateAction
+    class WindscreenRepairJob : FsmStateAction
     {
-        Animator animator;
-        bool toEnable;
+        SatsumaWindscreenFixer satsumaWindscreenFixer;
 
-        public GrandmaHiker(GameObject skeleton, bool toEnable)
+        public WindscreenRepairJob(SatsumaWindscreenFixer satsumaWindscreenFixer)
         {
-            animator = skeleton.GetComponent<Animator>();
-            this.toEnable = toEnable;
+            this.satsumaWindscreenFixer = satsumaWindscreenFixer;
         }
 
         public override void OnEnter()
         {
-            // If grandma is entering the car, her animator will get disabled and vice-versa.
-            animator.enabled = toEnable;
+            satsumaWindscreenFixer.FixWindscreen();
         }
     }
 }

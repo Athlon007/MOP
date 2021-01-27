@@ -74,6 +74,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="src\Common\BugReporter.cs" />
     <Compile Include="src\Common\Enumerations\DisableOn.cs" />
     <Compile Include="src\Common\Enumerations\PerformanceMode.cs" />
     <Compile Include="src\Common\Enumerations\SatsumaEnableOn.cs" />
@@ -82,10 +83,12 @@
     <Compile Include="src\Common\Enumerations\VehiclesTypes.cs" />
     <Compile Include="src\FSM\Actions\CustomCreateObject.cs" />
     <Compile Include="src\FSM\Actions\GrandmaHiker.cs" />
+    <Compile Include="src\FSM\Actions\WindscreenRepairJob.cs" />
     <Compile Include="src\GameFixes.cs" />
     <Compile Include="src\Items\Cases\SuitcaseMoneyBehaviour.cs" />
     <Compile Include="src\Items\Cases\ThrowableJunkBehaviour.cs" />
     <Compile Include="src\Items\Helpers\CashRegisterBehaviour.cs" />
+    <Compile Include="src\Items\Helpers\RadioDisable.cs" />
     <Compile Include="src\Items\ItemFreezer.cs" />
     <Compile Include="src\Items\Helpers\WheelRepairJobTrigger.cs" />
     <Compile Include="src\Managers\ItemsManager.cs" />
@@ -114,13 +117,14 @@
     <Compile Include="src\Vehicles\Cases\Boat.cs" />
     <Compile Include="src\FSM\Actions\MasterAudioAssembleCustom.cs" />
     <Compile Include="src\FSM\Actions\CustomBatteryDisable.cs" />
-    <Compile Include="src\Vehicles\Managers\Satsuma\SatsumaCustomHoodUse.cs" />
-    <Compile Include="src\Vehicles\Managers\Satsuma\SatsumaBoltsAntiReload.cs" />
-    <Compile Include="src\Vehicles\Managers\Satsuma\SatsumaHingeManager.cs" />
-    <Compile Include="src\Vehicles\Managers\Satsuma\SatsumaOnActionObjects.cs" />
-    <Compile Include="src\Vehicles\Managers\Satsuma\SatsumaRadiatorHoseFix.cs" />
-    <Compile Include="src\Vehicles\Managers\Satsuma\SatsumaSeatsManager.cs" />
-    <Compile Include="src\Vehicles\Managers\Satsuma\SatsumaPartMassManager.cs" />
+    <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaCustomHoodUse.cs" />
+    <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaBoltsAntiReload.cs" />
+    <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaHingeManager.cs" />
+    <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaOnActionObjects.cs" />
+    <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaRadiatorHoseFix.cs" />
+    <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaSeatsManager.cs" />
+    <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaPartMassManager.cs" />
+    <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaWindscreenFixer.cs" />
     <Compile Include="src\Vehicles\Managers\TrailerLogUnderFloor.cs" />
     <Compile Include="src\Vehicles\Cases\Satsuma.cs" />
     <Compile Include="src\Vehicles\Managers\PreventToggleOnObject.cs" />

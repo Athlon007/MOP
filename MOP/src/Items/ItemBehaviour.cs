@@ -25,6 +25,7 @@ using MOP.FSM.Actions;
 using MOP.Managers;
 using MOP.Vehicles.Cases;
 using MOP.Items.Cases;
+using MOP.Items.Helpers;
 using MOP.Rules;
 using MOP.Rules.Types;
 
@@ -32,14 +33,25 @@ namespace MOP.Items
 {
     class ItemBehaviour : MonoBehaviour
     {
-        // This MonoBehaviour hooks to all items from shop and other interactable ones. (Such as sausages, or beer cases)
-        // ObjectHook class by Konrad "Athlon" Figura
-
         bool firstLoad;
-        public bool DontDisable;
+
+        bool dontDisable;
+        internal bool DontDisable
+        {
+            get => dontDisable;
+            set
+            {
+                if (!value && dontDisable)
+                {
+                    TogglePhysicsOnly(true);
+                }
+
+                dontDisable = value;
+            }
+        }
 
         readonly Rigidbody rb;
-        readonly Renderer renderer;
+        Renderer renderer;
 
         Vector3 position;
 
@@ -53,25 +65,7 @@ namespace MOP.Items
                 Destroy(this);
             }
 
-            Toggle = ToggleActive;
-
-            IgnoreRule rule = RulesManager.Instance.IgnoreRules.Find(f => f.ObjectName == this.gameObject.name);
-            if (rule != null)
-            {
-                Toggle = TogglePhysicsOnly;
-
-                if (rule.TotalIgnore)
-                {
-                    Destroy(this);
-                    return;
-                }
-            }
-
-            // This items cannot be fully disabled, for one reason or another.
-            if (this.gameObject.name.EqualsAny("fish trap(itemx)", "bucket(itemx)", "pike(itemx)", "envelope(xxxxx)", "lottery ticket(xxxxx)"))
-            {
-                Toggle = TogglePhysicsOnly;
-            }
+            SetInitialTogglingMethod();
 
             // Get object's components
             rb = GetComponent<Rigidbody>();
@@ -113,12 +107,6 @@ namespace MOP.Items
                 }
             }
 
-            // If ignore, don't disable renderer.
-            if (rule != null)
-            {
-                renderer = null;
-            }
-
             position = transform.position;
 
             // Fixes a bug which would prevent player from putting on the helmet, after taking it off.
@@ -148,20 +136,19 @@ namespace MOP.Items
 
             // If is an empty plastic can (aka, empty kilju/orange juice bottle), we check if the distance to Jokke's can trigger is low.
             // If that's the case, we teleport the object to lost item spawner (junkyard).
-            if (gameObject.name.Equals("empty plastic can(itemx)"))
-            {
-                if (Vector3.Distance(position, ItemsManager.Instance.GetCanTrigger().position) < 2)
-                {
-                    position = ItemsManager.Instance.GetLostItemsSpawner().position;
-                    return;
-                }
-            }
+            ResetKiljuContainer();
         }
 
         void Awake()
         {
             // Add self to the MinorObjects.objectHooks list
             ItemsManager.Instance.Add(this);
+
+            // Fixes a bug which would cause Toggle delegate being null.
+            if (Toggle == null)
+            {
+                SetInitialTogglingMethod();
+            }
         }
 
         // Triggered before the object is destroyed.
@@ -169,6 +156,11 @@ namespace MOP.Items
         public void RemoveSelf()
         {
             ItemsManager.Instance.Remove(this);
+        }
+
+        void OnDestroy()
+        {
+            RemoveSelf();
         }
 
         public delegate void ToggleHandler(bool enabled);
@@ -442,6 +434,9 @@ namespace MOP.Items
                 case "suitcase(itemx)":
                     transform.Find("Money").gameObject.AddComponent<SuitcaseMoneyBehaviour>();
                     break;
+                case "radio(itemx)":
+                    transform.Find("Channel").gameObject.AddComponent<RadioDisable>();
+                    break;
             }
 
             PlayMakerFSM paintFSM = gameObject.GetPlayMakerByName("Paint");
@@ -458,14 +453,7 @@ namespace MOP.Items
         {
             // If the item is an Kilju or Empty Plastic Can, and is close to the CanTrigger object,
             // teleport the object to LostSpawner (junk yard).
-            if (gameObject.name.ContainsAny("empty plastic can", "kilju"))
-            {
-                if (Vector3.Distance(transform.position, ItemsManager.Instance.GetCanTrigger().position) < 2)
-                {
-                    transform.position = ItemsManager.Instance.GetLostItemsSpawner().position;
-                    return;
-                }
-            }
+            ResetKiljuContainer();
 
             gameObject.AddComponent<ItemFreezer>();
         }
@@ -474,5 +462,79 @@ namespace MOP.Items
         /// Checks what disabling method object uses and then returns the correct value for that object.
         /// </summary>
         public bool ActiveSelf => (Toggle == TogglePhysicsOnly) ? rb.detectCollisions : gameObject.activeSelf;
+
+        /// <summary>
+        /// Sets up the toggling method.
+        /// </summary>
+        private void SetInitialTogglingMethod()
+        {
+            Toggle = ToggleActive;
+
+            IgnoreRule rule = RulesManager.Instance.IgnoreRules.Find(f => f.ObjectName == this.gameObject.name);
+            if (rule != null)
+            {
+                Toggle = TogglePhysicsOnly;
+
+                if (rule.TotalIgnore)
+                {
+                    Destroy(this);
+                    return;
+                }
+            }
+
+            // This items cannot be fully disabled, for one reason or another.
+            if (this.gameObject.name.EqualsAny("fish trap(itemx)", "bucket(itemx)", "pike(itemx)", "envelope(xxxxx)", "lottery ticket(xxxxx)"))
+            {
+                Toggle = TogglePhysicsOnly;
+            }
+
+            // If ignore, don't disable renderer.
+            if (rule != null)
+            {
+                renderer = null;
+            }
+        }
+
+        /// <summary>
+        /// Fixes renderers and physics being disabled, if item had Toggle method set to TogglePhysicsOnly and has switched to ToggleActive.
+        /// </summary>
+        internal void ToggleChangeFix()
+        {
+            if (Toggle != ToggleActive) return;
+
+            // Fixing issue with objects not getting re-enabled (I hope).
+            if (renderer != null && renderer.enabled == false)
+            {
+                renderer.enabled = true;
+            }
+
+            // Fixing disabled physics.
+            if (rb != null && (rb.isKinematic || !rb.useGravity || !rb.detectCollisions))
+            {
+                rb.isKinematic = false;
+                rb.useGravity = true;
+                rb.detectCollisions = true;
+            }
+        }
+
+        void ResetKiljuContainer()
+        {
+            if (!gameObject.name.ContainsAny("empty plastic can", "kilju", "emptyca")) return;
+
+            if (Vector3.Distance(transform.position, ItemsManager.Instance.GetCanTrigger().transform.position) < 2)
+            {
+                transform.position = ItemsManager.Instance.GetLostItemsSpawner().position;
+
+                PlayMakerFSM fsm = gameObject.GetPlayMakerByName("Use");
+                if (fsm)
+                {
+                    fsm.FsmVariables.GetFsmBool("ContainsKilju").Value = false;
+                }
+
+                gameObject.name = "empty plastic can(itemx)";
+
+                return;
+            }
+        }
     }
 }

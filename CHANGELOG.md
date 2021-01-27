@@ -7,6 +7,56 @@
 - Improved Hayosiko disabling during early part of the game
 - Changed how vehicle position is verified
 
+## tba (tba)
+
+### Added
+
+- MOP Report:
+  - Added the number of installed mods
+  - Added game window width and height
+
+### Bug Fixes
+
+- Fixed an error, if object that was SatsumaMassManager was hooking didn't have Remove FSM
+- Fixed pathfinding of objects in error logs
+
+## 3.1.2 (26.01.2021)
+
+### Added
+
+- MOP will now ask, if you want to include your save file with bug report
+
+### Bug Fixes
+
+- Second attempt on fixing the bug, which left renderer and rigidbody of the object disabled
+- Fixed occassional null exception when toggling Teimo shop
+- Fixed an error in rule files loading, where if a "ignore" flag was set to TRAFFIC object, MOP would say that this object is not being disabled and would the ignore that flag
+  - With that, fixed compatibility with CallYourCousin
+- Fixed kilju bottles sold to Jokke being teleported to the junkyard with kilju still in them
+- Fixed possible null reference exception in SatsumaSeatsManager class
+- Fixed windshield repair job not fixing the windshield
+- MOP will now ask, if you want to include your save file with bug report
+- Fixed repair shop door self resetting
+- Fixed cabin door self resetting
+
+## 3.1.1 (22.01.2021)
+
+### Bug Fixes
+
+- Boombox is no longer disabled by MOP, if it's playing music
+- Fixed MOP not being able to find the can trigger at Jokke
+- In some cases physics and mesh renderer of the object could get stuck disabled, this is now fixed
+- Fixed Kekmet and trailer not being connected together, if the game was saved with trailer being attached to the tractor
+- Fixed items clipping through vehicles in Performance mode
+- Fixed kilju bottles sometimes not being teleported to the landfill after selling to Jokke
+- Fixed possible case of delegating toggling method of ItemBehaviour being null
+- Fixed firewood logs not being hooked properly
+- Fixed an error where if player stood in a single place for long enough, traffic cars would pass by with renderers disabled
+
+### Removed
+
+- Removed "lazy updating" when player wasn't moving, due to it causing some issues.
+
 ## 3.1 (18.01.2021)
 
 ### Added

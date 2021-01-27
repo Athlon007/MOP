@@ -68,11 +68,6 @@ namespace MOP
         List<ItemBehaviour> itemsToEnable = new List<ItemBehaviour>();
         List<ItemBehaviour> itemsToDisable = new List<ItemBehaviour>();
 
-        int lastInputTimeCounter;
-        const int WaitForInputTime = 5;
-        Vector3 lastPlayerPosition;
-        const float MinimumDifference = 0.5f;
-
         public Hypervisor()
         {
             if (RulesManager.Instance == null)
@@ -206,7 +201,7 @@ namespace MOP
                 worldObjectManager.Add("SwampColliders", DisableOn.PlayerInHome);
                 worldObjectManager.Add("RYKIPOHJA", DisableOn.PlayerInHome);
                 worldObjectManager.Add("COMPUTER", DisableOn.PlayerAwayFromHome);
-                worldObjectManager.Add("JOBS/HouseDrunkNew", DisableOn.PlayerInHome);
+                //worldObjectManager.Add("JOBS/HouseDrunkNew", DisableOn.PlayerInHome);
 
                 ModConsole.Print("[MOP] World objects (2) loaded");
             }
@@ -667,35 +662,16 @@ namespace MOP
                 if (ticks > 1000)
                     ticks = 0;
 
-                if (itemInitializationDelayDone)
-                {
-                    if (Vector3.Distance(player.position, lastPlayerPosition) > MinimumDifference)
-                    {
-                        lastInputTimeCounter = 0;
-                    }
-                    else
-                    {
-                        lastInputTimeCounter++;
-                        
-                        // Don't execute anything, if player hasn't moved in few seconds.
-                        if (lastInputTimeCounter > WaitForInputTime)
-                        {
-                            yield return new WaitForSeconds(1);
-                            continue;
-                        }
-                    }
-                }
-                else
+                if (!itemInitializationDelayDone)
                 {
                     // We are slightly delaying the initialization, so all items have chance to set in place, because fuck MSC and its physics.
-                    waitTime += 1;
+                    waitTime++;
                     if (waitTime >= WaitDone)
                     {
                         FinishLoading();
                     }
                 }
 
-                lastPlayerPosition = player.position;
                 isPlayerAtYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, placeManager[0].transform.position) < 100
                     : Vector3.Distance(player.position, placeManager[0].transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 
@@ -813,6 +789,7 @@ namespace MOP
 
                         if (toEnable)
                         {
+                            ItemsManager.Instance.ItemsHooks[i].ToggleChangeFix();
                             if (ItemsManager.Instance.ItemsHooks[i].ActiveSelf) continue;
                             itemsToEnable.Add(ItemsManager.Instance.ItemsHooks[i]);
                         }
@@ -844,7 +821,7 @@ namespace MOP
                         }
                         catch (Exception ex)
                         {
-                            ExceptionManager.New(ex, false, "ITEM_TOGGLE_ENABLE_ERROR");
+                            ExceptionManager.New(ex, false, "ITEM_TOGGLE_DISABLE_ERROR - " + itemsToDisable[i] != null ? itemsToDisable[i].gameObject.name : "null");
                         }
                     }
                 }
@@ -903,7 +880,7 @@ namespace MOP
                         }
                         catch (Exception ex)
                         {
-                            ExceptionManager.New(ex, false, "ITEM_TOGGLE_ENABLE_ERROR");
+                            ExceptionManager.New(ex, false, "ITEM_TOGGLE_ENABLE_ERROR - " + itemsToEnable[i] != null ? itemsToDisable[i].gameObject.name : "null");
                         }
                     }
                 }
@@ -986,9 +963,7 @@ namespace MOP
         bool IsVehicleEnabled(float distance, float toggleDistance = 200)
         {
             if (inSectorMode)
-                toggleDistance = 30;            
-            else if (MopSettings.Mode == PerformanceMode.Performance)
-                toggleDistance = 100;
+                toggleDistance = 30; 
 
             return distance < toggleDistance;
         }
@@ -1070,6 +1045,26 @@ namespace MOP
             }
 
             if (MopSettings.Mode == PerformanceMode.Safe) return;
+            
+            // Items
+            for (int i = 0; i < ItemsManager.Instance.ItemsHooks.Count; i++)
+            {
+                try
+                {
+                    ItemBehaviour item = ItemsManager.Instance.ItemsHooks[i];
+                    item.Toggle(enabled);
+
+                    // We're freezing the object on save, so it won't move at all.
+                    if (mode == ToggleAllMode.OnSave)
+                    {
+                        item.Freeze();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, false, "TOGGLE_ALL_ITEMS_ERROR");
+                }
+            }
 
             // Vehicles
             for (int i = 0; i < vehicleManager.Count; i++)
@@ -1094,25 +1089,6 @@ namespace MOP
                 }
             }
 
-            // Items
-            for (int i = 0; i < ItemsManager.Instance.ItemsHooks.Count; i++)
-            {
-                try
-                {
-                    ItemBehaviour item = ItemsManager.Instance.ItemsHooks[i];
-                    item.Toggle(enabled);
-
-                    // We're freezing the object on save, so it won't move at all.
-                    if (mode == ToggleAllMode.OnSave)
-                    {
-                        item.Freeze();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ExceptionManager.New(ex, false, "TOGGLE_ALL_ITEMS_ERROR");
-                }
-            }
 
             // Places
             for (int i = 0; i < placeManager.Count; i++)
@@ -1132,7 +1108,15 @@ namespace MOP
             {
                 if (mode == ToggleAllMode.OnSave)
                 {
-                    ItemsManager.Instance.GetCanTrigger().gameObject.GetComponent<PlayMakerFSM>().SendEvent("STOP");
+                    GameObject canTrigger = ItemsManager.Instance.GetCanTrigger();
+                    if (canTrigger)
+                    {
+                        if (!canTrigger.transform.parent.gameObject.activeSelf)
+                        {
+                            canTrigger.transform.parent.gameObject.SetActive(true);
+                        }
+                        canTrigger.GetComponent<PlayMakerFSM>().SendEvent("STOP");
+                    }
                 }
             }
             catch (Exception ex)

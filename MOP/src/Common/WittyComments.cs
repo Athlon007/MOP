@@ -23,7 +23,6 @@ namespace MOP.Common
         static readonly string[] loadingWittyComments =
         {
             "Please wait...",
-            //"Donate on Patreon, if you want your message to appear here!"
             "Refilling beer cases...",
             "Adding meat to sausages...",
             "Pumping up tires...",

@@ -374,6 +374,16 @@ namespace MOP
                 ExceptionManager.New(ex, false, "GRANDMA_HIKER_FIXES");
             }
 
+            // Cabin door resetting fix.
+            try
+            {
+                GameObject.Find("CABIN").transform.Find("Cabin/Door/Pivot/Handle").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "CABIN_DOOR_RESET_FIX_ERROR");
+            }
+
             ModConsole.Print("[MOP] Finished applying fixes");
         }
 
@@ -471,80 +481,6 @@ namespace MOP
             }
 
             HoodFixDone = true;
-        }
-
-        public void KekmetTrailerAttach()
-        {
-            StartCoroutine(KekmetTrailerAttachCoroutine());
-        }
-
-        IEnumerator KekmetTrailerAttachCoroutine()
-        {
-            Vehicle flatbed = VehicleManager.Instance.GetVehicle(VehiclesTypes.Flatbed);
-            while (!flatbed.gameObject.activeSelf)
-            {
-                yield return new WaitForSeconds(1f);
-            }
-
-            flatbed.transform.rotation = flatbed.Rotation;
-            flatbed.transform.position = flatbed.Position;
-
-            for (int i = 0; i < 10; i++)
-            {
-                PlayMakerFSM.BroadcastEvent("TRAILERATTACH");
-                yield return new WaitForSeconds(.1f);
-            }
-        }
-        
-        Vehicle flatbed;
-        PlayMakerFSM kekmetTrailerHook;
-        GameObject kekmetTrailerRemove;
-
-        public void KekmetTrailerDetach()
-        {
-            if (flatbed == null)
-            {
-                flatbed = VehicleManager.Instance.GetVehicle(VehiclesTypes.Flatbed);
-                kekmetTrailerHook = GameObject.Find("KEKMET(350-400psi)").transform.Find("Trailer/Hook").GetComponent<PlayMakerFSM>();
-                kekmetTrailerHook.Fsm.RestartOnEnable = false;
-                kekmetTrailerRemove = GameObject.Find("KEKMET(350-400psi)").transform.Find("Trailer/Remove").gameObject;
-                kekmetTrailerRemove.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-            }
-
-            StartCoroutine(KekmetTrailerDetachCoroutine());
-        }
-
-        // HACK: Pretty much everything you find in this class is hack.
-        // God bless you bug fixing it.
-        // My frustration level reached a peak while coding this part.
-        IEnumerator KekmetTrailerDetachCoroutine()
-        {
-            while (!flatbed.gameObject.activeSelf)
-            {
-                yield return new WaitForSeconds(1f);
-            }
-
-            PlayMakerFSM removeFSM = kekmetTrailerRemove.GetComponent<PlayMakerFSM>();
-            FsmState waitButtonState = removeFSM.FindFsmState("Wait button");
-            List<FsmStateAction> waitButtonStateActions = waitButtonState.Actions.ToList();
-            waitButtonStateActions.Insert(0, new CustomStop());
-            waitButtonState.Actions = waitButtonStateActions.ToArray();
-            waitButtonState.SaveActions();
-
-            for (int i = 0; i < 2; i++)
-            {
-                PlayMakerFSM.BroadcastEvent("TRAILERDETACH");
-                kekmetTrailerHook.SendEvent("GLOBALEVENT");
-                removeFSM.SendEvent("USE");
-                yield return new WaitForSeconds(.1f);
-            }
-
-            flatbed.transform.rotation = flatbed.Rotation;
-            flatbed.transform.position = flatbed.Position;
-            waitButtonStateActions.RemoveAt(0);
-            waitButtonState.Actions = waitButtonStateActions.ToArray();
-            waitButtonState.SaveActions();
-            kekmetTrailerRemove.SetActive(false);
         }
 
         public void RearBumperFix(GameObject triggerBumper, GameObject bumper)

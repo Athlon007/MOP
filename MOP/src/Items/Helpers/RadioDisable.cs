@@ -14,26 +14,40 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using HutongGames.PlayMaker;
 using UnityEngine;
 
-namespace MOP.FSM.Actions
+namespace MOP.Items.Helpers
 {
-    class GrandmaHiker : FsmStateAction
+    class RadioDisable : MonoBehaviour
     {
-        Animator animator;
-        bool toEnable;
+        // This class prevents radio from being disabled by MOP, if it's playing the music.
 
-        public GrandmaHiker(GameObject skeleton, bool toEnable)
+        ItemBehaviour item;
+        bool dontAct;
+
+        void Awake()
         {
-            animator = skeleton.GetComponent<Animator>();
-            this.toEnable = toEnable;
+            item = transform.parent.gameObject.GetComponent<ItemBehaviour>();
+            if (item)
+            {
+                dontAct = item.DontDisable;
+            }
         }
 
-        public override void OnEnter()
+        void OnEnable()
         {
-            // If grandma is entering the car, her animator will get disabled and vice-versa.
-            animator.enabled = toEnable;
+            if (item && !dontAct)
+            {
+                item.DontDisable = true;
+            }
+        }
+
+        void OnDisable()
+        {
+            if (item && !dontAct)
+            {
+                item.DontDisable = false;
+            }
         }
     }
 }

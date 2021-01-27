@@ -301,7 +301,16 @@ namespace MOP.Vehicles.Cases
                          && g.transform.root == this.gameObject.transform)
                 .ToArray();
             foreach (GameObject part in suspensionParts)
-                part.AddComponent<SatsumaPartMassManager>();
+            {
+                try
+                {
+                    part.AddComponent<SatsumaPartMassManager>();
+                }
+                catch
+                {
+                    ExceptionManager.New(new System.Exception("SatsumaPartMassManager: Suspension"), false, "SatsumaPartsMassManager: Adding to suspension parts");
+                }
+            }
             // Appparently not only suspension fucks over the Satsuma...
             GameObject[] others = Resources.FindObjectsOfTypeAll<GameObject>()
                 .Where(g => g.name.EqualsAny("grille gt(Clone)", "grille(Clone)", "subwoofer panel(Clone)",
@@ -309,7 +318,16 @@ namespace MOP.Vehicles.Cases
                 "radiator hose1(xxxxx)", "radiator hose3(xxxxx)", "marker light left(xxxxx)", "marker light right(xxxxx)", "antenna(leftx)",
                 "antenna(right)", "dashboard(Clone)")).ToArray();
             foreach (GameObject other in others)
-                other.AddComponent<SatsumaPartMassManager>();
+            {
+                try
+                {
+                    other.AddComponent<SatsumaPartMassManager>();
+                }
+                catch
+                {
+                    ExceptionManager.New(new System.Exception("SatsumaPartMassManager: Others"), false, "SatsumaPartsMassManager: Others adding.");
+                }
+            }
 
             key = transform.Find("Dashboard/Steering/steering_column2/Ignition/Keys/Key").gameObject;
             cooldownTick = GameObject.Find("block(Clone)").transform.Find("CooldownTick").gameObject;
@@ -334,7 +352,7 @@ namespace MOP.Vehicles.Cases
                     foreach (Material mat in dashboardMaterials)
                         mat.renderQueue = 100;
 
-                    //lightSelection = GameObject.Find("LightModes").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmInt("Selection");
+
                     lightSelection = Resources.FindObjectsOfTypeAll<GameObject>()
                         .First(g => g.name == "dashboard meters(Clone)").transform.Find("Knobs/ButtonsDash/LightModes")
                         .gameObject.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmInt("Selection");
@@ -407,6 +425,38 @@ namespace MOP.Vehicles.Cases
             catch
             {
                 throw new System.Exception("Radiator hose 3 error");
+            }
+
+            // Windscreen fixes :)
+            try
+            {
+                Transform windscreen = transform.Find("Body/Windshield");
+                if (!windscreen)
+                {
+                    throw new System.Exception("Couldn't find Windscreen.");
+                }
+                SatsumaWindscreenFixer swf = windscreen.gameObject.AddComponent<SatsumaWindscreenFixer>();
+                // And now we are hooking up the windscreen job in repairshop.
+                Transform windshieldJob = GameObject.Find("REPAIRSHOP").transform.Find("Jobs/Windshield");
+                if (!windshieldJob)
+                {
+                    throw new System.Exception("Couldn't find windshield job.");
+                }
+
+                if (!windshieldJob.parent.gameObject.activeSelf)
+                {
+                    windshieldJob.parent.gameObject.SetActive(true);
+                    windshieldJob.parent.gameObject.SetActive(false);
+                }
+
+                PlayMakerFSM windshieldJobFSM = windshieldJob.gameObject.GetComponent<PlayMakerFSM>();
+                List<FsmStateAction> wait1Actions = windshieldJobFSM.FindFsmState("Wait1").Actions.ToList();
+                wait1Actions.Insert(0, new WindscreenRepairJob(swf));
+                windshieldJobFSM.FindFsmState("Wait1").Actions = wait1Actions.ToArray();
+            }
+            catch
+            {
+                throw new System.Exception("Windshield repair fix error.");
             }
 
             if (MopSettings.GenerateToggledItemsListDebug)

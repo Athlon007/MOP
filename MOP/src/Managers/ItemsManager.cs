@@ -177,11 +177,24 @@ namespace MOP.Managers
                 gameObject.AddComponent<ThrowableJunkBehaviour>();
             }
 
-            // Hook the prefab of firewood log.
-            GameObject firewoodPrefab = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(f => f.name == "firewood" && f.GetComponent<PlayMakerFSM>() == null).gameObject;
+            // Hook the prefab of firewood.
+            GameObject firewoodPrefab = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(f => f.name.EqualsAny("firewood") && f.GetComponent<PlayMakerFSM>() == null).gameObject;
             if (firewoodPrefab)
             {
                 firewoodPrefab.AddComponent<ItemBehaviour>();
+            }
+
+            // Hook the prefab of log.
+            GameObject logPrefab = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(f => f.name.EqualsAny("log") && f.GetComponent<PlayMakerFSM>() == null).gameObject;
+            if (logPrefab)
+            {
+                logPrefab.AddComponent<ItemBehaviour>();
+                logPrefab.transform.Find("log(Clone)").gameObject.AddComponent<ItemBehaviour>();
+            }
+
+            foreach (var f in Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "log(Clone)"))
+            {
+                f.AddComponent<ItemBehaviour>();
             }
         }
 
@@ -281,7 +294,7 @@ namespace MOP.Managers
 
             // Unparent all childs of CDs object.
             Transform cds = GameObject.Find("ITEMS").transform.Find("CDs");
-            if (cds != null)
+            if (cds)
             {
                 for (int i = 0; i < cds.childCount; i++)
                     cds.GetChild(i).parent = null;
@@ -291,23 +304,22 @@ namespace MOP.Managers
         /// <summary>
         /// Returns the transform of lost items spawner at junkyard.
         /// </summary>
-        /// <returns></returns>
         public Transform GetLostItemsSpawner()
         {
             return lostSpawner;
         }
 
+
+        GameObject canTrigger;
         /// <summary>
         /// Returns the position of Jokke's kilju can trigger.
         /// </summary>
-        /// <returns></returns>
-        public Transform GetCanTrigger()
+        public GameObject GetCanTrigger()
         {
-            Transform canTrigger = GameObject.Find("JOBS").transform.Find("HouseDrunkNew/BeerCampNew/BeerCamp/KiljuBuyer/CanTrigger");
-
-            // If canTrigger object is not located at new house, get one from the old Jokke's house.
-            if (canTrigger == null)
-                canTrigger = GameObject.Find("JOBS").transform.Find("HouseDrunk/BeerCampOld/BeerCamp/KiljuBuyer/CanTrigger");
+            if (!canTrigger)
+            {
+                canTrigger = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "CanTrigger").gameObject;
+            }
 
             return canTrigger;
         }
