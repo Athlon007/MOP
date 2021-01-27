@@ -29,6 +29,7 @@ using MOP.Vehicles.Cases;
 using MOP.Vehicles.Managers;
 using MOP.Rules;
 using MOP.Rules.Types;
+using MOP.Managers;
 
 namespace MOP.Vehicles
 {
@@ -319,18 +320,6 @@ namespace MOP.Vehicles
             if (enabled)
             {
                 MoveNonDisableableObjects(null);
-
-                if (vehicleType == VehiclesTypes.Kekmet && FsmManager.IsTrailerAttached())
-                {
-                    if (Vector3.Distance(transform.Find("Trailer/Hook").position, VehicleManager.Instance.GetVehicle(VehiclesTypes.Flatbed).transform.Find("HookTarget").position) >= 0.4f)
-                    {
-                        GameFixes.Instance.KekmetTrailerDetach();
-                    }
-                    else
-                    {
-                        GameFixes.Instance.KekmetTrailerAttach();
-                    }
-                }
             }
         }
 

@@ -16,6 +16,7 @@
 
 using MSCLoader;
 using UnityEngine;
+
 using MOP.Common;
 
 namespace MOP.Vehicles.Managers.SatsumaManagers
