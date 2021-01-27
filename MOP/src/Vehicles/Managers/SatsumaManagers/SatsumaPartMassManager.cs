@@ -35,7 +35,6 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
         {
             if (transform.root != transform && !transform.root.gameObject.name.EqualsAny("SATSUMA(557kg, 248)", "CARPARTS"))
             {
-                MSCLoader.ModConsole.Error($"Part: {gameObject.GetGameObjectPath()} has no parent.");
                 Destroy(this);
             }
         }
