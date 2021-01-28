@@ -58,7 +58,7 @@ namespace MOP.Common
         {
             if (!MopSettings.LoadedOnce)
             {
-                ModUI.ShowMessage("Please load the game fully at least once, before reporting a bug!");
+                ModUI.ShowMessage("Please load the game fully at least once, before reporting a bug!", "MOP");
                 return;
             }
 

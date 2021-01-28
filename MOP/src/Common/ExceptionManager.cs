@@ -219,6 +219,10 @@ namespace MOP.Common
             return fullOS;
         }
 
+        /// <summary>
+        /// Returns MOP log folder, ex.: C:\My Summer Car\MOP_Logs
+        /// </summary>
+        /// <returns></returns>
         internal static string GetLogFolder()
         {
             // Check if the old MOP_LOG.txt is still present and delete is, so dummies won't send a MOP log from 2019.
@@ -270,7 +274,7 @@ namespace MOP.Common
 
         static string GetOutputLogPath()
         {
-            return $"{GetRootPath()}/ output_log.txt";
+            return $"{GetRootPath()}/output_log.txt";
         }
     }
 }

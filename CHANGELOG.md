@@ -7,7 +7,6 @@
 - MOP Report:
   - Added the number of installed mods
   - Added game window width and height
-
 - "I found a bug button" will now ask you to load the game fully at least once, before generating a bug report
 - Added an instruction what to do, if an error occures
 
@@ -15,7 +14,6 @@
 
 - Fixed an error, if object that was SatsumaMassManager was hooking didn't have Remove FSM
 - Fixed pathfinding of objects in error logs
-
 - Fixed engine renderers not being enabled back on
 - Fixed fighting between EngineCulling and renderers
 
