@@ -50,6 +50,20 @@ namespace MOP.Items
             }
         }
 
+        bool ignoreRenderer;
+        public bool IgnoreRenderer
+        {
+            get => ignoreRenderer;
+            set
+            {
+                if (value && !ignoreRenderer && renderer)
+                {
+                    renderer.enabled = true;
+                }
+                ignoreRenderer = value;
+            }
+        }
+
         readonly Rigidbody rb;
         Renderer renderer;
 
@@ -362,7 +376,7 @@ namespace MOP.Items
                 }
 
                 // Disable object's renderer on distance
-                if (renderer != null)
+                if (renderer != null && !IgnoreRenderer)
                 {
                     renderer.enabled = enabled;
                 }
@@ -503,7 +517,7 @@ namespace MOP.Items
             if (Toggle != ToggleActive) return;
 
             // Fixing issue with objects not getting re-enabled (I hope).
-            if (renderer != null && renderer.enabled == false)
+            if (renderer != null && renderer.enabled == false && !IgnoreRenderer)
             {
                 renderer.enabled = true;
             }

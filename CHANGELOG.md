@@ -16,6 +16,9 @@
 - Fixed an error, if object that was SatsumaMassManager was hooking didn't have Remove FSM
 - Fixed pathfinding of objects in error logs
 
+- Fixed engine renderers not being enabled back on
+- Fixed fighting between EngineCulling and renderers
+
 ## 3.1.2 (26.01.2021)
 
 ### Added
