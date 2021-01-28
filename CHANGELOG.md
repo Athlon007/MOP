@@ -15,7 +15,7 @@
 - Fixed an error, if object that was SatsumaMassManager was hooking didn't have Remove FSM
 - Fixed pathfinding of objects in error logs
 - Fixed engine renderers not being enabled back on
-- Fixed fighting between EngineCulling and renderers
+- Fixed fighting between EngineCulling and ItemBehaviour; In some cases, EngineCulling tried to disable the renderer, while the ItemBehaviour tried to enable it back on. From now on, EngineCulling has a priority over ItemBehaviour
 
 ## 3.1.2 (26.01.2021)
 
