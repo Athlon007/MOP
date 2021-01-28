@@ -56,6 +56,12 @@ namespace MOP.Common
 
         public static void FileBugReport()
         {
+            if (!MopSettings.LoadedOnce)
+            {
+                ModUI.ShowMessage("Please load the game fully at least once, before reporting a bug!");
+                return;
+            }
+
             instance.BugReport();
         }
 
@@ -112,14 +118,15 @@ namespace MOP.Common
             using (StreamWriter sw = new StreamWriter($"{BugReportPath}/README.txt"))
             {
                 sw.WriteLine("A MOP report archive has been successfully generated.\n");
-                sw.WriteLine("Upload .zip file to some file hosting site, such as https://www.mediafire.com/.");
+                sw.WriteLine("Upload .zip file to some file hosting site, such as https://www.mediafire.com/. \n\n" +
+                             "Remember to describe how you stumbled uppon the error!");
             }
 
             // We are asking the user if he wants to add his game save to the zip file.
             startWaiting = true;
             if (File.Exists(SaveManager.GetDefaultES2SavePosition()))
             {
-                ModUI.ShowYesNoMessage("Would you like to include save file?\n\nThis may greatly improve finding and fixing the bug.", "MOP", DoAddZip);
+                ModUI.ShowYesNoMessage("Would you like to your include save file?\n\nThis may greatly improve finding and fixing the bug.", "MOP", DoAddZip);
 
                 // MOP will wait for this transform to be destroyed.
                 Transform messageBoxTransform = GameObject.Find("MSCLoader Canvas").transform.Find("MSCLoader MB(Clone)");

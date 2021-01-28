@@ -8,6 +8,9 @@
   - Added the number of installed mods
   - Added game window width and height
 
+- "I found a bug button" will now ask you to load the game fully at least once, before generating a bug report
+- Added an instruction what to do, if an error occures
+
 ### Bug Fixes
 
 - Fixed an error, if object that was SatsumaMassManager was hooking didn't have Remove FSM

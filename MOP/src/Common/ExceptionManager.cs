@@ -66,16 +66,16 @@ namespace MOP.Common
                          $"{errorInfo}");
             }
 
+            string errorMessage = $"[MOP] An error has occured. Log has been saved into My Summer Car folder into:\n\n{logFilePath}.\n\n" +
+                                  $"Please go into MOP Settings and click \"<b>I found a bug</b>\" button, in order to generate bug report and then follow the instructions.\n";
+
             if (isCritical)
             {
-                ModConsole.Error("[MOP] An error has occured. " +
-                    $"Log has been saved in My Summer Car folder into:\n{logFilePath}.");
+                ModConsole.Error(errorMessage);
             }
             else
             {
-                ModConsole.Warning("[MOP] An error has occured. " +
-                    $"Log has been saved in My Summer Car folder into:\n{logFilePath}.\n\n" +
-                    "You can continue playing.");
+                ModConsole.Warning(errorMessage + "\nYou can continue playing.");
             }
 
             erorrsContainer.Add(message);
