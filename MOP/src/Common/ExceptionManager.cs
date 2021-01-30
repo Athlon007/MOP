@@ -66,16 +66,16 @@ namespace MOP.Common
                          $"{errorInfo}");
             }
 
+            string errorMessage = $"[MOP] An error has occured. Log has been saved into My Summer Car folder into:\n\n{logFilePath}.\n\n" +
+                                  $"Please go into MOP Settings and click \"<b>I found a bug</b>\" button, in order to generate bug report and then follow the instructions.\n";
+
             if (isCritical)
             {
-                ModConsole.Error("[MOP] An error has occured. " +
-                    $"Log has been saved in My Summer Car folder into:\n{logFilePath}.");
+                ModConsole.Error(errorMessage);
             }
             else
             {
-                ModConsole.Warning("[MOP] An error has occured. " +
-                    $"Log has been saved in My Summer Car folder into:\n{logFilePath}.\n\n" +
-                    "You can continue playing.");
+                ModConsole.Warning(errorMessage + "\nYou can continue playing.");
             }
 
             erorrsContainer.Add(message);
@@ -219,6 +219,10 @@ namespace MOP.Common
             return fullOS;
         }
 
+        /// <summary>
+        /// Returns MOP log folder, ex.: C:\My Summer Car\MOP_Logs
+        /// </summary>
+        /// <returns></returns>
         internal static string GetLogFolder()
         {
             // Check if the old MOP_LOG.txt is still present and delete is, so dummies won't send a MOP log from 2019.
@@ -270,7 +274,7 @@ namespace MOP.Common
 
         static string GetOutputLogPath()
         {
-            return $"{GetRootPath()}/ output_log.txt";
+            return $"{GetRootPath()}/output_log.txt";
         }
     }
 }

@@ -7,18 +7,22 @@
 - Improved Hayosiko disabling during early part of the game
 - Changed how vehicle position is verified
 
-## tba (tba)
+## 3.1.3 (29.01.2021)
 
 ### Added
 
 - MOP Report:
   - Added the number of installed mods
   - Added game window width and height
+- "I found a bug button" will now ask you to load the game fully at least once, before generating a bug report
+- Added an instruction what to do, if an error occures
 
 ### Bug Fixes
 
 - Fixed an error, if object that was SatsumaMassManager was hooking didn't have Remove FSM
 - Fixed pathfinding of objects in error logs
+- Fixed engine renderers not being enabled back on
+- Fixed fighting between EngineCulling and ItemBehaviour; In some cases, EngineCulling tried to disable the renderer, while the ItemBehaviour tried to enable it back on. From now on, EngineCulling has a priority over ItemBehaviour
 
 ## 3.1.2 (26.01.2021)
 

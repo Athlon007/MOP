@@ -57,6 +57,9 @@ namespace MOP.Common
         const string firstTimeWindowFile = "FirstTimeLaunch.txt";
         readonly static string firstTimePath = $"{MOP.ModConfigPath}/{firstTimeWindowFile}";
 
+        // Tracks if the game has been fully loaded at east once.
+        public static bool LoadedOnce;
+
         public static void UpdateAll()
         {
             // Activating Objects

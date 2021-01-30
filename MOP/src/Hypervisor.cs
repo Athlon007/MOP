@@ -76,6 +76,8 @@ namespace MOP
                 return;
             }
 
+            MopSettings.LoadedOnce = true;
+
             mopCanvas = GameObject.Instantiate(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MSCLoader Canvas"));
             mopCanvas.name = "MOP_Canvas";
             Destroy(mopCanvas.transform.Find("MSCLoader Console").gameObject);

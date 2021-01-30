@@ -26,6 +26,7 @@ using MOP.Common.Enumerations;
 using MOP.Vehicles.Managers.SatsumaManagers;
 using MOP.Rules;
 using MOP.Rules.Types;
+using MOP.Items;
 
 namespace MOP.Vehicles.Cases
 {
@@ -585,8 +586,15 @@ namespace MOP.Vehicles.Cases
                     // Skip renderer if it's root is not Satsuma.
                     if (engineBayRenderers[i].transform.root.gameObject != this.gameObject)
                         continue;
+                    
+                    // ItemBehaviour - don't disable renderer.
+                    if (engineBayRenderers[i].gameObject.GetComponent<ItemBehaviour>())
+                    {
+                        engineBayRenderers[i].gameObject.GetComponent<ItemBehaviour>().IgnoreRenderer = !enabled;
+                    }
 
                     engineBayRenderers[i].enabled = enabled;
+
                 }
                 catch (System.Exception ex)
                 {
