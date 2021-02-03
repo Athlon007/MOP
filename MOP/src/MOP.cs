@@ -53,6 +53,10 @@ namespace MOP
         public static string ModVersionShort { get => modVersion; }
 
         // BUTTONS
+#if PRO
+        SettingSlider activeDistance;
+        readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
+#else
         readonly Settings iFoundABug = new Settings("iFoundABug", "I found a bug", BugReporter.FileBugReport);
         readonly Settings faq = new Settings("faq", "FAQ", ExternalExecuting.OpenFAQDialog);
         readonly Settings wiki = new Settings("wiki", "Documentation", ExternalExecuting.OpenWikiDialog);
@@ -97,6 +101,7 @@ namespace MOP
         readonly Settings deleteAllLogs = new Settings("deleteAllLogs", "Delete all logs", ExceptionManager.DeleteAllLogs);
 
         readonly Color32 headerColor = new Color32(29, 29, 29, 255);
+#endif
 
         public static Guid SessionID;
 
@@ -111,6 +116,17 @@ namespace MOP
 #if DEBUG
             Settings.AddHeader(this, "Shh...Don't leak my hard work ;)", Color.yellow, Color.black);
 #endif
+#if PRO
+            modSettings.AddButton("iFoundABug", "", "I found a bug", () => BugReporter.FileBugReport());
+            modSettings.AddButton("faq", "", "FAQ", () => ExternalExecuting.OpenFAQDialog());
+            modSettings.AddButton("wiki", "", "Wiki", () => ExternalExecuting.OpenWikiDialog());
+            modSettings.AddButton("homepage", "", "Homepage", () => ExternalExecuting.OpenHomepageDialog());
+            modSettings.AddButton("paypal", "", "PayPal", () => ExternalExecuting.OpenPaypalDialog());
+
+            modSettings.AddHeader("Activating Objects");
+            activeDistance = modSettings.AddSlider("activateDistance", "Activate Distance", 1, 0, 3);
+            activeDistance.textValues = activeDistanceText;
+#else
 
             if (!ModLoader.CheckSteam())
             {
@@ -182,8 +198,9 @@ namespace MOP
                 $"{ExceptionManager.GetSystemInfo()}\n" +
                 $"<color=yellow>Session ID:</color> {SessionID}\n" +
                 $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}");
+#endif
         }
-        #endregion
+#endregion
 
         public override void OnMenuLoad()
         {

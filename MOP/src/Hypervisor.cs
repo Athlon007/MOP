@@ -61,9 +61,13 @@ namespace MOP
         bool itemInitializationDelayDone;
         int waitTime;
         const int WaitDone = 2;
+#if PRO
+        GameObject loadScreen;
+#else
         GameObject mopCanvas;
+#endif
         PlayMakerFSM cursorFSM;
-        #endregion
+#endregion
 
         List<ItemBehaviour> itemsToEnable = new List<ItemBehaviour>();
         List<ItemBehaviour> itemsToDisable = new List<ItemBehaviour>();
@@ -78,18 +82,14 @@ namespace MOP
 
             MopSettings.LoadedOnce = true;
 
-            mopCanvas = GameObject.Instantiate(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MSCLoader Canvas"));
-            mopCanvas.name = "MOP_Canvas";
-            Destroy(mopCanvas.transform.Find("MSCLoader Console").gameObject);
-            Destroy(mopCanvas.transform.Find("MSCLoader Settings").gameObject);
-            Destroy(mopCanvas.transform.Find("MSCLoader Settings button").gameObject);
-            Destroy(mopCanvas.transform.Find("MSCLoader pbar").gameObject);
-            Destroy(mopCanvas.transform.Find("MSCLoader Info").gameObject);
-            Destroy(mopCanvas.transform.Find("MSCLoader loading screen/Title").gameObject);
-            Destroy(mopCanvas.transform.Find("MSCLoader loading screen/Progress").gameObject);
+#if PRO
+            loadScreen = ModUI.GetCanvas().transform.Find("ModLoaderUI/ModLoadScreen").gameObject;
+            loadScreen.transform.Find("TextHolder/Text").gameObject.GetComponent<Text>().text = UnityEngine.Random.Range(0, 100) == 0 ? "HAVE A NICE DAY :)" : "LOADING MODERN OPTIMIZATION PLUGIN";
+#else
             mopCanvas.transform.Find("MSCLoader loading screen/ModName").gameObject.GetComponent<Text>().text = UnityEngine.Random.Range(0, 100) == 0 ? "HAVE A NICE DAY :)" : "LOADING MODERN OPTIMIZATION PLUGIN";
-            mopCanvas.transform.Find("MSCLoader loading screen/Loading").gameObject.GetComponent<Text>().text = WittyComments.GetWittyText();
-            mopCanvas.SetActive(true);
+            //mopCanvas.transform.Find("MSCLoader loading screen/Loading").gameObject.GetComponent<Text>().text = WittyComments.GetWittyText();
+#endif
+            loadScreen.SetActive(true);
             playerController = GameObject.Find("PLAYER").GetComponent<CharacterController>();
             playerController.enabled = false;
             
@@ -114,7 +114,7 @@ namespace MOP
             StartCoroutine(DelayedInitializaitonRoutine());
         }
 
-        #region MOP Initialization
+#region MOP Initialization
         IEnumerator DelayedInitializaitonRoutine()
         {
             yield return new WaitForSeconds(2);
@@ -544,8 +544,8 @@ namespace MOP
                 System.Diagnostics.Process.Start("place.txt");
             }
         }
-        #endregion
-        #region Save Game Actions
+#endregion
+#region Save Game Actions
         /// <summary>
         /// Looks for gamobject named SAVEGAME, and hooks PreSaveGame into them.
         /// </summary>
@@ -647,8 +647,8 @@ namespace MOP
             if (FsmManager.IsSuskiLargeCall())
                 PreSaveGame();
         }
-        #endregion
-        #region Updating
+#endregion
+#region Updating
         /// <summary>
         /// This coroutine runs
         /// </summary>
@@ -947,8 +947,8 @@ namespace MOP
                 }
             }
         }
-        #endregion
-        #region Item enabling checks
+#endregion
+#region Item enabling checks
         /// <summary>
         /// Checks if the object is supposed to be enabled by calculating the distance between player and target.
         /// </summary>
@@ -979,8 +979,8 @@ namespace MOP
         {
             return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }
-        #endregion
-        #region System Control & Crash Protection
+#endregion
+#region System Control & Crash Protection
         int ticks;
         int lastTick;
         int retries;
@@ -1026,7 +1026,7 @@ namespace MOP
                 }
             }
         }
-        #endregion
+#endregion
 
         /// <summary>
         /// Toggles on all objects.
@@ -1155,7 +1155,7 @@ namespace MOP
         void FinishLoading()
         {
             itemInitializationDelayDone = true;
-            mopCanvas.SetActive(false);
+            loadScreen.SetActive(false);
             playerController.enabled = true;
             FsmManager.PlayerInMenu = false;
             cursorFSM.enabled = true;

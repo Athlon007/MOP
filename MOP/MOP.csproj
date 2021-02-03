@@ -38,6 +38,14 @@
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Pro|AnyCPU'">
+    <OutputPath>bin\Pro\</OutputPath>
+    <DefineConstants>TRACE;PRO</DefineConstants>
+    <Optimize>true</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\Assembly-CSharp.dll</HintPath>
@@ -49,8 +57,9 @@
     <Reference Include="Ionic.Zip">
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="MSCLoader">
-      <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\MSCLoader.dll</HintPath>
+    <Reference Include="MSCLoader, Version=1.1.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\MSCModLoaderPro\MSCLoader\MSCLoader\bin\Debug\MSCLoader.dll</HintPath>
     </Reference>
     <Reference Include="PlayMaker">
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\PlayMaker.dll</HintPath>
