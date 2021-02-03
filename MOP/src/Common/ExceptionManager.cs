@@ -141,7 +141,8 @@ namespace MOP.Common
             output += $"Date and Time: {DateTime.Now:yyyy-MM-ddTHH:mm:ssZ}\n";
             output += $"{GetSystemInfo()}\n";
             output += $"Session ID: {MOP.SessionID}\n";
-            output += $"Screen resolution: {Screen.width}x{Screen.height}\n\n";
+            output += $"Game resolution: {Screen.width}x{Screen.height}\n";
+            output += $"Screen resolution: {Screen.currentResolution.width}x{Screen.currentResolution.height}\n\n";
 
             output += "=== MOP SETTINGS ===\n\n";
             output += $"ActiveDistance: {MopSettings.ActiveDistance}\n";
@@ -163,6 +164,17 @@ namespace MOP.Common
             // Steam stuff.
             output += $"CheckSteam: {ModLoader.CheckSteam()} \n";
             output += $"ExperimentalBranch: {ModLoader.CheckIfExperimental()}\n";
+
+            // Game data
+            if (ModLoader.GetCurrentScene() == CurrentScene.Game)
+            {
+                output += "\n=== GAME DATA ===\n\n";
+                output += $"PlayerPosition: {GameObject.Find("PLAYER").transform.position}\n";
+                output += $"PlayerHasHayosikoKey: {FSM.FsmManager.PlayerHasHayosikoKey()}\n";
+                output += $"IsPlayerInCar: {FSM.FsmManager.IsPlayerInCar()}\n";
+                output += $"IsPlayerInSatsuma: {FSM.FsmManager.IsPlayerInSatsuma()}\n";
+                output += $"CanTriggerStatus: {(Managers.ItemsManager.Instance.GetCanTrigger() == null ? "null" : $"Found ({Managers.ItemsManager.Instance.GetCanTrigger().GetGameObjectPath()})")}\n";
+            }
 
             // List installed mods.
             output += $"\n=== MODS ({ModLoader.LoadedMods.Count}) ===\n\n";

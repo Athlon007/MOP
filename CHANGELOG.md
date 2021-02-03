@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.1.4 (tba)
+
+### Added
+
+- Added some more info to MOP reports
+
+### Bug Fixes
+
+- Fixed Perajarvi construction site despawning
+- Possibly fixed an error happening when the game was being saved
+- Possibly fixed an error, where MOP tried to check if rigidbody of item is disabled, but the item didn't have rigidbody component
+
 ## 3.1.3 (29.01.2021)
 
 ### Added

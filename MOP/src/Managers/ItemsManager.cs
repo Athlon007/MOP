@@ -102,6 +102,7 @@ namespace MOP.Managers
             instance = this;
             lostSpawner = GameObject.Find("LostSpawner").transform;
             cashRegisterHook = GameObject.Find("STORE/StoreCashRegister/Register").AddComponent<CashRegisterBehaviour>();
+            GetCanTrigger();
 
             // Car parts order bill hook.
             try
@@ -318,7 +319,7 @@ namespace MOP.Managers
         {
             if (!canTrigger)
             {
-                canTrigger = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "CanTrigger").gameObject;
+                canTrigger = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.name == "CanTrigger").gameObject;
             }
 
             return canTrigger;
