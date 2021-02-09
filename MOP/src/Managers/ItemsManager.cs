@@ -319,7 +319,7 @@ namespace MOP.Managers
         {
             if (!canTrigger)
             {
-                canTrigger = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.name == "CanTrigger").gameObject;
+                canTrigger = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.name == "CanTrigger");
             }
 
             return canTrigger;

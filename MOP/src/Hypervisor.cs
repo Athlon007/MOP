@@ -77,6 +77,9 @@ namespace MOP
 
             MopSettings.LoadedOnce = true;
 
+            loadScreenWorkaround = InfiniteLoadscreenWorkaround();
+            StartCoroutine(loadScreenWorkaround);
+
             mopCanvas = GameObject.Instantiate(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MSCLoader Canvas"));
             mopCanvas.name = "MOP_Canvas";
             Destroy(mopCanvas.transform.Find("MSCLoader Console").gameObject);
@@ -1153,6 +1156,11 @@ namespace MOP
 
         void FinishLoading()
         {
+            if (loadScreenWorkaround != null)
+            {
+                StopCoroutine(loadScreenWorkaround);
+            }
+
             itemInitializationDelayDone = true;
             mopCanvas.SetActive(false);
             playerController.enabled = true;
@@ -1163,6 +1171,17 @@ namespace MOP
             if (vh)
             {
                 vh.SetActive(false);
+            }
+        }
+
+        private IEnumerator loadScreenWorkaround;
+        IEnumerator InfiniteLoadscreenWorkaround()
+        {
+            yield return new WaitForSeconds(30);
+            if (FsmManager.PlayerInMenu)
+            {
+                ModConsole.Error("[MOP] MOP failed to load in time. Please go into MOP settings and use \"I found a bug\" button.");
+                FinishLoading();
             }
         }
     }
