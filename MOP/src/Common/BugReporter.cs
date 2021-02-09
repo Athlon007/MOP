@@ -58,7 +58,7 @@ namespace MOP.Common
         {
             if (!MopSettings.LoadedOnce)
             {
-                ModUI.ShowYesNoMessage("It is recommended to start the game at least once before filing bug report. If you can't load the game, press Yes to generate mod report anyway.", "MOP", BugReportYesNo);
+                ModUI.ShowYesNoMessage("It is recommended to start the game at least once before filing bug report.\n\nIf you can't load the game, press Yes to generate mod report anyway.", "MOP", BugReportYesNo);
                 return;
             }
 
