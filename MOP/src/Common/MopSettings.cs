@@ -43,7 +43,11 @@ namespace MOP.Common
         public static bool RemoveEmptyItems { get; private set; }
 
         // RULE FILES
+#if PRO
+        public static bool RuleFilesAutoUpdateEnabled { get => MOP.RulesAutoUpdate.Value; }
+#else
         public static bool RuleFilesAutoUpdateEnabled { get => (bool)MOP.RulesAutoUpdate.GetValue(); }
+#endif
         public static bool RuleFilesUpdateChecked;
         
         // Distance after which car physics is toggled.
@@ -63,11 +67,28 @@ namespace MOP.Common
         public static void UpdateAll()
         {
             // Activating Objects
+#if PRO
+            ActiveDistance = (int)MOP.ActiveDistance.Value;
+#else
             ActiveDistance = int.Parse(MOP.ActiveDistance.GetValue().ToString());
+#endif
             ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
 
             // MODES
             // Show the warning about safe mode, if the player disables safe mode and is not in main menu.
+#if PRO
+            if (ModLoader.CurrentScene != CurrentScene.MainMenu && IsModActive)
+            {
+                if (Mode == PerformanceMode.Safe && MOP.PerformanceModes.Value != 0)
+                {
+                    ModUI.CreatePrompt("Safe Mode will be disabled after the restart.", "MOP");
+                }
+                else if (Mode != PerformanceMode.Safe && MOP.PerformanceModes.Value == 0)
+                {
+                    ModUI.CreatePrompt("Safe Mode will be enabled after the restart.", "MOP");
+                }
+            }
+#else
             if (ModLoader.GetCurrentScene() != CurrentScene.MainMenu && IsModActive)
             {
                 if (Mode == PerformanceMode.Safe && !(bool)MOP.ModeSafe.GetValue())
@@ -79,7 +100,28 @@ namespace MOP.Common
                     ModUI.ShowMessage("Safe Mode will be enabled after the restart.", "MOP");
                 }
             }
+#endif
 
+#if PRO
+            switch (MOP.PerformanceModes.Value)
+            {
+                default:
+                    Mode = PerformanceMode.Balanced;
+                    break;
+                case 0:
+                    Mode = PerformanceMode.Performance;
+                    break;
+                case 1:
+                    Mode = PerformanceMode.Balanced;
+                    break;
+                case 2:
+                    Mode = PerformanceMode.Quality;
+                    break;
+                case 3:
+                    Mode = PerformanceMode.Safe;
+                    break;
+            }
+#else
             if ((bool)MOP.ModeSafe.GetValue() && ModLoader.GetCurrentScene() != CurrentScene.MainMenu)
             {
                 Mode = PerformanceMode.Safe;
@@ -96,7 +138,25 @@ namespace MOP.Common
             {
                 Mode = PerformanceMode.Quality;
             }
+#endif
 
+#if PRO
+            // GRAPHICS
+            DynamicDrawDistance = MOP.DynamicDrawDistance.Value;
+
+            // Others
+            RemoveEmptyBeerBottles = MOP.DestroyEmptyBottles.Value;
+            RemoveEmptyItems = MOP.DisableEmptyItems.Value;
+
+            // Framerate limiter
+            Application.targetFrameRate = MOP.EnableFramerateLimiter.Value ? int.Parse(MOP.FramerateLimiterText[(int)MOP.FramerateLimiter.Value]) : -1;
+
+            // Shadow distance.
+            if (shadowDistanceOriginalValue == 0)
+                shadowDistanceOriginalValue = QualitySettings.shadowDistance;
+            QualitySettings.shadowDistance = MOP.EnableShadowAdjusting.Value ?
+                                             MOP.ShadowDistance.Value : shadowDistanceOriginalValue;
+#else
             // GRAPHICS
             DynamicDrawDistance = (bool)MOP.DynamicDrawDistance.GetValue();
 
@@ -112,6 +172,7 @@ namespace MOP.Common
                 shadowDistanceOriginalValue = QualitySettings.shadowDistance;
             QualitySettings.shadowDistance = (bool)MOP.EnableShadowAdjusting.GetValue() ? 
                                              float.Parse(MOP.ShadowDistance.GetValue().ToString()) : shadowDistanceOriginalValue;
+#endif
 
             ToggleBackgroundRunning();
 
@@ -146,8 +207,13 @@ namespace MOP.Common
 
         public static int GetRuleFilesUpdateDaysFrequency()
         {
+#if PRO
+            switch ((int)MOP.RulesAutoUpdateFrequency.Value)
+            {
+#else
             switch (int.Parse(MOP.RulesAutoUpdateFrequency.GetValue().ToString()))
             {
+#endif
                 case 0:
                     return 0;
                 case 1:
@@ -207,6 +273,16 @@ namespace MOP.Common
 
         public static void ToggleVerifyRuleFiles()
         {
+#if PRO
+            if (MOP.VerifyRuleFiles.Value)
+            {
+                ModUI.CreatePrompt("<color=yellow><b>Warning!</b></color>\n\n" +
+                    "For safety reasons, MOP verifies all rule files. Disabling rule file verification " +
+                    "may lead to dangerous rule files being installed, that potentially may harm performance, " +
+                    "or even damage your save game.\n\n" +
+                    "Do not disable this, unless you're a mod maker.", "MOP");
+            }
+#else
             if (!(bool)MOP.VerifyRuleFiles.GetValue())
             {
                 ModUI.ShowMessage("<color=yellow><b>Warning!</b></color>\n\n" +
@@ -215,11 +291,16 @@ namespace MOP.Common
                     "or even damage your save game.\n\n" +
                     "Do not disable this, unless you're a mod maker.", "MOP");
             }
+#endif
         }
 
         public static void ToggleBackgroundRunning()
         {
+#if PRO
+            Application.runInBackground = MOP.KeepRunningInBackground.Value;
+#else
             Application.runInBackground = (bool)MOP.KeepRunningInBackground.GetValue();
+#endif
         }
 
         public static bool IsMySummerCar()

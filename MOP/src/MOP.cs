@@ -37,6 +37,7 @@ namespace MOP
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.2"; //Version
         public const string SubVersion = "NIGHTLY-20210116"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public override string UpdateLink => "https://github.com/Athlon007/MOP";
 
         #region Settings & Configuration
         // ModLoader configuration.
@@ -54,8 +55,15 @@ namespace MOP
 
         // BUTTONS
 #if PRO
-        SettingSlider activeDistance;
+        static internal SettingSlider ActiveDistance, FramerateLimiter, ShadowDistance, RulesAutoUpdateFrequency;
+        static internal SettingRadioButtons PerformanceModes;
+        static internal SettingToggle EnableFramerateLimiter, EnableShadowAdjusting, KeepRunningInBackground, 
+                                      DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
+                                      DestroyEmptyBottles, DisableEmptyItems;
+        
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
+        public static readonly string[] FramerateLimiterText = { "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "180", "190", "200" };
+        readonly string[] rulesAutoUpdateFrequencyText = { "On Restart", "Daily", "Every 2 days", "Weekly" };
 #else
         readonly Settings iFoundABug = new Settings("iFoundABug", "I found a bug", BugReporter.FileBugReport);
         readonly Settings faq = new Settings("faq", "FAQ", ExternalExecuting.OpenFAQDialog);
@@ -117,15 +125,61 @@ namespace MOP
             Settings.AddHeader(this, "Shh...Don't leak my hard work ;)", Color.yellow, Color.black);
 #endif
 #if PRO
-            modSettings.AddButton("iFoundABug", "", "I found a bug", () => BugReporter.FileBugReport());
-            modSettings.AddButton("faq", "", "FAQ", () => ExternalExecuting.OpenFAQDialog());
-            modSettings.AddButton("wiki", "", "Wiki", () => ExternalExecuting.OpenWikiDialog());
-            modSettings.AddButton("homepage", "", "Homepage", () => ExternalExecuting.OpenHomepageDialog());
-            modSettings.AddButton("paypal", "", "PayPal", () => ExternalExecuting.OpenPaypalDialog());
+            modSettings.AddButton("iFoundABug", "I FOUND A BUG", () => BugReporter.FileBugReport());
+            modSettings.AddButton("faq", "FAQ", () => ExternalExecuting.OpenFAQDialog());
+            modSettings.AddButton("wiki", "WIKI", () => ExternalExecuting.OpenWikiDialog());
+            modSettings.AddButton("homepage", "HOMEPAGE", () => ExternalExecuting.OpenHomepageDialog());
+            modSettings.AddButton("paypal", "PAYPAL", () => ExternalExecuting.OpenPaypalDialog());
 
-            modSettings.AddHeader("Activating Objects");
-            activeDistance = modSettings.AddSlider("activateDistance", "Activate Distance", 1, 0, 3);
-            activeDistance.textValues = activeDistanceText;
+            // Activating objects.
+            modSettings.AddHeader("ACTIVATING OBJECTS");
+            ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 1, 0, 3);
+            ActiveDistance.textValues = activeDistanceText;
+            modSettings.AddText("MODE:");
+            PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1, "PERFORMANCE", "BALANCED", "QUALITY", "SAFE");
+
+            // Graphics
+            modSettings.AddHeader("GRAPHICS");
+            EnableFramerateLimiter = modSettings.AddToggle("enableFramerateLimiter", "ENABLE FRAMERATE LIMITER", false);
+            FramerateLimiter = modSettings.AddSlider("framerateLimiter", "FRAMERATE LIMITER", 60, 0, FramerateLimiterText.Length - 1);
+            FramerateLimiter.textValues = FramerateLimiterText;
+            EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ENABLE SHADOW ADJUSTING", false);
+            ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 200, 0, 2000);
+            KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN IN BACKGROUND", true);
+            DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false);
+
+            // Rules
+            modSettings.AddHeader("RULES");
+            modSettings.AddButton("rulesLearnMore", "LEARN MORE", "LEARN ABOUT HOW RULES WORK.", () => ExternalExecuting.OpenRulesWebsiteDialog());
+            RulesAutoUpdate = modSettings.AddToggle("rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true);
+            VerifyRuleFiles = modSettings.AddToggle("verifyRuleFiles", "VERIFY RULE FILES", true);
+            RulesAutoUpdateFrequency = modSettings.AddSlider("ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 1, 0, 3);
+            RulesAutoUpdateFrequency.textValues = rulesAutoUpdateFrequencyText;
+            DeleteUnusedRules = modSettings.AddToggle("deleteUnusedRules", "DELETE UNUSED RULES", false);
+            //modSettings.AddButton("deleteAllLogs", "DELETE ALL LOGS", "", () => );
+
+            // Other
+            modSettings.AddHeader("OTHER");
+            DestroyEmptyBottles = modSettings.AddToggle("destroyEmptyBottles", "DESTROY EMPTY BOTTLES", false);
+            DisableEmptyItems = modSettings.AddToggle("disableEmptyItems", "DISABLE EMPTY ITEMS", false);
+
+            // Logging
+            modSettings.AddHeader("LOGGING");
+            modSettings.AddButton("openLogFolder", "OPEN LOG FOLDER", "", () => ExceptionManager.OpenCurrentSessionLogFolder());
+            modSettings.AddButton("generateModReprt", "GENERATE MOD REPORT", "", () => ExceptionManager.GenerateReport());
+            modSettings.AddButton("deleteAllLogs", "DELETE ALL LOGS", "", () => ExceptionManager.DeleteAllLogs());
+
+            // Changelog
+            modSettings.AddHeader("Changelog");
+            modSettings.AddText(GetChangelog());
+
+            // Info
+            modSettings.AddHeader("Information");
+            modSettings.AddText($"<color=yellow>MOP</color> {ModVersion}\n" +
+                $"<color=yellow>ModLoader</color> {ModLoader.Version}\n" +
+                $"{ExceptionManager.GetSystemInfo()}\n" +
+                $"<color=yellow>Session ID:</color> {SessionID}\n" +
+                $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}");
 #else
 
             if (!ModLoader.CheckSteam())

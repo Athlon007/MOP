@@ -136,6 +136,69 @@ namespace MOP.Common
         /// <returns></returns>
         internal static string GetGameInfo()
         {
+#if PRO
+            string output = $"Modern Optimization Plugin\nVersion: {MOP.ModVersion}\n";
+            output += $"MSC Mod Loader Pro Version: {ModLoader.Version}\n";
+            output += $"Date and Time: {DateTime.Now:yyyy-MM-ddTHH:mm:ssZ}\n";
+            output += $"{GetSystemInfo()}\n";
+            output += $"Session ID: {MOP.SessionID}\n";
+            output += $"Screen resolution: {Screen.width}x{Screen.height}\n\n";
+
+            output += "=== MOP SETTINGS ===\n\n";
+            output += $"ActiveDistance: {MopSettings.ActiveDistance}\n";
+            output += $"ActiveDistanceMultiplicationValue: {MopSettings.ActiveDistanceMultiplicationValue}\n";
+            output += $"Mode: {MopSettings.Mode}\n";
+            output += $"RemoveEmptyBottles: {MopSettings.RemoveEmptyBeerBottles}\n";
+            output += $"ToggleVehiclePhysicsOnly: {RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";
+            output += $"IgnoreModVehicles: {RulesManager.Instance.SpecialRules.IgnoreModVehicles}\n";
+            output += $"EnableFramerateLimiter: {MOP.EnableFramerateLimiter.Value}\n";
+            output += $"FramerateLimiter: {int.Parse(MOP.FramerateLimiterText[(int)MOP.FramerateLimiter.Value])}\n";
+            output += $"EnableShadowAdjusting: {MOP.EnableShadowAdjusting.Value}\n";
+            output += $"KeepRunningInBackground: {MOP.KeepRunningInBackground.Value}\n";
+            output += $"DynamicDrawDistance: {MOP.DynamicDrawDistance.Value}\n";
+            output += $"ShadowDistance: {MOP.ShadowDistance.Value}\n";
+            output += $"RulesAutoUpdate: {MOP.RulesAutoUpdate.Value}\n";
+            output += $"RulesAutoUpdateFrequency: {MopSettings.GetRuleFilesUpdateDaysFrequency()}\n";
+            output += $"CustomRuleFile: {File.Exists($"{MOP.ModConfigPath}/Custom.txt")}\n\n";
+
+            // Steam stuff.
+            output += $"ExperimentalBranch: {ModLoader.CheckIfExperimental()}\n";
+
+            // List installed mods.
+            output += $"\n=== MODS ({ModLoader.LoadedMods.Count}) ===\n\n";
+            foreach (var mod in ModLoader.LoadedMods)
+            {
+                // Ignore MSCLoader or MOP.
+                if (mod.ID.EqualsAny("MSCLoader_Console", "MSCLoader_Settings", "MOP"))
+                    continue;
+
+                output += $"{mod.Name}:\n  ID: {mod.ID}\n  Version: {mod.Version}\n  Author: {mod.Author}\n\n";
+            }
+
+            // If only 3 mods have been found, that means the only mods active are MOP and two ModLoader modules.
+            if (ModLoader.LoadedMods.Count <= 3)
+            {
+                output += "No other mods found!\n\n";
+            }
+
+            // List rule files.
+            output += "=== RULE FILES ===\n\n";
+            foreach (string ruleFile in RulesManager.Instance.RuleFileNames)
+                output += $"{ruleFile}\n";
+
+            if (RulesManager.Instance.RuleFileNames.Count == 0)
+            {
+                output += $"No rule files loaded!\n";
+            }
+
+            if (File.Exists($"{MOP.ModConfigPath}/Custom.txt"))
+            {
+                output += "\n=== CUSTOM.TXT CONTENT ===\n\n";
+                output += File.ReadAllText($"{MOP.ModConfigPath}/Custom.txt") + "\n\n";
+            }
+
+            return output;
+#else
             string output = $"Modern Optimization Plugin\nVersion: {MOP.ModVersion}\n";
             output += $"MSC Mod Loader Version: {ModLoader.MSCLoader_Ver}\n";
             output += $"Date and Time: {DateTime.Now:yyyy-MM-ddTHH:mm:ssZ}\n";
@@ -198,6 +261,7 @@ namespace MOP.Common
             }
 
             return output;
+#endif
         }
 
         public static string GetSystemInfo()

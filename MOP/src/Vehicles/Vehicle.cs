@@ -195,6 +195,9 @@ namespace MOP.Vehicles
                         if (!wheel.gameObject.name.StartsWith("Moped_wheel")) continue;
                         wheel.gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
                     }
+                    
+                    // Tries to fix shaking of the Jonnez.
+                    gameObject.transform.Find("LOD/PlayerTrigger").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
                     break;
                 case VehiclesTypes.Kekmet:
                     transform.Find("Dashboard/HourMeter").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
