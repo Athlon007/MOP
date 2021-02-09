@@ -460,6 +460,14 @@ namespace MOP.Vehicles
                 throw new System.Exception("Windshield repair fix error.");
             }
 
+            if (RulesManager.Instance.SpecialRules.ExperimentalSatsumaPhysicsFix)
+            {
+                CustomPlayMakerFixedUpdate wheelFL = transform.Find("FL/AckerFL/wheelFL").gameObject.AddComponent<CustomPlayMakerFixedUpdate>();
+                CustomPlayMakerFixedUpdate wheelFR = transform.Find("FR/AckerFR/wheelFR").gameObject.AddComponent<CustomPlayMakerFixedUpdate>();
+                wheelFL.StartFixedUpdate();
+                wheelFR.StartFixedUpdate();
+            }
+            
             if (MopSettings.GenerateToggledItemsListDebug)
             {
                 if (System.IO.File.Exists("sats.txt"))

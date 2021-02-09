@@ -1,0 +1,11 @@
+### Added
+
+- If MOP got stuck on load screen for over 30 seconds, load screen will be disabled and an error will be displayed
+
+### Changes
+
+- MOP now asks if you want to generate a mod report, even if MOP couldn't load into the game.
+
+### Bug Fixes
+
+- Fixed infinite load screen due to CanTrigger finding
