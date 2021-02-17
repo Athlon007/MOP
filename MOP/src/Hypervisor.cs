@@ -61,8 +61,9 @@ namespace MOP
         bool itemInitializationDelayDone;
         int waitTime;
         const int WaitDone = 2;
+
+        LoadScreen loadScreen;
 #if PRO
-        GameObject loadScreen;
 #else
         GameObject mopCanvas;
 #endif
@@ -81,15 +82,10 @@ namespace MOP
             }
 
             MopSettings.LoadedOnce = true;
-
-#if PRO
-            loadScreen = ModUI.GetCanvas().transform.Find("ModLoaderUI/ModLoadScreen").gameObject;
-            loadScreen.transform.Find("TextHolder/Text").gameObject.GetComponent<Text>().text = UnityEngine.Random.Range(0, 100) == 0 ? "HAVE A NICE DAY :)" : "LOADING MODERN OPTIMIZATION PLUGIN";
-#else
-            mopCanvas.transform.Find("MSCLoader loading screen/ModName").gameObject.GetComponent<Text>().text = UnityEngine.Random.Range(0, 100) == 0 ? "HAVE A NICE DAY :)" : "LOADING MODERN OPTIMIZATION PLUGIN";
-            //mopCanvas.transform.Find("MSCLoader loading screen/Loading").gameObject.GetComponent<Text>().text = WittyComments.GetWittyText();
-#endif
-            loadScreen.SetActive(true);
+            
+            loadScreen = gameObject.AddComponent<LoadScreen>();
+            loadScreen.Activate();
+            
             playerController = GameObject.Find("PLAYER").GetComponent<CharacterController>();
             playerController.enabled = false;
 
@@ -935,8 +931,7 @@ namespace MOP
 #endif
             if (!MopSettings.IsModActive) return;
 
-            if (Satsuma.Instance != null)
-                Satsuma.Instance.ForceRotation();
+            Satsuma.Instance?.ForceRotation();
 
             if (MopSettings.Mode == PerformanceMode.Quality)
             {
@@ -1160,7 +1155,7 @@ namespace MOP
             }
 
             itemInitializationDelayDone = true;
-            loadScreen.SetActive(false);
+            loadScreen.Deactivate();
             playerController.enabled = true;
             FsmManager.PlayerInMenu = false;
             cursorFSM.enabled = true;

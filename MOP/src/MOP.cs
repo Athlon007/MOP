@@ -37,7 +37,9 @@ namespace MOP
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.2"; //Version
         public const string SubVersion = "NIGHTLY-20210116"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+#if PRO
         public override string UpdateLink => "https://github.com/Athlon007/MOP";
+#endif
 
         #region Settings & Configuration
         // ModLoader configuration.
@@ -62,7 +64,7 @@ namespace MOP
                                       DestroyEmptyBottles, DisableEmptyItems;
 
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
-        public static readonly string[] FramerateLimiterText = { "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "180", "190", "200" };
+        //public static readonly string[] FramerateLimiterText = { "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "180", "190", "200" };
         readonly string[] rulesAutoUpdateFrequencyText = { "On Restart", "Daily", "Every 2 days", "Weekly" };
 #else
         readonly Settings iFoundABug = new Settings("iFoundABug", "I found a bug", BugReporter.FileBugReport);
@@ -141,8 +143,8 @@ namespace MOP
             // Graphics
             modSettings.AddHeader("GRAPHICS");
             EnableFramerateLimiter = modSettings.AddToggle("enableFramerateLimiter", "ENABLE FRAMERATE LIMITER", false);
-            FramerateLimiter = modSettings.AddSlider("framerateLimiter", "FRAMERATE LIMITER", 60, 0, FramerateLimiterText.Length - 1);
-            FramerateLimiter.textValues = FramerateLimiterText;
+            FramerateLimiter = modSettings.AddSlider("framerateLimiter", "FRAMERATE LIMITER", 6, 2, 20);
+            FramerateLimiter.valueSuffix = "0";
             EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ENABLE SHADOW ADJUSTING", false);
             ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 200, 0, 2000);
             KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN IN BACKGROUND", true);

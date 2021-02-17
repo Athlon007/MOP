@@ -90,6 +90,7 @@
     <Compile Include="src\Common\Enumerations\ToggleAllMode.cs" />
     <Compile Include="src\Common\Enumerations\ToggleModes.cs" />
     <Compile Include="src\Common\Enumerations\VehiclesTypes.cs" />
+    <Compile Include="src\Common\LoadScreen.cs" />
     <Compile Include="src\FSM\Actions\CustomCreateObject.cs" />
     <Compile Include="src\FSM\Actions\GrandmaHiker.cs" />
     <Compile Include="src\FSM\Actions\WindscreenRepairJob.cs" />
