@@ -6,6 +6,7 @@
 
 - Improved Hayosiko disabling during early part of the game
 - Changed how vehicle position is verified
+- Reduced time which takes for fail-safe trigger of loadscreen to do it's thing to 20 seconds
 
 ## 3.1.5 (09.02.2021)
 

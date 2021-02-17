@@ -85,7 +85,9 @@ namespace MOP
             
             loadScreen = gameObject.AddComponent<LoadScreen>();
             loadScreen.Activate();
-            
+            loadScreenWorkaround = InfiniteLoadscreenWorkaround();
+            StartCoroutine(loadScreenWorkaround);
+
             playerController = GameObject.Find("PLAYER").GetComponent<CharacterController>();
             playerController.enabled = false;
 
@@ -1170,7 +1172,7 @@ namespace MOP
         private IEnumerator loadScreenWorkaround;
         IEnumerator InfiniteLoadscreenWorkaround()
         {
-            yield return new WaitForSeconds(30);
+            yield return new WaitForSeconds(20);
             if (FsmManager.PlayerInMenu)
             {
                 ModConsole.Error("[MOP] MOP failed to load in time. Please go into MOP settings and use \"I found a bug\" button.");

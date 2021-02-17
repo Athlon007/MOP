@@ -34,6 +34,7 @@ namespace MOP.Common
         public void Deactivate()
         {
             doDisplay = false;
+            loadScreen.SetActive(false);
             Destroy(this);
         }
     }
