@@ -29,15 +29,18 @@ namespace MOP.FSM.Actions
 
         public CustomPlayMakerFixedUpdate()
         {
-            Component hoodFixedUpdate = gameObject.GetComponentByName("PlayMakerFixedUpdate");
-
-            if (hoodFixedUpdate == null)
+            if (!gameObject.name.Contains("wheel"))
             {
-                MSCLoader.ModConsole.Error($"[MOP] No PlayMakerFixedUpdate component found in {gameObject.name}.");
-                return;
-            }
+                Component hoodFixedUpdate = gameObject.GetComponentByName("PlayMakerFixedUpdate");
 
-            Object.Destroy(hoodFixedUpdate);
+                if (hoodFixedUpdate == null)
+                {
+                    MSCLoader.ModConsole.Error($"[MOP] No PlayMakerFixedUpdate component found in {gameObject.name}.");
+                    return;
+                }
+
+                Object.Destroy(hoodFixedUpdate);
+            }
             fsms = GetComponents<PlayMakerFSM>();
         }
 

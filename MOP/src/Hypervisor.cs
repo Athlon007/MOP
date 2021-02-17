@@ -44,7 +44,7 @@ namespace MOP
     class Hypervisor : MonoBehaviour
     {
         static Hypervisor instance;
-        public static Hypervisor Instance => instance; 
+        public static Hypervisor Instance => instance;
 
         Transform player;
 
@@ -92,9 +92,9 @@ namespace MOP
             loadScreen.SetActive(true);
             playerController = GameObject.Find("PLAYER").GetComponent<CharacterController>();
             playerController.enabled = false;
-            
+
             FsmManager.PlayerInMenu = true;
-            
+
             Cursor.visible = false;
             cursorFSM = GameObject.Find("PLAYER").GetPlayMakerByName("Update Cursor");
             cursorFSM.enabled = false;
@@ -256,8 +256,8 @@ namespace MOP
             {
                 if (GameObject.Find("tv(Clo01)"))
                 {
-                    string[] furnitures = { "tv(Clo01)", "chair(Clo02)", "chair(Clo05)", "bench(Clo01)", 
-                                            "bench(Clo02)", "table(Clo02)", "table(Clo03)", "table(Clo04)", 
+                    string[] furnitures = { "tv(Clo01)", "chair(Clo02)", "chair(Clo05)", "bench(Clo01)",
+                                            "bench(Clo02)", "table(Clo02)", "table(Clo03)", "table(Clo04)",
                                             "table(Clo05)", "desk(Clo01)", "arm chair(Clo01)" };
 
                     foreach (string furniture in furnitures)
@@ -758,7 +758,7 @@ namespace MOP
                 half = ItemsManager.Instance.ItemsHooks.Count >> 1;
                 for (i = 0; i < ItemsManager.Instance.ItemsHooks.Count; i++)
                 {
-                    if (i == half) 
+                    if (i == half)
                         yield return null;
 
                     // Safe check if somehow the i gets bigger than array length.
@@ -778,7 +778,7 @@ namespace MOP
                             half = ItemsManager.Instance.ItemsHooks.Count / 2;
                             continue;
                         }
-                        
+
                         if (CompatibilityManager.CarryEvenMore)
                             if (ItemsManager.Instance.ItemsHooks[i].name.EndsWith("_INVENTORY")) continue;
 
@@ -814,7 +814,7 @@ namespace MOP
                     half = itemsToDisable.Count >> 1;
                     for (i = 0; i < full; i++)
                     {
-                        if (half != 0 && i == half) 
+                        if (half != 0 && i == half)
                             yield return null;
 
                         try
@@ -848,7 +848,7 @@ namespace MOP
                             ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
 
                         switch (vehicleManager[i].VehicleType)
-                        { 
+                        {
                             case VehiclesTypes.Satsuma:
                                 Satsuma.Instance.ToggleElements(distance);
                                 vehicleManager[i].ToggleEventSounds(distance < 5);
@@ -935,7 +935,7 @@ namespace MOP
 #endif
             if (!MopSettings.IsModActive) return;
 
-            if (Satsuma.Instance != null) 
+            if (Satsuma.Instance != null)
                 Satsuma.Instance.ForceRotation();
 
             if (MopSettings.Mode == PerformanceMode.Quality)
@@ -965,7 +965,7 @@ namespace MOP
         bool IsVehicleEnabled(float distance, float toggleDistance = 200)
         {
             if (inSectorMode)
-                toggleDistance = 30; 
+                toggleDistance = 30;
 
             return distance < toggleDistance;
         }
@@ -1047,7 +1047,7 @@ namespace MOP
             }
 
             if (MopSettings.Mode == PerformanceMode.Safe) return;
-            
+
             // Items
             for (int i = 0; i < ItemsManager.Instance.ItemsHooks.Count; i++)
             {
@@ -1146,7 +1146,7 @@ namespace MOP
         {
             return inSectorMode;
         }
-         
+
         public bool IsItemInitializationDone()
         {
             return itemInitializationDelayDone;
@@ -1154,6 +1154,11 @@ namespace MOP
 
         void FinishLoading()
         {
+            if (loadScreenWorkaround != null)
+            {
+                StopCoroutine(loadScreenWorkaround);
+            }
+
             itemInitializationDelayDone = true;
             loadScreen.SetActive(false);
             playerController.enabled = true;
@@ -1164,6 +1169,17 @@ namespace MOP
             if (vh)
             {
                 vh.SetActive(false);
+            }
+        }
+
+        private IEnumerator loadScreenWorkaround;
+        IEnumerator InfiniteLoadscreenWorkaround()
+        {
+            yield return new WaitForSeconds(30);
+            if (FsmManager.PlayerInMenu)
+            {
+                ModConsole.Error("[MOP] MOP failed to load in time. Please go into MOP settings and use \"I found a bug\" button.");
+                FinishLoading();
             }
         }
     }

@@ -66,4 +66,4 @@ Do you like MOP? Consider buying me a beer :)
 
 [![](http://athlon.kkmr.pl/images/svg/paypal.svg)](https://www.paypal.me/figurakonrad)
 
-**BTC:** 1QFSRzNK3RjNuAgoHdxWrUnM2W2Dwuwurt
+**BTC:** 132JKJAnb6LULjyQowjkBp8vk23MzSRKPw

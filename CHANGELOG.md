@@ -7,6 +7,32 @@
 - Improved Hayosiko disabling during early part of the game
 - Changed how vehicle position is verified
 
+## 3.1.5 (09.02.2021)
+
+### Added
+
+- If MOP got stuck on load screen for over 30 seconds, load screen will be disabled and an error will be displayed
+
+### Changes
+
+- MOP now asks if you want to generate a mod report, even if MOP couldn't load into the game.
+
+### Bug Fixes
+
+- Fixed infinite load screen due to CanTrigger finding
+
+## 3.1.4 (04.02.2021)
+
+### Added
+
+- Added some more info to MOP reports
+
+### Bug Fixes
+
+- Fixed Perajarvi construction site despawning
+- Possibly fixed an error happening, where in some cases MOP couldn't find the CanTrigger object during game save
+- Possibly fixed an error, where MOP tried to check if rigidbody of item is disabled, but the item didn't have rigidbody component
+
 ## 3.1.3 (29.01.2021)
 
 ### Added

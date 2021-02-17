@@ -58,10 +58,15 @@ namespace MOP.Common
         {
             if (!MopSettings.LoadedOnce)
             {
-                ModUI.ShowMessage("Please load the game fully at least once, before reporting a bug!", "MOP");
+                ModUI.ShowYesNoMessage("It is recommended to start the game at least once before filing bug report.\n\nIf you can't load the game, press Yes to generate mod report anyway.", "MOP", BugReportYesNo);
                 return;
             }
 
+            instance.BugReport();
+        }
+
+        static void BugReportYesNo()
+        {
             instance.BugReport();
         }
 

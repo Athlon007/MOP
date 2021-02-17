@@ -475,7 +475,7 @@ namespace MOP.Items
         /// <summary>
         /// Checks what disabling method object uses and then returns the correct value for that object.
         /// </summary>
-        public bool ActiveSelf => (Toggle == TogglePhysicsOnly) ? rb.detectCollisions : gameObject.activeSelf;
+        public bool ActiveSelf => (Toggle == TogglePhysicsOnly && rb != null) ? rb.detectCollisions : gameObject.activeSelf;
 
         /// <summary>
         /// Sets up the toggling method.
@@ -535,19 +535,20 @@ namespace MOP.Items
         {
             if (!gameObject.name.ContainsAny("empty plastic can", "kilju", "emptyca")) return;
 
-            if (Vector3.Distance(transform.position, ItemsManager.Instance.GetCanTrigger().transform.position) < 2)
+            if (ItemsManager.Instance.GetCanTrigger())
             {
-                transform.position = ItemsManager.Instance.GetLostItemsSpawner().position;
-
-                PlayMakerFSM fsm = gameObject.GetPlayMakerByName("Use");
-                if (fsm)
+                if (Vector3.Distance(transform.position, ItemsManager.Instance.GetCanTrigger().transform.position) < 2)
                 {
-                    fsm.FsmVariables.GetFsmBool("ContainsKilju").Value = false;
+                    transform.position = ItemsManager.Instance.GetLostItemsSpawner().position;
+
+                    PlayMakerFSM fsm = gameObject.GetPlayMakerByName("Use");
+                    if (fsm)
+                    {
+                        fsm.FsmVariables.GetFsmBool("ContainsKilju").Value = false;
+                    }
+
+                    gameObject.name = "empty plastic can(itemx)";
                 }
-
-                gameObject.name = "empty plastic can(itemx)";
-
-                return;
             }
         }
     }

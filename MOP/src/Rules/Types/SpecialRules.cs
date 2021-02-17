@@ -25,6 +25,7 @@ namespace MOP.Rules.Types
         public bool IgnoreModVehicles;
         public bool ToggleAllVehiclesPhysicsOnly;
         public bool ExperimentalSaveOptimization;
+        public bool ExperimentalSatsumaPhysicsFix;
         #endregion
     }
 }

@@ -384,6 +384,20 @@ namespace MOP
                 ExceptionManager.New(ex, false, "CABIN_DOOR_RESET_FIX_ERROR");
             }
 
+            // Construction site
+            try
+            {
+                Transform construction = GameObject.Find("PERAJARVI").transform.Find("ConstructionSite");
+                if (construction)
+                {
+                    construction.parent = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "PERAJARVI_CONSTRUCTION_ERROR");
+            }
+
             ModConsole.Print("[MOP] Finished applying fixes");
         }
 

@@ -1,2 +1,1 @@
-min_ver:2.10
-ignore:GIFU(750/450psi) MESH/Hydraulics
+ignore:GIFU(750/450psi) MESH fullignore

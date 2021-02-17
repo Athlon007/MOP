@@ -57,10 +57,10 @@ namespace MOP
 #if PRO
         static internal SettingSlider ActiveDistance, FramerateLimiter, ShadowDistance, RulesAutoUpdateFrequency;
         static internal SettingRadioButtons PerformanceModes;
-        static internal SettingToggle EnableFramerateLimiter, EnableShadowAdjusting, KeepRunningInBackground, 
+        static internal SettingToggle EnableFramerateLimiter, EnableShadowAdjusting, KeepRunningInBackground,
                                       DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
                                       DestroyEmptyBottles, DisableEmptyItems;
-        
+
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
         public static readonly string[] FramerateLimiterText = { "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "180", "190", "200" };
         readonly string[] rulesAutoUpdateFrequencyText = { "On Restart", "Daily", "Every 2 days", "Weekly" };
