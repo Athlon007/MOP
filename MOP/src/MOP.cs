@@ -36,7 +36,7 @@ namespace MOP
 #endif
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.2"; //Version
-        public const string SubVersion = "NIGHTLY-20210116"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public const string SubVersion = "NIGHTLY-20210218"; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public override string UpdateLink => "https://github.com/Athlon007/MOP";
         public override byte[] Icon => Properties.Resources.icon;
@@ -309,6 +309,7 @@ namespace MOP
 
             SaveManager.RestoreSaveInMainMenu();
 
+#if PRO
             if (FramerateLimiter.Value == 21)
             {
                 FramerateLimiter.valueText.text = "Disabled";
@@ -317,6 +318,7 @@ namespace MOP
             {
                 ShadowDistance.valueText.text = "No Shadows";
             }
+#endif
         }
 
         /// <summary>

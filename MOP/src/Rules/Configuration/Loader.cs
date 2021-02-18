@@ -74,7 +74,11 @@ namespace MOP.Rules.Configuration
                 NewMessage("");
             }
 
+#if PRO
             if (!MOP.RulesAutoUpdate.Value && !overrideUpdateCheck)
+#else
+            if (!(bool)MOP.RulesAutoUpdate.GetValue() && !overrideUpdateCheck)
+#endif
             {
                 ModConsole.Print("<color=orange>[MOP] Rule files auto update is disabled.</color>");
                 GetAndReadRules();

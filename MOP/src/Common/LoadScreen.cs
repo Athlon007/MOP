@@ -23,6 +23,7 @@ namespace MOP.Common
     class LoadScreen : MonoBehaviour
     {
         GameObject loadScreen;
+        PlayMakerFSM cursorFSM;
         bool doDisplay;
 
         void Start()
@@ -34,6 +35,10 @@ namespace MOP.Common
             loadScreen = ModUI.GetCanvas().transform.Find("MSCLoader loading screen").gameObject;
             loadScreen.transform.Find("ModName").gameObject.GetComponent<Text>().text = LoadText;
             loadScreen.transform.Find("Loading").gameObject.SetActive(false);
+
+            Cursor.visible = false;
+            cursorFSM = GameObject.Find("PLAYER").GetPlayMakerByName("Update Cursor");
+            cursorFSM.enabled = false;
 #endif
         }
 
@@ -55,6 +60,7 @@ namespace MOP.Common
         {
             doDisplay = false;
             loadScreen.SetActive(false);
+            cursorFSM.enabled = true;
             this.enabled = false;
         }
 

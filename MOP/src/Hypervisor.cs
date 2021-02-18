@@ -21,7 +21,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 using MOP.Managers;
 using MOP.Common;
@@ -63,12 +62,7 @@ namespace MOP
         const int WaitDone = 2;
 
         LoadScreen loadScreen;
-#if PRO
-#else
-        GameObject mopCanvas;
-#endif
-        PlayMakerFSM cursorFSM;
-#endregion
+        #endregion
 
         List<ItemBehaviour> itemsToEnable = new List<ItemBehaviour>();
         List<ItemBehaviour> itemsToDisable = new List<ItemBehaviour>();
@@ -92,10 +86,6 @@ namespace MOP
             playerController.enabled = false;
 
             FsmManager.PlayerInMenu = true;
-
-            Cursor.visible = false;
-            cursorFSM = GameObject.Find("PLAYER").GetPlayMakerByName("Update Cursor");
-            cursorFSM.enabled = false;
 
             // Start the delayed initialization routine
             PlayMakerFSM[] gtGrille = GameObject.Find("grille gt(Clone)").GetComponents<PlayMakerFSM>();
@@ -1162,7 +1152,6 @@ namespace MOP
             loadScreen.Deactivate();
             playerController.enabled = true;
             FsmManager.PlayerInMenu = false;
-            cursorFSM.enabled = true;
 
             GameObject vh = GameObject.Find("VehiclesHighway");
             if (vh)

@@ -490,7 +490,7 @@ namespace MOP.Vehicles.Cases
                 enabled = true;
             }
 
-            if (enabled && rearBumperTrigger.activeSelf && rearBumper.activeSelf)
+            if (gameObject.activeSelf && rearBumperTrigger.activeSelf && rearBumper.activeSelf)
             {
                 DoBumperFix();
             }
