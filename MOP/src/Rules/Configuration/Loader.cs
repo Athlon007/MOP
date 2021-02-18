@@ -74,7 +74,7 @@ namespace MOP.Rules.Configuration
                 NewMessage("");
             }
 
-            if (!MopSettings.RuleFilesAutoUpdateEnabled && !overrideUpdateCheck)
+            if (!MOP.RulesAutoUpdate.Value && !overrideUpdateCheck)
             {
                 ModConsole.Print("<color=orange>[MOP] Rule files auto update is disabled.</color>");
                 GetAndReadRules();
@@ -82,7 +82,7 @@ namespace MOP.Rules.Configuration
             }
 
             // Don't check if the server is online, if the update check has been done already.
-            if (MopSettings.RuleFilesUpdateChecked)
+            if (RulesManager.Instance.UpdateChecked)
             {
                 GetAndReadRules();
                 return;
@@ -343,7 +343,7 @@ namespace MOP.Rules.Configuration
         /// </summary>
         bool IsServerOnline()
         {
-            MopSettings.RuleFilesUpdateChecked = true;
+            RulesManager.Instance.UpdateChecked = true;
             TcpClient tcpClient = new TcpClient();
             try
             {
@@ -361,8 +361,8 @@ namespace MOP.Rules.Configuration
         /// </summary>
         bool IsUpdateTime()
         {
-            if (MopSettings.RuleFilesUpdateChecked) return false;
-            MopSettings.RuleFilesUpdateChecked = true;
+            if (RulesManager.Instance.UpdateChecked) return false;
+            RulesManager.Instance.UpdateChecked = true;
 
             if (DateTime.TryParse(File.ReadAllText(lastDateFilePath), out DateTime past))
             {

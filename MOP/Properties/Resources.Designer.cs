@@ -61,13 +61,32 @@ namespace MOP.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ### Changes
+        ///   Looks up a localized string similar to ### Added
         ///
-        ///- Reverted to pre-2.12 method of getting items position.
+        ///- If MOP got stuck on load screen for over 30 seconds, load screen will be disabled and an error will be displayed
+        ///
+        ///### Changes
+        ///
+        ///- MOP now asks if you want to generate a mod report, even if MOP couldn&apos;t load into the game.
+        ///
+        ///### Bug Fixes
+        ///
+        ///- Fixed infinite load screen due to CanTrigger finding
+        ///.
         /// </summary>
         internal static string changelog {
             get {
                 return ResourceManager.GetString("changelog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] icon {
+            get {
+                object obj = ResourceManager.GetObject("icon", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

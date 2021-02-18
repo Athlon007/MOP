@@ -151,7 +151,7 @@ namespace MOP.Common
             output += $"RemoveEmptyBottles: {MopSettings.RemoveEmptyBeerBottles}\n";
             output += $"ToggleVehiclePhysicsOnly: {RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";
             output += $"IgnoreModVehicles: {RulesManager.Instance.SpecialRules.IgnoreModVehicles}\n";
-            output += $"EnableFramerateLimiter: {MOP.EnableFramerateLimiter.Value}\n";
+            output += $"EnableFramerateLimiter: {(int)MOP.FramerateLimiter.Value == 21}\n";
             output += $"FramerateLimiter: {(int)MOP.FramerateLimiter.Value + "0"}\n";
             output += $"EnableShadowAdjusting: {MOP.EnableShadowAdjusting.Value}\n";
             output += $"KeepRunningInBackground: {MOP.KeepRunningInBackground.Value}\n";

@@ -143,11 +143,19 @@ namespace MOP.Common
                     ExternalExecuting.OpenWikiDialog();
                     break;
                 case "reload":
+#if PRO
+                    if (ModLoader.CurrentScene != CurrentScene.MainMenu)
+                    {
+                        ModConsole.Log("You can only reload rule files in the main menu");
+                        return;
+                    }
+#else
                     if (ModLoader.GetCurrentScene() != CurrentScene.MainMenu)
                     {
                         ModConsole.Print("You can only reload rule files in the main menu");
                         return;
                     }
+#endif
 
                     RulesManager.Instance.WipeAll(false);
                     break;
@@ -300,11 +308,19 @@ namespace MOP.Common
                     ModConsole.Print(File.ReadAllText($"{MOP.ModConfigPath}/{args[1]}"));
                     break;
                 case "restore-save":
+#if PRO
+                    if (ModLoader.CurrentScene != CurrentScene.MainMenu)
+                    {
+                        ModConsole.Log("You can only restore game save in the main menu.");
+                        break;
+                    }
+#else
                     if (ModLoader.GetCurrentScene() != CurrentScene.MainMenu)
                     {
                         ModConsole.Print("You can only restore game save in the main menu.");
                         break;
                     }
+#endif
 
                     bool defaultBackupMissing = false;
                     bool itemsBackupMissing = false;

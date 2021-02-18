@@ -72,6 +72,8 @@ namespace MOP.Items
         FsmBool batteryOnCharged;
         readonly FsmFloat floorJackTriggerY;
 
+        PlayMakerFSM fsm;
+
         public ItemBehaviour()
         {
             if (gameObject.GetComponents<ItemBehaviour>().Length > 1)
@@ -83,7 +85,7 @@ namespace MOP.Items
 
             // Get object's components
             rb = GetComponent<Rigidbody>();
-            PlayMakerFSM fsm = GetComponent<PlayMakerFSM>();
+            fsm = GetComponent<PlayMakerFSM>();
             renderer = GetComponent<Renderer>();
 
             // From PlayMakerFSM, find states that contain one of the names that relate to destroying object,
@@ -549,6 +551,28 @@ namespace MOP.Items
 
                     gameObject.name = "empty plastic can(itemx)";
                 }
+            }
+        }
+
+        internal bool FsmActive
+        {
+            get
+            {
+                if (fsm)
+                    return fsm.enabled;
+
+                return false;
+            }
+            set
+            {
+                if (!fsm) return;
+
+                if (Toggle == TogglePhysicsOnly || DontDisable)
+                {
+                    value = true;
+                }
+
+                fsm.enabled = value;
             }
         }
     }

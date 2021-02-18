@@ -29,8 +29,10 @@ namespace MOP.Common
         static string GetDialogMessage()
         {
             string urlDisplayed = url;
+#if !PRO
             if (urlDisplayed.Length > CharacterLimit)
                 urlDisplayed = urlDisplayed.Substring(0, CharacterLimit - 3) + "...";
+#endif
             return $"This will open the following link:\n<color=yellow>{urlDisplayed}</color>\n\nAre you sure you want to continue?";
         }
 

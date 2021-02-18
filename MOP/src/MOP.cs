@@ -39,12 +39,15 @@ namespace MOP
         public const string SubVersion = "NIGHTLY-20210116"; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public override string UpdateLink => "https://github.com/Athlon007/MOP";
+        public override byte[] Icon => Properties.Resources.icon;
 #endif
 
         #region Settings & Configuration
         // ModLoader configuration.
+#if !PRO
         public override bool SecondPass => true;
         public override bool LoadInMenu => true;
+#endif
 
         // Stores the config path of mod.
         static string modConfigPath;
@@ -59,7 +62,7 @@ namespace MOP
 #if PRO
         static internal SettingSlider ActiveDistance, FramerateLimiter, ShadowDistance, RulesAutoUpdateFrequency;
         static internal SettingRadioButtons PerformanceModes;
-        static internal SettingToggle EnableFramerateLimiter, EnableShadowAdjusting, KeepRunningInBackground,
+        static internal SettingToggle EnableShadowAdjusting, KeepRunningInBackground,
                                       DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
                                       DestroyEmptyBottles, DisableEmptyItems;
 
@@ -138,27 +141,26 @@ namespace MOP
             ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 1, 0, 3);
             ActiveDistance.textValues = activeDistanceText;
             modSettings.AddText("MODE:");
-            PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1, "PERFORMANCE", "BALANCED", "QUALITY", "SAFE");
+            PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1, () => MopSettings.UpdateAll(), "PERFORMANCE", "BALANCED", "QUALITY", "SAFE");
 
             // Graphics
             modSettings.AddHeader("GRAPHICS");
-            EnableFramerateLimiter = modSettings.AddToggle("enableFramerateLimiter", "ENABLE FRAMERATE LIMITER", false);
-            FramerateLimiter = modSettings.AddSlider("framerateLimiter", "FRAMERATE LIMITER", 6, 2, 20);
-            FramerateLimiter.valueSuffix = "0";
-            EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ENABLE SHADOW ADJUSTING", false);
-            ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 200, 0, 2000);
-            KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN IN BACKGROUND", true);
-            DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false);
+            FramerateLimiter = modSettings.AddSlider("framerateLimiterUpdated", "FRAMERATE LIMITER", 21, 2, 21, () => MopSettings.UpdateAll());
+            FramerateLimiter.valueSuffix = "0 FPS";
+            EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ENABLE SHADOW ADJUSTING", false, () => MopSettings.UpdateAll());
+            ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 2, 0, 20, () => MopSettings.UpdateAll());
+            ShadowDistance.valueSuffix = "00 Meters";
+            KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
+            DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false, () => MopSettings.UpdateAll());
 
             // Rules
             modSettings.AddHeader("RULES");
             modSettings.AddButton("rulesLearnMore", "LEARN MORE", "LEARN ABOUT HOW RULES WORK.", () => ExternalExecuting.OpenRulesWebsiteDialog());
             RulesAutoUpdate = modSettings.AddToggle("rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true);
             VerifyRuleFiles = modSettings.AddToggle("verifyRuleFiles", "VERIFY RULE FILES", true);
-            RulesAutoUpdateFrequency = modSettings.AddSlider("ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 1, 0, 3);
+            RulesAutoUpdateFrequency = modSettings.AddSlider("ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 2, 0, 3);
             RulesAutoUpdateFrequency.textValues = rulesAutoUpdateFrequencyText;
             DeleteUnusedRules = modSettings.AddToggle("deleteUnusedRules", "DELETE UNUSED RULES", false);
-            //modSettings.AddButton("deleteAllLogs", "DELETE ALL LOGS", "", () => );
 
             // Other
             modSettings.AddHeader("OTHER");
@@ -172,11 +174,11 @@ namespace MOP
             modSettings.AddButton("deleteAllLogs", "DELETE ALL LOGS", "", () => ExceptionManager.DeleteAllLogs());
 
             // Changelog
-            modSettings.AddHeader("Changelog");
+            modSettings.AddHeader("CHANGELOG");
             modSettings.AddText(GetChangelog());
 
             // Info
-            modSettings.AddHeader("Information");
+            modSettings.AddHeader("INFO");
             modSettings.AddText($"<color=yellow>MOP</color> {ModVersion}\n" +
                 $"<color=yellow>ModLoader</color> {ModLoader.Version}\n" +
                 $"{ExceptionManager.GetSystemInfo()}\n" +
@@ -256,16 +258,23 @@ namespace MOP
                 $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}");
 #endif
         }
-#endregion
-
+        #endregion
+#if PRO
+        public override void MenuOnLoad()
+#else
         public override void OnMenuLoad()
+#endif
         {
             if (ModLoader.IsModPresent("CheatBox"))
             {
                 ModConsole.Warning("[MOP] CheatBox is not supported by MOP! See FAQ for more info.");
             }
 
+#if PRO
+            modConfigPath = ModLoader.GetModSettingsFolder(this, true);
+#else
             modConfigPath = ModLoader.GetModConfigFolder(this).Replace('\\', '/');
+#endif
             if (!MopSettings.HasFirstTimeWindowBeenShown())
             {
                 ModUI.ShowMessage($"Welcome to Modern Optimization Plugin <color=yellow>{Version}</color>!\n\n" +
@@ -285,7 +294,13 @@ namespace MOP
         public override void ModSettingsLoaded()
         {
             if (modConfigPath == null)
+            {
+#if PRO
+                modConfigPath = ModLoader.GetModSettingsFolder(this, true);
+#else
                 modConfigPath = ModLoader.GetModConfigFolder(this).Replace('\\', '/');
+#endif
+            }
             MopSettings.UpdateAll();
             modVersion = Version;
             ModConsole.Print($"<color=green>MOP {ModVersion} initialized!</color>");
@@ -293,12 +308,25 @@ namespace MOP
             ConsoleCommand.Add(new ConsoleCommands());
 
             SaveManager.RestoreSaveInMainMenu();
+
+            if (FramerateLimiter.Value == 21)
+            {
+                FramerateLimiter.valueText.text = "Disabled";
+            }
+            if (ShadowDistance.Value == 0)
+            {
+                ShadowDistance.valueText.text = "No Shadows";
+            }
         }
 
         /// <summary>
         /// Called once, when mod is loading after game is fully loaded.
         /// </summary>
+#if PRO
+        public override void PostLoad()
+#else
         public override void SecondPassOnLoad()
+#endif
         {
             MopSettings.UpdateAll();
 
@@ -314,11 +342,19 @@ namespace MOP
 
         static void ForceRuleFilesUpdate()
         {
+#if PRO
+            if (ModLoader.CurrentScene == CurrentScene.MainMenu)
+            {
+                ModUI.CreatePrompt("You can only force update while in main menu.");
+                return;
+            }
+#else
             if (ModLoader.GetCurrentScene() != CurrentScene.MainMenu)
             {
                 ModUI.ShowMessage("You can only force update while in main menu.");
                 return;
             }
+#endif
 
             if (File.Exists($"{ModConfigPath}/LastModList.mop"))
                 File.Delete($"{ModConfigPath}/LastModList.mop");

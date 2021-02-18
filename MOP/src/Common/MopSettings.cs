@@ -27,10 +27,21 @@ namespace MOP.Common
     {
         // This is the master switch of MOP. If deactivated, all functions will freeze.
         public static bool IsModActive { get; set; }
-        
+
 
         // ACTIVATING OBJECTS
+#if PRO
+        public static int ActiveDistance
+        {
+            get
+            {
+                ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
+                return (int)MOP.ActiveDistance.Value;
+            }
+        }
+#else
         public static int ActiveDistance { get; private set; }
+#endif
         public static float ActiveDistanceMultiplicationValue { get; private set; }
         public static PerformanceMode Mode = PerformanceMode.Balanced;
 
@@ -43,12 +54,9 @@ namespace MOP.Common
         public static bool RemoveEmptyItems { get; private set; }
 
         // RULE FILES
-#if PRO
-        public static bool RuleFilesAutoUpdateEnabled { get => MOP.RulesAutoUpdate.Value; }
-#else
+#if !PRO
         public static bool RuleFilesAutoUpdateEnabled { get => (bool)MOP.RulesAutoUpdate.GetValue(); }
 #endif
-        public static bool RuleFilesUpdateChecked;
         
         // Distance after which car physics is toggled.
         public const int UnityCarActiveDistance = 5;
@@ -67,12 +75,10 @@ namespace MOP.Common
         public static void UpdateAll()
         {
             // Activating Objects
-#if PRO
-            ActiveDistance = (int)MOP.ActiveDistance.Value;
-#else
+#if !PRO
             ActiveDistance = int.Parse(MOP.ActiveDistance.GetValue().ToString());
-#endif
             ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
+#endif
 
             // MODES
             // Show the warning about safe mode, if the player disables safe mode and is not in main menu.
@@ -149,13 +155,22 @@ namespace MOP.Common
             RemoveEmptyItems = MOP.DisableEmptyItems.Value;
 
             // Framerate limiter
-            Application.targetFrameRate = MOP.EnableFramerateLimiter.Value ? (int)MOP.FramerateLimiter.Value * 10 : -1;
+            Application.targetFrameRate = (int)MOP.FramerateLimiter.Value != 21 ? (int)MOP.FramerateLimiter.Value * 10 : -1;
+            if ((int)MOP.FramerateLimiter.Value == 21)
+            {
+                MOP.FramerateLimiter.valueText.text = "Disabled";
+            }
 
             // Shadow distance.
             if (shadowDistanceOriginalValue == 0)
                 shadowDistanceOriginalValue = QualitySettings.shadowDistance;
             QualitySettings.shadowDistance = MOP.EnableShadowAdjusting.Value ?
-                                             MOP.ShadowDistance.Value : shadowDistanceOriginalValue;
+                                             MOP.ShadowDistance.Value * 100 : shadowDistanceOriginalValue;
+
+            if (MOP.ShadowDistance.Value == 0)
+            {
+                MOP.ShadowDistance.valueText.text = "No Shadows";
+            }
 #else
             // GRAPHICS
             DynamicDrawDistance = (bool)MOP.DynamicDrawDistance.GetValue();
@@ -294,7 +309,7 @@ namespace MOP.Common
 #endif
         }
 
-        public static void ToggleBackgroundRunning()
+        internal static void ToggleBackgroundRunning()
         {
 #if PRO
             Application.runInBackground = MOP.KeepRunningInBackground.Value;

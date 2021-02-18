@@ -47,6 +47,8 @@ namespace MOP.Rules
         // If false, no rule files will be loaded.
         public bool LoadRules = true;
 
+        public bool UpdateChecked;
+
         public RulesManager(bool overrideUpdateCheck = false)
         {
             instance = this;

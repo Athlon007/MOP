@@ -780,6 +780,8 @@ namespace MOP
                         if (CompatibilityManager.CarryEvenMore)
                             if (ItemsManager.Instance.ItemsHooks[i].name.EndsWith("_INVENTORY")) continue;
 
+                        ItemsManager.Instance.ItemsHooks[i].FsmActive = Vector3.Distance(player.position, ItemsManager.Instance.ItemsHooks[i].transform.position) < 20;
+
                         // Check the mode in what MOP is supposed to run and adjust to it.
                         bool toEnable = true;
                         if (MopSettings.Mode == 0)

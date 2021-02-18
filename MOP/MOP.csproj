@@ -176,6 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\changelog.txt" />
+    <None Include="Resources\icon" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
