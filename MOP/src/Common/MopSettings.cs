@@ -75,16 +75,19 @@ namespace MOP.Common
 
             // MODES
             // Show the warning about safe mode, if the player disables safe mode and is not in main menu.
+            bool dontUpdate = false;
 #if PRO
             if (ModLoader.CurrentScene != CurrentScene.MainMenu && IsModActive)
             {
-                if (Mode == PerformanceMode.Safe && MOP.PerformanceModes.Value != 0)
+                if (Mode == PerformanceMode.Safe && MOP.PerformanceModes.Value != 3)
                 {
                     ModUI.CreatePrompt("Safe Mode will be disabled after the restart.", "MOP");
+                    dontUpdate = true;
                 }
-                else if (Mode != PerformanceMode.Safe && MOP.PerformanceModes.Value == 0)
+                else if (Mode != PerformanceMode.Safe && MOP.PerformanceModes.Value == 3)
                 {
                     ModUI.CreatePrompt("Safe Mode will be enabled after the restart.", "MOP");
+                    dontUpdate = true;
                 }
             }
 #else
@@ -93,32 +96,37 @@ namespace MOP.Common
                 if (Mode == PerformanceMode.Safe && !(bool)MOP.ModeSafe.GetValue())
                 {
                     ModUI.ShowMessage("Safe Mode will be disabled after the restart.", "MOP");
+                    dontUpdate = true;
                 }
                 else if (Mode != PerformanceMode.Safe && (bool)MOP.ModeSafe.GetValue())
                 {
                     ModUI.ShowMessage("Safe Mode will be enabled after the restart.", "MOP");
+                    dontUpdate = true;
                 }
             }
 #endif
 
 #if PRO
-            switch (MOP.PerformanceModes.Value)
+            if (!dontUpdate)
             {
-                default:
-                    Mode = PerformanceMode.Balanced;
-                    break;
-                case 0:
-                    Mode = PerformanceMode.Performance;
-                    break;
-                case 1:
-                    Mode = PerformanceMode.Balanced;
-                    break;
-                case 2:
-                    Mode = PerformanceMode.Quality;
-                    break;
-                case 3:
-                    Mode = PerformanceMode.Safe;
-                    break;
+                switch (MOP.PerformanceModes.Value)
+                {
+                    default:
+                        Mode = PerformanceMode.Balanced;
+                        break;
+                    case 0:
+                        Mode = PerformanceMode.Performance;
+                        break;
+                    case 1:
+                        Mode = PerformanceMode.Balanced;
+                        break;
+                    case 2:
+                        Mode = PerformanceMode.Quality;
+                        break;
+                    case 3:
+                        Mode = PerformanceMode.Safe;
+                        break;
+                }
             }
 #else
             if ((bool)MOP.ModeSafe.GetValue() && ModLoader.GetCurrentScene() != CurrentScene.MainMenu)
@@ -189,6 +197,8 @@ namespace MOP.Common
                 vsyncCount = QualitySettings.vSyncCount;
             else
                 QualitySettings.vSyncCount = vsyncCount;
+
+            ModConsole.Print("[MOP] MOP settings updated!");
 
             System.GC.Collect();
         }

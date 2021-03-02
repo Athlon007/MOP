@@ -32,7 +32,7 @@ namespace MOP
 #if DEBUG
         public override string Name => "Modern Optimization Plugin (Debug)"; //You mod name
 #else
-        public override string Name => "Modern Optimization Plugin"; //You mod name
+        public override string Name => "MODERN OPTIMIZATION PLUGIN"; //You mod name
 #endif
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.2"; //Version
@@ -67,7 +67,6 @@ namespace MOP
                                       DestroyEmptyBottles, DisableEmptyItems;
 
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
-        //public static readonly string[] FramerateLimiterText = { "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150", "160", "180", "190", "200" };
         readonly string[] rulesAutoUpdateFrequencyText = { "On Restart", "Daily", "Every 2 days", "Weekly" };
 #else
         readonly Settings iFoundABug = new Settings("iFoundABug", "I found a bug", BugReporter.FileBugReport);
@@ -139,17 +138,18 @@ namespace MOP
             // Activating objects.
             modSettings.AddHeader("ACTIVATING OBJECTS");
             ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 1, 0, 3, () => MopSettings.UpdateAll());
-            ActiveDistance.textValues = activeDistanceText;
+            ActiveDistance.TextValues = activeDistanceText;
+            ActiveDistance.ChangeValueText();
             modSettings.AddText("MODE:");
-            PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1, () => MopSettings.UpdateAll(), "PERFORMANCE", "BALANCED", "QUALITY", "SAFE");
+            PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1, (_) => MopSettings.UpdateAll(), "PERFORMANCE", "BALANCED", "QUALITY", "SAFE");
 
             // Graphics
             modSettings.AddHeader("GRAPHICS");
             FramerateLimiter = modSettings.AddSlider("framerateLimiterUpdated", "FRAMERATE LIMITER", 21, 2, 21, () => MopSettings.UpdateAll());
-            FramerateLimiter.valueSuffix = "0 FPS";
+            FramerateLimiter.ValueSuffix = "0 FPS";
             EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ENABLE SHADOW ADJUSTING", false, () => MopSettings.UpdateAll());
             ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 2, 0, 20, () => MopSettings.UpdateAll());
-            ShadowDistance.valueSuffix = "00 Meters";
+            ShadowDistance.ValueSuffix = "00 Meters";
             KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
             DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false, () => MopSettings.UpdateAll());
 
@@ -159,7 +159,7 @@ namespace MOP
             RulesAutoUpdate = modSettings.AddToggle("rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true);
             VerifyRuleFiles = modSettings.AddToggle("verifyRuleFiles", "VERIFY RULE FILES", true);
             RulesAutoUpdateFrequency = modSettings.AddSlider("ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 2, 0, 3);
-            RulesAutoUpdateFrequency.textValues = rulesAutoUpdateFrequencyText;
+            RulesAutoUpdateFrequency.TextValues = rulesAutoUpdateFrequencyText;
             DeleteUnusedRules = modSettings.AddToggle("deleteUnusedRules", "DELETE UNUSED RULES", false);
 
             // Other
