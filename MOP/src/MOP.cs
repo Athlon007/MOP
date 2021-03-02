@@ -138,7 +138,7 @@ namespace MOP
 
             // Activating objects.
             modSettings.AddHeader("ACTIVATING OBJECTS");
-            ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 1, 0, 3);
+            ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 1, 0, 3, () => MopSettings.UpdateAll());
             ActiveDistance.textValues = activeDistanceText;
             modSettings.AddText("MODE:");
             PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1, () => MopSettings.UpdateAll(), "PERFORMANCE", "BALANCED", "QUALITY", "SAFE");
@@ -256,6 +256,8 @@ namespace MOP
                 $"{ExceptionManager.GetSystemInfo()}\n" +
                 $"<color=yellow>Session ID:</color> {SessionID}\n" +
                 $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}");
+
+            //ModUI.ShowYesNoMessage("With upcoming MOP 3.3 release, MOP will drop support for MSC Mod Loader, and instead will require <color=yellow>MSC Mod Loader Pro</color>.\n\nWould you like to download it now?", "MOP", null);
 #endif
         }
         #endregion

@@ -92,7 +92,7 @@ namespace MOP.Managers
         public List<ItemBehaviour> ItemsHooks = new List<ItemBehaviour>();
 
         CashRegisterBehaviour cashRegisterHook;
-        Transform lostSpawner;
+        Transform lostSpawner, landfillSpawn;
 
         /// <summary>
         /// Initialize Items class.
@@ -101,6 +101,7 @@ namespace MOP.Managers
         {
             instance = this;
             lostSpawner = GameObject.Find("LostSpawner").transform;
+            landfillSpawn = GameObject.Find("LANDFILL").transform.Find("LandfillSpawn");
             cashRegisterHook = GameObject.Find("STORE/StoreCashRegister/Register").AddComponent<CashRegisterBehaviour>();
             GetCanTrigger();
 
@@ -302,15 +303,6 @@ namespace MOP.Managers
             }
         }
 
-        /// <summary>
-        /// Returns the transform of lost items spawner at junkyard.
-        /// </summary>
-        public Transform GetLostItemsSpawner()
-        {
-            return lostSpawner;
-        }
-
-
         GameObject canTrigger;
         /// <summary>
         /// Returns the position of Jokke's kilju can trigger.
@@ -324,5 +316,8 @@ namespace MOP.Managers
 
             return canTrigger;
         }
+
+        public Transform LostSpawner => lostSpawner;
+        public Transform LandfillSpawn => landfillSpawn;
     }
 }

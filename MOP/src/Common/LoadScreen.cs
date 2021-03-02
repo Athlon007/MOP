@@ -36,10 +36,10 @@ namespace MOP.Common
             loadScreen.transform.Find("ModName").gameObject.GetComponent<Text>().text = LoadText;
             loadScreen.transform.Find("Loading").gameObject.SetActive(false);
 
+#endif
             Cursor.visible = false;
             cursorFSM = GameObject.Find("PLAYER").GetPlayMakerByName("Update Cursor");
             cursorFSM.enabled = false;
-#endif
         }
 
         void Update()

@@ -770,8 +770,6 @@ namespace MOP
                         if (CompatibilityManager.CarryEvenMore)
                             if (ItemsManager.Instance.ItemsHooks[i].name.EndsWith("_INVENTORY")) continue;
 
-                        ItemsManager.Instance.ItemsHooks[i].FsmActive = Vector3.Distance(player.position, ItemsManager.Instance.ItemsHooks[i].transform.position) < 20;
-
                         // Check the mode in what MOP is supposed to run and adjust to it.
                         bool toEnable = true;
                         if (MopSettings.Mode == 0)
@@ -1055,6 +1053,20 @@ namespace MOP
                 {
                     ExceptionManager.New(ex, false, "TOGGLE_ALL_ITEMS_ERROR");
                 }
+            }
+
+            // Find all kilju, emptyca, empty juice container, and force empty them if applicable
+            try
+            {
+                IEnumerable<GameObject> bottles = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name.ContainsAny("kilju", "emptyca", "empty plastic can"));
+                foreach (GameObject bottle in bottles)
+                {
+                    bottle.GetComponent<ItemBehaviour>()?.ResetKiljuContainer();
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "KILJU_RESET_FORCE_ERROR");
             }
 
             // Vehicles

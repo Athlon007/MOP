@@ -26,14 +26,12 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
         private Quaternion localRotationOnDisable;
         private Vector3 localPositionOnDisable;
 
-        private bool hasDisabled;
-
-        bool isAssembled;
+        private bool isDisabeld, isAssembled;
 
         void Awake()
         {
             GetDefaultPosition();
-            isAssembled = transform.parent != null;
+            isAssembled = IsAssembledToTheCar();
         }
 
         void GetDefaultPosition()
@@ -52,26 +50,31 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
             this.localPositionOnDisable = this.transform.localPosition;
             this.transform.localPosition = this.initialLocalPosition;
 
-            this.hasDisabled = true;
+            this.isDisabeld = true;
         }
 
         void Update()
         {
-            if (transform.parent == null && isAssembled)
+            if (!IsAssembledToTheCar() && isAssembled)
                 isAssembled = false;
 
-            if (transform.parent != null && transform.parent.gameObject.name != "ItemPivot" && !isAssembled)
+            if (IsAssembledToTheCar() && transform.parent.gameObject.name != "ItemPivot" && !isAssembled)
             {
                 GetDefaultPosition();
                 isAssembled = true;
             }
 
-            if (isAssembled && this.hasDisabled)
+            if (isAssembled && this.isDisabeld)
             {
-                this.hasDisabled = false;
+                this.isDisabeld = false;
                 this.transform.localRotation = this.localRotationOnDisable;
                 this.transform.localPosition = this.localPositionOnDisable;
             }
+        }
+
+        bool IsAssembledToTheCar()
+        {
+            return transform.parent != null && transform.parent?.name != "PartsCar";
         }
     }
 }

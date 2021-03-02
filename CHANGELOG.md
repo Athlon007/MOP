@@ -1,12 +1,22 @@
 # Changelog
 
-## tba
+## 3.2 (tba)
+
+### Added
+
+- MOP now comes with two variants! A version with the legacy Mod Loader, and a shiny new Mod Loader Pro support!
+  - In order to fully utilize the new Mod Loader Pro, download "MOP Pro" file
 
 ### Changes
 
 - Improved Hayosiko disabling during early part of the game
 - Changed how vehicle position is verified
 - Reduced time which takes for fail-safe trigger of loadscreen to do it's thing to 20 seconds
+
+### Bug Fixes
+
+- Satsuma doors should not get stuck anymore
+- Sold kilju should not respawn on the junkyard as full anymore
 
 ## 3.1.5 (09.02.2021)
 

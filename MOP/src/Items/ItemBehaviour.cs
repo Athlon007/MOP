@@ -72,8 +72,6 @@ namespace MOP.Items
         FsmBool batteryOnCharged;
         readonly FsmFloat floorJackTriggerY;
 
-        PlayMakerFSM fsm;
-
         public ItemBehaviour()
         {
             if (gameObject.GetComponents<ItemBehaviour>().Length > 1)
@@ -85,7 +83,7 @@ namespace MOP.Items
 
             // Get object's components
             rb = GetComponent<Rigidbody>();
-            fsm = GetComponent<PlayMakerFSM>();
+            PlayMakerFSM fsm = GetComponent<PlayMakerFSM>();
             renderer = GetComponent<Renderer>();
 
             // From PlayMakerFSM, find states that contain one of the names that relate to destroying object,
@@ -195,7 +193,7 @@ namespace MOP.Items
                 if (!firstLoad)
                 {
                     if (transform.position.y < -100 && transform.position.x != 0 && transform.position.z != 0)
-                        transform.position = ItemsManager.Instance.GetLostItemsSpawner().position;
+                        transform.position = ItemsManager.Instance.LostSpawner.position;
 
                     firstLoad = true;
                 }
@@ -296,7 +294,7 @@ namespace MOP.Items
                 if (!firstLoad)
                 {
                     if (transform.position.y < -100 && transform.position.x != 0 && transform.position.z != 0)
-                        transform.position = ItemsManager.Instance.GetLostItemsSpawner().position;
+                        transform.position = ItemsManager.Instance.LostSpawner.position;
 
                     firstLoad = true;
                 }
@@ -533,7 +531,7 @@ namespace MOP.Items
             }
         }
 
-        void ResetKiljuContainer()
+        internal void ResetKiljuContainer()
         {
             if (!gameObject.name.ContainsAny("empty plastic can", "kilju", "emptyca")) return;
 
@@ -541,7 +539,25 @@ namespace MOP.Items
             {
                 if (Vector3.Distance(transform.position, ItemsManager.Instance.GetCanTrigger().transform.position) < 2)
                 {
-                    transform.position = ItemsManager.Instance.GetLostItemsSpawner().position;
+                    transform.position = ItemsManager.Instance.LostSpawner.position;
+
+                    PlayMakerFSM fsm = gameObject.GetPlayMakerByName("Use");
+                    if (fsm)
+                    {
+                        fsm.FsmVariables.GetFsmBool("ContainsKilju").Value = false;
+                    }
+
+                    gameObject.name = "empty plastic can(itemx)";
+
+                    return;
+                }
+            }
+
+            if (ItemsManager.Instance.LandfillSpawn)
+            {
+                if (Vector3.Distance(transform.position, ItemsManager.Instance.LandfillSpawn.position) < 5)
+                {
+                    transform.position = ItemsManager.Instance.LandfillSpawn.position;
 
                     PlayMakerFSM fsm = gameObject.GetPlayMakerByName("Use");
                     if (fsm)
@@ -551,28 +567,6 @@ namespace MOP.Items
 
                     gameObject.name = "empty plastic can(itemx)";
                 }
-            }
-        }
-
-        internal bool FsmActive
-        {
-            get
-            {
-                if (fsm)
-                    return fsm.enabled;
-
-                return false;
-            }
-            set
-            {
-                if (!fsm) return;
-
-                if (Toggle == TogglePhysicsOnly || DontDisable)
-                {
-                    value = true;
-                }
-
-                fsm.enabled = value;
             }
         }
     }

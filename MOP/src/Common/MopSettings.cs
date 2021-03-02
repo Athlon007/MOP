@@ -30,18 +30,8 @@ namespace MOP.Common
 
 
         // ACTIVATING OBJECTS
-#if PRO
-        public static int ActiveDistance
-        {
-            get
-            {
-                ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
-                return (int)MOP.ActiveDistance.Value;
-            }
-        }
-#else
         public static int ActiveDistance { get; private set; }
-#endif
+
         public static float ActiveDistanceMultiplicationValue { get; private set; }
         public static PerformanceMode Mode = PerformanceMode.Balanced;
 
@@ -75,7 +65,10 @@ namespace MOP.Common
         public static void UpdateAll()
         {
             // Activating Objects
-#if !PRO
+#if PRO
+            ActiveDistance = MOP.ActiveDistance.ValueInt;
+            ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
+#else
             ActiveDistance = int.Parse(MOP.ActiveDistance.GetValue().ToString());
             ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
 #endif
