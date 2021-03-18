@@ -81,12 +81,12 @@ namespace MOP.Common
             {
                 if (Mode == PerformanceMode.Safe && MOP.PerformanceModes.Value != 3)
                 {
-                    ModUI.CreatePrompt("Safe Mode will be disabled after the restart.", "MOP");
+                    ModPrompt.CreatePrompt("Safe Mode will be disabled after the restart.", "MOP");
                     dontUpdate = true;
                 }
                 else if (Mode != PerformanceMode.Safe && MOP.PerformanceModes.Value == 3)
                 {
-                    ModUI.CreatePrompt("Safe Mode will be enabled after the restart.", "MOP");
+                    ModPrompt.CreatePrompt("Safe Mode will be enabled after the restart.", "MOP");
                     dontUpdate = true;
                 }
             }
@@ -294,7 +294,7 @@ namespace MOP.Common
 #if PRO
             if (MOP.VerifyRuleFiles.Value)
             {
-                ModUI.CreatePrompt("<color=yellow><b>Warning!</b></color>\n\n" +
+                ModPrompt.CreatePrompt("<color=yellow><b>Warning!</b></color>\n\n" +
                     "For safety reasons, MOP verifies all rule files. Disabling rule file verification " +
                     "may lead to dangerous rule files being installed, that potentially may harm performance, " +
                     "or even damage your save game.\n\n" +

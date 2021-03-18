@@ -349,7 +349,7 @@ namespace MOP
 #if PRO
             if (ModLoader.CurrentScene == CurrentScene.MainMenu)
             {
-                ModUI.CreatePrompt("You can only force update while in main menu.");
+                ModPrompt.CreatePrompt("You can only force update while in main menu.");
                 return;
             }
 #else

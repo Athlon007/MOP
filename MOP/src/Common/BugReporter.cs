@@ -63,7 +63,7 @@ namespace MOP.Common
             if (!MopSettings.LoadedOnce)
             {
 #if PRO
-                ModUI.CreateContinueAbortPrompt("It is recommended to start the game at least once before filing bug report.\n\n" +
+                ModPrompt.CreateContinueAbortPrompt("It is recommended to start the game at least once before filing bug report.\n\n" +
                                                 "If you can't load the game, press Continue to generate mod report anyway.", "MOP - Bug Report", BugReportYesNo);
 #else
                 ModUI.ShowYesNoMessage("It is recommended to start the game at least once before filing bug report.\n\nIf you can't load the game, press Yes to generate mod report anyway.", "MOP", BugReportYesNo);
@@ -143,7 +143,7 @@ namespace MOP.Common
             if (File.Exists(SaveManager.GetDefaultES2SavePosition()))
             {
 #if PRO
-                ModUI.CreateYesNoPrompt("Would you like to your include save file?\n\nThis may greatly improve finding and fixing the bug.", "MOP - Bug Report", DoAddZip, onPromptClose: ShowWindow);
+                ModPrompt.CreateYesNoPrompt("Would you like to your include save file?\n\nThis may greatly improve finding and fixing the bug.", "MOP - Bug Report", DoAddZip, onPromptClose: ShowWindow);
 #else
                 ModUI.ShowYesNoMessage("Would you like to your include save file?\n\nThis may greatly improve finding and fixing the bug.", "MOP", DoAddZip);
 
