@@ -5,7 +5,7 @@
 ### Added
 
 - MOP will try to fix your save file, if it finds that the passenger bucket seat is missing from your game world, while you own driver bucket seat
-- Added "Delete unused rules" in MOP settings
+- Added "Delete unused rules" button in MOP settings
 
 ### Changelog
 
@@ -17,6 +17,10 @@
 - Fixed a bug in which crash log and bug reporting would fail, if it was generated before ItemsManager could load
 - Fixed MOP not loading, if a passenger bucket seat was missing
 - Fixed flatbed being stuck attached to the Kekmet
+
+- Fixed "radiator hose 3" not having ItemBehaviour property added to it
+- Fixed "radiator hose 3" spawning at default position, if it was detached from the car and the game was saved
+- Fixed "radiator hose 3" possibly disappearing on detach
 
 ## 3.1.5 (09.02.2021)
 

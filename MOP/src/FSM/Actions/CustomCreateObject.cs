@@ -15,8 +15,10 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
-using MOP.Items;
 using UnityEngine;
+
+using MOP.Items;
+using MOP.Managers;
 
 namespace MOP.FSM.Actions
 {
@@ -32,7 +34,6 @@ namespace MOP.FSM.Actions
         {
             this.parent = parent;
             this.prefab = prefab;
-            this.Owner.AddComponent<ItemBehaviour>();
         }
 
         public override void OnEnter()
@@ -41,6 +42,9 @@ namespace MOP.FSM.Actions
             newObject.transform.position = parent.transform.position;
             newObject.name = newObject.name.Replace("(Clone)(Clone)", "(Clone)");
             newObject.SetActive(true);
+            newObject.AddComponent<ItemBehaviour>();
+
+            ItemsManager.Instance.SetCurrentRadiatorHose(newObject);
         }
     }
 }

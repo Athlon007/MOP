@@ -1137,6 +1137,12 @@ namespace MOP
             {
                 ExceptionManager.New(ex, false, "TOGGLE_ALL_SATSUMA_TOGGLE_ELEMENTS");
             }
+
+            // Teleport real radiatorHose3 to currentRadiatorHose.
+            if (mode == ToggleAllMode.OnSave)
+            {
+                ItemsManager.Instance.TeleportRealRadiatorHose();
+            }
         }
 
         public Transform GetPlayer()
