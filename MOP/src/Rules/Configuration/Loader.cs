@@ -258,6 +258,7 @@ namespace MOP.Rules.Configuration
                         }
                         ModConsole.Print($"<color=yellow>[MOP] Skipped {file.Name} rule, " +
                                          $"because the corresponding mod is not present.</color>");
+                        RulesManager.Instance.UnusedRules.Add(file.Name);
                         continue;
                     }
 

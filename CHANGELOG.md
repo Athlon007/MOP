@@ -5,6 +5,7 @@
 ### Added
 
 - MOP will try to fix your save file, if it finds that the passenger bucket seat is missing from your game world, while you own driver bucket seat
+- Added "Delete unused rules" in MOP settings
 
 ### Changelog
 
