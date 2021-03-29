@@ -248,12 +248,12 @@ namespace MOP.Rules.Configuration
                     // Delete rules for mods that don't exist.
                     if (ModLoader.LoadedMods.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name)) == null && file.Name != CustomFile)
                     {
+                        removed++;
                         if ((bool)MOP.DeleteUnusedRuleFiles.GetValue())
                         {
                             File.Delete(file.FullName);
                             ModConsole.Print($"<color=yellow>[MOP] Rule file {file.Name} has been deleted, " +
                                              $"because corresponding mod is not present.</color>");
-                            removed++;
                             continue;
                         }
                         ModConsole.Print($"<color=yellow>[MOP] Skipped {file.Name} rule, " +
@@ -279,8 +279,9 @@ namespace MOP.Rules.Configuration
                     ReadRulesFromFile(file.FullName);
                 }
 
-                ModConsole.Print("<color=green>[MOP] Loading rule files done!</color>");
-                NewMessage($"MOP: Loading {files.Count - removed} rule file{(files.Count - removed > 1 ? "s" : "")} done!");
+                int loaded = files.Count - removed;
+                ModConsole.Print($"<color=green>[MOP] Loading {loaded}/{files.Count} rule files done!</color>");
+                NewMessage($"MOP: Loading {loaded}/{files.Count} rule file{(loaded > 1 ? "s" : "")} done!");
             }
             catch (Exception ex)
             {
