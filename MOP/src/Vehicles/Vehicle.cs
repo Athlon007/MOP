@@ -205,7 +205,7 @@ namespace MOP.Vehicles
 
                     // Trailer connection.
                     transform.Find("Trailer/Hook").GetPlayMakerByName("Distance").Fsm.RestartOnEnable = false;
-                    transform.Find("Trailer/Remove").GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
+                    //transform.Find("Trailer/Remove").GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
                     break;
                 case VehiclesTypes.Flatbed:
                     transform.Find("Bed/LogTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;

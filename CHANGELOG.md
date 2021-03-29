@@ -14,6 +14,7 @@
 
 - Fixed a bug in which crash log and bug reporting would fail, if it was generated before ItemsManager could load
 - Fixed MOP not loading, if a passenger bucket seat was missing
+- Fixed flatbed being stuck attached to the Kekmet
 
 ## 3.1.5 (09.02.2021)
 
