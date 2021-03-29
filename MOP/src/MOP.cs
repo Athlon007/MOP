@@ -220,6 +220,7 @@ namespace MOP
             ConsoleCommand.Add(new ConsoleCommands());
 
             SaveManager.RestoreSaveInMainMenu();
+            SaveManager.VerifySave();
         }
 
         /// <summary>

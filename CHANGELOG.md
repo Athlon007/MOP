@@ -1,5 +1,20 @@
 # Changelog
 
+## 3.1.6 ()
+
+### Added
+
+- MOP will try to fix your save file, if it finds that the passenger bucket seat is missing from your game world, while you own driver bucket seat
+
+### Changelog
+
+- Changed the minimum bolts reset handling - now it's an mod console error, instead of an exception
+
+### Bug Fixes
+
+- Fixed a bug in which crash log and bug reporting would fail, if it was generated before ItemsManager could load
+- Fixed MOP not loading, if a passenger bucket seat was missing
+
 ## 3.1.5 (09.02.2021)
 
 ### Added

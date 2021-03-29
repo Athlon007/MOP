@@ -173,7 +173,7 @@ namespace MOP.Common
                 output += $"PlayerHasHayosikoKey: {FSM.FsmManager.PlayerHasHayosikoKey()}\n";
                 output += $"IsPlayerInCar: {FSM.FsmManager.IsPlayerInCar()}\n";
                 output += $"IsPlayerInSatsuma: {FSM.FsmManager.IsPlayerInSatsuma()}\n";
-                output += $"CanTriggerStatus: {(Managers.ItemsManager.Instance.GetCanTrigger() == null ? "null" : $"Found ({Managers.ItemsManager.Instance.GetCanTrigger().GetGameObjectPath()})")}\n";
+                output += $"CanTriggerStatus: {(Managers.ItemsManager.Instance == null ? "manager_null" : Managers.ItemsManager.Instance.GetCanTrigger() == null ? "null" : $"Found ({Managers.ItemsManager.Instance.GetCanTrigger().GetGameObjectPath()})")}\n";
             }
 
             // List installed mods.
