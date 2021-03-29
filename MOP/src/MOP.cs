@@ -165,7 +165,7 @@ namespace MOP
             // Logging
             Settings.AddHeader(this, "Logging", headerColor);
             Settings.AddHeader(this, "WARNING", new Color(0, 0, 0), Color.yellow);
-            Settings.AddText(this, "If you're about to send the mod report, please attach BOTH output_log and ALL MOP logs from your session.");
+            Settings.AddText(this, "If you want to file a bug report, use <color=yellow>I FOUND A BUG</color> button!");
             Settings.AddButton(this, openOutputLog);
             Settings.AddButton(this, openLastLog);
             Settings.AddButton(this, generateReport);
