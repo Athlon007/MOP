@@ -9,6 +9,7 @@
 
 ### Changelog
 
+- Updated to MSCLoader 1.1.12
 - Changed the minimum bolts reset handling - now it's an mod console error, instead of an exception
 - Changed the warning in "Logging" section of MOP settings
 
