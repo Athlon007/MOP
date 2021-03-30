@@ -10,9 +10,8 @@
 ### Changelog
 
 - Updated to MSCLoader 1.1.12
-- Changed the minimum bolts reset handling - now it's an mod console error, instead of an exception
+- Changed the minimum bolts reset handling - now it's a mod console error, instead of an exception
 - Changed the warning in "Logging" section of MOP settings
-
 - Updated FAQ link to MOP wiki
 - Improved MOP load time
 
@@ -21,7 +20,6 @@
 - Fixed a bug in which crash log and bug reporting would fail, if it was generated before ItemsManager could load
 - Fixed MOP not loading, if a passenger bucket seat was missing
 - Fixed flatbed being stuck attached to the Kekmet
-
 - Fixed "radiator hose 3" not having ItemBehaviour property added to it
 - Fixed "radiator hose 3" spawning at default position, if it was detached from the car and the game was saved
 - Fixed "radiator hose 3" possibly disappearing on detach

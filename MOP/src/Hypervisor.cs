@@ -115,7 +115,8 @@ namespace MOP
         IEnumerator DelayedInitializaitonRoutine()
         {
             //yield return new WaitForSeconds(2);
-            yield return null;
+            for (int i = 0; i < 5; i++)
+                yield return null;
             Initialize();
         }
 
