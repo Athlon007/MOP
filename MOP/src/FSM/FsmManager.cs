@@ -214,5 +214,17 @@ namespace MOP.FSM
                 playerInMenu.Value = value; 
             }
         }
+
+        static FsmBool playerComputer;
+        public static bool PlayerComputer
+        {
+            get
+            {
+                if (playerComputer == null)
+                    playerComputer = PlayMakerGlobals.Instance.Variables.GetFsmBool("PlayerComputer");
+
+                return playerComputer.Value;
+            }
+        }
     }
 }

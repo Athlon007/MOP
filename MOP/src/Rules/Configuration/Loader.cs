@@ -281,7 +281,14 @@ namespace MOP.Rules.Configuration
 
                 int loaded = files.Count - removed;
                 ModConsole.Print($"<color=green>[MOP] Loading {loaded}/{files.Count} rule files done!</color>");
-                NewMessage($"MOP: Loading {loaded}/{files.Count} rule file{(loaded > 1 ? "s" : "")} done!");
+                if (loaded == 0)
+                {
+                    NewMessage($"MOP: No rules have been loaded ({removed} rule{(removed == 1 ? "" : "s")} skipped).");
+                }
+                else
+                {
+                    NewMessage($"MOP: Succesfully loaded {loaded} rule file{(loaded == 1 ? "" : "s")}! {(removed > 0 ? $"({removed} rule{(removed == 1 ? "" : "s")} skipped)" : "" )}");
+                }
             }
             catch (Exception ex)
             {

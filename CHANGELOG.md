@@ -14,6 +14,7 @@
 - Changed the warning in "Logging" section of MOP settings
 
 - Updated FAQ link to MOP wiki
+- Improved MOP load time
 
 ### Bug Fixes
 
