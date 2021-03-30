@@ -13,6 +13,8 @@
 - Changed the minimum bolts reset handling - now it's an mod console error, instead of an exception
 - Changed the warning in "Logging" section of MOP settings
 
+- Updated FAQ link to MOP wiki
+
 ### Bug Fixes
 
 - Fixed a bug in which crash log and bug reporting would fail, if it was generated before ItemsManager could load
