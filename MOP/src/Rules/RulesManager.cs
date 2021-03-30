@@ -105,7 +105,7 @@ namespace MOP.Rules
             }
             else
             {
-                ModUI.ShowYesNoMessage($"Are you sure you want to delete <color=yellow>{Instance.UnusedRules.Count}</color> unused rule files?", "MOP", DoDeleteUnused);
+                ModUI.ShowYesNoMessage($"Are you sure you want to delete <color=yellow>{Instance.UnusedRules.Count}</color> unused rule file{(Instance.UnusedRules.Count == 1 ? "" : "s")}?", "MOP", DoDeleteUnused);
             }
         }
 
