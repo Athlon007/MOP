@@ -202,14 +202,11 @@ namespace MOP.Managers
             }
 
             PlayMakerFSM radiatorHose3Database = GameObject.Find("Database").transform.Find("DatabaseMechanics/RadiatorHose3").GetComponent<PlayMakerFSM>();
-            if (Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "radiator hose3(Clone)").ToArray().Length == 1)
-            {
-                GameObject dummy = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(Clone)").gameObject;
-                Object.Destroy(dummy.GetComponent<ItemBehaviour>());
-                dummy.SetActive(false);
-                dummy.name = dummy.name.Replace("(Clone)(Clone)", "(Clone)");
-                radiatorHose3Database.FsmVariables.GameObjectVariables.First(g => g.Name == "SpawnThis").Value = dummy;
-            }
+            GameObject dummy = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(Clone)").gameObject;
+            Object.Destroy(dummy.GetComponent<ItemBehaviour>());
+            dummy.SetActive(false);
+            dummy.name = dummy.name.Replace("(Clone)(Clone)", "(Clone)");
+            radiatorHose3Database.FsmVariables.GameObjectVariables.First(g => g.Name == "SpawnThis").Value = dummy;
             realRadiatorHose = radiatorHose3Database.FsmVariables.GameObjectVariables.First(g => g.Name == "SpawnThis").Value;
         }
 

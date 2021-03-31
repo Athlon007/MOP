@@ -85,7 +85,7 @@ namespace MOP
         readonly Settings rulesLearnMore = new Settings("rulesLearnMore", "Learn More", ExternalExecuting.OpenRulesWebsiteDialog);
         public static Settings DeleteUnusedRuleFiles = new Settings("deleteUnusedRuleFiles", "Delete unused rule files", false, MopSettings.UpdateAll);
         public static Settings VerifyRuleFiles = new Settings("verifyRuleFiles", "Verify Rule Files", true, MopSettings.ToggleVerifyRuleFiles);
-        readonly Settings deleteUnusedRules = new Settings("deleteUnusedRules", "Delete Unused Rules", RulesManager.DeleteUnused);
+        readonly Settings deleteUnusedRules = new Settings("deleteUnusedRules", "Delete unused rules", RulesManager.DeleteUnused);
 
         // OTHERS
         public static Settings RemoveEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Destroy empty bottles", false, MopSettings.UpdateAll);
@@ -157,7 +157,7 @@ namespace MOP
             Settings.AddSlider(this, RulesAutoUpdateFrequency, 0, 3, rulesAutoUpdateFrequencyText);
             Settings.AddCheckBox(this, DeleteUnusedRuleFiles);
             Settings.AddButton(this, forceRuleUpdate, "This will force MOP to re-download all mod rule files.");
-            Settings.AddButton(this, deleteUnusedRules);
+            Settings.AddButton(this, deleteUnusedRules, new Color32(218, 39, 37, 255), new Color32(255, 62, 55, 255), new Color32(174, 33, 28, 255));
 
             // Others
             Settings.AddHeader(this, "Other", headerColor);

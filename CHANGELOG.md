@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.1.6 Beta 2 (31.03.2021)
+
+### Added
+
+- Added some more information to MOP log
+
+### Changes
+
+- Optimization improvements
+- (Beta) "Delete unused rules" button is now red
+
 ## 3.1.6 Beta 1 (30.03.2021)
 
 ### Added
