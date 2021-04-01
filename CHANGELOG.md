@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.1.7 ()
+
+### Bug Fixes
+
+- (Probably) fixed Satsuma door hinges getting jammed
+
 ## 3.1.6 (01.04.2021)
 
 ### Added
