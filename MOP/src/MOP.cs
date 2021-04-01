@@ -28,15 +28,15 @@ namespace MOP
 {
     public class MOP : Mod
     {
-        public override string ID => "MOP"; //Your mod ID (unique)
+        public override string ID => "MOP";
 #if DEBUG
-        public override string Name => "Modern Optimization Plugin (Debug)"; //You mod name
+        public override string Name => "Modern Optimization Plugin (Debug)";
 #else
         public override string Name => "Modern Optimization Plugin"; //You mod name
 #endif
-        public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.1.6"; //Version
-        public const string SubVersion = "BETA_2"; // NIGHTLY-yyyymmdd | BETA_x | RC_x
+        public override string Author => "Athlon";
+        public override string Version => "3.1.6";
+        public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_x
 
         #region Settings & Configuration
         // ModLoader configuration.

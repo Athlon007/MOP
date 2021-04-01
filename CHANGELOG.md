@@ -1,22 +1,12 @@
 # Changelog
 
-## 3.1.6 Beta 2 (31.03.2021)
-
-### Added
-
-- Added some more information to MOP log
-
-### Changes
-
-- Optimization improvements
-- (Beta) "Delete unused rules" button is now red
-
-## 3.1.6 Beta 1 (30.03.2021)
+## 3.1.6 (01.04.2021)
 
 ### Added
 
 - MOP will try to fix your save file, if it finds that the passenger bucket seat is missing from your game world, while you own driver bucket seat
 - Added "Delete unused rules" button in MOP settings
+- Added some more information to MOP log
 
 ### Changelog
 
@@ -25,6 +15,7 @@
 - Changed the warning in "Logging" section of MOP settings
 - Updated FAQ link to MOP wiki
 - Improved MOP load time
+- Optimization improvements
 
 ### Bug Fixes
 
@@ -34,6 +25,7 @@
 - Fixed "radiator hose 3" not having ItemBehaviour property added to it
 - Fixed "radiator hose 3" spawning at default position, if it was detached from the car and the game was saved
 - Fixed "radiator hose 3" possibly disappearing on detach
+- Sauna simulation won't reset itself anymore
 
 ## 3.1.5 (09.02.2021)
 

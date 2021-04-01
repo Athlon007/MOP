@@ -75,6 +75,11 @@ namespace MOP.Places
             // Remove fridge mesh from the list of disabled objects
             Transform fridgeMesh = DisableableChilds.Find(w => w.name == "mesh" && w.transform.parent.name == "Fridge");
             DisableableChilds.Remove(fridgeMesh);
+
+            transform.Find("Building/SAUNA/Sauna/Kiuas/ButtonPower").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            transform.Find("Building/SAUNA/Sauna/Kiuas/ButtonTime").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            transform.Find("Building/SAUNA/Sauna/Kiuas/StoveTrigger").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            transform.Find("Building/SAUNA/Sauna/Simulation").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
         }
     }
 }

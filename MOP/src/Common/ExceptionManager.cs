@@ -43,7 +43,7 @@ namespace MOP.Common
             if (erorrsContainer.Contains(message))
                 return;
 
-            string fileName = $"{DefaultErrorLogName}_{DateTime.Now.ToString("yyyy-MM-dd-HH-mm")}";
+            string fileName = $"{DefaultErrorLogName}_{DateTime.Now:yyyy-MM-dd-HH-mm}";
 
             if (File.Exists($"{GetLogFolder()}/{fileName}.txt"))
             {
