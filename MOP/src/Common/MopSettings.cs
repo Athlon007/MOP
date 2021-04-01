@@ -105,7 +105,7 @@ namespace MOP.Common
             RemoveEmptyItems = (bool)MOP.RemoveEmptyItems.GetValue();
 
             // Framerate limiter
-            Application.targetFrameRate = (bool)MOP.EnableFramerateLimiter.GetValue() ? int.Parse(MOP.FramerateLimiterText[int.Parse(MOP.FramerateLimiter.GetValue().ToString())]) : -1;
+            Application.targetFrameRate = (bool)MOP.EnableFramerateLimiter.GetValue() ? int.Parse(MOP.FramerateLimiterText[int.Parse(MOP.FramerateLimiter.GetValue().ToString())]) : 200;
 
             // Shadow distance.
             if (shadowDistanceOriginalValue == 0)

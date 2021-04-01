@@ -248,16 +248,17 @@ namespace MOP.Rules.Configuration
                     // Delete rules for mods that don't exist.
                     if (ModLoader.LoadedMods.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name)) == null && file.Name != CustomFile)
                     {
+                        removed++;
                         if ((bool)MOP.DeleteUnusedRuleFiles.GetValue())
                         {
                             File.Delete(file.FullName);
                             ModConsole.Print($"<color=yellow>[MOP] Rule file {file.Name} has been deleted, " +
                                              $"because corresponding mod is not present.</color>");
-                            removed++;
                             continue;
                         }
                         ModConsole.Print($"<color=yellow>[MOP] Skipped {file.Name} rule, " +
                                          $"because the corresponding mod is not present.</color>");
+                        RulesManager.Instance.UnusedRules.Add(file.Name);
                         continue;
                     }
 
@@ -278,8 +279,16 @@ namespace MOP.Rules.Configuration
                     ReadRulesFromFile(file.FullName);
                 }
 
-                ModConsole.Print("<color=green>[MOP] Loading rule files done!</color>");
-                NewMessage($"MOP: Loading {files.Count - removed} rule file{(files.Count - removed > 1 ? "s" : "")} done!");
+                int loaded = files.Count - removed;
+                ModConsole.Print($"<color=green>[MOP] Loading {loaded}/{files.Count} rule files done!</color>");
+                if (loaded == 0)
+                {
+                    NewMessage($"MOP: No rules have been loaded ({removed} rule{(removed == 1 ? "" : "s")} skipped).");
+                }
+                else
+                {
+                    NewMessage($"MOP: Succesfully loaded {loaded} rule file{(loaded == 1 ? "" : "s")}! {(removed > 0 ? $"({removed} rule{(removed == 1 ? "" : "s")} skipped)" : "" )}");
+                }
             }
             catch (Exception ex)
             {

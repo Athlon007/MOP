@@ -121,5 +121,10 @@ namespace MOP.Managers
 
             return vehicles.FirstOrDefault(f => f.VehicleType == vehicleType);
         }
+
+        public Vehicle GetVehicle(string name)
+        {
+            return vehicles.FirstOrDefault(f => f.gameObject.name == name);
+        }
     }
 }

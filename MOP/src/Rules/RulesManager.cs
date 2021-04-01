@@ -20,6 +20,7 @@ using UnityEngine;
 
 using MOP.Rules.Configuration;
 using MOP.Rules.Types;
+using MSCLoader;
 
 namespace MOP.Rules
 {
@@ -47,6 +48,8 @@ namespace MOP.Rules
         // If false, no rule files will be loaded.
         public bool LoadRules = true;
 
+        public List<string> UnusedRules;
+
         public RulesManager(bool overrideUpdateCheck = false)
         {
             instance = this;
@@ -61,6 +64,7 @@ namespace MOP.Rules
             SpecialRules = new SpecialRules();
             RuleFileNames = new List<string>();
             NewSectors = new List<NewSector>();
+            UnusedRules = new List<string>();
         }
 
         public void WipeAll(bool overrideUpdateCheck)
@@ -90,6 +94,35 @@ namespace MOP.Rules
             DirectoryInfo di = new DirectoryInfo(MOP.ModConfigPath);
             foreach (var f in di.GetFiles("*.mopconfig"))
                 f.Delete();
+        }
+
+        public static void DeleteUnused()
+        {
+            if (Instance.UnusedRules.Count == 0)
+            {
+                ModUI.ShowMessage("No unused rule files found.", "MOP");
+                return;
+            }
+            else
+            {
+                ModUI.ShowYesNoMessage($"Are you sure you want to delete <color=yellow>{Instance.UnusedRules.Count}</color> unused rule file{(Instance.UnusedRules.Count == 1 ? "" : "s")}?", "MOP", DoDeleteUnused);
+            }
+        }
+
+        static void DoDeleteUnused()
+        {
+            foreach (string file in Instance.UnusedRules)
+            {
+                string path = Path.Combine(MOP.ModConfigPath, file).Replace('\\', '/');
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+                else
+                {
+                    ModConsole.Error($"[MOP] Can't find path to file: {path}");
+                }
+            }
         }
     }
 }

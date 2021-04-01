@@ -16,6 +16,7 @@
 
 using MSCLoader;
 using System.Diagnostics;
+using UnityEngine;
 
 namespace MOP.Common
 {
@@ -47,7 +48,7 @@ namespace MOP.Common
 
         public static void OpenFAQDialog()
         {
-            ShowDialog("https://github.com/Athlon007/MOP/blob/master/FAQ.md");
+            ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/faq");
         }
 
         public static void OpenWikiDialog()

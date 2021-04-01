@@ -1,5 +1,32 @@
 # Changelog
 
+## 3.1.6 (01.04.2021)
+
+### Added
+
+- MOP will try to fix your save file, if it finds that the passenger bucket seat is missing from your game world, while you own driver bucket seat
+- Added "Delete unused rules" button in MOP settings
+- Added some more information to MOP log
+
+### Changelog
+
+- Updated to MSCLoader 1.1.12
+- Changed the minimum bolts reset handling - now it's a mod console error, instead of an exception
+- Changed the warning in "Logging" section of MOP settings
+- Updated FAQ link to MOP wiki
+- Improved MOP load time
+- Optimization improvements
+
+### Bug Fixes
+
+- Fixed a bug in which crash log and bug reporting would fail, if it was generated before ItemsManager could load
+- Fixed MOP not loading, if a passenger bucket seat was missing
+- Fixed flatbed being stuck attached to the Kekmet
+- Fixed "radiator hose 3" not having ItemBehaviour property added to it
+- Fixed "radiator hose 3" spawning at default position, if it was detached from the car and the game was saved
+- Fixed "radiator hose 3" possibly disappearing on detach
+- Sauna simulation won't reset itself anymore
+
 ## 3.1.5 (09.02.2021)
 
 ### Added

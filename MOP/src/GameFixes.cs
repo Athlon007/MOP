@@ -53,6 +53,18 @@ namespace MOP
 
         public void MainFixes()
         {
+            // GT Grille resetting fix.
+            try
+            {
+                PlayMakerFSM[] gtGrille = GameObject.Find("grille gt(Clone)").GetComponents<PlayMakerFSM>();
+                foreach (var fsm in gtGrille)
+                    fsm.Fsm.RestartOnEnable = false;
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "GT_GRILLE_ERROR");
+            }
+
             // Random fixes.
             try
             {

@@ -19,6 +19,8 @@ using System.Reflection;
 using UnityEngine;
 
 using MOP.Common;
+using MOP.Common.Enumerations;
+using MOP.Managers;
 
 namespace MOP.FSM
 {
@@ -131,7 +133,7 @@ namespace MOP.FSM
         public static void ForceHoodAssemble()
         {
             if (triggerHood == null)
-                triggerHood = GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Body/trigger_hood").gameObject;
+                triggerHood = VehicleManager.Instance.GetVehicle(VehiclesTypes.Satsuma).transform.Find("Body/trigger_hood").gameObject;
 
             triggerHood.SetActive(true);
             triggerHood.GetComponent<PlayMakerFSM>().SendEvent("ASSEMBLE");
@@ -141,7 +143,7 @@ namespace MOP.FSM
         public static void ForceRearBumperAssemble()
         {
             if (triggerBumperRear == null)
-                triggerBumperRear = GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Body/trigger_bumper_rear").gameObject;
+                triggerBumperRear = VehicleManager.Instance.GetVehicle(VehiclesTypes.Satsuma).transform.Find("Body/trigger_bumper_rear").gameObject;
 
             triggerBumperRear.SetActive(true);
             triggerBumperRear.GetComponent<PlayMakerFSM>().SendEvent("ASSEMBLE");
@@ -151,7 +153,7 @@ namespace MOP.FSM
         public static bool IsTrailerAttached()
         {
             if (kekmetTrailerRemove == null)
-                kekmetTrailerRemove = GameObject.Find("KEKMET(350-400psi)").transform.Find("Trailer/Remove").gameObject;
+                kekmetTrailerRemove = VehicleManager.Instance.GetVehicle(VehiclesTypes.Kekmet).transform.Find("Trailer/Remove").gameObject;
 
             return kekmetTrailerRemove.activeSelf;
         }
@@ -212,6 +214,18 @@ namespace MOP.FSM
                     playerInMenu = PlayMakerGlobals.Instance.Variables.GetFsmBool("PlayerInMenu");
 
                 playerInMenu.Value = value; 
+            }
+        }
+
+        static FsmBool playerComputer;
+        public static bool PlayerComputer
+        {
+            get
+            {
+                if (playerComputer == null)
+                    playerComputer = PlayMakerGlobals.Instance.Variables.GetFsmBool("PlayerComputer");
+
+                return playerComputer.Value;
             }
         }
     }

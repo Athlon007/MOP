@@ -155,8 +155,14 @@ namespace MOP.Vehicles
                 bucketPassanger = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "bucket seat passenger(Clone)"
                 && g.transform.parent.gameObject.name == "Parts");
             }
-            bucketDriver.AddComponent<SatsumaSeatsManager>();
-            bucketPassanger.AddComponent<SatsumaSeatsManager>();
+            if (bucketDriver)
+            {
+                bucketDriver.AddComponent<SatsumaSeatsManager>();
+            }
+            if (bucketPassanger)
+            {
+                bucketPassanger.AddComponent<SatsumaSeatsManager>();
+            }
 
             // Fix for mechanical wear of the car.
             transform.Find("CarSimulation/MechanicalWear").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
@@ -248,7 +254,7 @@ namespace MOP.Vehicles
             // If there's less bolts found than the value, warn user.
             if (satsumaBoltsAntiReloads.Count < MinimumBolts)
             {
-                throw new System.Exception($"Only {satsumaBoltsAntiReloads.Count} out of {MinimumBolts} have been reset!");
+                ModConsole.Error($"[MOP] Only {satsumaBoltsAntiReloads.Count} out of expected {MinimumBolts} have been reset!");
             }
 
             // Fixes car body color resetting to default.

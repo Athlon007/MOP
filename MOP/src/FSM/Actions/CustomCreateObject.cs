@@ -17,6 +17,9 @@
 using HutongGames.PlayMaker;
 using UnityEngine;
 
+using MOP.Items;
+using MOP.Managers;
+
 namespace MOP.FSM.Actions
 {
     /// <summary>
@@ -39,6 +42,9 @@ namespace MOP.FSM.Actions
             newObject.transform.position = parent.transform.position;
             newObject.name = newObject.name.Replace("(Clone)(Clone)", "(Clone)");
             newObject.SetActive(true);
+            newObject.AddComponent<ItemBehaviour>();
+
+            ItemsManager.Instance.SetCurrentRadiatorHose(newObject);
         }
     }
 }
