@@ -174,6 +174,15 @@ namespace MOP
             // Fixes
             GameFixes.Instance.MainFixes();
 
+            try
+            {
+                gameObject.AddComponent<Vehicles.Managers.SatsumaManagers.SatsumaTriggerFixer>();
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "SATSUMA_TRIGGER_FIXER_ERROR");
+            }
+
             //Things that should be enabled when out of proximity of the house
             try
             {
