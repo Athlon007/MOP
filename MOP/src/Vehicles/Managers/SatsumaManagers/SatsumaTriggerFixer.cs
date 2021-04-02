@@ -4,6 +4,8 @@ using UnityEngine;
 
 using MOP.Managers;
 using MOP.Common.Enumerations;
+using System;
+using MOP.Common;
 
 namespace MOP.Vehicles.Managers.SatsumaManagers
 {
@@ -15,7 +17,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
         static SatsumaTriggerFixer instance;
         public static SatsumaTriggerFixer Instance => instance;
 
-        void Start()
+        void Awake()
         {
             instance = this;
 
@@ -55,12 +57,21 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
 
         void Awake()
         {
-            pivot = GetComponent<PlayMakerFSM>().FsmVariables.FindFsmGameObject("Parent").Value.transform;
-
-            if (pivot == null)
+            try
             {
-                MSCLoader.ModConsole.Error($"[MOP] Can't find pivot of \"{gameObject.name}\"!");
-                Destroy(this);
+                GameObject gameObjectPivot = GetComponent<PlayMakerFSM>().FsmVariables.GetFsmGameObject("Parent").Value;
+
+                if (gameObjectPivot == null)
+                {
+                    Destroy(this);
+                    return;
+                }
+
+                pivot = gameObjectPivot.transform;
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, gameObject.GetGameObjectPath());
             }
         }
 
