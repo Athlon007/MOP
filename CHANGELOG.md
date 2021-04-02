@@ -7,6 +7,7 @@
 - (Probably) fixed Satsuma door hinges getting jammed
 - Fixed Satsuma odometer resetting to on load value
 - (My Summer Car Bug) Fixed MSC bug, which caused Satsuma parts that detached themselves from the car sometimes being not reattachable until after game restart
+- Fixed possible bug that may have caused to not all mail boxes be counted towards advertisement job progress
 
 ## 3.1.6 (01.04.2021)
 
