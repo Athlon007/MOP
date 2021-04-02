@@ -9,9 +9,9 @@
 
 ### Bug Fixes
 
+- (My Summer Car Bug) Fixed MSC bug, which caused Satsuma parts that detached themselves from the car sometimes being not reattachable until after the game restart
 - Fixed Satsuma door hinges getting jammed, which prevented doors from being opened
 - Fixed Satsuma odometer resetting to an on load value
-- (My Summer Car Bug) Fixed MSC bug, which caused Satsuma parts that detached themselves from the car sometimes being not reattachable until after the game restart
 - Fixed possible bug that may have caused not all mail boxes to be counted towards the Teimo adverts job progress
 
 ## 3.1.6 (01.04.2021)

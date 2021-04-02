@@ -55,6 +55,10 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
 
             this.hasDisabled = true;
 
+        }
+
+        void OnEnable()
+        {
             StartCoroutine(HingeFix());
         }
 
