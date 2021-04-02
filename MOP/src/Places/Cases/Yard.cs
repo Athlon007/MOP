@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -75,6 +76,8 @@ namespace MOP.Places
             // Remove fridge mesh from the list of disabled objects
             Transform fridgeMesh = DisableableChilds.Find(w => w.name == "mesh" && w.transform.parent.name == "Fridge");
             DisableableChilds.Remove(fridgeMesh);
+
+            Compress();
 
             transform.Find("Building/SAUNA/Sauna/Kiuas/ButtonPower").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
             transform.Find("Building/SAUNA/Sauna/Kiuas/ButtonTime").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;

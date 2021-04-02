@@ -130,5 +130,35 @@ namespace MOP.Places
         {
             return toggleDistance;
         }
+
+        internal void Compress()
+        {
+            List<Transform> toRemove = new List<Transform>();
+            foreach (Transform child in DisableableChilds)
+            {
+                Transform currentChild = child;
+                try
+                {
+                    while (currentChild.parent != null)
+                    {
+                        if (DisableableChilds.Contains(currentChild.parent))
+                        {
+                            toRemove.Add(child);
+                        }
+
+                        currentChild = currentChild.parent;
+                    }
+                }
+                catch 
+                {
+                    MSCLoader.ModConsole.Error(currentChild.GetGameObjectPath());
+                }
+            }
+
+            foreach (Transform child in toRemove)
+            {
+                DisableableChilds.Remove(child);
+            }
+        }
     }
 }

@@ -2,6 +2,10 @@
 
 ## 3.1.7 ()
 
+### Changes
+
+- Improved performance of places enabling and disabling (even by up to 12x!)
+
 ### Bug Fixes
 
 - (Probably) fixed Satsuma door hinges getting jammed
