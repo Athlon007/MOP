@@ -5,6 +5,7 @@
 ### Bug Fixes
 
 - (Probably) fixed Satsuma door hinges getting jammed
+- Fixed Satsuma odometer resetting to on load value
 
 ## 3.1.6 (01.04.2021)
 

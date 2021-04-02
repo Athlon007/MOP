@@ -473,6 +473,8 @@ namespace MOP.Vehicles
                 wheelFL.StartFixedUpdate();
                 wheelFR.StartFixedUpdate();
             }
+
+            GameObject.Find("dashboard meters(Clone)/Gauges/Odometer").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
             
             if (MopSettings.GenerateToggledItemsListDebug)
             {
