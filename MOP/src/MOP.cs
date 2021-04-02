@@ -36,7 +36,7 @@ namespace MOP
 #endif
         public override string Author => "Athlon";
         public override string Version => "3.1.7";
-        public const string SubVersion = "NIGHTLY-20210401"; // NIGHTLY-yyyymmdd | BETA_x | RC_x
+        public const string SubVersion = "NIGHTLY-20210402"; // NIGHTLY-yyyymmdd | BETA_x | RC_x
 
         #region Settings & Configuration
         // ModLoader configuration.
@@ -298,9 +298,9 @@ namespace MOP
                     line = $"    • {line}";
                 }
 
-                if (line.Contains("(Development)"))
+                if (line.Contains("(Beta)"))
                 {
-                    line = line.Replace("(Development)", "<color=orange>Development: </color>");
+                    line = line.Replace("(Beta)", "<color=orange>Beta: </color>");
                 }
 
                 if (line.Contains("(My Summer Car Bug)"))
