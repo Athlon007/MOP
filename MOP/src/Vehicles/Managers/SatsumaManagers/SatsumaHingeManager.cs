@@ -52,8 +52,6 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
             this.transform.localPosition = this.initialLocalPosition;
 
             this.isDisabeld = true;
-            this.hasDisabled = true;
-
         }
 
         void OnEnable()
@@ -83,6 +81,8 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
         bool IsAssembledToTheCar()
         {
             return transform.parent != null && transform.parent?.name != "PartsCar";
+
+        }
 
         IEnumerator HingeFix()
         {
