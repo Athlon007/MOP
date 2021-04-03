@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using System.Collections;
 using UnityEngine;
 
 namespace MOP.Vehicles.Managers.SatsumaManagers
@@ -51,6 +52,13 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
             this.transform.localPosition = this.initialLocalPosition;
 
             this.isDisabeld = true;
+            this.hasDisabled = true;
+
+        }
+
+        void OnEnable()
+        {
+            StartCoroutine(HingeFix());
         }
 
         void Update()
@@ -75,6 +83,18 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
         bool IsAssembledToTheCar()
         {
             return transform.parent != null && transform.parent?.name != "PartsCar";
+
+        IEnumerator HingeFix()
+        {
+            yield return new WaitForSeconds(1);
+            FixedJoint[] fixedJoints = gameObject.GetComponents<FixedJoint>();
+            HingeJoint[] hingeJoints = gameObject.GetComponents<HingeJoint>();
+
+            while (fixedJoints.Length > 1)
+                Destroy(fixedJoints[0]);
+
+            while (hingeJoints.Length > 1)
+                Destroy(hingeJoints[0]);
         }
     }
 }

@@ -87,11 +87,6 @@ namespace MOP
 
             FsmManager.PlayerInMenu = true;
 
-            // Start the delayed initialization routine
-            PlayMakerFSM[] gtGrille = GameObject.Find("grille gt(Clone)").GetComponents<PlayMakerFSM>();
-            foreach (var fsm in gtGrille)
-                fsm.Fsm.RestartOnEnable = false;
-
             // Disable rule files if user wants it.
             if (!RulesManager.Instance.LoadRules)
             {
@@ -105,7 +100,9 @@ namespace MOP
 #region MOP Initialization
         IEnumerator DelayedInitializaitonRoutine()
         {
-            yield return new WaitForSeconds(2);
+            //yield return new WaitForSeconds(2);
+            for (int i = 0; i < 5; i++)
+                yield return null;
             Initialize();
         }
 
@@ -157,7 +154,6 @@ namespace MOP
                 ExceptionManager.New(ex, false, "WORLD_OBJECTS_1_INITIALIZAITON_FAIL");
             }
 
-
             // Initialize places.
             placeManager = new PlaceManager();
 
@@ -191,7 +187,6 @@ namespace MOP
                 worldObjectManager.Add("SwampColliders", DisableOn.PlayerInHome);
                 worldObjectManager.Add("RYKIPOHJA", DisableOn.PlayerInHome);
                 worldObjectManager.Add("COMPUTER", DisableOn.PlayerAwayFromHome);
-                //worldObjectManager.Add("JOBS/HouseDrunkNew", DisableOn.PlayerInHome);
 
                 ModConsole.Print("[MOP] World objects (2) loaded");
             }
@@ -477,7 +472,7 @@ namespace MOP
             currentControlCoroutine = ControlCoroutine();
             StartCoroutine(currentControlCoroutine);
 
-            ModConsole.Print("[MOP] MOD LOADED SUCCESFULLY!");
+            ModConsole.Print("<color=green>[MOP] MOD LOADED SUCCESFULLY!</color>");
             Resources.UnloadUnusedAssets();
             GC.Collect();
 
@@ -1135,6 +1130,12 @@ namespace MOP
             catch (Exception ex)
             {
                 ExceptionManager.New(ex, false, "TOGGLE_ALL_SATSUMA_TOGGLE_ELEMENTS");
+            }
+
+            // Teleport real radiatorHose3 to currentRadiatorHose.
+            if (mode == ToggleAllMode.OnSave)
+            {
+                ItemsManager.Instance.TeleportRealRadiatorHose();
             }
         }
 

@@ -134,6 +134,7 @@
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaRadiatorHoseFix.cs" />
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaSeatsManager.cs" />
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaPartMassManager.cs" />
+    <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaTriggerFixer.cs" />
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaWindscreenFixer.cs" />
     <Compile Include="src\Vehicles\Managers\TrailerLogUnderFloor.cs" />
     <Compile Include="src\Vehicles\Cases\Satsuma.cs" />

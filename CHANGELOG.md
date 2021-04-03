@@ -15,8 +15,48 @@
 
 ### Bug Fixes
 
-- Satsuma doors should not get stuck anymore
 - Sold kilju should not respawn on the junkyard as full anymore
+
+## 3.1.7 ()
+
+### Changes
+
+- Updated to MSCLoader 1.1.13
+- Improved performance of places enabling and disabling (even by up to 12x!)
+
+### Bug Fixes
+
+- (My Summer Car Bug) Fixed MSC bug, which caused Satsuma parts that detached themselves from the car sometimes being not reattachable until after the game restart
+- Fixed Satsuma door hinges getting jammed, which prevented doors from being opened
+- Fixed Satsuma odometer resetting to an on load value
+- Fixed possible bug that may have caused not all mail boxes to be counted towards the Teimo adverts job progress
+
+## 3.1.6 (01.04.2021)
+
+### Added
+
+- MOP will try to fix your save file, if it finds that the passenger bucket seat is missing from your game world, while you own driver bucket seat
+- Added "Delete unused rules" button in MOP settings
+- Added some more information to MOP log
+
+### Changelog
+
+- Updated to MSCLoader 1.1.12
+- Changed the minimum bolts reset handling - now it's a mod console error, instead of an exception
+- Changed the warning in "Logging" section of MOP settings
+- Updated FAQ link to MOP wiki
+- Improved MOP load time
+- Optimization improvements
+
+### Bug Fixes
+
+- Fixed a bug in which crash log and bug reporting would fail, if it was generated before ItemsManager could load
+- Fixed MOP not loading, if a passenger bucket seat was missing
+- Fixed flatbed being stuck attached to the Kekmet
+- Fixed "radiator hose 3" not having ItemBehaviour property added to it
+- Fixed "radiator hose 3" spawning at default position, if it was detached from the car and the game was saved
+- Fixed "radiator hose 3" possibly disappearing on detach
+- Sauna simulation won't reset itself anymore
 
 ## 3.1.5 (09.02.2021)
 

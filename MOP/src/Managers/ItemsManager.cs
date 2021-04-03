@@ -31,7 +31,7 @@ namespace MOP.Managers
         static ItemsManager instance;
         public static ItemsManager Instance { get => instance; }
 
-        public readonly string[] BlackList = 
+        public readonly string[] BlackList =
         {
             "airfilter", "alternator", "alternator belt", "amplifier", "antenna", "ax",
             "back panel", "basketball", "battery", "beer case", "berry box",
@@ -94,6 +94,9 @@ namespace MOP.Managers
         CashRegisterBehaviour cashRegisterHook;
         Transform lostSpawner, landfillSpawn;
 
+        GameObject realRadiatorHose;
+        GameObject currentRadiatorHose3;
+
         /// <summary>
         /// Initialize Items class.
         /// </summary>
@@ -112,7 +115,7 @@ namespace MOP.Managers
                 GameObject activateStore = storeLOD.transform.Find("ActivateStore").gameObject;
                 bool lodLastState = storeLOD.activeSelf;
                 bool activeStore = activateStore.activeSelf;
-                
+
                 if (!lodLastState)
                     storeLOD.SetActive(true);
 
@@ -198,6 +201,14 @@ namespace MOP.Managers
             {
                 f.AddComponent<ItemBehaviour>();
             }
+
+            PlayMakerFSM radiatorHose3Database = GameObject.Find("Database").transform.Find("DatabaseMechanics/RadiatorHose3").GetComponent<PlayMakerFSM>();
+            GameObject dummy = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(Clone)").gameObject;
+            Object.Destroy(dummy.GetComponent<ItemBehaviour>());
+            dummy.SetActive(false);
+            dummy.name = dummy.name.Replace("(Clone)(Clone)", "(Clone)");
+            radiatorHose3Database.FsmVariables.GameObjectVariables.First(g => g.Name == "SpawnThis").Value = dummy;
+            realRadiatorHose = radiatorHose3Database.FsmVariables.GameObjectVariables.First(g => g.Name == "SpawnThis").Value;
         }
 
         /// <summary>
@@ -319,5 +330,23 @@ namespace MOP.Managers
 
         public Transform LostSpawner => lostSpawner;
         public Transform LandfillSpawn => landfillSpawn;
+
+        internal void SetCurrentRadiatorHose(GameObject g)
+        {
+            currentRadiatorHose3 = g;
+        }
+
+        internal void TeleportRealRadiatorHose()
+        {
+            if (currentRadiatorHose3 != null && realRadiatorHose != null)
+            {
+                realRadiatorHose.transform.position = currentRadiatorHose3.transform.position;
+            }
+        }
+
+        internal GameObject GetRadiatorHose3()
+        {
+            return realRadiatorHose;
+        }
     }
 }

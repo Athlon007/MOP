@@ -17,8 +17,11 @@
 using System.IO;
 using UnityEngine;
 using MSCLoader;
+using System.Linq;
 
 using MOP.Rules;
+using HutongGames.PlayMaker;
+using System;
 
 namespace MOP.Helpers
 {
@@ -59,7 +62,7 @@ namespace MOP.Helpers
 
         public static string GetDefaultES2SavePosition()
         {
-            return Application.persistentDataPath + "/defaultES2File.txt";
+            return Path.Combine(Application.persistentDataPath, "defaultES2File.txt").Replace('\\', '/');
         }
 
         public static string GetItemsPosition()
@@ -94,6 +97,36 @@ namespace MOP.Helpers
             GameObject.Find("Interface").transform.Find("Buttons/ButtonContinue").gameObject.SetActive(true);
 
             ModConsole.Print("[MOP] Save backup succesfully restored!");
+        }
+
+        public static void VerifySave()
+        {
+            if (!File.Exists(GetDefaultES2SavePosition())) return;
+
+            // Passenger bucket seat.
+            // Check if driver bucket seat is bought and check the same for passenger one.
+            // If they do not match, fix it.
+            try
+            {
+                ES2Settings setting = new ES2Settings();
+                bool bucketPassengerSeat = ES2.Load<bool>(GetDefaultES2SavePosition() + "?tag=bucket seat passenger(Clone)Purchased", setting);
+                bool bucketDriverSeat = ES2.Load<bool>(GetDefaultES2SavePosition() + "?tag=bucket seat driver(Clone)Purchased", setting);
+                if (bucketDriverSeat != bucketPassengerSeat)
+                {
+                    ModUI.ShowYesNoMessage($"MOP found an issue with your save file. Following items are affected:\n\n" +
+                        $"<color=yellow>bucket seats</color>\n\nWould you like it to fix it?", "MOP - Save Integrity Verification", FixBucketSeats);
+                }
+            }
+            catch (Exception e)
+            {
+                ModConsole.Error(e.ToString());
+            }
+        }
+
+        static void FixBucketSeats()
+        {
+            ES2.Save(true, GetDefaultES2SavePosition() + "?tag=bucket seat passenger(Clone)Purchased");
+            ES2.Save(true, GetDefaultES2SavePosition() + "?tag=bucket seat driver(Clone)Purchased");
         }
     }
 }

@@ -28,9 +28,9 @@ namespace MOP
 {
     public class MOP : Mod
     {
-        public override string ID => "MOP"; //Your mod ID (unique)
+        public override string ID => "MOP";
 #if DEBUG
-        public override string Name => "Modern Optimization Plugin (Debug)"; //You mod name
+        public override string Name => "Modern Optimization Plugin (Debug)";
 #else
         public override string Name => "MODERN OPTIMIZATION PLUGIN"; //You mod name
 #endif
@@ -101,6 +101,7 @@ namespace MOP
         readonly Settings rulesLearnMore = new Settings("rulesLearnMore", "Learn More", ExternalExecuting.OpenRulesWebsiteDialog);
         public static Settings DeleteUnusedRuleFiles = new Settings("deleteUnusedRuleFiles", "Delete unused rule files", false, MopSettings.UpdateAll);
         public static Settings VerifyRuleFiles = new Settings("verifyRuleFiles", "Verify Rule Files", true, MopSettings.ToggleVerifyRuleFiles);
+        readonly Settings deleteUnusedRules = new Settings("deleteUnusedRules", "Delete unused rules", RulesManager.DeleteUnused);
 
         // OTHERS
         public static Settings RemoveEmptyBeerBottles = new Settings("removeEmptyBeerBottles", "Destroy empty bottles", false, MopSettings.UpdateAll);
@@ -230,6 +231,7 @@ namespace MOP
             Settings.AddSlider(this, RulesAutoUpdateFrequency, 0, 3, rulesAutoUpdateFrequencyText);
             Settings.AddCheckBox(this, DeleteUnusedRuleFiles);
             Settings.AddButton(this, forceRuleUpdate, "This will force MOP to re-download all mod rule files.");
+            Settings.AddButton(this, deleteUnusedRules, new Color32(218, 39, 37, 255), new Color32(255, 62, 55, 255), new Color32(174, 33, 28, 255));
 
             // Others
             Settings.AddHeader(this, "Other", headerColor);
@@ -239,7 +241,7 @@ namespace MOP
             // Logging
             Settings.AddHeader(this, "Logging", headerColor);
             Settings.AddHeader(this, "WARNING", new Color(0, 0, 0), Color.yellow);
-            Settings.AddText(this, "If you're about to send the mod report, please attach BOTH output_log and ALL MOP logs from your session.");
+            Settings.AddText(this, "If you want to file a bug report, use <color=yellow>I FOUND A BUG</color> button!");
             Settings.AddButton(this, openOutputLog);
             Settings.AddButton(this, openLastLog);
             Settings.AddButton(this, generateReport);
@@ -321,6 +323,7 @@ namespace MOP
                 ShadowDistance.valueText.text = "No Shadows";
             }
 #endif
+            SaveManager.VerifySave();
         }
 
         /// <summary>
@@ -408,9 +411,9 @@ namespace MOP
                     line = $"    • {line}";
                 }
 
-                if (line.Contains("(Development)"))
+                if (line.Contains("(Beta)"))
                 {
-                    line = line.Replace("(Development)", "<color=orange>Development: </color>");
+                    line = line.Replace("(Beta)", "<color=orange>Beta: </color>");
                 }
 
                 if (line.Contains("(My Summer Car Bug)"))

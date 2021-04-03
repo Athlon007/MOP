@@ -54,6 +54,18 @@ namespace MOP
 
         public void MainFixes()
         {
+            // GT Grille resetting fix.
+            try
+            {
+                PlayMakerFSM[] gtGrille = GameObject.Find("grille gt(Clone)").GetComponents<PlayMakerFSM>();
+                foreach (var fsm in gtGrille)
+                    fsm.Fsm.RestartOnEnable = false;
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "GT_GRILLE_ERROR");
+            }
+
             // Random fixes.
             try
             {
@@ -396,6 +408,33 @@ namespace MOP
             catch (Exception ex)
             {
                 ExceptionManager.New(ex, false, "PERAJARVI_CONSTRUCTION_ERROR");
+            }
+
+            // Satsuma parts trigger fix.
+            try
+            {
+                gameObject.AddComponent<SatsumaTriggerFixer>();
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "SATSUMA_TRIGGER_FIXER_ERROR");
+            }
+
+            // MailBox fix
+            try
+            {
+                foreach (var g in Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "MailBox"))
+                {
+                    Transform hatch = g.transform.Find("BoxHatch");
+                    if (hatch)
+                    {
+                        hatch.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "MAILBOX_ERROR");
             }
 
             ModConsole.Print("[MOP] Finished applying fixes");
