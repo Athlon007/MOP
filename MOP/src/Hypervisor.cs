@@ -486,7 +486,7 @@ namespace MOP
             currentControlCoroutine = ControlCoroutine();
             StartCoroutine(currentControlCoroutine);
 
-            ModConsole.Print("[MOP] MOD LOADED SUCCESFULLY!");
+            ModConsole.Print("<color=green>[MOP] MOD LOADED SUCCESFULLY!</color>");
             Resources.UnloadUnusedAssets();
             GC.Collect();
 

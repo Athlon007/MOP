@@ -84,6 +84,8 @@ namespace MOP.Places
 
             // Fix door resetting.
             transform.Find("LOD/Door/Handle").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+
+            Compress();
         }
     }
 }

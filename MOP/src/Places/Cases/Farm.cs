@@ -28,6 +28,7 @@ namespace MOP.Places
         {
             GameObjectBlackList.AddRange(blackList);
             DisableableChilds = GetDisableableChilds();
+            Compress();
         }
     }
 }

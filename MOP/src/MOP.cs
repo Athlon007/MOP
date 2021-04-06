@@ -35,7 +35,7 @@ namespace MOP
         public override string Name => "Modern Optimization Plugin"; //You mod name
 #endif
         public override string Author => "Athlon";
-        public override string Version => "3.1.6";
+        public override string Version => "3.1.7";
         public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_x
 
         #region Settings & Configuration
@@ -298,9 +298,9 @@ namespace MOP
                     line = $"    • {line}";
                 }
 
-                if (line.Contains("(Development)"))
+                if (line.Contains("(Beta)"))
                 {
-                    line = line.Replace("(Development)", "<color=orange>Development: </color>");
+                    line = line.Replace("(Beta)", "<color=orange>Beta: </color>");
                 }
 
                 if (line.Contains("(My Summer Car Bug)"))

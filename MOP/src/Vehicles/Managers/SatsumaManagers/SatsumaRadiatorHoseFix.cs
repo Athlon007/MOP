@@ -34,8 +34,8 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
             removalFSM.FsmVariables.FindFsmGameObject("Part").Value = ItemsManager.Instance.GetRadiatorHose3();
 
             List<FsmStateAction> actions = removalFSM.FindFsmState("Remove part").Actions.ToList();
-            CustomCreateObject newHose = new CustomCreateObject(gameObject, hosePrefab);
-            actions.Add(newHose);
+            CustomCreateObject newHose = new CustomCreateHose(gameObject, hosePrefab);
+            actions.Insert(0, newHose);
             removalFSM.FindFsmState("Remove part").Actions = actions.ToArray();
         }
     }
