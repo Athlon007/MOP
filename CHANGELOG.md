@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.1.7 Beta 1 (03.04.2021)
+## 3.1.7 (06.04.2021)
 
 ### Changes
 
@@ -13,6 +13,7 @@
 - Fixed Satsuma door hinges getting jammed, which prevented doors from being opened
 - Fixed Satsuma odometer resetting to an on load value
 - Fixed possible bug that may have caused not all mail boxes to be counted towards the Teimo adverts job progress
+- Fixed "radiator hose 3" not spawning on fresh game save
 
 ## 3.1.6 (01.04.2021)
 

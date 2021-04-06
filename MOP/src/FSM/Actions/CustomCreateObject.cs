@@ -28,7 +28,9 @@ namespace MOP.FSM.Actions
     class CustomCreateObject : FsmStateAction
     {
         GameObject parent;
-        GameObject prefab;
+        protected GameObject prefab;
+
+        protected GameObject newObject;
 
         public CustomCreateObject(GameObject parent, GameObject prefab)
         {
@@ -38,12 +40,28 @@ namespace MOP.FSM.Actions
 
         public override void OnEnter()
         {
-            GameObject newObject = GameObject.Instantiate(prefab);
+            newObject = GameObject.Instantiate(prefab);
             newObject.transform.position = parent.transform.position;
             newObject.name = newObject.name.Replace("(Clone)(Clone)", "(Clone)");
             newObject.SetActive(true);
             newObject.AddComponent<ItemBehaviour>();
+        }
+    }
 
+    class CustomCreateHose : CustomCreateObject
+    {
+        public CustomCreateHose(GameObject parent, GameObject prefab) : base(parent, prefab) 
+        {
+            GameObject newPrefab = GameObject.Instantiate(prefab);
+            newPrefab.name = newPrefab.name.Replace("(Clone)(Clone)", "(Clone)");
+            this.prefab = newPrefab;
+            Object.Destroy(this.prefab.GetComponent<ItemBehaviour>());
+            this.prefab.SetActive(false);
+        }
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
             ItemsManager.Instance.SetCurrentRadiatorHose(newObject);
         }
     }
