@@ -16,6 +16,7 @@
 ### Bug Fixes
 
 - Sold kilju should not respawn on the junkyard as full anymore
+- Fixed a lag that was fixable by player having walk to the Satsuma
 
 ## 3.1.7 (06.04.2021)
 

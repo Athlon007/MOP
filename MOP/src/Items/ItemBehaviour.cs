@@ -72,6 +72,8 @@ namespace MOP.Items
         FsmBool batteryOnCharged;
         readonly FsmFloat floorJackTriggerY;
 
+        bool kiljuInitialReset;
+
         public ItemBehaviour()
         {
             if (gameObject.GetComponents<ItemBehaviour>().Length > 1)
@@ -147,10 +149,6 @@ namespace MOP.Items
             {
                 DontDisable = true;
             }
-
-            // If is an empty plastic can (aka, empty kilju/orange juice bottle), we check if the distance to Jokke's can trigger is low.
-            // If that's the case, we teleport the object to lost item spawner (junkyard).
-            ResetKiljuContainer();
         }
 
         void Awake()
@@ -162,6 +160,17 @@ namespace MOP.Items
             if (Toggle == null)
             {
                 SetInitialTogglingMethod();
+            }
+        }
+
+        void OnEnable()
+        {
+            // If is an empty plastic can (aka, empty kilju/orange juice bottle), we check if the distance to Jokke's can trigger is low.
+            // If that's the case, we teleport the object to lost item spawner (junkyard).
+            if (!kiljuInitialReset)
+            {
+                kiljuInitialReset = true;
+                ResetKiljuContainer();
             }
         }
 
@@ -380,6 +389,7 @@ namespace MOP.Items
                 {
                     renderer.enabled = enabled;
                 }
+
             }
             catch { }
         }

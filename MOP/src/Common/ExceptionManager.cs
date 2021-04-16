@@ -149,6 +149,7 @@ namespace MOP.Common
             output += $"ActiveDistanceMultiplicationValue: {MopSettings.ActiveDistanceMultiplicationValue}\n";
             output += $"Mode: {MopSettings.Mode}\n";
             output += $"RemoveEmptyBottles: {MopSettings.RemoveEmptyBeerBottles}\n";
+            output += $"RemoveEmptyItems: {MopSettings.RemoveEmptyItems}\n";
             output += $"ToggleVehiclePhysicsOnly: {RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";
             output += $"IgnoreModVehicles: {RulesManager.Instance.SpecialRules.IgnoreModVehicles}\n";
             output += $"EnableFramerateLimiter: {(int)MOP.FramerateLimiter.Value == 21}\n";

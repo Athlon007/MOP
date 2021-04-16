@@ -470,7 +470,7 @@ namespace MOP.Vehicles
         /// <returns></returns>
         internal bool IsMoving()
         {
-            return rb.velocity.magnitude > 0.1f;
+            return rb.velocity.magnitude > 0.5f;
         }
 
         /// <summary>

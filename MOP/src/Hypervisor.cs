@@ -821,7 +821,6 @@ namespace MOP
                     {
                         if (vehicleManager[i] == null)
                         {
-                            ModConsole.Print($"[MOP] Vehicle {i} has been skipped, because it's missing.");
                             vehicleManager.RemoveAt(i);
                             continue;
                         }
