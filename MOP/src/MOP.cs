@@ -162,15 +162,26 @@ namespace MOP
             DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false, () => MopSettings.UpdateAll());
             DynamicDrawDistance.gameObject.AddComponent<UITooltip>().toolTipText = "MOP will change the draw distance according to situation\n" +
                                                                                    "(ex. lower render distance while in interior)";
-
+            modSettings.AddButton("changeResolution", "CHANGE RESOLUTION", () => { Resolution.gameObject.SetActive(!Resolution.gameObject.activeSelf); });
             List<string> resolutions = new List<string>();
             int selected = 0;
+            int i = 0;
             foreach (var res in Screen.resolutions)
             {
                 resolutions.Add(res.width + "x" + res.height);
-                if (res.width == Screen.wind)
+                if (res.width == Screen.width && res.height == Screen.height)
+                {
+                    selected = i;
+                }
+                i++;
             }
-            Resolution = modSettings.AddRadioButtons("resolution", "RESOLUTION", selected,resolutions.ToArray());
+            Resolution = modSettings.AddRadioButtons("resolution", "RESOLUTION", selected, () => {
+                string s = Resolution.GetButtonLabelText(Resolution.Value);
+                int width = int.Parse(s.Split('x')[0]);
+                int height = int.Parse(s.Split('x')[1]);
+                Screen.SetResolution(width, height, Screen.fullScreen); 
+            }, resolutions.ToArray());
+            Resolution.gameObject.SetActive(false);
 
             // Rules
             modSettings.AddHeader("RULES");
@@ -188,6 +199,7 @@ namespace MOP
 
             // Logging
             modSettings.AddHeader("LOGGING");
+            modSettings.AddText("If you want to file a bug report, use <color=yellow>I FOUND A BUG</color> button!");
             modSettings.AddButton("openLogFolder", "OPEN LOG FOLDER", "", () => ExceptionManager.OpenCurrentSessionLogFolder());
             modSettings.AddButton("generateModReprt", "GENERATE MOD REPORT", "", () => ExceptionManager.GenerateReport());
             modSettings.AddButton("deleteAllLogs", "DELETE ALL LOGS", "", () => ExceptionManager.DeleteAllLogs());
@@ -199,7 +211,7 @@ namespace MOP
             // Info
             modSettings.AddHeader("INFO");
             modSettings.AddText($"<color=yellow>MOP</color> {ModVersion}\n" +
-                $"<color=yellow>ModLoader</color> {ModLoader.Version}\n" +
+                $"<color=yellow>Mod Loader Pro</color> {ModLoader.Version}\n" +
                 $"{ExceptionManager.GetSystemInfo()}\n" +
                 $"<color=yellow>Session ID:</color> {SessionID}\n" +
                 $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}");
@@ -447,6 +459,11 @@ namespace MOP
                 if (line.Contains("Rule Files API:"))
                 {
                     line = line.Replace("Rule Files API:", "<color=cyan>Rule Files API:</color>");
+                }
+
+                if (line.Contains("(Mod Loader Pro)"))
+                {
+                    line = line.Replace("(Mod Loader Pro)", "<color=yellow>Mod Loader Pro:</color>");
                 }
 
                 output += line + "\n";
