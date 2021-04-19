@@ -23,6 +23,7 @@ using MOP.FSM;
 using MOP.Common;
 using MOP.Helpers;
 using MOP.Rules;
+using System.Collections.Generic;
 
 namespace MOP
 {
@@ -61,7 +62,7 @@ namespace MOP
         // BUTTONS
 #if PRO
         static internal SettingSlider ActiveDistance, FramerateLimiter, ShadowDistance, RulesAutoUpdateFrequency;
-        static internal SettingRadioButtons PerformanceModes;
+        static internal SettingRadioButtons PerformanceModes, Resolution;
         static internal SettingToggle EnableShadowAdjusting, KeepRunningInBackground,
                                       DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
                                       DestroyEmptyBottles, DisableEmptyItems;
@@ -141,18 +142,35 @@ namespace MOP
             ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 1, 0, 3, () => MopSettings.UpdateAll());
             ActiveDistance.TextValues = activeDistanceText;
             ActiveDistance.ChangeValueText();
-            modSettings.AddText("MODE:");
             PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1, (_) => MopSettings.UpdateAll(), "PERFORMANCE", "BALANCED", "QUALITY", "SAFE");
+            PerformanceModes.gameObject.AddComponent<UITooltip>().toolTipText = 
+                "<color=yellow>PERFORMANCE</color>: <color=white>Visibly disables and enables objects</color>\n" +
+                "<color=yellow>BALANCED (recommended)</color>: <color=white>Maintains balance between PERFORMANCE and QUALITY</color>\n" +
+                "<color=yellow>QUALITY</color>: <color=white>Hides obvious on-screen spawning and despawning, at the cost of performance</color>\n" +
+                "<color=yellow>SAFE</color>: <color=white>Despawns only minimum number of objects that are known to not cause any issues</color>";
 
             // Graphics
             modSettings.AddHeader("GRAPHICS");
             FramerateLimiter = modSettings.AddSlider("framerateLimiterUpdated", "FRAMERATE LIMITER", 21, 2, 21, () => MopSettings.UpdateAll());
             FramerateLimiter.ValueSuffix = "0 FPS";
             EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ENABLE SHADOW ADJUSTING", false, () => MopSettings.UpdateAll());
+            EnableShadowAdjusting.gameObject.AddComponent<UITooltip>().toolTipText = "Allows you to set the shadow render distance with the slider below.";
             ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 2, 0, 20, () => MopSettings.UpdateAll());
             ShadowDistance.ValueSuffix = "00 Meters";
             KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
+            KeepRunningInBackground.gameObject.AddComponent<UITooltip>().toolTipText = "If disabled, game will pause when you ALT+TAB from the game.";
             DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false, () => MopSettings.UpdateAll());
+            DynamicDrawDistance.gameObject.AddComponent<UITooltip>().toolTipText = "MOP will change the draw distance according to situation\n" +
+                                                                                   "(ex. lower render distance while in interior)";
+
+            List<string> resolutions = new List<string>();
+            int selected = 0;
+            foreach (var res in Screen.resolutions)
+            {
+                resolutions.Add(res.width + "x" + res.height);
+                if (res.width == Screen.wind)
+            }
+            Resolution = modSettings.AddRadioButtons("resolution", "RESOLUTION", selected,resolutions.ToArray());
 
             // Rules
             modSettings.AddHeader("RULES");

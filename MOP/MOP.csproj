@@ -190,11 +190,11 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if "$(ConfigurationName)" == "Debug" (
-copy "$(TargetPath)" "D:\SteamLibrary\steamapps\common\My Summer Car\Mods" /y
-copy "$(TargetDir)$(TargetName).pdb" "D:\SteamLibrary\steamapps\common\My Summer Car\Mods" /y
-cd "D:\SteamLibrary\steamapps\common\My Summer Car\Mods"
-call "D:\SteamLibrary\steamapps\common\My Summer Car\Mods\debug.bat"
+    <PostBuildEvent>if "$(ConfigurationName)" == "Pro" (
+copy "$(TargetPath)" "D:\SteamLibrary\steamapps\common\My Summer Car\ModsTest" /y
+copy "$(TargetDir)$(TargetName).pdb" "D:\SteamLibrary\steamapps\common\My Summer Car\ModsTest" /y
+cd "D:\SteamLibrary\steamapps\common\My Summer Car\ModsTest"
+rem call "D:\SteamLibrary\steamapps\common\My Summer Car\ModsTest\debug.bat"
 ) ELSE (
 copy $(TargetPath) "D:\SteamLibrary\steamapps\common\My Summer Car\Mods" /y
 )</PostBuildEvent>
