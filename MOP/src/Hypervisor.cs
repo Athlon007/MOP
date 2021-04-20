@@ -100,7 +100,6 @@ namespace MOP
 #region MOP Initialization
         IEnumerator DelayedInitializaitonRoutine()
         {
-            //yield return new WaitForSeconds(2);
             for (int i = 0; i < 5; i++)
                 yield return null;
             Initialize();
@@ -607,6 +606,7 @@ namespace MOP
 
             SaveManager.RemoveReadOnlyAttribute();
             SaveManager.RemoveOldSaveFile();
+            ItemsManager.Instance.OnSave();
 
             ToggleAll(true, ToggleAllMode.OnSave);
             ModConsole.Print("[MOP] Pre-Save Actions Completed!");
@@ -1129,12 +1129,6 @@ namespace MOP
             catch (Exception ex)
             {
                 ExceptionManager.New(ex, false, "TOGGLE_ALL_SATSUMA_TOGGLE_ELEMENTS");
-            }
-
-            // Teleport real radiatorHose3 to currentRadiatorHose.
-            if (mode == ToggleAllMode.OnSave)
-            {
-                ItemsManager.Instance.TeleportRealRadiatorHose();
             }
         }
 

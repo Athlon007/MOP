@@ -166,6 +166,26 @@ namespace MOP.Common
             // Steam stuff.
             output += $"ExperimentalBranch: {ModLoader.CheckIfExperimental()}\n";
 
+            // Game data
+            if (ModLoader.CurrentScene == CurrentScene.Game)
+            {
+                try
+                {
+                    output += "\n=== GAME DATA ===\n\n";
+                    output += $"PlayerPosition: {GameObject.Find("PLAYER").transform.position}\n";
+                    output += $"PlayerHasHayosikoKey: {FSM.FsmManager.PlayerHasHayosikoKey()}\n";
+                    output += $"IsPlayerInCar: {FSM.FsmManager.IsPlayerInCar()}\n";
+                    output += $"IsPlayerInSatsuma: {FSM.FsmManager.IsPlayerInSatsuma()}\n";
+                    output += $"DrawDistance: {FSM.FsmManager.GetDrawDistance()}\n";
+                    output += $"CanTriggerStatus: {(Managers.ItemsManager.Instance == null ? "manager_null" : Managers.ItemsManager.Instance.GetCanTrigger() == null ? "null" : $"Found ({Managers.ItemsManager.Instance.GetCanTrigger().GetGameObjectPath()})")}\n";
+                    output += $"IsTrailerAttached: {FSM.FsmManager.IsTrailerAttached()}\n";
+                }
+                catch
+                {
+                    output += "ERROR GETTING GAME DATA!";
+                }
+            }
+
             // List installed mods.
             output += $"\n=== MODS ({ModLoader.LoadedMods.Count}) ===\n\n";
             foreach (var mod in ModLoader.LoadedMods)
@@ -174,7 +194,7 @@ namespace MOP.Common
                 if (mod.ID.EqualsAny("MSCLoader_Console", "MSCLoader_Settings", "MOP"))
                     continue;
 
-                output += $"{mod.Name}:\n  ID: {mod.ID}\n  Version: {mod.Version}\n  Author: {mod.Author}\n\n";
+                output += $"{mod.Name}:\n  ID: {mod.ID}\n  Version: {mod.Version}\n  Author: {mod.Author}\n  Enabled: {mod.Enabled}\n\n";
             }
 
             // If only 3 mods have been found, that means the only mods active are MOP and two ModLoader modules.

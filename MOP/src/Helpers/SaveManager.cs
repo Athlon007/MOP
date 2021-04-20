@@ -128,5 +128,11 @@ namespace MOP.Helpers
             ES2.Save(true, GetDefaultES2SavePosition() + "?tag=bucket seat passenger(Clone)Purchased");
             ES2.Save(true, GetDefaultES2SavePosition() + "?tag=bucket seat driver(Clone)Purchased");
         }
+
+        internal static Transform GetRadiatorHose3Transform()
+        {
+            ES2Settings settings = new ES2Settings();
+            return ES2.Load<Transform>(GetDefaultES2SavePosition() + "?tag=radiator hose3(xxxxx)");
+        }
     }
 }

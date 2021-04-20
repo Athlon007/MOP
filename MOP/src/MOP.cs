@@ -131,15 +131,16 @@ namespace MOP
             Settings.AddHeader(this, "Shh...Don't leak my hard work ;)", Color.yellow, Color.black);
 #endif
 #if PRO
-            modSettings.AddButton("iFoundABug", "I FOUND A BUG", () => BugReporter.FileBugReport());
+            SettingButton ifoundabug = modSettings.AddButton("iFoundABug", "<color=red>I FOUND A BUG</color>", () => BugReporter.FileBugReport());
             modSettings.AddButton("faq", "FAQ", () => ExternalExecuting.OpenFAQDialog());
             modSettings.AddButton("wiki", "WIKI", () => ExternalExecuting.OpenWikiDialog());
             modSettings.AddButton("homepage", "HOMEPAGE", () => ExternalExecuting.OpenHomepageDialog());
-            modSettings.AddButton("paypal", "PAYPAL", () => ExternalExecuting.OpenPaypalDialog());
+            modSettings.AddButton("paypal", "<color=aqua>PAYPAL</color>", () => ExternalExecuting.OpenPaypalDialog());
 
             // Activating objects.
-            modSettings.AddHeader("ACTIVATING OBJECTS");
+            modSettings.AddHeader("DESPAWNING");
             ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 1, 0, 3, () => MopSettings.UpdateAll());
+            ActiveDistance.gameObject.AddComponent<UITooltip>().toolTipText = "Distance uppon which objects will spawn.";
             ActiveDistance.TextValues = activeDistanceText;
             ActiveDistance.ChangeValueText();
             PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1, (_) => MopSettings.UpdateAll(), "PERFORMANCE", "BALANCED", "QUALITY", "SAFE");
@@ -153,7 +154,7 @@ namespace MOP
             modSettings.AddHeader("GRAPHICS");
             FramerateLimiter = modSettings.AddSlider("framerateLimiterUpdated", "FRAMERATE LIMITER", 21, 2, 21, () => MopSettings.UpdateAll());
             FramerateLimiter.ValueSuffix = "0 FPS";
-            EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ENABLE SHADOW ADJUSTING", false, () => MopSettings.UpdateAll());
+            EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ADJUST SHADOWS", false, () => MopSettings.UpdateAll());
             EnableShadowAdjusting.gameObject.AddComponent<UITooltip>().toolTipText = "Allows you to set the shadow render distance with the slider below.";
             ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 2, 0, 20, () => MopSettings.UpdateAll());
             ShadowDistance.ValueSuffix = "00 Meters";
@@ -185,12 +186,14 @@ namespace MOP
 
             // Rules
             modSettings.AddHeader("RULES");
-            modSettings.AddButton("rulesLearnMore", "LEARN MORE", "LEARN ABOUT HOW RULES WORK.", () => ExternalExecuting.OpenRulesWebsiteDialog());
+            SettingButton learnMore = modSettings.AddButton("rulesLearnMore", "LEARN MORE", () => ExternalExecuting.OpenRulesWebsiteDialog());
+            learnMore.gameObject.AddComponent<UITooltip>().toolTipText = "Learn about how rules work.";
             RulesAutoUpdate = modSettings.AddToggle("rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true);
             VerifyRuleFiles = modSettings.AddToggle("verifyRuleFiles", "VERIFY RULE FILES", true);
             RulesAutoUpdateFrequency = modSettings.AddSlider("ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 2, 0, 3);
             RulesAutoUpdateFrequency.TextValues = rulesAutoUpdateFrequencyText;
             DeleteUnusedRules = modSettings.AddToggle("deleteUnusedRules", "DELETE UNUSED RULES", false);
+            modSettings.AddButton("deleteUnusedRulesButton", "DELETE UNUSED RULES", RulesManager.DeleteUnused);
 
             // Other
             modSettings.AddHeader("OTHER");
@@ -288,8 +291,6 @@ namespace MOP
                 $"{ExceptionManager.GetSystemInfo()}\n" +
                 $"<color=yellow>Session ID:</color> {SessionID}\n" +
                 $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}");
-
-            //ModUI.ShowYesNoMessage("With upcoming MOP 3.3 release, MOP will drop support for MSC Mod Loader, and instead will require <color=yellow>MSC Mod Loader Pro</color>.\n\nWould you like to download it now?", "MOP", null);
 #endif
         }
         #endregion
@@ -316,6 +317,19 @@ namespace MOP
                     $"or with <color=#ADAD46>Bitcoins</color>.", "MOP");
                 MopSettings.FirstTimeWindowShown();
             }
+
+#if !PRO
+            if (!MopSettings.HasMLPWarningBeenShown() && !MopSettings.IsModLoaderPro())
+            {
+                ModUI.ShowYesNoMessage("MOP 3.3 will drop support for MSCLoader, and will require <color=yellow>MSC Mod Loader Pro</color>.\n\nWould you like to download it now?", "MOP", ExternalExecuting.ModLoaderPro);
+                MopSettings.MLPWarningShown();
+            }
+
+            if (MopSettings.IsModLoaderPro())
+            {
+                ModUI.ShowYesNoMessage("You are using MOP version for MSCLoader, while Mod Loader Pro version is available.\n\nWould you like to download MLP version now?", ExternalExecuting.DownloadMOPPro);
+            }
+#endif
 
             FsmManager.ResetAll();
             Resources.UnloadUnusedAssets();
@@ -376,6 +390,29 @@ namespace MOP
             // Add WorldManager class
             worldManager.AddComponent<Hypervisor>();
         }
+
+#if PRO
+        public override void ModSettingsOpen()
+        {
+            int selected = 0;
+            int i = 0;
+            foreach (var res in Screen.resolutions)
+            {
+                if (res.width == Screen.width && res.height == Screen.height)
+                {
+                    selected = i;
+                }
+                i++;
+            }
+
+            Resolution.Value = selected;
+        }
+
+        public override void ModSettingsClose()
+        {
+            Resolution.gameObject.SetActive(false);
+        }
+#endif
 
         static void ForceRuleFilesUpdate()
         {

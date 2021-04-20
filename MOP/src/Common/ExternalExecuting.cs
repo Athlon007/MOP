@@ -77,5 +77,15 @@ namespace MOP.Common
         {
             ShowDialog("http://patreon.com/athlon");
         }
+
+        public static void ModLoaderPro()
+        {
+            Process.Start("https://mscloaderpro.github.io/docs/#/Download");
+        }
+
+        public static void DownloadMOPPro()
+        {
+            Process.Start("https://github.com/Athlon007/MOP/releases/latest");
+        }
     }
 }

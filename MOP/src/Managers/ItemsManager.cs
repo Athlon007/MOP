@@ -23,6 +23,7 @@ using MOP.Common;
 using MOP.Items;
 using MOP.Items.Cases;
 using MOP.Items.Helpers;
+using MOP.Helpers;
 
 namespace MOP.Managers
 {
@@ -94,8 +95,8 @@ namespace MOP.Managers
         CashRegisterBehaviour cashRegisterHook;
         Transform lostSpawner, landfillSpawn;
 
+        PlayMakerFSM radiatorHose3Database;
         GameObject realRadiatorHose;
-        GameObject currentRadiatorHose3;
 
         /// <summary>
         /// Initialize Items class.
@@ -202,15 +203,24 @@ namespace MOP.Managers
                 f.AddComponent<ItemBehaviour>();
             }
 
-            PlayMakerFSM radiatorHose3Database = GameObject.Find("Database").transform.Find("DatabaseMechanics/RadiatorHose3").GetComponent<PlayMakerFSM>();
+            radiatorHose3Database = GameObject.Find("Database").transform.Find("DatabaseMechanics/RadiatorHose3").GetComponent<PlayMakerFSM>();
+            GameObject attachedHose = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(xxxxx)");
             realRadiatorHose = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(Clone)").gameObject;
-            GameObject dummy = GameObject.Instantiate(realRadiatorHose);
+            GameObject dummy = GameObject.Instantiate(realRadiatorHose); // used for spawning the radiator hose3 after it gets detached.
+            
             Object.Destroy(dummy.GetComponent<ItemBehaviour>());
             dummy.SetActive(false);
             dummy.name = dummy.name.Replace("(Clone)(Clone)", "(Clone)");
-            dummy.transform.position = realRadiatorHose.transform.position;
-            currentRadiatorHose3 = dummy;
-            radiatorHose3Database.FsmVariables.GameObjectVariables.First(g => g.Name == "SpawnThis").Value = dummy;
+
+            Transform t = SaveManager.GetRadiatorHose3Transform();
+
+            if (!attachedHose.activeSelf)
+            {
+                realRadiatorHose.transform.position = t.position;
+                realRadiatorHose.transform.rotation = t.rotation;
+                realRadiatorHose.SetActive(true);
+            }
+            radiatorHose3Database.FsmVariables.GameObjectVariables.First(g => g.Name == "SpawnThis").Value = realRadiatorHose;
         }
 
         /// <summary>
@@ -335,20 +345,18 @@ namespace MOP.Managers
 
         internal void SetCurrentRadiatorHose(GameObject g)
         {
-            currentRadiatorHose3 = g;
-        }
-
-        internal void TeleportRealRadiatorHose()
-        {
-            if (currentRadiatorHose3 != null && realRadiatorHose != null)
-            {
-                realRadiatorHose.transform.position = currentRadiatorHose3.transform.position;
-            }
+            realRadiatorHose = g;
         }
 
         internal GameObject GetRadiatorHose3()
         {
             return realRadiatorHose;
+        }
+
+        internal void OnSave()
+        {
+            // Fuck you ToplessGun.
+            radiatorHose3Database.FsmVariables.GameObjectVariables.First(g => g.Name == "SpawnThis").Value = realRadiatorHose;
         }
     }
 }

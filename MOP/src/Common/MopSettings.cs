@@ -325,5 +325,20 @@ namespace MOP.Common
         {
             return Application.productName == "My Summer Car";
         }
+
+        internal static bool HasMLPWarningBeenShown()
+        {
+            return File.Exists(Path.Combine(MOP.ModConfigPath, "MLP.mop"));
+        }
+
+        internal static void MLPWarningShown()
+        {
+            File.Create(Path.Combine(MOP.ModConfigPath, "MLP.mop"));
+        }
+
+        internal static bool IsModLoaderPro()
+        {
+            return GameObject.Find("MSCLoader Canvas").transform.Find("ModLoaderUI") != null;
+        }
     }
 }
