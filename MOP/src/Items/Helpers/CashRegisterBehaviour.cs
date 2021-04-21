@@ -70,7 +70,7 @@ namespace MOP.Items.Helpers
 
             // Find shopping bags in the list
             GameObject[] items = FindObjectsOfType<GameObject>()
-                                .Where(gm => gm.name.ContainsAny(ItemsManager.Instance.BlackList) && gm.name.ContainsAny("(itemx)", "(Clone)") & gm.GetComponent<ItemBehaviour>() == null)
+                                .Where(gm => gm.name.ContainsAny(ItemsManager.Instance.NameList) && gm.name.ContainsAny("(itemx)", "(Clone)") & gm.GetComponent<ItemBehaviour>() == null)
                                 .ToArray();
 
             if (items.Length > 0)

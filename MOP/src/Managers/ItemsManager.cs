@@ -32,7 +32,9 @@ namespace MOP.Managers
         static ItemsManager instance;
         public static ItemsManager Instance { get => instance; }
 
-        public readonly string[] BlackList =
+        public ItemBehaviour this[int index] => itemHooks[index];
+
+        public readonly string[] NameList =
         {
             "airfilter", "alternator", "alternator belt", "amplifier", "antenna", "ax",
             "back panel", "basketball", "battery", "beer case", "berry box",
@@ -88,13 +90,13 @@ namespace MOP.Managers
             "pizza", "kilju"
         };
 
-
-        // List of ObjectHooks attached to minor objects
-        public List<ItemBehaviour> ItemsHooks = new List<ItemBehaviour>();
+        // List of ItemHooks that are a child of objects.
+        List<ItemBehaviour> itemHooks = new List<ItemBehaviour>();
 
         CashRegisterBehaviour cashRegisterHook;
         Transform lostSpawner, landfillSpawn;
 
+        // "Radiator hose3" stuff.
         PlayMakerFSM radiatorHose3Database;
         GameObject realRadiatorHose;
 
@@ -229,7 +231,7 @@ namespace MOP.Managers
         /// <param name="newHook"></param>
         public void Add(ItemBehaviour newHook)
         {
-            ItemsHooks.Add(newHook);
+            itemHooks.Add(newHook);
         }
 
         /// <summary>
@@ -238,11 +240,18 @@ namespace MOP.Managers
         /// <param name="objectHook"></param>
         public void Remove(ItemBehaviour objectHook)
         {
-            if (ItemsHooks.Contains(objectHook))
+            if (itemHooks.Contains(objectHook))
             {
-                ItemsHooks.Remove(objectHook);
+                itemHooks.Remove(objectHook);
             }
         }
+
+        public void RemoveAt(int index)
+        {
+            if (itemHooks.Contains(itemHooks[index])) itemHooks.Remove(itemHooks[index]);
+        }
+
+        public int Count => itemHooks.Count;
 
         /// <summary>
         /// Lists all the game objects in the game's world and that are on the whitelist,
@@ -357,6 +366,11 @@ namespace MOP.Managers
         {
             // Fuck you ToplessGun.
             radiatorHose3Database.FsmVariables.GameObjectVariables.First(g => g.Name == "SpawnThis").Value = realRadiatorHose;
+        }
+
+        internal List<ItemBehaviour> All()
+        {
+            return itemHooks;
         }
     }
 }

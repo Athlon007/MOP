@@ -28,6 +28,7 @@ using MOP.Items.Cases;
 using MOP.Items.Helpers;
 using MOP.Rules;
 using MOP.Rules.Types;
+using System;
 
 namespace MOP.Items
 {
@@ -64,7 +65,7 @@ namespace MOP.Items
             }
         }
 
-        readonly Rigidbody rb;
+        internal readonly Rigidbody rb;
         Renderer renderer;
 
         Vector3 position;
@@ -73,6 +74,8 @@ namespace MOP.Items
         readonly FsmFloat floorJackTriggerY;
 
         bool kiljuInitialReset;
+
+        internal bool ToEnable;
 
         public ItemBehaviour()
         {
@@ -149,6 +152,8 @@ namespace MOP.Items
             {
                 DontDisable = true;
             }
+
+            rb.Sleep();
         }
 
         void Awake()
@@ -181,10 +186,7 @@ namespace MOP.Items
             ItemsManager.Instance.Remove(this);
         }
 
-        void OnDestroy()
-        {
-            RemoveSelf();
-        }
+        void OnDestroy() => RemoveSelf();
 
         public delegate void ToggleHandler(bool enabled);
         public ToggleHandler Toggle;

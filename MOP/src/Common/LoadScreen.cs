@@ -64,6 +64,6 @@ namespace MOP.Common
             this.enabled = false;
         }
 
-        string LoadText { get => Random.Range(0, 100) == 0 ? "HAVE A NICE DAY :)" : "LOADING MODERN OPTIMIZATION PLUGIN"; }
+        string LoadText { get => Random.Range(0, 100) == 0 ? "HAVE A NICE DAY :)" : "LOADING\nMODERN OPTIMIZATION PLUGIN"; }
     }
 }

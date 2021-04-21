@@ -336,7 +336,8 @@ namespace MOP.Vehicles.Cases
                 }
             }
 
-            key = transform.Find("Dashboard/Steering/steering_column2/Ignition/Keys/Key").gameObject;
+            //key = transform.Find("Dashboard/Steering/steering_column2/Ignition/Keys/Key").gameObject;
+            key = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "steering_column2").transform.Find("Ignition/Keys/Key").gameObject;
             cooldownTick = GameObject.Find("block(Clone)").transform.Find("CooldownTick").gameObject;
 
             // Fix for reg plates Z fighting.

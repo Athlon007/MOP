@@ -65,7 +65,8 @@ namespace MOP
         #endregion
 
         List<ItemBehaviour> itemsToEnable = new List<ItemBehaviour>();
-        List<ItemBehaviour> itemsToDisable = new List<ItemBehaviour>();
+        List<ItemBehaviour> itemsToDisable= new List<ItemBehaviour>();
+        List<ItemBehaviour> itemsToRemove = new List<ItemBehaviour>();
 
         public Hypervisor()
         {
@@ -500,7 +501,7 @@ namespace MOP
                 if (System.IO.File.Exists("items.txt"))
                     System.IO.File.Delete("items.txt");
                 string items = "";
-                foreach (var w in ItemsManager.Instance.ItemsHooks)
+                foreach (var w in ItemsManager.Instance.All())
                 {
                     if (items.Contains(w.gameObject.name)) continue;
                     items += w.gameObject.name + ", ";
@@ -726,7 +727,7 @@ namespace MOP
                 // Safe mode prevents toggling elemenets that MAY case some issues (vehicles, items, etc.)
                 if (MopSettings.Mode == PerformanceMode.Safe)
                 {
-                    yield return new WaitForSeconds(1);
+                    yield return new WaitForSeconds(.7f);
                     continue;
                 }
 
@@ -738,51 +739,52 @@ namespace MOP
                 // And we need to enable items AFTER we enable vehicles.
                 itemsToEnable.Clear();
                 itemsToDisable.Clear();
-                half = ItemsManager.Instance.ItemsHooks.Count >> 1;
-                for (i = 0; i < ItemsManager.Instance.ItemsHooks.Count; i++)
+                half = ItemsManager.Instance.Count >> 1;
+                for (i = 0; i < ItemsManager.Instance.Count; i++)
                 {
                     if (i == half)
                         yield return null;
 
                     // Safe check if somehow the i gets bigger than array length.
-                    if (i >= ItemsManager.Instance.ItemsHooks.Count) break;
+                    if (i >= ItemsManager.Instance.Count) break;
 
                     try
                     {
 
-                        if (ItemsManager.Instance.ItemsHooks[i] == null || ItemsManager.Instance.ItemsHooks[i].gameObject == null)
-                        {
-                            // Remove item at the current i
-                            ItemsManager.Instance.ItemsHooks.RemoveAt(i);
+                        ItemBehaviour item = ItemsManager.Instance[i];
 
-                            // Decrease the i by 1, because the List has shifted, so the items will not be skipped.
-                            // Then continue.
-                            i--;
-                            half = ItemsManager.Instance.ItemsHooks.Count / 2;
+                        if (item == null || item.gameObject == null)
+                        {
+                            itemsToRemove.Add(item);
                             continue;
                         }
 
-                        if (CompatibilityManager.CarryEvenMore)
-                            if (ItemsManager.Instance.ItemsHooks[i].name.EndsWith("_INVENTORY")) continue;
+                        if (CompatibilityManager.CarryEvenMore && item.name.EndsWith("_INVENTORY")) continue;
 
                         // Check the mode in what MOP is supposed to run and adjust to it.
                         bool toEnable = true;
                         if (MopSettings.Mode == 0)
-                            toEnable = IsEnabled(ItemsManager.Instance.ItemsHooks[i].transform, FsmManager.IsPlayerInCar() ? 20 : 150);
+                            toEnable = IsEnabled(item.transform, FsmManager.IsPlayerInCar() ? 20 : 150);
                         else
-                            toEnable = IsEnabled(ItemsManager.Instance.ItemsHooks[i].transform, 150);
+                            toEnable = IsEnabled(item.transform, 150);
 
                         if (toEnable)
                         {
-                            ItemsManager.Instance.ItemsHooks[i].ToggleChangeFix();
-                            if (ItemsManager.Instance.ItemsHooks[i].ActiveSelf) continue;
-                            itemsToEnable.Add(ItemsManager.Instance.ItemsHooks[i]);
+                            item.ToggleChangeFix();
+                            if (item.ActiveSelf) continue;
+                            itemsToEnable.Add(item);
                         }
                         else
                         {
-                            if (!ItemsManager.Instance.ItemsHooks[i].ActiveSelf) continue;
-                            itemsToDisable.Add(ItemsManager.Instance.ItemsHooks[i]);
+                            if (!item.ActiveSelf) continue;
+                            itemsToDisable.Add(item);
                         }
+
+                        if (item.rb != null && item.rb.IsSleeping())
+                        {
+                            item.rb.isKinematic = true;
+                        }
+                        
                     }
                     catch (Exception ex)
                     {
@@ -892,7 +894,18 @@ namespace MOP
                     }
                 }
 
-                yield return new WaitForSeconds(1);
+                // Remove items that don't exist anymore.
+                if (itemsToRemove.Count > 0)
+                {
+                    for (i = itemsToRemove.Count - 1; i >= 0; --i)
+                    {
+                        ItemsManager.Instance.RemoveAt(i);
+                    }
+
+                    itemsToRemove.Clear();
+                }
+
+                yield return new WaitForSeconds(.7f);
 
                 if (retries > 0 && !restartSucceedMessaged)
                 {
@@ -901,9 +914,10 @@ namespace MOP
                 }
             }
         }
+
         void Update()
         {
-#if DEBUG
+#if DEBUG || PRO
             if (Input.GetKeyDown(KeyCode.F5))
             {
                 PreSaveGame();
@@ -1030,11 +1044,11 @@ namespace MOP
             if (MopSettings.Mode == PerformanceMode.Safe) return;
 
             // Items
-            for (int i = 0; i < ItemsManager.Instance.ItemsHooks.Count; i++)
+            for (int i = 0; i < ItemsManager.Instance.Count; i++)
             {
                 try
                 {
-                    ItemBehaviour item = ItemsManager.Instance.ItemsHooks[i];
+                    ItemBehaviour item = ItemsManager.Instance[i];
                     item.Toggle(enabled);
 
                     // We're freezing the object on save, so it won't move at all.
