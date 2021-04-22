@@ -782,6 +782,9 @@ namespace MOP
 
                         if (item.rb != null && item.rb.IsSleeping())
                         {
+#if PRO
+                            if (item.IsPartMagnetAttached()) continue;
+#endif
                             item.rb.isKinematic = true;
                         }
                         

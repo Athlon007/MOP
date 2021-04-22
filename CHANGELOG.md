@@ -19,7 +19,7 @@
 
 - Sold kilju should not respawn on the junkyard as full anymore
 - Fixed a lag that was fixable by player having walk to the Satsuma
-- More fixed to radiator hose3
+- More fixeds to radiator hose3 (again
 
 ## 3.1.7 (06.04.2021)
 
