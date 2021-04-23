@@ -78,8 +78,6 @@ namespace MOP.Items
 
         bool kiljuInitialReset;
 
-        internal bool ToEnable;
-
 #if PRO
         internal PartMagnet PartMagnet;
 #endif

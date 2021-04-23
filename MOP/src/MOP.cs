@@ -37,7 +37,7 @@ namespace MOP
 #endif
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.2"; //Version
-        public const string SubVersion = "NIGHTLY-20210421"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public const string SubVersion = "NIGHTLY-20210422"; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public override string UpdateLink => "https://github.com/Athlon007/MOP";
         public override byte[] Icon => Properties.Resources.icon;
@@ -219,12 +219,6 @@ namespace MOP
                 $"<color=yellow>Session ID:</color> {SessionID}\n" +
                 $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}");
 #else
-
-            if (!ModLoader.CheckSteam())
-            {
-                Settings.AddHeader(this, "Pirated game copies are not supported.\nUse only at your own risk!", Color.red, Color.black);
-            }
-
             if (ModLoader.CheckIfExperimental())
             {
                 Settings.AddHeader(this, "Warning: due to frequent updates in Experimental version of the game, " +

@@ -40,7 +40,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Pro|AnyCPU'">
     <OutputPath>bin\Pro\</OutputPath>
-    <DefineConstants>TRACE;PRO</DefineConstants>
+    <DefineConstants>TRACE;PRO DEBUG</DefineConstants>
     <Optimize>true</Optimize>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>
@@ -69,7 +69,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\MSCLoader.dll</HintPath>
     </Reference>
-    <Reference Include="MSCLoader.Features" Condition="'$(Configuration)'=='Pro'">
+    <Reference Include="MSCLoader.Features" Condition="'$(Configuration)'=='Pro' Or '$(Configuration)'=='ProRelease'">
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\MSCLoader.Features.dll</HintPath>
     </Reference>
     <Reference Include="PlayMaker">
