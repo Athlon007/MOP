@@ -33,6 +33,8 @@ namespace MOP.Common
 
         static List<string> erorrsContainer = new List<string>();
 
+        public static DateTime SessionTimeStart;
+
         /// <summary>
         /// Creates then new error dump file
         /// </summary>
@@ -143,7 +145,16 @@ namespace MOP.Common
             output += $"{GetSystemInfo()}\n";
             output += $"Session ID: {MOP.SessionID}\n";
             output += $"Game resolution: {Screen.width}x{Screen.height}\n";
-            output += $"Screen resolution: {Screen.currentResolution.width}x{Screen.currentResolution.height}\n\n";
+            output += $"Screen resolution: {Screen.currentResolution.width}x{Screen.currentResolution.height}\n";
+            if (ModLoader.CurrentScene == CurrentScene.Game)
+            {
+                var elapsed = DateTime.Now.Subtract(SessionTimeStart);
+                output += $"Session Time: {elapsed.Hours} Hours {elapsed.Minutes} Minutes {elapsed.Seconds} Seconds\n\n";
+            }
+            else
+            {
+                output += "\n";
+            }
 
             output += "=== MOP SETTINGS ===\n\n";
             output += $"ActiveDistance: {MopSettings.ActiveDistance}\n";

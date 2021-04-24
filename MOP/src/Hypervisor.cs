@@ -94,6 +94,8 @@ namespace MOP
                 RulesManager.Instance.Unload();
             }
 
+            ExceptionManager.SessionTimeStart = DateTime.Now;
+
             // Start the delayed initialization routine
             StartCoroutine(DelayedInitializaitonRoutine());
         }

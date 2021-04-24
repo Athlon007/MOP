@@ -33,10 +33,10 @@ namespace MOP
 #if DEBUG
         public override string Name => "Modern Optimization Plugin (Debug)";
 #else
-        public override string Name => "MODERN OPTIMIZATION PLUGIN"; //You mod name
+        public override string Name => "MODERN OPTIMIZATION PLUGIN"; 
 #endif
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.2"; //Version
+        public override string Version => "3.1"; //Version
         public const string SubVersion = "NIGHTLY-20210422"; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public override string UpdateLink => "https://github.com/Athlon007/MOP";
