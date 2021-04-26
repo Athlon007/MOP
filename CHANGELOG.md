@@ -19,7 +19,12 @@
 
 - Sold kilju should not respawn on the junkyard as full anymore
 - Fixed a lag that was fixable by player having walk to the Satsuma
-- More fixeds to radiator hose3 (again
+- More fixeds to radiator hose3 (again)
+- Fixed fuel line bolt resetting to default
+
+### Removed
+
+- Removed rule files flag: "experimental_save_optimization"
 
 ## 3.1.7 (06.04.2021)
 

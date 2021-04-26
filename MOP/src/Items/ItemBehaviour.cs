@@ -476,6 +476,9 @@ namespace MOP.Items
                 case "radio(itemx)":
                     transform.Find("Channel").gameObject.AddComponent<RadioDisable>();
                     break;
+                case "fuel tank(Clone)":
+                    transform.Find("Bolts").GetChild(7).GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                    break;
             }
 
             PlayMakerFSM paintFSM = gameObject.GetPlayMakerByName("Paint");

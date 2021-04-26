@@ -40,26 +40,6 @@ namespace MOP.Helpers
                 File.SetAttributes(GetItemsPosition(), File.GetAttributes(GetDefaultES2SavePosition()) & ~FileAttributes.ReadOnly);
         }
 
-        public static void RemoveOldSaveFile()
-        {
-            if (RulesManager.Instance.SpecialRules.ExperimentalSaveOptimization)
-            {
-                string defaultES2 = GetDefaultES2SavePosition();
-                string items = GetItemsPosition();
-                if (File.Exists(defaultES2))
-                {
-                    File.Copy(defaultES2, defaultES2 + ".mopbackup", true);
-                    File.Delete(defaultES2);
-                }
-
-                if (File.Exists(items))
-                {
-                    File.Copy(items, items + ".mopbackup", true);
-                    File.Delete(items);
-                }
-            }
-        }
-
         public static string GetDefaultES2SavePosition()
         {
             return Path.Combine(Application.persistentDataPath, "defaultES2File.txt").Replace('\\', '/');
@@ -76,9 +56,6 @@ namespace MOP.Helpers
         public static void RestoreSaveInMainMenu()
         {
             if (ModLoader.GetCurrentScene() != CurrentScene.MainMenu)
-                return;
-
-            if (!RulesManager.Instance.SpecialRules.ExperimentalSaveOptimization)
                 return;
             
             if (!File.Exists(GetDefaultES2SavePosition()) && File.Exists(GetDefaultES2SavePosition() + ".mopbackup"))

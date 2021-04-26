@@ -608,7 +608,6 @@ namespace MOP
             StopCoroutine(currentControlCoroutine);
 
             SaveManager.RemoveReadOnlyAttribute();
-            SaveManager.RemoveOldSaveFile();
             ItemsManager.Instance.OnSave();
 
             ToggleAll(true, ToggleAllMode.OnSave);

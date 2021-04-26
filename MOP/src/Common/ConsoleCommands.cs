@@ -44,7 +44,8 @@ namespace MOP.Common
                                 "<color=yellow>cat [File Name]</color> - Print the content of a rule file\n" +
                                 "<color=yellow>generate-list [true/false]</color> - Generates text files which contain the list of items that are toggled by MOP\n" +
                                 "<color=yellow>restore-save</color> - If you use experimental save optimiztion, allows you to restore your last save file.\n" +
-                                "<color=yellow>load-rules [true/false]</color> - If set to false, prevents MOP from loading any rule files.";
+                                "<color=yellow>load-rules [true/false]</color> - If set to false, prevents MOP from loading any rule files.\n" +
+                                "<color=yellow>force-crash [critical]</color> - Forces MOP to crash itself. If 'critical' is added, it will force MOP a critical crash.";
 
         public override void Run(string[] args)
         {
