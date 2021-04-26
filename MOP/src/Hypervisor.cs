@@ -176,7 +176,6 @@ namespace MOP
                 worldObjectManager.Add("SkijumpHill", DisableOn.PlayerInHome | DisableOn.IgnoreInQualityMode);
                 worldObjectManager.Add("Factory", DisableOn.PlayerInHome);
                 worldObjectManager.Add("WHEAT", DisableOn.PlayerInHome);
-                worldObjectManager.Add("ROCKS", DisableOn.PlayerInHome);
                 worldObjectManager.Add("RAILROAD", DisableOn.PlayerInHome);
                 worldObjectManager.Add("AIRPORT", DisableOn.PlayerInHome);
                 worldObjectManager.Add("RAILROAD_TUNNEL", DisableOn.PlayerInHome);
@@ -186,7 +185,6 @@ namespace MOP
                 worldObjectManager.Add("BRIDGE_dirt", DisableOn.PlayerInHome);
                 worldObjectManager.Add("BRIDGE_highway", DisableOn.PlayerInHome);
                 worldObjectManager.Add("BirdTower", DisableOn.Distance, 400);
-                worldObjectManager.Add("SwampColliders", DisableOn.PlayerInHome);
                 worldObjectManager.Add("RYKIPOHJA", DisableOn.PlayerInHome);
                 worldObjectManager.Add("COMPUTER", DisableOn.PlayerAwayFromHome);
 

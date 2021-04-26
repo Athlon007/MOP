@@ -14,6 +14,7 @@
 - Changed how vehicle position is verified
 - Reduced time which takes for fail-safe trigger of loadscreen to do it's thing to 20 seconds
 - Slightly reduced the object spawning/despawning time
+- Rocks won't despawn when player is at home
 
 ### Bug Fixes
 
@@ -21,6 +22,7 @@
 - Fixed a lag that was fixable by player having walk to the Satsuma
 - More fixeds to radiator hose3 (again)
 - Fixed fuel line bolt resetting to default
+- Fixed rare case of not yet found suitcase falling through the map and triggering murderer sequence
 
 ### Removed
 
