@@ -5,7 +5,7 @@
 ### Added
 
 - MOP now comes with two variants! A version with the legacy Mod Loader, and a shiny new Mod Loader Pro support!
-  - In order to fully utilize the new Mod Loader Pro, download "MOP Pro" file
+  - In order to fully utilize the new Mod Loader Pro, download "MOP.pro.zip" file
 - (Mod Loader Pro) Added "Change Resolution" button in MOP settings
 
 ### Changes
