@@ -467,6 +467,21 @@ namespace MOP.Vehicles.Cases
                 throw new System.Exception("Windshield repair fix error.");
             }
 
+            // Fire extinguisher holder.
+            try
+            {
+                GameObject extinguisherHolder = transform.Find("Interior/fire extinguisher holder(xxxxx)").gameObject;
+                foreach (PlayMakerFSM fsm in extinguisherHolder.GetComponents<PlayMakerFSM>())
+                    fsm.Fsm.RestartOnEnable = false;
+
+                foreach (PlayMakerFSM fsm in extinguisherHolder.transform.Find("trigger_extinguisher").GetComponents<PlayMakerFSM>())
+                    fsm.Fsm.RestartOnEnable = false;
+            }
+            catch
+            {
+                throw new System.Exception("Fire extinguisher holder error");
+            }
+
             if (RulesManager.Instance.SpecialRules.ExperimentalSatsumaPhysicsFix)
             {
                 CustomPlayMakerFixedUpdate wheelFL = transform.Find("FL/AckerFL/wheelFL").gameObject.AddComponent<CustomPlayMakerFixedUpdate>();

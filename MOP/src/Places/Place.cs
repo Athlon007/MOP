@@ -27,6 +27,7 @@ namespace MOP.Places
     class Place
     {
         readonly GameObject gameObject;
+        internal GameObject ThisGameObject => gameObject;
         protected internal Transform transform => gameObject.transform;
         readonly float toggleDistance;
 

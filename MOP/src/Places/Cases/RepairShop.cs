@@ -15,8 +15,10 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
+using MOP.Common;
 using System.Collections.Generic;
 using UnityEngine;
+using HutongGames.PlayMaker;
 
 using MOP.Vehicles.Cases;
 
@@ -36,6 +38,11 @@ namespace MOP.Places
             "gauge_glass_fbx", "Pivot", "needle", "Bolt", "bolt", "grille", "wheel_steel5", "gear_stick",
             "Platform", "Coll", "Buy", "Product", "Key(Clone)", "LOD", "repair_shop_walls", "repair_shop_roof_metal"
         };
+
+        FsmBool openRepairShop;
+        Transform garageDoorClosed;
+        Transform garageDoorOpen;
+        GameObject fleetari;
 
         /// <summary>
         /// Initialize the RepairShop class
@@ -87,6 +94,11 @@ namespace MOP.Places
             transform.Find("LOD/Door/Handle").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
             Compress();
+
+            openRepairShop = ThisGameObject.GetPlayMakerByName("OpeningHours").FsmVariables.GetFsmBool("OpenRepairShop");
+            garageDoorClosed = transform.Find("Building/Door1Closed");
+            garageDoorOpen = transform.Find("Building/Door1Open");
+            fleetari = transform.Find("LOD/Office/Fleetari").gameObject;
         }
     }
 }

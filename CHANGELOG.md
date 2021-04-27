@@ -23,6 +23,7 @@
 - More fixeds to radiator hose3 (again)
 - Fixed fuel line bolt resetting to default
 - Fixed rare case of not yet found suitcase falling through the map and triggering murderer sequence
+- Fixed fire extinguisher holder
 
 ### Removed
 
