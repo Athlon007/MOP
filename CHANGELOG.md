@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.2 (tba)
+## 3.2 Beta 1 (27.04.2021)
 
 ### Added
 
