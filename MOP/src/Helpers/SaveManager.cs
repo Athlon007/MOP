@@ -90,7 +90,7 @@ namespace MOP.Helpers
                 bool bucketDriverSeat = ES2.Load<bool>(GetDefaultES2SavePosition() + "?tag=bucket seat driver(Clone)Purchased", setting);
                 if (bucketDriverSeat != bucketPassengerSeat)
                 {
-                    ModUI.ShowYesNoMessage($"MOP found an issue with your save file. Following items are affected:\n\n" +
+                    ModPrompt.CreateYesNoPrompt($"MOP found an issue with your save file. Following items are affected:\n\n" +
                         $"<color=yellow>bucket seats</color>\n\nWould you like it to fix it?", "MOP - Save Integrity Verification", FixBucketSeats);
                 }
             }

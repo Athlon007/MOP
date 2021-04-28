@@ -32,11 +32,6 @@ namespace MOP.Common
 
         string lastZipFilePath;
 
-#if !PRO
-        bool startWaiting;
-        GameObject mscloaderMB;
-#endif
-
         string BugReportPath => $"{ExceptionManager.GetRootPath()}/MOP_bugreport";
 
         public BugReporter()
@@ -45,29 +40,12 @@ namespace MOP.Common
             DontDestroyOnLoad(this.gameObject);
         }
 
-        void Update()
-        {
-#if !PRO
-            if (!startWaiting) return;
-
-            if (!mscloaderMB)
-            {
-                startWaiting = false;
-                ShowWindow();
-            }
-#endif
-        }
-
         public static void FileBugReport()
         {
             if (!MopSettings.LoadedOnce)
             {
-#if PRO
                 ModPrompt.CreateContinueAbortPrompt("It is recommended to start the game at least once before filing bug report.\n\n" +
                                                 "If you can't load the game, press Continue to generate mod report anyway.", "MOP - Bug Report", BugReportYesNo);
-#else
-                ModUI.ShowYesNoMessage("It is recommended to start the game at least once before filing bug report.\n\nIf you can't load the game, press Yes to generate mod report anyway.", "MOP", BugReportYesNo);
-#endif
                 return;
             }
 
@@ -137,23 +115,9 @@ namespace MOP.Common
             }
 
             // We are asking the user if he wants to add his game save to the zip file.
-#if !PRO
-            startWaiting = true;
-#endif
             if (File.Exists(SaveManager.GetDefaultES2SavePosition()))
             {
-#if PRO
                 ModPrompt.CreateYesNoPrompt("Would you like to your include save file?\n\nThis may greatly improve finding and fixing the bug.", "MOP - Bug Report", DoAddZip, onPromptClose: ShowWindow);
-#else
-                ModUI.ShowYesNoMessage("Would you like to your include save file?\n\nThis may greatly improve finding and fixing the bug.", "MOP", DoAddZip);
-
-                // MOP will wait for this transform to be destroyed.
-                Transform messageBoxTransform = GameObject.Find("MSCLoader Canvas").transform.Find("MSCLoader MB(Clone)");
-                if (messageBoxTransform)
-                {
-                    mscloaderMB = messageBoxTransform.gameObject;
-                }
-#endif
             }
         }
 
