@@ -137,21 +137,6 @@ namespace MOP.Common
         }
 
         /// <summary>
-        /// Returns true, if the PlayMaker script contains the state of provided name.
-        /// </summary>
-        public static bool ContainsPlayMakerByName(this GameObject gm, string name)
-        {
-            try
-            {
-                return gm.GetComponents<PlayMakerFSM>().First(f => f.FsmName == name) != null;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Looks through the components of game object and returns the one matching it's name.
         /// </summary>
         public static Component GetComponentByName(this GameObject gm, string name)
