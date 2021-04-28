@@ -1,18 +1,13 @@
 # Changelog
 
-## 3.2 Beta 2 (28.04.2021)
-
-### Added
-
-- Added NexusMods button
-
-## 3.2 Beta 1 (27.04.2021)
+## 3.2 (30.04.2021)
 
 ### Added
 
 - MOP now comes with two variants! A version with the legacy Mod Loader, and a shiny new Mod Loader Pro support!
   - In order to fully utilize the new Mod Loader Pro, download "MOP.pro.zip" file
 - (Mod Loader Pro) Added "Change Resolution" button in MOP settings
+- Added NexusMods button
 
 ### Changes
 
