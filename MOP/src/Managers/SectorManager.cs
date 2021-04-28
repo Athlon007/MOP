@@ -42,7 +42,7 @@ namespace MOP.Managers
         {
             instance = this;
 
-            ModConsole.Print("[MOP] Loading sectors...");
+            ModConsole.Log("[MOP] Loading sectors...");
 
             GameObject colliderCheck = new GameObject("MOP_PlayerCheck");
             colliderCheck.layer = 20;
@@ -151,7 +151,7 @@ namespace MOP.Managers
                 }
             }
 
-            ModConsole.Print($"[MOP] Loaded {sectors.Count} sectors");
+            ModConsole.Log($"[MOP] Loaded {sectors.Count} sectors");
 
             if (MopSettings.GenerateToggledItemsListDebug)
             {

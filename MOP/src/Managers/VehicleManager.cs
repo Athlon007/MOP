@@ -96,7 +96,7 @@ namespace MOP.Managers
                 }
             }
 
-            ModConsole.Print("[MOP] Vehicles initialized");
+            ModConsole.Log("[MOP] Vehicles initialized");
         }
 
         public void Add(Vehicle vehicle)

@@ -47,7 +47,7 @@ namespace MOP.Managers
                     new Farm()
                 };
 
-                ModConsole.Print("[MOP] Places initialized");
+                ModConsole.Log("[MOP] Places initialized");
             }
             catch (Exception ex)
             {

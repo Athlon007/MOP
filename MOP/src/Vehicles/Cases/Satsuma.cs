@@ -250,7 +250,7 @@ namespace MOP.Vehicles.Cases
             satsumaBoltsAntiReloads.Add(transform.Find("Chassis/steering rod fl(xxxxx)").gameObject.AddComponent<SatsumaBoltsAntiReload>());
 
             // Destroy all bolt anti reloads.
-            ModConsole.Print($"[MOP] Found {satsumaBoltsAntiReloads.Count} bolts.");
+            ModConsole.LogError($"[MOP] Found {satsumaBoltsAntiReloads.Count} bolts.");
             // If there's less bolts found than the value, warn user.
             if (satsumaBoltsAntiReloads.Count < MinimumBolts)
             {

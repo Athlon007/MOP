@@ -54,7 +54,7 @@ namespace MOP.Places
 
             if (gameObject == null)
             {
-                MSCLoader.ModConsole.Error($"[MOP] Place {placeName} not found!");
+                MSCLoader.ModConsole.LogError($"[MOP] Place {placeName} not found!");
                 return;
             }
 
@@ -152,7 +152,7 @@ namespace MOP.Places
                 }
                 catch 
                 {
-                    MSCLoader.ModConsole.Error(currentChild.GetGameObjectPath());
+                    MSCLoader.ModConsole.LogError(currentChild.GetGameObjectPath());
                 }
             }
 

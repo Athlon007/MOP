@@ -203,9 +203,6 @@ namespace MOP
             new RulesManager();
             ConsoleCommand.Add(new ConsoleCommands());
 
-            SaveManager.RestoreSaveInMainMenu();
-
-#if PRO
             if (FramerateLimiter.Value == 21)
             {
                 FramerateLimiter.valueText.text = "Disabled";
@@ -214,18 +211,13 @@ namespace MOP
             {
                 ShadowDistance.valueText.text = "No Shadows";
             }
-#endif
             SaveManager.VerifySave();
         }
 
         /// <summary>
         /// Called once, when mod is loading after game is fully loaded.
         /// </summary>
-#if PRO
         public override void PostLoad()
-#else
-        public override void SecondPassOnLoad()
-#endif
         {
             MopSettings.UpdateAll();
 
@@ -239,7 +231,6 @@ namespace MOP
             worldManager.AddComponent<Hypervisor>();
         }
 
-#if PRO
         public override void ModSettingsOpen()
         {
             int selected = 0;
@@ -260,23 +251,14 @@ namespace MOP
         {
             Resolution.gameObject.SetActive(false);
         }
-#endif
 
         static void ForceRuleFilesUpdate()
         {
-#if PRO
             if (ModLoader.CurrentScene == CurrentScene.MainMenu)
             {
                 ModPrompt.CreatePrompt("You can only force update while in main menu.");
                 return;
             }
-#else
-            if (ModLoader.GetCurrentScene() != CurrentScene.MainMenu)
-            {
-                ModUI.ShowMessage("You can only force update while in main menu.");
-                return;
-            }
-#endif
 
             if (File.Exists($"{ModConfigPath}/LastModList.mop"))
                 File.Delete($"{ModConfigPath}/LastModList.mop");

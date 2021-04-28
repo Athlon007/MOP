@@ -61,9 +61,6 @@ namespace MOP.Helpers
             yield return null;
             if (string.IsNullOrEmpty(typer.Value)) yield break;
             string[] arr = typer.Value.Split('\n');
-                MSCLoader.ModConsole.Print(arr[arr.Length - 3]);
-           
-                MSCLoader.ModConsole.Print(arr[arr.Length - 2]);
             if (arr[arr.Length - 3].Contains("est rulz"))
             {
                 arr[arr.Length - 2] = "    |\\__/|\n" +

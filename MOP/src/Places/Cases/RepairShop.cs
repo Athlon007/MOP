@@ -39,11 +39,6 @@ namespace MOP.Places
             "Platform", "Coll", "Buy", "Product", "Key(Clone)", "LOD", "repair_shop_walls", "repair_shop_roof_metal"
         };
 
-        FsmBool openRepairShop;
-        Transform garageDoorClosed;
-        Transform garageDoorOpen;
-        GameObject fleetari;
-
         /// <summary>
         /// Initialize the RepairShop class
         /// </summary>
@@ -94,11 +89,6 @@ namespace MOP.Places
             transform.Find("LOD/Door/Handle").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
             Compress();
-
-            openRepairShop = ThisGameObject.GetPlayMakerByName("OpeningHours").FsmVariables.GetFsmBool("OpenRepairShop");
-            garageDoorClosed = transform.Find("Building/Door1Closed");
-            garageDoorOpen = transform.Find("Building/Door1Open");
-            fleetari = transform.Find("LOD/Office/Fleetari").gameObject;
         }
     }
 }

@@ -73,11 +73,11 @@ namespace MOP.Common
 
             if (isCritical)
             {
-                ModConsole.Error(errorMessage);
+                ModConsole.LogError(errorMessage);
             }
             else
             {
-                ModConsole.Warning(errorMessage + "\nYou can continue playing.");
+                ModConsole.LogWarning(errorMessage + "\nYou can continue playing.");
             }
 
             erorrsContainer.Add(message);
@@ -91,7 +91,7 @@ namespace MOP.Common
             }
             else
             {
-                ModUI.ShowMessage("Logs folder is doesn't exist.", "MOP");
+                ModPrompt.CreatePrompt("Logs folder is doesn't exist.", "MOP");
             }
         }
 
@@ -104,7 +104,7 @@ namespace MOP.Common
             }
             else
             {
-                ModUI.ShowMessage("File \"output_log.txt\" doesn't exist.", "MOP");
+                ModPrompt.CreatePrompt("File \"output_log.txt\" doesn't exist.", "MOP");
             }
         }
 
@@ -128,7 +128,7 @@ namespace MOP.Common
                 sw.Dispose();
             }
 
-            ModConsole.Print("[MOP] Mod report has been successfully generated.");
+            ModConsole.Log("[MOP] Mod report has been successfully generated.");
             Process.Start(path);
         }
 
@@ -138,7 +138,6 @@ namespace MOP.Common
         /// <returns></returns>
         internal static string GetGameInfo()
         {
-#if PRO
             string output = $"Modern Optimization Plugin\nVersion: {MOP.ModVersion}\n";
             output += $"MSC Mod Loader Pro Version: {ModLoader.Version}\n";
             output += $"Date and Time: {DateTime.Now:yyyy-MM-ddTHH:mm:ssZ}\n";
@@ -231,91 +230,6 @@ namespace MOP.Common
             }
 
             return output;
-#else
-            string output = $"Modern Optimization Plugin\nVersion: {MOP.ModVersion}\n";
-            output += $"MSC Mod Loader Version: {ModLoader.MSCLoader_Ver}\n";
-            output += $"Date and Time: {DateTime.Now:yyyy-MM-ddTHH:mm:ssZ}\n";
-            output += $"{GetSystemInfo()}\n";
-            output += $"Session ID: {MOP.SessionID}\n";
-            output += $"Game resolution: {Screen.width}x{Screen.height}\n";
-            output += $"Screen resolution: {Screen.currentResolution.width}x{Screen.currentResolution.height}\n\n";
-
-            output += "=== MOP SETTINGS ===\n\n";
-            output += $"ActiveDistance: {MopSettings.ActiveDistance}\n";
-            output += $"ActiveDistanceMultiplicationValue: {MopSettings.ActiveDistanceMultiplicationValue}\n";
-            output += $"Mode: {MopSettings.Mode}\n";
-            output += $"RemoveEmptyBottles: {MopSettings.RemoveEmptyBeerBottles}\n";
-            output += $"ToggleVehiclePhysicsOnly: {RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";
-            output += $"IgnoreModVehicles: {RulesManager.Instance.SpecialRules.IgnoreModVehicles}\n";
-            output += $"EnableFramerateLimiter: {(bool)MOP.EnableFramerateLimiter.GetValue()}\n";
-            output += $"FramerateLimiter: {int.Parse(MOP.FramerateLimiterText[int.Parse(MOP.FramerateLimiter.GetValue().ToString())])}\n";
-            output += $"EnableShadowAdjusting: {(bool)MOP.EnableShadowAdjusting.GetValue()}\n";
-            output += $"KeepRunningInBackground: {(bool)MOP.KeepRunningInBackground.GetValue()}\n";
-            output += $"DynamicDrawDistance: {(bool)MOP.DynamicDrawDistance.GetValue()}\n";
-            output += $"ShadowDistance: {MOP.ShadowDistance.GetValue()}\n";
-            output += $"RulesAutoUpdate: {MOP.RulesAutoUpdate.GetValue()}\n"; 
-            output += $"RulesAutoUpdateFrequency: {MopSettings.GetRuleFilesUpdateDaysFrequency()}\n";
-            output += $"CustomRuleFile: {File.Exists($"{MOP.ModConfigPath}/Custom.txt")}\n\n";
-            
-            // Steam stuff.
-            output += $"CheckSteam: {ModLoader.CheckSteam()} \n";
-            output += $"ExperimentalBranch: {ModLoader.CheckIfExperimental()}\n";
-
-            // Game data
-            if (ModLoader.GetCurrentScene() == CurrentScene.Game)
-            {
-                try
-                {
-                    output += "\n=== GAME DATA ===\n\n";
-                    output += $"PlayerPosition: {GameObject.Find("PLAYER").transform.position}\n";
-                    output += $"PlayerHasHayosikoKey: {FSM.FsmManager.PlayerHasHayosikoKey()}\n";
-                    output += $"IsPlayerInCar: {FSM.FsmManager.IsPlayerInCar()}\n";
-                    output += $"IsPlayerInSatsuma: {FSM.FsmManager.IsPlayerInSatsuma()}\n";
-                    output += $"DrawDistance: {FSM.FsmManager.GetDrawDistance()}\n";
-                    output += $"CanTriggerStatus: {(Managers.ItemsManager.Instance == null ? "manager_null" : Managers.ItemsManager.Instance.GetCanTrigger() == null ? "null" : $"Found ({Managers.ItemsManager.Instance.GetCanTrigger().GetGameObjectPath()})")}\n";
-                    output += $"IsTrailerAttached: {FSM.FsmManager.IsTrailerAttached()}\n";
-                }
-                catch
-                {
-                    output += "ERROR GETTING GAME DATA!";
-                }
-            }
-
-            // List installed mods.
-            output += $"\n=== MODS ({ModLoader.LoadedMods.Count}) ===\n\n";
-            foreach (var mod in ModLoader.LoadedMods)
-            {
-                // Ignore MSCLoader or MOP.
-                if (mod.ID.EqualsAny("MSCLoader_Console", "MSCLoader_Settings", "MOP"))
-                    continue;
-
-                output += $"{mod.Name}:\n  ID: {mod.ID}\n  Version: {mod.Version}\n  Author: {mod.Author}\n  IsDisabled: {mod.isDisabled}\n\n";
-            }
-
-            // If only 3 mods have been found, that means the only mods active are MOP and two ModLoader modules.
-            if (ModLoader.LoadedMods.Count <= 3)
-            {
-                output += "No other mods found!\n\n";
-            }
-
-            // List rule files.
-            output += "=== RULE FILES ===\n\n";
-            foreach (string ruleFile in RulesManager.Instance.RuleFileNames)
-                output += $"{ruleFile}\n";
-
-            if (RulesManager.Instance.RuleFileNames.Count == 0)
-            {
-                output += $"No rule files loaded!\n";
-            }
-
-            if (File.Exists($"{MOP.ModConfigPath}/Custom.txt"))
-            {
-                output += "\n=== CUSTOM.TXT CONTENT ===\n\n";
-                output += File.ReadAllText($"{MOP.ModConfigPath}/Custom.txt") + "\n\n";
-            }
-
-            return output;
-#endif
         }
 
         public static string GetSystemInfo()
@@ -378,11 +292,11 @@ namespace MOP.Common
         {
             if (!Directory.Exists($"{GetRootPath()}/{LogFolder}"))
             {
-                ModUI.ShowMessage("Log folder doesn't exist.", "MOP");
+                ModPrompt.CreatePrompt("Log folder doesn't exist.", "MOP");
                 return;
             }
 
-            ModUI.ShowYesNoMessage("Are you sure you want to delete all logs?", DoDeleteAllLogs);
+            ModPrompt.CreateYesNoPrompt("Are you sure you want to delete all logs?", "MOP", DoDeleteAllLogs);
         }
 
         static void DoDeleteAllLogs()

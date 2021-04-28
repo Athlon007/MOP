@@ -19,6 +19,7 @@ using MSCLoader;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using MSCLoader.PartMagnet;
 
 using MOP.Common;
 using MOP.FSM.Actions;
@@ -28,10 +29,6 @@ using MOP.Items.Cases;
 using MOP.Items.Helpers;
 using MOP.Rules;
 using MOP.Rules.Types;
-
-#if PRO
-using MSCLoader.PartMagnet;
-#endif
 
 namespace MOP.Items
 {
@@ -78,9 +75,7 @@ namespace MOP.Items
 
         bool kiljuInitialReset;
 
-#if PRO
         internal PartMagnet PartMagnet;
-#endif
 
         public ItemBehaviour()
         {
@@ -95,9 +90,7 @@ namespace MOP.Items
             rb = GetComponent<Rigidbody>();
             PlayMakerFSM fsm = GetComponent<PlayMakerFSM>();
             renderer = GetComponent<Renderer>();
-#if PRO
             PartMagnet = GetComponent<PartMagnet>();
-#endif
 
             // From PlayMakerFSM, find states that contain one of the names that relate to destroying object,
             // and inject RemoveSelf void.
@@ -334,9 +327,7 @@ namespace MOP.Items
                     return;
                 }
 
-#if PRO
                 if (IsPartMagnetAttached()) return;
-#endif
 
                 if (this.gameObject.name == "wheel_regula")
                 {
@@ -550,9 +541,7 @@ namespace MOP.Items
                 renderer.enabled = true;
             }
 
-#if PRO
             if (IsPartMagnetAttached()) return;
-#endif
 
             // Fixing disabled physics.
             if (rb != null && (rb.isKinematic || !rb.useGravity || !rb.detectCollisions))
@@ -602,11 +591,9 @@ namespace MOP.Items
             }
         }
 
-#if PRO
         internal bool IsPartMagnetAttached()
         {
             return PartMagnet != null && PartMagnet.attached;
         }
-#endif
     }
 }

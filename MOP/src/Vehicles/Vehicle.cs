@@ -84,7 +84,7 @@ namespace MOP.Vehicles
 
             if (gameObject == null)
             {
-                ModConsole.Error($"[MOP] Could not find {gameObjectName} vehicle.");
+                ModConsole.LogError($"[MOP] Could not find {gameObjectName} vehicle.");
                 return;
             }
 
@@ -285,7 +285,7 @@ namespace MOP.Vehicles
                     Transform t = transform.FindRecursive(p.ObjectName);
                     if (t == null)
                     {
-                        ModConsole.Error($"[MOP] Couldn't find {p.ObjectName} in {p.Place}.");
+                        ModConsole.LogError($"[MOP] Couldn't find {p.ObjectName} in {p.Place}.");
                         continue;
                     }
 

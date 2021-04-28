@@ -72,7 +72,7 @@ namespace MOP
         {
             if (RulesManager.Instance == null)
             {
-                ModConsole.Error("[MOP] Rule Files haven't been loaded! Please exit to the main menu and start the game again.");
+                ModConsole.LogError("[MOP] Rule Files haven't been loaded! Please exit to the main menu and start the game again.");
                 return;
             }
 
@@ -112,7 +112,7 @@ namespace MOP
         {
             instance = this;
 
-            ModConsole.Print("[MOP] Loading MOP...");
+            ModConsole.Log("[MOP] Loading MOP...");
 
             // Initialize the worldObjectManager list
             worldObjectManager = new WorldObjectManager();
@@ -149,7 +149,7 @@ namespace MOP
                 worldObjectManager.Add("LakeSmallBottom1", DisableOn.Distance, 500);
                 worldObjectManager.Add("machine", DisableOn.Distance, 200, silent: true);
 
-                ModConsole.Print("[MOP] World objects (1) loaded");
+                ModConsole.Log("[MOP] World objects (1) loaded");
             }
             catch (Exception ex)
             {
@@ -188,7 +188,7 @@ namespace MOP
                 worldObjectManager.Add("RYKIPOHJA", DisableOn.PlayerInHome);
                 worldObjectManager.Add("COMPUTER", DisableOn.PlayerAwayFromHome);
 
-                ModConsole.Print("[MOP] World objects (2) loaded");
+                ModConsole.Log("[MOP] World objects (2) loaded");
             }
             catch (Exception ex)
             {
@@ -231,7 +231,7 @@ namespace MOP
                 ExceptionManager.New(ex, false, "PARC_FERME_TRIGGER_FAIL");
             }
 
-            ModConsole.Print("[MOP] Satsuma triggers loaded");
+            ModConsole.Log("[MOP] Satsuma triggers loaded");
 
             // Jokke's furnitures.
             // Only renderers are going to be toggled.
@@ -253,7 +253,7 @@ namespace MOP
                         }
                     }
 
-                    ModConsole.Print("[MOP] Jokke's furnitures found and loaded");
+                    ModConsole.Log("[MOP] Jokke's furnitures found and loaded");
                 }
             }
             catch (Exception ex)
@@ -354,7 +354,7 @@ namespace MOP
             try
             {
                 new ItemsManager();
-                ModConsole.Print("[MOP] Items class initialized");
+                ModConsole.Log("[MOP] Items class initialized");
             }
             catch (Exception ex)
             {
@@ -363,7 +363,7 @@ namespace MOP
 
             HookPreSaveGame();
 
-            ModConsole.Print("[MOP] Loading rules...");
+            ModConsole.Log("[MOP] Loading rules...");
             foreach (ToggleRule v in RulesManager.Instance.ToggleRules)
             {
                 try
@@ -371,12 +371,12 @@ namespace MOP
                     switch (v.ToggleMode)
                     {
                         default:
-                            ModConsole.Error($"[MOP] Unrecognized toggle mode for {v.ObjectName}: {v.ToggleMode}.");
+                            ModConsole.LogError($"[MOP] Unrecognized toggle mode for {v.ObjectName}: {v.ToggleMode}.");
                             break;
                         case ToggleModes.Simple:
                             if (GameObject.Find(v.ObjectName) == null)
                             {
-                                ModConsole.Error($"[MOP] Couldn't find world object {v.ObjectName}");
+                                ModConsole.LogError($"[MOP] Couldn't find world object {v.ObjectName}");
                                 continue;
                             }
 
@@ -385,7 +385,7 @@ namespace MOP
                         case ToggleModes.Renderer:
                             if (GameObject.Find(v.ObjectName) == null)
                             {
-                                ModConsole.Error($"[MOP] Couldn't find world object {v.ObjectName}");
+                                ModConsole.LogError($"[MOP] Couldn't find world object {v.ObjectName}");
                                 continue;
                             }
 
@@ -396,7 +396,7 @@ namespace MOP
 
                             if (g == null)
                             {
-                                ModConsole.Error($"[MOP] Couldn't find item {v.ObjectName}");
+                                ModConsole.LogError($"[MOP] Couldn't find item {v.ObjectName}");
                                 continue;
                             }
 
@@ -408,7 +408,7 @@ namespace MOP
 
                             if (GameObject.Find(v.ObjectName) == null)
                             {
-                                ModConsole.Error($"[MOP] Couldn't find vehicle {v.ObjectName}");
+                                ModConsole.LogError($"[MOP] Couldn't find vehicle {v.ObjectName}");
                                 continue;
                             }
 
@@ -419,7 +419,7 @@ namespace MOP
 
                             if (GameObject.Find(v.ObjectName) == null)
                             {
-                                ModConsole.Error($"[MOP] Couldn't find vehicle {v.ObjectName}");
+                                ModConsole.LogError($"[MOP] Couldn't find vehicle {v.ObjectName}");
                                 continue;
                             }
                             vehicleManager.Add(new Vehicle(v.ObjectName));
@@ -434,7 +434,7 @@ namespace MOP
                 }
             }
 
-            ModConsole.Print("[MOP] Rules loading complete!");
+            ModConsole.Log("[MOP] Rules loading complete!");
 
             // Initialzie sector manager
             try
@@ -472,7 +472,7 @@ namespace MOP
             currentControlCoroutine = ControlCoroutine();
             StartCoroutine(currentControlCoroutine);
 
-            ModConsole.Print("<color=green>[MOP] MOD LOADED SUCCESFULLY!</color>");
+            ModConsole.Log("<color=green>[MOP] MOD LOADED SUCCESFULLY!</color>");
             Resources.UnloadUnusedAssets();
             GC.Collect();
 
@@ -587,7 +587,7 @@ namespace MOP
                 phoneFlip.Actions = phoneFlipActions.ToArray();
                 i++;
 
-                ModConsole.Print($"[MOP] Hooked {i} save points!");
+                ModConsole.Log($"[MOP] Hooked {i} save points!");
             }
             catch (Exception ex)
             {
@@ -600,7 +600,7 @@ namespace MOP
         /// </summary>
         void PreSaveGame()
         {
-            ModConsole.Print("[MOP] Initializing Pre-Save Actions...");
+            ModConsole.Log("[MOP] Initializing Pre-Save Actions...");
             MopSettings.IsModActive = false;
             StopCoroutine(currentLoop);
             StopCoroutine(currentControlCoroutine);
@@ -609,7 +609,7 @@ namespace MOP
             ItemsManager.Instance.OnSave();
 
             ToggleAll(true, ToggleAllMode.OnSave);
-            ModConsole.Print("[MOP] Pre-Save Actions Completed!");
+            ModConsole.Log("[MOP] Pre-Save Actions Completed!");
         }
 
         public void DelayedPreSave()
@@ -781,9 +781,7 @@ namespace MOP
 
                         if (item.rb != null && item.rb.IsSleeping())
                         {
-#if PRO
                             if (item.IsPartMagnetAttached()) continue;
-#endif
                             item.rb.isKinematic = true;
                         }
                         
@@ -912,7 +910,7 @@ namespace MOP
                 if (retries > 0 && !restartSucceedMessaged)
                 {
                     restartSucceedMessaged = true;
-                    ModConsole.Print("<color=green>[MOP] Restart succeeded!</color>");
+                    ModConsole.Log("<color=green>[MOP] Restart succeeded!</color>");
                 }
             }
         }
@@ -1003,8 +1001,8 @@ namespace MOP
                 {
                     if (retries >= MaxRetries)
                     {
-                        ModConsole.Error("[MOP] Restart attempt failed. Enabling Safe Mode.");
-                        ModConsole.Error("[MOP] Please contact mod developer. Make sure you send output_log and last MOP crash log!");
+                        ModConsole.LogError("[MOP] Restart attempt failed. Enabling Safe Mode.");
+                        ModConsole.LogError("[MOP] Please contact mod developer. Make sure you send output_log and last MOP crash log!");
                         try { ToggleAll(true); } catch { }
                         MopSettings.EnableSafeMode();
                         yield break;
@@ -1012,7 +1010,7 @@ namespace MOP
 
                     retries++;
                     restartSucceedMessaged = false;
-                    ModConsole.Warning($"[MOP] MOP has stopped working! Restart attempt {retries}/{MaxRetries}...");
+                    ModConsole.LogWarning($"[MOP] MOP has stopped working! Restart attempt {retries}/{MaxRetries}...");
                     StopCoroutine(currentLoop);
                     currentLoop = LoopRoutine();
                     StartCoroutine(currentLoop);
@@ -1188,7 +1186,7 @@ namespace MOP
             yield return new WaitForSeconds(20);
             if (FsmManager.PlayerInMenu)
             {
-                ModConsole.Error("[MOP] MOP failed to load in time. Please go into MOP settings and use \"I found a bug\" button.");
+                ModConsole.LogError("[MOP] MOP failed to load in time. Please go into MOP settings and use \"I found a bug\" button.");
                 FinishLoading();
             }
         }

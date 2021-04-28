@@ -262,7 +262,7 @@ namespace MOP.Managers
             cashRegisterHook.InitializeList();
 
             // CD Player Enhanced compatibility
-            if (ModLoader.IsModPresent("CDPlayer"))
+            if (ModLoader.GetMod("CDPlayer") != null)
             {
                 GameObject[] cdEnchancedObjects = Resources.FindObjectsOfTypeAll<GameObject>()
                 .Where(gm => gm.name.ContainsAny("cd case(itemy)", "CD Rack(itemy)", "cd(itemy)") && gm.activeSelf).ToArray();

@@ -50,32 +50,6 @@ namespace MOP.Helpers
             return Application.persistentDataPath + "/items.txt";
         }
 
-        /// <summary>
-        /// If for some reason the defaultES2File and items are missing, but the backups are there, automatically restore the backups.
-        /// </summary>
-        public static void RestoreSaveInMainMenu()
-        {
-            if (ModLoader.GetCurrentScene() != CurrentScene.MainMenu)
-                return;
-            
-            if (!File.Exists(GetDefaultES2SavePosition()) && File.Exists(GetDefaultES2SavePosition() + ".mopbackup"))
-            {
-                File.Move(GetDefaultES2SavePosition() + ".mopbackup", GetDefaultES2SavePosition());
-                ModConsole.Print("[MOP] Restored defaultES2File.txt");
-            }
-
-            if (!File.Exists(GetItemsPosition()) && File.Exists(GetItemsPosition() + ".mopbackup"))
-            {
-                File.Move(GetItemsPosition() + ".mopbackup", GetItemsPosition());
-                ModConsole.Print("[MOP] Restored items.txt");
-            }
-
-            // Re-enable the continue button.
-            GameObject.Find("Interface").transform.Find("Buttons/ButtonContinue").gameObject.SetActive(true);
-
-            ModConsole.Print("[MOP] Save backup succesfully restored!");
-        }
-
         public static void VerifySave()
         {
             if (!File.Exists(GetDefaultES2SavePosition())) return;

@@ -74,13 +74,9 @@ namespace MOP.Rules.Configuration
                 NewMessage("");
             }
 
-#if PRO
             if (!MOP.RulesAutoUpdate.Value && !overrideUpdateCheck)
-#else
-            if (!(bool)MOP.RulesAutoUpdate.GetValue() && !overrideUpdateCheck)
-#endif
             {
-                ModConsole.Print("<color=orange>[MOP] Rule files auto update is disabled.</color>");
+                ModConsole.Log("<color=orange>[MOP] Rule files auto update is disabled.</color>");
                 GetAndReadRules();
                 return;
             }
@@ -95,7 +91,7 @@ namespace MOP.Rules.Configuration
             // If server or user is offline, skip downloading and simply load available files.
             if (!IsServerOnline())
             {
-                ModConsole.Print("<color=red>[MOP] Connection error. Check your Internet connection.</color>");
+                ModConsole.Log("<color=red>[MOP] Connection error. Check your Internet connection.</color>");
                 GetAndReadRules();
                 return;
             }
@@ -109,12 +105,12 @@ namespace MOP.Rules.Configuration
             Mod[] mods = ModLoader.LoadedMods.Where(m => !m.ID.ContainsAny("MSCLoader_", "MOP")).ToArray();
             string modListString = "";
 
-            ModConsole.Print("[MOP] Checking for new mods...");
+            ModConsole.Log("[MOP] Checking for new mods...");
 
             bool isUpdateTime = !File.Exists(lastDateFilePath) || IsUpdateTime();
 
             if (isUpdateTime)
-                ModConsole.Print("[MOP] Looking for updates...");
+                ModConsole.Log("[MOP] Looking for updates...");
 
             foreach (Mod mod in mods)
             {
@@ -150,7 +146,7 @@ namespace MOP.Rules.Configuration
                     DateTime lastRemoteFileWrite = data.UpdateTime;
                     if (lastRemoteFileWrite <= lastLocalFileWrite)
                     {
-                        ModConsole.Print($"<color=orange>[MOP] Skipping {modId}, because local file and remote file are the same.</color>");
+                        ModConsole.Log($"<color=orange>[MOP] Skipping {modId}, because local file and remote file are the same.</color>");
                         continue;
                     }
                 }
@@ -158,14 +154,14 @@ namespace MOP.Rules.Configuration
                 // Check if file actually exists on remote server.
                 if (!RemoteFileExists(ruleUrl))
                 {
-                    ModConsole.Error($"[MOP] Rule file for mod doesn't exist!\nID: {modId}\nURL: {ruleUrl}");
+                    ModConsole.LogError($"[MOP] Rule file for mod doesn't exist!\nID: {modId}\nURL: {ruleUrl}");
                     continue;
                 }
 
                 fileDownloadCompleted = false;
                 using (WebClient web = new WebClient())
                 {
-                    ModConsole.Print($"<color=yellow>[MOP] Downloading new rule file for {mod.Name}...</color>");
+                    ModConsole.Log($"<color=yellow>[MOP] Downloading new rule file for {mod.Name}...</color>");
                     NewMessage($"MOP: Downloading new rule file for {mod.Name}...");
 #if DEBUG
                     web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion}_DEBUG {ExceptionManager.GetSystemInfo()}");
@@ -187,7 +183,7 @@ namespace MOP.Rules.Configuration
                         // If wait time is longer than 30 seconds, abandon downloading.
                         if (waitTime > 60)
                         {
-                            ModConsole.Error("[MOP] Downloading failed. Skipping downloading.");
+                            ModConsole.LogError("[MOP] Downloading failed. Skipping downloading.");
                             NewMessage("MOP: Downloading failed. Skipping downloading.");
                             GetAndReadRules();
                             yield break;
@@ -195,7 +191,7 @@ namespace MOP.Rules.Configuration
                     }
                 }
 
-                ModConsole.Print("<color=green>[MOP] Downloading completed!</color>");
+                ModConsole.Log("<color=green>[MOP] Downloading completed!</color>");
             }
 
             File.WriteAllText(lastModListPath, modListString);
@@ -228,12 +224,12 @@ namespace MOP.Rules.Configuration
                 if (File.Exists($"{dir}/{CustomFile}"))
                 {
                     files.Add(new FileInfo($"{dir}/{CustomFile}"));
-                    ModConsole.Print("[MOP] User custom rule file found!");
+                    ModConsole.Log("[MOP] User custom rule file found!");
                 }
 
                 if (files.Count == 0)
                 {
-                    ModConsole.Print($"[MOP] No rule files found.");
+                    ModConsole.Log($"[MOP] No rule files found.");
                     NewMessage("");
                     return;
                 }
@@ -242,7 +238,7 @@ namespace MOP.Rules.Configuration
                 if (files.Count == 69)
                     message = message.Rainbowmize();
 
-                ModConsole.Print(message);
+                ModConsole.Log(message);
 
                 int removed = 0;
 
@@ -253,7 +249,6 @@ namespace MOP.Rules.Configuration
                     if (ModLoader.LoadedMods.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name)) == null && file.Name != CustomFile)
                     {
                         removed++;
-#if PRO
                         if (MOP.DeleteUnusedRules.Value)
                         {
                             File.Delete(file.FullName);
@@ -262,16 +257,7 @@ namespace MOP.Rules.Configuration
                             removed++;
                             continue;
                         }
-#else
-                        if ((bool)MOP.DeleteUnusedRuleFiles.GetValue())
-                        {
-                            File.Delete(file.FullName);
-                            ModConsole.Print($"<color=yellow>[MOP] Rule file {file.Name} has been deleted, " +
-                                             $"because corresponding mod is not present.</color>");
-                            continue;
-                        }
-#endif
-                        ModConsole.Print($"<color=yellow>[MOP] Skipped {file.Name} rule, " +
+                        ModConsole.Log($"<color=yellow>[MOP] Skipped {file.Name} rule, " +
                                          $"because the corresponding mod is not present.</color>");
                         RulesManager.Instance.UnusedRules.Add(file.Name);
                         continue;
@@ -280,15 +266,11 @@ namespace MOP.Rules.Configuration
                     // Verify if the servercontent has that rule file.
                     // Some mod makers may include poorly configured rule files,
                     // that's why they have to be only provided by the server.
-#if PRO
                     if (serverContent != null && MOP.VerifyRuleFiles.Value && file.Name != CustomFile)
-#else
-                    if (serverContent != null && (bool)MOP.VerifyRuleFiles.GetValue() && file.Name != CustomFile)
-#endif
                     {
                         if (serverContent.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name)) == null)
                         {
-                            ModConsole.Warning($"[MOP] Rule file {file.Name} has been skipped, because it couldn't be verified.");
+                            ModConsole.LogWarning($"[MOP] Rule file {file.Name} has been skipped, because it couldn't be verified.");
                             removed++;
                             continue;
                         }
@@ -299,7 +281,7 @@ namespace MOP.Rules.Configuration
                 }
 
                 int loaded = files.Count - removed;
-                ModConsole.Print($"<color=green>[MOP] Loading {loaded}/{files.Count} rule files done!</color>");
+                ModConsole.Log($"<color=green>[MOP] Loading {loaded}/{files.Count} rule files done!</color>");
                 if (loaded == 0)
                 {
                     NewMessage($"MOP: No rules have been loaded ({removed} rule{(removed == 1 ? "" : "s")} skipped).");
@@ -460,7 +442,7 @@ namespace MOP.Rules.Configuration
                             // Check if there is an odd number of quotation marks.
                             if (splitted[1].Count(f => f == '\"') % 2 != 0)
                             {
-                                ModConsole.Error($"[MOP] Quote hasn't been closed properly: {s} in rule file {fileName}({lines}).");
+                                ModConsole.LogError($"[MOP] Quote hasn't been closed properly: {s} in rule file {fileName}({lines}).");
                                 continue;
                             }
 
@@ -477,7 +459,7 @@ namespace MOP.Rules.Configuration
 
                     if (objects.Length > 0 && objects.ContainsAny(illegalValues))
                     {
-                        ModConsole.Error($"[MOP] Illegal object: {objects[0]} in rule file {fileName}.");
+                        ModConsole.LogError($"[MOP] Illegal object: {objects[0]} in rule file {fileName}.");
                         continue;
                     }
 
@@ -485,7 +467,7 @@ namespace MOP.Rules.Configuration
                     switch (flag)
                     {
                         default:
-                            ModConsole.Error($"[MOP] Unrecognized flag '{flag}' in {fileName} ({lines}).");
+                            ModConsole.LogError($"[MOP] Unrecognized flag '{flag}' in {fileName} ({lines}).");
                             break;
                         case "ignore":
                             // Ignore at place
@@ -518,7 +500,7 @@ namespace MOP.Rules.Configuration
                                 switch (objects[1])
                                 {
                                     default:
-                                        ModConsole.Error($"[MOP] Unrecognized method '{objects[1]}' in {fileName} ({lines}).");
+                                        ModConsole.LogError($"[MOP] Unrecognized method '{objects[1]}' in {fileName} ({lines}).");
                                         break;
                                     case "renderer":
                                         mode = ToggleModes.Renderer;
@@ -562,7 +544,7 @@ namespace MOP.Rules.Configuration
 
                             if (currentLine != 1)
                             {
-                                ModConsole.Print($"\n=================================" +
+                                ModConsole.Log($"\n=================================" +
                                 $"\n\n<color=cyan>[MOP] Flag '{flag}' must be first in the order!\n\n" +
                                 $"File: {fileName}\n" +
                                 $"Line: {lines}\n" +
@@ -605,7 +587,7 @@ namespace MOP.Rules.Configuration
 
                             if (isOutdated)
                             {
-                                ModConsole.Error($"[MOP] Rule file {fileName} is for the newer version of MOP. Please update MOP right now!\n\n" +
+                                ModConsole.LogError($"[MOP] Rule file {fileName} is for the newer version of MOP. Please update MOP right now!\n\n" +
                                     $"Your MOP version: {modMajor}.{modMinor}.{modRevision}\n" +
                                     $"Required version: {major}.{minor}.{revision}");
 
@@ -618,7 +600,7 @@ namespace MOP.Rules.Configuration
                         case "ignore_mod_vehicles":
                             if (fileName != CustomFile)
                             {
-                                ModConsole.Error($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
+                                ModConsole.LogError($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
                                 continue;
                             }
                             RulesManager.Instance.SpecialRules.IgnoreModVehicles = true;
@@ -626,7 +608,7 @@ namespace MOP.Rules.Configuration
                         case "toggle_all_vehicles_physics_only":
                             if (fileName != CustomFile)
                             {
-                                ModConsole.Error($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
+                                ModConsole.LogError($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
                                 continue;
                             }
                             RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly = true;
@@ -634,7 +616,7 @@ namespace MOP.Rules.Configuration
                         case "experimental_satsuma_physics_fix":
                             if (fileName != CustomFile)
                             {
-                                ModConsole.Error($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
+                                ModConsole.LogError($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
                                 continue;
                             }
                             RulesManager.Instance.SpecialRules.ExperimentalSatsumaPhysicsFix = true;
@@ -644,7 +626,7 @@ namespace MOP.Rules.Configuration
             }
             catch (Exception ex)
             {
-                ModConsole.Error($"[MOP] Error loading rule {Path.GetFileName(rulePath)}: {ex}.");
+                ModConsole.LogError($"[MOP] Error loading rule {Path.GetFileName(rulePath)}: {ex}.");
                 NewMessage($"<color=red>MOP: Error loading rule :(");
             }
         }
@@ -677,7 +659,7 @@ namespace MOP.Rules.Configuration
             }
             catch
             {
-                ModConsole.Error($"[MOP] Incorrect vector format! Refer to MOP wiki.");
+                ModConsole.LogError($"[MOP] Incorrect vector format! Refer to MOP wiki.");
                 return Vector3.zero;
             }
         }
@@ -702,7 +684,7 @@ namespace MOP.Rules.Configuration
 
         void ObsoleteWarning(string flag, string fileName, int lines, string content, string alternative)
         {
-            ModConsole.Print($"\n=================================" +
+            ModConsole.Log($"\n=================================" +
                                 $"\n\n<color=cyan>[MOP] Flag '{flag}' is obsolete.\n" +
                                 $"Please use '{alternative}' instead!\n\n" +
                                 $"File: {fileName}\n" +
@@ -713,7 +695,7 @@ namespace MOP.Rules.Configuration
 
         void WrongArgumentWarning(string reason, string fileName, int lines, string content)
         {
-            ModConsole.Print($"\n=================================" +
+            ModConsole.Log($"\n=================================" +
                                 $"\n\n<color=cyan>[MOP] {reason}.\n\n" +
                                 $"File: {fileName}\n" +
                                 $"Line: {lines}\n" +

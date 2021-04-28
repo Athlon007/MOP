@@ -51,14 +51,14 @@ namespace MOP.Common
         {
             if (args.Length == 0)
             {
-                ModConsole.Print("See \"mop help\" for command list.");
+                ModConsole.Log("See \"mop help\" for command list.");
                 return;
             }
 
             switch (args[0])
             {
                 default:
-                    ModConsole.Print("Invalid command. Type \"mop help\" for command list.");
+                    ModConsole.Log("Invalid command. Type \"mop help\" for command list.");
                     break;
                 case "help":
                     if (args.Length > 1)
@@ -69,20 +69,20 @@ namespace MOP.Common
                         {
                             if (s.Split('-')[0].Contains(args[1]))
                             {
-                                ModConsole.Print(s);
+                                ModConsole.Log(s);
                                 commandsFound = true;
                             }
                         }
                         if (!commandsFound)
-                            ModConsole.Print($"Command {args[1]} not found.");
+                            ModConsole.Log($"Command {args[1]} not found.");
                         return;
                     }
-                    ModConsole.Print(HelpList);
+                    ModConsole.Log(HelpList);
                     break;
                 case "rules":
                     if (args.Length > 1 && args[1] == "roll")
                     {
-                        ModConsole.Print("\n<color=yellow>You know the rules and so do I\n" +
+                        ModConsole.Log("\n<color=yellow>You know the rules and so do I\n" +
                                         "A full commitment's what I'm thinking of\n" +
                                         "You wouldn't get this from any other guy\n" +
                                         "I just wanna tell you how I'm feeling\n" +
@@ -98,39 +98,39 @@ namespace MOP.Common
 
                     if (RulesManager.Instance.IgnoreRules.Count > 0)
                     {
-                        ModConsole.Print("<color=yellow><b>Ignore Rules</b></color>");
+                        ModConsole.Log("<color=yellow><b>Ignore Rules</b></color>");
                         foreach (IgnoreRule r in RulesManager.Instance.IgnoreRules)
-                            ModConsole.Print($"<b>Object:</b> {r.ObjectName}");
+                            ModConsole.Log($"<b>Object:</b> {r.ObjectName}");
                     }
 
                     if (RulesManager.Instance.IgnoreRulesAtPlaces.Count > 0)
                         {
-                        ModConsole.Print("\n<color=yellow><b>Ignore Rules At Place</b></color>");
+                        ModConsole.Log("\n<color=yellow><b>Ignore Rules At Place</b></color>");
                         foreach (IgnoreRuleAtPlace r in RulesManager.Instance.IgnoreRulesAtPlaces)
-                            ModConsole.Print($"<b>Place:</b> {r.Place} <b>Object:</b> {r.ObjectName}");
+                            ModConsole.Log($"<b>Place:</b> {r.Place} <b>Object:</b> {r.ObjectName}");
                     }
 
                     if (RulesManager.Instance.ToggleRules.Count > 0)
                     {
-                        ModConsole.Print("\n<color=yellow><b>Toggle Rules</b></color>");
+                        ModConsole.Log("\n<color=yellow><b>Toggle Rules</b></color>");
                         foreach (ToggleRule r in RulesManager.Instance.ToggleRules)
-                            ModConsole.Print($"<b>Object:</b> {r.ObjectName} <b>Toggle Mode:</b> {r.ToggleMode}");
+                            ModConsole.Log($"<b>Object:</b> {r.ObjectName} <b>Toggle Mode:</b> {r.ToggleMode}");
                     }
 
                     if (RulesManager.Instance.NewSectors.Count > 0)
                     {
-                        ModConsole.Print("\n<color=yellow><b>New Sectors</b></color>");
+                        ModConsole.Log("\n<color=yellow><b>New Sectors</b></color>");
                         foreach (NewSector r in RulesManager.Instance.NewSectors)
-                            ModConsole.Print($"<b>Pos:</b> {r.Position} <b>Scale:</b> {r.Scale} <b>Rot:</b> {r.Rotation} <b>Ignore:</b> {string.Join(", ", r.Whitelist)}");
+                            ModConsole.Log($"<b>Pos:</b> {r.Position} <b>Scale:</b> {r.Scale} <b>Rot:</b> {r.Rotation} <b>Ignore:</b> {string.Join(", ", r.Whitelist)}");
                     }
 
-                    ModConsole.Print("\n<color=yellow><b>Special Rules</b></color>");
+                    ModConsole.Log("\n<color=yellow><b>Special Rules</b></color>");
                     // Obtain all fields
                     FieldInfo[] fields = typeof(SpecialRules).GetFields();
                     // Loop through fields
                     foreach (var field in fields) 
                     {
-                        ModConsole.Print($"<b>{field.Name}</b>: {field.GetValue(RulesManager.Instance.SpecialRules)}");
+                        ModConsole.Log($"<b>{field.Name}</b>: {field.GetValue(RulesManager.Instance.SpecialRules)}");
                     }
 
                     // List rule files.
@@ -138,25 +138,17 @@ namespace MOP.Common
                     foreach (string ruleFile in RulesManager.Instance.RuleFileNames)
                         output += $"{ruleFile}\n";
 
-                    ModConsole.Print(output);
+                    ModConsole.Log(output);
                     break;
                 case "wiki":
                     ExternalExecuting.OpenWikiDialog();
                     break;
                 case "reload":
-#if PRO
                     if (ModLoader.CurrentScene != CurrentScene.MainMenu)
                     {
                         ModConsole.Log("You can only reload rule files in the main menu");
                         return;
                     }
-#else
-                    if (ModLoader.GetCurrentScene() != CurrentScene.MainMenu)
-                    {
-                        ModConsole.Print("You can only reload rule files in the main menu");
-                        return;
-                    }
-#endif
 
                     RulesManager.Instance.WipeAll(false);
                     break;
@@ -170,7 +162,7 @@ namespace MOP.Common
 
                     if (File.Exists(path))
                     {
-                        ModConsole.Print("Custom file already exists. Use \"mop open\" to edit it now.");
+                        ModConsole.Log("Custom file already exists. Use \"mop open\" to edit it now.");
                         return;
                     }
 
@@ -182,16 +174,16 @@ namespace MOP.Common
                     Process.Start(path);
                     if (path.EndsWith("Custom.txt"))
                     {
-                        ModConsole.Print("A custom rule file has been created. You can find it as Custom.txt.\n" +
+                        ModConsole.Log("A custom rule file has been created. You can find it as Custom.txt.\n" +
                             "<color=red>Careless use of rule files may cause bugs and glitchess. Use only at yout own risk!</color>");
                     }
                     else
                     {
-                        ModConsole.Print($"A rule file for {args[1]} mod has been created.");
+                        ModConsole.Log($"A rule file for {args[1]} mod has been created.");
                     }
                     break;
                 case "version":
-                    ModConsole.Print(MOP.ModVersion);
+                    ModConsole.Log(MOP.ModVersion);
                     break;
                 case "cowsay":
                     string say = string.Join(" ", args, 1, args.Length - 1);
@@ -222,7 +214,7 @@ namespace MOP.Common
                             break;
                     }
 
-                    ModConsole.Print($"< {say} >\n" +
+                    ModConsole.Log($"< {say} >\n" +
                                     "        \\   ^__^\n" +
                                     "         \\  (oo)\\____\n" +
                                     "            (__)\\          )\\/\\\n" +
@@ -235,7 +227,7 @@ namespace MOP.Common
                 case "open":
                     if (args.Length == 1)
                     {
-                        ModConsole.Print($"Missing argument.");
+                        ModConsole.Log($"Missing argument.");
                         return;
                     }
 
@@ -252,7 +244,7 @@ namespace MOP.Common
 
                     if (!File.Exists($"{MOP.ModConfigPath}/{args[1]}"))
                     { 
-                        ModConsole.Print($"File {args[1]} doesn't exist.");
+                        ModConsole.Log($"File {args[1]} doesn't exist.");
                         return;
                     }
 
@@ -261,7 +253,7 @@ namespace MOP.Common
                 case "delete":
                     if (args.Length == 1)
                     {
-                        ModConsole.Print($"Missing argument.");
+                        ModConsole.Log($"Missing argument.");
                         return;
                     }
 
@@ -277,7 +269,7 @@ namespace MOP.Common
 
                     if (!File.Exists($"{MOP.ModConfigPath}/{args[1]}"))
                     {
-                        ModConsole.Print($"File {args[1]} doesn't exist.");
+                        ModConsole.Log($"File {args[1]} doesn't exist.");
                         return;
                     }
 
@@ -286,7 +278,7 @@ namespace MOP.Common
                 case "cat":
                     if (args.Length == 1)
                     {
-                        ModConsole.Print($"Missing argument.");
+                        ModConsole.Log($"Missing argument.");
                         return;
                     }
 
@@ -302,11 +294,11 @@ namespace MOP.Common
 
                     if (!File.Exists($"{MOP.ModConfigPath}/{args[1]}"))
                     {
-                        ModConsole.Print($"File {args[1]} doesn't exist.");
+                        ModConsole.Log($"File {args[1]} doesn't exist.");
                         return;
                     }
 
-                    ModConsole.Print(File.ReadAllText($"{MOP.ModConfigPath}/{args[1]}"));
+                    ModConsole.Log(File.ReadAllText($"{MOP.ModConfigPath}/{args[1]}"));
                     break;
                 case "restore-save":
 #if PRO
@@ -318,7 +310,7 @@ namespace MOP.Common
 #else
                     if (ModLoader.GetCurrentScene() != CurrentScene.MainMenu)
                     {
-                        ModConsole.Print("You can only restore game save in the main menu.");
+                        ModConsole.Log("You can only restore game save in the main menu.");
                         break;
                     }
 #endif
@@ -328,18 +320,18 @@ namespace MOP.Common
                     if (!File.Exists(SaveManager.GetDefaultES2SavePosition() + ".mopbackup"))
                     {
                         defaultBackupMissing = true;
-                        ModConsole.Print("defaultES2Save.txt.mopbackup file is missing.");
+                        ModConsole.Log("defaultES2Save.txt.mopbackup file is missing.");
                     }
 
                     if (!File.Exists(SaveManager.GetItemsPosition() + ".mopbackup"))
                     {
                         itemsBackupMissing = true;
-                        ModConsole.Print("items.txt.mopbackup file is missing.");
+                        ModConsole.Log("items.txt.mopbackup file is missing.");
                     }
 
                     if (defaultBackupMissing && itemsBackupMissing)
                     {
-                        ModConsole.Print("Save backups don't exists. Do you use the save optimization?");
+                        ModConsole.Log("Save backups don't exists. Do you use the save optimization?");
                         break;
                     }
 
@@ -355,7 +347,7 @@ namespace MOP.Common
                         File.Move(SaveManager.GetItemsPosition() + ".mopbackup", SaveManager.GetItemsPosition());
                     }
 
-                    ModConsole.Print("Save backup succesfully restored!");
+                    ModConsole.Log("Save backup succesfully restored!");
                     break;
                 case "generate-list":
                     if (args.Length > 1)
@@ -365,13 +357,13 @@ namespace MOP.Common
                              RulesManager.Instance.NewSectors.Count > 0 || RulesManager.Instance.ToggleRules.Count > 0)
                             )
                         {
-                            ModConsole.Print("<color=red>WARNING:</color> For accurate results, use \"mop load-rules false\" to prevent MOP from using rule files.");
+                            ModConsole.Log("<color=red>WARNING:</color> For accurate results, use \"mop load-rules false\" to prevent MOP from using rule files.");
                         }
 
                         MopSettings.GenerateToggledItemsListDebug = args[1].ToLower() == "true";
                     }
 
-                    ModConsole.Print($"Generating toggled elements list is set to " +
+                    ModConsole.Log($"Generating toggled elements list is set to " +
                                      $"<color={(MopSettings.GenerateToggledItemsListDebug ? "green" : "red")}>{MopSettings.GenerateToggledItemsListDebug}</color>");
                     break;
                 case "do-bumper-fix":
@@ -398,12 +390,12 @@ namespace MOP.Common
                         RulesManager.Instance.LoadRules = args[1].ToLower() == "true";
                         if (!RulesManager.Instance.LoadRules)
                         {
-                            ModConsole.Print("\n\n<color=red>WARNING:</color>\nDisabling rule files may cause serious issues with game, or even break your game save.\n\n" +
+                            ModConsole.Log("\n\n<color=red>WARNING:</color>\nDisabling rule files may cause serious issues with game, or even break your game save.\n\n" +
                                              "<b><color=red>!!! USE ONLY AT YOUR OWN RISK !!!</color></b>\n\n");
                         }
                     }
 
-                    ModConsole.Print($"Loading rule files is set to " +
+                    ModConsole.Log($"Loading rule files is set to " +
                                      $"<color={(RulesManager.Instance.LoadRules ? "green" : "red")}>{RulesManager.Instance.LoadRules}</color>");
                     break;
                 case "force-crash":

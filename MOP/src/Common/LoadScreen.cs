@@ -28,15 +28,8 @@ namespace MOP.Common
 
         void Start()
         {
-#if PRO
-            loadScreen = ModUI.GetCanvas().transform.Find("ModLoaderUI/ModLoadScreen").gameObject;
+            loadScreen = ModLoader.UICanvas.transform.Find("ModLoaderUI/ModLoadScreen").gameObject;
             loadScreen.transform.Find("TextHolder/Text").gameObject.GetComponent<Text>().text = LoadText;
-#else
-            loadScreen = ModUI.GetCanvas().transform.Find("MSCLoader loading screen").gameObject;
-            loadScreen.transform.Find("ModName").gameObject.GetComponent<Text>().text = LoadText;
-            loadScreen.transform.Find("Loading").gameObject.SetActive(false);
-
-#endif
             Cursor.visible = false;
             cursorFSM = GameObject.Find("PLAYER").GetPlayMakerByName("Update Cursor");
             cursorFSM.enabled = false;
