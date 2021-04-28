@@ -35,7 +35,7 @@ namespace MOP.FSM.Actions
 
                 if (hoodFixedUpdate == null)
                 {
-                    MSCLoader.ModConsole.Error($"[MOP] No PlayMakerFixedUpdate component found in {gameObject.name}.");
+                    MSCLoader.ModConsole.LogError($"[MOP] No PlayMakerFixedUpdate component found in {gameObject.name}.");
                     return;
                 }
 

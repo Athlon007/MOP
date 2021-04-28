@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using UnityEngine;
+using MSCLoader.Helper;
 
 using MOP.Common;
 
@@ -31,8 +32,8 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
         {
             try
             {
-                string fsmName = gameObject.ContainsPlayMakerByName("BoltCheck") ? "BoltCheck" : "Use";
-                fsm = gameObject.GetPlayMakerByName(fsmName);
+                string fsmName = gameObject.GetPlayMakerFSM("BoltCheck") ? "BoltCheck" : "Use";
+                fsm = gameObject.GetPlayMakerFSM(fsmName);
 
                 if (fsm == null)
                     return;

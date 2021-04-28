@@ -657,7 +657,7 @@ namespace MOP
                     }
                 }
 
-                isPlayerAtYard = MopSettings.ActiveDistance == 0 ? Vector3.Distance(player.position, placeManager[0].transform.position) < 100
+                isPlayerAtYard = MOP.ActiveDistance.Value == 0 ? Vector3.Distance(player.position, placeManager[0].transform.position) < 100
                     : Vector3.Distance(player.position, placeManager[0].transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 
                 // When player is in any of the sectors, MOP will act like the player is at yard.
@@ -828,7 +828,7 @@ namespace MOP
                         }
 
                         float distance = Vector3.Distance(player.transform.position, vehicleManager[i].transform.position);
-                        float toggleDistance = MopSettings.ActiveDistance == 0
+                        float toggleDistance = MOP.ActiveDistance.Value == 0
                             ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
 
                         switch (vehicleManager[i].VehicleType)
@@ -952,7 +952,7 @@ namespace MOP
         bool IsEnabled(Transform target, float toggleDistance = 200)
         {
             if (inSectorMode)
-                toggleDistance *= MopSettings.ActiveDistance == 0 ? 0.5f : 0.1f;
+                toggleDistance *= MOP.ActiveDistance.Value == 0 ? 0.5f : 0.1f;
 
             return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
         }

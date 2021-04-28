@@ -15,82 +15,12 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
-using System.Diagnostics;
-using UnityEngine;
+using MSCLoader.Helper;
 
 namespace MOP.Common
 {
     class ExternalExecuting
     {
-        // This class manages executing third-party stuff, such as websites.
-
-        static string url;
-        const int CharacterLimit = 45;
-
-        static string GetDialogMessage()
-        {
-            string urlDisplayed = url;
-#if !PRO
-            if (urlDisplayed.Length > CharacterLimit)
-                urlDisplayed = urlDisplayed.Substring(0, CharacterLimit - 3) + "...";
-#endif
-            return $"This will open the following link:\n<color=yellow>{urlDisplayed}</color>\n\nAre you sure you want to continue?";
-        }
-
-        static void OpenWebsite()
-        {
-            Process.Start(url);
-        }
-
-        public static void ShowDialog(string newUrl)
-        {
-            url = newUrl;
-            ModUI.ShowYesNoMessage(GetDialogMessage(), "MOP", OpenWebsite);
-        }
-
-        public static void OpenFAQDialog()
-        {
-            ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/faq");
-        }
-
-        public static void OpenWikiDialog()
-        {
-            ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/");
-        }
-
-        public static void OpenPaypalDialog()
-        {
-            ShowDialog("https://paypal.me/figurakonrad");
-        }
-
-        public static void OpenRulesWebsiteDialog()
-        {
-            ShowDialog("http://athlon.kkmr.pl/mop");
-        }
-
-        public static void OpenHomepageDialog()
-        {
-            ShowDialog("http://athlon.kkmr.pl/");
-        }
-
-        public static void OpenPatreonDialog()
-        {
-            ShowDialog("http://patreon.com/athlon");
-        }
-
-        public static void ModLoaderPro()
-        {
-            Process.Start("https://mscloaderpro.github.io/docs/#/Download");
-        }
-
-        public static void DownloadMOPPro()
-        {
-            Process.Start("https://github.com/Athlon007/MOP/releases/latest");
-        }
-
-        public static void OpenNexus()
-        {
-            Process.Start("https://www.nexusmods.com/mysummercar/mods/146");
-        }
+        public static void ShowDialog(string url) => ModPrompt.CreateYesNoPrompt($"This will open the following link:\n<color=yellow>{url}</color>\n\nAre you sure you want to continue?", "MOP", () => ModHelper.OpenWebsite(url));
     }
 }

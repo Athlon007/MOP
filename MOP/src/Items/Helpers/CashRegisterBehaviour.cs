@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
+using MSCLoader.Helper;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -96,7 +97,7 @@ namespace MOP.Items.Helpers
                     }
                     else if (items[i].name.EqualsAny("alternator belt(Clone)", "oil filter(Clone)", "battery(Clone)"))
                     {
-                        items[i].GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
+                        items[i].GetPlayMakerFSM("Use").Fsm.RestartOnEnable = false;
                     }
                 }
                 WipeUseLoadOnSparkPlugs(items.Where(g => g.name.EqualsAny("spark plug(Clone)", "light bulb(Clone)")).ToArray());
@@ -123,7 +124,7 @@ namespace MOP.Items.Helpers
 
             for (int i = 0; i < plugs.Length; i++)
             {
-                plugs[i].GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
+                plugs[i].GetPlayMakerFSM("Use").Fsm.RestartOnEnable = false;
 
                 if (plugs[i].GetComponent<ItemBehaviour>() == null)
                     plugs[i].AddComponent<ItemBehaviour>();

@@ -15,10 +15,11 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
-using MSCLoader;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using MSCLoader;
+using MSCLoader.Helper;
 using MSCLoader.PartMagnet;
 
 using MOP.Common;
@@ -224,7 +225,7 @@ namespace MOP.Items
 
                 // Disable empty items function.
                 // Items that are marked as empty are disabled by the game.
-                if (MopSettings.RemoveEmptyItems && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent == null)
+                if (MOP.DisableEmptyItems && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent == null)
                 {
                     enabled = !MopSettings.IsModActive;
                 }
@@ -317,7 +318,7 @@ namespace MOP.Items
                         transform.position = position;
                 }
 
-                if (MopSettings.RemoveEmptyItems && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent.gameObject.name != "ItemPivot")
+                if (MOP.DisableEmptyItems && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent.gameObject.name != "ItemPivot")
                 {
                     enabled = !MopSettings.IsModActive;
                 }
@@ -402,7 +403,7 @@ namespace MOP.Items
 
         void FsmFixes()
         {
-            PlayMakerFSM useFsm = gameObject.GetPlayMakerByName("Use");
+            PlayMakerFSM useFsm = gameObject.GetPlayMakerFSM("Use");
             if (useFsm != null)
             {
                 useFsm.Fsm.RestartOnEnable = false;
@@ -434,7 +435,7 @@ namespace MOP.Items
                 }
             }
 
-            PlayMakerFSM dataFsm = gameObject.GetPlayMakerByName("Data");
+            PlayMakerFSM dataFsm = gameObject.GetPlayMakerFSM("Data");
             if (dataFsm != null)
             {
                 dataFsm.Fsm.RestartOnEnable = false;
@@ -472,7 +473,7 @@ namespace MOP.Items
                     break;
             }
 
-            PlayMakerFSM paintFSM = gameObject.GetPlayMakerByName("Paint");
+            PlayMakerFSM paintFSM = gameObject.GetPlayMakerFSM("Paint");
             if (paintFSM != null)
             {
                 paintFSM.Fsm.RestartOnEnable = false;
@@ -562,7 +563,7 @@ namespace MOP.Items
                 {
                     transform.position = ItemsManager.Instance.LostSpawner.position;
 
-                    PlayMakerFSM fsm = gameObject.GetPlayMakerByName("Use");
+                    PlayMakerFSM fsm = gameObject.GetPlayMakerFSM("Use");
                     if (fsm)
                     {
                         fsm.FsmVariables.GetFsmBool("ContainsKilju").Value = false;
@@ -580,7 +581,7 @@ namespace MOP.Items
                 {
                     transform.position = ItemsManager.Instance.LandfillSpawn.position;
 
-                    PlayMakerFSM fsm = gameObject.GetPlayMakerByName("Use");
+                    PlayMakerFSM fsm = gameObject.GetPlayMakerFSM("Use");
                     if (fsm)
                     {
                         fsm.FsmVariables.GetFsmBool("ContainsKilju").Value = false;

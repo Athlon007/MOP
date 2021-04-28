@@ -34,8 +34,8 @@ namespace MOP.Common
 
         public CompatibilityManager()
         {
-            CarryMore = ModLoader.IsModPresent("CarryMore");
-            CarryEvenMore = ModLoader.IsModPresent("CarryEvenMore");
+            CarryMore = ModLoader.GetMod("CarryMore") != null;
+            CarryEvenMore = ModLoader.GetMod("CarryEvenMore") != null;
         }
     }
 }

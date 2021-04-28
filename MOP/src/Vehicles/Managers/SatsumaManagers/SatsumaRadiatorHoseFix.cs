@@ -18,6 +18,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using HutongGames.PlayMaker;
+using MSCLoader.Helper;
 
 using MOP.Common;
 using MOP.FSM.Actions;
@@ -29,7 +30,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
     {
         void Start()
         {
-            PlayMakerFSM removalFSM = gameObject.GetPlayMakerByName("Removal");
+            PlayMakerFSM removalFSM = gameObject.GetPlayMakerFSM("Removal");
             GameObject hosePrefab = ItemsManager.Instance.GetRadiatorHose3();
             removalFSM.FsmVariables.FindFsmGameObject("Part").Value = ItemsManager.Instance.GetRadiatorHose3();
 

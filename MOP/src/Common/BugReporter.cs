@@ -78,7 +78,7 @@ namespace MOP.Common
             {
                 string pathToFile = log.Replace("\\", "/");
                 string nameOfFile = log.Split('\\')[1];
-                ModConsole.Print(nameOfFile);
+                ModConsole.Log(nameOfFile);
                 File.Copy(pathToFile, $"{BugReportPath}/{nameOfFile}");
             }
 

@@ -16,6 +16,7 @@
 
 using HutongGames.PlayMaker;
 using MSCLoader;
+using MSCLoader.Helper;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -135,7 +136,7 @@ namespace MOP.Vehicles
             preventToggleOnObjects = new List<PreventToggleOnObject>();
 
             // This should fix bug that leads to items inside of vehicles to fall through it.
-            PlayMakerFSM lodFSM = gameObject.GetPlayMakerByName("LOD");
+            PlayMakerFSM lodFSM = gameObject.GetPlayMakerFSM("LOD");
             if (lodFSM != null)
             {
                 lodFSM.Fsm.RestartOnEnable = false;
@@ -180,7 +181,7 @@ namespace MOP.Vehicles
                     transform.Find("Dashboard/Odometer").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
                     // Air pressure fix.
-                    transform.Find("Simulation/Airbrakes").GetPlayMakerByName("Air Pressure").Fsm.RestartOnEnable = false;
+                    transform.Find("Simulation/Airbrakes").GetPlayMakerFSM("Air Pressure").Fsm.RestartOnEnable = false;
 
                     // Hand throttle.
                     gameObject.AddComponent<GifuHandThrottle>();
@@ -206,7 +207,7 @@ namespace MOP.Vehicles
                     gameObject.AddComponent<KekmetHandThrottle>();
 
                     // Trailer connection.
-                    transform.Find("Trailer/Hook").GetPlayMakerByName("Distance").Fsm.RestartOnEnable = false;
+                    transform.Find("Trailer/Hook").GetPlayMakerFSM("Distance").Fsm.RestartOnEnable = false;
                     //transform.Find("Trailer/Remove").GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
                     break;
                 case VehiclesTypes.Flatbed:
@@ -217,7 +218,7 @@ namespace MOP.Vehicles
                     trailerLogUnderFloorCheck.AddComponent<TrailerLogUnderFloor>();
 
                     // Tractor connection.
-                    gameObject.GetPlayMakerByName("Detach").Fsm.RestartOnEnable = false;
+                    gameObject.GetPlayMakerFSM("Detach").Fsm.RestartOnEnable = false;
                     break;
 
             }

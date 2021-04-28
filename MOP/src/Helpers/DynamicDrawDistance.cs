@@ -16,10 +16,10 @@
 
 using UnityEngine;
 using HutongGames.PlayMaker;
-
-using MOP.Common;
-using MOP.FSM;
+using MSCLoader.Helper;
 using System.Collections;
+
+using MOP.FSM;
 
 namespace MOP.Helpers
 {
@@ -35,7 +35,7 @@ namespace MOP.Helpers
             mainCamera = Camera.main;
             player = GameObject.Find("PLAYER").transform;
 
-            typer = GameObject.Find("COMPUTER").transform.Find("SYSTEM/POS/Command").GetPlayMakerByName("Typer").FsmVariables.GetFsmString("Old");
+            typer = GameObject.Find("COMPUTER").transform.Find("SYSTEM/POS/Command").GetPlayMakerFSM("Typer").FsmVariables.GetFsmString("Old");
         }
 
         void Update()
@@ -45,7 +45,7 @@ namespace MOP.Helpers
                 StartCoroutine(Computer());
             }
 
-            if (!MopSettings.DynamicDrawDistance) return;
+            if (!MOP.DynamicDrawDistance.Value) return;
 
             float toGoDrawDistance = FsmManager.GetDrawDistance();
             if (player.position.y > 20)

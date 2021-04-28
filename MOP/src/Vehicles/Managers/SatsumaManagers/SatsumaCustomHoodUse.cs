@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
+using MSCLoader.Helper;
 using UnityEngine;
 
 using MOP.Common;
@@ -35,7 +36,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
             FsmHook.FsmInject(gameObject, "Open hood 2", () => isHoodOpen = true);
             FsmHook.FsmInject(gameObject, "Close hood 2", () => isHoodOpen = false);
 
-            useFsm = gameObject.GetPlayMakerByName("Use");
+            useFsm = gameObject.GetPlayMakerFSM("Use");
         }
 
         void FixedUpdate()

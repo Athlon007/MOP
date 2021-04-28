@@ -16,6 +16,7 @@
 
 using HutongGames.PlayMaker;
 using MSCLoader;
+using MSCLoader.Helper;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -50,8 +51,8 @@ namespace MOP.Vehicles.Managers
             try
             {
                 Transform handThrottle = transform.Find(throttlePath);
-                handThrottleValue = handThrottle.GetPlayMakerByName("Use").FsmVariables.GetFsmFloat("Throttle");
-                handThrottle.GetPlayMakerByName("Throttle").enabled = false;
+                handThrottleValue = handThrottle.GetPlayMakerFSM("Use").FsmVariables.GetFsmFloat("Throttle");
+                handThrottle.GetPlayMakerFSM("Throttle").enabled = false;
             }
             catch
             {
@@ -137,7 +138,7 @@ namespace MOP.Vehicles.Managers
                 FsmHook.FsmInject(starter, "State 1", CancelInvoke);
                 Invoke();
 
-                PlayMakerFSM starterFSM = starter.GetPlayMakerByName("Starter");
+                PlayMakerFSM starterFSM = starter.GetPlayMakerFSM("Starter");
 
                 List<FsmStateAction> s = starterFSM.FindFsmState("Start engine").Actions.ToList();
                 s.RemoveAt(3);

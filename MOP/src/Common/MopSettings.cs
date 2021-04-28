@@ -27,22 +27,11 @@ namespace MOP.Common
     {
         // This is the master switch of MOP. If deactivated, all functions will freeze.
         public static bool IsModActive { get; set; }
+        
+        public static PerformanceMode Mode;
 
-
-        // ACTIVATING OBJECTS
-        public static int ActiveDistance { get; private set; }
-
-        public static float ActiveDistanceMultiplicationValue { get; private set; }
-        public static PerformanceMode Mode = PerformanceMode.Balanced;
-
-        // GRAPHICS
-        public static bool DynamicDrawDistance { get; private set; }
         static float shadowDistanceOriginalValue;
-        
-        // OTHER
-        public static bool RemoveEmptyBeerBottles { get; private set; }
-        public static bool RemoveEmptyItems { get; private set; }
-        
+
         // Distance after which car physics is toggled.
         public const int UnityCarActiveDistance = 5;
 
@@ -57,12 +46,8 @@ namespace MOP.Common
         // Tracks if the game has been fully loaded at east once.
         public static bool LoadedOnce;
 
-        public static void UpdateAll()
+        internal static void UpdatePerformanceMode()
         {
-            // Activating Objects
-            ActiveDistance = MOP.ActiveDistance.ValueInt;
-            ActiveDistanceMultiplicationValue = GetActiveDistanceMultiplicationValue();
-
             // MODES
             // Show the warning about safe mode, if the player disables safe mode and is not in main menu.
             bool dontUpdate = false;
@@ -101,21 +86,20 @@ namespace MOP.Common
                         break;
                 }
             }
+        }
 
-            // GRAPHICS
-            DynamicDrawDistance = MOP.DynamicDrawDistance.Value;
-
-            // Others
-            RemoveEmptyBeerBottles = MOP.DestroyEmptyBottles.Value;
-            RemoveEmptyItems = MOP.DisableEmptyItems.Value;
-
+        internal static void UpdateFramerateLimiter()
+        {
             // Framerate limiter
             Application.targetFrameRate = (int)MOP.FramerateLimiter.Value != 21 ? (int)MOP.FramerateLimiter.Value * 10 : -1;
             if ((int)MOP.FramerateLimiter.Value == 21)
             {
                 MOP.FramerateLimiter.valueText.text = "Disabled";
             }
+        }
 
+        internal static void UpdateShadows()
+        {
             // Shadow distance.
             if (shadowDistanceOriginalValue == 0)
                 shadowDistanceOriginalValue = QualitySettings.shadowDistance;
@@ -126,7 +110,10 @@ namespace MOP.Common
             {
                 MOP.ShadowDistance.valueText.text = "No Shadows";
             }
+        }
 
+        public static void UpdateMiscSettings()
+        {
             ToggleBackgroundRunning();
 
             // Vsync fix.
@@ -135,9 +122,7 @@ namespace MOP.Common
             else
                 QualitySettings.vSyncCount = vsyncCount;
 
-            ModConsole.Log("[MOP] MOP settings updated!");
-
-            System.GC.Collect();
+            System.GC.Collect(); // (and collect garbage)
         }
 
         /// <summary>
@@ -145,18 +130,21 @@ namespace MOP.Common
         /// So for example, if the default active distance of the object is 200 units, 
         /// and the multiplication value is 0.5, the actual active distance will be 100 units.
         /// </summary>
-        static float GetActiveDistanceMultiplicationValue()
+        public static float ActiveDistanceMultiplicationValue
         {
-            switch (ActiveDistance)
+            get
             {
-                case 0:
-                    return 0.75f;
-                default: // 1
-                    return 1;
-                case 2:
-                    return 2;
-                case 3:
-                    return 4;
+                switch ((int)MOP.ActiveDistance.Value)
+                {
+                    case 0:
+                        return 0.75f;
+                    default: // 1
+                        return 1;
+                    case 2:
+                        return 2;
+                    case 3:
+                        return 4;
+                }
             }
         }
 
@@ -219,18 +207,6 @@ namespace MOP.Common
         public static void EnableSafeMode()
         {
             Mode = PerformanceMode.Safe;
-        }
-
-        public static void ToggleVerifyRuleFiles()
-        {
-            if (MOP.VerifyRuleFiles.Value)
-            {
-                ModPrompt.CreatePrompt("<color=yellow><b>Warning!</b></color>\n\n" +
-                    "For safety reasons, MOP verifies all rule files. Disabling rule file verification " +
-                    "may lead to dangerous rule files being installed, that potentially may harm performance, " +
-                    "or even damage your save game.\n\n" +
-                    "Do not disable this, unless you're a mod maker.", "MOP");
-            }
         }
 
         internal static void ToggleBackgroundRunning()

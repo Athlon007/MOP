@@ -19,6 +19,7 @@ using HutongGames.PlayMaker;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using MSCLoader.Helper;
 
 using MOP.Common;
 using MOP.Vehicles.Cases;
@@ -48,7 +49,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
 
                 try
                 {
-                    PlayMakerFSM removalFSM = gameObject.GetPlayMakerByName("Removal");
+                    PlayMakerFSM removalFSM = gameObject.GetPlayMakerFSM("Removal");
 
                     if (!removalFSM)
                     {

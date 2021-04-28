@@ -35,7 +35,6 @@ namespace MOP.Common
         const string HelpList = "<color=yellow>help</color> - Show this list\n" +
                                 "<color=yellow>version</color> - Prints MOP version\n" +
                                 "<color=yellow>rules</color> - Show the list of active rules and loaded rule files\n" +
-                                "<color=yellow>wiki</color> - Open wiki page of rule files\n" +
                                 "<color=yellow>reload</color> - Forces MOP to reload rule files\n" +
                                 "<color=yellow>new [ModID]</color> - Create custom rule file (if no ModID is provided, will create Custom.txt)\n" +
                                 "<color=yellow>open [ModID]</color> - Opens the .modconfig for mod\n" +
@@ -139,9 +138,6 @@ namespace MOP.Common
                         output += $"{ruleFile}\n";
 
                     ModConsole.Log(output);
-                    break;
-                case "wiki":
-                    ExternalExecuting.OpenWikiDialog();
                     break;
                 case "reload":
                     if (ModLoader.CurrentScene != CurrentScene.MainMenu)
@@ -308,7 +304,7 @@ namespace MOP.Common
                         break;
                     }
 #else
-                    if (ModLoader.GetCurrentScene() != CurrentScene.MainMenu)
+                    if (ModLoader.CurrentScene != CurrentScene.MainMenu)
                     {
                         ModConsole.Log("You can only restore game save in the main menu.");
                         break;
@@ -372,13 +368,13 @@ namespace MOP.Common
                     
                     if (trigger == null)
                     {
-                        ModConsole.Error("Trigger not found");
+                        ModConsole.LogError("Trigger not found");
                         return;
                     }
 
                     if (bumper == null)
                     {
-                        ModConsole.Error("Bumper not found");
+                        ModConsole.LogError("Bumper not found");
                         return;
                     }
 

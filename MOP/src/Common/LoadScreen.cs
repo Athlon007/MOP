@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
+using MSCLoader.Helper;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,7 +32,7 @@ namespace MOP.Common
             loadScreen = ModLoader.UICanvas.transform.Find("ModLoaderUI/ModLoadScreen").gameObject;
             loadScreen.transform.Find("TextHolder/Text").gameObject.GetComponent<Text>().text = LoadText;
             Cursor.visible = false;
-            cursorFSM = GameObject.Find("PLAYER").GetPlayMakerByName("Update Cursor");
+            cursorFSM = GameObject.Find("PLAYER").GetPlayMakerFSM("Update Cursor");
             cursorFSM.enabled = false;
         }
 

@@ -70,7 +70,7 @@ namespace MOP.Helpers
             }
             catch (Exception e)
             {
-                ModConsole.Error(e.ToString());
+                ModConsole.LogError(e.ToString());
             }
         }
 

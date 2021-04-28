@@ -156,11 +156,11 @@ namespace MOP.Common
             }
 
             output += "=== MOP SETTINGS ===\n\n";
-            output += $"ActiveDistance: {MopSettings.ActiveDistance}\n";
+            output += $"ActiveDistance: {MOP.ActiveDistance.Value}\n";
             output += $"ActiveDistanceMultiplicationValue: {MopSettings.ActiveDistanceMultiplicationValue}\n";
             output += $"Mode: {MopSettings.Mode}\n";
-            output += $"RemoveEmptyBottles: {MopSettings.RemoveEmptyBeerBottles}\n";
-            output += $"RemoveEmptyItems: {MopSettings.RemoveEmptyItems}\n";
+            output += $"DestroyEmptyBottles: {MOP.DestroyEmptyBottles.Value}\n";
+            output += $"DisableEmptyItems: {MOP.DisableEmptyItems}\n";
             output += $"ToggleVehiclePhysicsOnly: {RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";
             output += $"IgnoreModVehicles: {RulesManager.Instance.SpecialRules.IgnoreModVehicles}\n";
             output += $"EnableFramerateLimiter: {(int)MOP.FramerateLimiter.Value == 21}\n";

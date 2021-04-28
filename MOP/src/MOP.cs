@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
+using MSCLoader.Helper;
 using System.IO;
 using UnityEngine;
 using System;
@@ -77,19 +78,19 @@ namespace MOP
             modSettings.AddHeader("Shh...Don't leak my hard work ;)", Color.yellow, Color.black);
 #endif
             SettingButton ifoundabug = modSettings.AddButton("iFoundABug", "<color=red>I FOUND A BUG</color>", () => BugReporter.FileBugReport());
-            modSettings.AddButton("faq", "FAQ", () => ExternalExecuting.OpenFAQDialog());
-            modSettings.AddButton("wiki", "WIKI", () => ExternalExecuting.OpenWikiDialog());
-            modSettings.AddButton("homepage", "HOMEPAGE", () => ExternalExecuting.OpenHomepageDialog());
-            modSettings.AddButton("homepage", "NEXUSMODS", () => ExternalExecuting.OpenNexus());
-            modSettings.AddButton("paypal", "<color=aqua>PAYPAL</color>", () => ExternalExecuting.OpenPaypalDialog());
+            modSettings.AddButton("faq", "FAQ", () => ExternalExecuting.ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/faq"));
+            modSettings.AddButton("wiki", "WIKI", () => ExternalExecuting.ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/"));
+            modSettings.AddButton("homepage", "HOMEPAGE", () => ExternalExecuting.ShowDialog("http://athlon.kkmr.pl/"));
+            modSettings.AddButton("homepage", "NEXUSMODS", () => ExternalExecuting.ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
+            modSettings.AddButton("paypal", "<color=aqua>PAYPAL</color>", () => ExternalExecuting.ShowDialog("https://paypal.me/figurakonrad"));
 
             // Activating objects.
             modSettings.AddHeader("DESPAWNING");
-            ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 1, 0, 3, () => MopSettings.UpdateAll());
+            ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 1, 0, 3);
             ActiveDistance.gameObject.AddComponent<UITooltip>().toolTipText = "Distance uppon which objects will spawn.";
             ActiveDistance.TextValues = activeDistanceText;
             ActiveDistance.ChangeValueText();
-            PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1, (_) => MopSettings.UpdateAll(), "PERFORMANCE", "BALANCED", "QUALITY", "SAFE");
+            PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1, MopSettings.UpdatePerformanceMode, "PERFORMANCE", "BALANCED", "QUALITY", "SAFE");
             PerformanceModes.gameObject.AddComponent<UITooltip>().toolTipText = 
                 "<color=yellow>PERFORMANCE</color>: <color=white>Visibly disables and enables objects</color>\n" +
                 "<color=yellow>BALANCED (recommended)</color>: <color=white>Maintains balance between PERFORMANCE and QUALITY</color>\n" +
@@ -98,15 +99,15 @@ namespace MOP
 
             // Graphics
             modSettings.AddHeader("GRAPHICS");
-            FramerateLimiter = modSettings.AddSlider("framerateLimiterUpdated", "FRAMERATE LIMITER", 21, 2, 21, () => MopSettings.UpdateAll());
+            FramerateLimiter = modSettings.AddSlider("framerateLimiterUpdated", "FRAMERATE LIMITER", 21, 2, 21, MopSettings.UpdateFramerateLimiter);
             FramerateLimiter.ValueSuffix = "0 FPS";
-            EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ADJUST SHADOWS", false, () => MopSettings.UpdateAll());
+            EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ADJUST SHADOWS", false, () => MopSettings.UpdateShadows());
             EnableShadowAdjusting.gameObject.AddComponent<UITooltip>().toolTipText = "Allows you to set the shadow render distance with the slider below.";
-            ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 2, 0, 20, () => MopSettings.UpdateAll());
+            ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 2, 0, 20, () => MopSettings.UpdateShadows());
             ShadowDistance.ValueSuffix = "00 Meters";
             KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
             KeepRunningInBackground.gameObject.AddComponent<UITooltip>().toolTipText = "If disabled, game will pause when you ALT+TAB from the game.";
-            DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false, () => MopSettings.UpdateAll());
+            DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false);
             DynamicDrawDistance.gameObject.AddComponent<UITooltip>().toolTipText = "MOP will change the draw distance according to situation\n" +
                                                                                    "(ex. lower render distance while in interior)";
             modSettings.AddButton("changeResolution", "CHANGE RESOLUTION", () => { Resolution.gameObject.SetActive(!Resolution.gameObject.activeSelf); });
@@ -132,7 +133,7 @@ namespace MOP
 
             // Rules
             modSettings.AddHeader("RULES");
-            SettingButton learnMore = modSettings.AddButton("rulesLearnMore", "LEARN MORE", () => ExternalExecuting.OpenRulesWebsiteDialog());
+            SettingButton learnMore = modSettings.AddButton("rulesLearnMore", "LEARN MORE", () => ExternalExecuting.ShowDialog("http://athlon.kkmr.pl/mop"));
             learnMore.gameObject.AddComponent<UITooltip>().toolTipText = "Learn about how rules work.";
             RulesAutoUpdate = modSettings.AddToggle("rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true);
             VerifyRuleFiles = modSettings.AddToggle("verifyRuleFiles", "VERIFY RULE FILES", true);
@@ -197,7 +198,7 @@ namespace MOP
             {
                 modConfigPath = ModLoader.GetModSettingsFolder(this, true);
             }
-            MopSettings.UpdateAll();
+            MopSettings.UpdateMiscSettings();
             modVersion = Version;
             ModConsole.Log($"<color=green>MOP {ModVersion} initialized!</color>");
             new RulesManager();
@@ -219,7 +220,7 @@ namespace MOP
         /// </summary>
         public override void PostLoad()
         {
-            MopSettings.UpdateAll();
+            MopSettings.UpdateMiscSettings();
 
             // Create WorldManager game object
             GameObject worldManager = new GameObject("MOP");

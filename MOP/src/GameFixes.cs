@@ -21,6 +21,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using HutongGames.PlayMaker;
 using MSCLoader;
+using MSCLoader.Helper;
 
 using MOP.Managers;
 using MOP.Common;
@@ -183,7 +184,7 @@ namespace MOP
             // Fixed Ventii bet resetting to default on cabin load.
             try
             {
-                GameObject.Find("CABIN").transform.Find("Cabin/Ventti/Table/GameManager").GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
+                GameObject.Find("CABIN").transform.Find("Cabin/Ventti/Table/GameManager").GetPlayMakerFSM("Use").Fsm.RestartOnEnable = false;
             }
             catch (Exception ex)
             {
@@ -241,7 +242,7 @@ namespace MOP
             try
             {
                 GameObject hand = GameObject.Find("PLAYER/Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/Hand");
-                PlayMakerFSM pickUp = hand.GetPlayMakerByName("PickUp");
+                PlayMakerFSM pickUp = hand.GetPlayMakerFSM("PickUp");
 
                 pickUp.FindFsmState("Drop part").Actions = pickUp.FindFsmState("Drop part").Actions.RemoveAt(0);
                 pickUp.FindFsmState("Drop part 2").Actions = pickUp.FindFsmState("Drop part 2").Actions.RemoveAt(0);
@@ -333,7 +334,7 @@ namespace MOP
             try
             {
                 Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "TriggerDiskette")
-                    .GetPlayMakerByName("Assembly").Fsm.RestartOnEnable = false;
+                    .GetPlayMakerFSM("Assembly").Fsm.RestartOnEnable = false;
             }
             catch (Exception ex)
             {
@@ -343,7 +344,7 @@ namespace MOP
             // Fixed computer memory resetting.
             try
             {
-                Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "TriggerPlayMode").GetPlayMakerByName("PlayerTrigger").Fsm.RestartOnEnable = false;
+                Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "TriggerPlayMode").GetPlayMakerFSM("PlayerTrigger").Fsm.RestartOnEnable = false;
             }
             catch (Exception ex)
             {
@@ -368,7 +369,7 @@ namespace MOP
                 {
                     GameObject skeleton = grandmaHiker.transform.Find("Char/skeleton").gameObject;
 
-                    PlayMakerFSM logicFSM = grandmaHiker.GetPlayMakerByName("Logic");
+                    PlayMakerFSM logicFSM = grandmaHiker.GetPlayMakerFSM("Logic");
 
                     FsmState openDoorFsmState = logicFSM.FindFsmState("Open door");
                     List<FsmStateAction> openDoorActions = openDoorFsmState.Actions.ToList();
@@ -554,7 +555,7 @@ namespace MOP
 
             triggerBumper.SetActive(true);
             yield return null;
-            PlayMakerFSM assemblyTrigger = triggerBumper.GetPlayMakerByName("Assembly");
+            PlayMakerFSM assemblyTrigger = triggerBumper.GetPlayMakerFSM("Assembly");
             assemblyTrigger.Fsm.Variables.GetFsmBool("Setup").Value = true;
             triggerBumper.SetActive(false);
             yield return null;
@@ -577,7 +578,7 @@ namespace MOP
                 fsm.SendEvent("FINISHED");
             }
 
-            bumper.GetPlayMakerByName("BoltCheck").Fsm.GetFsmFloat("Tightness").Value = 14;
+            bumper.GetPlayMakerFSM("BoltCheck").Fsm.GetFsmFloat("Tightness").Value = 14;
             yield return new WaitForSeconds(1);
 
             bumper.GetComponent<ItemBehaviour>().enabled = false;

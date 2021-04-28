@@ -122,26 +122,6 @@ namespace MOP.Common
         }
 
         /// <summary>
-        /// Returns PlayMaker script by it's name.
-        /// </summary>
-        public static PlayMakerFSM GetPlayMakerByName(this GameObject gm, string name)
-        {
-            try
-            {
-                return gm.GetComponents<PlayMakerFSM>().First(f => f.FsmName == name);
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public static PlayMakerFSM GetPlayMakerByName(this Transform t, string name)
-        {
-            return GetPlayMakerByName(t.gameObject, name);
-        }
-
-        /// <summary>
         /// Returns the FsmState by it's name.
         /// </summary>
         public static FsmState FindFsmState(this PlayMakerFSM fsm, string name)
