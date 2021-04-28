@@ -87,5 +87,10 @@ namespace MOP.Common
         {
             Process.Start("https://github.com/Athlon007/MOP/releases/latest");
         }
+
+        public static void OpenNexus()
+        {
+            Process.Start("https://www.nexusmods.com/mysummercar/mods/146");
+        }
     }
 }

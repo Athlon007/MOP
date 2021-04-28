@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2 Beta 2 (28.04.2021)
+
+### Added
+
+- Added NexusMods button
+
 ## 3.2 Beta 1 (27.04.2021)
 
 ### Added

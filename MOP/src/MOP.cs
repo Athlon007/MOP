@@ -37,7 +37,7 @@ namespace MOP
 #endif
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.2"; //Version
-        public const string SubVersion = "BETA-1"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public const string SubVersion = "BETA-2"; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public override string UpdateLink => "https://github.com/Athlon007/MOP";
         public override byte[] Icon => Properties.Resources.icon;
@@ -75,6 +75,7 @@ namespace MOP
         readonly Settings wiki = new Settings("wiki", "Documentation", ExternalExecuting.OpenWikiDialog);
         readonly Settings paypal = new Settings("donatePaypal", "PayPal", ExternalExecuting.OpenPaypalDialog);
         readonly Settings homepage = new Settings("homepage", "Homepage", ExternalExecuting.OpenHomepageDialog);
+        readonly Settings nexusmods = new Settings("nexusmods", "NexusMods", ExternalExecuting.OpenNexus);
 
         // ACTIVATING OBJECTS
         public static Settings ActiveDistance = new Settings("activeDistance", "Active Distance", 1, MopSettings.UpdateAll);
@@ -135,6 +136,7 @@ namespace MOP
             modSettings.AddButton("faq", "FAQ", () => ExternalExecuting.OpenFAQDialog());
             modSettings.AddButton("wiki", "WIKI", () => ExternalExecuting.OpenWikiDialog());
             modSettings.AddButton("homepage", "HOMEPAGE", () => ExternalExecuting.OpenHomepageDialog());
+            modSettings.AddButton("homepage", "NEXUSMODS", () => ExternalExecuting.OpenNexus());
             modSettings.AddButton("paypal", "<color=aqua>PAYPAL</color>", () => ExternalExecuting.OpenPaypalDialog());
 
             // Activating objects.
@@ -231,6 +233,7 @@ namespace MOP
             Settings.AddButton(this, faq);
             Settings.AddButton(this, wiki);
             Settings.AddButton(this, homepage);
+            Settings.AddButton(this, nexusmods);
             Settings.AddButton(this, paypal, new Color32(37, 59, 128, 255), new Color32(41, 151, 216, 255), new Color32(34, 45, 101, 255));
 
             // Activating Objects
