@@ -16,12 +16,13 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System;
 
 using MOP.Rules;
 using MOP.Rules.Types;
 using MOP.Common.Enumerations;
 using MOP.WorldObjects;
-using System;
 
 namespace MOP.Managers
 {
@@ -117,6 +118,11 @@ namespace MOP.Managers
         public void Remove(GenericObject worldObject)
         {
             worldObjects.Remove(worldObject);
+        }
+
+        public GameObject Get(string name)
+        {
+            return worldObjects.FirstOrDefault(g => g.GetName() == name).GameObject;
         }
     }
 }

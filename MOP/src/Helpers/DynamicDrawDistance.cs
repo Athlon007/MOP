@@ -16,10 +16,12 @@
 
 using UnityEngine;
 using HutongGames.PlayMaker;
+using System.Linq;
+using System.Collections;
 
 using MOP.Common;
 using MOP.FSM;
-using System.Collections;
+using MOP.Managers;
 
 namespace MOP.Helpers
 {
@@ -35,7 +37,7 @@ namespace MOP.Helpers
             mainCamera = Camera.main;
             player = GameObject.Find("PLAYER").transform;
 
-            typer = GameObject.Find("COMPUTER").transform.Find("SYSTEM/POS/Command").GetPlayMakerByName("Typer").FsmVariables.GetFsmString("Old");
+            typer = WorldObjectManager.Instance.Get("COMPUTER").transform.Find("SYSTEM/POS/Command").GetPlayMakerByName("Typer").FsmVariables.GetFsmString("Old");
         }
 
         void Update()
@@ -61,15 +63,13 @@ namespace MOP.Helpers
             yield return null;
             if (string.IsNullOrEmpty(typer.Value)) yield break;
             string[] arr = typer.Value.Split('\n');
-                MSCLoader.ModConsole.Print(arr[arr.Length - 3]);
-           
-                MSCLoader.ModConsole.Print(arr[arr.Length - 2]);
+
             if (arr[arr.Length - 3].Contains("est rulz"))
             {
                 arr[arr.Length - 2] = "    |\\__/|\n" +
-                                      "   /     \\\n" +
-                                      "  /_.~ ~,_\\\n" +
-                                      "     \\@/ \n";
+                                        "   /     \\\n" +
+                                        "  /_.~ ~,_\\\n" +
+                                        "     \\@/ \n";
 
                 typer.Value = string.Join("\n", arr);
             }

@@ -78,6 +78,8 @@ namespace MOP.Items.Helpers
                 long half = items.Length >> 1;
                 for (int i = 0; i < items.Length; i++)
                 {
+                    if (items[i] == null) continue;
+
                     // Skip frame
                     if (i == half && !onLoad)
                         yield return null;
