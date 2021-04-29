@@ -20,7 +20,6 @@ using UnityEngine;
 using HutongGames.PlayMaker;
 using MSCLoader.Helper;
 
-using MOP.Common;
 using MOP.FSM.Actions;
 using MOP.Managers;
 
@@ -34,10 +33,10 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
             GameObject hosePrefab = ItemsManager.Instance.GetRadiatorHose3();
             removalFSM.FsmVariables.FindFsmGameObject("Part").Value = ItemsManager.Instance.GetRadiatorHose3();
 
-            List<FsmStateAction> actions = removalFSM.FindFsmState("Remove part").Actions.ToList();
+            List<FsmStateAction> actions = removalFSM.GetState("Remove part").Actions.ToList();
             CustomCreateObject newHose = new CustomCreateHose(gameObject, hosePrefab);
             actions.Insert(0, newHose);
-            removalFSM.FindFsmState("Remove part").Actions = actions.ToArray();
+            removalFSM.GetState("Remove part").Actions = actions.ToArray();
         }
     }
 }

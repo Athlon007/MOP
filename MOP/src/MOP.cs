@@ -43,8 +43,6 @@ namespace MOP
         public override byte[] Icon => Properties.Resources.icon;
 
         #region Settings & Configuration
-        // ModLoader configuration.
-
         // Stores the config path of mod.
         static string modConfigPath;
         public static string ModConfigPath { get => modConfigPath; }
@@ -54,12 +52,14 @@ namespace MOP
         public static string ModVersion { get => modVersion + (SubVersion != "" ? "_" + SubVersion : ""); }
         public static string ModVersionShort { get => modVersion; }
 
-        // BUTTONS
+        // Settings
         static internal SettingSlider ActiveDistance, FramerateLimiter, ShadowDistance, RulesAutoUpdateFrequency;
         static internal SettingRadioButtons PerformanceModes, Resolution;
         static internal SettingToggle EnableShadowAdjusting, KeepRunningInBackground,
                                       DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
                                       DestroyEmptyBottles, DisableEmptyItems;
+        
+        static SettingString lastVersion;
 
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
         readonly string[] rulesAutoUpdateFrequencyText = { "On Restart", "Daily", "Every 2 days", "Weekly" };
@@ -72,6 +72,8 @@ namespace MOP
         /// </summary>
         public override void ModSettings()
         {
+            lastVersion = modSettings.AddString("lastVersion", "1.0");
+
             modVersion = Version;
             SessionID = Guid.NewGuid();
 #if DEBUG
@@ -170,18 +172,15 @@ namespace MOP
         #endregion
         public override void MenuOnLoad()
         {
-            if (ModLoader.GetMod("CheatBox") != null)
-            {
-                ModConsole.LogWarning("[MOP] CheatBox is not supported by MOP! See FAQ for more info.");
-            }
-
+            modSettings.LoadSettings();
             modConfigPath = ModLoader.GetModSettingsFolder(this, true);
-            if (!MopSettings.HasFirstTimeWindowBeenShown())
+            if (!Version.StartsWith(lastVersion.Value.ToString()))
             {
+                lastVersion.Value = Version;
+                modSettings.SaveSettings();
                 ModPrompt.CreatePrompt($"Welcome to Modern Optimization Plugin <color=yellow>{Version}</color>!\n\n" +
                     $"Consider supporting to the project using <color=#3687D7>PayPal</color>,\n" +
                     $"or with <color=#ADAD46>Bitcoins</color>.", "MOP");
-                MopSettings.FirstTimeWindowShown();
             }
 
             FsmManager.ResetAll();
@@ -192,12 +191,21 @@ namespace MOP
             bugReporter.AddComponent<BugReporter>();
         }
 
+        public override void MenuUpdate()
+        {
+            if (Input.GetKeyDown(KeyCode.Y))
+                ModConsole.Log(lastVersion.Value);
+        }
+
         public override void ModSettingsLoaded()
         {
             if (modConfigPath == null)
             {
                 modConfigPath = ModLoader.GetModSettingsFolder(this, true);
             }
+            MopSettings.UpdateFramerateLimiter();
+            MopSettings.UpdatePerformanceMode();
+            MopSettings.UpdateShadows();
             MopSettings.UpdateMiscSettings();
             modVersion = Version;
             ModConsole.Log($"<color=green>MOP {ModVersion} initialized!</color>");
@@ -220,6 +228,9 @@ namespace MOP
         /// </summary>
         public override void PostLoad()
         {
+            MopSettings.UpdateFramerateLimiter();
+            MopSettings.UpdatePerformanceMode();
+            MopSettings.UpdateShadows();
             MopSettings.UpdateMiscSettings();
 
             // Create WorldManager game object

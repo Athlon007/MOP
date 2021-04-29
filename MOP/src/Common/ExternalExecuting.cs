@@ -21,6 +21,10 @@ namespace MOP.Common
 {
     class ExternalExecuting
     {
-        public static void ShowDialog(string url) => ModPrompt.CreateYesNoPrompt($"This will open the following link:\n<color=yellow>{url}</color>\n\nAre you sure you want to continue?", "MOP", () => ModHelper.OpenWebsite(url));
+        public static void ShowDialog(string url) => ModPrompt.CreateYesNoPrompt($"This will open the following link:\n" +
+                                                                                 $"<color=yellow>{url}</color>\n\n" +
+                                                                                 $"Are you sure you want to continue?", 
+                                                                                 "MOP", 
+                                                                                 () => ModHelper.OpenWebsite(url));
     }
 }

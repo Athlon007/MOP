@@ -40,9 +40,6 @@ namespace MOP.Common
 
         static int vsyncCount = -1;
 
-        const string firstTimeWindowFile = "FirstTimeLaunch.txt";
-        readonly static string firstTimePath = $"{MOP.ModConfigPath}/{firstTimeWindowFile}";
-
         // Tracks if the game has been fully loaded at east once.
         public static bool LoadedOnce;
 
@@ -160,47 +157,6 @@ namespace MOP.Common
                     return 2;
                 default:
                     return 7;
-            }
-        }
-
-        /// <summary>
-        /// Creates the file that marks that the first time launch window has been showed.
-        /// On next launch it will be checked by HasFirstTimeWindowBeenShown() function.
-        /// </summary>
-        public static void FirstTimeWindowShown()
-        {
-            using (StreamWriter sw = new StreamWriter(firstTimePath))
-            {
-                string version = MOP.ModVersion;
-                if (version.Count(x => x == '.') > 1)
-                {
-                    int lastDot = version.LastIndexOf('.');
-                    version = version.Substring(0, lastDot);
-                }
-
-                sw.Write(version);
-            }
-        }
-
-        /// <summary>
-        /// Checks if the first time launch window has been displayed already.
-        /// </summary>
-        /// <returns></returns>
-        public static bool HasFirstTimeWindowBeenShown()
-        { 
-            if (!File.Exists(firstTimePath))
-            {
-                return false;
-            }
-
-            using (StreamReader sr = new StreamReader(firstTimePath))
-            {
-                if (sr.ReadToEnd().Length == 0)
-                {
-                    return false;
-                }
-
-                return MOP.ModVersion.StartsWith(sr.ReadToEnd());
             }
         }
 

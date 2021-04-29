@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using HutongGames.PlayMaker;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -122,21 +121,6 @@ namespace MOP.Common
         }
 
         /// <summary>
-        /// Returns the FsmState by it's name.
-        /// </summary>
-        public static FsmState FindFsmState(this PlayMakerFSM fsm, string name)
-        {
-            try
-            {
-                return fsm.FsmStates.First(state => state.Name == name);
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
         /// Looks through the components of game object and returns the one matching it's name.
         /// </summary>
         public static Component GetComponentByName(this GameObject gm, string name)
@@ -181,18 +165,6 @@ namespace MOP.Common
             ulong num2 = Convert.ToUInt64(variable);
 
             return (num2 & num) == num;
-        }
-
-        /// <summary>
-        /// Removes the action from state on index value.
-        /// </summary>
-        /// <param name="array">Actions array.</param>
-        /// <param name="index">Location of the action.</param>
-        public static FsmStateAction[] RemoveAt(this FsmStateAction[] array, int index)
-        {
-            List<FsmStateAction> newList = array.ToList();
-            newList.RemoveAt(index);
-            return newList.ToArray<FsmStateAction>();
         }
 
         /// <summary>

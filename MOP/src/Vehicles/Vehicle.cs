@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-using MOP.FSM;
 using MOP.FSM.Actions;
 using MOP.Items;
 using MOP.Common;
@@ -30,7 +29,6 @@ using MOP.Vehicles.Cases;
 using MOP.Vehicles.Managers;
 using MOP.Rules;
 using MOP.Rules.Types;
-using MOP.Managers;
 
 namespace MOP.Vehicles
 {
@@ -140,9 +138,9 @@ namespace MOP.Vehicles
             if (lodFSM != null)
             {
                 lodFSM.Fsm.RestartOnEnable = false;
-                FsmState resetState = lodFSM.FindFsmState("Fix Collider");
-                if (resetState != null)
+                if (lodFSM.FsmStates.FirstOrDefault(s => s.Name == "Fix Collider") != null)
                 {
+                    FsmState resetState = lodFSM.GetState("Fix Collider");
                     resetState.Actions = new FsmStateAction[] { new CustomStop() };
                     resetState.SaveActions();
                 }

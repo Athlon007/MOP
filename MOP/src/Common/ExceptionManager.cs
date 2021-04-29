@@ -27,7 +27,7 @@ namespace MOP.Common
 {
     class ExceptionManager
     {
-        public const string LogFolder = "MOP_Logs";
+        public const string LogFolderName = "MOP_Logs";
         const string DefaultErrorLogName = "MOP_Crash";
         const string DefaultReportLogName = "MOP_Report";
 
@@ -47,16 +47,16 @@ namespace MOP.Common
 
             string fileName = $"{DefaultErrorLogName}_{DateTime.Now:yyyy-MM-dd-HH-mm}";
 
-            if (File.Exists($"{GetLogFolder()}/{fileName}.txt"))
+            if (File.Exists($"{LogFolder}/{fileName}.txt"))
             {
                 int crashesInFolder = 0;
-                while (File.Exists($"{GetLogFolder()}/{fileName}_{crashesInFolder}.txt"))
+                while (File.Exists($"{LogFolder}/{fileName}_{crashesInFolder}.txt"))
                     crashesInFolder++;
 
                 fileName += $"_{crashesInFolder}";
             }
 
-            string logFilePath = $"{GetLogFolder()}/{fileName}.txt";
+            string logFilePath = $"{LogFolder}/{fileName}.txt";
             string gameInfo = GetGameInfo();
             string errorInfo = $"{ex.Message}\n{ex.StackTrace}\nTarget Site: {ex.TargetSite}";
 
@@ -85,9 +85,9 @@ namespace MOP.Common
 
         public static void OpenCurrentSessionLogFolder()
         {
-            if (ThisSessionLogDirectoryExists())
+            if (ThisSessionLogDirectoryExists)
             {
-                Process.Start(GetLogFolder());
+                Process.Start(LogFolder);
             }
             else
             {
@@ -97,10 +97,9 @@ namespace MOP.Common
 
         public static void OpenOutputLog()
         {
-            string p = GetOutputLogPath();
-            if (File.Exists(p))
+            if (File.Exists(OutputLogPath))
             {
-                Process.Start(p);
+                Process.Start(OutputLogPath);
             }
             else
             {
@@ -116,10 +115,10 @@ namespace MOP.Common
             string gameInfo = GetGameInfo();
 
             int reportsInFolder = 0;
-            while (File.Exists($"{GetLogFolder()}/{DefaultReportLogName}_{reportsInFolder}.txt"))
+            while (File.Exists($"{LogFolder}/{DefaultReportLogName}_{reportsInFolder}.txt"))
                 reportsInFolder++;
 
-            string path = $"{GetLogFolder()}/{DefaultReportLogName}_{reportsInFolder}.txt";
+            string path = $"{LogFolder}/{DefaultReportLogName}_{reportsInFolder}.txt";
 
             using (StreamWriter sw = new StreamWriter(path))
             {
@@ -255,58 +254,36 @@ namespace MOP.Common
         /// Returns MOP log folder, ex.: C:\My Summer Car\MOP_Logs
         /// </summary>
         /// <returns></returns>
-        internal static string GetLogFolder()
+        internal static string LogFolder
         {
-            // Check if the old MOP_LOG.txt is still present and delete is, so dummies won't send a MOP log from 2019.
-            if (File.Exists("MOP_LOG.txt"))
+            get
             {
-                File.Delete("MOP_LOG.txt");
+                string path = $"{RootPath}/{LogFolderName}";
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                return path;
             }
-
-            string path = $"{Application.dataPath.Replace("mysummercar_Data", "")}{LogFolder}";
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-            return path;
         }
 
-        static bool LogDirectoryExists()
-        {
-            return Directory.Exists($"{GetRootPath()}/{LogFolder}");
-        }
+        static bool ThisSessionLogDirectoryExists => Directory.Exists($"{RootPath}/{LogFolder}");
 
-        static bool ThisSessionLogDirectoryExists()
-        {
-            return Directory.Exists($"{GetRootPath()}/{LogFolder}");
-        }
-
-        internal static string GetRootPath()
-        {
-            return Application.dataPath.Replace("mysummercar_Data", "");
-        }
+        internal static string RootPath => Application.dataPath.Replace("mysummercar_Data", "");
 
         /// <summary>
         /// Deletes the entire logs folder.
         /// </summary>
         public static void DeleteAllLogs()
         {
-            if (!Directory.Exists($"{GetRootPath()}/{LogFolder}"))
+            if (!Directory.Exists($"{RootPath}/{LogFolder}"))
             {
                 ModPrompt.CreatePrompt("Log folder doesn't exist.", "MOP");
                 return;
             }
 
-            ModPrompt.CreateYesNoPrompt("Are you sure you want to delete all logs?", "MOP", DoDeleteAllLogs);
+            ModPrompt.CreateYesNoPrompt("Are you sure you want to delete all logs?", "MOP", () => Directory.Delete($"{RootPath}/{LogFolder}", true));
         }
 
-        static void DoDeleteAllLogs()
-        {
-            Directory.Delete($"{GetRootPath()}/{LogFolder}", true);
-        }
-
-        static string GetOutputLogPath()
-        {
-            return $"{GetRootPath()}/output_log.txt";
-        }
+        static string OutputLogPath => $"{RootPath}/output_log.txt";
     }
 }

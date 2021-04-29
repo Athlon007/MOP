@@ -197,7 +197,7 @@
 copy "$(TargetPath)" "D:\SteamLibrary\steamapps\common\My Summer Car\ModsTest" /y
 copy "$(TargetDir)$(TargetName).pdb" "D:\SteamLibrary\steamapps\common\My Summer Car\ModsTest" /y
 cd "D:\SteamLibrary\steamapps\common\My Summer Car\ModsTest"
-rem call "D:\SteamLibrary\steamapps\common\My Summer Car\ModsTest\debug.bat"
+call "D:\SteamLibrary\steamapps\common\My Summer Car\ModsTest\debug.bat"
 ) ELSE (
 copy $(TargetPath) "D:\SteamLibrary\steamapps\common\My Summer Car\Mods" /y
 )</PostBuildEvent>

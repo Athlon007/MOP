@@ -176,7 +176,7 @@ namespace MOP.Vehicles.Cases
 
             // Battery terminal.
             // For some reason in the vanilla game, the negative battery terminal sometimes gets disabled, and the game doesn't allow to reenable it.
-            FsmState wiringBatteryDisable = transform.Find("Wiring").GetPlayMakerFSM("Status").FindFsmState("Disable battery wires");
+            FsmState wiringBatteryDisable = transform.Find("Wiring").GetPlayMakerFSM("Status").GetState("Disable battery wires");
             List<FsmStateAction> disableBatteryActions = new List<FsmStateAction>();
             disableBatteryActions.Add(new CustomBatteryDisable());
             wiringBatteryDisable.Actions = disableBatteryActions.ToArray();
@@ -251,7 +251,7 @@ namespace MOP.Vehicles.Cases
             satsumaBoltsAntiReloads.Add(transform.Find("Chassis/steering rod fl(xxxxx)").gameObject.AddComponent<SatsumaBoltsAntiReload>());
 
             // Destroy all bolt anti reloads.
-            ModConsole.LogError($"[MOP] Found {satsumaBoltsAntiReloads.Count} bolts.");
+            ModConsole.Log($"[MOP] Found {satsumaBoltsAntiReloads.Count} bolts.");
             // If there's less bolts found than the value, warn user.
             if (satsumaBoltsAntiReloads.Count < MinimumBolts)
             {
@@ -270,13 +270,13 @@ namespace MOP.Vehicles.Cases
                 if (part.transform.root.gameObject.name == "GAZ24(1420kg)") continue;
 
                 PlayMakerFSM useFsm = part.GetPlayMakerFSM("Use");
-                FsmState state1 = useFsm.FindFsmState("State 1");
+                FsmState state1 = useFsm.GetState("State 1");
                 List<FsmStateAction> emptyState1 = state1.Actions.ToList();
                 emptyState1.Insert(0, new CustomStop());
                 state1.Actions = emptyState1.ToArray();
                 state1.SaveActions();
 
-                useFsm.FindFsmState("Load").Fsm.RestartOnEnable = false;
+                useFsm.GetState("Load").Fsm.RestartOnEnable = false;
             }
             
             // Fix for cd player disabling other vehicles radio.
@@ -394,7 +394,7 @@ namespace MOP.Vehicles.Cases
 
             // Replace on assemble sound playing with custom script.
             PlayMakerFSM blockBoltCheck = GameObject.Find("block(Clone)").GetPlayMakerFSM("BoltCheck");
-            FsmState boltsONState = blockBoltCheck.FindFsmState("Bolts ON");
+            FsmState boltsONState = blockBoltCheck.GetState("Bolts ON");
             FsmStateAction[] boltsONActions = boltsONState.Actions;
             boltsONActions[1] = new MasterAudioAssembleCustom();
             boltsONState.Actions = boltsONActions;
@@ -459,9 +459,9 @@ namespace MOP.Vehicles.Cases
                 }
 
                 PlayMakerFSM windshieldJobFSM = windshieldJob.gameObject.GetComponent<PlayMakerFSM>();
-                List<FsmStateAction> wait1Actions = windshieldJobFSM.FindFsmState("Wait1").Actions.ToList();
+                List<FsmStateAction> wait1Actions = windshieldJobFSM.GetState("Wait1").Actions.ToList();
                 wait1Actions.Insert(0, new WindscreenRepairJob(swf));
-                windshieldJobFSM.FindFsmState("Wait1").Actions = wait1Actions.ToArray();
+                windshieldJobFSM.GetState("Wait1").Actions = wait1Actions.ToArray();
             }
             catch
             {

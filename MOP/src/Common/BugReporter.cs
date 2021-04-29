@@ -32,7 +32,7 @@ namespace MOP.Common
 
         string lastZipFilePath;
 
-        string BugReportPath => $"{ExceptionManager.GetRootPath()}/MOP_bugreport";
+        string BugReportPath => $"{ExceptionManager.RootPath}/MOP_bugreport";
 
         public BugReporter()
         {
@@ -45,15 +45,10 @@ namespace MOP.Common
             if (!MopSettings.LoadedOnce)
             {
                 ModPrompt.CreateContinueAbortPrompt("It is recommended to start the game at least once before filing bug report.\n\n" +
-                                                "If you can't load the game, press Continue to generate mod report anyway.", "MOP - Bug Report", BugReportYesNo);
+                                                "If you can't load the game, press Continue to generate mod report anyway.", "MOP - Bug Report", () => instance.BugReport());
                 return;
             }
 
-            instance.BugReport();
-        }
-
-        static void BugReportYesNo()
-        {
             instance.BugReport();
         }
 
@@ -67,14 +62,14 @@ namespace MOP.Common
             Directory.CreateDirectory(BugReportPath);
 
             // Get output_log.txt
-            if (File.Exists($"{ExceptionManager.GetRootPath()}/output_log.txt"))
+            if (File.Exists($"{ExceptionManager.RootPath}/output_log.txt"))
             {
-                File.Copy($"{ExceptionManager.GetRootPath()}/output_log.txt", $"{BugReportPath}/output_log.txt");
+                File.Copy($"{ExceptionManager.RootPath}/output_log.txt", $"{BugReportPath}/output_log.txt");
             }
 
             // Now we are getting logs generated today.
             string today = DateTime.Now.ToString("yyyy-MM-dd");
-            foreach (string log in Directory.GetFiles(ExceptionManager.GetLogFolder(), $"*{today}*.txt"))
+            foreach (string log in Directory.GetFiles(ExceptionManager.LogFolder, $"*{today}*.txt"))
             {
                 string pathToFile = log.Replace("\\", "/");
                 string nameOfFile = log.Split('\\')[1];
@@ -117,7 +112,10 @@ namespace MOP.Common
             // We are asking the user if he wants to add his game save to the zip file.
             if (File.Exists(SaveManager.GetDefaultES2SavePosition()))
             {
-                ModPrompt.CreateYesNoPrompt("Would you like to your include save file?\n\nThis may greatly improve finding and fixing the bug.", "MOP - Bug Report", DoAddZip, onPromptClose: ShowWindow);
+                ModPrompt.CreateYesNoPrompt("Would you like to your include save file?\n\n" +
+                                            "This may greatly improve finding and fixing the bug.", "MOP - Bug Report",
+                                            DoAddZip,
+                                            onPromptClose: () => { Process.Start(BugReportPath); Process.Start($"{BugReportPath}/README.txt"); });
             }
         }
 
@@ -139,12 +137,6 @@ namespace MOP.Common
 
                 zip.Save();
             }
-        }
-
-        void ShowWindow()
-        {
-            Process.Start(BugReportPath);
-            Process.Start($"{BugReportPath}/README.txt");
         }
     }
 }

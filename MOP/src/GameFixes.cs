@@ -244,10 +244,10 @@ namespace MOP
                 GameObject hand = GameObject.Find("PLAYER/Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/Hand");
                 PlayMakerFSM pickUp = hand.GetPlayMakerFSM("PickUp");
 
-                pickUp.FindFsmState("Drop part").Actions = pickUp.FindFsmState("Drop part").Actions.RemoveAt(0);
-                pickUp.FindFsmState("Drop part 2").Actions = pickUp.FindFsmState("Drop part 2").Actions.RemoveAt(0);
-                pickUp.FindFsmState("Tool picked").Actions = pickUp.FindFsmState("Tool picked").Actions.RemoveAt(2);
-                pickUp.FindFsmState("Drop tool").Actions = pickUp.FindFsmState("Drop tool").Actions.RemoveAt(0);
+                pickUp.GetState("Drop part").RemoveAction(0);
+                pickUp.GetState("Drop part 2").RemoveAction(0);
+                pickUp.GetState("Tool picked").RemoveAction(2);
+                pickUp.GetState("Drop tool").RemoveAction(0);
             }
             catch (Exception ex)
             {
@@ -371,12 +371,12 @@ namespace MOP
 
                     PlayMakerFSM logicFSM = grandmaHiker.GetPlayMakerFSM("Logic");
 
-                    FsmState openDoorFsmState = logicFSM.FindFsmState("Open door");
+                    FsmState openDoorFsmState = logicFSM.GetState("Open door");
                     List<FsmStateAction> openDoorActions = openDoorFsmState.Actions.ToList();
                     openDoorActions.Add(new GrandmaHiker(skeleton, false));
                     openDoorFsmState.Actions = openDoorActions.ToArray();
 
-                    FsmState setMass2State = logicFSM.FindFsmState("Set mass 2");
+                    FsmState setMass2State = logicFSM.GetState("Set mass 2");
                     List<FsmStateAction> setMass2Actions = setMass2State.Actions.ToList();
                     setMass2Actions.Add(new GrandmaHiker(skeleton, true));
                     setMass2State.Actions = setMass2Actions.ToArray();

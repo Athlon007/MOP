@@ -411,7 +411,7 @@ namespace MOP.Items
                 if (gameObject.name.StartsWith("door ")) return;
                 if (gameObject.name == "lottery ticket(xxxxx)") return;
 
-                FsmState state1 = useFsm.FindFsmState("State 1");
+                FsmState state1 = useFsm.GetState("State 1");
                 if (state1 != null)
                 {
                     List<FsmStateAction> emptyState1 = state1.Actions.ToList();
@@ -420,7 +420,7 @@ namespace MOP.Items
                     state1.SaveActions();
                 }
 
-                FsmState loadState = useFsm.FindFsmState("Load");
+                FsmState loadState = useFsm.GetState("Load");
                 if (loadState != null)
                 {
                     List<FsmStateAction> emptyActions = loadState.Actions.ToList();

@@ -16,6 +16,7 @@
 
 using HutongGames.PlayMaker;
 using MSCLoader;
+using MSCLoader.Helper;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -581,7 +582,7 @@ namespace MOP
 
                 // Adding custom action to state that will trigger PreSaveGame, if the player picks up the phone with large Suski.
                 PlayMakerFSM useHandleFSM = GameObject.Find("Telephone").transform.Find("Logic/UseHandle").GetComponent<PlayMakerFSM>();
-                FsmState phoneFlip = useHandleFSM.FindFsmState("Pick phone");
+                FsmState phoneFlip = useHandleFSM.GetState("Pick phone");
                 List<FsmStateAction> phoneFlipActions = phoneFlip.Actions.ToList();
                 phoneFlipActions.Insert(0, new CustomSuskiLargeFlip());
                 phoneFlip.Actions = phoneFlipActions.ToArray();

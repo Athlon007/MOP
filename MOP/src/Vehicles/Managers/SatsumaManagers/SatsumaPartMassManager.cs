@@ -61,7 +61,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
                     carMass = PlayMakerGlobals.Instance.Variables.FindFsmFloat("CarMass");
                     if (this.gameObject.name.ContainsAny("strut", "antenna", "marker light"))
                     {
-                        FsmState disableTrigger = removalFSM.FindFsmState("Disable trigger");
+                        FsmState disableTrigger = removalFSM.GetState("Disable trigger");
                         if (disableTrigger == null)
                         {
                             throw new Exception($"SatsumaPartMassManager: {gameObject.name} - disableTrigger is null or empty.");
@@ -75,7 +75,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
                         actionList.RemoveAt(0);
                         disableTrigger.Actions = actionList.ToArray();
 
-                        FsmState removePart = removalFSM.FindFsmState("Remove part");
+                        FsmState removePart = removalFSM.GetState("Remove part");
                         if (removePart == null)
                         {
                             throw new Exception($"SatsumaPartMassManager: {gameObject.name} - removePart is null or empty.");
@@ -90,7 +90,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
                     }
                     else
                     {
-                        FsmState disableTrigger = removalFSM.FindFsmState("Add mass");
+                        FsmState disableTrigger = removalFSM.GetState("Add mass");
                         if (disableTrigger == null)
                         {
                             throw new Exception($"SatsumaPartMassManager: {gameObject.name} - disableTrigger is null or empty.");
@@ -103,7 +103,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
                         actionList.RemoveAt(0);
                         disableTrigger.Actions = actionList.ToArray();
 
-                        FsmState removePart = removalFSM.FindFsmState("Remove part");
+                        FsmState removePart = removalFSM.GetState("Remove part");
                         if (removePart == null)
                         {
                             throw new Exception($"SatsumaPartMassManager: {gameObject.name} - removePart(2) is null or empty.");

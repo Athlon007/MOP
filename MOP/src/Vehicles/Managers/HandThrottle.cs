@@ -22,8 +22,6 @@ using System.Linq;
 using UnityEngine;
 using System;
 
-using MOP.Common;
-
 namespace MOP.Vehicles.Managers
 {
     class HandThrottle : MonoBehaviour
@@ -140,13 +138,13 @@ namespace MOP.Vehicles.Managers
 
                 PlayMakerFSM starterFSM = starter.GetPlayMakerFSM("Starter");
 
-                List<FsmStateAction> s = starterFSM.FindFsmState("Start engine").Actions.ToList();
+                List<FsmStateAction> s = starterFSM.GetState("Start engine").Actions.ToList();
                 s.RemoveAt(3);
-                starterFSM.FindFsmState("Start engine").Actions = s.ToArray();
+                starterFSM.GetState("Start engine").Actions = s.ToArray();
 
-                List<FsmStateAction> s2 = starterFSM.FindFsmState("State 1").Actions.ToList();
+                List<FsmStateAction> s2 = starterFSM.GetState("State 1").Actions.ToList();
                 s2.RemoveAt(1);
-                starterFSM.FindFsmState("State 1").Actions = s2.ToArray();
+                starterFSM.GetState("State 1").Actions = s2.ToArray();
             }
             catch
             {

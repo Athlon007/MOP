@@ -297,19 +297,11 @@ namespace MOP.Common
                     ModConsole.Log(File.ReadAllText($"{MOP.ModConfigPath}/{args[1]}"));
                     break;
                 case "restore-save":
-#if PRO
                     if (ModLoader.CurrentScene != CurrentScene.MainMenu)
                     {
                         ModConsole.Log("You can only restore game save in the main menu.");
                         break;
                     }
-#else
-                    if (ModLoader.CurrentScene != CurrentScene.MainMenu)
-                    {
-                        ModConsole.Log("You can only restore game save in the main menu.");
-                        break;
-                    }
-#endif
 
                     bool defaultBackupMissing = false;
                     bool itemsBackupMissing = false;
