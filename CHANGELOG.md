@@ -21,7 +21,7 @@
 
 - Sold kilju should not respawn on the junkyard as full anymore
 - Fixed a lag that was fixable by player having walk to the Satsuma
-- More fixeds to radiator hose3 (again)
+- More fixes to radiator hose3 (again)
 - Fixed fuel line bolt resetting to default
 - Fixed rare case of not yet found suitcase falling through the map and triggering murderer sequence
 - Fixed fire extinguisher holder
