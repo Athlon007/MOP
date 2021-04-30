@@ -1,27 +1,3 @@
-### Added
-
-- MOP now comes with two variants! A version with the legacy Mod Loader, and a shiny new Mod Loader Pro support!
-  - In order to fully utilize the new Mod Loader Pro, download "MOP.pro.zip" file
-- (Mod Loader Pro) Added "Change Resolution" button in MOP settings
-- Added NexusMods button
-
-### Changes
-
-- Improved Hayosiko disabling during early part of the game
-- Changed how vehicle position is verified
-- Reduced time which takes for fail-safe trigger of loadscreen to do it's thing to 20 seconds
-- Slightly reduced the object spawning/despawning time
-- Rocks won't despawn when player is at home
-
 ### Bug Fixes
 
-- Sold kilju should not respawn on the junkyard as full anymore
-- Fixed a lag that was fixable by player having walk to the Satsuma
-- More fixeds to radiator hose3 (again)
-- Fixed fuel line bolt resetting to default
-- Fixed rare case of not yet found suitcase falling through the map and triggering murderer sequence
-- Fixed fire extinguisher holder
-
-### Removed
-
-- Removed rule files flag: "experimental_save_optimization"
+- Fixed a crash with MSCLoader

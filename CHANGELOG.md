@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.1 (30.04.2021)
+
+### Bug Fixes
+
+- MSCLoader: Fixed mod crashing
+
 ## 3.2 (30.04.2021)
 
 ### Added

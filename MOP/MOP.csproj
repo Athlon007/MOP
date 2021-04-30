@@ -65,7 +65,7 @@
     <Reference Include="Ionic.Zip">
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="MSCLoader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MSCLoader, Version=1.1.13.213, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\MSCLoader.dll</HintPath>
     </Reference>
