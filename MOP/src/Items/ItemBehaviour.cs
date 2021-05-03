@@ -484,9 +484,6 @@ namespace MOP.Items
                     case "spark plug(Clone)":
                         gameObject.GetPlayMakerByName("Screw").Fsm.RestartOnEnable = false;
                         break;
-                    case "light bulb(Clone)":
-                        if (gameObject.GetPlayMakerByName("Screw")) gameObject.GetPlayMakerByName("Screw").Fsm.RestartOnEnable = false;
-                        break;
                 }
 
                 PlayMakerFSM paintFSM = gameObject.GetPlayMakerByName("Paint");
