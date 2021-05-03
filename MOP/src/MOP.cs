@@ -36,7 +36,7 @@ namespace MOP
         public override string Name => "MODERN OPTIMIZATION PLUGIN"; 
 #endif
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.2.1"; //Version
+        public override string Version => "3.2.2"; //Version
         public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public override string UpdateLink => "https://github.com/Athlon007/MOP";
@@ -138,6 +138,8 @@ namespace MOP
             modSettings.AddButton("homepage", "HOMEPAGE", () => ExternalExecuting.OpenHomepageDialog());
             modSettings.AddButton("homepage", "NEXUSMODS", () => ExternalExecuting.OpenNexus());
             modSettings.AddButton("paypal", "<color=aqua>PAYPAL</color>", () => ExternalExecuting.OpenPaypalDialog());
+
+            modSettings.AddSlider("non", "Da Slider", 0, -100, 100);
 
             // Activating objects.
             modSettings.AddHeader("DESPAWNING");
