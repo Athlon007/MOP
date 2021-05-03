@@ -161,7 +161,7 @@ namespace MOP.Items
                 DontDisable = true;
             }
 
-            if (gameObject.name != "empty bottle(Clone)") rb.Sleep();
+            rb.Sleep();
         }
 
         void Awake()
@@ -478,12 +478,6 @@ namespace MOP.Items
                     break;
                 case "fuel tank(Clone)":
                     transform.Find("Bolts").GetChild(7).GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    break;  
-                case "spark plug(Clone)":
-                    gameObject.GetPlayMakerByName("Screw").Fsm.RestartOnEnable = false;
-                    break;
-                case "light bulb(Clone)":
-                    gameObject.GetPlayMakerByName("Screw").Fsm.RestartOnEnable = false;
                     break;
             }
 

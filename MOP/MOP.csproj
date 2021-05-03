@@ -101,7 +101,6 @@
     <Compile Include="src\Common\Enumerations\ToggleAllMode.cs" />
     <Compile Include="src\Common\Enumerations\ToggleModes.cs" />
     <Compile Include="src\Common\Enumerations\VehiclesTypes.cs" />
-    <Compile Include="src\Common\FramerateRecorder.cs" />
     <Compile Include="src\Common\LoadScreen.cs" />
     <Compile Include="src\FSM\Actions\CustomCreateObject.cs" />
     <Compile Include="src\FSM\Actions\GrandmaHiker.cs" />
@@ -200,7 +199,7 @@ copy "$(TargetDir)$(TargetName).pdb" "D:\SteamLibrary\steamapps\common\My Summer
 cd "D:\SteamLibrary\steamapps\common\My Summer Car\ModsTest"
 rem call "D:\SteamLibrary\steamapps\common\My Summer Car\ModsTest\debug.bat"
 ) ELSE (
-copy $(TargetPath) "D:\SteamLibrary\steamapps\common\My Summer Car\ModsTest" /y
+copy $(TargetPath) "D:\SteamLibrary\steamapps\common\My Summer Car\Mods" /y
 )</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

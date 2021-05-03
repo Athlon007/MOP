@@ -84,26 +84,22 @@ namespace MOP.Items.Helpers
                     if (i == half && !onLoad)
                         yield return null;
 
-                    try
-                    {
-                        items[i].AddComponent<ItemBehaviour>();
+                    items[i].AddComponent<ItemBehaviour>();
 
-                        // Hook the HookItems void to Confirm and Spawn all actions
-                        if (items[i].name.Equals("shopping bag(itemx)"))
-                        {
-                            FsmHook.FsmInject(items[i], "Confirm", HookItems);
-                            FsmHook.FsmInject(items[i], "Spawn all", HookItems);
-                        }
-                        else if (items[i].name.EqualsAny("spark plug box(Clone)", "car light bulb box(Clone)"))
-                        {
-                            FsmHook.FsmInject(items[i], "Create Plug", WipeUseLoadOnSparkPlugs);
-                        }
-                        else if (items[i].name.EqualsAny("alternator belt(Clone)", "oil filter(Clone)", "battery(Clone)"))
-                        {
-                            items[i].GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
-                        }
+                    // Hook the HookItems void to Confirm and Spawn all actions
+                    if (items[i].name.Equals("shopping bag(itemx)"))
+                    {
+                        FsmHook.FsmInject(items[i], "Confirm", HookItems);
+                        FsmHook.FsmInject(items[i], "Spawn all", HookItems);
                     }
-                    catch { }
+                    else if (items[i].name.EqualsAny("spark plug box(Clone)", "car light bulb box(Clone)"))
+                    {
+                        FsmHook.FsmInject(items[i], "Create Plug", WipeUseLoadOnSparkPlugs);
+                    }
+                    else if (items[i].name.EqualsAny("alternator belt(Clone)", "oil filter(Clone)", "battery(Clone)"))
+                    {
+                        items[i].GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
+                    }
                 }
                 WipeUseLoadOnSparkPlugs(items.Where(g => g.name.EqualsAny("spark plug(Clone)", "light bulb(Clone)")).ToArray());
             }
@@ -124,16 +120,12 @@ namespace MOP.Items.Helpers
         IEnumerator SparkPlugRoutine(GameObject[] plugs)
         {
             yield return new WaitForSeconds(.5f);
-            if (plugs == null || plugs.Length == 0)
+            if (plugs == null)
                 plugs = GameObject.FindGameObjectsWithTag("PART").Where(g => g.name.EqualsAny("spark plug(Clone)", "light bulb(Clone)")).ToArray();
 
             for (int i = 0; i < plugs.Length; i++)
             {
-                if (plugs[i].GetPlayMakerByName("Use"))
-                    plugs[i].GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
-                
-                if (plugs[i].GetPlayMakerByName("Screw"))
-                    plugs[i].GetPlayMakerByName("Screw").Fsm.RestartOnEnable = false;
+                plugs[i].GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
 
                 if (plugs[i].GetComponent<ItemBehaviour>() == null)
                     plugs[i].AddComponent<ItemBehaviour>();

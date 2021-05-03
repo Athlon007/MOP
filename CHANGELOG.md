@@ -1,12 +1,5 @@
 # Changelog
 
-## 3.2.2 (tba)
-
-### Bug Fixes
-
-- Possibly addressed the issue with light bulbs and spark plugs
-- Addressed an issue with empty beer bottles floating in air after drinking
-
 ## 3.2.1 (30.04.2021)
 
 ### Bug Fixes

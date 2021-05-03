@@ -195,11 +195,6 @@ namespace MOP.Common
                 {
                     output += "ERROR GETTING GAME DATA!";
                 }
-
-                if (FramerateRecorder.Instance != null)
-                {
-                    output += $"AverageFramerate: {FramerateRecorder.Instance.GetAverage()} FPS\n";
-                }
             }
 
             // List installed mods.
