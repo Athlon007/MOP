@@ -84,17 +84,17 @@ namespace MOP.Items
 
         public ItemBehaviour()
         {
-            if (gameObject.GetComponents<ItemBehaviour>().Length > 1)
-            {
-                Destroy(this);
-            }
+                if (gameObject.GetComponents<ItemBehaviour>().Length > 1)
+                {
+                    Destroy(this);
+                }
 
-            SetInitialTogglingMethod();
+                SetInitialTogglingMethod();
 
-            // Get object's components
-            rb = GetComponent<Rigidbody>();
-            PlayMakerFSM fsm = GetComponent<PlayMakerFSM>();
-            renderer = GetComponent<Renderer>();
+                // Get object's components
+                rb = GetComponent<Rigidbody>();
+                PlayMakerFSM fsm = GetComponent<PlayMakerFSM>();
+                renderer = GetComponent<Renderer>();
 #if PRO
             PartMagnet = GetComponent<PartMagnet>();
 #endif
@@ -161,7 +161,7 @@ namespace MOP.Items
                 DontDisable = true;
             }
 
-            if (gameObject.name != "empty bottle(Clone)") rb.Sleep();
+            if (gameObject.name != "empty bottle(Clone)") rb?.Sleep();
         }
 
         void Awake()
@@ -411,86 +411,93 @@ namespace MOP.Items
 
         void FsmFixes()
         {
-            PlayMakerFSM useFsm = gameObject.GetPlayMakerByName("Use");
-            if (useFsm != null)
+            try
             {
-                useFsm.Fsm.RestartOnEnable = false;
-
-                if (gameObject.name.StartsWith("door ")) return;
-                if (gameObject.name == "lottery ticket(xxxxx)") return;
-
-                FsmState state1 = useFsm.FindFsmState("State 1");
-                if (state1 != null)
+                PlayMakerFSM useFsm = gameObject.GetPlayMakerByName("Use");
+                if (useFsm != null)
                 {
-                    List<FsmStateAction> emptyState1 = state1.Actions.ToList();
-                    emptyState1.Insert(0, new CustomStop());
-                    state1.Actions = emptyState1.ToArray();
-                    state1.SaveActions();
+                    useFsm.Fsm.RestartOnEnable = false;
+
+                    if (gameObject.name.StartsWith("door ")) return;
+                    if (gameObject.name == "lottery ticket(xxxxx)") return;
+
+                    FsmState state1 = useFsm.FindFsmState("State 1");
+                    if (state1 != null)
+                    {
+                        List<FsmStateAction> emptyState1 = state1.Actions.ToList();
+                        emptyState1.Insert(0, new CustomStop());
+                        state1.Actions = emptyState1.ToArray();
+                        state1.SaveActions();
+                    }
+
+                    FsmState loadState = useFsm.FindFsmState("Load");
+                    if (loadState != null)
+                    {
+                        List<FsmStateAction> emptyActions = loadState.Actions.ToList();
+                        emptyActions.Insert(0, new CustomStop());
+                        loadState.Actions = emptyActions.ToArray();
+                        loadState.SaveActions();
+                    }
+
+                    if (this.gameObject.name == "battery(Clone)")
+                    {
+                        batteryOnCharged = useFsm.FsmVariables.GetFsmBool("OnCharged");
+                    }
                 }
 
-                FsmState loadState = useFsm.FindFsmState("Load");
-                if (loadState != null)
+                PlayMakerFSM dataFsm = gameObject.GetPlayMakerByName("Data");
+                if (dataFsm != null)
                 {
-                    List<FsmStateAction> emptyActions = loadState.Actions.ToList();
-                    emptyActions.Insert(0, new CustomStop());
-                    loadState.Actions = emptyActions.ToArray();
-                    loadState.SaveActions();
+                    dataFsm.Fsm.RestartOnEnable = false;
                 }
 
-                if (this.gameObject.name == "battery(Clone)")
+                // Fixes for particular items.
+                switch (gameObject.name)
                 {
-                    batteryOnCharged = useFsm.FsmVariables.GetFsmBool("OnCharged");
+                    case "diesel(itemx)":
+                        transform.Find("FluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                        break;
+                    case "gasoline(itemx)":
+                        transform.Find("FluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                        break;
+                    case "motor oil(itemx)":
+                        transform.Find("MotorOilTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                        break;
+                    case "coolant(itemx)":
+                        transform.Find("CoolantTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                        break;
+                    case "brake fluid(itemx)":
+                        transform.Find("BrakeFluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                        break;
+                    case "wood carrier(itemx)":
+                        transform.Find("WoodTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                        break;
+                    case "suitcase(itemx)":
+                        transform.Find("Money").gameObject.AddComponent<SuitcaseMoneyBehaviour>();
+                        break;
+                    case "radio(itemx)":
+                        transform.Find("Channel").gameObject.AddComponent<RadioDisable>();
+                        break;
+                    case "fuel tank(Clone)":
+                        transform.Find("Bolts").GetChild(7).GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                        break;
+                    case "spark plug(Clone)":
+                        gameObject.GetPlayMakerByName("Screw").Fsm.RestartOnEnable = false;
+                        break;
+                    case "light bulb(Clone)":
+                        if (gameObject.GetPlayMakerByName("Screw")) gameObject.GetPlayMakerByName("Screw").Fsm.RestartOnEnable = false;
+                        break;
+                }
+
+                PlayMakerFSM paintFSM = gameObject.GetPlayMakerByName("Paint");
+                if (paintFSM != null)
+                {
+                    paintFSM.Fsm.RestartOnEnable = false;
                 }
             }
-
-            PlayMakerFSM dataFsm = gameObject.GetPlayMakerByName("Data");
-            if (dataFsm != null)
+            catch (System.Exception ex)
             {
-                dataFsm.Fsm.RestartOnEnable = false;
-            }
-
-            // Fixes for particular items.
-            switch (gameObject.name)
-            {
-                case "diesel(itemx)":
-                    transform.Find("FluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    break;
-                case "gasoline(itemx)":
-                    transform.Find("FluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    break;
-                case "motor oil(itemx)":
-                    transform.Find("MotorOilTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    break;
-                case "coolant(itemx)":
-                    transform.Find("CoolantTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    break;
-                case "brake fluid(itemx)":
-                    transform.Find("BrakeFluidTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    break;
-                case "wood carrier(itemx)":
-                    transform.Find("WoodTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    break;
-                case "suitcase(itemx)":
-                    transform.Find("Money").gameObject.AddComponent<SuitcaseMoneyBehaviour>();
-                    break;
-                case "radio(itemx)":
-                    transform.Find("Channel").gameObject.AddComponent<RadioDisable>();
-                    break;
-                case "fuel tank(Clone)":
-                    transform.Find("Bolts").GetChild(7).GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    break;  
-                case "spark plug(Clone)":
-                    gameObject.GetPlayMakerByName("Screw").Fsm.RestartOnEnable = false;
-                    break;
-                case "light bulb(Clone)":
-                    gameObject.GetPlayMakerByName("Screw").Fsm.RestartOnEnable = false;
-                    break;
-            }
-
-            PlayMakerFSM paintFSM = gameObject.GetPlayMakerByName("Paint");
-            if (paintFSM != null)
-            {
-                paintFSM.Fsm.RestartOnEnable = false;
+                ExceptionManager.New(ex, false, $"FSM_FXIES | {CustomExtensions.GetGameObjectPath(gameObject)}");
             }
         }
 

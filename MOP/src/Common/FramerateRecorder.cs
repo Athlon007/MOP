@@ -36,7 +36,11 @@ namespace MOP.Common
         { 
             while (MopSettings.IsModActive)
             {
-                if (!fpsMesh.gameObject.transform.parent.gameObject.activeSelf) continue;
+                if (!fpsMesh.gameObject.transform.parent.gameObject.activeSelf) 
+                {
+                    yield return new WaitForSeconds(5);
+                    continue; 
+                }
                 samples.Add(float.Parse(fpsMesh.text));
                 yield return new WaitForSeconds(5);
             }

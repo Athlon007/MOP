@@ -947,6 +947,11 @@ namespace MOP
                         vehicleManager[i].ToggleUnityCar(true);
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.PageUp))
+            {
+                FinishLoading();
+            }
         }
 #endregion
 #region Item enabling checks
