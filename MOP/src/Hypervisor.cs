@@ -639,6 +639,10 @@ namespace MOP
         IEnumerator LoopRoutine()
         {
             MopSettings.IsModActive = true;
+
+            FramerateRecorder rec = gameObject.AddComponent<FramerateRecorder>();
+            rec.Initialize();
+
             while (MopSettings.IsModActive)
             {
                 // Ticks make sure that MOP is still up and running.
