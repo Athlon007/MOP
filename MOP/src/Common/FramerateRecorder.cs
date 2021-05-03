@@ -38,7 +38,6 @@ namespace MOP.Common
             {
                 if (!fpsMesh.gameObject.transform.parent.gameObject.activeSelf) continue;
                 samples.Add(float.Parse(fpsMesh.text));
-                MSCLoader.ModConsole.Log(fpsMesh.text);
                 yield return new WaitForSeconds(5);
             }
         }

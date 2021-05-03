@@ -2,6 +2,11 @@
 
 ## 3.2.2 (tba)
 
+### Added
+
+- Added an average framerate recorder (FPS meter has to be enabled)
+- Added "mop resolution" command, that lets you set a custom resolution
+
 ### Bug Fixes
 
 - Possibly addressed the issue with light bulbs and spark plugs
