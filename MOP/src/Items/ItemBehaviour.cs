@@ -84,17 +84,17 @@ namespace MOP.Items
 
         public ItemBehaviour()
         {
-                if (gameObject.GetComponents<ItemBehaviour>().Length > 1)
-                {
-                    Destroy(this);
-                }
+            if (gameObject.GetComponents<ItemBehaviour>().Length > 1)
+            {
+                Destroy(this);
+            }
 
-                SetInitialTogglingMethod();
+            SetInitialTogglingMethod();
 
-                // Get object's components
-                rb = GetComponent<Rigidbody>();
-                PlayMakerFSM fsm = GetComponent<PlayMakerFSM>();
-                renderer = GetComponent<Renderer>();
+            // Get object's components
+            rb = GetComponent<Rigidbody>();
+            PlayMakerFSM fsm = GetComponent<PlayMakerFSM>();
+            renderer = GetComponent<Renderer>();
 #if PRO
             PartMagnet = GetComponent<PartMagnet>();
 #endif
@@ -161,7 +161,13 @@ namespace MOP.Items
                 DontDisable = true;
             }
 
-            if (gameObject.name != "empty bottle(Clone)") rb?.Sleep();
+            if (gameObject.name != "empty bottle(Clone)")
+            {
+#if PRO
+                if (IsPartMagnetAttached()) return;
+#endif
+                rb?.Sleep();
+            }
         }
 
         void Awake()
@@ -298,6 +304,10 @@ namespace MOP.Items
                 {
                     return;
                 }
+
+#if PRO
+                if (IsPartMagnetAttached()) return;
+#endif
 
                 gameObject.SetActive(enabled);
             }

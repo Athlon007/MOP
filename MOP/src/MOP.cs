@@ -139,8 +139,6 @@ namespace MOP
             modSettings.AddButton("homepage", "NEXUSMODS", () => ExternalExecuting.OpenNexus());
             modSettings.AddButton("paypal", "<color=aqua>PAYPAL</color>", () => ExternalExecuting.OpenPaypalDialog());
 
-            modSettings.AddSlider("non", "Da Slider", 0, -100, 100);
-
             // Activating objects.
             modSettings.AddHeader("DESPAWNING");
             ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 1, 0, 3, () => MopSettings.UpdateAll());

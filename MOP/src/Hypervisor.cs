@@ -923,7 +923,7 @@ namespace MOP
 
         void Update()
         {
-#if DEBUG || PRO
+#if DEBUG
             if (Input.GetKeyDown(KeyCode.F5))
             {
                 PreSaveGame();
@@ -933,6 +933,11 @@ namespace MOP
             if (Input.GetKeyDown(KeyCode.F6))
             {
                 PreSaveGame();
+            }
+            
+            if (Input.GetKeyDown(KeyCode.PageUp))
+            {
+                FinishLoading();
             }
 #endif
             if (!MopSettings.IsModActive) return;
@@ -948,10 +953,6 @@ namespace MOP
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.PageUp))
-            {
-                FinishLoading();
-            }
         }
 #endregion
 #region Item enabling checks

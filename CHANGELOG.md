@@ -4,13 +4,14 @@
 
 ### Added
 
-- Added an average framerate recorder (FPS meter has to be enabled)
+- Added an average framerate recordder (FPS meter has to be enabled)
 - Added "mop resolution" command, that lets you set a custom resolution
 
 ### Bug Fixes
 
 - Possibly addressed the issue with light bulbs and spark plugs
 - Addressed an issue with empty beer bottles floating in air after drinking
+- Mod Loader Pro: Fixed debug functions assigned to F5 and F6 being included in ProLoader build of MOP
 
 ## 3.2.1 (30.04.2021)
 
@@ -31,7 +32,7 @@
 
 - Improved Hayosiko disabling during early part of the game
 - Changed how vehicle position is verified
-- Reduced time which takes for fail-safe trigger of loadscreen to do it's thing to 20 seconds
+- Reduced time which takes for fail-safe trigger of loadscreen to do its thing to 20 seconds
 - Slightly reduced the object spawning/despawning time
 - Rocks won't despawn when player is at home
 
