@@ -1,10 +1,10 @@
 # Changelog
 
-## 3.2.2 (tba)
+## 3.2.2 (05.05.2021)
 
 ### Added
 
-- Added an average framerate recordder (FPS meter has to be enabled)
+- Added an average framerate recorder (FPS meter has to be enabled)
 - Added "mop resolution" command, that lets you set a custom resolution
 
 ### Bug Fixes

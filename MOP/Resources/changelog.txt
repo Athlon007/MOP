@@ -1,3 +1,10 @@
+### Added
+
+- Added an average framerate recorder (FPS meter has to be enabled)
+- Added "mop resolution" command, that lets you set a custom resolution
+
 ### Bug Fixes
 
-- Fixed a crash with MSCLoader
+- Possibly addressed the issue with light bulbs and spark plugs
+- Addressed an issue with empty beer bottles floating in air after drinking
+- Mod Loader Pro: Fixed debug functions assigned to F5 and F6 being included in ProLoader build of MOP

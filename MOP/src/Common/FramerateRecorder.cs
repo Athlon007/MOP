@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MSCLoader;
 
 namespace MOP.Common
 {
@@ -27,7 +28,7 @@ namespace MOP.Common
             }
             catch (Exception ex)
             {
-                MSCLoader.ModConsole.LogError(ex.ToString());
+                ModConsole.Error(ex.ToString());
             }
         }
 

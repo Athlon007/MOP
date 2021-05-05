@@ -79,7 +79,8 @@ namespace MOP.Items
         bool kiljuInitialReset;
 
 #if PRO
-        internal PartMagnet PartMagnet;
+        PartMagnet partMagnet;
+        BoltMagnet boltMagnet;
 #endif
 
         public ItemBehaviour()
@@ -96,7 +97,8 @@ namespace MOP.Items
             PlayMakerFSM fsm = GetComponent<PlayMakerFSM>();
             renderer = GetComponent<Renderer>();
 #if PRO
-            PartMagnet = GetComponent<PartMagnet>();
+            partMagnet = GetComponent<PartMagnet>();
+            boltMagnet = GetComponent<BoltMagnet>();
 #endif
 
             // From PlayMakerFSM, find states that contain one of the names that relate to destroying object,
@@ -164,7 +166,7 @@ namespace MOP.Items
             if (gameObject.name != "empty bottle(Clone)")
             {
 #if PRO
-                if (IsPartMagnetAttached()) return;
+                if (IsPartMagnetAttached()) return; 
 #endif
                 rb?.Sleep();
             }
@@ -225,7 +227,11 @@ namespace MOP.Items
 
                 if (!Hypervisor.Instance.IsItemInitializationDone())
                 {
+#if PRO
+                    if (transform.root != Satsuma.Instance.transform || IsPartMagnetAttached())
+#else
                     if (transform.root != Satsuma.Instance.transform)
+#endif
                         transform.position = position;
                 }
 
@@ -249,7 +255,11 @@ namespace MOP.Items
                 }
 
                 // Don't toggle, if the item is attached to Satsuma.
+#if PRO
+                if (transform.root.gameObject.name == "SATSUMA(557kg, 248)" || IsPartMagnetAttached())
+#else
                 if (transform.root.gameObject.name == "SATSUMA(557kg, 248)")
+#endif
                 {
                     return;
                 }
@@ -304,10 +314,6 @@ namespace MOP.Items
                 {
                     return;
                 }
-
-#if PRO
-                if (IsPartMagnetAttached()) return;
-#endif
 
                 gameObject.SetActive(enabled);
             }
@@ -625,7 +631,12 @@ namespace MOP.Items
 #if PRO
         internal bool IsPartMagnetAttached()
         {
-            return PartMagnet != null && PartMagnet.attached;
+            return (partMagnet != null && partMagnet.attached) || (boltMagnet != null && boltMagnet.attached);
+        }
+
+        bool IsPartMagnetPresent()
+        {
+            return partMagnet != null || boltMagnet != null;
         }
 #endif
     }

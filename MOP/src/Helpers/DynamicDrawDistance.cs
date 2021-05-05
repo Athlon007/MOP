@@ -37,7 +37,7 @@ namespace MOP.Helpers
             mainCamera = Camera.main;
             player = GameObject.Find("PLAYER").transform;
 
-            typer = WorldObjectManager.Instance.Get("COMPUTER").transform.Find("SYSTEM/POS/Command").GetPlayMakerByName("Typer").FsmVariables.GetFsmString("Old");
+            typer = WorldObjectManager.Instance.Get("COMPUTER")?.transform.Find("SYSTEM/POS/Command").GetPlayMakerByName("Typer").FsmVariables.GetFsmString("Old");
         }
 
         void Update()

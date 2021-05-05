@@ -122,7 +122,7 @@ namespace MOP.Managers
 
         public GameObject Get(string name)
         {
-            return worldObjects.FirstOrDefault(g => g.GetName() == name).GameObject;
+            return worldObjects.FirstOrDefault(g => g.GetName() == name)?.GameObject;
         }
     }
 }

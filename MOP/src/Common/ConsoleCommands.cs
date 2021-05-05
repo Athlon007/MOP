@@ -425,7 +425,17 @@ namespace MOP.Common
                     }
                     catch
                     {
-                        ModConsole.LogError("Failed setting resolution.");
+                        ModConsole.Error("Failed setting resolution.");
+                    }
+                    break;
+                case "quality-settings":
+                    try
+                    {
+                        QualitySettings.SetQualityLevel(int.Parse(args[1]), true);
+                    }
+                    catch
+                    {
+                        ModConsole.Error("Failed setting quality settings.");
                     }
                     break;
             }
