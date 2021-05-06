@@ -206,8 +206,8 @@ namespace MOP.Vehicles
                     gameObject.AddComponent<KekmetHandThrottle>();
 
                     // Trailer connection.
-                    transform.Find("Trailer/Hook").GetPlayMakerByName("Distance").Fsm.RestartOnEnable = false;
-                    //transform.Find("Trailer/Remove").GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
+                    PlayMakerFSM hookDistanceFSM = transform.Find("Trailer/Hook").GetPlayMakerByName("Distance");
+                    hookDistanceFSM.Fsm.RestartOnEnable = false;
                     break;
                 case VehiclesTypes.Flatbed:
                     transform.Find("Bed/LogTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
@@ -217,7 +217,9 @@ namespace MOP.Vehicles
                     trailerLogUnderFloorCheck.AddComponent<TrailerLogUnderFloor>();
 
                     // Tractor connection.
-                    gameObject.GetPlayMakerByName("Detach").Fsm.RestartOnEnable = false;
+                    PlayMakerFSM detach = gameObject.GetPlayMakerByName("Detach");
+                    detach.Fsm.RestartOnEnable = false;
+                    Object.Destroy(detach.FsmVariables.GetFsmGameObject("DetachPivot").Value.gameObject.GetComponent<FixedJoint>());
                     break;
 
             }

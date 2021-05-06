@@ -28,7 +28,6 @@ using MOP.Common.Enumerations;
 using MOP.FSM;
 using MOP.FSM.Actions;
 using MOP.Items;
-using MOP.Vehicles;
 using MOP.Vehicles.Cases;
 using MOP.Vehicles.Managers;
 using MOP.Vehicles.Managers.SatsumaManagers;
@@ -582,6 +581,21 @@ namespace MOP
 
             bumper.GetComponent<ItemBehaviour>().enabled = false;
             rb.mass = originalMass;
+        }
+
+        internal void ForceDetachTrailer()
+        {
+            StartCoroutine(ForceDetachTrailerRoutine());
+        }
+
+        IEnumerator ForceDetachTrailerRoutine()
+        {
+            while (!MopSettings.IsModActive) yield return null;
+            for (int i = 0; i < 10; i++)
+            {
+                PlayMakerFSM.BroadcastEvent("TRAILERDETACH");
+                yield return null;
+            }
         }
     }
 }

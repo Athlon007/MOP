@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.3 (tba)
+
+### Bug Fixes
+
+- (My Summer Car Bug) Addressed MSC Bug, in which the Kekmet trailer may be glued to the composter at the house backyard
+
 ## 3.2.2 (05.05.2021)
 
 ### Added

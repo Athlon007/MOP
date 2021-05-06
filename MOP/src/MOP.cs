@@ -364,6 +364,12 @@ namespace MOP
             {
                 ShadowDistance.valueText.text = "No Shadows";
             }
+
+            string modName = "";
+            if (MopSettings.IsConfilctingModPresent(out modName))
+            {
+                ModPrompt.CreatePrompt($"MOP does not work with <color=yellow>{modName}</color>. Please disable that mod first.", "MOP");
+            }
 #endif
             SaveManager.VerifySave();
         }
@@ -377,6 +383,15 @@ namespace MOP
         public override void SecondPassOnLoad()
 #endif
         {
+#if PRO
+            string modName = "";
+            if (MopSettings.IsConfilctingModPresent(out modName))
+            {
+                ModConsole.LogError("MOP could not be loaded, because the following mod is present: " + modName);
+                return;
+            }
+#endif
+
             MopSettings.UpdateAll();
 
             // Create WorldManager game object

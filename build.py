@@ -20,7 +20,7 @@ print("=== Building the release... ===\n")
 # Name of the build folder.
 MOD_NAME = "MOP"
 # List of files that we want to pack up.
-FILES_TO_PACK = ["/bin/ProRelease/MOP.dll"]
+FILES_TO_PACK = ["/bin/Release/MOP.dll"]
 
 BASE_DIR = os.getcwd()
 

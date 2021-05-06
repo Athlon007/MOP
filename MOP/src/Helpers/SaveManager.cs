@@ -93,6 +93,15 @@ namespace MOP.Helpers
                     ModUI.ShowYesNoMessage($"MOP found an issue with your save file. Following items are affected:\n\n" +
                         $"<color=yellow>bucket seats</color>\n\nWould you like it to fix it?", "MOP - Save Integrity Verification", FixBucketSeats);
                 }
+
+                bool tractorTrailerAttached = ES2.Load<bool>(GetDefaultES2SavePosition() + "?tag=TractorTrailerAttached", setting);
+                Transform flatbedTransform = ES2.Load<Transform>(GetDefaultES2SavePosition() + "?tag=FlatbedTransform", setting);
+                Transform kekmetTransform = ES2.Load<Transform>(GetDefaultES2SavePosition() + "?tag=TractorTransform", setting);
+                if (tractorTrailerAttached && Vector3.Distance(flatbedTransform.position, kekmetTransform.position) > 5)
+                {
+                    ModUI.ShowYesNoMessage($"MOP found an issue with your save file. Following items are affected:\n\n" +
+                        $"<color=yellow>TractorTrailerAttached</color>\n\nWould you like it to fix it?", "MOP - Save Integrity Verification", FixDetachFlatbed);
+                }
             }
             catch (Exception e)
             {
@@ -104,6 +113,11 @@ namespace MOP.Helpers
         {
             ES2.Save(true, GetDefaultES2SavePosition() + "?tag=bucket seat passenger(Clone)Purchased");
             ES2.Save(true, GetDefaultES2SavePosition() + "?tag=bucket seat driver(Clone)Purchased");
+        }
+
+        static void FixDetachFlatbed()
+        {
+            ES2.Save(false, GetDefaultES2SavePosition() + "?tag=TractorTrailerAttached", new ES2Settings());
         }
 
         internal static Transform GetRadiatorHose3Transform()
