@@ -98,7 +98,7 @@ namespace MOP.Helpers
                 bool tractorTrailerAttached = ES2.Load<bool>(GetDefaultES2SavePosition() + "?tag=TractorTrailerAttached", setting);
                 Transform flatbedTransform = ES2.Load<Transform>(GetDefaultES2SavePosition() + "?tag=FlatbedTransform", setting);
                 Transform kekmetTransform = ES2.Load<Transform>(GetDefaultES2SavePosition() + "?tag=TractorTransform", setting);
-                if (tractorTrailerAttached && Vector3.Distance(flatbedTransform.position, kekmetTransform.position) > 5)
+                if (tractorTrailerAttached && Vector3.Distance(flatbedTransform.position, kekmetTransform.position) > 5.5f)
                 {
                     saveBugs.Add(SaveBugs.New("Flatbed Trailer Attached", "Trailer and tractor are too far apart from each other - impossible for them to be attached.", FixDetachFlatbed));
                 }
