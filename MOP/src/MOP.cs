@@ -36,8 +36,8 @@ namespace MOP
         public override string Name => "MODERN OPTIMIZATION PLUGIN"; 
 #endif
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.2.2"; //Version
-        public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public override string Version => "3.2.3"; //Version
+        public const string SubVersion = "NIGHTLY-20210507"; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public override string UpdateLink => "https://github.com/Athlon007/MOP";
         public override byte[] Icon => Properties.Resources.icon;
@@ -319,13 +319,13 @@ namespace MOP
 #if !PRO
             if (!MopSettings.HasMLPWarningBeenShown() && !MopSettings.IsModLoaderPro())
             {
-                ModUI.ShowYesNoMessage("MOP 3.3 will drop support for MSCLoader, and will require <color=yellow>MSC Mod Loader Pro</color>.\n\nWould you like to download it now?", "MOP", ExternalExecuting.ModLoaderPro);
+                ModUI.ShowYesNoMessage("MOP 3.3 will drop support for MSCLoader and will require <color=yellow>MSC Mod Loader Pro</color>.\n\nWould you like to download it now?", "MOP", ExternalExecuting.ModLoaderPro);
                 MopSettings.MLPWarningShown();
             }
 
             if (MopSettings.IsModLoaderPro())
             {
-                ModUI.ShowYesNoMessage("You are using MOP version for MSCLoader, while Mod Loader Pro version is available.\n\nWould you like to download MLP version now?", ExternalExecuting.DownloadMOPPro);
+                ModUI.ShowYesNoMessage("You are using MOP version for MSCLoader, while Mod Loader Pro version is available.\n\nWould you like to download Mod Loader Pro version now?", ExternalExecuting.DownloadMOPPro);
             }
 #endif
 

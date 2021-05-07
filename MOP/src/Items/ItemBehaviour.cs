@@ -37,6 +37,8 @@ namespace MOP.Items
 {
     class ItemBehaviour : MonoBehaviour
     {
+        // This class is an absolute disaster and must be rewritten.
+
         bool firstLoad;
 
         bool dontDisable;
