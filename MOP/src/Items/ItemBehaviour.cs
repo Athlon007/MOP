@@ -163,11 +163,13 @@ namespace MOP.Items
                 DontDisable = true;
             }
 
-            if (gameObject.name != "empty bottle(Clone)")
+            if (!gameObject.name.EqualsAny("empty bottle(Clone)", "empty pack(Clone)"))
             {
 #if PRO
-                if (IsPartMagnetAttached()) return; 
+                if (IsPartMagnetAttached()) return;
 #endif
+
+                if (rb?.velocity.magnitude > 0.1f) return;
                 rb?.Sleep();
             }
         }
