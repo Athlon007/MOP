@@ -143,9 +143,9 @@ namespace MOP.Common
             if (File.Exists(SaveManager.GetDefaultES2SavePosition()))
             {
 #if PRO
-                ModPrompt.CreateYesNoPrompt("Would you like to your include save file?\n\nThis may greatly improve finding and fixing the bug.", "MOP - Bug Report", DoAddZip, onPromptClose: ShowWindow);
+                ModPrompt.CreateYesNoPrompt("Would you like to include your save file?\n\nThis may greatly improve finding and fixing the bug.", "MOP - Bug Report", DoAddZip, onPromptClose: ShowWindow);
 #else
-                ModUI.ShowYesNoMessage("Would you like to your include save file?\n\nThis may greatly improve finding and fixing the bug.", "MOP", DoAddZip);
+                ModUI.ShowYesNoMessage("Would you like to include include save file?\n\nThis may greatly improve finding and fixing the bug.", "MOP", DoAddZip);
 
                 // MOP will wait for this transform to be destroyed.
                 Transform messageBoxTransform = GameObject.Find("MSCLoader Canvas").transform.Find("MSCLoader MB(Clone)");
