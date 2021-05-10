@@ -7,6 +7,7 @@
 - (My Summer Car Bug) Addressed MSC Bug, in which the Kekmet trailer may be glued to the composter at the house backyard
 - Fixed empty milk packs flying in air
 - Fixed other items sometimes possibly being frozen mid-air
+- Fixed text in one of the message boxes
 
 ## 3.2.2 (05.05.2021)
 
