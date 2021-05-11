@@ -4,6 +4,7 @@
 [![](https://img.shields.io/github/v/release/Athlon007/MOP?style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
 [![](https://img.shields.io/github/v/release/Athlon007/MOP?include_prereleases&label=Beta&style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
 [![](https://img.shields.io/github/license/Athlon007/MOP?style=for-the-badge)](LICENSE.md)
+[![](https://img.shields.io/tokei/lines/github/MSCLoaderPro/MSCModLoaderPro?style=for-the-badge)]()
 
 <img align="right" src="images/icon.png" alt="icon" width=128 />
 
