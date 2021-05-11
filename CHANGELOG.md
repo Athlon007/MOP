@@ -1,5 +1,33 @@
 # Changelog
 
+## 3.2.3 (10.05.2021)
+
+### Bug Fixes
+
+- (My Summer Car Bug) Addressed MSC Bug, in which the Kekmet trailer may be glued to the composter at the house backyard
+- Fixed empty milk packs flying in air
+- Fixed other items sometimes possibly being frozen mid-air
+- Fixed text in one of the message boxes
+
+## 3.2.2 (05.05.2021)
+
+### Added
+
+- Added an average framerate recorder (FPS meter has to be enabled)
+- Added "mop resolution" command, that lets you set a custom resolution
+
+### Bug Fixes
+
+- Possibly addressed the issue with light bulbs and spark plugs
+- Addressed an issue with empty beer bottles floating in air after drinking
+- Mod Loader Pro: Fixed debug functions assigned to F5 and F6 being included in ProLoader build of MOP
+
+## 3.2.1 (30.04.2021)
+
+### Bug Fixes
+
+- MSCLoader: Fixed mod crashing
+
 ## 3.2 (30.04.2021)
 
 ### Added
@@ -13,7 +41,7 @@
 
 - Improved Hayosiko disabling during early part of the game
 - Changed how vehicle position is verified
-- Reduced time which takes for fail-safe trigger of loadscreen to do it's thing to 20 seconds
+- Reduced time which takes for fail-safe trigger of loadscreen to do its thing to 20 seconds
 - Slightly reduced the object spawning/despawning time
 - Rocks won't despawn when player is at home
 
@@ -21,7 +49,7 @@
 
 - Sold kilju should not respawn on the junkyard as full anymore
 - Fixed a lag that was fixable by player having walk to the Satsuma
-- More fixeds to radiator hose3 (again)
+- More fixes to radiator hose3 (again)
 - Fixed fuel line bolt resetting to default
 - Fixed rare case of not yet found suitcase falling through the map and triggering murderer sequence
 - Fixed fire extinguisher holder

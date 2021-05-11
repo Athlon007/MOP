@@ -27,7 +27,7 @@ namespace MOP.Common
     {
         // This is the master switch of MOP. If deactivated, all functions will freeze.
         public static bool IsModActive { get; set; }
-        
+
         public static PerformanceMode Mode;
 
         static float shadowDistanceOriginalValue;
@@ -124,7 +124,7 @@ namespace MOP.Common
 
         /// <summary>
         /// Returns the value that is used to multiplify the active distance of an object.
-        /// So for example, if the default active distance of the object is 200 units, 
+        /// So for example, if the default active distance of the object is 200 units,
         /// and the multiplication value is 0.5, the actual active distance will be 100 units.
         /// </summary>
         public static float ActiveDistanceMultiplicationValue
@@ -173,6 +173,7 @@ namespace MOP.Common
         public static bool IsMySummerCar()
         {
             return Application.productName == "My Summer Car";
-        }    
+
+        }
     }
 }

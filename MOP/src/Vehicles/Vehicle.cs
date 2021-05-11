@@ -194,7 +194,7 @@ namespace MOP.Vehicles
                         if (!wheel.gameObject.name.StartsWith("Moped_wheel")) continue;
                         wheel.gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
                     }
-                    
+
                     // Tries to fix shaking of the Jonnez.
                     gameObject.transform.Find("LOD/PlayerTrigger").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
                     break;
@@ -216,7 +216,9 @@ namespace MOP.Vehicles
                     trailerLogUnderFloorCheck.AddComponent<TrailerLogUnderFloor>();
 
                     // Tractor connection.
-                    gameObject.GetPlayMakerFSM("Detach").Fsm.RestartOnEnable = false;
+                    PlayMakerFSM detach = gameObject.GetPlayMakerByName("Detach");
+                    detach.Fsm.RestartOnEnable = false;
+                    Object.Destroy(detach.FsmVariables.GetFsmGameObject("DetachPivot").Value.gameObject.GetComponent<FixedJoint>());
                     break;
 
             }

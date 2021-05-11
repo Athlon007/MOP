@@ -65,7 +65,7 @@
     <Reference Include="Ionic.Zip">
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="MSCLoader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MSCLoader, Version=1.1.13.213, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\MSCLoader.dll</HintPath>
     </Reference>
@@ -101,6 +101,7 @@
     <Compile Include="src\Common\Enumerations\ToggleAllMode.cs" />
     <Compile Include="src\Common\Enumerations\ToggleModes.cs" />
     <Compile Include="src\Common\Enumerations\VehiclesTypes.cs" />
+    <Compile Include="src\Common\FramerateRecorder.cs" />
     <Compile Include="src\Common\LoadScreen.cs" />
     <Compile Include="src\FSM\Actions\CustomCreateObject.cs" />
     <Compile Include="src\FSM\Actions\GrandmaHiker.cs" />
@@ -193,13 +194,21 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if "$(ConfigurationName)" == "Debug" (
+  <PostBuildEvent>
+if "$(ConfigurationName)" == "Debug" (
+copy "$(TargetPath)" "D:\SteamLibrary\steamapps\common\My Summer Car - old\Mods" /y
+copy "$(TargetDir)$(TargetName).pdb" "D:\SteamLibrary\steamapps\common\My Summer Car - old\Mods" /y
+cd "D:\SteamLibrary\steamapps\common\My Summer Car - old\Mods"
+call "D:\SteamLibrary\steamapps\common\My Summer Car - old\Mods\debug.bat"
+)
+
+if "$(ConfigurationName)" == "Pro" (
 copy "$(TargetPath)" "D:\SteamLibrary\steamapps\common\My Summer Car\ModsTest" /y
 copy "$(TargetDir)$(TargetName).pdb" "D:\SteamLibrary\steamapps\common\My Summer Car\ModsTest" /y
 cd "D:\SteamLibrary\steamapps\common\My Summer Car\ModsTest"
 call "D:\SteamLibrary\steamapps\common\My Summer Car\ModsTest\debug.bat"
 ) ELSE (
-copy $(TargetPath) "D:\SteamLibrary\steamapps\common\My Summer Car\Mods" /y
+copy $(TargetPath) "D:\SteamLibrary\steamapps\common\My Summer Car\ModsTest" /y
 )</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

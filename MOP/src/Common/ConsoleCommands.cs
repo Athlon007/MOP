@@ -44,7 +44,8 @@ namespace MOP.Common
                                 "<color=yellow>generate-list [true/false]</color> - Generates text files which contain the list of items that are toggled by MOP\n" +
                                 "<color=yellow>restore-save</color> - If you use experimental save optimiztion, allows you to restore your last save file.\n" +
                                 "<color=yellow>load-rules [true/false]</color> - If set to false, prevents MOP from loading any rule files.\n" +
-                                "<color=yellow>force-crash [critical]</color> - Forces MOP to crash itself. If 'critical' is added, it will force MOP a critical crash.";
+                                "<color=yellow>force-crash [critical]</color> - Forces MOP to crash itself. If 'critical' is added, it will force MOP a critical crash.\n" +
+                                "<color=yellow>resolution [width] [height]</color> - Sets the desired resolution";
 
         public override void Run(string[] args)
         {
@@ -393,6 +394,29 @@ namespace MOP.Common
                         isCritical = true;
                     }
                     ExceptionManager.New(new System.Exception("Test exception"), isCritical, "Test exception: " + System.Guid.NewGuid());
+                    break;
+                case "resolution":
+                    try
+                    {
+                        int width = int.Parse(args[1]);
+                        int height = int.Parse(args[2]);
+
+                        Screen.SetResolution(width, height, false);
+                    }
+                    catch
+                    {
+                        ModConsole.Error("Failed setting resolution.");
+                    }
+                    break;
+                case "quality-settings":
+                    try
+                    {
+                        QualitySettings.SetQualityLevel(int.Parse(args[1]), true);
+                    }
+                    catch
+                    {
+                        ModConsole.Error("Failed setting quality settings.");
+                    }
                     break;
             }
         }

@@ -64,9 +64,9 @@ namespace MOP.Helpers
             if (arr[arr.Length - 3].Contains("est rulz"))
             {
                 arr[arr.Length - 2] = "    |\\__/|\n" +
-                                      "   /     \\\n" +
-                                      "  /_.~ ~,_\\\n" +
-                                      "     \\@/ \n";
+                                        "   /     \\\n" +
+                                        "  /_.~ ~,_\\\n" +
+                                        "     \\@/ \n";
 
                 typer.Value = string.Join("\n", arr);
             }

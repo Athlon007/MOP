@@ -640,6 +640,10 @@ namespace MOP
         IEnumerator LoopRoutine()
         {
             MopSettings.IsModActive = true;
+
+            FramerateRecorder rec = gameObject.AddComponent<FramerateRecorder>();
+            rec.Initialize();
+
             while (MopSettings.IsModActive)
             {
                 // Ticks make sure that MOP is still up and running.
@@ -918,7 +922,7 @@ namespace MOP
 
         void Update()
         {
-#if DEBUG || PRO
+#if DEBUG
             if (Input.GetKeyDown(KeyCode.F5))
             {
                 PreSaveGame();
@@ -928,6 +932,11 @@ namespace MOP
             if (Input.GetKeyDown(KeyCode.F6))
             {
                 PreSaveGame();
+            }
+            
+            if (Input.GetKeyDown(KeyCode.PageUp))
+            {
+                FinishLoading();
             }
 #endif
             if (!MopSettings.IsModActive) return;
@@ -942,6 +951,7 @@ namespace MOP
                         vehicleManager[i].ToggleUnityCar(true);
                 }
             }
+
         }
 #endregion
 #region Item enabling checks

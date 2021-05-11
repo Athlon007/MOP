@@ -34,7 +34,7 @@ namespace MOP
 #if DEBUG
         public override string Name => "Modern Optimization Plugin (Debug)";
 #else
-        public override string Name => "MODERN OPTIMIZATION PLUGIN"; 
+        public override string Name => "MODERN OPTIMIZATION PLUGIN";
 #endif
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.3"; //Version
@@ -58,7 +58,7 @@ namespace MOP
         static internal SettingToggle EnableShadowAdjusting, KeepRunningInBackground,
                                       DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
                                       DestroyEmptyBottles, DisableEmptyItems;
-        
+
         static SettingString lastVersion;
 
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
@@ -93,7 +93,7 @@ namespace MOP
             ActiveDistance.TextValues = activeDistanceText;
             ActiveDistance.ChangeValueText();
             PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1, MopSettings.UpdatePerformanceMode, "PERFORMANCE", "BALANCED", "QUALITY", "SAFE");
-            PerformanceModes.gameObject.AddComponent<UITooltip>().toolTipText = 
+            PerformanceModes.gameObject.AddComponent<UITooltip>().toolTipText =
                 "<color=yellow>PERFORMANCE</color>: <color=white>Visibly disables and enables objects</color>\n" +
                 "<color=yellow>BALANCED (recommended)</color>: <color=white>Maintains balance between PERFORMANCE and QUALITY</color>\n" +
                 "<color=yellow>QUALITY</color>: <color=white>Hides obvious on-screen spawning and despawning, at the cost of performance</color>\n" +
@@ -125,11 +125,12 @@ namespace MOP
                 }
                 i++;
             }
-            Resolution = modSettings.AddRadioButtons("resolution", "RESOLUTION", selected, () => {
+            Resolution = modSettings.AddRadioButtons("resolution", "RESOLUTION", selected, () =>
+            {
                 string s = Resolution.GetButtonLabelText(Resolution.Value);
                 int width = int.Parse(s.Split('x')[0]);
                 int height = int.Parse(s.Split('x')[1]);
-                Screen.SetResolution(width, height, Screen.fullScreen); 
+                Screen.SetResolution(width, height, Screen.fullScreen);
             }, resolutions.ToArray());
             Resolution.gameObject.SetActive(false);
 
@@ -220,6 +221,12 @@ namespace MOP
             {
                 ShadowDistance.valueText.text = "No Shadows";
             }
+
+            string modName = "";
+            if (MopSettings.IsConfilctingModPresent(out modName))
+            {
+                ModPrompt.CreatePrompt($"MOP does not work with <color=yellow>{modName}</color>. Please disable that mod first.", "MOP");
+            }
             SaveManager.VerifySave();
         }
 
@@ -232,6 +239,12 @@ namespace MOP
             MopSettings.UpdatePerformanceMode();
             MopSettings.UpdateShadows();
             MopSettings.UpdateMiscSettings();
+            string modName = "";
+            if (MopSettings.IsConfilctingModPresent(out modName))
+            {
+                ModConsole.LogError("MOP could not be loaded, because the following mod is present: " + modName);
+                return;
+            }
 
             // Create WorldManager game object
             GameObject worldManager = new GameObject("MOP");
