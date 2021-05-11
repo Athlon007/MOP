@@ -179,7 +179,7 @@ namespace MOP
                 lastVersion.Value = Version;
                 modSettings.SaveSettings();
                 ModPrompt.CreatePrompt($"Welcome to Modern Optimization Plugin <color=yellow>{Version}</color>!\n\n" +
-                    $"Consider supporting to the project using <color=#3687D7>PayPal</color>,\n" +
+                    $"Please consider supporting the project using <color=#3687D7>PayPal</color>,\n" +
                     $"or with <color=#ADAD46>Bitcoins</color>.", "MOP");
             }
 
