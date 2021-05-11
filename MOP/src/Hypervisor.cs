@@ -363,6 +363,21 @@ namespace MOP
                 ExceptionManager.New(ex, true, "ITEMS_CLASS_ERROR");
             }
 
+            try
+            {
+                DateTime now = DateTime.Now;
+                if (now.Day == 1 && now.Month == 4)
+                {
+                    GameObject fpsObject = GameObject.Find("GUI").transform.Find("HUD/FPS/HUDValue").gameObject;
+                    PlayMakerFSM[] fsms = fpsObject.GetComponents<PlayMakerFSM>();
+                    foreach (var fsm in fsms)
+                        fsm.enabled = false;
+                    fpsObject.GetComponent<TextMesh>().text = "99999999 :)";
+                    fpsObject.transform.Find("HUDValueShadow").GetComponent<TextMesh>().text = "99999999 :)";
+                }
+            }
+            catch { }
+
             HookPreSaveGame();
 
             ModConsole.Log("[MOP] Loading rules...");

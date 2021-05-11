@@ -60,7 +60,7 @@ namespace MOP.Managers
 
             // Loading vehicles
             vehicles = new List<Vehicle>();
-            string[] activeVehicleArray = MopSettings.IsMySummerCar() ? vehicleArrayMSC : vehicleArrayMWC;
+            string[] activeVehicleArray = MopSettings.IsMySummerCar ? vehicleArrayMSC : vehicleArrayMWC;
             
             foreach (string vehicle in activeVehicleArray)
             {

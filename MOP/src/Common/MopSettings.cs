@@ -170,11 +170,7 @@ namespace MOP.Common
             Application.runInBackground = MOP.KeepRunningInBackground.Value;
         }
 
-        public static bool IsMySummerCar()
-        {
-            return Application.productName == "My Summer Car";
-
-        }
+        public static bool IsMySummerCar => Application.productName == "My Summer Car";
 
         internal static bool IsConfilctingModPresent(out string n)
         {
