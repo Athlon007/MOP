@@ -103,6 +103,7 @@
     <Compile Include="src\Common\Enumerations\VehiclesTypes.cs" />
     <Compile Include="src\Common\FramerateRecorder.cs" />
     <Compile Include="src\Common\LoadScreen.cs" />
+    <Compile Include="src\Common\SaveSlotsSupport.cs" />
     <Compile Include="src\FSM\Actions\CustomAddItemBehaviour.cs" />
     <Compile Include="src\FSM\Actions\CustomCreateObject.cs" />
     <Compile Include="src\FSM\Actions\GrandmaHiker.cs" />

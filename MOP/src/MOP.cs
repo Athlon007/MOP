@@ -15,7 +15,6 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
-using MSCLoader.Helper;
 using System.IO;
 using UnityEngine;
 using System;
@@ -25,7 +24,6 @@ using MOP.Common;
 using MOP.Helpers;
 using MOP.Rules;
 using System.Collections.Generic;
-using HutongGames.PlayMaker;
 
 namespace MOP
 {
@@ -191,12 +189,6 @@ namespace MOP
 
             GameObject bugReporter = new GameObject("MOP_BugReporter");
             bugReporter.AddComponent<BugReporter>();
-        }
-
-        public override void MenuUpdate()
-        {
-            if (Input.GetKeyDown(KeyCode.Y))
-                ModConsole.Log(lastVersion.Value);
         }
 
         public override void ModSettingsLoaded()

@@ -4,7 +4,12 @@
 
 This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requirement.
 
-## Changes
+### Added
+
+- Added integration with Save Slots
+  - If you close Saves menu, the current save will be verified again
+
+### Changes
 
 - Eliminated the lag caused by spawning items
 

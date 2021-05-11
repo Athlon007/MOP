@@ -22,6 +22,7 @@ using UnityEngine;
 using MSCLoader;
 
 using MOP.Helpers;
+using System.Collections;
 
 namespace MOP.Common
 {
@@ -38,6 +39,18 @@ namespace MOP.Common
         {
             instance = this;
             DontDestroyOnLoad(this.gameObject);
+
+            StartCoroutine(CheckSaveSlots());
+        }
+
+        IEnumerator CheckSaveSlots()
+        {
+            yield return null;
+
+            if (GameObject.Find("SaveSlotsCanvas(Clone)") != null)
+            {
+                GameObject.Find("SaveSlotsCanvas(Clone)").transform.Find("SaveSlotsUI/Saves/SavesList").gameObject.AddComponent<SaveSlotsSupport>();
+            }
         }
 
         public static void FileBugReport()
