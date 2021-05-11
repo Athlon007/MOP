@@ -14,16 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using MSCLoader;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using HutongGames.PlayMaker;
+using MSCLoader;
+using MSCLoader.Helper;
 
 using MOP.Common;
 using MOP.Items;
 using MOP.Items.Cases;
 using MOP.Items.Helpers;
 using MOP.Helpers;
+using MOP.FSM.Actions;
 
 namespace MOP.Managers
 {
@@ -108,7 +112,20 @@ namespace MOP.Managers
             instance = this;
             lostSpawner = GameObject.Find("LostSpawner").transform;
             landfillSpawn = GameObject.Find("LANDFILL").transform.Find("LandfillSpawn");
+            
+        }
+
+        internal void Initialize()
+        {
             cashRegisterHook = GameObject.Find("STORE/StoreCashRegister/Register").AddComponent<CashRegisterBehaviour>();
+
+            Transform spawner = GameObject.Find("Spawner").transform;
+
+            InjectSpawnScripts(spawner.Find("CreateItems").gameObject);
+            InjectSpawnScripts(spawner.Find("CreateSpraycans").gameObject);
+            InjectSpawnScripts(spawner.Find("CreateShoppingbag").gameObject);
+            InjectSpawnScripts(spawner.Find("CreateMooseMeat").gameObject);
+
             GetCanTrigger();
 
             // Car parts order bill hook.
@@ -209,8 +226,8 @@ namespace MOP.Managers
             GameObject attachedHose = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(xxxxx)");
             realRadiatorHose = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(Clone)").gameObject;
             GameObject dummy = GameObject.Instantiate(realRadiatorHose); // used for spawning the radiator hose3 after it gets detached.
-            
-            Object.Destroy(dummy.GetComponent<ItemBehaviour>());
+
+            UnityEngine.Object.Destroy(dummy.GetComponent<ItemBehaviour>());
             dummy.SetActive(false);
             dummy.name = dummy.name.Replace("(Clone)(Clone)", "(Clone)");
 
@@ -310,7 +327,7 @@ namespace MOP.Managers
             itemsObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
             // Fucking wheels.
-            GameObject[] wheels = Object.FindObjectsOfType<GameObject>().
+            GameObject[] wheels = UnityEngine.Object.FindObjectsOfType<GameObject>().
                 Where(gm => gm.name.EqualsAny("wheel_regula", "wheel_offset") && gm.activeSelf).ToArray();
             foreach (GameObject wheel in wheels)
                 wheel.AddComponent<ItemBehaviour>();
@@ -371,6 +388,38 @@ namespace MOP.Managers
         internal List<ItemBehaviour> All()
         {
             return itemHooks;
+        }
+
+        void InjectSpawnScripts(GameObject gm)
+        {
+            PlayMakerFSM[] createFSMs = gm.GetComponents<PlayMakerFSM>();
+            for (int i = 0; i < createFSMs.Length; i++)
+            {
+                try
+                {
+                    PlayMakerFSM fsm = createFSMs[i];
+
+                    FsmState state = fsm.GetState("Create");
+                    if (state == null)
+                    {
+                        state = fsm.GetState("Create product");
+                    }
+
+                    if (state == null)
+                    {
+                        ModConsole.LogError($"FSM {i} has no Create or Create product");
+                        continue;
+                    }
+
+                    FsmGameObject go = fsm.FsmVariables.GetFsmGameObject("New");
+
+                    state.AddAction(new CustomAddItemBehaviour(go));
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, false, "FUCK");
+                }
+            }
         }
     }
 }

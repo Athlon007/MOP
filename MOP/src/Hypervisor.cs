@@ -355,6 +355,7 @@ namespace MOP
             try
             {
                 new ItemsManager();
+                ItemsManager.Instance.Initialize();
                 ModConsole.Log("[MOP] Items class initialized");
             }
             catch (Exception ex)

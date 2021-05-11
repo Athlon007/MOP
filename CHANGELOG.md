@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.3 (tba)
+
+This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requirement.
+
+## Changes
+
+- Eliminated the lag caused by spawning items
+
+### Bug Fixes
+
+- Fixed empty bottles not spawning at all
+
 ## 3.2.3 (10.05.2021)
 
 ### Bug Fixes

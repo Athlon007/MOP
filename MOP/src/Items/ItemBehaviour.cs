@@ -117,7 +117,7 @@ namespace MOP.Items
                     }
                 }
             }
-
+            
             // If the item is a shopping bag, hook the RemoveSelf to "Is garbage" FsmState
             if (gameObject.name.Contains("shopping bag"))
             {
@@ -151,7 +151,6 @@ namespace MOP.Items
             // because these two reset the variables of the item
             // (such as position, state or rotation).
             FsmFixes();
-
             // HACK: For some reason the trigger that's supposed to fix tire job not working doesn't really work on game load,
             // toggle DontDisable to true, if tire is close to repair shop cash register.
             if (this.gameObject.name.StartsWith("wheel_") && Vector3.Distance(gameObject.transform.position, GameObject.Find("REPAIRSHOP").transform.Find("LOD/Store/ShopCashRegister").position) < 5)
@@ -429,7 +428,6 @@ namespace MOP.Items
                 if (useFsm != null)
                 {
                     useFsm.Fsm.RestartOnEnable = false;
-
                     if (gameObject.name.StartsWith("door ")) return;
                     if (gameObject.name == "lottery ticket(xxxxx)") return;
 

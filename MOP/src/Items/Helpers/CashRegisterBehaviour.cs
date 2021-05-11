@@ -31,7 +31,7 @@ namespace MOP.Items.Helpers
 
         public CashRegisterBehaviour()
         {
-            FsmHook.FsmInject(this.gameObject, "Purchase", HookItems);
+            //FsmHook.FsmInject(this.gameObject, "Purchase", HookItems);
         }
 
         /// <summary>

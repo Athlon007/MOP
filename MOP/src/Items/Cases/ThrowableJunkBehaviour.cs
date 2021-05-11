@@ -29,7 +29,7 @@ namespace MOP.Items.Cases
 
         void Start()
         {
-            if (MOP.DestroyEmptyBottles)
+            if (MOP.DestroyEmptyBottles.Value)
             {
                 Destroy(gameObject);
                 return;

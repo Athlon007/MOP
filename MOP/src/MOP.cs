@@ -25,6 +25,7 @@ using MOP.Common;
 using MOP.Helpers;
 using MOP.Rules;
 using System.Collections.Generic;
+using HutongGames.PlayMaker;
 
 namespace MOP
 {
@@ -228,19 +229,6 @@ namespace MOP
                 ModPrompt.CreatePrompt($"MOP does not work with <color=yellow>{modName}</color>. Please disable that mod first.", "MOP");
             }
             SaveManager.VerifySave();
-        }
-
-        public override void PreLoad()
-        {
-            ModConsole.Log(GameObject.Find("SATSUMA(557kg, 248)").transform.position);
-            if (GameObject.Find("sausages(itemx)"))
-            {
-                ModConsole.Log("sosigs!");
-            }
-            else
-            {
-                ModConsole.Log("No sosigs!");
-            }
         }
 
         /// <summary>
