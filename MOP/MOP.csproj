@@ -113,7 +113,6 @@
     <Compile Include="src\Items\Helpers\RadioDisable.cs" />
     <Compile Include="src\Items\ItemFreezer.cs" />
     <Compile Include="src\Items\Helpers\WheelRepairJobTrigger.cs" />
-    <Compile Include="src\Items\ItemLogic.cs" />
     <Compile Include="src\Managers\ItemsManager.cs" />
     <Compile Include="src\Items\ItemBehaviour.cs" />
     <Compile Include="src\Items\Helpers\ShopModItemSpawnCheck.cs" />
