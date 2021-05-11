@@ -405,7 +405,7 @@ namespace MOP.Common
                     }
                     catch
                     {
-                        ModConsole.Error("Failed setting resolution.");
+                        ModConsole.LogError("Failed setting resolution.");
                     }
                     break;
                 case "quality-settings":
@@ -415,7 +415,7 @@ namespace MOP.Common
                     }
                     catch
                     {
-                        ModConsole.Error("Failed setting quality settings.");
+                        ModConsole.LogError("Failed setting quality settings.");
                     }
                     break;
             }

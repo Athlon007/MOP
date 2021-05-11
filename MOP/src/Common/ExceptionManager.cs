@@ -238,6 +238,8 @@ namespace MOP.Common
 
         public static string GetSystemInfo()
         {
+            if (Process.GetProcessesByName("winlogon").Length == 0) return "Linux";
+
             string fullOS = SystemInfo.operatingSystem;
             int build = int.Parse(fullOS.Split('(')[1].Split(')')[0].Split('.')[2]);
             if (build > 9600)

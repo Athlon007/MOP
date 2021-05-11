@@ -80,13 +80,13 @@ namespace MOP.Helpers
 
                 if (saveBugs.Count > 0)
                 {
-                    ModUI.ShowYesNoMessage($"MOP found <color=yellow>{saveBugs.Count}</color> problem{(saveBugs.Count > 1 ? "s" : "")} with your save:\n\n" +
+                    ModPrompt.CreateYesNoPrompt($"MOP found <color=yellow>{saveBugs.Count}</color> problem{(saveBugs.Count > 1 ? "s" : "")} with your save:\n\n" +
                                       $"<color=yellow>{string.Join(", ", saveBugs.Select(f => f.BugName).ToArray())}</color>\n\n" +
                                       $"Would you like MOP to try and fix {((saveBugs.Count > 1) ? "them" : "it")}?", "MOP - Save Integrity Verification", FixAllProblems);
                 }
                 else
                 {
-                    ModConsole.Print("[MOP] MOP didn't find any problems with your save :)");
+                    ModConsole.Log("[MOP] MOP didn't find any problems with your save :)");
                 }
             }
             catch (Exception e)
@@ -118,7 +118,7 @@ namespace MOP.Helpers
                 msg += $"\n<color=red>{fail}</color> issue{(fail > 1 ? "s" : "")} couldn't be fixed.";
             }
 
-            ModUI.ShowMessage(msg, "MOP - Save Integrity Check");
+            ModPrompt.CreatePrompt(msg, "MOP - Save Integrity Check");
         }
 
         static void FixBucketSeats()

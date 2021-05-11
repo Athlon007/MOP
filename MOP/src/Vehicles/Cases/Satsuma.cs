@@ -255,7 +255,7 @@ namespace MOP.Vehicles.Cases
             // If there's less bolts found than the value, warn user.
             if (satsumaBoltsAntiReloads.Count < MinimumBolts)
             {
-                ModConsole.Print($"<color=yellow>[MOP] Only {satsumaBoltsAntiReloads.Count} out of expected {MinimumBolts} have been reset!</color>");
+                ModConsole.Log($"<color=yellow>[MOP] Only {satsumaBoltsAntiReloads.Count} out of expected {MinimumBolts} have been reset!</color>");
             }
 
             // Fixes car body color resetting to default.

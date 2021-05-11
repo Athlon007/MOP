@@ -28,7 +28,7 @@ namespace MOP.Common
             }
             catch (Exception ex)
             {
-                ModConsole.Error(ex.ToString());
+                ModConsole.LogError(ex.ToString());
             }
         }
 
