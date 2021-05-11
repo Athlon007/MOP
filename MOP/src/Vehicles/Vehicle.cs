@@ -216,7 +216,7 @@ namespace MOP.Vehicles
                     trailerLogUnderFloorCheck.AddComponent<TrailerLogUnderFloor>();
 
                     // Tractor connection.
-                    PlayMakerFSM detach = gameObject.GetPlayMakerByName("Detach");
+                    PlayMakerFSM detach = gameObject.GetPlayMaker("Detach");
                     detach.Fsm.RestartOnEnable = false;
                     Object.Destroy(detach.FsmVariables.GetFsmGameObject("DetachPivot").Value.gameObject.GetComponent<FixedJoint>());
                     break;

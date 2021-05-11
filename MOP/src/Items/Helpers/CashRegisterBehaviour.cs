@@ -101,7 +101,7 @@ namespace MOP.Items.Helpers
                         }
                         else if (items[i].name.EqualsAny("alternator belt(Clone)", "oil filter(Clone)", "battery(Clone)"))
                         {
-                            items[i].GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
+                            items[i].GetPlayMaker("Use").Fsm.RestartOnEnable = false;
                         }
                     }
                     catch { }
@@ -130,11 +130,11 @@ namespace MOP.Items.Helpers
 
             for (int i = 0; i < plugs.Length; i++)
             {
-                if (plugs[i].GetPlayMakerByName("Use"))
-                    plugs[i].GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
+                if (plugs[i].GetPlayMakerFSM("Use"))
+                    plugs[i].GetPlayMakerFSM("Use").Fsm.RestartOnEnable = false;
 
-                if (plugs[i].GetPlayMakerByName("Screw"))
-                    plugs[i].GetPlayMakerByName("Screw").Fsm.RestartOnEnable = false;
+                if (plugs[i].GetPlayMakerFSM("Screw"))
+                    plugs[i].GetPlayMakerFSM("Screw").Fsm.RestartOnEnable = false;
 
                 if (plugs[i].GetComponent<ItemBehaviour>() == null)
                     plugs[i].AddComponent<ItemBehaviour>();

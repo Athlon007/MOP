@@ -48,6 +48,8 @@ namespace MOP.Helpers
             return Application.persistentDataPath + "/items.txt";
         }
 
+        static List<SaveBugs> saveBugs;
+
         public static void VerifySave()
         {
             if (!File.Exists(GetDefaultES2SavePosition())) return;

@@ -175,5 +175,19 @@ namespace MOP.Common
             return Application.productName == "My Summer Car";
 
         }
+
+        internal static bool IsConfilctingModPresent(out string n)
+        {
+            string[] arr = { "KruFPS", "ImproveFPS", "OptimizeMSC", "ZZDisableAll", "DisableAll" };
+            foreach (string a in arr)
+                if (ModLoader.GetMod(a) != null)
+                {
+                    n = ModLoader.GetMod(a).Name;
+                    return true;
+                }
+
+            n = "";
+            return false;
+        }
     }
 }

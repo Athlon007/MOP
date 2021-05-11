@@ -230,6 +230,19 @@ namespace MOP
             SaveManager.VerifySave();
         }
 
+        public override void PreLoad()
+        {
+            ModConsole.Log(GameObject.Find("SATSUMA(557kg, 248)").transform.position);
+            if (GameObject.Find("sausages(itemx)"))
+            {
+                ModConsole.Log("sosigs!");
+            }
+            else
+            {
+                ModConsole.Log("No sosigs!");
+            }
+        }
+
         /// <summary>
         /// Called once, when mod is loading after game is fully loaded.
         /// </summary>

@@ -92,6 +92,7 @@ namespace MOP.Managers
 
         // List of ItemHooks that are a child of objects.
         List<ItemBehaviour> itemHooks = new List<ItemBehaviour>();
+        List<ItemLogic> items;
 
         CashRegisterBehaviour cashRegisterHook;
         Transform lostSpawner, landfillSpawn;
@@ -244,6 +245,16 @@ namespace MOP.Managers
             {
                 itemHooks.Remove(objectHook);
             }
+        }
+
+        public void Add(ItemLogic item)
+        {
+            items.Add(item);
+        }
+
+        public void Remove(ItemLogic item)
+        {
+            if (items.Contains(item)) items.Remove(item);
         }
 
         public void RemoveAt(int index)

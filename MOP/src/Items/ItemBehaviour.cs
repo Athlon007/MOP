@@ -78,7 +78,7 @@ namespace MOP.Items
 
         bool kiljuInitialReset;
 
-        internal PartMagnet PartMagnet;
+        PartMagnet partMagnet;
         BoltMagnet boltMagnet;
 
         public ItemBehaviour()
@@ -425,7 +425,7 @@ namespace MOP.Items
         {
             try
             {
-                PlayMakerFSM useFsm = gameObject.GetPlayMakerByName("Use");
+                PlayMakerFSM useFsm = gameObject.GetPlayMakerFSM("Use");
                 if (useFsm != null)
                 {
                     useFsm.Fsm.RestartOnEnable = false;
@@ -433,7 +433,7 @@ namespace MOP.Items
                     if (gameObject.name.StartsWith("door ")) return;
                     if (gameObject.name == "lottery ticket(xxxxx)") return;
 
-                    FsmState state1 = useFsm.FindFsmState("State 1");
+                    FsmState state1 = useFsm.GetState("State 1");
                     if (state1 != null)
                     {
                         List<FsmStateAction> emptyState1 = state1.Actions.ToList();
@@ -442,7 +442,7 @@ namespace MOP.Items
                         state1.SaveActions();
                     }
 
-                    FsmState loadState = useFsm.FindFsmState("Load");
+                    FsmState loadState = useFsm.GetState("Load");
                     if (loadState != null)
                     {
                         List<FsmStateAction> emptyActions = loadState.Actions.ToList();
@@ -455,12 +455,6 @@ namespace MOP.Items
                     {
                         batteryOnCharged = useFsm.FsmVariables.GetFsmBool("OnCharged");
                     }
-                }
-
-                PlayMakerFSM dataFsm = gameObject.GetPlayMakerByName("Data");
-                if (dataFsm != null)
-                {
-                    dataFsm.Fsm.RestartOnEnable = false;
                 }
 
                 // Fixes for particular items.
@@ -494,149 +488,150 @@ namespace MOP.Items
                         transform.Find("Bolts").GetChild(7).GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
                         break;
                     case "spark plug(Clone)":
-                        gameObject.GetPlayMakerByName("Screw").Fsm.RestartOnEnable = false;
+                        gameObject.GetPlayMaker("Screw").Fsm.RestartOnEnable = false;
                         break;
+                }
+                
+                PlayMakerFSM dataFsm = gameObject.GetPlayMakerFSM("Data");
+                if (dataFsm != null)
+                {
+                    dataFsm.Fsm.RestartOnEnable = false;
+                }
+
+                PlayMakerFSM paintFSM = gameObject.GetPlayMakerFSM("Paint");
+                if (paintFSM != null)
+                {
+                    paintFSM.Fsm.RestartOnEnable = false;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, false, $"FSM_FIXES | {CustomExtensions.GetGameObjectPath(gameObject)}");
+            }
+        }
+
+        /// <summary>
+        /// Freezes the item by adding the ItemFreezer item, and setting rigidbody to kinematic and freezing constraints.
+        /// </summary>
+        public void Freeze()
+        {
+            // If the item is an Kilju or Empty Plastic Can, and is close to the CanTrigger object,
+            // teleport the object to LostSpawner (junk yard).
+            ResetKiljuContainer();
+
+            gameObject.AddComponent<ItemFreezer>();
+        }
+
+        /// <summary>
+        /// Checks what disabling method object uses and then returns the correct value for that object.
+        /// </summary>
+        public bool ActiveSelf => (Toggle == TogglePhysicsOnly && rb != null) ? rb.detectCollisions : gameObject.activeSelf;
+
+        /// <summary>
+        /// Sets up the toggling method.
+        /// </summary>
+        private void SetInitialTogglingMethod()
+        {
+            Toggle = ToggleActive;
+
+            IgnoreRule rule = RulesManager.Instance.IgnoreRules.Find(f => f.ObjectName == this.gameObject.name);
+            if (rule != null)
+            {
+                Toggle = TogglePhysicsOnly;
+
+                if (rule.TotalIgnore)
+                {
+                    Destroy(this);
+                    return;
                 }
             }
 
-            PlayMakerFSM dataFsm = gameObject.GetPlayMakerFSM("Data");
-            if (dataFsm != null)
+            // This items cannot be fully disabled, for one reason or another.
+            if (this.gameObject.name.EqualsAny("fish trap(itemx)", "bucket(itemx)", "pike(itemx)", "envelope(xxxxx)", "lottery ticket(xxxxx)"))
             {
-                dataFsm.Fsm.RestartOnEnable = false;
+                Toggle = TogglePhysicsOnly;
             }
 
-            PlayMakerFSM paintFSM = gameObject.GetPlayMakerByName("Paint");
-            if (paintFSM != null)
+            // If ignore, don't disable renderer.
+            if (rule != null)
             {
-                paintFSM.Fsm.RestartOnEnable = false;
+                renderer = null;
             }
         }
-            catch (System.Exception ex)
-            {
-                ExceptionManager.New(ex, false, $"FSM_FXIES | {CustomExtensions.GetGameObjectPath(gameObject)}");
-            }
-}
 
-/// <summary>
-/// Freezes the item by adding the ItemFreezer item, and setting rigidbody to kinematic and freezing constraints.
-/// </summary>
-public void Freeze()
-{
-    // If the item is an Kilju or Empty Plastic Can, and is close to the CanTrigger object,
-    // teleport the object to LostSpawner (junk yard).
-    ResetKiljuContainer();
-
-    gameObject.AddComponent<ItemFreezer>();
-}
-
-/// <summary>
-/// Checks what disabling method object uses and then returns the correct value for that object.
-/// </summary>
-public bool ActiveSelf => (Toggle == TogglePhysicsOnly && rb != null) ? rb.detectCollisions : gameObject.activeSelf;
-
-/// <summary>
-/// Sets up the toggling method.
-/// </summary>
-private void SetInitialTogglingMethod()
-{
-    Toggle = ToggleActive;
-
-    IgnoreRule rule = RulesManager.Instance.IgnoreRules.Find(f => f.ObjectName == this.gameObject.name);
-    if (rule != null)
-    {
-        Toggle = TogglePhysicsOnly;
-
-        if (rule.TotalIgnore)
+        /// <summary>
+        /// Fixes renderers and physics being disabled, if item had Toggle method set to TogglePhysicsOnly and has switched to ToggleActive.
+        /// </summary>
+        internal void ToggleChangeFix()
         {
-            Destroy(this);
-            return;
-        }
-    }
+            if (Toggle != ToggleActive) return;
 
-    // This items cannot be fully disabled, for one reason or another.
-    if (this.gameObject.name.EqualsAny("fish trap(itemx)", "bucket(itemx)", "pike(itemx)", "envelope(xxxxx)", "lottery ticket(xxxxx)"))
-    {
-        Toggle = TogglePhysicsOnly;
-    }
-
-    // If ignore, don't disable renderer.
-    if (rule != null)
-    {
-        renderer = null;
-    }
-}
-
-/// <summary>
-/// Fixes renderers and physics being disabled, if item had Toggle method set to TogglePhysicsOnly and has switched to ToggleActive.
-/// </summary>
-internal void ToggleChangeFix()
-{
-    if (Toggle != ToggleActive) return;
-
-    // Fixing issue with objects not getting re-enabled (I hope).
-    if (renderer != null && renderer.enabled == false && !IgnoreRenderer)
-    {
-        renderer.enabled = true;
-    }
-
-    if (IsPartMagnetAttached()) return;
-
-    // Fixing disabled physics.
-    if (rb != null && (rb.isKinematic || !rb.useGravity || !rb.detectCollisions))
-    {
-        rb.isKinematic = false;
-        rb.useGravity = true;
-        rb.detectCollisions = true;
-    }
-}
-
-internal void ResetKiljuContainer()
-{
-    if (!gameObject.name.ContainsAny("empty plastic can", "kilju", "emptyca")) return;
-
-    if (ItemsManager.Instance.GetCanTrigger())
-    {
-        if (Vector3.Distance(transform.position, ItemsManager.Instance.GetCanTrigger().transform.position) < 2)
-        {
-            transform.position = ItemsManager.Instance.LostSpawner.position;
-
-            PlayMakerFSM fsm = gameObject.GetPlayMakerFSM("Use");
-            if (fsm)
+            // Fixing issue with objects not getting re-enabled (I hope).
+            if (renderer != null && renderer.enabled == false && !IgnoreRenderer)
             {
-                fsm.FsmVariables.GetFsmBool("ContainsKilju").Value = false;
+                renderer.enabled = true;
             }
 
-            gameObject.name = "empty plastic can(itemx)";
+            if (IsPartMagnetAttached()) return;
 
-            return;
-        }
-    }
-
-    if (ItemsManager.Instance.LandfillSpawn)
-    {
-        if (Vector3.Distance(transform.position, ItemsManager.Instance.LandfillSpawn.position) < 5)
-        {
-            transform.position = ItemsManager.Instance.LandfillSpawn.position;
-
-            PlayMakerFSM fsm = gameObject.GetPlayMakerFSM("Use");
-            if (fsm)
+            // Fixing disabled physics.
+            if (rb != null && (rb.isKinematic || !rb.useGravity || !rb.detectCollisions))
             {
-                fsm.FsmVariables.GetFsmBool("ContainsKilju").Value = false;
+                rb.isKinematic = false;
+                rb.useGravity = true;
+                rb.detectCollisions = true;
+            }
+        }
+
+        internal void ResetKiljuContainer()
+        {
+            if (!gameObject.name.ContainsAny("empty plastic can", "kilju", "emptyca")) return;
+
+            if (ItemsManager.Instance.GetCanTrigger())
+            {
+                if (Vector3.Distance(transform.position, ItemsManager.Instance.GetCanTrigger().transform.position) < 2)
+                {
+                    transform.position = ItemsManager.Instance.LostSpawner.position;
+
+                    PlayMakerFSM fsm = gameObject.GetPlayMakerFSM("Use");
+                    if (fsm)
+                    {
+                        fsm.FsmVariables.GetFsmBool("ContainsKilju").Value = false;
+                    }
+
+                    gameObject.name = "empty plastic can(itemx)";
+
+                    return;
+                }
             }
 
-            gameObject.name = "empty plastic can(itemx)";
+            if (ItemsManager.Instance.LandfillSpawn)
+            {
+                if (Vector3.Distance(transform.position, ItemsManager.Instance.LandfillSpawn.position) < 5)
+                {
+                    transform.position = ItemsManager.Instance.LandfillSpawn.position;
+
+                    PlayMakerFSM fsm = gameObject.GetPlayMakerFSM("Use");
+                    if (fsm)
+                    {
+                        fsm.FsmVariables.GetFsmBool("ContainsKilju").Value = false;
+                    }
+
+                    gameObject.name = "empty plastic can(itemx)";
+                }
+            }
         }
-    }
-}
 
-internal bool IsPartMagnetAttached()
-{
-    return (partMagnet != null && partMagnet.attached) || (boltMagnet != null && boltMagnet.attached);
-}
+        internal bool IsPartMagnetAttached()
+        {
+            return (partMagnet != null && partMagnet.attached) || (boltMagnet != null && boltMagnet.attached);
+        }
 
-bool IsPartMagnetPresent()
-{
-    return partMagnet != null || boltMagnet != null;
-}
+        bool IsPartMagnetPresent()
+        {
+            return partMagnet != null || boltMagnet != null;
+        }
+
+
     }
 }
