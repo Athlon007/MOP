@@ -22,6 +22,7 @@ using System.IO;
 using UnityEngine;
 
 using MOP.Rules;
+using System.Reflection;
 
 namespace MOP.Common
 {
@@ -156,24 +157,22 @@ namespace MOP.Common
 
             output += "=== MOP SETTINGS ===\n\n";
             output += $"ActiveDistance: {MOP.ActiveDistance.Value}\n";
-            output += $"ActiveDistanceMultiplicationValue: {MopSettings.ActiveDistanceMultiplicationValue}\n";
-            output += $"Mode: {MopSettings.Mode}\n";
+            output += $"ActiveDistanceMultiplier: {MopSettings.ActiveDistanceMultiplicationValue}\n";
+            output += $"PerformanceMode: {MopSettings.Mode}\n";
+            output += $"FramerateLimiter: {(int)MOP.FramerateLimiter.Value + "0"}\n";
+            output += $"ShadowAdjust: {MOP.EnableShadowAdjusting.Value}\n";
+            output += $"ShadowDistance: {MOP.ShadowDistance.Value}\n";
+            output += $"RunInBackground: {MOP.KeepRunningInBackground.Value}\n";
+            output += $"DynamicDrawDistance: {MOP.DynamicDrawDistance.Value}\n";
+            output += $"RulesAutoUpdate: {MOP.RulesAutoUpdate.Value}\n";
+            output += $"VerifyRules: {MOP.VerifyRuleFiles.Value}\n";
+            output += $"RulesAutoUpdateFrequency: {MopSettings.GetRuleFilesUpdateDaysFrequency()}\n";
+            output += $"RuledDeleteAutomatically: {MOP.DeleteUnusedRules.Value}";
             output += $"DestroyEmptyBottles: {MOP.DestroyEmptyBottles.Value}\n";
-            output += $"DisableEmptyItems: {MOP.DisableEmptyItems}\n";
+            output += $"DisableEmptyItems: {MOP.DisableEmptyItems.Value}\n";
             output += $"ToggleVehiclePhysicsOnly: {RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";
             output += $"IgnoreModVehicles: {RulesManager.Instance.SpecialRules.IgnoreModVehicles}\n";
-            output += $"EnableFramerateLimiter: {(int)MOP.FramerateLimiter.Value == 21}\n";
-            output += $"FramerateLimiter: {(int)MOP.FramerateLimiter.Value + "0"}\n";
-            output += $"EnableShadowAdjusting: {MOP.EnableShadowAdjusting.Value}\n";
-            output += $"KeepRunningInBackground: {MOP.KeepRunningInBackground.Value}\n";
-            output += $"DynamicDrawDistance: {MOP.DynamicDrawDistance.Value}\n";
-            output += $"ShadowDistance: {MOP.ShadowDistance.Value}\n";
-            output += $"RulesAutoUpdate: {MOP.RulesAutoUpdate.Value}\n";
-            output += $"RulesAutoUpdateFrequency: {MopSettings.GetRuleFilesUpdateDaysFrequency()}\n";
             output += $"CustomRuleFile: {File.Exists($"{MOP.ModConfigPath}/Custom.txt")}\n\n";
-
-            // Steam stuff.
-            output += $"ExperimentalBranch: {ModLoader.CheckIfExperimental()}\n";
 
             // Game data
             if (ModLoader.CurrentScene == CurrentScene.Game)
@@ -186,7 +185,7 @@ namespace MOP.Common
                     output += $"IsPlayerInCar: {FSM.FsmManager.IsPlayerInCar()}\n";
                     output += $"IsPlayerInSatsuma: {FSM.FsmManager.IsPlayerInSatsuma()}\n";
                     output += $"DrawDistance: {FSM.FsmManager.GetDrawDistance()}\n";
-                    output += $"CanTriggerStatus: {(Managers.ItemsManager.Instance == null ? "manager_null" : Managers.ItemsManager.Instance.GetCanTrigger() == null ? "null" : $"Found ({Managers.ItemsManager.Instance.GetCanTrigger().GetGameObjectPath()})")}\n";
+                    output += $"CanTriggerStatus: {(Managers.ItemsManager.Instance == null ? "manager_null" : Managers.ItemsManager.Instance.GetCanTrigger() == null ? "null" : $"Found ({Managers.ItemsManager.Instance.GetCanTrigger().Path()})")}\n";
                     output += $"IsTrailerAttached: {FSM.FsmManager.IsTrailerAttached()}\n";
                 }
                 catch
@@ -205,10 +204,10 @@ namespace MOP.Common
             foreach (var mod in ModLoader.LoadedMods)
             {
                 // Ignore MSCLoader or MOP.
-                if (mod.ID.EqualsAny("MSCLoader_Console", "MSCLoader_Settings", "MOP"))
+                if (mod.ID.EqualsAny("MOP"))
                     continue;
 
-                output += $"{mod.Name}:\n  ID: {mod.ID}\n  Version: {mod.Version}\n  Author: {mod.Author}\n  Enabled: {mod.Enabled}\n\n";
+                output += $"{mod.Name}:\n  ID: {mod.ID}\n  Version: {mod.Version}\n  Author: {mod.Author}\n  Enabled: {mod.Enabled}\n  {mod.UpdateLink}\n\n";
             }
 
             // If only 3 mods have been found, that means the only mods active are MOP and two ModLoader modules.

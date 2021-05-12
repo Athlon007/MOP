@@ -42,7 +42,6 @@ namespace MOP.Common
                                 "<color=yellow>delete [ModID]</color> - Delete rule file\n" +
                                 "<color=yellow>cat [File Name]</color> - Print the content of a rule file\n" +
                                 "<color=yellow>generate-list [true/false]</color> - Generates text files which contain the list of items that are toggled by MOP\n" +
-                                "<color=yellow>restore-save</color> - If you use experimental save optimiztion, allows you to restore your last save file.\n" +
                                 "<color=yellow>load-rules [true/false]</color> - If set to false, prevents MOP from loading any rule files.\n" +
                                 "<color=yellow>force-crash [critical]</color> - Forces MOP to crash itself. If 'critical' is added, it will force MOP a critical crash.\n" +
                                 "<color=yellow>resolution [width] [height]</color> - Sets the desired resolution";
@@ -296,47 +295,6 @@ namespace MOP.Common
                     }
 
                     ModConsole.Log(File.ReadAllText($"{MOP.ModConfigPath}/{args[1]}"));
-                    break;
-                case "restore-save":
-                    if (ModLoader.CurrentScene != CurrentScene.MainMenu)
-                    {
-                        ModConsole.Log("You can only restore game save in the main menu.");
-                        break;
-                    }
-
-                    bool defaultBackupMissing = false;
-                    bool itemsBackupMissing = false;
-                    if (!File.Exists(SaveManager.GetDefaultES2SavePosition() + ".mopbackup"))
-                    {
-                        defaultBackupMissing = true;
-                        ModConsole.Log("defaultES2Save.txt.mopbackup file is missing.");
-                    }
-
-                    if (!File.Exists(SaveManager.GetItemsPosition() + ".mopbackup"))
-                    {
-                        itemsBackupMissing = true;
-                        ModConsole.Log("items.txt.mopbackup file is missing.");
-                    }
-
-                    if (defaultBackupMissing && itemsBackupMissing)
-                    {
-                        ModConsole.Log("Save backups don't exists. Do you use the save optimization?");
-                        break;
-                    }
-
-                    if (!defaultBackupMissing)
-                    {
-                        File.Delete(SaveManager.GetDefaultES2SavePosition());
-                        File.Move(SaveManager.GetDefaultES2SavePosition() + ".mopbackup", SaveManager.GetDefaultES2SavePosition());
-                    }
-
-                    if (!itemsBackupMissing)
-                    {
-                        File.Delete(SaveManager.GetItemsPosition());
-                        File.Move(SaveManager.GetItemsPosition() + ".mopbackup", SaveManager.GetItemsPosition());
-                    }
-
-                    ModConsole.Log("Save backup succesfully restored!");
                     break;
                 case "generate-list":
                     if (args.Length > 1)

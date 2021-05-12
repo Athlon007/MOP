@@ -543,6 +543,8 @@ namespace MOP
                 System.IO.File.WriteAllText("place.txt", place);
                 System.Diagnostics.Process.Start("place.txt");
             }
+
+            ModConsole.Log(worldObjectManager.Count);
         }
 #endregion
 #region Save Game Actions

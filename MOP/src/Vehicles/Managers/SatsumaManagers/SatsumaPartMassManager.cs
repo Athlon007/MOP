@@ -54,7 +54,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
                     if (!removalFSM)
                     {
                         throw new Exception($"SatsumaPartMassManager: {gameObject.name} - Removal PlayMakerFSM is missing!\n\n" +
-                                                   $"Path: {gameObject.GetGameObjectPath()}");
+                                                   $"Path: {gameObject.Path()}");
                     }
 
                     objectMass = removalFSM.FsmVariables.GetFsmFloat("Mass").Value;
@@ -124,7 +124,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, true, "There was an error with SatsumaPartMassManager: " + gameObject.GetGameObjectPath());
+                    ExceptionManager.New(ex, true, "There was an error with SatsumaPartMassManager: " + gameObject.Path());
                 }
             }
 

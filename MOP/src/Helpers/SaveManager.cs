@@ -20,39 +20,35 @@ using UnityEngine;
 using MSCLoader;
 using System.Collections.Generic;
 using System.Linq;
+using MOP.Common;
 
 namespace MOP.Helpers
 {
     class SaveManager
     {
+        public static string SavePath => Path.Combine(Application.persistentDataPath, "defaultES2File.txt").Replace('\\', '/');
+        public static string ItemsPath => Application.persistentDataPath + "/items.txt";
+        static List<SaveBugs> saveBugs;
+
         /// <summary>
         /// For some reason, the save files get marked as read only files, not allowing MSC to save the game.
         /// This script is ran in PreSaveGame() script and removes ReadOnly attribute.
         /// </summary>
         public static void RemoveReadOnlyAttribute()
         {
-            if (File.Exists(GetDefaultES2SavePosition()))
-                File.SetAttributes(GetDefaultES2SavePosition(), File.GetAttributes(GetDefaultES2SavePosition()) & ~FileAttributes.ReadOnly);
+            if (File.Exists(SavePath))
+                File.SetAttributes(SavePath, File.GetAttributes(SavePath) & ~FileAttributes.ReadOnly);
 
-            if (File.Exists(GetItemsPosition()))
-                File.SetAttributes(GetItemsPosition(), File.GetAttributes(GetDefaultES2SavePosition()) & ~FileAttributes.ReadOnly);
+            if (File.Exists(ItemsPath))
+                File.SetAttributes(ItemsPath, File.GetAttributes(ItemsPath) & ~FileAttributes.ReadOnly);
         }
-
-        public static string GetDefaultES2SavePosition()
-        {
-            return Path.Combine(Application.persistentDataPath, "defaultES2File.txt").Replace('\\', '/');
-        }
-
-        public static string GetItemsPosition()
-        {
-            return Application.persistentDataPath + "/items.txt";
-        }
-
-        static List<SaveBugs> saveBugs;
 
         public static void VerifySave()
         {
-            if (!File.Exists(GetDefaultES2SavePosition())) return;
+            if (!File.Exists(SavePath))
+                return;
+
+            ES2Settings setting = new ES2Settings();
 
             // Passenger bucket seat.
             // Check if driver bucket seat is bought and check the same for passenger one.
@@ -61,37 +57,42 @@ namespace MOP.Helpers
             {
                 saveBugs = new List<SaveBugs>();
 
-                ES2Settings setting = new ES2Settings();
-                bool bucketPassengerSeat = ES2.Load<bool>(GetDefaultES2SavePosition() + "?tag=bucket seat passenger(Clone)Purchased", setting);
-                bool bucketDriverSeat = ES2.Load<bool>(GetDefaultES2SavePosition() + "?tag=bucket seat driver(Clone)Purchased", setting);
+                bool bucketPassengerSeat = ES2.Load<bool>(SavePath + "?tag=bucket seat passenger(Clone)Purchased", setting);
+                bool bucketDriverSeat = ES2.Load<bool>(SavePath + "?tag=bucket seat driver(Clone)Purchased", setting);
                 if (bucketDriverSeat != bucketPassengerSeat)
                 {
                     saveBugs.Add(SaveBugs.New("Bucket Seats", "One bucket seat is present in the game world, while the other isn't - both should be in game world.", FixBucketSeats));
                 }
+            }
+            catch (Exception e)
+            {
+                ExceptionManager.New(e, false, "VERIFY_SAVE_BUCKET_SEAT");
+            }
 
-                bool tractorTrailerAttached = ES2.Load<bool>(GetDefaultES2SavePosition() + "?tag=TractorTrailerAttached", setting);
-                Transform flatbedTransform = ES2.Load<Transform>(GetDefaultES2SavePosition() + "?tag=FlatbedTransform", setting);
-                Transform kekmetTransform = ES2.Load<Transform>(GetDefaultES2SavePosition() + "?tag=TractorTransform", setting);
+            try
+            {
+                bool tractorTrailerAttached = ES2.Load<bool>(SavePath + "?tag=TractorTrailerAttached", setting);
+                Transform flatbedTransform = ES2.Load<Transform>(SavePath + "?tag=FlatbedTransform", setting);
+                Transform kekmetTransform = ES2.Load<Transform>(SavePath + "?tag=TractorTransform", setting);
                 if (tractorTrailerAttached && Vector3.Distance(flatbedTransform.position, kekmetTransform.position) > 5.5f)
                 {
                     saveBugs.Add(SaveBugs.New("Flatbed Trailer Attached", "Trailer and tractor are too far apart from each other - impossible for them to be attached.", FixDetachFlatbed));
                 }
-
-
-                if (saveBugs.Count > 0)
-                {
-                    ModPrompt.CreateYesNoPrompt($"MOP found <color=yellow>{saveBugs.Count}</color> problem{(saveBugs.Count > 1 ? "s" : "")} with your save:\n\n" +
-                                      $"<color=yellow>{string.Join(", ", saveBugs.Select(f => f.BugName).ToArray())}</color>\n\n" +
-                                      $"Would you like MOP to try and fix {((saveBugs.Count > 1) ? "them" : "it")}?", "MOP - Save Integrity Verification", FixAllProblems);
-                }
-                else
-                {
-                    ModConsole.Log("[MOP] MOP didn't find any problems with your save :)");
-                }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                ModConsole.LogError(e.ToString());
+                ExceptionManager.New(ex, false, "VERIFY_SAVE_FLATBED");
+            }
+
+            if (saveBugs.Count > 0)
+            {
+                ModPrompt.CreateYesNoPrompt($"MOP found <color=yellow>{saveBugs.Count}</color> problem{(saveBugs.Count > 1 ? "s" : "")} with your save:\n\n" +
+                                            $"<color=yellow>{string.Join(", ", saveBugs.Select(f => f.BugName).ToArray())}</color>\n\n" +
+                                            $"Would you like MOP to try and fix {((saveBugs.Count > 1) ? "them" : "it")}?", "MOP - Save Integrity Verification", FixAllProblems);
+            }
+            else
+            {
+                ModConsole.Log("[MOP] MOP didn't find any problems with your save :)");
             }
         }
 
@@ -123,19 +124,19 @@ namespace MOP.Helpers
 
         static void FixBucketSeats()
         {
-            ES2.Save(true, GetDefaultES2SavePosition() + "?tag=bucket seat passenger(Clone)Purchased");
-            ES2.Save(true, GetDefaultES2SavePosition() + "?tag=bucket seat driver(Clone)Purchased");
+            ES2.Save(true, SavePath + "?tag=bucket seat passenger(Clone)Purchased");
+            ES2.Save(true, SavePath + "?tag=bucket seat driver(Clone)Purchased");
         }
 
         static void FixDetachFlatbed()
         {
-            ES2.Save(false, GetDefaultES2SavePosition() + "?tag=TractorTrailerAttached", new ES2Settings());
+            ES2.Save(false, SavePath + "?tag=TractorTrailerAttached", new ES2Settings());
         }
 
         internal static Transform GetRadiatorHose3Transform()
         {
             ES2Settings settings = new ES2Settings();
-            return ES2.Load<Transform>(GetDefaultES2SavePosition() + "?tag=radiator hose3(xxxxx)");
+            return ES2.Load<Transform>(SavePath + "?tag=radiator hose3(xxxxx)");
         }
     }
 

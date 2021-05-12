@@ -71,7 +71,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
             }
             catch (Exception ex)
             {
-                ExceptionManager.New(ex, false, gameObject.GetGameObjectPath());
+                ExceptionManager.New(ex, false, gameObject.Path());
             }
         }
 

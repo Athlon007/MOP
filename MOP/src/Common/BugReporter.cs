@@ -123,7 +123,7 @@ namespace MOP.Common
             }
 
             // We are asking the user if he wants to add his game save to the zip file.
-            if (File.Exists(SaveManager.GetDefaultES2SavePosition()))
+            if (File.Exists(SaveManager.SavePath))
             {
                 ModPrompt.CreateYesNoPrompt("Would you like to your include save file?\n\n" +
                                             "This may greatly improve finding and fixing the bug.", "MOP - Bug Report",
@@ -138,14 +138,14 @@ namespace MOP.Common
             {
                 // Create folder called Save in the zip and get defaultES2Save.txt and items.txt.
                 zip.AddDirectoryByName("Save");
-                if (File.Exists(SaveManager.GetDefaultES2SavePosition()))
+                if (File.Exists(SaveManager.SavePath))
                 {
-                    zip.AddFile(SaveManager.GetDefaultES2SavePosition(), "Save");
+                    zip.AddFile(SaveManager.SavePath, "Save");
                 }
 
-                if (File.Exists(SaveManager.GetItemsPosition()))
+                if (File.Exists(SaveManager.ItemsPath))
                 {
-                    zip.AddFile(SaveManager.GetItemsPosition(), "Save");
+                    zip.AddFile(SaveManager.ItemsPath, "Save");
                 }
 
                 zip.Save();

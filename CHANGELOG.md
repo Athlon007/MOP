@@ -12,6 +12,7 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
 ### Changes
 
 - Eliminated the lag caused by spawning items, while purchasing and unpacking shopping bag
+- Minor changes under the hood
 
 ### Bug Fixes
 
@@ -19,6 +20,10 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
 - System info now correctly detects Linux
 - Grammar fixes
 - Fixed "Open Logs Folder" button saying that logs folder does not exist
+
+### Removed
+
+- Removed "mop restore-save" command
 
 ## 3.2.3 (10.05.2021)
 

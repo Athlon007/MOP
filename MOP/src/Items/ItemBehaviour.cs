@@ -494,7 +494,7 @@ namespace MOP.Items
             }
             catch (System.Exception ex)
             {
-                ExceptionManager.New(ex, false, $"FSM_FIXES | {CustomExtensions.GetGameObjectPath(gameObject)}");
+                ExceptionManager.New(ex, false, $"FSM_FIXES | {gameObject.Path()}");
             }
         }
 

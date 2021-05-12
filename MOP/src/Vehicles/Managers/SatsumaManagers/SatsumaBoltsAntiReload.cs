@@ -42,7 +42,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
             }
             catch (System.Exception ex)
             {
-                ExceptionManager.New(ex, true, $"BOLTS_ANTI_LOAD_SCRIPT_ERROR_{CustomExtensions.GetGameObjectPath(this.gameObject)}");
+                ExceptionManager.New(ex, true, $"BOLTS_ANTI_LOAD_SCRIPT_ERROR_{this.gameObject.Path()}");
             }
         }
     }
