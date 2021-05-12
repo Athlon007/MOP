@@ -91,7 +91,7 @@ namespace MOP.Common
             }
             else
             {
-                ModPrompt.CreatePrompt("Logs folder is doesn't exist.", "MOP");
+                ModPrompt.CreatePrompt("Logs folder doesn't exist.", "MOP");
             }
         }
 

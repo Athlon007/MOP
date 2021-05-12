@@ -17,6 +17,7 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
 
 - Fixed empty bottles not spawning at all
 - System info now correctly detects Linux
+- Grammar fixes
 
 ## 3.2.3 (10.05.2021)
 
