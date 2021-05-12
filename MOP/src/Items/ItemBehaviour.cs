@@ -160,9 +160,7 @@ namespace MOP.Items
 
             if (!gameObject.name.EqualsAny("empty bottle(Clone)", "empty pack(Clone)"))
             {
-#if PRO
                 if (IsPartMagnetAttached()) return;
-#endif
 
                 if (rb?.velocity.magnitude > 0.1f) return;
                 rb?.Sleep();
@@ -224,11 +222,7 @@ namespace MOP.Items
 
                 if (!Hypervisor.Instance.IsItemInitializationDone())
                 {
-#if PRO
                     if (transform.root != Satsuma.Instance.transform || IsPartMagnetAttached())
-#else
-                    if (transform.root != Satsuma.Instance.transform)
-#endif
                         transform.position = position;
                 }
 
@@ -252,11 +246,7 @@ namespace MOP.Items
                 }
 
                 // Don't toggle, if the item is attached to Satsuma.
-#if PRO
                 if (transform.root.gameObject.name == "SATSUMA(557kg, 248)" || IsPartMagnetAttached())
-#else
-                if (transform.root.gameObject.name == "SATSUMA(557kg, 248)")
-#endif
                 {
                     return;
                 }
@@ -625,11 +615,6 @@ namespace MOP.Items
             return (partMagnet != null && partMagnet.attached) || (boltMagnet != null && boltMagnet.attached);
         }
 
-        bool IsPartMagnetPresent()
-        {
-            return partMagnet != null || boltMagnet != null;
-        }
-
-
+        internal bool IsPartAttached => 
     }
 }

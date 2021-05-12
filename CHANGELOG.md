@@ -11,7 +11,7 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
 
 ### Changes
 
-- Eliminated the lag caused by spawning items
+- Eliminated the lag caused by spawning items, while purchasing and unpacking shopping bag
 
 ### Bug Fixes
 
