@@ -614,7 +614,5 @@ namespace MOP.Items
         {
             return (partMagnet != null && partMagnet.attached) || (boltMagnet != null && boltMagnet.attached);
         }
-
-        internal bool IsPartAttached => 
     }
 }
