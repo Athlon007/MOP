@@ -18,6 +18,7 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
 - Fixed empty bottles not spawning at all
 - System info now correctly detects Linux
 - Grammar fixes
+- Fixed "Open Logs Folder" button saying that logs folder does not exist
 
 ## 3.2.3 (10.05.2021)
 

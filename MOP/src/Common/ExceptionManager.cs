@@ -269,11 +269,12 @@ namespace MOP.Common
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
 
+                ModConsole.Log(path);
                 return path;
             }
         }
 
-        static bool ThisSessionLogDirectoryExists => Directory.Exists($"{RootPath}/{LogFolder}");
+        static bool ThisSessionLogDirectoryExists => Directory.Exists(Path.Combine(RootPath, LogFolder));
 
         internal static string RootPath => Application.dataPath.Replace("mysummercar_Data", "");
 
