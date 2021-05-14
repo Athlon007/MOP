@@ -172,14 +172,28 @@ namespace MOP.Vehicles.Cases
             GameObject.Find("HandBrake").GetComponent<PlayMakerFSM>().enabled = true;
 
             // Fixes handbrake lever position.
-            transform.Find("MiscParts/HandBrake/handbrake(xxxxx)/handbrake lever").GetPlayMakerFSM("Use").Fsm.RestartOnEnable = false;
+            try
+            {
+                transform.Find("MiscParts/HandBrake/handbrake(xxxxx)/handbrake lever").GetPlayMakerFSM("Use").Fsm.RestartOnEnable = false;
+            }
+            catch
+            {
+                ExceptionManager.New(new System.Exception("handbrake lever fix"), false, "Unable to fix handbrake lever.");
+            }
 
             // Battery terminal.
             // For some reason in the vanilla game, the negative battery terminal sometimes gets disabled, and the game doesn't allow to reenable it.
-            FsmState wiringBatteryDisable = transform.Find("Wiring").GetPlayMakerFSM("Status").GetState("Disable battery wires");
-            List<FsmStateAction> disableBatteryActions = new List<FsmStateAction>();
-            disableBatteryActions.Add(new CustomBatteryDisable());
-            wiringBatteryDisable.Actions = disableBatteryActions.ToArray();
+            try
+            {
+                FsmState wiringBatteryDisable = transform.Find("Wiring").GetPlayMakerFSM("Status").GetState("Disable battery wires");
+                List<FsmStateAction> disableBatteryActions = new List<FsmStateAction>();
+                disableBatteryActions.Add(new CustomBatteryDisable());
+                wiringBatteryDisable.Actions = disableBatteryActions.ToArray();
+            }
+            catch
+            {
+                ExceptionManager.New(new System.Exception("battery terminal fix"), false, "Unable to fix battery terminal wire.");
+            }
 
             // Get all bolts.
             satsumaBoltsAntiReloads = new List<SatsumaBoltsAntiReload>();
@@ -278,15 +292,38 @@ namespace MOP.Vehicles.Cases
 
                 useFsm.GetState("Load").Fsm.RestartOnEnable = false;
             }
-            
+
             // Fix for cd player disabling other vehicles radio.
-            Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "cd player(Clone)")
-            .transform.Find("ButtonsCD/RadioVolume").GetPlayMakerFSM("Knob").Fsm.RestartOnEnable = false;
-            GameObject.Find("radio(Clone)").transform.Find("ButtonsRadio/RadioVolume").GetPlayMakerFSM("Knob").Fsm.RestartOnEnable = false;
+            try
+            {
+                Resources.FindObjectsOfTypeAll<GameObject>()
+                .First(g => g.name == "cd player(Clone)" && g.GetComponent<PlayMakerFSM>() != null && g.GetComponent<MeshRenderer>() != null)
+                .transform.Find("ButtonsCD/RadioVolume").GetPlayMakerFSM("Knob").Fsm.RestartOnEnable = false;
+            }
+            catch
+            {
+                ExceptionManager.New(new System.Exception("FSM RadioCD Fix"), false, "Unable to fix cd player(Clone).");
+            }
+            try
+            {
+                Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radio(Clone)" && g.transform.parent.gameObject.name != "JAIL")
+                .transform.Find("ButtonsRadio/RadioVolume").GetPlayMakerFSM("Knob").Fsm.RestartOnEnable = false;
+            }
+            catch
+            {
+                ExceptionManager.New(new System.Exception("FSM Radio Fix"), false, "Unable to fix radio(Clone).");
+            }
 
             // Fix for window grille paint resetting to the default.
-            Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "window grille(Clone)" && g.GetPlayMakerFSM("Paint") != null)
-                .GetPlayMakerFSM("Paint").Fsm.RestartOnEnable = false;
+            try
+            {
+                Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "window grille(Clone)" && g.GetPlayMakerFSM("Paint") != null)
+                    .GetPlayMakerFSM("Paint").Fsm.RestartOnEnable = false;
+            }
+            catch
+            {
+                ExceptionManager.New(new System.Exception("window grille fix"), false, "Unable to fix window grille(Clone).");
+            }
 
             // Apply hood fix.
             GameFixes.Instance.HoodFix(transform.Find("Body/pivot_hood"),
@@ -338,8 +375,15 @@ namespace MOP.Vehicles.Cases
             }
 
             //key = transform.Find("Dashboard/Steering/steering_column2/Ignition/Keys/Key").gameObject;
-            key = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "steering_column2").transform.Find("Ignition/Keys/Key").gameObject;
-            cooldownTick = GameObject.Find("block(Clone)").transform.Find("CooldownTick").gameObject;
+            try
+            {
+                key = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "steering_column2").transform.Find("Ignition/Keys/Key").gameObject;
+            }
+            catch
+            {
+                ExceptionManager.New(new System.Exception("SatsumKey: Cannot Locate Key"), false, "SatsumaPartsMassManager: Key Error");
+            }
+                cooldownTick = GameObject.Find("block(Clone)").transform.Find("CooldownTick").gameObject;
 
             // Fix for reg plates Z fighting.
             try

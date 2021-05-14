@@ -20,6 +20,7 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
 - System info now correctly detects Linux
 - Grammar fixes
 - Fixed "Open Logs Folder" button saying that logs folder does not exist
+- Addressed an issue, in which for some users MOP would crash, if they were in jail
 
 ### Removed
 
