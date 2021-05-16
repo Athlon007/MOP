@@ -21,6 +21,7 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
 - Grammar fixes
 - Fixed "Open Logs Folder" button saying that logs folder does not exist
 - Addressed an issue, in which for some users MOP would crash, if they were in jail
+- Fixed the fire extinguisher holder not detecting freshly bought fire extinguishers
 
 ### Removed
 

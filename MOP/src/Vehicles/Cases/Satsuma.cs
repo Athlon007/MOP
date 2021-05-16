@@ -519,8 +519,8 @@ namespace MOP.Vehicles.Cases
                 foreach (PlayMakerFSM fsm in extinguisherHolder.GetComponents<PlayMakerFSM>())
                     fsm.Fsm.RestartOnEnable = false;
 
-                foreach (PlayMakerFSM fsm in extinguisherHolder.transform.Find("trigger_extinguisher").GetComponents<PlayMakerFSM>())
-                    fsm.Fsm.RestartOnEnable = false;
+               // foreach (PlayMakerFSM fsm in extinguisherHolder.transform.Find("trigger_extinguisher").GetComponents<PlayMakerFSM>())
+                   // fsm.Fsm.RestartOnEnable = false;
             }
             catch
             {

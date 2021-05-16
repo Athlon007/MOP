@@ -31,8 +31,6 @@ namespace MOP.Common
         static BugReporter instance;
         public static BugReporter Instance => instance;
 
-        string lastZipFilePath;
-
         string BugReportPath => $"{ExceptionManager.RootPath}/MOP_bugreport";
 
         public BugReporter()
@@ -97,6 +95,7 @@ namespace MOP.Common
             }
 
             // Now we are packing up everything.
+            string lastZipFilePath = $"{BugReportPath}/MOP Bug Report - {DateTime.Now:yyyy-MM-dd_HH-mm}.zip";
             using (ZipFile zip = new ZipFile())
             {
                 foreach (string file in Directory.GetFiles(BugReportPath, "*.txt"))
@@ -104,7 +103,6 @@ namespace MOP.Common
                     zip.AddFile(file, "");
                 }
 
-                lastZipFilePath = $"{BugReportPath}/MOP Bug Report - {DateTime.Now:yyyy-MM-dd_HH-mm}.zip";
                 zip.Save(lastZipFilePath);
             }
 
@@ -127,28 +125,25 @@ namespace MOP.Common
             {
                 ModPrompt.CreateYesNoPrompt("Would you like to your include save file?\n\n" +
                                             "This may greatly improve finding and fixing the bug.", "MOP - Bug Report",
-                                            DoAddZip,
+                                            () => {
+                                                using (ZipFile zip = ZipFile.Read(lastZipFilePath))
+                                                {
+                                                    // Create folder called Save in the zip and get defaultES2Save.txt and items.txt.
+                                                    zip.AddDirectoryByName("Save");
+                                                    if (File.Exists(SaveManager.SavePath))
+                                                    {
+                                                        zip.AddFile(SaveManager.SavePath, "Save");
+                                                    }
+
+                                                    if (File.Exists(SaveManager.ItemsPath))
+                                                    {
+                                                        zip.AddFile(SaveManager.ItemsPath, "Save");
+                                                    }
+
+                                                    zip.Save();
+                                                }
+                                            },
                                             onPromptClose: () => { Process.Start(BugReportPath); Process.Start($"{BugReportPath}/README.txt"); });
-            }
-        }
-
-        void DoAddZip()
-        {
-            using (ZipFile zip = ZipFile.Read(lastZipFilePath))
-            {
-                // Create folder called Save in the zip and get defaultES2Save.txt and items.txt.
-                zip.AddDirectoryByName("Save");
-                if (File.Exists(SaveManager.SavePath))
-                {
-                    zip.AddFile(SaveManager.SavePath, "Save");
-                }
-
-                if (File.Exists(SaveManager.ItemsPath))
-                {
-                    zip.AddFile(SaveManager.ItemsPath, "Save");
-                }
-
-                zip.Save();
             }
         }
     }

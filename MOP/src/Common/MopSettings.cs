@@ -15,8 +15,6 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MSCLoader;
-using System.IO;
-using System.Linq;
 using UnityEngine;
 
 using MOP.Common.Enumerations;
@@ -59,7 +57,6 @@ namespace MOP.Common
                 {
                     ModPrompt.CreatePrompt("Safe Mode will be enabled after the restart.", "MOP");
                     dontUpdate = true;
-                }
             }
 
             if (!dontUpdate)
@@ -83,6 +80,7 @@ namespace MOP.Common
                         break;
                 }
             }
+                }
         }
 
         internal static void UpdateFramerateLimiter()
