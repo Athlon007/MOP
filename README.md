@@ -19,12 +19,12 @@ Originates from [KruFPS](https://github.com/Krutonium/KruFPS).
 ## Requirements
 
 - My Summer Car (June 2020 update, or better)
-- [MSC Mod Loader Pro 1.0](https://www.nexusmods.com/mysummercar/mods/677) **OR** [MSC Mod Loader 1.1.13](https://github.com/piotrulos/MSCModLoader/releases)
+- [MSC Mod Loader Pro 1.0 (or better)](https://www.nexusmods.com/mysummercar/mods/677)
 
 ## Installation
 
 1. Download the mod from [GitHub](https://github.com/Athlon007/MOP/releases) or [NexusMods](https://www.nexusmods.com/mysummercar/mods/146/).
-2. Navigate to your MSC Mod Loader Mods folder (ex. C:\Users\Athlon\Documents\MySummerCar\Mods) and paste the MOP.dll there.
+2. Navigate to your MSC Mod Loader Mods folder (ex. C:\Steam\steamapps\common\My Summer Car\Mods) and paste the MOP.dll there.
 3. ???
 4. Profit!
 
@@ -60,6 +60,7 @@ This program is distributed under GNU General Public License v3. Feel free to us
 - DoritoMan
 - CatAtTheDesert
 - Slavic_Dude001
+- DJ Ötzi
 
 ## Support
 

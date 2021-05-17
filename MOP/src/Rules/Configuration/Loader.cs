@@ -22,12 +22,12 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 using MOP.Common;
 using MOP.Common.Enumerations;
 using MOP.Rules.Types;
-using System.Text.RegularExpressions;
 
 namespace MOP.Rules.Configuration
 {
