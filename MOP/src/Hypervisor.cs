@@ -483,6 +483,15 @@ namespace MOP
                 ExceptionManager.New(ex, true, "TOGGLE_ALL_ERROR");
             }
 
+            try
+            {
+                gameObject.AddComponent<Vehicles.Managers.SatsumaManagers.SatsumaFreezeFix>();
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "SATSUMA_FREEZE_FIX_LOAD");
+            }
+
             // Initialize the coroutines.
             currentLoop = LoopRoutine();
             StartCoroutine(currentLoop);
@@ -968,7 +977,9 @@ namespace MOP
                 }
             }
 
+           
         }
+
 #endregion
 #region Item enabling checks
         /// <summary>

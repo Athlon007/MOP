@@ -43,6 +43,8 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
         {
             yield return new WaitForSeconds(2);
 
+            if (trigger == null) yield break;
+
             if (trigger.Pivot.childCount == 0)
             {
                 trigger.gameObject.SetActive(true);

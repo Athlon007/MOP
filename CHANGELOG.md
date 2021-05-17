@@ -16,6 +16,7 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
 
 ### Bug Fixes
 
+- (My Summer Car Bug) Fixed vanilla bug, which caused Satsuma to violently stop after driving over larger bump, or jumping and landing
 - Fixed empty bottles not spawning at all
 - System info now correctly detects Linux
 - Grammar fixes
