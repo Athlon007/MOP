@@ -98,7 +98,6 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
                         startCooldown = false;
                     }
                 }
-
             }
         }
 
