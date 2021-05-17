@@ -533,19 +533,6 @@ namespace MOP.Vehicles.Cases
             }
 
             GameObject.Find("dashboard meters(Clone)/Gauges/Odometer").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-
-            var gms = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.GetComponent<Collider>() != null && g.transform.root.gameObject.name == ("SATSUMA(557kg, 248)")).ToArray();
-            foreach (var gm in gms)
-            {
-                ModConsole.Log(gm.name);
-                gm.AddComponent<TestIgnore>();
-                foreach (var coll in gm.GetComponents<Collider>())
-                {
-                    //coll.enabled = false;
-                    //Object.Destroy(coll);
-                    
-                }
-            }
             
             if (MopSettings.GenerateToggledItemsListDebug)
             {
@@ -885,23 +872,6 @@ namespace MOP.Vehicles.Cases
         public void FleetariIsMovingCar()
         {
             hasBeenMovedByFleetari = true;
-        }
-    }
-
-    class TestIgnore : MonoBehaviour
-    { 
-        void OnCollisionEnter(Collision other)
-        {
-            if (other.transform.root == Satsuma.Instance.transform)
-            {
-                foreach (var coll1 in gameObject.GetComponents<Collider>())
-                {
-                    foreach (var coll2 in other.gameObject.GetComponents<Collider>())
-                    {
-                        Physics.IgnoreCollision(coll1, coll2, true);
-                    }
-                }
-            }
         }
     }
 }
