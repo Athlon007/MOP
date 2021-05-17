@@ -62,15 +62,18 @@ namespace MOP.Rules.Configuration
             }
             else
             {
+                float div = (float)Screen.width / (float)Screen.height;
+                float x = div  < 1.3f ? 4f : div < 1.6f ? 4.5f : 6f;
+
                 GameObject text = GameObject.Instantiate(GameObject.Find("Interface/Songs/Text"));
-                text.transform.localPosition = new Vector3(0f, 2.6f, 0.01f);
+                text.transform.localPosition = new Vector3(x, 2.6f, 0.01f);
                 text.name = "MOP_Messager";
                 message = text.GetComponent<TextMesh>();
                 message.alignment = TextAlignment.Right;
-                message.anchor = TextAnchor.UpperCenter;
+                message.anchor = TextAnchor.UpperRight;
                 shadow = text.transform.GetChild(0).gameObject.GetComponent<TextMesh>();
                 shadow.alignment = TextAlignment.Right;
-                shadow.anchor = TextAnchor.UpperCenter;
+                shadow.anchor = TextAnchor.UpperRight;
                 NewMessage("");
             }
 

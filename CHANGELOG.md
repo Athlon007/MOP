@@ -13,6 +13,7 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
 
 - Eliminated the lag caused by spawning items, while purchasing and unpacking shopping bag
 - Minor changes under the hood
+- The MOP rule files message in main menu is now displayed in top right corner
 
 ### Bug Fixes
 
