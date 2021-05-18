@@ -543,7 +543,7 @@ namespace MOP
 
         IEnumerator RearBumperCoroutine(GameObject triggerBumper, GameObject bumper)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(3);
             bumper.GetComponent<ItemBehaviour>().enabled = false;
             
             Rigidbody rb = bumper.GetComponent<Rigidbody>();

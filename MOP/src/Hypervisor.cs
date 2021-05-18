@@ -485,7 +485,8 @@ namespace MOP
 
             try
             {
-                gameObject.AddComponent<Vehicles.Managers.SatsumaManagers.SatsumaFreezeFix>();
+                if (!RulesManager.Instance.SpecialRules.IgnoreSatsumaWallFix)
+                    gameObject.AddComponent<Vehicles.Managers.SatsumaManagers.SatsumaFreezeFix>();
             }
             catch (Exception ex)
             {

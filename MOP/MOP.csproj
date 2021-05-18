@@ -106,9 +106,11 @@
     <Compile Include="src\Common\SaveSlotsSupport.cs" />
     <Compile Include="src\FSM\Actions\CustomAddItemBehaviour.cs" />
     <Compile Include="src\FSM\Actions\CustomCreateObject.cs" />
+    <Compile Include="src\FSM\Actions\CustomSatsumaBumperDetach.cs" />
     <Compile Include="src\FSM\Actions\GrandmaHiker.cs" />
     <Compile Include="src\FSM\Actions\WindscreenRepairJob.cs" />
     <Compile Include="src\GameFixes.cs" />
+    <Compile Include="src\Items\Cases\RearBumperBehaviour.cs" />
     <Compile Include="src\Items\Cases\SuitcaseMoneyBehaviour.cs" />
     <Compile Include="src\Items\Cases\ThrowableJunkBehaviour.cs" />
     <Compile Include="src\Items\Helpers\CashRegisterBehaviour.cs" />

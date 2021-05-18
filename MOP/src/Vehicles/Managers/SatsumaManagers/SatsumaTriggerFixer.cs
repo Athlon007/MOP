@@ -22,7 +22,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
             instance = this;
 
             Transform body = VehicleManager.Instance.GetVehicle(VehiclesTypes.Satsuma).transform.Find("Body");
-            foreach (var t in body.GetComponentsInChildren<Transform>().Where(g => g.gameObject.name.StartsWith("trigger_")))
+            foreach (var t in body.GetComponentsInChildren<Transform>(true).Where(g => g.gameObject.name.StartsWith("trigger_")))
             {
                 t.gameObject.AddComponent<SatsumaTrigger>();
             }
@@ -42,8 +42,6 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
         IEnumerator CheckTriggerChild(SatsumaTrigger trigger)
         {
             yield return new WaitForSeconds(2);
-
-            if (trigger == null) yield break;
 
             if (trigger.Pivot.childCount == 0)
             {

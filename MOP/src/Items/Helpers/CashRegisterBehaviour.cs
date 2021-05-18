@@ -101,7 +101,7 @@ namespace MOP.Items.Helpers
                         }
                         else if (items[i].name.EqualsAny("alternator belt(Clone)", "oil filter(Clone)", "battery(Clone)"))
                         {
-                            items[i].GetPlayMaker("Use").Fsm.RestartOnEnable = false;
+                            items[i].GetPlayMakerFSM("Use").Fsm.RestartOnEnable = false;
                         }
                     }
                     catch { }

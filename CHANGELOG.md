@@ -17,17 +17,20 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
 
 ### Bug Fixes
 
-- (My Summer Car Bug) Fixed vanilla bug, which caused Satsuma to violently stop after driving over larger bump, or jumping and landing
-- Fixed empty bottles not spawning at all
+- (My Summer Car Bug) Fixed vanilla bug, which on higher framerates, would caused Satsuma to violently stop, if the rear bumper got detach
+- Fixed empty bottles not spawning after consuming milk or beer
 - System info now correctly detects Linux
 - Grammar fixes
 - Fixed "Open Logs Folder" button saying that logs folder does not exist
 - Addressed an issue, in which for some users MOP would crash, if they were in jail
 - Fixed the fire extinguisher holder not detecting freshly bought fire extinguishers
+- Fixed trigger fixing not being applied to innactive triggers
+- Fixed rear bumper unable to be detached, while having all screws unbolted
 
 ### Removed
 
 - Removed "mop restore-save" command
+- Removed "mop do-bumper-fix" command
 
 ## 3.2.3 (10.05.2021)
 

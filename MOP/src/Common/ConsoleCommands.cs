@@ -313,24 +313,6 @@ namespace MOP.Common
                     ModConsole.Log($"Generating toggled elements list is set to " +
                                      $"<color={(MopSettings.GenerateToggledItemsListDebug ? "green" : "red")}>{MopSettings.GenerateToggledItemsListDebug}</color>");
                     break;
-                case "do-bumper-fix":
-                    GameObject trigger = GameObject.Find("trigger_bumper_rear");
-                    GameObject bumper = GameObject.Find("bumper rear(Clone)");
-                    
-                    if (trigger == null)
-                    {
-                        ModConsole.LogError("Trigger not found");
-                        return;
-                    }
-
-                    if (bumper == null)
-                    {
-                        ModConsole.LogError("Bumper not found");
-                        return;
-                    }
-
-                    GameFixes.Instance.RearBumperFix(trigger, bumper);
-                    break;
                 case "load-rules":
                     if (args.Length > 1)
                     {

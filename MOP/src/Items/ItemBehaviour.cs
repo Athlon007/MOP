@@ -476,7 +476,7 @@ namespace MOP.Items
                         transform.Find("Bolts").GetChild(7).GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
                         break;
                     case "spark plug(Clone)":
-                        gameObject.GetPlayMaker("Screw").Fsm.RestartOnEnable = false;
+                        gameObject.GetPlayMakerFSM("Screw").Fsm.RestartOnEnable = false;
                         break;
                 }
                 

@@ -338,6 +338,9 @@ namespace MOP.Vehicles.Cases
             isBumperBolted = databaseBumper.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("Bolted");
             doBumperFixes = isBumperBolted.Value;
             DoBumperFix();
+            Items.Cases.RearBumperBehaviour behaviour = rearBumper.AddComponent<Items.Cases.RearBumperBehaviour>();
+            rearBumper.GetPlayMakerFSM("Removal").GetState("Remove part").AddAction(new CustomSatsumaBumperDetach(behaviour));
+            transform.Find("Body/trigger_bumper_rear").GetPlayMakerFSM("Assembly").GetState("Assemble 2").AddAction(new CustomSatsumaBumperAttach(behaviour));
 
             // Fix suspension adding a weight to the car on each car respawn.
             GameObject[] suspensionParts = Resources.FindObjectsOfTypeAll<GameObject>()
@@ -858,7 +861,7 @@ namespace MOP.Vehicles.Cases
             if (bumperFixRetries > MaxBumperFixRetries) return;
             bumperFixRetries++;
 
-            if (rearBumper.transform.parent == null && doBumperFixes)
+            if (doBumperFixes)
             {
                 GameFixes.Instance.RearBumperFix(rearBumperTrigger, rearBumper);
             }
