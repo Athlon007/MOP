@@ -145,7 +145,6 @@
     <Compile Include="src\FSM\Actions\CustomBatteryDisable.cs" />
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaCustomHoodUse.cs" />
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaBoltsAntiReload.cs" />
-    <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaFreezeFix.cs" />
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaHingeManager.cs" />
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaOnActionObjects.cs" />
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaRadiatorHoseFix.cs" />

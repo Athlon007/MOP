@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.3 (tba)
+## 3.3 Beta 1 (18.05.2021)
 
 This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requirement.
 
@@ -24,7 +24,7 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
 - Fixed "Open Logs Folder" button saying that logs folder does not exist
 - Addressed an issue, in which for some users MOP would crash, if they were in jail
 - Fixed the fire extinguisher holder not detecting freshly bought fire extinguishers
-- Fixed trigger fixing not being applied to innactive triggers
+- Fixed trigger fixing not being applied to inactive triggers
 - Fixed rear bumper unable to be detached, while having all screws unbolted
 
 ### Removed
