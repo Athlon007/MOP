@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3 Beta 2 ()
+
+### Changes
+
+- Removed "ExternalExecuting" class
+
 ## 3.3 Beta 1 (18.05.2021)
 
 This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requirement.

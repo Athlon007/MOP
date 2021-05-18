@@ -170,8 +170,6 @@ namespace MOP.Common
         /// <summary>
         /// Returns the path of the game object.
         /// </summary>
-        /// <param name="transform"></param>
-        /// <returns></returns>
         public static string Path(this Transform transform)
         {
             if (transform == null)
@@ -189,6 +187,9 @@ namespace MOP.Common
             return path;
         }
 
+        /// <summary>
+        /// Returns the path of the game object.
+        /// </summary>
         public static string Path(this GameObject gameObject)
         {
             if (gameObject == null)

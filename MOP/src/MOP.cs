@@ -24,6 +24,7 @@ using MOP.Common;
 using MOP.Helpers;
 using MOP.Rules;
 using System.Collections.Generic;
+using MSCLoader.Helper;
 
 namespace MOP
 {
@@ -79,11 +80,11 @@ namespace MOP
             modSettings.AddHeader("Shh...Don't leak my hard work ;)", Color.yellow, Color.black);
 #endif
             SettingButton ifoundabug = modSettings.AddButton("iFoundABug", "<color=red>I FOUND A BUG</color>", () => BugReporter.FileBugReport());
-            modSettings.AddButton("faq", "FAQ", () => ExternalExecuting.ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/faq"));
-            modSettings.AddButton("wiki", "WIKI", () => ExternalExecuting.ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/"));
-            modSettings.AddButton("homepage", "HOMEPAGE", () => ExternalExecuting.ShowDialog("http://athlon.kkmr.pl/"));
-            modSettings.AddButton("homepage", "NEXUSMODS", () => ExternalExecuting.ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
-            modSettings.AddButton("paypal", "<color=aqua>PAYPAL</color>", () => ExternalExecuting.ShowDialog("https://paypal.me/figurakonrad"));
+            modSettings.AddButton("faq", "FAQ", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/faq"));
+            modSettings.AddButton("wiki", "WIKI", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/"));
+            modSettings.AddButton("homepage", "HOMEPAGE", () => ShowDialog("http://athlon.kkmr.pl/"));
+            modSettings.AddButton("homepage", "NEXUSMODS", () => ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
+            modSettings.AddButton("paypal", "<color=aqua>PAYPAL</color>", () => ShowDialog("https://paypal.me/figurakonrad"));
 
             // Activating objects.
             modSettings.AddHeader("DESPAWNING");
@@ -135,7 +136,7 @@ namespace MOP
 
             // Rules
             modSettings.AddHeader("RULES");
-            SettingButton learnMore = modSettings.AddButton("rulesLearnMore", "LEARN MORE", () => ExternalExecuting.ShowDialog("http://athlon.kkmr.pl/mop"));
+            SettingButton learnMore = modSettings.AddButton("rulesLearnMore", "LEARN MORE", () => ShowDialog("http://athlon.kkmr.pl/mop"));
             learnMore.gameObject.AddComponent<UITooltip>().toolTipText = "Learn about how rules work.";
             RulesAutoUpdate = modSettings.AddToggle("rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true);
             VerifyRuleFiles = modSettings.AddToggle("verifyRuleFiles", "VERIFY RULE FILES", true);
@@ -356,5 +357,11 @@ namespace MOP
 
             return output;
         }
+
+        public static void ShowDialog(string url) => ModPrompt.CreateYesNoPrompt($"This will open the following link:\n" +
+                                                                         $"<color=yellow>{url}</color>\n\n" +
+                                                                         $"Are you sure you want to continue?",
+                                                                         "MOP",
+                                                                         () => ModHelper.OpenWebsite(url));
     }
 }

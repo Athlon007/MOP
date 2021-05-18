@@ -22,7 +22,6 @@ using System.IO;
 using UnityEngine;
 
 using MOP.Rules;
-using System.Reflection;
 
 namespace MOP.Common
 {
@@ -204,7 +203,7 @@ namespace MOP.Common
             foreach (var mod in ModLoader.LoadedMods)
             {
                 // Ignore MSCLoader or MOP.
-                if (mod.ID.EqualsAny("MOP"))
+                if (mod.ID.Equals("MOP"))
                     continue;
 
                 output += $"{mod.Name}:\n  ID: {mod.ID}\n  Version: {mod.Version}\n  Author: {mod.Author}\n  Enabled: {mod.Enabled}\n  {mod.UpdateLink}\n\n";
@@ -219,7 +218,9 @@ namespace MOP.Common
             // List rule files.
             output += "=== RULE FILES ===\n\n";
             foreach (string ruleFile in RulesManager.Instance.RuleFileNames)
+            {
                 output += $"{ruleFile}\n";
+            }
 
             if (RulesManager.Instance.RuleFileNames.Count == 0)
             {
@@ -268,7 +269,6 @@ namespace MOP.Common
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
 
-                ModConsole.Log(path);
                 return path;
             }
         }
