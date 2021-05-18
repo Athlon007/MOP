@@ -616,14 +616,6 @@ namespace MOP.Rules.Configuration
                             }
                             RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly = true;
                             break;
-                        case "experimental_satsuma_physics_fix":
-                            if (fileName != CustomFile)
-                            {
-                                ModConsole.LogError($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
-                                continue;
-                            }
-                            RulesManager.Instance.SpecialRules.ExperimentalSatsumaPhysicsFix = true;
-                            break;
                     }
                 }
             }
