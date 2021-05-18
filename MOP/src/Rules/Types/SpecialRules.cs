@@ -24,8 +24,6 @@ namespace MOP.Rules.Types
         #region Custom Rule Files
         public bool IgnoreModVehicles;
         public bool ToggleAllVehiclesPhysicsOnly;
-        public bool ExperimentalSatsumaPhysicsFix;
-        public bool IgnoreSatsumaWallFix;
         #endregion
     }
 }

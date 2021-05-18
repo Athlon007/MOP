@@ -483,16 +483,6 @@ namespace MOP
                 ExceptionManager.New(ex, true, "TOGGLE_ALL_ERROR");
             }
 
-            try
-            {
-                if (!RulesManager.Instance.SpecialRules.IgnoreSatsumaWallFix)
-                    gameObject.AddComponent<Vehicles.Managers.SatsumaManagers.SatsumaFreezeFix>();
-            }
-            catch (Exception ex)
-            {
-                ExceptionManager.New(ex, false, "SATSUMA_FREEZE_FIX_LOAD");
-            }
-
             // Initialize the coroutines.
             currentLoop = LoopRoutine();
             StartCoroutine(currentLoop);

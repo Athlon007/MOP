@@ -624,14 +624,6 @@ namespace MOP.Rules.Configuration
                             }
                             RulesManager.Instance.SpecialRules.ExperimentalSatsumaPhysicsFix = true;
                             break;
-                        case "ignore_satsuma_wall_fix":
-                            if (fileName != CustomFile)
-                            {
-                                ModConsole.LogError($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
-                                continue;
-                            }
-                            RulesManager.Instance.SpecialRules.IgnoreSatsumaWallFix = true;
-                            break;
                     }
                 }
             }

@@ -31,6 +31,7 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
 
 - Removed "mop restore-save" command
 - Removed "mop do-bumper-fix" command
+- Removed rule file flag "experimental_satsuma_physics_fix"
 
 ## 3.2.3 (10.05.2021)
 
