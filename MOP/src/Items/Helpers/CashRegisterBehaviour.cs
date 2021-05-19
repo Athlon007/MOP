@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using MSCLoader;
-using MSCLoader.Helper;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -27,48 +25,8 @@ namespace MOP.Items.Helpers
 {
     class CashRegisterBehaviour : MonoBehaviour
     {
-        IEnumerator currentRoutine;
-
-        public CashRegisterBehaviour()
-        {
-            //FsmHook.FsmInject(this.gameObject, "Purchase", HookItems);
-        }
-
-        /// <summary>
-        /// Used by Items.InitialieList().
-        /// </summary>
         public void InitializeList()
         {
-            currentRoutine = PurchaseCoroutine(true);
-            StartCoroutine(currentRoutine);
-        }
-
-        /// <summary>
-        /// Starts the PurchaseCoroutine
-        /// </summary>
-        public void HookItems()
-        {
-            if (currentRoutine != null)
-            {
-                StopCoroutine(currentRoutine);
-            }
-
-            currentRoutine = PurchaseCoroutine(false);
-            StartCoroutine(currentRoutine);
-        }
-
-        #region Main Job
-        /// <summary>
-        /// Injects the newly bought store items.
-        /// </summary>
-        /// <param name="onLoad">If true, all waiting is skipeed.</param>
-        /// <returns></returns>
-        IEnumerator PurchaseCoroutine(bool onLoad)
-        {
-            // Wait for few seconds to let all objects to spawn, and then inject the objects.
-            if (!onLoad)
-                yield return new WaitForSeconds(2);
-
             // Find shopping bags in the list
             GameObject[] items = FindObjectsOfType<GameObject>()
                                 .Where(gm => gm.name.ContainsAny(ItemsManager.Instance.NameList) && gm.name.ContainsAny("(itemx)", "(Clone)") & gm.GetComponent<ItemBehaviour>() == null)
@@ -76,74 +34,20 @@ namespace MOP.Items.Helpers
 
             if (items.Length > 0)
             {
-                long half = items.Length >> 1;
                 for (int i = 0; i < items.Length; i++)
                 {
                     if (items[i] == null) continue;
 
-                    // Skip frame
-                    if (i == half && !onLoad)
-                        yield return null;
-
                     try
                     {
                         items[i].AddComponent<ItemBehaviour>();
-
-                        // Hook the HookItems void to Confirm and Spawn all actions
-                        if (items[i].name.Equals("shopping bag(itemx)"))
-                        {
-                            FsmHook.FsmInject(items[i], "Confirm", HookItems);
-                            FsmHook.FsmInject(items[i], "Spawn all", HookItems);
-                        }
-                        else if (items[i].name.EqualsAny("spark plug box(Clone)", "car light bulb box(Clone)"))
-                        {
-                            FsmHook.FsmInject(items[i], "Create Plug", WipeUseLoadOnSparkPlugs);
-                        }
-                        else if (items[i].name.EqualsAny("alternator belt(Clone)", "oil filter(Clone)", "battery(Clone)"))
-                        {
-                            items[i].GetPlayMakerFSM("Use").Fsm.RestartOnEnable = false;
-                        }
                     }
                     catch { }
                 }
-                WipeUseLoadOnSparkPlugs(items.Where(g => g.name.EqualsAny("spark plug(Clone)", "light bulb(Clone)")).ToArray());
-            }
-            currentRoutine = null;
-        }
-        #endregion
-        #region Light Bulbs & Spark Plugs Hook
-        public void WipeUseLoadOnSparkPlugs()
-        {
-            StartCoroutine(SparkPlugRoutine(null));
-        }
-
-        public void WipeUseLoadOnSparkPlugs(GameObject[] plugs = null)
-        {
-            StartCoroutine(SparkPlugRoutine(plugs));
-        }
-
-        IEnumerator SparkPlugRoutine(GameObject[] plugs)
-        {
-            yield return new WaitForSeconds(.5f);
-            if (plugs == null || plugs.Length == 0)
-                plugs = GameObject.FindGameObjectsWithTag("PART").Where(g => g.name.EqualsAny("spark plug(Clone)", "light bulb(Clone)")).ToArray();
-
-            for (int i = 0; i < plugs.Length; i++)
-            {
-                if (plugs[i].GetPlayMakerFSM("Use"))
-                    plugs[i].GetPlayMakerFSM("Use").Fsm.RestartOnEnable = false;
-
-                if (plugs[i].GetPlayMakerFSM("Screw"))
-                    plugs[i].GetPlayMakerFSM("Screw").Fsm.RestartOnEnable = false;
-
-                if (plugs[i].GetComponent<ItemBehaviour>() == null)
-                    plugs[i].AddComponent<ItemBehaviour>();
             }
         }
-        #endregion
-        #region Amis-Auto Packages
+
         IEnumerator packagesRoutine;
-
         public void Packages()
         {
             if (packagesRoutine != null)
@@ -158,43 +62,18 @@ namespace MOP.Items.Helpers
         IEnumerator PackagesCoroutine()
         {
             yield return new WaitForSeconds(2);
-            GameObject[] packages = Resources.FindObjectsOfTypeAll<GameObject>()
-                .Where(g => g.name == "amis-auto ky package(xxxxx)" && g.activeSelf).ToArray();
 
-            foreach (GameObject package in packages)
+            var packages = GameObject.FindGameObjectsWithTag("ITEM").Where(g => g.name == "amis-auto ky package(xxxxx)" && g.activeSelf).ToArray();
+            for (int i = 0; i < packages.Length; ++i)
             {
-                FsmHook.FsmInject(package, "State 1", HookItems);
-            }
-        }
-        #endregion
-        #region Fish Trap
-        IEnumerator fishesRoutine;
-
-        public void Fishes()
-        {
-            if (fishesRoutine != null)
-            {
-                StopCoroutine(fishesRoutine);
-            }
-
-            fishesRoutine = FishesCoroutine();
-            StartCoroutine(fishesRoutine);
-        }
-
-        IEnumerator FishesCoroutine()
-        {
-            yield return new WaitForSeconds(2);
-            GameObject[] fishes = Resources.FindObjectsOfTypeAll<GameObject>()
-                                  .Where(g => g.name == "pike(itemx)" && g.activeSelf).ToArray();
-
-            foreach (GameObject fish in fishes)
-            {
-                if (fish.GetComponent<ItemBehaviour>() == null)
+                packages[i].AddComponent<ItemBehaviour>();
+                Transform parts = packages[i].transform.Find("Parts");
+                Transform[] items = parts.GetComponentsInChildren<Transform>(true).Where(t => t.parent == parts).ToArray();
+                for (int j = 0; j < items.Length; ++j)
                 {
-                    fish.AddComponent<ItemBehaviour>();
+                    items[j].gameObject.AddComponent<ItemBehaviour>();
                 }
             }
         }
-        #endregion
     }
 }

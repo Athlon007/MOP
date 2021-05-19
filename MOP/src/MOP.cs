@@ -145,7 +145,6 @@ namespace MOP
             DeleteUnusedRules = modSettings.AddToggle("deleteUnusedRules", "DELETE UNUSED RULES AUTOMATICALLY", false);
             modSettings.AddButton("deleteUnusedRulesButton", "DELETE UNUSED RULES", RulesManager.DeleteUnused);
 
-
             // Other
             modSettings.AddHeader("OTHER");
             DestroyEmptyBottles = modSettings.AddToggle("destroyEmptyBottles", "DESTROY EMPTY BOTTLES", false);

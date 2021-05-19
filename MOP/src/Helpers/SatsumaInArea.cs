@@ -15,7 +15,6 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using UnityEngine;
-
 using MOP.Vehicles.Cases;
 
 namespace MOP.Helpers

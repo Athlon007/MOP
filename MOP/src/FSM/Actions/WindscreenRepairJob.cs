@@ -15,7 +15,6 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
-
 using MOP.Vehicles.Managers.SatsumaManagers;
 
 namespace MOP.FSM.Actions

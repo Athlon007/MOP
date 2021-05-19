@@ -478,6 +478,8 @@ namespace MOP.Items
                     case "spark plug(Clone)":
                         gameObject.GetPlayMakerFSM("Screw").Fsm.RestartOnEnable = false;
                         break;
+                    case "spark plug box(Clone)":
+                        break;
                 }
                 
                 PlayMakerFSM dataFsm = gameObject.GetPlayMakerFSM("Data");

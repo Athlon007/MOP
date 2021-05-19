@@ -22,17 +22,8 @@ namespace MOP.Helpers
     class OnDeathBehaviour : MonoBehaviour
     {
         // Executes the Hypervisor.PreSaveGame() void, when the death object gets enabled.
-
         Action action;
-
-        public void Initialize(Action action)
-        {
-            this.action = action;
-        }
-
-        void OnEnable()
-        {
-            action();
-        }
+        public void Initialize(Action action) => this.action = action;
+        void OnEnable() => action();
     }
 }

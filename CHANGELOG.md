@@ -5,6 +5,8 @@
 ### Changes
 
 - Removed "ExternalExecuting" class
+- (Beta) Removed not nescessary functions
+- Optimized spawning of Amis Auto packages
 
 ## 3.3 Beta 1 (18.05.2021)
 

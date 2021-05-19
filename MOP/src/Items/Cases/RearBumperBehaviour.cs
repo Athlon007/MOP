@@ -1,7 +1,8 @@
-﻿using MOP.Vehicles.Cases;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+using MOP.Vehicles.Cases;
 
 namespace MOP.Items.Cases
 {

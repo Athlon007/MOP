@@ -112,7 +112,6 @@ namespace MOP.Managers
             instance = this;
             lostSpawner = GameObject.Find("LostSpawner").transform;
             landfillSpawn = GameObject.Find("LANDFILL").transform.Find("LandfillSpawn");
-            
         }
 
         internal void Initialize()
@@ -125,6 +124,7 @@ namespace MOP.Managers
             InjectSpawnScripts(spawner.Find("CreateSpraycans").gameObject);
             InjectSpawnScripts(spawner.Find("CreateShoppingbag").gameObject);
             InjectSpawnScripts(spawner.Find("CreateMooseMeat").gameObject);
+            InjectSpawnScripts(GameObject.Find("fish trap(itemx)").transform.Find("Spawn").gameObject);
 
             GetCanTrigger();
 
@@ -155,16 +155,6 @@ namespace MOP.Managers
             catch
             {
                 throw new System.Exception("Couldn't inject PostOrderBuy object.");
-            }
-
-            // Fish trap spawner.
-            try
-            {
-                FsmHook.FsmInject(GameObject.Find("fish trap(itemx)").transform.Find("Spawn").gameObject, "Create product", cashRegisterHook.Fishes);
-            }
-            catch
-            {
-                throw new System.Exception("Couldn't inject \"fish trap(itemx)/Spawn\"");
             }
 
             InitializeList();
@@ -417,7 +407,7 @@ namespace MOP.Managers
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, false, "FUCK");
+                    ExceptionManager.New(ex, false, "INJECT_SPAWN_SCRIPTS_ERROR");
                 }
             }
         }

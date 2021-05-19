@@ -57,30 +57,30 @@ namespace MOP.Common
                 {
                     ModPrompt.CreatePrompt("Safe Mode will be enabled after the restart.", "MOP");
                     dontUpdate = true;
-            }
+                }
 
-            if (!dontUpdate)
-            {
-                switch (MOP.PerformanceModes.Value)
+                if (!dontUpdate)
                 {
-                    default:
-                        Mode = PerformanceMode.Balanced;
-                        break;
-                    case 0:
-                        Mode = PerformanceMode.Performance;
-                        break;
-                    case 1:
-                        Mode = PerformanceMode.Balanced;
-                        break;
-                    case 2:
-                        Mode = PerformanceMode.Quality;
-                        break;
-                    case 3:
-                        Mode = PerformanceMode.Safe;
-                        break;
+                    switch (MOP.PerformanceModes.Value)
+                    {
+                        default:
+                            Mode = PerformanceMode.Balanced;
+                            break;
+                        case 0:
+                            Mode = PerformanceMode.Performance;
+                            break;
+                        case 1:
+                            Mode = PerformanceMode.Balanced;
+                            break;
+                        case 2:
+                            Mode = PerformanceMode.Quality;
+                            break;
+                        case 3:
+                            Mode = PerformanceMode.Safe;
+                            break;
+                    }
                 }
             }
-                }
         }
 
         internal static void UpdateFramerateLimiter()
