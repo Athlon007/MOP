@@ -82,6 +82,7 @@ namespace MOP.Vehicles.Cases
 
         // Bolts that resetting will be disabled.
         List<SatsumaBoltsAntiReload> satsumaBoltsAntiReloads;
+        bool partsUnglued;
         // Fix for elements for which the bolts are masked.
         Dictionary<GameObject, bool> maskedElements;
         int maskedFixStages;
@@ -245,7 +246,6 @@ namespace MOP.Vehicles.Cases
                 if (parent.gameObject.GetComponent<SatsumaBoltsAntiReload>() == null)
                 {
                     SatsumaBoltsAntiReload s = parent.gameObject.AddComponent<SatsumaBoltsAntiReload>();
-                    satsumaBoltsAntiReloads.Add(s);
                 }
             }
 
@@ -254,15 +254,15 @@ namespace MOP.Vehicles.Cases
             foreach (GameObject halfshaft in halfshafts)
             {
                 if (halfshaft.GetComponent<SatsumaBoltsAntiReload>() == null)
-                    satsumaBoltsAntiReloads.Add(halfshaft.AddComponent<SatsumaBoltsAntiReload>());
+                    halfshaft.AddComponent<SatsumaBoltsAntiReload>();
             }
 
             // Engine Block.
-            satsumaBoltsAntiReloads.Add(GameObject.Find("block(Clone)").AddComponent<SatsumaBoltsAntiReload>());
+            GameObject.Find("block(Clone)").AddComponent<SatsumaBoltsAntiReload>();
 
             // Steering rods.
-            satsumaBoltsAntiReloads.Add(transform.Find("Chassis/steering rod fr(xxxxx)").gameObject.AddComponent<SatsumaBoltsAntiReload>());
-            satsumaBoltsAntiReloads.Add(transform.Find("Chassis/steering rod fl(xxxxx)").gameObject.AddComponent<SatsumaBoltsAntiReload>());
+            transform.Find("Chassis/steering rod fr(xxxxx)").gameObject.AddComponent<SatsumaBoltsAntiReload>();
+            transform.Find("Chassis/steering rod fl(xxxxx)").gameObject.AddComponent<SatsumaBoltsAntiReload>();
 
             // Destroy all bolt anti reloads.
             ModConsole.Log($"[MOP] Found {satsumaBoltsAntiReloads.Count} bolts.");
@@ -826,6 +826,7 @@ namespace MOP.Vehicles.Cases
                 if (onFar)
                 {
                     hasBeenMovedByFleetari = false;
+                    UnglueAll();
                 }
             }
             catch (System.Exception ex)
@@ -856,6 +857,7 @@ namespace MOP.Vehicles.Cases
             if (doBumperFixes)
             {
                 GameFixes.Instance.RearBumperFix(rearBumperTrigger, rearBumper);
+                doBumperFixes = false;
             }
         }
 
@@ -867,6 +869,22 @@ namespace MOP.Vehicles.Cases
         public void FleetariIsMovingCar()
         {
             hasBeenMovedByFleetari = true;
+        }
+
+        internal void AddPart(SatsumaBoltsAntiReload i)
+        {
+            satsumaBoltsAntiReloads.Add(i);
+        }
+
+        void UnglueAll()
+        {
+            if (partsUnglued) return;
+            partsUnglued = true;
+
+            for (int i = 0; i < satsumaBoltsAntiReloads.Count; ++i)
+            {
+                satsumaBoltsAntiReloads[i].Unglue();
+            }
         }
     }
 }

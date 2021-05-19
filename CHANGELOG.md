@@ -8,6 +8,10 @@
 - (Beta) Removed not nescessary functions
 - Optimized spawning of Amis Auto packages
 
+### Bug Fixes
+
+- Fixed a bug which caused all Satsuma parts to be detached after quitting to main menu few times, without fully closing the game
+
 ## 3.3 Beta 1 (18.05.2021)
 
 This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requirement.
@@ -19,7 +23,7 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
 
 ### Changes
 
-- Eliminated the lag caused by spawning items, while purchasing and unpacking shopping bag
+- Eliminated the lag caused by spawning items, while purchasing, unpacking shopping bag, removing fish from the fish trap, etc.
 - Minor changes under the hood
 - The MOP rule files message in main menu is now displayed in top right corner
 

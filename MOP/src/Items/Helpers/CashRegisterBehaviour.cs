@@ -25,28 +25,6 @@ namespace MOP.Items.Helpers
 {
     class CashRegisterBehaviour : MonoBehaviour
     {
-        public void InitializeList()
-        {
-            // Find shopping bags in the list
-            GameObject[] items = FindObjectsOfType<GameObject>()
-                                .Where(gm => gm.name.ContainsAny(ItemsManager.Instance.NameList) && gm.name.ContainsAny("(itemx)", "(Clone)") & gm.GetComponent<ItemBehaviour>() == null)
-                                .ToArray();
-
-            if (items.Length > 0)
-            {
-                for (int i = 0; i < items.Length; i++)
-                {
-                    if (items[i] == null) continue;
-
-                    try
-                    {
-                        items[i].AddComponent<ItemBehaviour>();
-                    }
-                    catch { }
-                }
-            }
-        }
-
         IEnumerator packagesRoutine;
         public void Packages()
         {

@@ -18,6 +18,7 @@ using UnityEngine;
 using MSCLoader.Helper;
 
 using MOP.Common;
+using MOP.Vehicles.Cases;
 
 namespace MOP.Vehicles.Managers.SatsumaManagers
 {
@@ -28,8 +29,16 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
     {
         PlayMakerFSM fsm;
 
+        float breakForce, breakTorque;
+        FixedJoint fixedJoint;
+        HingeJoint hingeJoint;
+
+        bool glued;
+
         public SatsumaBoltsAntiReload()
         {
+            Satsuma.Instance.AddPart(this);
+
             try
             {
                 string fsmName = gameObject.GetPlayMakerFSM("BoltCheck") ? "BoltCheck" : "Use";
@@ -39,10 +48,71 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
                     return;
 
                 fsm.Fsm.RestartOnEnable = false;
+
+                fixedJoint = gameObject.GetComponent<FixedJoint>();
+                hingeJoint = gameObject.GetComponent<HingeJoint>();
+
+                if (fixedJoint)
+                {
+                    breakTorque = fixedJoint.breakTorque;
+                    breakForce = fixedJoint.breakForce;
+                }
+                else if (hingeJoint)
+                {
+                    breakTorque = hingeJoint.breakTorque;
+                    breakForce = hingeJoint.breakForce;
+                }
+
+                if (transform.root == Satsuma.Instance.transform)
+                {
+                    glued = true;
+                }
             }
             catch (System.Exception ex)
             {
                 ExceptionManager.New(ex, true, $"BOLTS_ANTI_LOAD_SCRIPT_ERROR_{this.gameObject.Path()}");
+            }
+        }
+
+        void Update()
+        {
+            if (!glued) return;
+
+            if (fixedJoint)
+            {
+                GlueFixedJoint();
+            }
+            else if (hingeJoint)
+            {
+                GlueHingeJoint();
+            }
+        }
+
+        void GlueFixedJoint()
+        {
+            fixedJoint.breakTorque = Mathf.Infinity;
+            fixedJoint.breakForce = Mathf.Infinity;
+        }
+
+        void GlueHingeJoint()
+        {          
+            hingeJoint.breakTorque = Mathf.Infinity;
+            hingeJoint.breakForce = Mathf.Infinity;
+        }
+
+        internal void Unglue()
+        {
+            glued = false;
+
+            if (hingeJoint)
+            {
+                hingeJoint.breakForce = breakForce;
+                hingeJoint.breakTorque = breakTorque;
+            }
+            else if (fixedJoint)
+            {
+                fixedJoint.breakForce = breakForce;
+                fixedJoint.breakTorque = breakTorque;
             }
         }
     }

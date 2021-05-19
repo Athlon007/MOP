@@ -266,7 +266,24 @@ namespace MOP.Managers
         /// </summary>
         void InitializeList()
         {
-            cashRegisterHook.InitializeList();
+            // Find shopping bags in the list
+            GameObject[] items = UnityEngine.Object.FindObjectsOfType<GameObject>()
+                                .Where(gm => gm.name.ContainsAny(NameList) && gm.name.ContainsAny("(itemx)", "(Clone)") & gm.GetComponent<ItemBehaviour>() == null)
+                                .ToArray();
+
+            if (items.Length > 0)
+            {
+                for (int i = 0; i < items.Length; i++)
+                {
+                    if (items[i] == null) continue;
+
+                    try
+                    {
+                        items[i].AddComponent<ItemBehaviour>();
+                    }
+                    catch { }
+                }
+            }
 
             // CD Player Enhanced compatibility
             if (ModLoader.GetMod("CDPlayer") != null)

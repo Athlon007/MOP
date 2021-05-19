@@ -539,6 +539,12 @@ namespace MOP
         public void RearBumperFix(GameObject triggerBumper, GameObject bumper)
         {
             StartCoroutine(RearBumperCoroutine(triggerBumper, bumper));
+
+            if (!screwMuteDone)
+            {
+                screwMuteDone = true;
+                StartCoroutine(MuteScrews());
+            }
         }
 
         IEnumerator RearBumperCoroutine(GameObject triggerBumper, GameObject bumper)
@@ -582,6 +588,18 @@ namespace MOP
 
             bumper.GetComponent<ItemBehaviour>().enabled = false;
             rb.mass = originalMass;
+        }
+
+        bool screwMuteDone;
+        IEnumerator MuteScrews()
+        {
+            AudioSource boltScrew = GameObject.Find("MasterAudio").transform.Find("CarBuilding/bolt_screw").GetComponent<AudioSource>();
+            AudioSource assemble = GameObject.Find("MasterAudio").transform.Find("CarBuilding/assemble").GetComponent<AudioSource>();
+            boltScrew.enabled = false;
+            assemble.enabled = false;
+            yield return new WaitForSeconds(4);
+            boltScrew.enabled = true;
+            assemble.enabled = true;
         }
 
         internal void ForceDetachTrailer()
