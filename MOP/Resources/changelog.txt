@@ -1,30 +1,13 @@
-This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requirement.
-
-### Added
-
-- Added integration with Save Slots
-  - If you close Saves menu, the current save will be verified again
-
 ### Changes
 
-- Eliminated the lag caused by spawning items, while purchasing and unpacking shopping bag
-- Minor changes under the hood
-- The MOP rule files message in main menu is now displayed in top right corner
+- Removed "ExternalExecuting" class
+- Optimized spawning of Amis Auto packages
 
 ### Bug Fixes
 
-- (My Summer Car Bug) Fixed vanilla bug, which on higher framerates, causing Satsuma to violently stop, if the rear bumper got detach
-- Fixed empty bottles not spawning after consuming milk or beer
-- System info now correctly detects Linux
-- Grammar fixes
-- Fixed "Open Logs Folder" button saying that logs folder does not exist
-- Addressed an issue, in which for some users MOP would crash, if they were in jail
-- Fixed the fire extinguisher holder not detecting freshly bought fire extinguishers
-- Fixed trigger fixing not being applied to innactive triggers
-- Fixed rear bumper unable to be detached, while having all screws unbolted
+- Fixed a bug which caused all Satsuma parts to be detached after quitting to main menu and loading game back few times, without fully closing the game
 
 ### Removed
 
-- Removed "mop restore-save" command
-- Removed "mop do-bumper-fix" command
-- Removed rule file flag "experimental_satsuma_physics_fix"
+- (Beta) Removed unnescessary functions
+- Removed brute-force method of fixing rear bumper detaching bug, as it's no longer needed

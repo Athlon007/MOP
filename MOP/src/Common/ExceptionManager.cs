@@ -142,19 +142,17 @@ namespace MOP.Common
             output += $"Date and Time: {DateTime.Now:yyyy-MM-ddTHH:mm:ssZ}\n";
             output += $"{GetSystemInfo()}\n";
             output += $"Session ID: {MOP.SessionID}\n";
+            output += $"GameRestarts: {MopSettings.Restarts}";
             output += $"Game resolution: {Screen.width}x{Screen.height}\n";
             output += $"Screen resolution: {Screen.currentResolution.width}x{Screen.currentResolution.height}\n";
             if (ModLoader.CurrentScene == CurrentScene.Game)
             {
                 var elapsed = DateTime.Now.Subtract(SessionTimeStart);
-                output += $"Session Time: {elapsed.Hours} Hours {elapsed.Minutes} Minutes {elapsed.Seconds} Seconds\n\n";
+                output += $"Session Time: {elapsed.Hours} Hours {elapsed.Minutes} Minutes {elapsed.Seconds} Seconds";
             }
-            else
-            {
-                output += "\n";
-            }
+            
 
-            output += "=== MOP SETTINGS ===\n\n";
+            output += "\n\n=== MOP SETTINGS ===\n\n";
             output += $"ActiveDistance: {MOP.ActiveDistance.Value}\n";
             output += $"ActiveDistanceMultiplier: {MopSettings.ActiveDistanceMultiplicationValue}\n";
             output += $"PerformanceMode: {MopSettings.Mode}\n";

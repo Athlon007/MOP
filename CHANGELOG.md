@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.3 Beta 2 ()
+## 3.3 Beta 2 (19.05.2021)
 
 ### Changes
 

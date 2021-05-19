@@ -41,6 +41,10 @@ namespace MOP.Common
         // Tracks if the game has been fully loaded at east once.
         public static bool LoadedOnce;
 
+        internal static int Restarts = 0;
+        internal const int MaxRestarts = 5;
+        internal static bool RestartWarningShown = false;
+
         internal static void UpdatePerformanceMode()
         {
             // MODES
@@ -183,5 +187,7 @@ namespace MOP.Common
             n = "";
             return false;
         }
+
+        internal static bool IsMSCLoader => GameObject.Find("MSCLoader Canvas").transform.Find("ModLoaderUI") == null;
     }
 }

@@ -38,7 +38,7 @@ namespace MOP
 #endif
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.3"; //Version
-        public const string SubVersion = "BETA-1"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public const string SubVersion = "BETA-2"; // NIGHTLY-yyyymmdd | BETA_x | RC_
         public override string UpdateLink => "https://github.com/Athlon007/MOP";
         public override byte[] Icon => Properties.Resources.icon;
 
@@ -189,6 +189,19 @@ namespace MOP
 
             GameObject bugReporter = new GameObject("MOP_BugReporter");
             bugReporter.AddComponent<BugReporter>();
+
+            MopSettings.Restarts++;
+            if (MopSettings.Restarts > MopSettings.MaxRestarts && !MopSettings.RestartWarningShown)
+            {
+                MopSettings.RestartWarningShown = true;
+                ModPrompt prompt = ModPrompt.CreateCustomPrompt();
+                prompt.Text = "You've reloaded game without fully quitting it over 5 times.\n\n" +
+                                       "It is recommended to fully quit the game after a while, so it would fully unload the memory.\n" +
+                                       "Not doing that may lead to game breaking glitches.";
+                prompt.Title = "MOP";
+                prompt.AddButton("OK", null);
+                prompt.AddButton("QUIT GAME", () => Application.Quit());
+            }
         }
 
         public override void ModSettingsLoaded()
