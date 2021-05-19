@@ -142,7 +142,7 @@ namespace MOP.Common
             output += $"Date and Time: {DateTime.Now:yyyy-MM-ddTHH:mm:ssZ}\n";
             output += $"{GetSystemInfo()}\n";
             output += $"Session ID: {MOP.SessionID}\n";
-            output += $"GameRestarts: {MopSettings.Restarts}";
+            output += $"Game Restarts: {MopSettings.Restarts}\n";
             output += $"Game resolution: {Screen.width}x{Screen.height}\n";
             output += $"Screen resolution: {Screen.currentResolution.width}x{Screen.currentResolution.height}\n";
             if (ModLoader.CurrentScene == CurrentScene.Game)
@@ -236,8 +236,6 @@ namespace MOP.Common
 
         public static string GetSystemInfo()
         {
-            if (Process.GetProcessesByName("winlogon").Length == 0) return "Linux";
-
             string fullOS = SystemInfo.operatingSystem;
             int build = int.Parse(fullOS.Split('(')[1].Split(')')[0].Split('.')[2]);
             if (build > 9600)

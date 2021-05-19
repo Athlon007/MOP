@@ -2,6 +2,10 @@
 
 ## 3.3 Beta 2 (19.05.2021)
 
+### Added
+
+- After few restarts, MOP will remind you to fully restart the game. This is done in order to free up RAM, that the game did not clear
+
 ### Changes
 
 - Removed "ExternalExecuting" class
@@ -13,7 +17,7 @@
 
 ### Removed
 
-- (Beta) Removed unnescessary functions
+- (Beta) Removed unnecessary functions
 - Removed brute-force method of fixing rear bumper detaching bug, as it's no longer needed
 
 ## 3.3 Beta 1 (18.05.2021)
