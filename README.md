@@ -8,6 +8,10 @@
 
 <img align="right" src="images/icon.png" alt="icon" width=128 />
 
+This branch includes a version compatible with MSCLoader.
+
+This branch is kept for historical reasons only and won't be updated.
+
 MOP (Modern Optimization Plugin) is the ultimate performance enhancing project for My Summer Car. Quickly and easily improve FPS of MSC!
 
 The **only** mod that improves framerate seamlessly - without user having to do any configuration, pressing buttons, or any other magic tricks! Just install the mod and it's ready to go.
