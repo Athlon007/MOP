@@ -39,7 +39,6 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
 
 - (My Summer Car Bug) Fixed vanilla bug, which on higher framerates, causing Satsuma to violently stop, if the rear bumper got detach
 - Fixed empty bottles not spawning after consuming milk or beer
-- System info now correctly detects Linux
 - Grammar fixes
 - Fixed "Open Logs Folder" button saying that logs folder does not exist
 - Addressed an issue, in which for some users MOP would crash, if they were in jail
