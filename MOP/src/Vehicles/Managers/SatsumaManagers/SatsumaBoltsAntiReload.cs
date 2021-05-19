@@ -114,6 +114,9 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
                 fixedJoint.breakForce = breakForce;
                 fixedJoint.breakTorque = breakTorque;
             }
+
+            // This script is no longer needed. Disable it.
+            this.enabled = false;
         }
     }
 }
