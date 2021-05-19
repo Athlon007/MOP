@@ -5,12 +5,16 @@
 ### Changes
 
 - Removed "ExternalExecuting" class
-- (Beta) Removed not nescessary functions
 - Optimized spawning of Amis Auto packages
 
 ### Bug Fixes
 
-- Fixed a bug which caused all Satsuma parts to be detached after quitting to main menu few times, without fully closing the game
+- Fixed a bug which caused all Satsuma parts to be detached after quitting to main menu and loading game back few times, without fully closing the game
+
+### Removed
+
+- (Beta) Removed unnescessary functions
+- Removed brute-force method of fixing rear bumper detaching bug, as it's no longer needed
 
 ## 3.3 Beta 1 (18.05.2021)
 

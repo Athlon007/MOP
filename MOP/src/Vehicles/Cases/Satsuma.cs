@@ -337,7 +337,6 @@ namespace MOP.Vehicles.Cases
             databaseBumper.SetActive(true);
             isBumperBolted = databaseBumper.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("Bolted");
             doBumperFixes = isBumperBolted.Value;
-            DoBumperFix();
             Items.Cases.RearBumperBehaviour behaviour = rearBumper.AddComponent<Items.Cases.RearBumperBehaviour>();
             rearBumper.GetPlayMakerFSM("Removal").GetState("Remove part").AddAction(new CustomSatsumaBumperDetach(behaviour));
             transform.Find("Body/trigger_bumper_rear").GetPlayMakerFSM("Assembly").GetState("Assemble 2").AddAction(new CustomSatsumaBumperAttach(behaviour));
@@ -549,11 +548,6 @@ namespace MOP.Vehicles.Cases
             if (this.IsPlayerInThisCar())
             {
                 enabled = true;
-            }
-
-            if (gameObject.activeSelf && rearBumperTrigger.activeSelf && rearBumper.activeSelf)
-            {
-                DoBumperFix();
             }
 
             // Applying hood fix after first enabling.
@@ -847,18 +841,6 @@ namespace MOP.Vehicles.Cases
 
             for (int i = 0; i < dashboardMaterials.Count; i++)
                 dashboardMaterials[i].SetFloat("_Intensity", enabled ? 0.2f : 0);
-        }
-
-        void DoBumperFix()
-        {
-            if (bumperFixRetries > MaxBumperFixRetries) return;
-            bumperFixRetries++;
-
-            if (doBumperFixes)
-            {
-                GameFixes.Instance.RearBumperFix(rearBumperTrigger, rearBumper);
-                doBumperFixes = false;
-            }
         }
 
         public GameObject GetCarBody()
