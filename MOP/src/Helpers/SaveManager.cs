@@ -16,12 +16,13 @@
 
 using System;
 using System.IO;
-using UnityEngine;
-using MSCLoader;
 using System.Collections.Generic;
 using System.Linq;
-using MOP.Common;
+using UnityEngine;
 using UnityEngine.Events;
+using MSCLoader;
+
+using MOP.Common;
 
 namespace MOP.Helpers
 {
@@ -31,7 +32,8 @@ namespace MOP.Helpers
         public static string ItemsPath => Application.persistentDataPath + "/items.txt";
         static List<SaveBugs> saveBugs;
 
-        static string SaveFlag => Path.Combine(Application.persistentDataPath, "MopSave.sav");
+        static string mopSavePath => Path.Combine(Application.persistentDataPath, "MopSave");
+        static ES2Settings setting = new ES2Settings();
 
         /// <summary>
         /// For some reason, the save files get marked as read only files, not allowing MSC to save the game.
@@ -51,8 +53,6 @@ namespace MOP.Helpers
             if (!File.Exists(SavePath))
                 return;
 
-            ES2Settings setting = new ES2Settings();
-
             // Passenger bucket seat.
             // Check if driver bucket seat is bought and check the same for passenger one.
             // If they do not match, fix it.
@@ -64,7 +64,11 @@ namespace MOP.Helpers
                 bool bucketDriverSeat = ES2.Load<bool>(SavePath + "?tag=bucket seat driver(Clone)Purchased", setting);
                 if (bucketDriverSeat != bucketPassengerSeat)
                 {
-                    saveBugs.Add(SaveBugs.New("Bucket Seats", "One bucket seat is present in the game world, while the other isn't - both should be in game world.", FixBucketSeats));
+                    saveBugs.Add(SaveBugs.New("Bucket Seats", "One bucket seat is present in the game world, while the other isn't - both should be in game world.", () =>
+                    {
+                        ES2.Save(true, SavePath + "?tag=bucket seat passenger(Clone)Purchased");
+                        ES2.Save(true, SavePath + "?tag=bucket seat driver(Clone)Purchased");
+                    }));
                 }
             }
             catch (Exception e)
@@ -79,7 +83,10 @@ namespace MOP.Helpers
                 Transform kekmetTransform = ES2.Load<Transform>(SavePath + "?tag=TractorTransform", setting);
                 if (tractorTrailerAttached && Vector3.Distance(flatbedTransform.position, kekmetTransform.position) > 5.5f)
                 {
-                    saveBugs.Add(SaveBugs.New("Flatbed Trailer Attached", "Trailer and tractor are too far apart from each other - impossible for them to be attached.", FixDetachFlatbed));
+                    saveBugs.Add(SaveBugs.New("Flatbed Trailer Attached", "Trailer and tractor are too far apart from each other - impossible for them to be attached.", () =>
+                    {
+                        ES2.Save(false, SavePath + "?tag=TractorTrailerAttached", new ES2Settings());
+                    }));
                 }
             }
             catch (Exception ex)
@@ -89,21 +96,17 @@ namespace MOP.Helpers
 
             try
             {
-                if (SaveFlagExists())
+                // This one applies fix quietly, as it happens so often,
+                // it would be annoying to nag player about that error.
+                if (SaveFileExists)
                 {
+                    MopSaveData save = ModSave.Load<MopSaveData>(mopSavePath);
                     bool bumperRearInstalled = ES2.Load<bool>(SavePath + "?tag=bumper rear(Clone)Installed", setting);
                     float bumperTightness = ES2.Load<float>(SavePath + "?tag=Bumper_RearTightness", setting);
-                    if (bumperRearInstalled && bumperTightness == 0)
+                    if (bumperRearInstalled && bumperTightness != save.rearBumperTightness)
                     {
-                        saveBugs.Add(SaveBugs.New("Rear Bumper", "Rear bumper is attached, but screws are not bolted",
-                        () =>
-                        {
-                            ES2.Save(16f, SavePath + "?tag=Bumper_RearTightness");
-                            List<string> bolts = new List<string>();
-                            bolts.Add("int(8)");
-                            bolts.Add("int(8)");
-                            ES2.Save(bolts, SavePath + "?tag=Bumper_RearBolts");
-                        }));
+                        ES2.Save(save.rearBumperTightness, SavePath + "?tag=Bumper_RearTightness");
+                        ES2.Save(save.rearBumperBolts, SavePath + "?tag=Bumper_RearBolts");
                     }
                 }
             }
@@ -150,17 +153,6 @@ namespace MOP.Helpers
             ModPrompt.CreatePrompt(msg, "MOP - Save Integrity Check");
         }
 
-        static void FixBucketSeats()
-        {
-            ES2.Save(true, SavePath + "?tag=bucket seat passenger(Clone)Purchased");
-            ES2.Save(true, SavePath + "?tag=bucket seat driver(Clone)Purchased");
-        }
-
-        static void FixDetachFlatbed()
-        {
-            ES2.Save(false, SavePath + "?tag=TractorTrailerAttached", new ES2Settings());
-        }
-
         internal static Transform GetRadiatorHose3Transform()
         {
             ES2Settings settings = new ES2Settings();
@@ -169,18 +161,22 @@ namespace MOP.Helpers
 
         internal static void AddSaveFlag()
         {
-            File.Create(SaveFlag);
+            if (ES2.Exists(SavePath + "?tag=Bumper_RearTightness") && ES2.Exists(SavePath + "?tag=Bumper_RearBolts", setting))
+            {
+                MopSaveData save = new MopSaveData();
+                save.rearBumperTightness = ES2.Load<float>(SavePath + "?tag=Bumper_RearTightness", setting);
+                save.rearBumperBolts = ES2.LoadList<string>(SavePath + "?tag=Bumper_RearBolts", setting);
+
+                ModSave.Save(mopSavePath, save);
+            }
         }
 
-        internal static bool SaveFlagExists()
-        {
-            return File.Exists(SaveFlag);
-        }
+        static bool SaveFileExists => File.Exists(mopSavePath + ".xml");
 
         internal static void ReleaseSave()
         {
-            if (SaveFlagExists())
-                File.Delete(SaveFlag);
+            if (SaveFileExists)
+                ModSave.Delete(mopSavePath);
         }
     }
 
@@ -198,5 +194,11 @@ namespace MOP.Helpers
             bug.Fix = fix;
             return bug;
         }
+    }
+
+    public class MopSaveData
+    {
+        public float rearBumperTightness;
+        public List<string> rearBumperBolts;
     }
 }

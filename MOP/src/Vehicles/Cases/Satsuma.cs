@@ -70,12 +70,7 @@ namespace MOP.Vehicles.Cases
 
         // Rear bumper transform.
         readonly GameObject rearBumper;
-        readonly GameObject rearBumperTrigger;
         readonly GameObject databaseBumper;
-        readonly FsmBool isBumperBolted;
-        int bumperFixRetries;
-        bool doBumperFixes;
-        const int MaxBumperFixRetries = 10;
 
         // Elements that are toggled uppon some situation.
         List<SatsumaOnActionObjects> satsumaOnActionObjects;
@@ -331,12 +326,9 @@ namespace MOP.Vehicles.Cases
 
             // Rear bumper detachng fix.
             rearBumper = GameObject.Find("bumper rear(Clone)");
-            rearBumperTrigger = transform.Find("Body/trigger_bumper_rear").gameObject;
             databaseBumper = GameObject.Find("Database/DatabaseBody/Bumper_Rear");
             databaseBumper.SetActive(false);
             databaseBumper.SetActive(true);
-            isBumperBolted = databaseBumper.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("Bolted");
-            doBumperFixes = isBumperBolted.Value;
             Items.Cases.RearBumperBehaviour behaviour = rearBumper.AddComponent<Items.Cases.RearBumperBehaviour>();
             rearBumper.GetPlayMakerFSM("Removal").GetState("Remove part").AddAction(new CustomSatsumaBumperDetach(behaviour));
             transform.Find("Body/trigger_bumper_rear").GetPlayMakerFSM("Assembly").GetState("Assemble 2").AddAction(new CustomSatsumaBumperAttach(behaviour));
@@ -793,8 +785,6 @@ namespace MOP.Vehicles.Cases
 
                 if (onEngine)
                 {
-                    bumperFixRetries = MaxBumperFixRetries + 1;
-
                     // This script fixes the issue with bolts staying unbolted, with parts internally being fully bolted.
                     if (maskedFixStages < 2)
                     {
