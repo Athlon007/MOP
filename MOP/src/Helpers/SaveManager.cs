@@ -21,6 +21,7 @@ using MSCLoader;
 using System.Collections.Generic;
 using System.Linq;
 using MOP.Common;
+using UnityEngine.Events;
 
 namespace MOP.Helpers
 {
@@ -29,6 +30,8 @@ namespace MOP.Helpers
         public static string SavePath => Path.Combine(Application.persistentDataPath, "defaultES2File.txt").Replace('\\', '/');
         public static string ItemsPath => Application.persistentDataPath + "/items.txt";
         static List<SaveBugs> saveBugs;
+
+        static string SaveFlag => Path.Combine(Application.persistentDataPath, "MopSave.sav");
 
         /// <summary>
         /// For some reason, the save files get marked as read only files, not allowing MSC to save the game.
@@ -82,6 +85,31 @@ namespace MOP.Helpers
             catch (Exception ex)
             {
                 ExceptionManager.New(ex, false, "VERIFY_SAVE_FLATBED");
+            }
+
+            try
+            {
+                if (SaveFlagExists())
+                {
+                    bool bumperRearInstalled = ES2.Load<bool>(SavePath + "?tag=bumper rear(Clone)Installed", setting);
+                    float bumperTightness = ES2.Load<float>(SavePath + "?tag=Bumper_RearTightness", setting);
+                    if (bumperRearInstalled && bumperTightness == 0)
+                    {
+                        saveBugs.Add(SaveBugs.New("Rear Bumper", "Rear bumper is attached, but screws are not bolted",
+                        () =>
+                        {
+                            ES2.Save(16f, SavePath + "?tag=Bumper_RearTightness");
+                            List<string> bolts = new List<string>();
+                            bolts.Add("int(8)");
+                            bolts.Add("int(8)");
+                            ES2.Save(bolts, SavePath + "?tag=Bumper_RearBolts");
+                        }));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "VERIFY_BUMPER_REAR");
             }
 
             if (saveBugs.Count > 0)
@@ -138,15 +166,31 @@ namespace MOP.Helpers
             ES2Settings settings = new ES2Settings();
             return ES2.Load<Transform>(SavePath + "?tag=radiator hose3(xxxxx)");
         }
+
+        internal static void AddSaveFlag()
+        {
+            File.Create(SaveFlag);
+        }
+
+        internal static bool SaveFlagExists()
+        {
+            return File.Exists(SaveFlag);
+        }
+
+        internal static void ReleaseSave()
+        {
+            if (SaveFlagExists())
+                File.Delete(SaveFlag);
+        }
     }
 
     struct SaveBugs
     {
         public string BugName;
         public string Description;
-        public Action Fix;
+        public UnityAction Fix;
 
-        public static SaveBugs New(string bugName, string description, Action fix)
+        public static SaveBugs New(string bugName, string description, UnityAction fix)
         {
             SaveBugs bug = new SaveBugs();
             bug.BugName = bugName;

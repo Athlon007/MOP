@@ -618,6 +618,7 @@ namespace MOP
         void PreSaveGame()
         {
             ModConsole.Log("[MOP] Initializing Pre-Save Actions...");
+            SaveManager.ReleaseSave();
             MopSettings.IsModActive = false;
             StopCoroutine(currentLoop);
             StopCoroutine(currentControlCoroutine);

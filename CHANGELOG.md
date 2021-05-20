@@ -1,26 +1,6 @@
 # Changelog
 
-## 3.3 Beta 2 (19.05.2021)
-
-### Added
-
-- After few restarts, MOP will remind you to fully restart the game. This is done in order to free up RAM, that the game did not clear
-
-### Changes
-
-- Removed "ExternalExecuting" class
-- Optimized spawning of Amis Auto packages
-
-### Bug Fixes
-
-- Fixed a bug which caused all Satsuma parts to be detached after quitting to main menu and loading game back few times, without fully closing the game
-
-### Removed
-
-- (Beta) Removed unnecessary functions
-- Removed brute-force method of fixing rear bumper detaching bug, as it's no longer needed
-
-## 3.3 Beta 1 (18.05.2021)
+## 3.3 (20.05.2021)
 
 This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requirement.
 
@@ -28,12 +8,14 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
 
 - Added integration with Save Slots
   - If you close Saves menu, the current save will be verified again
+- After few restarts, MOP will remind you to fully restart the game. This is done in order to free up RAM, that the game did not clear
 
 ### Changes
 
 - Eliminated the lag caused by spawning items, while purchasing, unpacking shopping bag, removing fish from the fish trap, etc.
 - Minor changes under the hood
 - The MOP rule files message in main menu is now displayed in top right corner
+- Optimized spawning of Amis Auto packages
 
 ### Bug Fixes
 
@@ -45,12 +27,15 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
 - Fixed the fire extinguisher holder not detecting freshly bought fire extinguishers
 - Fixed trigger fixing not being applied to inactive triggers
 - Fixed rear bumper unable to be detached, while having all screws unbolted
+- Fixed a bug which caused all Satsuma parts to be detached after quitting to main menu and loading game back few times, without fully closing the game
 
 ### Removed
 
 - Removed "mop restore-save" command
 - Removed "mop do-bumper-fix" command
 - Removed rule file flag "experimental_satsuma_physics_fix"
+- Removed brute-force method of fixing rear bumper detaching bug, as it's no longer needed
+- Removed "ExternalExecuting" class
 
 ## 3.2.3 (10.05.2021)
 

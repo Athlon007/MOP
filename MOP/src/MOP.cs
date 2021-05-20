@@ -260,6 +260,8 @@ namespace MOP
 
             // Add WorldManager class
             worldManager.AddComponent<Hypervisor>();
+
+            SaveManager.AddSaveFlag();
         }
 
         public override void ModSettingsOpen()
