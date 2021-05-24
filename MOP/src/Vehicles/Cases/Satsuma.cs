@@ -519,7 +519,9 @@ namespace MOP.Vehicles.Cases
             }
 
             GameObject.Find("dashboard meters(Clone)/Gauges/Odometer").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-            
+
+            this.ForceToggleUnityCar(false);
+
             if (MopSettings.GenerateToggledItemsListDebug)
             {
                 if (System.IO.File.Exists("sats.txt"))

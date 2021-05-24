@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.1 (tba)
+
+### Bug Fixes
+
+- Fixed occassional lag after loading the game, caused by Satsuma
+
 ## 3.3 (20.05.2021)
 
 This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requirement.

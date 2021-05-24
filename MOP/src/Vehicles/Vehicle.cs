@@ -336,7 +336,7 @@ namespace MOP.Vehicles
             if ((gameObject == null) || vehicleType == VehiclesTypes.Boat || !IsActive)
                 return;
 
-            if (rb.isKinematic == !enabled && carDynamics.enabled == enabled)
+            if (rb.isKinematic == !enabled && carDynamics.enabled == enabled && rb.useGravity)
                 return;
 
             // Don't toggle physics, unless car's on ground
