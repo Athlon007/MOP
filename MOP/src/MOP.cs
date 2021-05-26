@@ -37,8 +37,8 @@ namespace MOP
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
 #endif
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.3"; //Version
-        public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public override string Version => "3.3.1"; //Version
+        public const string SubVersion = "NIGHTLY-20210526"; // NIGHTLY-yyyymmdd | BETA_x | RC_
         public override string UpdateLink => "https://github.com/Athlon007/MOP";
         public override byte[] Icon => Properties.Resources.icon;
 
@@ -228,8 +228,7 @@ namespace MOP
                 ShadowDistance.valueText.text = "No Shadows";
             }
 
-            string modName = "";
-            if (MopSettings.IsConfilctingModPresent(out modName))
+            if (MopSettings.IsConfilctingModPresent(out string modName))
             {
                 ModPrompt.CreatePrompt($"MOP does not work with <color=yellow>{modName}</color>. Please disable that mod first.", "MOP");
             }
@@ -245,8 +244,7 @@ namespace MOP
             MopSettings.UpdatePerformanceMode();
             MopSettings.UpdateShadows();
             MopSettings.UpdateMiscSettings();
-            string modName = "";
-            if (MopSettings.IsConfilctingModPresent(out modName))
+            if (MopSettings.IsConfilctingModPresent(out string modName))
             {
                 ModConsole.LogError("MOP could not be loaded, because the following mod is present: " + modName);
                 return;

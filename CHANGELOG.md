@@ -4,7 +4,8 @@
 
 ### Bug Fixes
 
-- Fixed occassional lag after loading the game, caused by Satsuma
+- Fixed occassional lag after loading the game, caused by Satsuma rigidbody being enabled when it shouldn't
+- Fixed "crashing" sounds coming from Satsuma and Jonnez when walking next to them
 
 ## 3.3 (20.05.2021)
 

@@ -6,3 +6,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "False-positives.")]
+[assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Unity variables (such as gameObject) are often named using lower case")]

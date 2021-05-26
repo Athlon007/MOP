@@ -480,6 +480,8 @@ namespace MOP.Vehicles
         /// <param name="enabled"></param>
         public void ToggleEventSounds(bool enabled)
         {
+            if (eventSounds.disableSounds == !enabled) return;
+            if (!enabled && rb.velocity.magnitude > 1) enabled = true;
             eventSounds.disableSounds = !enabled;
         }
 
@@ -528,7 +530,7 @@ namespace MOP.Vehicles
                 if (preventToggleOnObjects[i].ObjectTransform == null)
                     continue;
 
-                preventToggleOnObjects[i].ObjectTransform.parent = parent == null ? preventToggleOnObjects[i].OriginalParent : parent;
+                preventToggleOnObjects[i].ObjectTransform.parent = parent ?? preventToggleOnObjects[i].OriginalParent;
             }
         }
     }

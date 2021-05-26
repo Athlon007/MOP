@@ -182,8 +182,10 @@ namespace MOP.Vehicles.Cases
             try
             {
                 FsmState wiringBatteryDisable = transform.Find("Wiring").GetPlayMakerFSM("Status").GetState("Disable battery wires");
-                List<FsmStateAction> disableBatteryActions = new List<FsmStateAction>();
-                disableBatteryActions.Add(new CustomBatteryDisable());
+                List<FsmStateAction> disableBatteryActions = new List<FsmStateAction>
+                {
+                    new CustomBatteryDisable()
+                };
                 wiringBatteryDisable.Actions = disableBatteryActions.ToArray();
             }
             catch
@@ -388,13 +390,15 @@ namespace MOP.Vehicles.Cases
                 // Z-fighting of the Satsuma dashboard meters.
                 if (!RulesManager.Instance.SpecialRules.SatsumaIgnoreRenderers)
                 {
-                    dashboardMaterials = new List<Material>();
-                    dashboardMaterials.Add(GameObject.Find("dashboard meters(Clone)").transform.Find("Gauges/Fuel/needle_small").gameObject.GetComponent<Renderer>().material);
-                    dashboardMaterials.Add(GameObject.Find("dashboard meters(Clone)").transform.Find("Gauges/Temp/needle_small").gameObject.GetComponent<Renderer>().material);
-                    dashboardMaterials.Add(GameObject.Find("dashboard meters(Clone)").transform.Find("Gauges/Speedometer/needle_large").gameObject.GetComponent<Renderer>().material);
-                    dashboardMaterials.Add(GameObject.Find("rpm gauge(Clone)").transform.Find("Pivot/needle").gameObject.GetComponent<Renderer>().material);
-                    dashboardMaterials.Add(GameObject.Find("clock gauge(Clone)").transform.Find("ClockCar/hour/needle_hour").gameObject.GetComponent<Renderer>().material);
-                    dashboardMaterials.Add(GameObject.Find("clock gauge(Clone)").transform.Find("ClockCar/minute/needle_minute").gameObject.GetComponent<Renderer>().material);
+                    dashboardMaterials = new List<Material>
+                    {
+                        GameObject.Find("dashboard meters(Clone)").transform.Find("Gauges/Fuel/needle_small").gameObject.GetComponent<Renderer>().material,
+                        GameObject.Find("dashboard meters(Clone)").transform.Find("Gauges/Temp/needle_small").gameObject.GetComponent<Renderer>().material,
+                        GameObject.Find("dashboard meters(Clone)").transform.Find("Gauges/Speedometer/needle_large").gameObject.GetComponent<Renderer>().material,
+                        GameObject.Find("rpm gauge(Clone)").transform.Find("Pivot/needle").gameObject.GetComponent<Renderer>().material,
+                        GameObject.Find("clock gauge(Clone)").transform.Find("ClockCar/hour/needle_hour").gameObject.GetComponent<Renderer>().material,
+                        GameObject.Find("clock gauge(Clone)").transform.Find("ClockCar/minute/needle_minute").gameObject.GetComponent<Renderer>().material
+                    };
 
                     foreach (Material mat in dashboardMaterials)
                         mat.renderQueue = 100;
@@ -417,18 +421,20 @@ namespace MOP.Vehicles.Cases
             GameObject.Find("door right(Clone)").GetPlayMakerFSM("Paint").Fsm.RestartOnEnable = false;
 
             // Setup stuff that gets disabled using ToggleElements
-            satsumaOnActionObjects = new List<SatsumaOnActionObjects>();
-            satsumaOnActionObjects.Add(new SatsumaOnActionObjects(transform.Find("CarSimulation/MechanicalWear").gameObject, SatsumaEnableOn.OnEngine));
-            satsumaOnActionObjects.Add(new SatsumaOnActionObjects(transform.Find("CarSimulation/Fixes").gameObject, SatsumaEnableOn.OnEngine));
-            satsumaOnActionObjects.Add(new SatsumaOnActionObjects(transform.Find("CarSimulation/DynoDistance").gameObject, SatsumaEnableOn.OnEngine));
-            satsumaOnActionObjects.Add(new SatsumaOnActionObjects(transform.Find("CarSimulation/RandomBolt").gameObject, SatsumaEnableOn.OnEngine));
-            
-            satsumaOnActionObjects.Add(new SatsumaOnActionObjects(transform.Find("RainScript").gameObject, SatsumaEnableOn.OnPlayerClose));
-            satsumaOnActionObjects.Add(new SatsumaOnActionObjects(transform.Find("DriverHeadPivot").gameObject, SatsumaEnableOn.OnPlayerClose));
-            satsumaOnActionObjects.Add(new SatsumaOnActionObjects(transform.Find("AirIntake").gameObject, SatsumaEnableOn.OnPlayerClose));
-            satsumaOnActionObjects.Add(new SatsumaOnActionObjects(this.gameObject.GetPlayMakerFSM("ButtonShifter"), SatsumaEnableOn.OnPlayerClose));
-            
-            satsumaOnActionObjects.Add(new SatsumaOnActionObjects(transform.Find("Chassis").gameObject, SatsumaEnableOn.OnPlayerFar));
+            satsumaOnActionObjects = new List<SatsumaOnActionObjects>
+            {
+                new SatsumaOnActionObjects(transform.Find("CarSimulation/MechanicalWear").gameObject, SatsumaEnableOn.OnEngine),
+                new SatsumaOnActionObjects(transform.Find("CarSimulation/Fixes").gameObject, SatsumaEnableOn.OnEngine),
+                new SatsumaOnActionObjects(transform.Find("CarSimulation/DynoDistance").gameObject, SatsumaEnableOn.OnEngine),
+                new SatsumaOnActionObjects(transform.Find("CarSimulation/RandomBolt").gameObject, SatsumaEnableOn.OnEngine),
+
+                new SatsumaOnActionObjects(transform.Find("RainScript").gameObject, SatsumaEnableOn.OnPlayerClose),
+                new SatsumaOnActionObjects(transform.Find("DriverHeadPivot").gameObject, SatsumaEnableOn.OnPlayerClose),
+                new SatsumaOnActionObjects(transform.Find("AirIntake").gameObject, SatsumaEnableOn.OnPlayerClose),
+                new SatsumaOnActionObjects(this.gameObject.GetPlayMakerFSM("ButtonShifter"), SatsumaEnableOn.OnPlayerClose),
+
+                new SatsumaOnActionObjects(transform.Find("Chassis").gameObject, SatsumaEnableOn.OnPlayerFar)
+            };
 
             // Replace on assemble sound playing with custom script.
             PlayMakerFSM blockBoltCheck = GameObject.Find("block(Clone)").GetPlayMakerFSM("BoltCheck");
@@ -448,15 +454,17 @@ namespace MOP.Vehicles.Cases
             // Fixes driver dying way too easily from small impacts (hopefully).
             transform.Find("DriverHeadPivot").GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
-            maskedElements = new Dictionary<GameObject, bool>();
-            maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedClutchCover"), key.activeSelf);
-            maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedBearing2"), key.activeSelf);
-            maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedBearing3"), key.activeSelf);
-            maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedFlywheel"), key.activeSelf);
-            maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedFlywheelRacing"), key.activeSelf);
-            maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedPiston2"), key.activeSelf);
-            maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedPiston3"), key.activeSelf);
-            maskedElements.Add(Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedPiston4"), key.activeSelf);
+            maskedElements = new Dictionary<GameObject, bool>
+            {
+                { Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedClutchCover"), key.activeSelf },
+                { Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedBearing2"), key.activeSelf },
+                { Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedBearing3"), key.activeSelf },
+                { Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedFlywheel"), key.activeSelf },
+                { Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedFlywheelRacing"), key.activeSelf },
+                { Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedPiston2"), key.activeSelf },
+                { Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedPiston3"), key.activeSelf },
+                { Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedPiston4"), key.activeSelf }
+            };
 
             drivingAI = transform.Find("AI").GetPlayMakerFSM("Driving");
 
@@ -592,7 +600,7 @@ namespace MOP.Vehicles.Cases
                 if (disableableObjects[i] == null)
                     continue;
 
-                bool isElementEnabled = IsSatsumaInParcFerme ? true : enabled;
+                bool isElementEnabled = IsSatsumaInParcFerme || enabled;
                 disableableObjects[i].gameObject.SetActive(isElementEnabled);
             }
 

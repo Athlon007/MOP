@@ -857,7 +857,7 @@ namespace MOP
                         {
                             case VehiclesTypes.Satsuma:
                                 Satsuma.Instance.ToggleElements(distance);
-                                vehicleManager[i].ToggleEventSounds(distance < 5);
+                                vehicleManager[i].ToggleEventSounds(distance < 3);
                                 break;
                             case VehiclesTypes.Jonnez:
                                 vehicleManager[i].ToggleEventSounds(distance < 2);
