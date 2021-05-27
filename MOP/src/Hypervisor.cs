@@ -785,7 +785,7 @@ namespace MOP
                         // Check the mode in what MOP is supposed to run and adjust to it.
                         bool toEnable = true;
                         if (MopSettings.Mode == 0)
-                            toEnable = IsEnabled(item.transform, FsmManager.IsPlayerInCar() ? 20 : 150);
+                            toEnable = IsEnabled(item.transform, FsmManager.IsPlayerInCar() && !isPlayerAtYard ? 20 : 150);
                         else
                             toEnable = IsEnabled(item.transform, 150);
 
