@@ -10,7 +10,7 @@
 ### Bug Fixes
 
 - Fixed occassional lag after loading the game, caused by Satsuma rigidbody being enabled when it should not be
-- Fixed "crashing" sounds coming from Satsuma and Jonnez when walking next to them
+- Fixed crashing sounds coming from Satsuma and Jonnez when walking next to them
 - Fixed empty plastic cans possibly being unpickable by the player
 - Fixed MOP disabling empty items, even when "Disable Empty Items" checkbox was not ticked
 - Fixed items despawning too aggressively, if player entered the driving mode and was at home, resulting in items despawing as soon as he entered that mode
