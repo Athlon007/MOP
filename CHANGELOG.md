@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.3.1 (tba)
+## 3.3.1 Beta 1 (27.05.2021)
 
 ### Changes
 
