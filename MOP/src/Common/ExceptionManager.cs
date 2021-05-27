@@ -164,7 +164,7 @@ namespace MOP.Common
             output += $"RulesAutoUpdate: {MOP.RulesAutoUpdate.Value}\n";
             output += $"VerifyRules: {MOP.VerifyRuleFiles.Value}\n";
             output += $"RulesAutoUpdateFrequency: {MopSettings.GetRuleFilesUpdateDaysFrequency()}\n";
-            output += $"RuledDeleteAutomatically: {MOP.DeleteUnusedRules.Value}";
+            output += $"RuledDeleteAutomatically: {MOP.DeleteUnusedRules.Value}\n";
             output += $"DestroyEmptyBottles: {MOP.DestroyEmptyBottles.Value}\n";
             output += $"DisableEmptyItems: {MOP.DisableEmptyItems.Value}\n";
             output += $"ToggleVehiclePhysicsOnly: {RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";

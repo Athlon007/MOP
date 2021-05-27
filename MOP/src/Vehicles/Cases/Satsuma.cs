@@ -641,7 +641,7 @@ namespace MOP.Vehicles.Cases
             // Don't execute the loop, if the first renderer state is the same as for others.
             if (engineBayRenderers[0].enabled == enabled) return;
 
-            for (int i = 0; i < engineBayRenderers.Count; i++)
+            for (int i = 0; i < engineBayRenderers.Count; ++i)
             {
                 try
                 {
