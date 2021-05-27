@@ -5,6 +5,7 @@
 ### Changes
 
 - Minor under the hood improvements
+- "Shadow Distance" slider won't be displayed, if "Adjust Shadows" toggle is not checked
 
 ### Bug Fixes
 
