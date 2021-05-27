@@ -234,7 +234,7 @@ namespace MOP.Items
 
                 // Disable empty items function.
                 // Items that are marked as empty are disabled by the game.
-                if (MOP.DisableEmptyItems && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent == null)
+                if (MOP.DisableEmptyItems.Value && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent == null)
                 {
                     enabled = !MopSettings.IsModActive;
                 }
@@ -287,6 +287,14 @@ namespace MOP.Items
                         if (!enabled)
                             transform.Find("Fire").gameObject.SetActive(false);
                         break;
+                    // Fixes unpickable empty plastic cans
+                    case "emptyca":
+                        if (Vector3.Distance(transform.position, ItemsManager.Instance.LandfillSpawn.position) < 5)
+                        {
+                            gameObject.name = "empty plastic can(itemx)";
+                            gameObject.MakePickable(true);
+                        }
+                        break;
                 }
 
                 // CDs resetting fix.
@@ -327,7 +335,7 @@ namespace MOP.Items
                         transform.position = position;
                 }
 
-                if (MOP.DisableEmptyItems && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent.gameObject.name != "ItemPivot")
+                if (MOP.DisableEmptyItems.Value && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent.gameObject.name != "ItemPivot")
                 {
                     enabled = !MopSettings.IsModActive;
                 }
