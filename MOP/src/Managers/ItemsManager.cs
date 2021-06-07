@@ -305,8 +305,7 @@ namespace MOP.Managers
             }
             else
             {
-                GameObject[] cdItems = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name.ContainsAny("cd case(item", "cd(item")).ToArray();
-                foreach (GameObject cd in cdItems)
+                foreach (GameObject cd in Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name.ContainsAny("cd case(item", "cd(item")).ToArray())
                     cd.AddComponent<ItemBehaviour>();
             }
 
@@ -334,9 +333,7 @@ namespace MOP.Managers
             itemsObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
             // Fucking wheels.
-            GameObject[] wheels = UnityEngine.Object.FindObjectsOfType<GameObject>().
-                Where(gm => gm.name.EqualsAny("wheel_regula", "wheel_offset") && gm.activeSelf).ToArray();
-            foreach (GameObject wheel in wheels)
+            foreach (GameObject wheel in UnityEngine.Object.FindObjectsOfType<GameObject>().Where(gm => gm.name.EqualsAny("wheel_regula", "wheel_offset") && gm.activeSelf).ToArray())
                 wheel.AddComponent<ItemBehaviour>();
 
             // Tires trigger at Fleetari's.
@@ -346,8 +343,7 @@ namespace MOP.Managers
             wheelTrigger.AddComponent<WheelRepairJobTrigger>();
 
             // Hook up the envelope.
-            GameObject[] envelopes = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name.EqualsAny("envelope(xxxxx)", "lottery ticket(xxxxx)")).ToArray();
-            foreach (var g in envelopes)
+            foreach (var g in Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name.EqualsAny("envelope(xxxxx)", "lottery ticket(xxxxx)")).ToArray())
                 g.AddComponent<ItemBehaviour>();
 
             // Unparent all childs of CDs object.

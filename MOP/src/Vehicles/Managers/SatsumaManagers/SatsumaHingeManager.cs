@@ -81,7 +81,6 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
         bool IsAssembledToTheCar()
         {
             return transform.parent != null && transform.parent?.name != "PartsCar";
-
         }
 
         IEnumerator HingeFix()

@@ -630,6 +630,7 @@ namespace MOP.Vehicles.Cases
         /// <param name="enabled"></param>
         public void EngineCulling(bool enabled)
         {
+            return;
             if (RulesManager.Instance.SpecialRules.SatsumaIgnoreRenderers || engineBayRenderers.Count == 0) return;
 
             // Don't disable engine renderers, if the all car's renderers are disabled.

@@ -167,10 +167,7 @@ namespace MOP.Managers
             }
         }
 
-        void CreateNewSector(Vector3 position, Vector3 size, params string[] ignoreList)
-        {
-            CreateNewSector(position, size, Vector3.zero, ignoreList);
-        }
+        void CreateNewSector(Vector3 position, Vector3 size, params string[] ignoreList) => CreateNewSector(position, size, Vector3.zero, ignoreList);
 
         void CreateNewSector(Vector3 position, Vector3 size, Vector3 rotation, params string[] ignoreList)
         {

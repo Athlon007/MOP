@@ -178,6 +178,16 @@ namespace MOP.Helpers
             if (SaveFileExists)
                 ModSave.Delete(mopSavePath);
         }
+
+        internal static void SaveToItem<T>(string tag, T value)
+        {
+            ES2.Save<T>(value, ItemsPath + "?tag=" + tag, new ES2Settings());
+        }
+
+        internal static void SaveToDefault<T>(string tag, T value)
+        {
+            ES2.Save<T>(value, SavePath + "?tag=" + tag, new ES2Settings());
+        }
     }
 
     struct SaveBugs

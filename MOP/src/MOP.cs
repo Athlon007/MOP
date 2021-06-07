@@ -124,7 +124,7 @@ namespace MOP
                 {
                     selected = i;
                 }
-                i++;
+                ++i;
             }
             Resolution = modSettings.AddRadioButtons("resolution", "RESOLUTION", selected, () =>
             {

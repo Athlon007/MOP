@@ -20,6 +20,7 @@ using UnityEngine;
 
 using MOP.Common;
 using MOP.Managers;
+using MSCLoader.Helper;
 
 namespace MOP.Items.Helpers
 {
@@ -40,18 +41,36 @@ namespace MOP.Items.Helpers
         IEnumerator PackagesCoroutine()
         {
             yield return new WaitForSeconds(2);
-
             var packages = GameObject.FindGameObjectsWithTag("ITEM").Where(g => g.name == "amis-auto ky package(xxxxx)" && g.activeSelf).ToArray();
+            MSCLoader.ModConsole.Log(packages.Length);
             for (int i = 0; i < packages.Length; ++i)
             {
                 packages[i].AddComponent<ItemBehaviour>();
-                Transform parts = packages[i].transform.Find("Parts");
-                Transform[] items = parts.GetComponentsInChildren<Transform>(true).Where(t => t.parent == parts).ToArray();
-                for (int j = 0; j < items.Length; ++j)
-                {
-                    items[j].gameObject.AddComponent<ItemBehaviour>();
-                }
+                packages[i].GetPlayMakerFSM("Use").GetState("State 1").AddAction(new CustomPackageHandler(packages[i]));
             }
+        }
+    }
+
+    class CustomPackageHandler : HutongGames.PlayMaker.FsmStateAction
+    {
+        Transform[] items;
+
+        public CustomPackageHandler(GameObject gm)
+        {
+            Transform parts = gm.transform.Find("Parts");
+            items = parts.GetComponentsInChildren<Transform>(true).Where(t => t.parent == parts).ToArray();
+            MSCLoader.ModConsole.Log(string.Join(", ", items.Select(g => g.name).ToArray()));
+        }
+
+        public override void OnEnter()
+        {
+            for (int j = 0; j < items.Length; ++j)
+            {
+                items[j].gameObject.SetActive(true);
+                items[j].gameObject.AddComponent<ItemBehaviour>();
+                items[j].gameObject.SetActive(false);
+            }
+            Finish();
         }
     }
 }

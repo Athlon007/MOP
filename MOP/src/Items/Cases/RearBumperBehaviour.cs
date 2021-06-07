@@ -91,8 +91,6 @@ namespace MOP.Items.Cases
                 }
             }
 
-            //ignored.Clear();
-
             seekColliders = false;
         }
 

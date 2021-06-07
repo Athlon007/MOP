@@ -1,6 +1,10 @@
 # Changelog
 
-## 3.3.1 Beta 1 (27.05.2021)
+## 3.3.1 (tba)
+
+### Added
+
+- Added a custom item save script, that should always save the items in the state and position they are supposed to be at
 
 ### Changes
 
@@ -14,6 +18,9 @@
 - Fixed empty plastic cans possibly being unpickable by the player
 - Fixed MOP disabling empty items, even when "Disable Empty Items" checkbox was not ticked
 - Fixed items despawning too aggressively, if player entered the driving mode and was at home, resulting in items despawing as soon as he entered that mode
+- Definitive fix for the umemptying kilju bottles
+- Fixed an error while paying for packages containing wheels
+- Fixed wheels not spawning when unpacking them
 
 ## 3.3 (20.05.2021)
 

@@ -285,8 +285,7 @@ namespace MOP
             // Logwalls
             try
             {
-                GameObject[] logwalls = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "LogwallLarge").ToArray();
-                foreach (GameObject wall in logwalls)
+                foreach (GameObject wall in Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "LogwallLarge"))
                     worldObjectManager.Add(wall, DisableOn.Distance);
             }
             catch (Exception ex)
@@ -665,9 +664,7 @@ namespace MOP
             {
                 // Ticks make sure that MOP is still up and running.
                 // If the ticks didn't update, that means this routine stopped.
-                ticks++;
-                if (ticks > 1000)
-                    ticks = 0;
+                ++ticks;
 
                 if (!itemInitializationDelayDone)
                 {
@@ -700,7 +697,7 @@ namespace MOP
                 int i;
                 long half = worldObjectManager.Count >> 1;
                 // World Objects.
-                for (i = 0; i < worldObjectManager.Count; i++)
+                for (i = 0; i < worldObjectManager.Count; ++i)
                 {
                     if (i == half)
                         yield return null;
@@ -761,7 +758,7 @@ namespace MOP
                 itemsToEnable.Clear();
                 itemsToDisable.Clear();
                 half = ItemsManager.Instance.Count >> 1;
-                for (i = 0; i < ItemsManager.Instance.Count; i++)
+                for (i = 0; i < ItemsManager.Instance.Count; ++i)
                 {
                     if (i == half)
                         yield return null;
@@ -819,7 +816,7 @@ namespace MOP
                 if (full > 0)
                 {
                     half = itemsToDisable.Count >> 1;
-                    for (i = 0; i < full; i++)
+                    for (i = 0; i < full; ++i)
                     {
                         if (half != 0 && i == half)
                             yield return null;
@@ -837,7 +834,7 @@ namespace MOP
 
                 // Vehicles (new)
                 half = vehicleManager.Count >> 1;
-                for (i = 0; i < vehicleManager.Count; i++)
+                for (i = 0; i < vehicleManager.Count; ++i)
                 {
                     if (half != 0 && i == half) yield return null;
 
@@ -878,7 +875,7 @@ namespace MOP
                 if (full > 0)
                 {
                     half = full >> 1;
-                    for (i = 0; i < full; i++)
+                    for (i = 0; i < full; ++i)
                     {
                         if (half != 0 && i == half) yield return null;
 
@@ -1084,7 +1081,9 @@ namespace MOP
                     // We're freezing the object on save, so it won't move at all.
                     if (mode == ToggleAllMode.OnSave)
                     {
+                        item.gameObject.SetActive(true);
                         item.Freeze();
+                        item.SaveGame();
                     }
                 }
                 catch (Exception ex)
@@ -1100,6 +1099,11 @@ namespace MOP
                 foreach (GameObject bottle in bottles)
                 {
                     bottle.GetComponent<ItemBehaviour>()?.ResetKiljuContainer();
+                    if (mode == ToggleAllMode.OnSave)
+                    {
+                        bottle.SetActive(true);
+                        bottle.GetComponent<ItemBehaviour>()?.SaveGame();
+                    }
                 }
             }
             catch (Exception ex)

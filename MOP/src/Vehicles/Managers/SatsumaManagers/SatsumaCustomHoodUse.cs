@@ -18,8 +18,6 @@ using MSCLoader;
 using MSCLoader.Helper;
 using UnityEngine;
 
-using MOP.Common;
-
 namespace MOP.Vehicles.Managers.SatsumaManagers
 {
     class SatsumaCustomHoodUse : MonoBehaviour

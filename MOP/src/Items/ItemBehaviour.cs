@@ -30,6 +30,7 @@ using MOP.Items.Cases;
 using MOP.Items.Helpers;
 using MOP.Rules;
 using MOP.Rules.Types;
+using MOP.Helpers;
 
 namespace MOP.Items
 {
@@ -80,6 +81,8 @@ namespace MOP.Items
 
         PartMagnet partMagnet;
         BoltMagnet boltMagnet;
+
+        bool fsmFixesOnActive;
 
         public ItemBehaviour()
         {
@@ -150,7 +153,14 @@ namespace MOP.Items
             // We're preventing the execution of State 1 and Load,
             // because these two reset the variables of the item
             // (such as position, state or rotation).
-            FsmFixes();
+            if (transform.root.gameObject.name == "amis-auto ky package(xxxxx)")
+            {
+                fsmFixesOnActive = true;
+            }
+            else
+            {
+                FsmFixes();
+            }
             // HACK: For some reason the trigger that's supposed to fix tire job not working doesn't really work on game load,
             // toggle DontDisable to true, if tire is close to repair shop cash register.
             if (this.gameObject.name.StartsWith("wheel_") && Vector3.Distance(gameObject.transform.position, GameObject.Find("REPAIRSHOP").transform.Find("LOD/Store/ShopCashRegister").position) < 5)
@@ -187,6 +197,12 @@ namespace MOP.Items
             {
                 kiljuInitialReset = true;
                 ResetKiljuContainer();
+            }
+
+            if (fsmFixesOnActive)
+            {
+                fsmFixesOnActive = false;
+                FsmFixes();
             }
         }
 
@@ -305,7 +321,7 @@ namespace MOP.Items
 
                 // Check if item is in CarryMore inventory.
                 // If so, ignore that item.
-                if ((CompatibilityManager.CarryMore || CompatibilityManager.CarryEvenMore) && transform.position.y < -900)
+                if (CompatibilityManager.CarryMore && transform.position.y < -900)
                 {
                     return;
                 }
@@ -427,6 +443,7 @@ namespace MOP.Items
                 {
                     useFsm.Fsm.RestartOnEnable = false;
                     if (gameObject.name.StartsWith("door ")) return;
+                    if (gameObject.name == ("amis-auto ky package(xxxxx)")) return;
                     if (gameObject.name == "lottery ticket(xxxxx)") return;
 
                     FsmState state1 = useFsm.GetState("State 1");
@@ -590,15 +607,14 @@ namespace MOP.Items
                 if (Vector3.Distance(transform.position, ItemsManager.Instance.GetCanTrigger().transform.position) < 2)
                 {
                     transform.position = ItemsManager.Instance.LostSpawner.position;
+                    kiljuInitialReset = false;
 
                     PlayMakerFSM fsm = gameObject.GetPlayMakerFSM("Use");
                     if (fsm)
                     {
                         fsm.FsmVariables.GetFsmBool("ContainsKilju").Value = false;
                     }
-
                     gameObject.name = "empty plastic can(itemx)";
-
                     return;
                 }
             }
@@ -614,8 +630,32 @@ namespace MOP.Items
                     {
                         fsm.FsmVariables.GetFsmBool("ContainsKilju").Value = false;
                     }
-
                     gameObject.name = "empty plastic can(itemx)";
+                }
+            }
+        }
+
+        internal void SaveGame()
+        {
+            if (gameObject.GetPlayMakerFSM("Use"))
+            {
+                PlayMakerFSM useFSM = gameObject.GetPlayMakerFSM("Use");
+                string id = useFSM.FsmVariables.GetFsmString("ID").Value;
+
+                if (gameObject.name.StartsWith("wheel"))
+                {
+                    SaveManager.SaveToDefault(id + "Transform", gameObject.transform);
+                }
+                else
+                {
+                    SaveManager.SaveToItem<Transform>(id + "Transform", gameObject.transform);
+                    SaveManager.SaveToItem<bool>(id + "Consumed", useFSM.FsmVariables.GetFsmBool("Consumed").Value);
+
+                    if (id.Contains("juiceconcentrate"))
+                    {
+                        SaveManager.SaveToItem<bool>(id + "ContainsJuice", useFSM.FsmVariables.GetFsmBool("ContainsJuice").Value);
+                        SaveManager.SaveToItem<bool>(id + "ContainsKilju", useFSM.FsmVariables.GetFsmBool("ContainsKilju").Value);
+                    }
                 }
             }
         }
