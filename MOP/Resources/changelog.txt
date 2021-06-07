@@ -12,12 +12,12 @@
 
 ### Bug Fixes
 
-- Fixed occassional lag after loading the game, caused by Satsuma rigidbody being enabled when it should not be
+- Fixed occasional lag after loading the game, caused by Satsuma rigidbody being enabled when it should not be
 - Fixed crashing sounds coming from Satsuma and Jonnez when walking next to them
 - Fixed empty plastic cans possibly being unpickable by the player
 - Fixed MOP disabling empty items, even when "Disable Empty Items" checkbox was not ticked
 - Fixed items despawning too aggressively, if player entered the driving mode and was at home, resulting in items despawing as soon as he entered that mode
-- Definitive fix for the umemptying kilju bottles
+- Definitive fix for the unemptying kilju bottles
 - Fixed an error while paying for packages containing wheels
 - Fixed wheels not spawning when unpacking them
 - Fixed pub fighter occasionally despawning while leaving/entering the pub
