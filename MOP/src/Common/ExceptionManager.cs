@@ -158,7 +158,7 @@ namespace MOP.Common
             output += $"PerformanceMode: {MopSettings.Mode}\n";
             output += $"FramerateLimiter: {(int)MOP.FramerateLimiter.Value + "0"}\n";
             output += $"ShadowAdjust: {MOP.EnableShadowAdjusting.Value}\n";
-            output += $"ShadowDistance: {MOP.ShadowDistance.Value}\n";
+            output += $"ShadowDistance: {MOP.ShadowDistance.Value}00\n";
             output += $"RunInBackground: {MOP.KeepRunningInBackground.Value}\n";
             output += $"DynamicDrawDistance: {MOP.DynamicDrawDistance.Value}\n";
             output += $"RulesAutoUpdate: {MOP.RulesAutoUpdate.Value}\n";

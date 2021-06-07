@@ -11,6 +11,8 @@
 
 - Minor under the hood improvements
 - "Shadow Distance" slider won't be displayed, if "Adjust Shadows" toggle is not checked
+- Improved the performance of enabling and disabling human NPCs
+- Slightly adjusted the distance when the logwalls spawn
 
 ### Bug Fixes
 
@@ -22,6 +24,7 @@
 - Definitive fix for the umemptying kilju bottles
 - Fixed an error while paying for packages containing wheels
 - Fixed wheels not spawning when unpacking them
+- Fixed pub fighter occassionally despawning while leaving/entering the pub
 
 ## 3.3 (20.05.2021)
 

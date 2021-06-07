@@ -210,9 +210,10 @@ namespace MOP
             // Toggle Humans (apart from Farmer and Fighter2).
             try
             {
-                foreach (Transform t in GameObject.Find("HUMANS").GetComponentsInChildren<Transform>())
+                GameObject humans = GameObject.Find("HUMANS");
+                foreach (Transform t in GameObject.Find("HUMANS").GetComponentsInChildren<Transform>().Where(t => t.parent == humans.transform))
                 {
-                    if (t.gameObject.name.EqualsAny("HUMANS", "Fighter2", "Farmer"))
+                    if (t.gameObject.name.EqualsAny("HUMANS", "Fighter2", "Farmer", "FighterPub"))
                         continue;
 
                     WorldObjectManager.Instance.Add(t.gameObject, DisableOn.Distance);

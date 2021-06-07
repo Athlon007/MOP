@@ -286,7 +286,7 @@ namespace MOP
             try
             {
                 foreach (GameObject wall in Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "LogwallLarge"))
-                    worldObjectManager.Add(wall, DisableOn.Distance);
+                    worldObjectManager.Add(wall, DisableOn.Distance, 300);
             }
             catch (Exception ex)
             {
