@@ -690,8 +690,6 @@ namespace MOP
                     inSectorMode = false;
                 }
 
-                // Disable Satsuma engine renderer, if player is in Satsuma
-                Satsuma.Instance.EngineCulling(!FsmManager.IsPlayerInSatsuma());
                 yield return null;
 
                 int i;

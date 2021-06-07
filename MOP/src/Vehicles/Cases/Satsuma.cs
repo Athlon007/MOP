@@ -60,7 +60,6 @@ namespace MOP.Vehicles.Cases
         // Renderers.
         // Renderes of the entire car.
         readonly List<Renderer> renderers;
-        readonly List<Renderer> engineBayRenderers;
 
         // Pivot transform of hood.
         readonly Transform pivotHood;
@@ -108,9 +107,6 @@ namespace MOP.Vehicles.Cases
             Toggle = ToggleActive;
 
             // Get engine bay renderers
-            engineBayRenderers = new List<Renderer>();
-            Transform block = this.gameObject.transform.Find("Chassis/sub frame(xxxxx)/CarMotorPivot");
-            engineBayRenderers = block.GetComponentsInChildren<Renderer>(true).ToList();
             pivotHood = this.gameObject.transform.Find("Body/pivot_hood");
 
             // Get all the other renderers
@@ -622,51 +618,6 @@ namespace MOP.Vehicles.Cases
 
             return gameObject.GetComponentsInChildren<Transform>(true)
                 .Where(trans => trans.gameObject.name.ContainsAny(whiteList)).ToArray();
-        }
-
-        /// <summary>
-        /// Toggles all renderes related to the car engine block.
-        /// </summary>
-        /// <param name="enabled"></param>
-        public void EngineCulling(bool enabled)
-        {
-            return;
-            if (RulesManager.Instance.SpecialRules.SatsumaIgnoreRenderers || engineBayRenderers.Count == 0) return;
-
-            // Don't disable engine renderers, if the all car's renderers are disabled.
-            if (!renderers[0].enabled && !enabled) return;
-
-            // Force enable engine renderers, if the car's hood is not on the car.
-            if (engineBayRenderers[0].enabled == false && !IsHoodAttached()) enabled = true;
-
-            // Don't execute the loop, if the first renderer state is the same as for others.
-            if (engineBayRenderers[0].enabled == enabled) return;
-
-            for (int i = 0; i < engineBayRenderers.Count; ++i)
-            {
-                try
-                {
-                    if (engineBayRenderers[i] == null)
-                        continue;
-
-                    // Skip renderer if it's root is not Satsuma.
-                    if (engineBayRenderers[i].transform.root.gameObject != this.gameObject)
-                        continue;
-                    
-                    // ItemBehaviour - don't disable renderer.
-                    if (engineBayRenderers[i].gameObject.GetComponent<ItemBehaviour>())
-                    {
-                        engineBayRenderers[i].gameObject.GetComponent<ItemBehaviour>().IgnoreRenderer = !enabled;
-                    }
-
-                    engineBayRenderers[i].enabled = enabled;
-
-                }
-                catch (System.Exception ex)
-                {
-                    ExceptionManager.New(ex, false, "SATSUMA_ENGINE_RENDERER_TOGGLE_ISSUE");
-                }
-            }
         }
 
         /// <summary>

@@ -22,3 +22,7 @@
 - Fixed wheels not spawning when unpacking them
 - Fixed pub fighter occasionally despawning while leaving/entering the pub
 - Fixed Uncle's ragdoll at the pub causing havoc inside by clipping into pub furnitures
+
+### Removed
+
+- Removed engine culling (disabling textures), as it was sometimes causing engine parts to turn invisible

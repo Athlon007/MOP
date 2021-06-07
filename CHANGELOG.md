@@ -27,6 +27,10 @@
 - Fixed pub fighter occasionally despawning while leaving/entering the pub
 - Fixed Uncle's ragdoll at the pub causing havoc inside by clipping into pub furnitures
 
+### Removed
+
+- Removed engine culling (disabling textures), as it was sometimes causing engine parts to turn invisible
+
 ## 3.3 (20.05.2021)
 
 This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requirement.
