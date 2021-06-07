@@ -16,6 +16,7 @@
 
 using MSCLoader;
 using UnityEngine;
+using MOP.Items;
 
 namespace MOP.Common
 {
@@ -28,12 +29,31 @@ namespace MOP.Common
 
         // CarryMore
         // https://www.racedepartment.com/downloads/carry-more-backpack-alternative.22396/
-        public static bool CarryMore { get; private set; }
-        public readonly Vector3 CarryMoreTempPosition = new Vector3(0.0f, -1000.0f, 0.0f);
+        static bool CarryMore { get; set; }
+        
+        // Advanced Backpack
+        static bool AdvancedBackpack { get; set; }
+        static readonly Vector3 AdvancedBackpackPosition = new Vector3(630f, 10f, 1140f);
+        const int AdvancedBackpackDistance = 30;
 
         public CompatibilityManager()
         {
             CarryMore = ModLoader.GetMod("CarryMore") != null;
+            AdvancedBackpack = ModLoader.GetMod("AdvancedBackpack") != null;
+        }
+
+        public static bool IsInBackpack(ItemBehaviour behaviour)
+        {
+            if (CarryMore)
+            {
+                return behaviour.transform.position.y < -900;
+            }
+            else if (AdvancedBackpack)
+            {
+                return Vector3.Distance(behaviour.transform.position, AdvancedBackpackPosition) < AdvancedBackpackDistance;
+            }
+
+            return false;
         }
     }
 }

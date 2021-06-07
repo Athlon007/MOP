@@ -777,8 +777,6 @@ namespace MOP
                             continue;
                         }
 
-                        if (CompatibilityManager.CarryEvenMore && item.name.EndsWith("_INVENTORY")) continue;
-
                         // Check the mode in what MOP is supposed to run and adjust to it.
                         bool toEnable = true;
                         if (MopSettings.Mode == 0)
@@ -801,6 +799,7 @@ namespace MOP
                         if (item.rb != null && item.rb.IsSleeping())
                         {
                             if (item.IsPartMagnetAttached()) continue;
+                            if (CompatibilityManager.IsInBackpack(item)) continue;
                             item.rb.isKinematic = true;
                         }
                         

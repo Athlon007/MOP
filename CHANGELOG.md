@@ -5,6 +5,7 @@
 ### Added
 
 - Added a custom item save script, that should always save the items in the state and position they are supposed to be at
+- Added compatibility with Advanced Backpack mod
 
 ### Changes
 

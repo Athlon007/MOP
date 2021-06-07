@@ -321,7 +321,7 @@ namespace MOP.Items
 
                 // Check if item is in CarryMore inventory.
                 // If so, ignore that item.
-                if (CompatibilityManager.CarryMore && transform.position.y < -900)
+                if (CompatibilityManager.IsInBackpack(this))
                 {
                     return;
                 }
@@ -380,7 +380,7 @@ namespace MOP.Items
 
                 // Check if item is in CarryMore inventory.
                 // If so, ignore that item.
-                if (CompatibilityManager.CarryMore && transform.position.y < -900)
+                if (CompatibilityManager.IsInBackpack(this))
                 {
                     return;
                 }
