@@ -24,7 +24,8 @@
 - Definitive fix for the umemptying kilju bottles
 - Fixed an error while paying for packages containing wheels
 - Fixed wheels not spawning when unpacking them
-- Fixed pub fighter occassionally despawning while leaving/entering the pub
+- Fixed pub fighter occasionally despawning while leaving/entering the pub
+- Fixed Uncle's ragdoll at the pub causing havoc inside by clipping into pub furnitures
 
 ## 3.3 (20.05.2021)
 

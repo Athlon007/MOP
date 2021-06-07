@@ -114,6 +114,9 @@ namespace MOP.Places
             FloatCompare checkDistance = transform.Find("Inventory").gameObject.GetComponent<PlayMakerFSM>().GetState("Check distance").Actions[1] as FloatCompare;
             checkDistance.float2 = 0;
 
+            // Moves RagDoll of Uncle to LODs.
+            transform.Find("RagDoll")?.SetParent(transform.Find("LOD"));
+
             Compress();
         }
 
