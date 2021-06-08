@@ -37,8 +37,8 @@ namespace MOP
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
 #endif
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.3.1"; //Version
-        public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public override string Version => "3.4"; //Version
+        public const string SubVersion = "NIGHTLY-20210608"; // NIGHTLY-yyyymmdd | BETA_x | RC_
         public override string UpdateLink => "https://github.com/Athlon007/MOP";
         public override byte[] Icon => Properties.Resources.icon;
 
@@ -54,15 +54,16 @@ namespace MOP
 
         // Settings
         static internal SettingSlider ActiveDistance, FramerateLimiter, ShadowDistance, RulesAutoUpdateFrequency;
-        static internal SettingRadioButtons PerformanceModes, Resolution;
+        static internal SettingRadioButtons PerformanceModes, Resolution, HouseShadowType;
         static internal SettingToggle EnableShadowAdjusting, KeepRunningInBackground,
                                       DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
-                                      DestroyEmptyBottles, DisableEmptyItems;
+                                      DestroyEmptyBottles, DisableEmptyItems, ItemShadowCast;
 
         static SettingString lastVersion;
 
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
         readonly string[] rulesAutoUpdateFrequencyText = { "On Restart", "Daily", "Every 2 days", "Weekly" };
+        readonly string[] houseShadowType = { "Soft", "Hard" };
 
         public static Guid SessionID;
 
@@ -103,11 +104,6 @@ namespace MOP
             modSettings.AddHeader("GRAPHICS");
             FramerateLimiter = modSettings.AddSlider("framerateLimiterUpdated", "FRAMERATE LIMITER", 21, 2, 21, MopSettings.UpdateFramerateLimiter);
             FramerateLimiter.ValueSuffix = "0 FPS";
-            EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ADJUST SHADOWS", false, () => { MopSettings.UpdateShadows(); ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value); } );
-            EnableShadowAdjusting.gameObject.AddComponent<UITooltip>().toolTipText = "Allows you to set the shadow render distance with the slider below.";
-            ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 2, 0, 20, () => MopSettings.UpdateShadows());
-            ShadowDistance.ValueSuffix = "00 Meters";
-            ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value);
             KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
             KeepRunningInBackground.gameObject.AddComponent<UITooltip>().toolTipText = "If disabled, game will pause when you ALT+TAB from the game.";
             DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false);
@@ -134,6 +130,17 @@ namespace MOP
                 Screen.SetResolution(width, height, Screen.fullScreen);
             }, resolutions.ToArray());
             Resolution.gameObject.SetActive(false);
+
+            // Shadows
+            modSettings.AddHeader("SHADOWS");
+            EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ADJUST SHADOWS", false, () => { MopSettings.UpdateShadows(); ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value); } );
+            EnableShadowAdjusting.gameObject.AddComponent<UITooltip>().toolTipText = "Allows you to set the shadow render distance with the slider below.";
+            ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 2, 0, 20, () => MopSettings.UpdateShadows());
+            ShadowDistance.ValueSuffix = "00 Meters";
+            ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value);
+            ItemShadowCast = modSettings.AddToggle("itemShadowCast", "ITEMS CAST SHADOW", false, () => MopSettings.UpdateShadows());
+            ItemShadowCast.gameObject.AddComponent<UITooltip>().toolTipText = "If enabled, all items cast shadows.";
+            HouseShadowType = modSettings.AddRadioButtons("houseShadowType", "HOUSE SHADOWS TYPE", 0, MopSettings.UpdateShadows, houseShadowType);
 
             // Rules
             modSettings.AddHeader("RULES");
@@ -243,7 +250,6 @@ namespace MOP
         {
             MopSettings.UpdateFramerateLimiter();
             MopSettings.UpdatePerformanceMode();
-            MopSettings.UpdateShadows();
             MopSettings.UpdateMiscSettings();
             if (MopSettings.IsConfilctingModPresent(out string modName))
             {
@@ -261,6 +267,7 @@ namespace MOP
             worldManager.AddComponent<Hypervisor>();
 
             SaveManager.AddSaveFlag();
+            //MopSettings.UpdateShadows();
         }
 
         public override void ModSettingsOpen()

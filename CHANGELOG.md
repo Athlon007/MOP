@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.4 (tba)
+
+### Added
+
+- Added new setting sections: "Shadows"
+- If you have House Shadows enabled, they are now automatically disabled, if you are away from house
+- Added "ITEMS CAST SHADOW" setting: if enabled, it makes all items cast shadows
+- Added "HOUSE SHADOWS TYPE": it allows you to set the type of casted shadows (soft or hard)
+
 ## 3.3.1 (07.06.2021)
 
 ### Added

@@ -84,6 +84,8 @@ namespace MOP.Items
 
         bool fsmFixesOnActive;
 
+        UnityEngine.Rendering.ShadowCastingMode castingMode;
+
         public ItemBehaviour()
         {
             if (gameObject.GetComponents<ItemBehaviour>().Length > 1)
@@ -99,6 +101,11 @@ namespace MOP.Items
             renderer = GetComponent<Renderer>();
             partMagnet = GetComponent<PartMagnet>();
             boltMagnet = GetComponent<BoltMagnet>();
+
+            if (renderer == null)
+            {
+                renderer = transform.Find("mesh")?.GetComponent<Renderer>();
+            }
 
             // From PlayMakerFSM, find states that contain one of the names that relate to destroying object,
             // and inject RemoveSelf void.
@@ -175,6 +182,8 @@ namespace MOP.Items
                 if (rb?.velocity.magnitude > 0.1f) return;
                 rb?.Sleep();
             }
+
+            castingMode = renderer.shadowCastingMode;
         }
 
         void Awake()
@@ -663,6 +672,15 @@ namespace MOP.Items
         internal bool IsPartMagnetAttached()
         {
             return (partMagnet != null && partMagnet.attached) || (boltMagnet != null && boltMagnet.attached);
+        }
+
+        internal void SetShadow(bool enabled)
+        {
+            try
+            {
+                renderer.shadowCastingMode = enabled ? UnityEngine.Rendering.ShadowCastingMode.On : castingMode;
+            }
+            catch { }
         }
     }
 }

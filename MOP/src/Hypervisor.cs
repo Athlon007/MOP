@@ -661,6 +661,7 @@ namespace MOP
             rec.Initialize();
 
             Satsuma.Instance.ForceToggleUnityCar(false);
+            MopSettings.UpdateShadows();
 
             while (MopSettings.IsModActive)
             {

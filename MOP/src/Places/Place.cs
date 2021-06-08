@@ -21,6 +21,8 @@ using UnityEngine;
 using MOP.Rules;
 using MOP.Rules.Types;
 using MOP.Common;
+using MOP.Common.Enumerations;
+using MOP.FSM;
 
 namespace MOP.Places
 {
@@ -39,6 +41,7 @@ namespace MOP.Places
         /// </summary>
         internal List<Transform> DisableableChilds;
         internal List<PlayMakerFSM> PlayMakers;
+        internal List<Light> LightSources;
 
         /// <summary>
         /// Saves what value has been last used, to prevent unnescesary launch of loop.
@@ -61,6 +64,7 @@ namespace MOP.Places
             toggleDistance = distance;
             GameObjectBlackList = new List<string>();
             PlayMakers = new List<PlayMakerFSM>();
+            LightSources = new List<Light>();
 
             IgnoreRuleAtPlace[] ignoreRulesAtThisPlace = RulesManager.Instance.IgnoreRulesAtPlaces.Where(r => r.Place == placeName).ToArray();
             if (ignoreRulesAtThisPlace.Length > 0)
@@ -100,6 +104,33 @@ namespace MOP.Places
                     }
 
                     PlayMakers[i].enabled = enabled;
+                }
+            }
+
+            if (LightSources.Count > 0)
+            {
+                if (FsmManager.ShadowsHouse)
+                {
+                    for (int i = 0; i < LightSources.Count; ++i)
+                    {
+                        LightSources[i].shadows = enabled ? (MOP.HouseShadowType.Value == 0 ? LightShadows.Soft : LightShadows.Hard) : LightShadows.None;
+                    }
+                }
+            }
+        }
+
+        internal void UpdateShadows()
+        {
+            if (LightSources.Count > 0)
+            {
+                bool enabled = Vector3.Distance(Hypervisor.Instance.GetPlayer().position, transform.position) > toggleDistance;
+
+                if (FsmManager.ShadowsHouse)
+                {
+                    for (int i = 0; i < LightSources.Count; ++i)
+                    {
+                        LightSources[i].shadows = enabled ? (MOP.HouseShadowType.Value == 0 ? LightShadows.Soft : LightShadows.Hard) : LightShadows.None;
+                    }
                 }
             }
         }
@@ -160,6 +191,13 @@ namespace MOP.Places
             {
                 DisableableChilds.Remove(child);
             }
+        }
+
+        internal List<Light> GetLightSources()
+        {
+            return Resources.FindObjectsOfTypeAll<GameObject>()
+                   .Where(g => g.transform.root == gameObject.transform && g.name.StartsWith("Light") && g.GetComponent<Light>())
+                   .Select(g => g.GetComponent<Light>()).ToList();
         }
     }
 }

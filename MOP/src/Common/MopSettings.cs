@@ -109,6 +109,30 @@ namespace MOP.Common
             {
                 MOP.ShadowDistance.valueText.text = "No Shadows";
             }
+
+            if (ModLoader.CurrentScene == CurrentScene.Game)
+            {
+                foreach (var i in Managers.ItemsManager.Instance.All())
+                {
+                    try
+                    {
+                        i?.SetShadow(MOP.ItemShadowCast.Value);
+                    }
+                    catch { }
+                }
+
+                if (Managers.PlaceManager.Instance != null)
+                {
+                    foreach (var i in Managers.PlaceManager.Instance.GetList())
+                    {
+                        try
+                        {
+                            i?.UpdateShadows();
+                        }
+                        catch  { }
+                    }
+                }
+            }
         }
 
         public static void UpdateMiscSettings()
