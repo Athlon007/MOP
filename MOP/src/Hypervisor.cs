@@ -660,6 +660,8 @@ namespace MOP
             FramerateRecorder rec = gameObject.AddComponent<FramerateRecorder>();
             rec.Initialize();
 
+            Satsuma.Instance.ForceToggleUnityCar(false);
+
             while (MopSettings.IsModActive)
             {
                 // Ticks make sure that MOP is still up and running.
