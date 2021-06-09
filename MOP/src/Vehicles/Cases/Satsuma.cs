@@ -95,6 +95,8 @@ namespace MOP.Vehicles.Cases
         // It prevents the car teleporting back to the last position known to the player.
         bool hasBeenMovedByFleetari;
 
+        List<Light> CarHeadlights;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -524,6 +526,13 @@ namespace MOP.Vehicles.Cases
 
             GameObject.Find("dashboard meters(Clone)/Gauges/Odometer").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
+            // Get car headlight light sources.
+            CarHeadlights = new List<Light>();
+            CarHeadlights.Add(transform.Find("Electricity/PowerON/BeamsShort/BeamShortRight").GetComponent<Light>());
+            CarHeadlights.Add(transform.Find("Electricity/PowerON/BeamsShort/BeamShortLeft").GetComponent<Light>());
+            CarHeadlights.Add(transform.Find("Electricity/PowerON/BeamsShort/BeamLongRight").GetComponent<Light>());
+            CarHeadlights.Add(transform.Find("Electricity/PowerON/BeamsShort/BeamLongLeft").GetComponent<Light>());
+
             this.ForceToggleUnityCar(false);
 
             if (MopSettings.GenerateToggledItemsListDebug)
@@ -769,6 +778,8 @@ namespace MOP.Vehicles.Cases
                     cooldownTick.SetActive(false);
                 }
 
+                ActivateHeadlights(onClose);
+
                 if (onFar)
                 {
                     hasBeenMovedByFleetari = false;
@@ -818,6 +829,16 @@ namespace MOP.Vehicles.Cases
             for (int i = 0; i < satsumaBoltsAntiReloads.Count; ++i)
             {
                 satsumaBoltsAntiReloads[i].Unglue();
+            }
+        }
+
+        internal void ActivateHeadlights(bool enabled)
+        {
+            if (!MOP.CarDynamicHeadlights.Value) enabled = false;
+
+            for (int i = 0; i < CarHeadlights.Count; ++i)
+            {
+                CarHeadlights[i].shadows = enabled ? LightShadows.Hard : LightShadows.None;
             }
         }
     }

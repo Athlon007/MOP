@@ -9,6 +9,10 @@
 - Added "ITEMS CAST SHADOW" setting: if enabled, it makes all items cast shadows
 - Added "HOUSE SHADOWS TYPE": it allows you to set the type of casted shadows (soft or hard)
 
+### Changes
+
+- Renamed "CHANGE RESOLUTION" to "RESOLUTION"
+
 ## 3.3.1 (07.06.2021)
 
 ### Added

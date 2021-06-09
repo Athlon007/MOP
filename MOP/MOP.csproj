@@ -110,6 +110,7 @@
     <Compile Include="src\FSM\Actions\GrandmaHiker.cs" />
     <Compile Include="src\FSM\Actions\WindscreenRepairJob.cs" />
     <Compile Include="src\GameFixes.cs" />
+    <Compile Include="src\Helpers\MenuClose.cs" />
     <Compile Include="src\Items\Cases\RearBumperBehaviour.cs" />
     <Compile Include="src\Items\Cases\SuitcaseMoneyBehaviour.cs" />
     <Compile Include="src\Items\Cases\ThrowableJunkBehaviour.cs" />

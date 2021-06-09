@@ -57,13 +57,13 @@ namespace MOP
         static internal SettingRadioButtons PerformanceModes, Resolution, HouseShadowType;
         static internal SettingToggle EnableShadowAdjusting, KeepRunningInBackground,
                                       DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
-                                      DestroyEmptyBottles, DisableEmptyItems, ItemShadowCast;
+                                      DestroyEmptyBottles, DisableEmptyItems, ItemShadowCast, CarDynamicHeadlights;
 
         static SettingString lastVersion;
 
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
         readonly string[] rulesAutoUpdateFrequencyText = { "On Restart", "Daily", "Every 2 days", "Weekly" };
-        readonly string[] houseShadowType = { "Soft", "Hard" };
+        readonly string[] houseShadowType = { "HARD (DEFAULT)", "SOFT" };
 
         public static Guid SessionID;
 
@@ -109,7 +109,7 @@ namespace MOP
             DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false);
             DynamicDrawDistance.gameObject.AddComponent<UITooltip>().toolTipText = "MOP will change the draw distance according to situation\n" +
                                                                                    "(ex. lower render distance while in interior)";
-            modSettings.AddButton("changeResolution", "CHANGE RESOLUTION", () => { Resolution.gameObject.SetActive(!Resolution.gameObject.activeSelf); });
+            modSettings.AddButton("changeResolution", "RESOLUTION", () => { Resolution.gameObject.SetActive(!Resolution.gameObject.activeSelf); });
             List<string> resolutions = new List<string>();
             int selected = 0;
             int i = 0;
@@ -141,6 +141,8 @@ namespace MOP
             ItemShadowCast = modSettings.AddToggle("itemShadowCast", "ITEMS CAST SHADOW", false, () => MopSettings.UpdateShadows());
             ItemShadowCast.gameObject.AddComponent<UITooltip>().toolTipText = "If enabled, all items cast shadows.";
             HouseShadowType = modSettings.AddRadioButtons("houseShadowType", "HOUSE SHADOWS TYPE", 0, MopSettings.UpdateShadows, houseShadowType);
+            HouseShadowType.gameObject.AddComponent<UITooltip>().toolTipText = "Sets the type of shadows casted at home.\nHard shadows are faster, while softer shadows look prettier.";
+            CarDynamicHeadlights = modSettings.AddToggle("carDynamicHeadlights", "CAR DYNAMIC HEADLIGHTS", false);
 
             // Rules
             modSettings.AddHeader("RULES");

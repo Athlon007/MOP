@@ -379,6 +379,8 @@ namespace MOP
 
             HookPreSaveGame();
 
+            GameObject.Find("Systems").transform.Find("OptionsMenu").gameObject.AddComponent<MenuClose>();
+
             ModConsole.Log("[MOP] Loading rules...");
             foreach (ToggleRule v in RulesManager.Instance.ToggleRules)
             {

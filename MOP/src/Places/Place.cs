@@ -113,7 +113,7 @@ namespace MOP.Places
                 {
                     for (int i = 0; i < LightSources.Count; ++i)
                     {
-                        LightSources[i].shadows = enabled ? (MOP.HouseShadowType.Value == 0 ? LightShadows.Soft : LightShadows.Hard) : LightShadows.None;
+                        LightSources[i].shadows = enabled ? (MOP.HouseShadowType.Value == 0 ? LightShadows.Hard : LightShadows.Soft) : LightShadows.None;
                     }
                 }
             }
@@ -123,14 +123,13 @@ namespace MOP.Places
         {
             if (LightSources.Count > 0)
             {
-                bool enabled = Vector3.Distance(Hypervisor.Instance.GetPlayer().position, transform.position) > toggleDistance;
+                bool enabled = Vector3.Distance(Hypervisor.Instance.GetPlayer().position, transform.position) < toggleDistance;
+                if (!FsmManager.ShadowsHouse)
+                    enabled = false;
 
-                if (FsmManager.ShadowsHouse)
+                for (int i = 0; i < LightSources.Count; ++i)
                 {
-                    for (int i = 0; i < LightSources.Count; ++i)
-                    {
-                        LightSources[i].shadows = enabled ? (MOP.HouseShadowType.Value == 0 ? LightShadows.Soft : LightShadows.Hard) : LightShadows.None;
-                    }
+                    LightSources[i].shadows = enabled ? (MOP.HouseShadowType.Value == 0 ? LightShadows.Hard : LightShadows.Soft) : LightShadows.None;
                 }
             }
         }
