@@ -133,7 +133,7 @@ namespace MOP
 
             // Shadows
             modSettings.AddHeader("SHADOWS");
-            EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ADJUST SHADOWS", false, () => { MopSettings.UpdateShadows(); ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value); } );
+            EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ADJUST SHADOWS", false, () => { MopSettings.UpdateShadows(); ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value); });
             EnableShadowAdjusting.gameObject.AddComponent<UITooltip>().toolTipText = "Allows you to set the shadow render distance with the slider below.";
             ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 2, 0, 20, () => MopSettings.UpdateShadows());
             ShadowDistance.ValueSuffix = "00 Meters";
