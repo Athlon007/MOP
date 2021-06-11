@@ -193,7 +193,7 @@ namespace MOP.Items
         {
             // If is an empty plastic can (aka, empty kilju/orange juice bottle), we check if the distance to Jokke's can trigger is low.
             // If that's the case, we teleport the object to lost item spawner (junkyard).
-            if (!kiljuInitialReset)
+            if (!kiljuInitialReset || gameObject.name == "emptyca")
             {
                 kiljuInitialReset = true;
                 ResetKiljuContainer();
@@ -203,6 +203,14 @@ namespace MOP.Items
             {
                 fsmFixesOnActive = false;
                 FsmFixes();
+            }
+        }
+
+        void OnDisable()
+        {
+            if (gameObject.name == "emptyca")
+            {
+                ResetKiljuContainer();
             }
         }
 
@@ -601,10 +609,13 @@ namespace MOP.Items
         internal void ResetKiljuContainer()
         {
             if (!gameObject.name.ContainsAny("empty plastic can", "kilju", "emptyca")) return;
+           
+            gameObject.MakePickable(true);
+            gameObject.tag = "ITEM";
 
             if (ItemsManager.Instance.GetCanTrigger())
             {
-                if (Vector3.Distance(transform.position, ItemsManager.Instance.GetCanTrigger().transform.position) < 2)
+                if (Vector3.Distance(transform.position, ItemsManager.Instance.GetCanTrigger().transform.position) < 10)
                 {
                     transform.position = ItemsManager.Instance.LostSpawner.position;
                     kiljuInitialReset = false;
@@ -615,7 +626,7 @@ namespace MOP.Items
                         fsm.FsmVariables.GetFsmBool("ContainsKilju").Value = false;
                     }
                     gameObject.name = "empty plastic can(itemx)";
-                    return;
+                    return; 
                 }
             }
 
@@ -653,8 +664,23 @@ namespace MOP.Items
 
                     if (id.Contains("juiceconcentrate"))
                     {
+                        if (gameObject.name.ContainsAny("emptyca", "empty plastic can"))
+                        {
+                            useFSM.FsmVariables.GetFsmBool("ContainsKilju").Value = false;
+                        }
+
+                        if (gameObject.name.ContainsAny("kilju"))
+                        {
+                            useFSM.FsmVariables.GetFsmBool("ContainsKilju").Value = true;
+                        }
+
                         SaveManager.SaveToItem<bool>(id + "ContainsJuice", useFSM.FsmVariables.GetFsmBool("ContainsJuice").Value);
                         SaveManager.SaveToItem<bool>(id + "ContainsKilju", useFSM.FsmVariables.GetFsmBool("ContainsKilju").Value);
+                        SaveManager.SaveToItem<float>(id + "KiljuAlc", useFSM.FsmVariables.GetFsmFloat("KiljuAlc").Value);
+                        SaveManager.SaveToItem<float>(id + "KiljuSweetness", useFSM.FsmVariables.GetFsmFloat("KiljuSweetness").Value);
+                        SaveManager.SaveToItem<float>(id + "KiljuVinegar", useFSM.FsmVariables.GetFsmFloat("KiljuVinegar").Value);
+                        SaveManager.SaveToItem<float>(id + "KiljuYeast", useFSM.FsmVariables.GetFsmFloat("KiljuYeast").Value);
+                        useFSM.enabled = false;
                     }
                 }
             }

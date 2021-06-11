@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.2 (11.06.2021)
+
+### Bug Fixes
+
+- Even more attempts to fix the bloody kilju/empty plastic can bug
+
 ## 3.3.1 (07.06.2021)
 
 ### Added
