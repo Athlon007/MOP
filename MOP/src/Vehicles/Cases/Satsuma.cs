@@ -530,8 +530,8 @@ namespace MOP.Vehicles.Cases
             CarHeadlights = new List<Light>();
             CarHeadlights.Add(transform.Find("Electricity/PowerON/BeamsShort/BeamShortRight").GetComponent<Light>());
             CarHeadlights.Add(transform.Find("Electricity/PowerON/BeamsShort/BeamShortLeft").GetComponent<Light>());
-            CarHeadlights.Add(transform.Find("Electricity/PowerON/BeamsShort/BeamLongRight").GetComponent<Light>());
-            CarHeadlights.Add(transform.Find("Electricity/PowerON/BeamsShort/BeamLongLeft").GetComponent<Light>());
+            CarHeadlights.Add(transform.Find("Electricity/PowerON/BeamsLong/BeamLongRight").GetComponent<Light>());
+            CarHeadlights.Add(transform.Find("Electricity/PowerON/BeamsLong/BeamLongLeft").GetComponent<Light>());
 
             this.ForceToggleUnityCar(false);
 
@@ -778,7 +778,11 @@ namespace MOP.Vehicles.Cases
                     cooldownTick.SetActive(false);
                 }
 
-                ActivateHeadlights(onClose);
+                try
+                {
+                    ActivateHeadlights(onClose);
+                }
+                catch { }
 
                 if (onFar)
                 {
