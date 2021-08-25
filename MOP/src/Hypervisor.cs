@@ -954,16 +954,15 @@ namespace MOP
 
             Satsuma.Instance?.ForceRotation();
 
-            if (MopSettings.Mode == PerformanceMode.Quality)
+            if (MopSettings.Mode != PerformanceMode.Performance)
             {
                 for (int i = 0; i < vehicleManager.Count; i++)
                 {
+                    if (!vehicleManager[i].IsActive) continue;
                     if (vehicleManager[i].IsTrafficCarInArea())
                         vehicleManager[i].ToggleUnityCar(true);
                 }
-            }
-
-           
+            }       
         }
 
 #endregion

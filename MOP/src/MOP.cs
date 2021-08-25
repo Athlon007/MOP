@@ -92,7 +92,7 @@ namespace MOP
             ActiveDistance.gameObject.AddComponent<UITooltip>().toolTipText = "Distance uppon which objects will spawn.";
             ActiveDistance.TextValues = activeDistanceText;
             ActiveDistance.ChangeValueText();
-            PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1, MopSettings.UpdatePerformanceMode, "PERFORMANCE", "BALANCED", "QUALITY", "SAFE");
+            PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1, MopSettings.UpdatePerformanceMode, "PERFORMANCE", "BALANCED", "QUALITY", "<color=red>SAFE</color>");
             PerformanceModes.gameObject.AddComponent<UITooltip>().toolTipText =
                 "<color=yellow>PERFORMANCE</color>: <color=white>Visibly disables and enables objects</color>\n" +
                 "<color=yellow>BALANCED (recommended)</color>: <color=white>Maintains balance between PERFORMANCE and QUALITY</color>\n" +

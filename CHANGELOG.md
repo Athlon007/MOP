@@ -2,10 +2,21 @@
 
 ## 3.3.3 (25.08.2021)
 
+### Added
+
+- Save integrity check now checks if halfshafts and battery terminal bolt values are correct
+
+### Changes
+
+- The game will now check if TRAFFIC car is about to be hit by a traffic car in BALANCED mode
+  - Previously that would happen only in QUALITY mode
+  - This change does not affect PERFORMANCE mode
+
 ### Bug Fixes
 
 - Fixed crash caused by MOP not being able to find the car stock radio
 - Fixed bug causing music coming out of the radio to randomly go silent
+- Fixed a bug which caused performance mode settings to not update, making you stuck in a single performance mode
 
 ## 3.3.2 (11.06.2021)
 

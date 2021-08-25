@@ -50,39 +50,39 @@ namespace MOP.Common
             // MODES
             // Show the warning about safe mode, if the player disables safe mode and is not in main menu.
             bool dontUpdate = false;
-            if (ModLoader.CurrentScene != CurrentScene.MainMenu && IsModActive)
+            if (ModLoader.CurrentScene != CurrentScene.MainMenu)
             {
                 if (Mode == PerformanceMode.Safe && MOP.PerformanceModes.Value != 3)
                 {
-                    ModPrompt.CreatePrompt("Safe Mode will be disabled after the restart.", "MOP");
+                    ModPrompt.CreatePrompt("Safe Mode will be disabled after you quit to the Main Menu.", "MOP");
                     dontUpdate = true;
                 }
                 else if (Mode != PerformanceMode.Safe && MOP.PerformanceModes.Value == 3)
                 {
-                    ModPrompt.CreatePrompt("Safe Mode will be enabled after the restart.", "MOP");
+                    ModPrompt.CreatePrompt("Safe Mode will be enabled after you quit to the Main Menu.", "MOP");
                     dontUpdate = true;
                 }
+            }
 
-                if (!dontUpdate)
+            if (!dontUpdate)
+            {
+                switch (MOP.PerformanceModes.Value)
                 {
-                    switch (MOP.PerformanceModes.Value)
-                    {
-                        default:
-                            Mode = PerformanceMode.Balanced;
-                            break;
-                        case 0:
-                            Mode = PerformanceMode.Performance;
-                            break;
-                        case 1:
-                            Mode = PerformanceMode.Balanced;
-                            break;
-                        case 2:
-                            Mode = PerformanceMode.Quality;
-                            break;
-                        case 3:
-                            Mode = PerformanceMode.Safe;
-                            break;
-                    }
+                    default:
+                        Mode = PerformanceMode.Balanced;
+                        break;
+                    case 0:
+                        Mode = PerformanceMode.Performance;
+                        break;
+                    case 1:
+                        Mode = PerformanceMode.Balanced;
+                        break;
+                    case 2:
+                        Mode = PerformanceMode.Quality;
+                        break;
+                    case 3:
+                        Mode = PerformanceMode.Safe;
+                        break;
                 }
             }
         }

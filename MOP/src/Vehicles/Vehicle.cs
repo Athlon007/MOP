@@ -508,11 +508,16 @@ namespace MOP.Vehicles
         /// <returns></returns>
         public bool IsTrafficCarInArea()
         {
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 5);
+            // Don't execute if player is driving this vehicle.
+            if (IsPlayerInThisCar()) return false;
+
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 7);
             foreach (var hitCollider in hitColliders)
             {
-                if (hitCollider.transform.root.gameObject.name.EqualsAny("NPC_CARS", "TRAFFIC"))
+                if (hitCollider.transform.root != null && hitCollider.transform.root.gameObject.name.EqualsAny("NPC_CARS", "TRAFFIC"))
+                {
                     return true;
+                }
             }
 
             return false;

@@ -101,12 +101,53 @@ namespace MOP.Helpers
                 if (SaveFileExists)
                 {
                     MopSaveData save = ModSave.Load<MopSaveData>(mopSavePath);
-                    bool bumperRearInstalled = ES2.Load<bool>(SavePath + "?tag=bumper rear(Clone)Installed", setting);
-                    float bumperTightness = ES2.Load<float>(SavePath + "?tag=Bumper_RearTightness", setting);
-                    if (bumperRearInstalled && bumperTightness != save.rearBumperTightness)
+
+                    if (save.version == MOP.ModVersion)
                     {
-                        ES2.Save(save.rearBumperTightness, SavePath + "?tag=Bumper_RearTightness");
-                        ES2.Save(save.rearBumperBolts, SavePath + "?tag=Bumper_RearBolts");
+                        bool bumperRearInstalled = ES2.Load<bool>(SavePath + "?tag=bumper rear(Clone)Installed", setting);
+                        float bumperTightness = ES2.Load<float>(SavePath + "?tag=Bumper_RearTightness", setting);
+                        if (bumperRearInstalled && bumperTightness != save.rearBumperTightness)
+                        {
+                            ES2.Save(save.rearBumperTightness, SavePath + "?tag=Bumper_RearTightness");
+                            ES2.Save(save.rearBumperBolts, SavePath + "?tag=Bumper_RearBolts");
+                        }
+
+                        bool halfshaft_FLInstalled = ES2.Load<bool>(SavePath + "?tag=halfshaft_flInstalled", setting);
+                        float halfshaft_FLTightness = ES2.Load<float>(SavePath + "?tag=Halfshaft_FLTightness", setting);
+                        if (halfshaft_FLInstalled && halfshaft_FLTightness != save.halfshaft_FLTightness)
+                        {
+                            saveBugs.Add(SaveBugs.New("Halfshaft (FL) Missmateched Bolt Stages", "Bolt stages in Halfshaft (FL) aren't correct.", () =>
+                            {
+                                ES2.Save(save.halfshaft_FLTightness, SavePath + "?tag=Halfshaft_FLTightness");
+                                ES2.Save(save.halfshaft_FLBolts, SavePath + "?tag=Halfshaft_FLBolts");
+                            }));
+                        }
+
+                        bool halfshaft_FRInstalled = ES2.Load<bool>(SavePath + "?tag=halfshaft_frInstalled", setting);
+                        float halfshaft_FRTightness = ES2.Load<float>(SavePath + "?tag=Halfshaft_FRTightness", setting);
+                        if (halfshaft_FRInstalled && halfshaft_FRTightness != save.halfshaft_FRTightness)
+                        {
+                            saveBugs.Add(SaveBugs.New("Halfshaft (FR) Missmateched Bolt Stages", "Bolt stages in Halfshaft (FR) aren't correct.", () =>
+                            {
+                                ES2.Save(save.halfshaft_FRTightness, SavePath + "?tag=Halfshaft_FRTightness");
+                                ES2.Save(save.halfshaft_FRBolts, SavePath + "?tag=Halfshaft_FRBolts");
+                            }));
+                        }
+
+                        bool wiringBatteryMinusInstalled = ES2.Load<bool>(SavePath + "?tag=battery_terminal_minus(xxxxx)Installed", setting);
+                        float wiringBatteryMinusTightness = ES2.Load<float>(SavePath + "?tag=WiringBatteryMinusTightness", setting);
+                        if (wiringBatteryMinusInstalled && wiringBatteryMinusTightness != save.wiringBatteryMinusTightness)
+                        {
+                            saveBugs.Add(SaveBugs.New("Battery terminal minus bolt is not tightened.", "Incorrect bolt tightness of battery minus terminal.", () =>
+                            {
+                                ES2.Save(save.wiringBatteryMinusTightness, SavePath + "?tag=WiringBatteryMinusTightness");
+                                ES2.Save(save.wiringBatteryMinusBolts, SavePath + "?tag=WiringBatteryMinusBolts");
+                            }));
+                        }
+                    }
+                    else
+                    {
+                        ReleaseSave();
                     }
                 }
             }
@@ -164,8 +205,20 @@ namespace MOP.Helpers
             if (ES2.Exists(SavePath + "?tag=Bumper_RearTightness") && ES2.Exists(SavePath + "?tag=Bumper_RearBolts", setting))
             {
                 MopSaveData save = new MopSaveData();
+
+                save.version = MOP.ModVersion;
+
                 save.rearBumperTightness = ES2.Load<float>(SavePath + "?tag=Bumper_RearTightness", setting);
                 save.rearBumperBolts = ES2.LoadList<string>(SavePath + "?tag=Bumper_RearBolts", setting);
+
+                save.halfshaft_FLTightness = ES2.Load<float>(SavePath + "?tag=Halfshaft_FLTightness", setting);
+                save.halfshaft_FLBolts = ES2.LoadList<string>(SavePath + "?tag=Halfshaft_FLBolts", setting);
+
+                save.halfshaft_FRTightness = ES2.Load<float>(SavePath + "?tag=Halfshaft_FRTightness", setting);
+                save.halfshaft_FRBolts = ES2.LoadList<string>(SavePath + "?tag=Halfshaft_FRBolts", setting);
+
+                save.wiringBatteryMinusTightness = ES2.Load<float>(SavePath + "?tag=WiringBatteryMinusTightness", setting);
+                save.wiringBatteryMinusBolts = ES2.LoadList<string>(SavePath + "?tag=WiringBatteryMinusBolts", setting);
 
                 ModSave.Save(mopSavePath, save);
             }
@@ -208,7 +261,18 @@ namespace MOP.Helpers
 
     public class MopSaveData
     {
+        public string version = "1.0";
+
         public float rearBumperTightness;
         public List<string> rearBumperBolts;
+
+        public float halfshaft_FLTightness;
+        public List<string> halfshaft_FLBolts;
+
+        public float halfshaft_FRTightness;
+        public List<string> halfshaft_FRBolts;
+
+        public float wiringBatteryMinusTightness;
+        public List<string> wiringBatteryMinusBolts;
     }
 }
