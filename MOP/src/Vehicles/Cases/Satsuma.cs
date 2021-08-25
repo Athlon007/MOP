@@ -299,7 +299,7 @@ namespace MOP.Vehicles.Cases
             }
             try
             {
-                Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radio(Clone)" && g.transform.parent.gameObject.name != "JAIL")
+                Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radio(Clone)" && g.transform.root.gameObject.name != "JAIL")
                 .transform.Find("ButtonsRadio/RadioVolume").GetPlayMakerFSM("Knob").Fsm.RestartOnEnable = false;
             }
             catch

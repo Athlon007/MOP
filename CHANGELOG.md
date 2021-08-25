@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.3.3 (25.08.2021)
+
+### Bug Fixes
+
+- Fixed crash caused by MOP not being able to find the car stock radio
+- Fixed bug causing music coming out of the radio to randomly go silent
+
 ## 3.3.2 (11.06.2021)
 
 ### Bug Fixes
