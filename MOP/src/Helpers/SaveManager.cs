@@ -241,6 +241,40 @@ namespace MOP.Helpers
         {
             ES2.Save<T>(value, SavePath + "?tag=" + tag, new ES2Settings());
         }
+
+        public static bool IsSatsumaLoadedCompletely()
+        {
+            // Check if cylinder head is supposed to be installed, but for some reason its disabled, or not a part of Satsuma at all.
+            GameObject satsuma = GameObject.Find("SATSUMA(557kg, 248)");
+            GameObject cylinderHead = Resources.FindObjectsOfTypeAll<GameObject>().First( g => g.name == "cylinder head(Clone)");
+            MopSaveData save = new MopSaveData();
+            bool isCylinderHeadInstalled = ES2.Load<bool>(SavePath + "?tag=cylinder head(Clone)Installed", setting);
+
+            if ((cylinderHead.gameObject.activeSelf == false || cylinderHead.transform.root != satsuma.transform) && isCylinderHeadInstalled)
+            {
+                return false;
+            }
+
+            Transform sparkPlug1Pivot = cylinderHead.transform.Find("pivot_sparkplug1");
+            
+            for (int i = 1; i < 1000; ++i)
+            {
+                if (ES2.Load<int?>(ItemsPath + $"?tag=spark plug{i}TriggerID") == null)
+                {
+                    break;
+                }
+
+                if (ES2.Load<int>(ItemsPath + $"?tag=spark plug{i}TriggerID") == 1 && ES2.Load<bool>(ItemsPath + $"?tag=spark plug{i}Installed"))
+                {
+                    if (sparkPlug1Pivot.childCount == 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
     }
 
     struct SaveBugs

@@ -97,6 +97,22 @@ namespace MOP
 
             ExceptionManager.SessionTimeStart = DateTime.Now;
 
+            // Check if the Satsuma has been loaded completely by the game.
+            // If not, restart the scene at least once.
+            if (!SaveManager.IsSatsumaLoadedCompletely())
+            {
+                if (MopSettings.AttemptedToFixTheGame)
+                {
+                    ModPrompt.CreatePrompt("Satsuma has not been fully loaded by the game!\n\nConsider restarting the game in order to avoid any issues.", "MOP");
+                }
+                else
+                {
+                    MopSettings.AttemptedToFixTheGame = true;
+                    ModConsole.Log("MOP attempts to restart the scene...");
+                    Application.LoadLevel(1);
+                }
+            }
+
             // Start the delayed initialization routine
             StartCoroutine(DelayedInitializaitonRoutine());
         }
@@ -104,7 +120,7 @@ namespace MOP
 #region MOP Initialization
         IEnumerator DelayedInitializaitonRoutine()
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 30; i++)
                 yield return null;
             Initialize();
         }

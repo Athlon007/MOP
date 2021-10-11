@@ -1,5 +1,19 @@
 # Changelog
 
+## 3.3.4 (11.10.2021)
+
+### Added
+
+- MOP will check if the Satsuma engine has been loaded succcessfully
+  - If not, the scene will automatically be restarted once, in order to remove that issue
+  - If that didn't work, you will be informed about it
+  - It SHOULD also include spark plugs
+
+### Bug Fixes
+
+- Fixed a bug preventing the game from being saved
+- Fixed MOP not being able to locate the FSM of RadiatorHose3 database
+
 ## 3.3.3 (25.08.2021)
 
 ### Added

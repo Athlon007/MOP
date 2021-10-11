@@ -23,6 +23,7 @@ using MSCLoader;
 
 using MOP.Helpers;
 using System.Collections;
+using MSCLoader.Helper;
 
 namespace MOP.Common
 {
@@ -147,6 +148,36 @@ namespace MOP.Common
                                             },
                                             onPromptClose: () => { Process.Start(BugReportPath); Process.Start($"{BugReportPath}/README.txt"); });
             }
+        }
+
+        public void RestartGame()
+        {
+            StartCoroutine(DelayedRestart());
+        }
+
+        IEnumerator DelayedRestart()
+        {
+            yield return null;
+
+            GameObject buttonContinue = GameObject.Find("Interface").transform.Find("Buttons/ButtonContinue").gameObject;
+            if (!buttonContinue.activeSelf)
+            {
+                yield break;
+            }
+
+            buttonContinue.SetActive(true);
+            PlayMakerFSM fsm = buttonContinue.GetPlayMakerFSM("SetSize");
+            var state = fsm.GetState("Action");
+            while (!state.ActionsLoaded)
+                yield return null;
+
+            var actions = state.Actions;
+            actions[2].Active = false;
+            actions[2].Enabled = false;
+            state.Actions = actions;
+
+            fsm.SendEvent("OVER");
+            fsm.SendEvent("DOWN");
         }
     }
 }

@@ -1,15 +1,11 @@
 ### Added
 
-- Save integrity check now checks if halfshafts and battery terminal bolt values are correct
-
-### Changes
-
-- The game will now check if TRAFFIC car is about to be hit by a traffic car in BALANCED mode
-  - Previously that would happen only in QUALITY mode
-  - This change does not affect PERFORMANCE mode
+- MOP will check if the Satsuma engine has been loaded succcessfully
+  - If not, the scene will automatically be restarted once, in order to remove that issue
+  - If that didn't work, you will be informed about it
+  - It SHOULD also include spark plugs
 
 ### Bug Fixes
 
-- Fixed crash caused by MOP not being able to find the car stock radio
-- Fixed bug causing music coming out of the radio to randomly go silent
-- Fixed a bug which caused performance mode settings to not update, making you stuck in a single performance mode
+- Fixed a bug preventing the game from being saved
+- Fixed MOP not being able to locate the FSM of RadiatorHose3 database

@@ -45,6 +45,9 @@ namespace MOP.Common
         internal const int MaxRestarts = 5;
         internal static bool RestartWarningShown = false;
 
+        public static bool AttemptedToFixTheGame = false;
+        public static bool AttemptedToFixTheGameRestart = false;
+
         internal static void UpdatePerformanceMode()
         {
             // MODES

@@ -212,9 +212,9 @@ namespace MOP.Managers
                 f.AddComponent<ItemBehaviour>();
             }
 
-            radiatorHose3Database = GameObject.Find("Database").transform.Find("DatabaseMechanics/RadiatorHose3").GetComponent<PlayMakerFSM>();
+            radiatorHose3Database = GameObject.Find("Database/DatabaseMechanics/RadiatorHose3").GetPlayMakerFSM("Data");
             GameObject attachedHose = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(xxxxx)");
-            realRadiatorHose = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(Clone)").gameObject;
+            realRadiatorHose = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(Clone)");
             GameObject dummy = GameObject.Instantiate(realRadiatorHose); // used for spawning the radiator hose3 after it gets detached.
 
             UnityEngine.Object.Destroy(dummy.GetComponent<ItemBehaviour>());
@@ -385,7 +385,15 @@ namespace MOP.Managers
         internal void OnSave()
         {
             // Fuck you ToplessGun.
-            radiatorHose3Database.FsmVariables.GameObjectVariables.First(g => g.Name == "SpawnThis").Value = realRadiatorHose;
+            try
+            {
+                if (radiatorHose3Database)
+                    radiatorHose3Database.FsmVariables.GameObjectVariables.First(g => g.Name == "SpawnThis").Value = realRadiatorHose;
+            }
+            catch (Exception ex)
+            {
+                
+            }
         }
 
         internal List<ItemBehaviour> All()
