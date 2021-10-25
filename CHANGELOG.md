@@ -1,5 +1,22 @@
 # Changelog
 
+## 3.3.5 (tba)
+
+### Added
+
+- Added support for fuses
+- Added support for item spoiling - from now on, item spoiling is not frozen, if they are not loaded
+
+### Changes
+
+- Minor optimization improvements
+
+### Bug Fixes
+
+- Fixed MOP unable to locate terrace house colliders
+- Fixed MOP unable to locate correct radio to patch
+- Fixed fuses that were taken out from the house disappearing after player left the house
+
 ## 3.3.4 (11.10.2021)
 
 ### Added

@@ -57,17 +57,17 @@ namespace MOP
         bool inSectorMode;
 
         #region Loading Variables
-        CharacterController playerController;
+        readonly CharacterController playerController;
         bool itemInitializationDelayDone;
         int waitTime;
         const int WaitDone = 2;
 
-        LoadScreen loadScreen;
+        readonly LoadScreen loadScreen;
         #endregion
 
-        List<ItemBehaviour> itemsToEnable = new List<ItemBehaviour>();
-        List<ItemBehaviour> itemsToDisable= new List<ItemBehaviour>();
-        List<ItemBehaviour> itemsToRemove = new List<ItemBehaviour>();
+        readonly List<ItemBehaviour> itemsToEnable = new List<ItemBehaviour>();
+        readonly List<ItemBehaviour> itemsToDisable = new List<ItemBehaviour>();
+        readonly List<ItemBehaviour> itemsToRemove = new List<ItemBehaviour>();
 
         public Hypervisor()
         {
@@ -1226,7 +1226,7 @@ namespace MOP
             }
         }
 
-        private IEnumerator loadScreenWorkaround;
+        private readonly IEnumerator loadScreenWorkaround;
         IEnumerator InfiniteLoadscreenWorkaround()
         {
             yield return new WaitForSeconds(20);

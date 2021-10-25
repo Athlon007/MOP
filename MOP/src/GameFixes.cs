@@ -129,7 +129,7 @@ namespace MOP
                 }
 
                 // Fix for Jokke's house furnitures clipping through floor
-                perajarvi.transform.Find("TerraceHouse/Apartments/Colliders").parent = null;
+                perajarvi.transform.Find("TerraceHouse/Colliders").parent = null;
             }
             catch (Exception ex)
             {

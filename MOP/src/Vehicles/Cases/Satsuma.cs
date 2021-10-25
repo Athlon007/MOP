@@ -49,7 +49,7 @@ namespace MOP.Vehicles.Cases
         readonly Transform[] disableableObjects;
 
         // Whitelist of name of objects that should be disabled.
-        string[] whiteList = 
+        readonly string[] whiteList = 
         { 
             "DriveTrigger", "SpawnPlayer", "CarShadowProjector", "Hooks", "CameraPivot", "PivotSeatR", "HookRear", "BeerCaseTarget",
             "HookFront", "GetInPivot", "TrafficTrigger", "Wipers", "WiperLeftPivot", "WiperRightPivot", "wipers_tap", "wipers_rod",
@@ -72,24 +72,24 @@ namespace MOP.Vehicles.Cases
         readonly GameObject databaseBumper;
 
         // Elements that are toggled uppon some situation.
-        List<SatsumaOnActionObjects> satsumaOnActionObjects;
+        readonly List<SatsumaOnActionObjects> satsumaOnActionObjects;
 
         // Bolts that resetting will be disabled.
-        List<SatsumaBoltsAntiReload> satsumaBoltsAntiReloads;
+        readonly List<SatsumaBoltsAntiReload> satsumaBoltsAntiReloads;
         bool partsUnglued;
         // Fix for elements for which the bolts are masked.
-        Dictionary<GameObject, bool> maskedElements;
+        readonly Dictionary<GameObject, bool> maskedElements;
         int maskedFixStages;
 
         // Dashboard gauges.
-        List<Material> dashboardMaterials;
-        FsmInt lightSelection;
+        readonly List<Material> dashboardMaterials;
+        readonly FsmInt lightSelection;
 
         // Cooldown ticking object.
-        GameObject cooldownTick;
+        readonly GameObject cooldownTick;
 
         // AI object.
-        PlayMakerFSM drivingAI;
+        readonly PlayMakerFSM drivingAI;
 
         // Used for when the Fleetari has nicked the car.
         // It prevents the car teleporting back to the last position known to the player.

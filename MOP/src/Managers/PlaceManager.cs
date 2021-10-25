@@ -30,7 +30,7 @@ namespace MOP.Managers
 
         public Place this[int index] => places[index];
 
-        List<Place> places;
+        readonly List<Place> places;
 
         public PlaceManager()
         {

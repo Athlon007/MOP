@@ -33,7 +33,7 @@ namespace MOP.Helpers
         static List<SaveBugs> saveBugs;
 
         static string mopSavePath => Path.Combine(Application.persistentDataPath, "MopSave");
-        static ES2Settings setting = new ES2Settings();
+        readonly static ES2Settings setting = new ES2Settings();
 
         /// <summary>
         /// For some reason, the save files get marked as read only files, not allowing MSC to save the game.
@@ -85,7 +85,7 @@ namespace MOP.Helpers
                 {
                     saveBugs.Add(SaveBugs.New("Flatbed Trailer Attached", "Trailer and tractor are too far apart from each other - impossible for them to be attached.", () =>
                     {
-                        ES2.Save(false, SavePath + "?tag=TractorTrailerAttached", new ES2Settings());
+                        ES2.Save(false, SavePath + "?tag=TractorTrailerAttached", setting);
                     }));
                 }
             }
@@ -196,30 +196,29 @@ namespace MOP.Helpers
 
         internal static Transform GetRadiatorHose3Transform()
         {
-            ES2Settings settings = new ES2Settings();
-            return ES2.Load<Transform>(SavePath + "?tag=radiator hose3(xxxxx)");
+            return ES2.Load<Transform>(SavePath + "?tag=radiator hose3(xxxxx)", setting);
         }
 
         internal static void AddSaveFlag()
         {
             if (ES2.Exists(SavePath + "?tag=Bumper_RearTightness") && ES2.Exists(SavePath + "?tag=Bumper_RearBolts", setting))
             {
-                MopSaveData save = new MopSaveData();
+                MopSaveData save = new MopSaveData
+                {
+                    version = MOP.ModVersion,
 
-                save.version = MOP.ModVersion;
+                    rearBumperTightness = ES2.Load<float>(SavePath + "?tag=Bumper_RearTightness", setting),
+                    rearBumperBolts = ES2.LoadList<string>(SavePath + "?tag=Bumper_RearBolts", setting),
 
-                save.rearBumperTightness = ES2.Load<float>(SavePath + "?tag=Bumper_RearTightness", setting);
-                save.rearBumperBolts = ES2.LoadList<string>(SavePath + "?tag=Bumper_RearBolts", setting);
+                    halfshaft_FLTightness = ES2.Load<float>(SavePath + "?tag=Halfshaft_FLTightness", setting),
+                    halfshaft_FLBolts = ES2.LoadList<string>(SavePath + "?tag=Halfshaft_FLBolts", setting),
 
-                save.halfshaft_FLTightness = ES2.Load<float>(SavePath + "?tag=Halfshaft_FLTightness", setting);
-                save.halfshaft_FLBolts = ES2.LoadList<string>(SavePath + "?tag=Halfshaft_FLBolts", setting);
+                    halfshaft_FRTightness = ES2.Load<float>(SavePath + "?tag=Halfshaft_FRTightness", setting),
+                    halfshaft_FRBolts = ES2.LoadList<string>(SavePath + "?tag=Halfshaft_FRBolts", setting),
 
-                save.halfshaft_FRTightness = ES2.Load<float>(SavePath + "?tag=Halfshaft_FRTightness", setting);
-                save.halfshaft_FRBolts = ES2.LoadList<string>(SavePath + "?tag=Halfshaft_FRBolts", setting);
-
-                save.wiringBatteryMinusTightness = ES2.Load<float>(SavePath + "?tag=WiringBatteryMinusTightness", setting);
-                save.wiringBatteryMinusBolts = ES2.LoadList<string>(SavePath + "?tag=WiringBatteryMinusBolts", setting);
-
+                    wiringBatteryMinusTightness = ES2.Load<float>(SavePath + "?tag=WiringBatteryMinusTightness", setting),
+                    wiringBatteryMinusBolts = ES2.LoadList<string>(SavePath + "?tag=WiringBatteryMinusBolts", setting)
+                };
                 ModSave.Save(mopSavePath, save);
             }
         }
@@ -234,12 +233,12 @@ namespace MOP.Helpers
 
         internal static void SaveToItem<T>(string tag, T value)
         {
-            ES2.Save<T>(value, ItemsPath + "?tag=" + tag, new ES2Settings());
+            ES2.Save<T>(value, ItemsPath + "?tag=" + tag, setting);
         }
 
         internal static void SaveToDefault<T>(string tag, T value)
         {
-            ES2.Save<T>(value, SavePath + "?tag=" + tag, new ES2Settings());
+            ES2.Save<T>(value, SavePath + "?tag=" + tag, setting);
         }
 
         public static bool IsSatsumaLoadedCompletely()
@@ -285,10 +284,12 @@ namespace MOP.Helpers
 
         public static SaveBugs New(string bugName, string description, UnityAction fix)
         {
-            SaveBugs bug = new SaveBugs();
-            bug.BugName = bugName;
-            bug.Description = description;
-            bug.Fix = fix;
+            SaveBugs bug = new SaveBugs
+            {
+                BugName = bugName,
+                Description = description,
+                Fix = fix
+            };
             return bug;
         }
     }

@@ -10,12 +10,12 @@ namespace MOP.WorldObjects
         protected GameObject gameObject;
         public GameObject GameObject => gameObject;
 
-        int distance;
+        readonly int distance;
         public int Distance => distance;
 
         public Transform transform => gameObject.transform;
 
-        DisableOn disableOn;
+        readonly DisableOn disableOn;
         public DisableOn DisableOn => disableOn;
 
         public GenericObject(GameObject gameObject, int distance = 200, DisableOn disableOn = DisableOn.Distance)

@@ -90,7 +90,7 @@ namespace MOP.Vehicles.Managers
     
     class GifuHandThrottle : HandThrottle
     {
-        GameObject key;
+        readonly GameObject key;
 
         bool isInvoked;
 

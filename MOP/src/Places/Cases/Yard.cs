@@ -14,7 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using HutongGames.PlayMaker;
+using MSCLoader.Helper;
 using System.Linq;
 using UnityEngine;
 
@@ -45,8 +46,12 @@ namespace MOP.Places
             "WC", "Hallway", "Entry", "ContactPivot", "DoorRight", "DoorLeft", "GarageDoors", "BatteryCharger",
             "Clamps", "ChargerPivot", "Clamp", "BatteryPivot", "battery_charger", "Wire", "cable", "TriggerCharger",
             "tvtable", "VHS_Screen", "tv_table(Clone)", "scart_con", "Haybale", "Combine", "UncleWalking", "LOD", "house_wall_brick",
-            "houseuncle_roof", "houseuncle_walls"
+            "houseuncle_roof", "houseuncle_walls", "fuse holder(Clone)"
         };
+
+        const float ChillDistance = .45f;
+        readonly Transform chillPoint;
+        readonly FsmBool fridgeRunning;
 
         /// <summary>
         /// Initialize the RepairShop class
@@ -85,6 +90,17 @@ namespace MOP.Places
             transform.Find("Building/SAUNA/Sauna/Kiuas/ButtonTime").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
             transform.Find("Building/SAUNA/Sauna/Kiuas/StoveTrigger").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
             transform.Find("Building/SAUNA/Sauna/Simulation").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+
+            chillPoint = transform.Find("Building/KITCHEN/Fridge/FridgePoint/ChillArea");
+            fridgeRunning = transform.Find("Building/KITCHEN/Fridge/FridgePoint").GetPlayMakerFSM("Chilling").FsmVariables.GetFsmBool("Kitchen");
+        }
+
+        public bool IsItemInFridge(GameObject item)
+        {
+            if (!fridgeRunning.Value)
+                return false;
+
+            return Vector3.Distance(item.transform.position, chillPoint.position) < ChillDistance;
         }
     }
 }

@@ -91,14 +91,14 @@ namespace MOP.Managers
             "wheelset octo", "wheelset racing", "wheelset rally", "wheelset slot", "wheelset spoke",
             "wheelset steelwide", "wheelset turbine", "window grille", "windows black wrap", "wiring mess",
             "wishbone fl", "wishbone fr", "wood carrier", "xmas lights", "yeast", "pike", "macaron box", "milk", "potato chips",
-            "pizza", "kilju"
+            "pizza", "kilju", "fuse holder", "fuse package", "fuse"
         };
 
         // List of ItemHooks that are a child of objects.
-        List<ItemBehaviour> itemHooks = new List<ItemBehaviour>();
+        readonly List<ItemBehaviour> itemHooks = new List<ItemBehaviour>();
 
         CashRegisterBehaviour cashRegisterHook;
-        Transform lostSpawner, landfillSpawn;
+        readonly Transform lostSpawner, landfillSpawn;
 
         // "Radiator hose3" stuff.
         PlayMakerFSM radiatorHose3Database;
@@ -390,7 +390,7 @@ namespace MOP.Managers
                 if (radiatorHose3Database)
                     radiatorHose3Database.FsmVariables.GameObjectVariables.First(g => g.Name == "SpawnThis").Value = realRadiatorHose;
             }
-            catch (Exception ex)
+            catch
             {
                 
             }

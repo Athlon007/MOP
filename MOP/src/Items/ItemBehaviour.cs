@@ -79,10 +79,16 @@ namespace MOP.Items
 
         bool kiljuInitialReset;
 
-        PartMagnet partMagnet;
-        BoltMagnet boltMagnet;
+        readonly PartMagnet partMagnet;
+        readonly BoltMagnet boltMagnet;
 
         bool fsmFixesOnActive;
+
+        float spoilRate = -1;
+        float spoilRateFridge;
+        float timeDisabled;
+
+        PlayMakerFSM useFsm;
 
         public ItemBehaviour()
         {
@@ -204,6 +210,14 @@ namespace MOP.Items
                 fsmFixesOnActive = false;
                 FsmFixes();
             }
+
+            if (spoilRate != -1 && useFsm)
+            {
+                float currentSpoil = useFsm.FsmVariables.GetFsmFloat("Condition").Value;
+                float currentSpoilRate = Places.Yard.Instance.IsItemInFridge(this.gameObject) ? spoilRateFridge : spoilRate;
+                currentSpoil -= (Time.timeSinceLevelLoad - timeDisabled) * currentSpoilRate;
+                useFsm.FsmVariables.GetFsmFloat("Condition").Value = currentSpoil;
+            }
         }
 
         void OnDisable()
@@ -211,6 +225,11 @@ namespace MOP.Items
             if (gameObject.name == "emptyca")
             {
                 ResetKiljuContainer();
+            }
+
+            if (spoilRate != -1)
+            {
+                timeDisabled = Time.timeSinceLevelLoad;
             }
         }
 
@@ -446,7 +465,7 @@ namespace MOP.Items
         {
             try
             {
-                PlayMakerFSM useFsm = gameObject.GetPlayMakerFSM("Use");
+                useFsm = gameObject.GetPlayMakerFSM("Use");
                 if (useFsm != null)
                 {
                     useFsm.Fsm.RestartOnEnable = false;
@@ -476,6 +495,15 @@ namespace MOP.Items
                     {
                         batteryOnCharged = useFsm.FsmVariables.GetFsmBool("OnCharged");
                     }
+
+                    if (useFsm.FsmVariables.GetFsmFloat("SpoilingRate") != null)
+                    {
+                        spoilRate = useFsm.FsmVariables.GetFsmFloat("SpoilingRate").Value;
+                    }
+                    if (useFsm.FsmVariables.GetFsmFloat("SpoilingRateFridge") != null)
+                    {
+                        spoilRateFridge = useFsm.FsmVariables.GetFsmFloat("SpoilingRateFridge").Value;
+                    }
                 }
 
                 // Fixes for particular items.
@@ -502,8 +530,9 @@ namespace MOP.Items
                     case "suitcase(itemx)":
                         transform.Find("Money").gameObject.AddComponent<SuitcaseMoneyBehaviour>();
                         break;
-                    case "radio(itemx)":
-                        transform.Find("Channel").gameObject.AddComponent<RadioDisable>();
+                    case "radio(Clone)":
+                        if (transform.Find("Channel") != null)
+                            transform.Find("Channel").gameObject.AddComponent<RadioDisable>();
                         break;
                     case "fuel tank(Clone)":
                         transform.Find("Bolts").GetChild(7).GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;

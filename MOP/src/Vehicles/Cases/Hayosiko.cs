@@ -16,7 +16,7 @@ namespace MOP.Vehicles.Cases
             "SideDoor", "body", "GetInPivot", "Colliders", "Starter" 
         };
 
-        GameObject[] partialDisableItems;        
+        readonly GameObject[] partialDisableItems;        
 
         public Hayosiko(string gameObjectName = "HAYOSIKO(1500kg, 250)") : base(gameObjectName)
         {

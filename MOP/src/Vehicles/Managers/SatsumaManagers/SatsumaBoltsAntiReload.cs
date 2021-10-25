@@ -27,11 +27,11 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
     /// </summary>
     class SatsumaBoltsAntiReload : MonoBehaviour
     {
-        PlayMakerFSM fsm;
+        readonly PlayMakerFSM fsm;
 
-        float breakForce, breakTorque;
-        FixedJoint fixedJoint;
-        HingeJoint hingeJoint;
+        readonly float breakForce, breakTorque;
+        readonly FixedJoint fixedJoint;
+        readonly HingeJoint hingeJoint;
 
         bool glued;
 

@@ -1,11 +1,14 @@
 ### Added
 
-- MOP will check if the Satsuma engine has been loaded succcessfully
-  - If not, the scene will automatically be restarted once, in order to remove that issue
-  - If that didn't work, you will be informed about it
-  - It SHOULD also include spark plugs
+- Added support for fuses
+- Added support for item spoiling - from now on, item spoiling is not frozen, if they are not loaded
+
+### Changes
+
+- Minor optimization improvements
 
 ### Bug Fixes
 
-- Fixed a bug preventing the game from being saved
-- Fixed MOP not being able to locate the FSM of RadiatorHose3 database
+- Fixed MOP unable to locate terrace house colliders
+- Fixed MOP unable to locate correct radio to patch
+- Fixed fuses that were taken out from the house disappearing after player left the house

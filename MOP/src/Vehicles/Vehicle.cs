@@ -41,7 +41,7 @@ namespace MOP.Vehicles
         // Values that are being saved or loaded
         protected Vector3 Position { get; set; }
         protected Quaternion Rotation { get; set; }
-        VehiclesTypes vehicleType;
+        readonly VehiclesTypes vehicleType;
         public VehiclesTypes VehicleType { get => vehicleType; }
 
         // All objects that cannot be unloaded (because it causes problems) land under that object
