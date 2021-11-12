@@ -87,7 +87,6 @@ namespace MOP.Common
             {
                 string pathToFile = log.Replace("\\", "/");
                 string nameOfFile = log.Split('\\')[1];
-                ModConsole.Log(nameOfFile);
                 File.Copy(pathToFile, $"{BugReportPath}/{nameOfFile}");
             }
 
@@ -120,7 +119,7 @@ namespace MOP.Common
             {
                 sw.WriteLine("A MOP report archive has been successfully generated.\n");
                 sw.WriteLine("Upload .zip file to some file hosting site, such as https://www.mediafire.com/. \n\n" +
-                             "Remember to describe how you stumbled uppon the error!");
+                             "Remember to describe how you came acorss the error!");
             }
 
             // We are asking the user if he wants to add his game save to the zip file.

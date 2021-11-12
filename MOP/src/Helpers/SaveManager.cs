@@ -41,11 +41,18 @@ namespace MOP.Helpers
         /// </summary>
         public static void RemoveReadOnlyAttribute()
         {
-            if (File.Exists(SavePath))
-                File.SetAttributes(SavePath, File.GetAttributes(SavePath) & ~FileAttributes.ReadOnly);
+            try
+            {
+                if (File.Exists(SavePath))
+                    File.SetAttributes(SavePath, File.GetAttributes(SavePath) & ~FileAttributes.ReadOnly);
 
-            if (File.Exists(ItemsPath))
-                File.SetAttributes(ItemsPath, File.GetAttributes(ItemsPath) & ~FileAttributes.ReadOnly);
+                if (File.Exists(ItemsPath))
+                    File.SetAttributes(ItemsPath, File.GetAttributes(ItemsPath) & ~FileAttributes.ReadOnly);
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, true, "ATTRIBUTES_REMOVAL_ERROR");
+            }
         }
 
         public static void VerifySave()
@@ -228,7 +235,16 @@ namespace MOP.Helpers
         internal static void ReleaseSave()
         {
             if (SaveFileExists)
-                ModSave.Delete(mopSavePath);
+            {
+                try
+                {
+                    ModSave.Delete(mopSavePath);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, false, "SAVE_RELEASE_ERROR");
+                }
+            }
         }
 
         internal static void SaveToItem<T>(string tag, T value)
@@ -246,13 +262,26 @@ namespace MOP.Helpers
             // Check if cylinder head is supposed to be installed, but for some reason its disabled, or not a part of Satsuma at all.
             GameObject satsuma = GameObject.Find("SATSUMA(557kg, 248)");
             GameObject cylinderHead = Resources.FindObjectsOfTypeAll<GameObject>().First( g => g.name == "cylinder head(Clone)");
+            GameObject block = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "block(Clone)");
             MopSaveData save = new MopSaveData();
             bool isCylinderHeadInstalled = ES2.Load<bool>(SavePath + "?tag=cylinder head(Clone)Installed", setting);
+            bool isEngineBlockInstalled = ES2.Load<bool>(SavePath + "?tag=block(Clone)Installed", setting);
 
-            if ((cylinderHead.gameObject.activeSelf == false || cylinderHead.transform.root != satsuma.transform) && isCylinderHeadInstalled)
+            if (!isEngineBlockInstalled)
             {
-                return false;
+                if (isCylinderHeadInstalled && !cylinderHead.transform.Path().Contains("block(Clone)"))
+                {
+                    return false;
+                }
             }
+            else
+            {
+                if ((cylinderHead.gameObject.activeSelf == false || cylinderHead.transform.root != satsuma.transform) && isCylinderHeadInstalled)
+                {
+                    return false;
+                }
+            }
+
 
             Transform sparkPlug1Pivot = cylinderHead.transform.Find("pivot_sparkplug1");
             

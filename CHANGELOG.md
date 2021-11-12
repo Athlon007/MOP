@@ -1,6 +1,18 @@
 # Changelog
 
-## 3.3.5 (tba)
+## 3.3.6 (25.10.2021)
+
+### Changes
+
+- Improved the way foot spoilage is calculated (shouldn't cause the items to immediately spoil)
+
+### Bug Fixes
+
+- Fixed MOP showing error about not all parts being installed, if the cylinder head was installed, but the engine block was not
+- Fixed item spoilage not working when the level has loaded and the item hasn't been initialized yet
+- Fixed compatibility with older game versions that don't have the fuse box
+
+## 3.3.5 (25.10.2021)
 
 ### Added
 

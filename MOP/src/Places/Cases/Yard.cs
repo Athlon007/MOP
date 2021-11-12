@@ -92,11 +92,14 @@ namespace MOP.Places
             transform.Find("Building/SAUNA/Sauna/Simulation").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
             chillPoint = transform.Find("Building/KITCHEN/Fridge/FridgePoint/ChillArea");
-            fridgeRunning = transform.Find("Building/KITCHEN/Fridge/FridgePoint").GetPlayMakerFSM("Chilling").FsmVariables.GetFsmBool("Kitchen");
+            fridgeRunning = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "FridgePoint").GetPlayMakerFSM("Chilling")?.FsmVariables.GetFsmBool("Kitchen");
         }
 
         public bool IsItemInFridge(GameObject item)
         {
+            if (fridgeRunning == null)
+                return false;
+
             if (!fridgeRunning.Value)
                 return false;
 

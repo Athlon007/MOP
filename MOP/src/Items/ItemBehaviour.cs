@@ -84,11 +84,11 @@ namespace MOP.Items
 
         bool fsmFixesOnActive;
 
-        float spoilRate = -1;
-        float spoilRateFridge;
+        // Item spoilage
+        FsmFloat spoilRate;
+        FsmFloat spoilRateFridge;
+        FsmFloat condition;
         float timeDisabled;
-
-        PlayMakerFSM useFsm;
 
         public ItemBehaviour()
         {
@@ -181,6 +181,8 @@ namespace MOP.Items
                 if (rb?.velocity.magnitude > 0.1f) return;
                 rb?.Sleep();
             }
+
+            timeDisabled = Time.timeSinceLevelLoad;
         }
 
         void Awake()
@@ -211,12 +213,14 @@ namespace MOP.Items
                 FsmFixes();
             }
 
-            if (spoilRate != -1 && useFsm)
+            if (spoilRate != null)
             {
-                float currentSpoil = useFsm.FsmVariables.GetFsmFloat("Condition").Value;
-                float currentSpoilRate = Places.Yard.Instance.IsItemInFridge(this.gameObject) ? spoilRateFridge : spoilRate;
-                currentSpoil -= (Time.timeSinceLevelLoad - timeDisabled) * currentSpoilRate;
-                useFsm.FsmVariables.GetFsmFloat("Condition").Value = currentSpoil;
+                float currentSpoil = condition.Value;
+                float currentSpoilRate = Places.Yard.Instance.IsItemInFridge(this.gameObject) ? spoilRateFridge.Value : spoilRate.Value;
+                // Apparently MSC uses some weird way of calculating time that has barely anything to do with Time.deltaTime...
+                // Making the value 1/3 of the currentSpoil somehow makes it closer to what it should've been
+                currentSpoil -= (Time.timeSinceLevelLoad - timeDisabled) * currentSpoilRate * 0.33f; 
+                condition.Value = currentSpoil;
             }
         }
 
@@ -227,7 +231,7 @@ namespace MOP.Items
                 ResetKiljuContainer();
             }
 
-            if (spoilRate != -1)
+            if (spoilRate != null)
             {
                 timeDisabled = Time.timeSinceLevelLoad;
             }
@@ -465,7 +469,7 @@ namespace MOP.Items
         {
             try
             {
-                useFsm = gameObject.GetPlayMakerFSM("Use");
+                PlayMakerFSM useFsm = gameObject.GetPlayMakerFSM("Use");
                 if (useFsm != null)
                 {
                     useFsm.Fsm.RestartOnEnable = false;
@@ -498,12 +502,15 @@ namespace MOP.Items
 
                     if (useFsm.FsmVariables.GetFsmFloat("SpoilingRate") != null)
                     {
-                        spoilRate = useFsm.FsmVariables.GetFsmFloat("SpoilingRate").Value;
+                        spoilRate = useFsm.FsmVariables.GetFsmFloat("SpoilingRate");
+                        condition = useFsm.FsmVariables.GetFsmFloat("Condition");
                     }
                     if (useFsm.FsmVariables.GetFsmFloat("SpoilingRateFridge") != null)
                     {
-                        spoilRateFridge = useFsm.FsmVariables.GetFsmFloat("SpoilingRateFridge").Value;
+                        spoilRateFridge = useFsm.FsmVariables.GetFsmFloat("SpoilingRateFridge");
                     }
+
+                    
                 }
 
                 // Fixes for particular items.

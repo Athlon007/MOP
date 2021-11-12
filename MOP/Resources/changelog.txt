@@ -1,14 +1,9 @@
-### Added
-
-- Added support for fuses
-- Added support for item spoiling - from now on, item spoiling is not frozen, if they are not loaded
-
 ### Changes
 
-- Minor optimization improvements
+- Improved the way foot spoilage is calculated (shouldn't cause the items to immediately spoil)
 
 ### Bug Fixes
 
-- Fixed MOP unable to locate terrace house colliders
-- Fixed MOP unable to locate correct radio to patch
-- Fixed fuses that were taken out from the house disappearing after player left the house
+- Fixed MOP showing error about not all parts being installed, if the cylinder head was installed, but the engine block was not
+- Fixed item spoilage not working when the level has loaded and the item hasn't been initialized yet
+- Fixed compatibility with older game versions that don't have the fuse box

@@ -390,9 +390,9 @@ namespace MOP.Managers
                 if (radiatorHose3Database)
                     radiatorHose3Database.FsmVariables.GameObjectVariables.First(g => g.Name == "SpawnThis").Value = realRadiatorHose;
             }
-            catch
+            catch (Exception ex)
             {
-                
+                ExceptionManager.New(ex, true, "RADIATOR_HOSE_3_DB_ERROR");
             }
         }
 

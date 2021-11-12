@@ -488,15 +488,8 @@ namespace MOP
                 ExceptionManager.New(ex, false, "DYNAMIC_DRAW_DISTANCE_ERROR");
             }
 
-            try
-            {
-                if (MopSettings.Mode != PerformanceMode.Safe)
-                    ToggleAll(false, ToggleAllMode.OnLoad);
-            }
-            catch (Exception ex)
-            {
-                ExceptionManager.New(ex, true, "TOGGLE_ALL_ERROR");
-            }
+            if (MopSettings.Mode != PerformanceMode.Safe)
+                ToggleAll(false, ToggleAllMode.OnLoad);
 
             // Initialize the coroutines.
             currentLoop = LoopRoutine();
