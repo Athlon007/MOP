@@ -86,11 +86,11 @@ namespace MOP
             {
                 SetParent(perajarvi, buildings, "HouseRintama4");
                 SetParent(perajarvi, buildings, "ChickenHouse");
-                SetParent(buildings, null, "ChickenHouse");
-                SetParent(null, "CHURCHWALL");
                 SetParent(perajarvi, buildings, "HouseOld5");
                 SetParent(perajarvi, buildings, "HouseRintama3");
                 SetParent(perajarvi, buildings, "HouseSmall3");
+                SetParent(buildings, null, "ChickenHouse"); // Home barn.
+                SetParent(null, "CHURCHWALL");
 
                 // Perajarvi fixes for multiple objects with the same name.
                 // Instead of being the part of Perajarvi, we're changing it to be the part of Buildings.
@@ -542,11 +542,11 @@ namespace MOP
         {
             try
             {
-                root.Find(name).parent = newParent;
+                root.Find(objectName).parent = newParent;
             }
             catch (Exception ex)
             {
-                ExceptionManager.New(ex, false, $"GAMEFIXES_PARENTCHANGING_{objectName}");
+                ExceptionManager.New(ex, false, $"GAMEFIXES_PARENTCHANGING\n{root.gameObject.name} => {objectName} => {(newParent == null ? "null" : newParent.gameObject.name)}");
             }
         }
 
@@ -554,7 +554,7 @@ namespace MOP
         {
             try
             {
-                GameObject.Find(name).transform.parent = newParent;
+                GameObject.Find(objectName).transform.parent = newParent;
             }
             catch (Exception ex)
             {

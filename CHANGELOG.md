@@ -2,9 +2,14 @@
 
 ## 3.3.7 (tba)
 
+### Added
+
+- Added more detailed logging in ToggleAll function
+
 ### Changes
 
 - Rewrote Perajarvi game fixes script to be more reliable
+- Satsuma should not be frozen, if the MOP failed to load
 - Minor internal changes
 
 ## 3.3.6 (25.10.2021)

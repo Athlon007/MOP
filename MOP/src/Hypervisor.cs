@@ -489,7 +489,16 @@ namespace MOP
             }
 
             if (MopSettings.Mode != PerformanceMode.Safe)
-                ToggleAll(false, ToggleAllMode.OnLoad);
+            {
+                try
+                {
+                    ToggleAll(false, ToggleAllMode.OnLoad);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, false, "TOGGLING_ALL_ERROR");
+                }
+            }
 
             // Initialize the coroutines.
             currentLoop = LoopRoutine();
@@ -1060,12 +1069,14 @@ namespace MOP
         /// </summary>
         public void ToggleAll(bool enabled, ToggleAllMode mode = ToggleAllMode.Default)
         {
+            ModConsole.Log("[MOP] Toggling all to " + enabled.ToString().ToUpper() + " in mode " + mode.ToString().ToUpper());
+
             // World objects
             for (int i = 0; i < worldObjectManager.Count; i++)
             {
                 try
                 {
-                    worldObjectManager[i].Toggle(enabled);
+                    worldObjectManager[i]?.Toggle(enabled);
                 }
                 catch (Exception ex)
                 {
@@ -1073,11 +1084,15 @@ namespace MOP
                 }
             }
 
+            ModConsole.Log("[MOP] Toggled WORLD OBJECTS");
+
             if (MopSettings.Mode == PerformanceMode.Safe) return;
 
             // Items
             for (int i = 0; i < ItemsManager.Instance.Count; i++)
             {
+                if (i >= ItemsManager.Instance.Count) break;
+
                 try
                 {
                     ItemBehaviour item = ItemsManager.Instance[i];
@@ -1097,6 +1112,8 @@ namespace MOP
                 }
             }
 
+            ModConsole.Log("[MOP] Toggled ITEMS");
+
             // Find all kilju, emptyca, empty juice container, and force empty them if applicable
             try
             {
@@ -1115,6 +1132,8 @@ namespace MOP
             {
                 ExceptionManager.New(ex, false, "KILJU_RESET_FORCE_ERROR");
             }
+
+            ModConsole.Log("[MOP] Toggled KILJU");
 
             // Vehicles
             for (int i = 0; i < vehicleManager.Count; i++)
@@ -1139,6 +1158,7 @@ namespace MOP
                 }
             }
 
+            ModConsole.Log("[MOP] Toggled VEHICLES");
 
             // Places
             for (int i = 0; i < placeManager.Count; i++)
@@ -1152,6 +1172,8 @@ namespace MOP
                     ExceptionManager.New(ex, false, $"TOGGLE_ALL_PLACES_{i}");
                 }
             }
+
+            ModConsole.Log("[MOP] Toggled PLACES");
 
             // Force teleport kilju bottles.
             try
@@ -1174,6 +1196,8 @@ namespace MOP
                 ExceptionManager.New(ex, false, "TOGGLE_ALL_JOBS_DRUNK");
             }
 
+            ModConsole.Log("[MOP] Toggled KILJU TELEPORT");
+
             // ToggleElements class of Satsuma.
             try
             {
@@ -1183,6 +1207,9 @@ namespace MOP
             {
                 ExceptionManager.New(ex, false, "TOGGLE_ALL_SATSUMA_TOGGLE_ELEMENTS");
             }
+
+            ModConsole.Log("[MOP] Toggled SATSUMA ELEMENTS");
+            ModConsole.Log("[MOP] Toggle done!");
         }
 
         public Transform GetPlayer()
@@ -1227,6 +1254,8 @@ namespace MOP
             {
                 ModConsole.LogError("[MOP] MOP failed to load in time. Please go into MOP settings and use \"I found a bug\" button.");
                 FinishLoading();
+                Satsuma.Instance?.ToggleActive(true);
+                Satsuma.Instance?.ForceToggleUnityCar(true);
             }
         }
     }
