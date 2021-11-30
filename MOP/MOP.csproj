@@ -132,6 +132,7 @@
     <Compile Include="src\Helpers\OnDeathBehaviour.cs" />
     <Compile Include="src\Helpers\SatsumaInArea.cs" />
     <Compile Include="src\Helpers\SaveManager.cs" />
+    <Compile Include="src\ModConsole.cs" />
     <Compile Include="src\Places\Cases\Farm.cs" />
     <Compile Include="src\Places\Cases\Inspection.cs" />
     <Compile Include="src\Sector.cs" />

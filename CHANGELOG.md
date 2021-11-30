@@ -5,6 +5,7 @@
 ### Added
 
 - Added more detailed logging in ToggleAll function
+- MOP reports now contain a transcript of MOP console messages
 
 ### Changes
 

@@ -196,8 +196,11 @@ namespace MOP.Common
                 }
             }
 
+            output += "\n=== MESSAGES ===\n\n";
+            output += string.Join("\n", ModConsole.GetMessages().ToArray());
+
             // List installed mods.
-            output += $"\n=== MODS ({ModLoader.LoadedMods.Count}) ===\n\n";
+            output += $"\n\n=== MODS ({ModLoader.LoadedMods.Count}) ===\n\n";
             foreach (var mod in ModLoader.LoadedMods)
             {
                 // Ignore MSCLoader or MOP.

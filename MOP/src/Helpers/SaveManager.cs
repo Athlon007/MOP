@@ -170,7 +170,7 @@ namespace MOP.Helpers
             }
             else
             {
-                ModConsole.Log("[MOP] MOP didn't find any problems with your save :)");
+                ModConsole.Log("[MOP] MOP hasn't found any problems with your save :)");
             }
         }
 
