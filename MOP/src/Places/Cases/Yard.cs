@@ -14,10 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using System;
 using HutongGames.PlayMaker;
 using MSCLoader.Helper;
 using System.Linq;
 using UnityEngine;
+using MOP.Common;
 
 namespace MOP.Places
 {
@@ -69,10 +71,17 @@ namespace MOP.Places
             garageDoors.transform.Find("DoorLeft/Coll").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
             garageDoors.transform.Find("DoorRight/Coll").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
-            foreach (Transform door in transform.GetComponentsInChildren<Transform>().Where(t => t.root == transform && t.gameObject.name.Contains("Door") && t.Find("Pivot") != null).ToArray())
+            try
             {
-                if (door.Find("Pivot/Handle") != null)
-                    door.Find("Pivot/Handle").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                foreach (Transform door in transform.GetComponentsInChildren<Transform>().Where(t => t.root == transform && t.gameObject.name.Contains("Door") && t.Find("Pivot") != null).ToArray())
+                {
+                    if (door.Find("Pivot/Handle") != null)
+                        door.Find("Pivot/Handle").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "FRIDGE_DOORHANDLE_ERROR");
             }
 
             GameObjectBlackList.AddRange(blackList);
@@ -92,8 +101,15 @@ namespace MOP.Places
             transform.Find("Building/SAUNA/Sauna/Simulation").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
             chillPoint = transform.Find("Building/KITCHEN/Fridge/FridgePoint/ChillArea");
-            fridgeRunning = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "FridgePoint").GetPlayMakerFSM("Chilling")?.FsmVariables.GetFsmBool("Kitchen");
-        }
+            try
+            {
+                fridgeRunning = Resources.FindObjectsOfTypeAll<GameObject>()?.First(g => g.name == "FridgePoint").GetPlayMakerFSM("Chilling")?.FsmVariables.GetFsmBool("Kitchen");
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "FRIDGE_RUNNING_FAILURE");
+            }
+            }
 
         public bool IsItemInFridge(GameObject item)
         {

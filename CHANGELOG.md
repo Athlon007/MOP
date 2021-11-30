@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.3.7 (tba)
+
+### Changes
+
+- Rewrote Perajarvi game fixes script to be more reliable
+- Minor internal changes
+
 ## 3.3.6 (25.10.2021)
 
 ### Changes

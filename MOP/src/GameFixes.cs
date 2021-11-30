@@ -66,56 +66,44 @@ namespace MOP
                 ExceptionManager.New(ex, false, "GT_GRILLE_ERROR");
             }
 
+            Transform buildings = null;
+            Transform perajarvi = null;
+            bool failedToFindParents = false;
             // Random fixes.
+            // Find house of Teimo and detach it from Perajarvi, so it can be loaded and unloaded separately
             try
             {
-                Transform buildings = GameObject.Find("Buildings").transform;
+                buildings = GameObject.Find("Buildings").transform;
+                perajarvi = GameObject.Find("PERAJARVI").transform;
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, true, "PERAJARVI_FIXES_BUILDINGS_FIND_ERROR");
+                failedToFindParents = true;
+            }
 
-                // Find house of Teimo and detach it from Perajarvi, so it can be loaded and unloaded separately
-                GameObject perajarvi = GameObject.Find("PERAJARVI");
-                perajarvi.transform.Find("HouseRintama4").parent = buildings;
-                // Same for chicken house.
-                perajarvi.transform.Find("ChickenHouse").parent = buildings;
-
-                // Chicken house (barn) close to player's house
-                buildings.Find("ChickenHouse").parent = null;
-
-                // Fix for church wall. Changing it's parent to NULL, so it will not be loaded or unloaded.
-                // It used to be attached to CHURCH gameobject,
-                // but the Amis cars (yellow and grey cars) used to end up in the graveyard area.
-                GameObject.Find("CHURCHWALL").transform.parent = null;
-
-                // Fix for old house on the way from Perajarvi to Ventti's house (HouseOld5)
-                perajarvi.transform.Find("HouseOld5").parent = buildings;
-
-                // Fix for houses behind Teimo's
-                perajarvi.transform.Find("HouseRintama3").parent = buildings;
-                perajarvi.transform.Find("HouseSmall3").parent = buildings;
+            if (!failedToFindParents)
+            {
+                SetParent(perajarvi, buildings, "HouseRintama4");
+                SetParent(perajarvi, buildings, "ChickenHouse");
+                SetParent(buildings, null, "ChickenHouse");
+                SetParent(null, "CHURCHWALL");
+                SetParent(perajarvi, buildings, "HouseOld5");
+                SetParent(perajarvi, buildings, "HouseRintama3");
+                SetParent(perajarvi, buildings, "HouseSmall3");
 
                 // Perajarvi fixes for multiple objects with the same name.
                 // Instead of being the part of Perajarvi, we're changing it to be the part of Buildings.
                 Transform[] perajarviChilds = perajarvi.GetComponentsInChildren<Transform>();
                 for (int i = 0; i < perajarviChilds.Length; i++)
                 {
-                    // Fix for disappearing grain processing plant
-                    // https://my-summer-car.fandom.com/wiki/Grain_processing_plant
-                    if (perajarviChilds[i].gameObject.name.Contains("silo"))
-                    {
-                        perajarviChilds[i].parent = buildings;
-                        continue;
-                    }
+                    if (perajarviChilds[i] == null) continue;
 
-                    // Fix for Ventti's and Teimo's mailboxes (and pretty much all mailboxes that are inside of Perajarvi)
-                    if (perajarviChilds[i].gameObject.name == "MailBox")
-                    {
-                        perajarviChilds[i].parent = buildings;
-                        continue;
-                    }
+                    string objName = perajarviChilds[i].gameObject.name;
 
-                    // Fix for greenhouses on the road from Perajarvi to Ventti's house
-                    if (perajarviChilds[i].name == "Greenhouse")
+                    if (objName.Contains("silo") || objName == "MailBox" || objName == "Greenhouse")
                     {
-                        perajarviChilds[i].parent = buildings;
+                        SetParent(buildings, perajarviChilds[i]);
                         continue;
                     }
                 }
@@ -125,15 +113,13 @@ namespace MOP
                 {
                     Transform diskette = perajarvi.transform.Find("TerraceHouse/diskette(itemx)");
                     if (diskette != null && diskette.parent != null)
-                        diskette.parent = null;
+                    {
+                        SetParent(null, diskette);
+                    }
                 }
 
                 // Fix for Jokke's house furnitures clipping through floor
-                perajarvi.transform.Find("TerraceHouse/Colliders").parent = null;
-            }
-            catch (Exception ex)
-            {
-                ExceptionManager.New(ex, false, "PERAJARVI_FIXES_ERROR");
+                SetParent(perajarvi, null, "TerraceHouse/Colliders");
             }
 
             // Fix for cottage items disappearing when moved
@@ -549,6 +535,42 @@ namespace MOP
             {
                 PlayMakerFSM.BroadcastEvent("TRAILERDETACH");
                 yield return null;
+            }
+        }
+
+        void SetParent(Transform root, Transform newParent, string objectName)
+        {
+            try
+            {
+                root.Find(name).parent = newParent;
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, $"GAMEFIXES_PARENTCHANGING_{objectName}");
+            }
+        }
+
+        void SetParent(Transform newParent, string objectName)
+        {
+            try
+            {
+                GameObject.Find(name).transform.parent = newParent;
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, $"GAMEFIXES_PARENTCHANGING_{objectName}");
+            }
+        }
+
+        void SetParent(Transform newParent, Transform obj)
+        {
+            try
+            {
+                obj.parent = newParent;
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, $"GAMEFIXES_PARENTCHANGING_UNKOWN_TRANSFORM");
             }
         }
     }

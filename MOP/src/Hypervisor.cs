@@ -675,7 +675,7 @@ namespace MOP
                 // If the ticks didn't update, that means this routine stopped.
                 ++ticks;
 
-                if (!itemInitializationDelayDone)
+                if (!IsItemInitializationDone())
                 {
                     // We are slightly delaying the initialization, so all items have chance to set in place, because fuck MSC and its physics.
                     waitTime++;
@@ -786,7 +786,7 @@ namespace MOP
 
                         // Check the mode in what MOP is supposed to run and adjust to it.
                         bool toEnable = true;
-                        if (MopSettings.Mode == 0)
+                        if (MopSettings.Mode == PerformanceMode.Performance)
                             toEnable = IsEnabled(item.transform, FsmManager.IsPlayerInCar() && !isPlayerAtYard ? 20 : 150);
                         else
                             toEnable = IsEnabled(item.transform, 150);

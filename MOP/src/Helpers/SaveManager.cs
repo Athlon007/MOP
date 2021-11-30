@@ -19,7 +19,6 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 using MSCLoader;
 
 using MOP.Common;
@@ -249,12 +248,12 @@ namespace MOP.Helpers
 
         internal static void SaveToItem<T>(string tag, T value)
         {
-            ES2.Save<T>(value, ItemsPath + "?tag=" + tag, setting);
+            ES2.Save(value, ItemsPath + "?tag=" + tag, setting);
         }
 
         internal static void SaveToDefault<T>(string tag, T value)
         {
-            ES2.Save<T>(value, SavePath + "?tag=" + tag, setting);
+            ES2.Save(value, SavePath + "?tag=" + tag, setting);
         }
 
         public static bool IsSatsumaLoadedCompletely()
@@ -282,7 +281,6 @@ namespace MOP.Helpers
                 }
             }
 
-
             Transform sparkPlug1Pivot = cylinderHead.transform.Find("pivot_sparkplug1");
             
             for (int i = 1; i < 1000; ++i)
@@ -303,40 +301,5 @@ namespace MOP.Helpers
 
             return true;
         }
-    }
-
-    struct SaveBugs
-    {
-        public string BugName;
-        public string Description;
-        public UnityAction Fix;
-
-        public static SaveBugs New(string bugName, string description, UnityAction fix)
-        {
-            SaveBugs bug = new SaveBugs
-            {
-                BugName = bugName,
-                Description = description,
-                Fix = fix
-            };
-            return bug;
-        }
-    }
-
-    public class MopSaveData
-    {
-        public string version = "1.0";
-
-        public float rearBumperTightness;
-        public List<string> rearBumperBolts;
-
-        public float halfshaft_FLTightness;
-        public List<string> halfshaft_FLBolts;
-
-        public float halfshaft_FRTightness;
-        public List<string> halfshaft_FRBolts;
-
-        public float wiringBatteryMinusTightness;
-        public List<string> wiringBatteryMinusBolts;
     }
 }
