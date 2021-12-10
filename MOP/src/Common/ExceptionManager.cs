@@ -193,7 +193,7 @@ namespace MOP.Common
             output += string.Join("\n", ModConsole.GetMessages().ToArray());
 
             // List installed mods.
-            output += $"\n\n=== MODS ({ModLoader.LoadedMods.Count}) ===\n\n";
+            output += $"\n\n=== MODS ({ModLoader.LoadedMods.Count - 1}) ===\n\n";
             foreach (var mod in ModLoader.LoadedMods)
             {
                 // Ignore MSCLoader or MOP.
@@ -279,12 +279,8 @@ namespace MOP.Common
             int build = int.Parse(fullOS.Split('(')[1].Split(')')[0].Split('.')[2]);
             if (build > 9600)
             {
-                string realOS = $"Windows 10 (10.0.{build})";
-
-                if (SystemInfo.operatingSystem.Contains("64bit"))
-                {
-                    realOS += " 64bit";
-                }
+                string realOS = build >= 22000 ? $"Windows 11 (10.0.{build})" : $"Windows 10 (10.0.{build})";
+                realOS += SystemInfo.operatingSystem.Contains("64bit") ? "64bit" : "32bit";
 
                 return realOS;
             }

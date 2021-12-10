@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.3.8 (tba)
+
+### Added
+
+- MOP report now correctly recognizes Windows 11
+
+### Changes
+
+- Improved reading game data in MOP report
+
 ## 3.3.7 (30.11.21)
 
 ### Added
