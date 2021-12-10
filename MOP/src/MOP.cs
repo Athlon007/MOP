@@ -14,17 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using MSCLoader;
-using System.IO;
-using UnityEngine;
 using System;
+using System.IO;
+using System.Collections.Generic;
+using UnityEngine;
+using MSCLoader;
+using MSCLoader.Helper;
 
 using MOP.FSM;
 using MOP.Common;
 using MOP.Helpers;
 using MOP.Rules;
-using System.Collections.Generic;
-using MSCLoader.Helper;
 
 namespace MOP
 {

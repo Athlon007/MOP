@@ -174,21 +174,14 @@ namespace MOP.Common
             // Game data
             if (ModLoader.CurrentScene == CurrentScene.Game)
             {
-                try
-                {
-                    output += "\n=== GAME DATA ===\n\n";
-                    output += $"PlayerPosition: {GameObject.Find("PLAYER").transform.position}\n";
-                    output += $"PlayerHasHayosikoKey: {FSM.FsmManager.PlayerHasHayosikoKey()}\n";
-                    output += $"IsPlayerInCar: {FSM.FsmManager.IsPlayerInCar()}\n";
-                    output += $"IsPlayerInSatsuma: {FSM.FsmManager.IsPlayerInSatsuma()}\n";
-                    output += $"DrawDistance: {FSM.FsmManager.GetDrawDistance()}\n";
-                    output += $"CanTriggerStatus: {(Managers.ItemsManager.Instance == null ? "manager_null" : Managers.ItemsManager.Instance.GetCanTrigger() == null ? "null" : $"Found ({Managers.ItemsManager.Instance.GetCanTrigger().Path()})")}\n";
-                    output += $"IsTrailerAttached: {FSM.FsmManager.IsTrailerAttached()}\n";
-                }
-                catch
-                {
-                    output += "ERROR GETTING GAME DATA!";
-                }
+                output += "\n=== GAME DATA ===\n\n";
+                output += GetGameData("PlayerPosition");
+                output += GetGameData("PlayerHasHayosikoKey");
+                output += GetGameData("IsPlayerInCar");
+                output += GetGameData("IsPlayerInSatsuma");
+                output += GetGameData("DrawDistance");
+                output += GetGameData("CanTriggerStatus");
+                output += GetGameData("IsTrailerAttached");
 
                 if (FramerateRecorder.Instance != null)
                 {
@@ -232,6 +225,49 @@ namespace MOP.Common
             {
                 output += "\n=== CUSTOM.TXT CONTENT ===\n\n";
                 output += File.ReadAllText($"{MOP.ModConfigPath}/Custom.txt") + "\n\n";
+            }
+
+            return output;
+        }
+
+        static string GetGameData(string name)
+        {
+            string output = $"{name}: ";
+            try
+            {
+                switch (name)
+                {
+                    default:
+                        output += "null";
+                        break;
+                    case "PlayerPosition":
+                        output += GameObject.Find("PLAYER").transform.position;
+                        break;
+                    case "PlayerHasHayosikoKey":
+                        output += FSM.FsmManager.PlayerHasHayosikoKey();
+                        break;
+                    case "IsPlayerInCar":
+                        output += FSM.FsmManager.IsPlayerInCar();
+                        break;
+                    case "IsPlayerInSatsuma":
+                        output += FSM.FsmManager.IsPlayerInSatsuma();
+                        break;
+                    case "DrawDistance":
+                        output += FSM.FsmManager.GetDrawDistance();
+                        break;
+                    case "CanTriggerStatus":
+                        output += (Managers.ItemsManager.Instance == null ? "manager_null" : Managers.ItemsManager.Instance.GetCanTrigger() == null ? "null" : $"Found ({Managers.ItemsManager.Instance.GetCanTrigger().Path()})");
+                        break;
+                    case "IsTrailerAttached":
+                        output += FSM.FsmManager.IsTrailerAttached();
+                        break;
+                }
+
+                output += "\n";
+            }
+            catch
+            {
+                output += "error";
             }
 
             return output;
