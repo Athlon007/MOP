@@ -17,12 +17,12 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Collections;
 using Ionic.Zip;
 using UnityEngine;
 using MSCLoader;
 
 using MOP.Helpers;
-using System.Collections;
 using MSCLoader.Helper;
 
 namespace MOP.Common
@@ -127,25 +127,28 @@ namespace MOP.Common
             {
                 ModPrompt.CreateYesNoPrompt("Would you like to your include save file?\n\n" +
                                             "This may greatly improve finding and fixing the bug.", "MOP - Bug Report",
-                                            () => {
-                                                using (ZipFile zip = ZipFile.Read(lastZipFilePath))
-                                                {
-                                                    // Create folder called Save in the zip and get defaultES2Save.txt and items.txt.
-                                                    zip.AddDirectoryByName("Save");
-                                                    if (File.Exists(SaveManager.SavePath))
-                                                    {
-                                                        zip.AddFile(SaveManager.SavePath, "Save");
-                                                    }
-
-                                                    if (File.Exists(SaveManager.ItemsPath))
-                                                    {
-                                                        zip.AddFile(SaveManager.ItemsPath, "Save");
-                                                    }
-
-                                                    zip.Save();
-                                                }
-                                            },
+                                            () => IncludeZip(lastZipFilePath),
                                             onPromptClose: () => { Process.Start(BugReportPath); Process.Start($"{BugReportPath}/README.txt"); });
+            }
+        }
+
+        void IncludeZip(string zipFilePath)
+        {
+            using (ZipFile zip = ZipFile.Read(zipFilePath))
+            {
+                // Create folder called Save in the zip and get defaultES2Save.txt and items.txt.
+                zip.AddDirectoryByName("Save");
+                if (File.Exists(SaveManager.SavePath))
+                {
+                    zip.AddFile(SaveManager.SavePath, "Save");
+                }
+
+                if (File.Exists(SaveManager.ItemsPath))
+                {
+                    zip.AddFile(SaveManager.ItemsPath, "Save");
+                }
+
+                zip.Save();
             }
         }
 

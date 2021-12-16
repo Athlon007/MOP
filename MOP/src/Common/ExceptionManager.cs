@@ -31,7 +31,7 @@ namespace MOP.Common
         const string DefaultErrorLogName = "MOP_Crash";
         const string DefaultReportLogName = "MOP_Report";
 
-        static List<string> erorrsContainer = new List<string>();
+        static readonly List<string> erorrsContainer = new List<string>();
 
         public static DateTime SessionTimeStart;
 

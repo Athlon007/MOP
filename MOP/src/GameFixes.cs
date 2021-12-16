@@ -28,7 +28,6 @@ using MOP.Common;
 using MOP.Common.Enumerations;
 using MOP.FSM;
 using MOP.FSM.Actions;
-using MOP.Items;
 using MOP.Vehicles.Cases;
 using MOP.Vehicles.Managers;
 using MOP.Vehicles.Managers.SatsumaManagers;
@@ -68,7 +67,6 @@ namespace MOP
 
             Transform buildings = null;
             Transform perajarvi = null;
-            bool failedToFindParents = false;
             // Random fixes.
             // Find house of Teimo and detach it from Perajarvi, so it can be loaded and unloaded separately
             try
@@ -79,10 +77,9 @@ namespace MOP
             catch (Exception ex)
             {
                 ExceptionManager.New(ex, true, "PERAJARVI_FIXES_BUILDINGS_FIND_ERROR");
-                failedToFindParents = true;
             }
 
-            if (!failedToFindParents)
+            if (buildings != null && perajarvi != null)
             {
                 SetParent(perajarvi, buildings, "HouseRintama4");
                 SetParent(perajarvi, buildings, "ChickenHouse");
@@ -180,7 +177,7 @@ namespace MOP
             int junkCarCounter = 1;
             try
             {
-                for (junkCarCounter = 1; GameObject.Find($"JunkCar{junkCarCounter}") != null; junkCarCounter++)
+                for (; GameObject.Find($"JunkCar{junkCarCounter}") != null; junkCarCounter++)
                 {
                     GameObject junk = GameObject.Find($"JunkCar{junkCarCounter}");
                     junk.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;

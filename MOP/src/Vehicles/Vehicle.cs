@@ -15,7 +15,6 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
-using MSCLoader;
 using MSCLoader.Helper;
 using System.Collections.Generic;
 using System.Linq;

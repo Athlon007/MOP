@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-using System;
 
 using MOP.Common.Enumerations;
 
 namespace MOP.WorldObjects
 {
-    class GenericObject
+    abstract class GenericObject
     {
         protected GameObject gameObject;
         public GameObject GameObject => gameObject;
@@ -25,10 +24,7 @@ namespace MOP.WorldObjects
             this.disableOn = disableOn;
         }
 
-        public virtual void Toggle(bool enabled)
-        {
-            throw new NotImplementedException("Not implemented toggle method.");
-        }
+        public abstract void Toggle(bool enabled);
 
         public string GetName()
         {

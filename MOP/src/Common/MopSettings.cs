@@ -38,7 +38,7 @@ namespace MOP.Common
 
         static int vsyncCount = -1;
 
-        // Tracks if the game has been fully loaded at east once.
+        // Tracks if the game has been fully loaded at least once.
         public static bool LoadedOnce;
 
         internal static int Restarts = 0;
@@ -69,24 +69,7 @@ namespace MOP.Common
 
             if (!dontUpdate)
             {
-                switch (MOP.PerformanceModes.Value)
-                {
-                    default:
-                        Mode = PerformanceMode.Balanced;
-                        break;
-                    case 0:
-                        Mode = PerformanceMode.Performance;
-                        break;
-                    case 1:
-                        Mode = PerformanceMode.Balanced;
-                        break;
-                    case 2:
-                        Mode = PerformanceMode.Quality;
-                        break;
-                    case 3:
-                        Mode = PerformanceMode.Safe;
-                        break;
-                }
+                Mode = (PerformanceMode)MOP.PerformanceModes.Value;
             }
         }
 
@@ -177,17 +160,19 @@ namespace MOP.Common
 
         public static bool IsMySummerCar => Application.productName == "My Summer Car";
 
-        internal static bool IsConfilctingModPresent(out string n)
+        internal static bool IsConfilctingModPresent(out string conflictingModName)
         {
             string[] arr = { "KruFPS", "ImproveFPS", "OptimizeMSC", "ZZDisableAll", "DisableAll" };
             foreach (string a in arr)
+            {
                 if (ModLoader.GetMod(a) != null)
                 {
-                    n = ModLoader.GetMod(a).Name;
+                    conflictingModName = ModLoader.GetMod(a).Name;
                     return true;
                 }
+            }
 
-            n = "";
+            conflictingModName = "";
             return false;
         }
 

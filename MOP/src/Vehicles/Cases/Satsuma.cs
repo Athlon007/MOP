@@ -148,14 +148,9 @@ namespace MOP.Vehicles.Cases
                 bucketPassanger = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "bucket seat passenger(Clone)"
                 && g.transform.parent.gameObject.name == "Parts");
             }
-            if (bucketDriver)
-            {
-                bucketDriver.AddComponent<SatsumaSeatsManager>();
-            }
-            if (bucketPassanger)
-            {
-                bucketPassanger.AddComponent<SatsumaSeatsManager>();
-            }
+            
+            bucketDriver?.AddComponent<SatsumaSeatsManager>();
+            bucketPassanger?.AddComponent<SatsumaSeatsManager>();
 
             // Fix for mechanical wear of the car.
             transform.Find("CarSimulation/MechanicalWear").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
@@ -423,12 +418,10 @@ namespace MOP.Vehicles.Cases
                 new SatsumaOnActionObjects(transform.Find("CarSimulation/Fixes").gameObject, SatsumaEnableOn.OnEngine),
                 new SatsumaOnActionObjects(transform.Find("CarSimulation/DynoDistance").gameObject, SatsumaEnableOn.OnEngine),
                 new SatsumaOnActionObjects(transform.Find("CarSimulation/RandomBolt").gameObject, SatsumaEnableOn.OnEngine),
-
                 new SatsumaOnActionObjects(transform.Find("RainScript").gameObject, SatsumaEnableOn.OnPlayerClose),
                 new SatsumaOnActionObjects(transform.Find("DriverHeadPivot").gameObject, SatsumaEnableOn.OnPlayerClose),
                 new SatsumaOnActionObjects(transform.Find("AirIntake").gameObject, SatsumaEnableOn.OnPlayerClose),
                 new SatsumaOnActionObjects(this.gameObject.GetPlayMakerFSM("ButtonShifter"), SatsumaEnableOn.OnPlayerClose),
-
                 new SatsumaOnActionObjects(transform.Find("Chassis").gameObject, SatsumaEnableOn.OnPlayerFar)
             };
 
