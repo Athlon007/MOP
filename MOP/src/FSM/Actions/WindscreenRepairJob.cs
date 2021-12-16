@@ -21,7 +21,7 @@ namespace MOP.FSM.Actions
 {
     class WindscreenRepairJob : FsmStateAction
     {
-        SatsumaWindscreenFixer satsumaWindscreenFixer;
+        readonly SatsumaWindscreenFixer satsumaWindscreenFixer;
 
         public WindscreenRepairJob(SatsumaWindscreenFixer satsumaWindscreenFixer)
         {

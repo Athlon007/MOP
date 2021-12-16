@@ -22,31 +22,20 @@ using MOP.Common.Enumerations;
 namespace MOP.Common
 {
     static class MopSettings
-    {
-        // This is the master switch of MOP. If deactivated, all functions will freeze.
-        public static bool IsModActive { get; set; }
-
-        public static PerformanceMode Mode;
-
-        static float shadowDistanceOriginalValue;
-
-        // Distance after which car physics is toggled.
-        public const int UnityCarActiveDistance = 5;
-
-        // Debugging functionality.
-        public static bool GenerateToggledItemsListDebug;
-
-        static int vsyncCount = -1;
-
-        // Tracks if the game has been fully loaded at least once.
-        public static bool LoadedOnce;
-
+    {        
+        public static bool IsModActive { get; set; } // This is the master switch of MOP. If deactivated, all functions will freeze.
+        public static PerformanceMode Mode;        
+        public const int UnityCarActiveDistance = 5; // Distance after which car physics is toggled.
+        public static bool GenerateToggledItemsListDebug; // Debugging functionality.
+        public static bool LoadedOnce; // Tracks if the game has been fully loaded at least once.
+        public static GameFixStatus GameFixStatus;
+        
         internal static int Restarts = 0;
         internal const int MaxRestarts = 5;
         internal static bool RestartWarningShown = false;
 
-        public static bool AttemptedToFixTheGame = false;
-        public static bool AttemptedToFixTheGameRestart = false;
+        static float shadowDistanceOriginalValue;
+        static int vsyncCount = -1;
 
         internal static void UpdatePerformanceMode()
         {
@@ -55,14 +44,9 @@ namespace MOP.Common
             bool dontUpdate = false;
             if (ModLoader.CurrentScene != CurrentScene.MainMenu)
             {
-                if (Mode == PerformanceMode.Safe && MOP.PerformanceModes.Value != 3)
+                if ((Mode == PerformanceMode.Safe && MOP.PerformanceModes.Value != 3) || (Mode != PerformanceMode.Safe && MOP.PerformanceModes.Value == 3))
                 {
                     ModPrompt.CreatePrompt("Safe Mode will be disabled after you quit to the Main Menu.", "MOP");
-                    dontUpdate = true;
-                }
-                else if (Mode != PerformanceMode.Safe && MOP.PerformanceModes.Value == 3)
-                {
-                    ModPrompt.CreatePrompt("Safe Mode will be enabled after you quit to the Main Menu.", "MOP");
                     dontUpdate = true;
                 }
             }
@@ -77,10 +61,6 @@ namespace MOP.Common
         {
             // Framerate limiter
             Application.targetFrameRate = (int)MOP.FramerateLimiter.Value != 21 ? (int)MOP.FramerateLimiter.Value * 10 : -1;
-            if ((int)MOP.FramerateLimiter.Value == 21)
-            {
-                MOP.FramerateLimiter.valueText.text = "Disabled";
-            }
         }
 
         internal static void UpdateShadows()
@@ -90,11 +70,6 @@ namespace MOP.Common
                 shadowDistanceOriginalValue = QualitySettings.shadowDistance;
             QualitySettings.shadowDistance = MOP.EnableShadowAdjusting.Value ?
                                              MOP.ShadowDistance.Value * 100 : shadowDistanceOriginalValue;
-
-            if (MOP.ShadowDistance.Value == 0)
-            {
-                MOP.ShadowDistance.valueText.text = "No Shadows";
-            }
         }
 
         public static void UpdateMiscSettings()
@@ -157,25 +132,5 @@ namespace MOP.Common
         {
             Application.runInBackground = MOP.KeepRunningInBackground.Value;
         }
-
-        public static bool IsMySummerCar => Application.productName == "My Summer Car";
-
-        internal static bool IsConfilctingModPresent(out string conflictingModName)
-        {
-            string[] arr = { "KruFPS", "ImproveFPS", "OptimizeMSC", "ZZDisableAll", "DisableAll" };
-            foreach (string a in arr)
-            {
-                if (ModLoader.GetMod(a) != null)
-                {
-                    conflictingModName = ModLoader.GetMod(a).Name;
-                    return true;
-                }
-            }
-
-            conflictingModName = "";
-            return false;
-        }
-
-        internal static bool IsMSCLoader => GameObject.Find("MSCLoader Canvas").transform.Find("ModLoaderUI") == null;
     }
 }

@@ -36,6 +36,8 @@ namespace MOP.Common
         static readonly Vector3 AdvancedBackpackPosition = new Vector3(630f, 10f, 1140f);
         const int AdvancedBackpackDistance = 30;
 
+        static readonly string[] incompatibleMods = { "KruFPS", "ImproveFPS", "OptimizeMSC", "ZZDisableAll", "DisableAll" };
+
         public CompatibilityManager()
         {
             CarryMore = ModLoader.GetMod("CarryMore") != null;
@@ -55,5 +57,22 @@ namespace MOP.Common
 
             return false;
         }
+
+        public static bool IsConfilctingModPresent(out string conflictingModName)
+        {
+            foreach (string a in incompatibleMods)
+            {
+                if (ModLoader.GetMod(a) != null)
+                {
+                    conflictingModName = ModLoader.GetMod(a).Name;
+                    return true;
+                }
+            }
+
+            conflictingModName = "";
+            return false;
+        }
+
+        public static bool IsMySummerCar => Application.productName == "My Summer Car";
     }
 }

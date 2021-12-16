@@ -14,36 +14,33 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using HutongGames.PlayMaker;
+using System.Linq;
 using UnityEngine;
 
 using MOP.Items;
 
 namespace MOP.FSM.Actions
 {
-    /// <summary>
-    /// This FsmAction role is to instantiate a gameobject.
-    /// </summary>
-    class CustomCreateObject : FsmStateAction
+    class CustomPackageHandler : HutongGames.PlayMaker.FsmStateAction
     {
-        GameObject parent;
-        protected GameObject prefab;
+        Transform[] items;
 
-        protected GameObject newObject;
-
-        public CustomCreateObject(GameObject parent, GameObject prefab)
+        public CustomPackageHandler(GameObject gm)
         {
-            this.parent = parent;
-            this.prefab = prefab;
+            Transform parts = gm.transform.Find("Parts");
+            items = parts.GetComponentsInChildren<Transform>(true).Where(t => t.parent == parts).ToArray();
+            MSCLoader.ModConsole.Log(string.Join(", ", items.Select(g => g.name).ToArray()));
         }
 
         public override void OnEnter()
         {
-            newObject = GameObject.Instantiate(prefab);
-            newObject.transform.position = parent.transform.position;
-            newObject.name = newObject.name.Replace("(Clone)(Clone)", "(Clone)");
-            newObject.SetActive(true);
-            newObject.AddComponent<ItemBehaviour>();
+            for (int j = 0; j < items.Length; ++j)
+            {
+                items[j].gameObject.SetActive(true);
+                items[j].gameObject.AddComponent<ItemBehaviour>();
+                items[j].gameObject.SetActive(false);
+            }
+            Finish();
         }
     }
 }

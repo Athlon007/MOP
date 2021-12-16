@@ -14,22 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using HutongGames.PlayMaker;
-
-namespace MOP.FSM.Actions
+namespace MOP.Common.Enumerations
 {
-    class CustomAddItemBehaviour : FsmStateAction
+    enum GameFixStatus
     {
-        FsmGameObject go;
-
-        public CustomAddItemBehaviour(FsmGameObject go)
-        {
-            this.go = go;
-        }
-
-        public override void OnEnter()
-        {
-            this.go.Value.AddComponent<DelayedItemBehaviour>();
-        }
+        None,
+        DoFix,
+        Restarted
     }
 }

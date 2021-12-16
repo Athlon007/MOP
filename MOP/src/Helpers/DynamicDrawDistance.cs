@@ -15,9 +15,6 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using UnityEngine;
-using HutongGames.PlayMaker;
-using MSCLoader.Helper;
-using System.Collections;
 
 using MOP.FSM;
 
@@ -28,23 +25,14 @@ namespace MOP.Helpers
         Camera mainCamera;
         Transform player;
 
-        FsmString typer;
-
         void Start()
         {
             mainCamera = Camera.main;
             player = GameObject.Find("PLAYER").transform;
-
-            typer = GameObject.Find("COMPUTER").transform.Find("SYSTEM/POS/Command").GetPlayMakerFSM("Typer").FsmVariables.GetFsmString("Old");
         }
 
         void Update()
         {
-            if (FsmManager.PlayerComputer && Input.GetKeyDown(KeyCode.Return) && typer != null)
-            {
-                StartCoroutine(Computer());
-            }
-
             if (!MOP.DynamicDrawDistance.Value) return;
 
             float toGoDrawDistance = FsmManager.GetDrawDistance();
@@ -54,22 +42,6 @@ namespace MOP.Helpers
                 toGoDrawDistance /= 2;
 
             mainCamera.farClipPlane = Mathf.Lerp(mainCamera.farClipPlane, toGoDrawDistance, Time.deltaTime * .5f);
-        }
-
-        IEnumerator Computer()
-        {
-            yield return null;
-            if (string.IsNullOrEmpty(typer.Value)) yield break;
-            string[] arr = typer.Value.Split('\n');
-            if (arr[arr.Length - 3].Contains("est rulz"))
-            {
-                arr[arr.Length - 2] = "    |\\__/|\n" +
-                                        "   /     \\\n" +
-                                        "  /_.~ ~,_\\\n" +
-                                        "     \\@/ \n";
-
-                typer.Value = string.Join("\n", arr);
-            }
         }
     }
 }

@@ -9,6 +9,8 @@
 ### Changes
 
 - Improved reading game data in MOP report
+- Many changes in class structures
+- Many minor optimization improvements
 
 ## 3.3.7 (30.11.21)
 

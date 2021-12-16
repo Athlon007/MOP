@@ -92,7 +92,9 @@ namespace MOP
             ActiveDistance.gameObject.AddComponent<UITooltip>().toolTipText = "Distance uppon which objects will spawn.";
             ActiveDistance.TextValues = activeDistanceText;
             ActiveDistance.ChangeValueText();
-            PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1, MopSettings.UpdatePerformanceMode, "PERFORMANCE", "BALANCED", "QUALITY", "<color=red>SAFE</color>");
+            PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1, 
+                                                          () => { MopSettings.UpdatePerformanceMode(); UpdateSettingsUI(); },
+                                                          "PERFORMANCE", "BALANCED", "QUALITY", "<color=red>SAFE</color>");
             PerformanceModes.gameObject.AddComponent<UITooltip>().toolTipText =
                 "<color=yellow>PERFORMANCE</color>: <color=white>Visibly disables and enables objects</color>\n" +
                 "<color=yellow>BALANCED (recommended)</color>: <color=white>Maintains balance between PERFORMANCE and QUALITY</color>\n" +
@@ -101,7 +103,7 @@ namespace MOP
 
             // Graphics
             modSettings.AddHeader("GRAPHICS");
-            FramerateLimiter = modSettings.AddSlider("framerateLimiterUpdated", "FRAMERATE LIMITER", 21, 2, 21, MopSettings.UpdateFramerateLimiter);
+            FramerateLimiter = modSettings.AddSlider("framerateLimiterUpdated", "FRAMERATE LIMITER", 21, 2, 21, () => { MopSettings.UpdateFramerateLimiter(); UpdateSettingsUI(); });
             FramerateLimiter.ValueSuffix = "0 FPS";
             EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ADJUST SHADOWS", false, () => { MopSettings.UpdateShadows(); ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value); } );
             EnableShadowAdjusting.gameObject.AddComponent<UITooltip>().toolTipText = "Allows you to set the shadow render distance with the slider below.";
@@ -154,9 +156,9 @@ namespace MOP
             // Logging
             modSettings.AddHeader("LOGGING");
             modSettings.AddText("If you want to file a bug report, use <color=yellow>I FOUND A BUG</color> button!");
-            modSettings.AddButton("openLogFolder", "OPEN LOG FOLDER", "", () => ExceptionManager.OpenCurrentSessionLogFolder());
-            modSettings.AddButton("generateModReprt", "GENERATE MOD REPORT", "", () => ExceptionManager.GenerateReport());
-            modSettings.AddButton("deleteAllLogs", "DELETE ALL LOGS", "", () => ExceptionManager.DeleteAllLogs());
+            modSettings.AddButton("openLogFolder", "OPEN LOG FOLDER", "", ExceptionManager.OpenCurrentSessionLogFolder);
+            modSettings.AddButton("generateModReprt", "GENERATE MOD REPORT", "", ExceptionManager.GenerateReport);
+            modSettings.AddButton("deleteAllLogs", "DELETE ALL LOGS", "", ExceptionManager.DeleteAllLogs);
 
             // Changelog
             modSettings.AddHeader("CHANGELOG");
@@ -204,14 +206,42 @@ namespace MOP
                 prompt.AddButton("QUIT GAME", () => Application.Quit());
             }
 
-            if (MopSettings.AttemptedToFixTheGame && !MopSettings.AttemptedToFixTheGameRestart)
+            if (MopSettings.GameFixStatus == Common.Enumerations.GameFixStatus.DoFix)
             {
-                MopSettings.AttemptedToFixTheGameRestart = true;
+                MopSettings.GameFixStatus = Common.Enumerations.GameFixStatus.Restarted;
                 BugReporter.Instance.RestartGame();
                 return;
             }
-            MopSettings.AttemptedToFixTheGame = false;
-            MopSettings.AttemptedToFixTheGameRestart = false;
+
+            MopSettings.GameFixStatus = Common.Enumerations.GameFixStatus.None;
+        }
+
+        void UpdateSettingsUI()
+        {
+            // UI Update.
+            if ((int)FramerateLimiter.Value == 21)
+            {
+                FramerateLimiter.valueText.text = "Disabled";
+            }
+            if (ShadowDistance.Value == 0)
+            {
+                ShadowDistance.valueText.text = "No Shadows";
+            }
+
+            int selected = 0;
+            int i = 0;
+            foreach (var res in Screen.resolutions)
+            {
+                if (res.width == Screen.width && res.height == Screen.height)
+                {
+                    selected = i;
+                }
+                i++;
+            }
+
+            Resolution.Value = selected;
+
+            modVersion = Version;
         }
 
         public override void ModSettingsLoaded()
@@ -224,25 +254,19 @@ namespace MOP
             MopSettings.UpdatePerformanceMode();
             MopSettings.UpdateShadows();
             MopSettings.UpdateMiscSettings();
-            modVersion = Version;
-            ModConsole.Log($"<color=green>MOP {ModVersion} initialized!</color>");
+
+            UpdateSettingsUI();
+
             new RulesManager();
             ConsoleCommand.Add(new ConsoleCommands());
 
-            if (FramerateLimiter.Value == 21)
-            {
-                FramerateLimiter.valueText.text = "Disabled";
-            }
-            if (ShadowDistance.Value == 0)
-            {
-                ShadowDistance.valueText.text = "No Shadows";
-            }
-
-            if (MopSettings.IsConfilctingModPresent(out string modName))
+            if (CompatibilityManager.IsConfilctingModPresent(out string modName))
             {
                 ModPrompt.CreatePrompt($"MOP does not work with <color=yellow>{modName}</color>. Please disable that mod first.", "MOP");
             }
             SaveManager.VerifySave();
+
+            ModConsole.Log($"<color=green>MOP {ModVersion} initialized!</color>");
         }
 
         /// <summary>
@@ -254,7 +278,7 @@ namespace MOP
             MopSettings.UpdatePerformanceMode();
             MopSettings.UpdateShadows();
             MopSettings.UpdateMiscSettings();
-            if (MopSettings.IsConfilctingModPresent(out string modName))
+            if (CompatibilityManager.IsConfilctingModPresent(out string modName))
             {
                 ModConsole.LogError("MOP could not be loaded, because the following mod is present: " + modName);
                 return;
@@ -274,18 +298,7 @@ namespace MOP
 
         public override void ModSettingsOpen()
         {
-            int selected = 0;
-            int i = 0;
-            foreach (var res in Screen.resolutions)
-            {
-                if (res.width == Screen.width && res.height == Screen.height)
-                {
-                    selected = i;
-                }
-                i++;
-            }
-
-            Resolution.Value = selected;
+            UpdateSettingsUI();
         }
 
         public override void ModSettingsClose()

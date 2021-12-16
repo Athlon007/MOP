@@ -42,16 +42,61 @@ namespace MOP.Helpers
         {
             try
             {
-                if (File.Exists(SavePath))
-                    File.SetAttributes(SavePath, File.GetAttributes(SavePath) & ~FileAttributes.ReadOnly);
-
-                if (File.Exists(ItemsPath))
-                    File.SetAttributes(ItemsPath, File.GetAttributes(ItemsPath) & ~FileAttributes.ReadOnly);
+                RemoveAttribute(SavePath);
+                RemoveAttribute(ItemsPath);
             }
             catch (Exception ex)
             {
                 ExceptionManager.New(ex, true, "ATTRIBUTES_REMOVAL_ERROR");
             }
+        }
+
+        static void RemoveAttribute(string filename)
+        {
+            if (File.Exists(filename))
+            {
+                File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
+            }
+        }
+
+        static bool ReadBoolean(string tag)
+        {
+            return ES2.Load<bool>($"{SavePath}?tag={tag}", setting);
+        }
+
+        static Transform ReadTransform(string tag)
+        {
+            return ES2.Load<Transform>($"{SavePath}?tag={tag}", setting);
+        }
+
+        static float ReadFloat(string tag)
+        {
+            return ES2.Load<float>($"{SavePath}?tag={tag}", setting);
+        }
+
+        static List<string> ReadStringList(string tag)
+        {
+            return ES2.LoadList<string>($"{SavePath}?tag={tag}", setting);
+        }
+
+        static int ReadInt(string tag)
+        {
+            return ES2.Load<int>($"{SavePath}?tag={tag}", setting);
+        }
+
+        static void WriteSavePath<T>(string tag, T value)
+        {
+            ES2.Save(value, $"{SavePath}?tag={tag}");
+        }
+
+        public static void SaveToDefault<T>(string tag, T value)
+        {
+            WriteSavePath<T>(tag, value);
+        }
+
+        public static void SaveToItem<T>(string tag, T value)
+        {
+            ES2.Save(value, $"{ItemsPath}?tag={tag}");
         }
 
         public static void VerifySave()
@@ -62,18 +107,18 @@ namespace MOP.Helpers
             // Passenger bucket seat.
             // Check if driver bucket seat is bought and check the same for passenger one.
             // If they do not match, fix it.
+            saveBugs = new List<SaveBugs>();
             try
             {
-                saveBugs = new List<SaveBugs>();
+                bool bucketPassengerSeat = ReadBoolean("bucket seat passenger(Clone)Purchased");
+                bool bucketDriverSeat = ReadBoolean("bucket seat driver(Clone)Purchased");
 
-                bool bucketPassengerSeat = ES2.Load<bool>(SavePath + "?tag=bucket seat passenger(Clone)Purchased", setting);
-                bool bucketDriverSeat = ES2.Load<bool>(SavePath + "?tag=bucket seat driver(Clone)Purchased", setting);
                 if (bucketDriverSeat != bucketPassengerSeat)
                 {
                     saveBugs.Add(SaveBugs.New("Bucket Seats", "One bucket seat is present in the game world, while the other isn't - both should be in game world.", () =>
                     {
-                        ES2.Save(true, SavePath + "?tag=bucket seat passenger(Clone)Purchased");
-                        ES2.Save(true, SavePath + "?tag=bucket seat driver(Clone)Purchased");
+                        WriteSavePath("bucket seat passenger(Clone)Purchased", true);
+                        WriteSavePath("bucket seat driver(Clone)Purchased", true);
                     }));
                 }
             }
@@ -84,14 +129,15 @@ namespace MOP.Helpers
 
             try
             {
-                bool tractorTrailerAttached = ES2.Load<bool>(SavePath + "?tag=TractorTrailerAttached", setting);
-                Transform flatbedTransform = ES2.Load<Transform>(SavePath + "?tag=FlatbedTransform", setting);
-                Transform kekmetTransform = ES2.Load<Transform>(SavePath + "?tag=TractorTransform", setting);
+                bool tractorTrailerAttached = ReadBoolean("TractorTrailerAttached");
+                Transform flatbedTransform = ReadTransform("FlatbedTransform");
+                Transform kekmetTransform = ReadTransform("TractorTransform");
+
                 if (tractorTrailerAttached && Vector3.Distance(flatbedTransform.position, kekmetTransform.position) > 5.5f)
                 {
                     saveBugs.Add(SaveBugs.New("Flatbed Trailer Attached", "Trailer and tractor are too far apart from each other - impossible for them to be attached.", () =>
                     {
-                        ES2.Save(false, SavePath + "?tag=TractorTrailerAttached", setting);
+                        WriteSavePath("TractorTrailerAttached", false);
                     }));
                 }
             }
@@ -110,44 +156,45 @@ namespace MOP.Helpers
 
                     if (save.version == MOP.ModVersion)
                     {
-                        bool bumperRearInstalled = ES2.Load<bool>(SavePath + "?tag=bumper rear(Clone)Installed", setting);
-                        float bumperTightness = ES2.Load<float>(SavePath + "?tag=Bumper_RearTightness", setting);
+                        bool bumperRearInstalled = ReadBoolean("bumper rear(Clone)Installed");
+                        float bumperTightness = ReadFloat("Bumper_RearTightness");
+
                         if (bumperRearInstalled && bumperTightness != save.rearBumperTightness)
                         {
-                            ES2.Save(save.rearBumperTightness, SavePath + "?tag=Bumper_RearTightness");
-                            ES2.Save(save.rearBumperBolts, SavePath + "?tag=Bumper_RearBolts");
+                            WriteSavePath("Bumper_RearTightness", save.rearBumperTightness);
+                            WriteSavePath("Bumper_RearBolts", save.rearBumperBolts);
                         }
 
-                        bool halfshaft_FLInstalled = ES2.Load<bool>(SavePath + "?tag=halfshaft_flInstalled", setting);
-                        float halfshaft_FLTightness = ES2.Load<float>(SavePath + "?tag=Halfshaft_FLTightness", setting);
+                        bool halfshaft_FLInstalled = ReadBoolean("halfshaft_flInstalled");
+                        float halfshaft_FLTightness = ReadFloat("Halfshaft_FLTightness");
                         if (halfshaft_FLInstalled && halfshaft_FLTightness != save.halfshaft_FLTightness)
                         {
                             saveBugs.Add(SaveBugs.New("Halfshaft (FL) Missmateched Bolt Stages", "Bolt stages in Halfshaft (FL) aren't correct.", () =>
                             {
-                                ES2.Save(save.halfshaft_FLTightness, SavePath + "?tag=Halfshaft_FLTightness");
-                                ES2.Save(save.halfshaft_FLBolts, SavePath + "?tag=Halfshaft_FLBolts");
+                                WriteSavePath("Halfshaft_FLTightness", save.halfshaft_FLTightness);
+                                WriteSavePath("Halfshaft_FLBolts", save.halfshaft_FLBolts);
                             }));
                         }
 
-                        bool halfshaft_FRInstalled = ES2.Load<bool>(SavePath + "?tag=halfshaft_frInstalled", setting);
-                        float halfshaft_FRTightness = ES2.Load<float>(SavePath + "?tag=Halfshaft_FRTightness", setting);
+                        bool halfshaft_FRInstalled = ReadBoolean("halfshaft_frInstalled");
+                        float halfshaft_FRTightness = ReadFloat("Halfshaft_FRTightness");
                         if (halfshaft_FRInstalled && halfshaft_FRTightness != save.halfshaft_FRTightness)
                         {
                             saveBugs.Add(SaveBugs.New("Halfshaft (FR) Missmateched Bolt Stages", "Bolt stages in Halfshaft (FR) aren't correct.", () =>
                             {
-                                ES2.Save(save.halfshaft_FRTightness, SavePath + "?tag=Halfshaft_FRTightness");
-                                ES2.Save(save.halfshaft_FRBolts, SavePath + "?tag=Halfshaft_FRBolts");
+                                WriteSavePath("Halfshaft_FRTightness", save.halfshaft_FRTightness);
+                                WriteSavePath("Halfshaft_FRBolts", save.halfshaft_FRBolts);
                             }));
                         }
 
-                        bool wiringBatteryMinusInstalled = ES2.Load<bool>(SavePath + "?tag=battery_terminal_minus(xxxxx)Installed", setting);
-                        float wiringBatteryMinusTightness = ES2.Load<float>(SavePath + "?tag=WiringBatteryMinusTightness", setting);
+                        bool wiringBatteryMinusInstalled = ReadBoolean("battery_terminal_minus(xxxxx)Installed");
+                        float wiringBatteryMinusTightness = ReadFloat("WiringBatteryMinusTightness");
                         if (wiringBatteryMinusInstalled && wiringBatteryMinusTightness != save.wiringBatteryMinusTightness)
                         {
                             saveBugs.Add(SaveBugs.New("Battery terminal minus bolt is not tightened.", "Incorrect bolt tightness of battery minus terminal.", () =>
                             {
-                                ES2.Save(save.wiringBatteryMinusTightness, SavePath + "?tag=WiringBatteryMinusTightness");
-                                ES2.Save(save.wiringBatteryMinusBolts, SavePath + "?tag=WiringBatteryMinusBolts");
+                                WriteSavePath("WiringBatteryMinusTightness", save.wiringBatteryMinusTightness);
+                                WriteSavePath("WiringBatteryMinusBolts", save.wiringBatteryMinusBolts);
                             }));
                         }
                     }
@@ -172,6 +219,25 @@ namespace MOP.Helpers
             {
                 ModConsole.Log("[MOP] MOP hasn't found any problems with your save :)");
             }
+        }
+
+        static void ReadDetails(List<SaveBugs> saveBugs)
+        {
+            string problemReport = Path.Combine(Path.GetTempPath(), "mopproblemsdetail.txt");
+            
+            if (File.Exists(problemReport))
+            {
+                File.Delete(problemReport);            
+            }
+
+            StreamWriter writer = new StreamWriter(problemReport);
+            foreach (SaveBugs bug in saveBugs)
+            {
+                writer.WriteLine($"{bug.BugName}:\n  {bug.Description}\n");
+            }
+            writer.Close();
+
+            System.Diagnostics.Process.Start(problemReport);
         }
 
         static void FixAllProblems()
@@ -205,25 +271,26 @@ namespace MOP.Helpers
             return ES2.Load<Transform>(SavePath + "?tag=radiator hose3(xxxxx)", setting);
         }
 
+        static bool TagExists(string tag)
+        {
+            return ES2.Exists($"{SavePath}?tag={tag}");
+        }
+
         internal static void AddSaveFlag()
         {
-            if (ES2.Exists(SavePath + "?tag=Bumper_RearTightness") && ES2.Exists(SavePath + "?tag=Bumper_RearBolts", setting))
+            if (TagExists("Bumper_RearTightness") && TagExists("Bumper_RearBolts"))
             {
                 MopSaveData save = new MopSaveData
                 {
                     version = MOP.ModVersion,
-
-                    rearBumperTightness = ES2.Load<float>(SavePath + "?tag=Bumper_RearTightness", setting),
-                    rearBumperBolts = ES2.LoadList<string>(SavePath + "?tag=Bumper_RearBolts", setting),
-
-                    halfshaft_FLTightness = ES2.Load<float>(SavePath + "?tag=Halfshaft_FLTightness", setting),
-                    halfshaft_FLBolts = ES2.LoadList<string>(SavePath + "?tag=Halfshaft_FLBolts", setting),
-
-                    halfshaft_FRTightness = ES2.Load<float>(SavePath + "?tag=Halfshaft_FRTightness", setting),
-                    halfshaft_FRBolts = ES2.LoadList<string>(SavePath + "?tag=Halfshaft_FRBolts", setting),
-
-                    wiringBatteryMinusTightness = ES2.Load<float>(SavePath + "?tag=WiringBatteryMinusTightness", setting),
-                    wiringBatteryMinusBolts = ES2.LoadList<string>(SavePath + "?tag=WiringBatteryMinusBolts", setting)
+                    rearBumperTightness = ReadFloat("Bumper_RearTightness"),
+                    rearBumperBolts = ReadStringList("Bumper_RearBolts"),
+                    halfshaft_FLTightness = ReadFloat("Halfshaft_FLTightness"),
+                    halfshaft_FLBolts = ReadStringList("Halfshaft_FLBolts"),
+                    halfshaft_FRTightness = ReadFloat("Halfshaft_FRTightness"),
+                    halfshaft_FRBolts = ReadStringList("Halfshaft_FRBolts"),
+                    wiringBatteryMinusTightness = ReadFloat("WiringBatteryMinusTightness"),
+                    wiringBatteryMinusBolts = ReadStringList("WiringBatteryMinusBolts")
                 };
                 ModSave.Save(mopSavePath, save);
             }
@@ -233,27 +300,17 @@ namespace MOP.Helpers
 
         internal static void ReleaseSave()
         {
-            if (SaveFileExists)
+            try
             {
-                try
+                if (SaveFileExists)
                 {
                     ModSave.Delete(mopSavePath);
                 }
-                catch (Exception ex)
-                {
-                    ExceptionManager.New(ex, false, "SAVE_RELEASE_ERROR");
-                }
             }
-        }
-
-        internal static void SaveToItem<T>(string tag, T value)
-        {
-            ES2.Save(value, ItemsPath + "?tag=" + tag, setting);
-        }
-
-        internal static void SaveToDefault<T>(string tag, T value)
-        {
-            ES2.Save(value, SavePath + "?tag=" + tag, setting);
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "SAVE_RELEASE_ERROR");
+            }
         }
 
         public static bool IsSatsumaLoadedCompletely()
@@ -263,8 +320,8 @@ namespace MOP.Helpers
             GameObject cylinderHead = Resources.FindObjectsOfTypeAll<GameObject>().First( g => g.name == "cylinder head(Clone)");
             GameObject block = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "block(Clone)");
             MopSaveData save = new MopSaveData();
-            bool isCylinderHeadInstalled = ES2.Load<bool>(SavePath + "?tag=cylinder head(Clone)Installed", setting);
-            bool isEngineBlockInstalled = ES2.Load<bool>(SavePath + "?tag=block(Clone)Installed", setting);
+            bool isCylinderHeadInstalled = ReadBoolean("cylinder head(Clone)Installed");
+            bool isEngineBlockInstalled = ReadBoolean("block(Clone)Installed");
 
             if (!isEngineBlockInstalled)
             {
@@ -290,12 +347,9 @@ namespace MOP.Helpers
                     break;
                 }
 
-                if (ES2.Load<int>(ItemsPath + $"?tag=spark plug{i}TriggerID") == 1 && ES2.Load<bool>(ItemsPath + $"?tag=spark plug{i}Installed"))
+                if (ReadInt($"spark plug{i}TriggerID") == 1 && ES2.Load<bool>(ItemsPath + $"?tag=spark plug{i}Installed") && sparkPlug1Pivot.childCount == 0)
                 {
-                    if (sparkPlug1Pivot.childCount == 0)
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
 

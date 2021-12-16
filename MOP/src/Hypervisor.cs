@@ -101,13 +101,13 @@ namespace MOP
             // If not, restart the scene at least once.
             if (!SaveManager.IsSatsumaLoadedCompletely())
             {
-                if (MopSettings.AttemptedToFixTheGame)
+                if ((int)MopSettings.GameFixStatus >= 1)
                 {
                     ModPrompt.CreatePrompt("Satsuma has not been fully loaded by the game!\n\nConsider restarting the game in order to avoid any issues.", "MOP");
                 }
                 else
                 {
-                    MopSettings.AttemptedToFixTheGame = true;
+                    MopSettings.GameFixStatus = GameFixStatus.DoFix;
                     ModConsole.Log("MOP attempts to restart the scene...");
                     Application.LoadLevel(1);
                 }

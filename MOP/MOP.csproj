@@ -96,6 +96,7 @@
     </Compile>
     <Compile Include="src\Common\BugReporter.cs" />
     <Compile Include="src\Common\Enumerations\DisableOn.cs" />
+    <Compile Include="src\Common\Enumerations\GameFixStatus.cs" />
     <Compile Include="src\Common\Enumerations\PerformanceMode.cs" />
     <Compile Include="src\Common\Enumerations\SatsumaEnableOn.cs" />
     <Compile Include="src\Common\Enumerations\ToggleAllMode.cs" />
@@ -106,8 +107,12 @@
     <Compile Include="src\Common\SaveSlotsSupport.cs" />
     <Compile Include="src\Common\ToggledItemsListGenerator.cs" />
     <Compile Include="src\FSM\Actions\CustomAddItemBehaviour.cs" />
+    <Compile Include="src\FSM\Actions\CustomCreateHose.cs" />
     <Compile Include="src\FSM\Actions\CustomCreateObject.cs" />
+    <Compile Include="src\FSM\Actions\CustomPackageHandler.cs" />
+    <Compile Include="src\FSM\Actions\CustomSatsumaBumperAttach.cs" />
     <Compile Include="src\FSM\Actions\CustomSatsumaBumperDetach.cs" />
+    <Compile Include="src\FSM\Actions\DelayedItemBehaviour.cs" />
     <Compile Include="src\FSM\Actions\GrandmaHiker.cs" />
     <Compile Include="src\FSM\Actions\WindscreenRepairJob.cs" />
     <Compile Include="src\GameFixes.cs" />

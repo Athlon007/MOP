@@ -14,36 +14,26 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using HutongGames.PlayMaker;
 using UnityEngine;
+using System.Collections;
 
 using MOP.Items;
 
 namespace MOP.FSM.Actions
 {
-    /// <summary>
-    /// This FsmAction role is to instantiate a gameobject.
-    /// </summary>
-    class CustomCreateObject : FsmStateAction
+    class DelayedItemBehaviour : MonoBehaviour
     {
-        GameObject parent;
-        protected GameObject prefab;
-
-        protected GameObject newObject;
-
-        public CustomCreateObject(GameObject parent, GameObject prefab)
+        void Start()
         {
-            this.parent = parent;
-            this.prefab = prefab;
+            StartCoroutine(DelayAdd());
         }
 
-        public override void OnEnter()
+        IEnumerator DelayAdd()
         {
-            newObject = GameObject.Instantiate(prefab);
-            newObject.transform.position = parent.transform.position;
-            newObject.name = newObject.name.Replace("(Clone)(Clone)", "(Clone)");
-            newObject.SetActive(true);
-            newObject.AddComponent<ItemBehaviour>();
+            for (int i = 0; i < 60; ++i)
+                yield return null;
+            gameObject.AddComponent<ItemBehaviour>();
+            Destroy(this);
         }
     }
 }
