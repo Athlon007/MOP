@@ -396,7 +396,7 @@ namespace MOP.Managers
             }
         }
 
-        internal List<ItemBehaviour> All()
+        internal List<ItemBehaviour> GetList()
         {
             return itemHooks;
         }

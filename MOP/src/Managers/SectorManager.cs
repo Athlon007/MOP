@@ -155,15 +155,7 @@ namespace MOP.Managers
 
             if (MopSettings.GenerateToggledItemsListDebug)
             {
-                if (System.IO.File.Exists("sector.txt"))
-                    System.IO.File.Delete("sector.txt");
-                string sector = "";
-                foreach (var w in objectsToDisable)
-                {
-                    sector += w.name + ", ";
-                }
-                System.IO.File.WriteAllText("sector.txt", sector);
-                System.Diagnostics.Process.Start("sector.txt");
+                ToggledItemsListGenerator.CreateSectorList(objectsToDisable);
             }
         }
 

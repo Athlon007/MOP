@@ -15,11 +15,10 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
-using MSCLoader;
-using MSCLoader.Helper;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using MSCLoader.Helper;
 
 using MOP.FSM.Actions;
 using MOP.Common;
@@ -27,7 +26,6 @@ using MOP.Common.Enumerations;
 using MOP.Vehicles.Managers.SatsumaManagers;
 using MOP.Rules;
 using MOP.Rules.Types;
-using MOP.Items;
 
 namespace MOP.Vehicles.Cases
 {
@@ -55,6 +53,12 @@ namespace MOP.Vehicles.Cases
             "HookFront", "GetInPivot", "TrafficTrigger", "Wipers", "WiperLeftPivot", "WiperRightPivot", "wipers_tap", "wipers_rod",
             "generalPivot", "CarRearMirrorPivot", "StagingWheel", "shadow_body", "NormalFront", "NormalSide", "NormalRear", "WindSide",
             "WindFront", "WindRear", "CoG", "Interior", "Body", "MiscParts", "Dashboard" 
+        };
+        readonly string[] ignoredRendererNames = { "Sphere", "Capsule", "Cube", "Mokia" };
+        string[] maskedObjectNames = 
+        { 
+            "MaskedClutchCover", "MaskedBearing2", "MaskedBearing3", "MaskedFlywheel", 
+            "MaskedFlywheelRacing", "MaskedPiston2", "MaskedPiston3", "MaskedPiston4" 
         };
 
         // Renderers.
@@ -110,17 +114,7 @@ namespace MOP.Vehicles.Cases
             pivotHood = this.gameObject.transform.Find("Body/pivot_hood");
 
             // Get all the other renderers
-            renderers = new List<Renderer>();
-            if (RulesManager.Instance.IgnoreRules.Count > 0)
-            {
-                renderers = this.gameObject.transform.GetComponentsInChildren<Renderer>(true)
-                    .Where(t => !t.gameObject.name.ContainsAny("Sphere", "Capsule", "Cube", "Mokia") && RulesManager.Instance.IgnoreRules.Find(g => g.ObjectName == t.gameObject.name) == null).ToList();
-            }
-            else
-            {
-                renderers = this.gameObject.transform.GetComponentsInChildren<Renderer>(true)
-                    .Where(t => !t.gameObject.name.ContainsAny("Sphere", "Capsule", "Cube", "Mokia")).ToList();
-            }
+            renderers = GetRenderersToDisable();
 
             // Ignore Rule
             IgnoreRule vehicleRule = RulesManager.Instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
@@ -265,8 +259,8 @@ namespace MOP.Vehicles.Cases
             
             // Wiping Load for alternator belts, oil filters, spark plugs and batteries.
             GameObject[] parts = Resources.FindObjectsOfTypeAll<GameObject>()
-                .Where(obj => obj.name.ContainsAny("alternator belt(Clone)", "oil filter(Clone)", "spark plug(Clone)", "battery(Clone)"))
-                .ToArray();
+                                .Where(obj => obj.name.ContainsAny("alternator belt(Clone)", "oil filter(Clone)", "spark plug(Clone)", "battery(Clone)"))
+                                .ToArray();
             foreach (GameObject part in parts)
             {
                 if (part.transform.root.gameObject.name == "GAZ24(1420kg)") continue;
@@ -361,7 +355,6 @@ namespace MOP.Vehicles.Cases
                 }
             }
 
-            //key = transform.Find("Dashboard/Steering/steering_column2/Ignition/Keys/Key").gameObject;
             try
             {
                 key = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "steering_column2").transform.Find("Ignition/Keys/Key").gameObject;
@@ -443,19 +436,17 @@ namespace MOP.Vehicles.Cases
             // Fixes driver dying way too easily from small impacts (hopefully).
             transform.Find("DriverHeadPivot").GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
-            maskedElements = new Dictionary<GameObject, bool>
+            // Masked Elements.
+            // Those are objects that are disabled by default, so their bolts are not easily accessible.
+            maskedElements = new Dictionary<GameObject, bool>();
+            foreach (string obj in maskedObjectNames)
             {
-                { Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedClutchCover"), key.activeSelf },
-                { Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedBearing2"), key.activeSelf },
-                { Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedBearing3"), key.activeSelf },
-                { Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedFlywheel"), key.activeSelf },
-                { Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedFlywheelRacing"), key.activeSelf },
-                { Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedPiston2"), key.activeSelf },
-                { Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedPiston3"), key.activeSelf },
-                { Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "MaskedPiston4"), key.activeSelf }
-            };
+                GameObject gm = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == obj);
+                maskedElements.Add(gm, key.activeSelf);
+            }
 
-            drivingAI = transform.Find("AI").GetPlayMakerFSM("Driving");
+            // It is not used right now by the game, but it is safe to assume that one day it might be used.
+            drivingAI = transform.Find("AI")?.GetPlayMakerFSM("Driving");
 
             // radiator hose 3
             try
@@ -498,9 +489,9 @@ namespace MOP.Vehicles.Cases
                 wait1Actions.Insert(0, new WindscreenRepairJob(swf));
                 windshieldJobFSM.GetState("Wait1").Actions = wait1Actions.ToArray();
             }
-            catch
+            catch (System.Exception ex)
             {
-                throw new System.Exception("Windshield repair fix error.");
+                ExceptionManager.New(ex, true, "WINDSCREEN REPAIR FIX ERROR");
             }
 
             // Fire extinguisher holder.
@@ -508,7 +499,9 @@ namespace MOP.Vehicles.Cases
             {
                 GameObject extinguisherHolder = transform.Find("Interior/fire extinguisher holder(xxxxx)").gameObject;
                 foreach (PlayMakerFSM fsm in extinguisherHolder.GetComponents<PlayMakerFSM>())
+                {
                     fsm.Fsm.RestartOnEnable = false;
+                }
             }
             catch
             {
@@ -521,20 +514,14 @@ namespace MOP.Vehicles.Cases
 
             if (MopSettings.GenerateToggledItemsListDebug)
             {
-                if (System.IO.File.Exists("sats.txt"))
-                    System.IO.File.Delete("sats.txt");
-                string vehiclez = "";
-                foreach (var w in disableableObjects)
-                    vehiclez += w.gameObject.name + ", ";
-                System.IO.File.WriteAllText("sats.txt", vehiclez);
-                System.Diagnostics.Process.Start("sats.txt");
+                ToggledItemsListGenerator.CreateSatsumaList(disableableObjects);
             }
         }
 
         /// <summary>
         /// Enable or disable car
         /// </summary>
-        new void ToggleActive(bool enabled)
+        internal override void ToggleActive(bool enabled)
         {
             if (this.IsPlayerInThisCar())
             {
@@ -548,8 +535,10 @@ namespace MOP.Vehicles.Cases
             }
 
             // Force enable if AI is driving the car.
-            if (drivingAI != null && drivingAI.enabled) 
+            if (drivingAI != null && drivingAI.enabled)
+            {
                 enabled = true;
+            }
 
             // If the car is left in ParcFerme, the renderes may not re-enable, so just in case we force them to re-enable.
             if (IsSatsumaInParcFerme && !renderers[0].enabled)
@@ -557,17 +546,13 @@ namespace MOP.Vehicles.Cases
 
             if (!RulesManager.Instance.SpecialRules.SatsumaIgnoreRenderers)
             {
+                bool dashIllumination = false;
                 if (IsKeyInserted())
                 {
-                    if (lightSelection != null && lightSelection.Value > 0)
-                        ToggleDashIllumination(true);
-                    else
-                        ToggleDashIllumination(false);
+                    dashIllumination = lightSelection != null && lightSelection.Value > 0;
                 }
-                else
-                {
-                    ToggleDashIllumination(false);
-                }
+
+                ToggleDashIllumination(dashIllumination);
             }
 
             // Don't run the code, if the value is the same
@@ -603,14 +588,14 @@ namespace MOP.Vehicles.Cases
         /// <returns></returns>
         internal Transform[] GetDisableableChilds()
         {
+            Transform[] childs = gameObject.GetComponentsInChildren<Transform>(true).Where(t => t.gameObject.name.ContainsAny(whiteList)).ToArray();
+
             if (RulesManager.Instance.IgnoreRules.Count > 0)
             {
-                return gameObject.GetComponentsInChildren<Transform>(true)
-                    .Where(t => t.gameObject.name.ContainsAny(whiteList) && RulesManager.Instance.IgnoreRules.Find(g => g.ObjectName == t.gameObject.name) == null).ToArray();
+                childs = childs.Where(t => !RulesManager.Instance.IsObjectInIgnoreList(t.gameObject)).ToArray();
             }
 
-            return gameObject.GetComponentsInChildren<Transform>(true)
-                .Where(trans => trans.gameObject.name.ContainsAny(whiteList)).ToArray();
+            return childs;
         }
 
         /// <summary>
@@ -637,7 +622,7 @@ namespace MOP.Vehicles.Cases
                     if (renderers[i] == null)
                         continue;
 
-                    // Skip renderer if it's root is not Satsuma.
+                    // Skip renderer if its root is not Satsuma.
                     if (renderers[i].transform.root.gameObject != this.gameObject)
                         continue;
 
@@ -681,20 +666,13 @@ namespace MOP.Vehicles.Cases
         /// <param name="distance"></param>
         public void ToggleElements(float distance)
         {
-            if (Toggle == IgnoreToggle)
-                distance = 0;
-
-            // Don't disable any elements, if the AI is driving the Satsuma.
-            if (drivingAI != null && drivingAI.enabled)
-                distance = 0;
-
             try
             {
                 bool onEngine = distance < 2;
                 bool onClose = distance <= 10 * MopSettings.ActiveDistanceMultiplicationValue;
                 bool onFar = distance <= 20 * MopSettings.ActiveDistanceMultiplicationValue;
 
-                if (IsKeyInserted() || IsSatsumaInInspectionArea || IsMoving())
+                if (Toggle == IgnoreToggle || IsKeyInserted() || IsSatsumaInInspectionArea || IsMoving() || (drivingAI != null && drivingAI.enabled))
                 {
                     onEngine = true;
                     onClose = true;
@@ -780,12 +758,15 @@ namespace MOP.Vehicles.Cases
         /// <param name="enabled"></param>
         void ToggleDashIllumination(bool enabled)
         {
-            if (dashboardMaterials == null) return;
-            if (dashboardMaterials[0].GetFloat("_Intensity") == 0 && !enabled) return;
-            else if (dashboardMaterials[0].GetFloat("_Intensity") == 0.2f && enabled) return;
+            if ((dashboardMaterials == null) || (dashboardMaterials[0].GetFloat("_Intensity") == 0 && !enabled) || (dashboardMaterials[0].GetFloat("_Intensity") == 0.2f && enabled))
+            {
+                return;
+            }
 
             for (int i = 0; i < dashboardMaterials.Count; i++)
+            {
                 dashboardMaterials[i].SetFloat("_Intensity", enabled ? 0.2f : 0);
+            }
         }
 
         public GameObject GetCarBody()
@@ -812,6 +793,18 @@ namespace MOP.Vehicles.Cases
             {
                 satsumaBoltsAntiReloads[i].Unglue();
             }
+        }
+
+        List<Renderer> GetRenderersToDisable()
+        {
+            List<Renderer> renderers = gameObject.transform.GetComponentsInChildren<Renderer>(true).Where(r => !r.gameObject.name.ContainsAny(ignoredRendererNames)).ToList();
+
+            if (RulesManager.Instance.IgnoreRules.Count > 0)
+            {
+                renderers = renderers.Where(r => !RulesManager.Instance.IsObjectInIgnoreList(r.gameObject)).ToList();
+            }
+
+            return renderers;
         }
     }
 }

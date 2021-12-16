@@ -126,5 +126,10 @@ namespace MOP.Rules
                 }
             }
         }
+
+        public bool IsObjectInIgnoreList(GameObject gm)
+        {
+            return IgnoreRules.Find(g => g.ObjectName == gm.name) != null;
+        }
     }
 }

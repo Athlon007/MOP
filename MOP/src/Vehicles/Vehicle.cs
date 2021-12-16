@@ -302,7 +302,7 @@ namespace MOP.Vehicles
         /// <summary>
         /// Enable or disable car
         /// </summary>
-        internal void ToggleActive(bool enabled)
+        internal virtual void ToggleActive(bool enabled)
         {
             if (gameObject == null || gameObject.activeSelf == enabled || !IsActive) return;
 

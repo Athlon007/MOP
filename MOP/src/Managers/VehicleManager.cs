@@ -106,7 +106,7 @@ namespace MOP.Managers
 
         public int Count => vehicles.Count;
 
-        public List<Vehicle> List()
+        public List<Vehicle> GetList()
         {
             return vehicles;
         }

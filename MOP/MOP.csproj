@@ -104,6 +104,7 @@
     <Compile Include="src\Common\FramerateRecorder.cs" />
     <Compile Include="src\Common\LoadScreen.cs" />
     <Compile Include="src\Common\SaveSlotsSupport.cs" />
+    <Compile Include="src\Common\ToggledItemsListGenerator.cs" />
     <Compile Include="src\FSM\Actions\CustomAddItemBehaviour.cs" />
     <Compile Include="src\FSM\Actions\CustomCreateObject.cs" />
     <Compile Include="src\FSM\Actions\CustomSatsumaBumperDetach.cs" />

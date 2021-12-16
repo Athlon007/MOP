@@ -513,52 +513,10 @@ namespace MOP
             // If generate-list command is set to true, generate the list of items that are disabled by MOP.
             if (MopSettings.GenerateToggledItemsListDebug)
             {
-                if (System.IO.File.Exists("world.txt"))
-                    System.IO.File.Delete("world.txt");
-                string world = "";
-                foreach (var w in worldObjectManager.GetList())
-                {
-                    if (world.Contains(w.GetName())) continue;
-                    world += w.GetName() + ", ";
-                }
-                System.IO.File.WriteAllText("world.txt", world);
-                System.Diagnostics.Process.Start("world.txt");
-
-                if (System.IO.File.Exists("vehicle.txt"))
-                    System.IO.File.Delete("vehicle.txt");
-                string vehiclez = "";
-                foreach (var w in vehicleManager.List())
-                    vehiclez += w.gameObject.name + ", ";
-                System.IO.File.WriteAllText("vehicle.txt", vehiclez);
-                System.Diagnostics.Process.Start("vehicle.txt");
-
-                if (System.IO.File.Exists("items.txt"))
-                    System.IO.File.Delete("items.txt");
-                string items = "";
-                foreach (var w in ItemsManager.Instance.All())
-                {
-                    if (items.Contains(w.gameObject.name)) continue;
-                    items += w.gameObject.name + ", ";
-                }
-                System.IO.File.WriteAllText("items.txt", items);
-                System.Diagnostics.Process.Start("items.txt");
-
-                if (System.IO.File.Exists("place.txt"))
-                    System.IO.File.Delete("place.txt");
-                string place = "";
-                foreach (var w in placeManager.GetList())
-                {
-                    place += w.GetName() + ": ";
-                    foreach (var f in w.GetDisableableChilds())
-                    {
-                        if (place.Contains(f.gameObject.name)) continue;
-                        place += f.gameObject.name + ", ";
-                    }
-
-                    place += "\n\n";
-                }
-                System.IO.File.WriteAllText("place.txt", place);
-                System.Diagnostics.Process.Start("place.txt");
+                ToggledItemsListGenerator.CreateWorldList(WorldObjectManager.Instance.GetList());
+                ToggledItemsListGenerator.CreateVehicleList(VehicleManager.Instance.GetList());
+                ToggledItemsListGenerator.CreateItemsList(ItemsManager.Instance.GetList());
+                ToggledItemsListGenerator.CreatePlacesList(PlaceManager.Instance.GetList());
             }
         }
 #endregion
