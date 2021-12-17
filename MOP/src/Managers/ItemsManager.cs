@@ -154,7 +154,7 @@ namespace MOP.Managers
             }
             catch
             {
-                throw new System.Exception("Couldn't inject PostOrderBuy object.");
+                throw new Exception("Couldn't inject PostOrderBuy object.");
             }
 
             InitializeList();
@@ -323,7 +323,7 @@ namespace MOP.Managers
 
                     item.AddComponent<ItemBehaviour>();
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
                     ExceptionManager.New(ex, false, "ITEM_LIST_AT_ITEMS_LOAD_ERROR");
                 }
@@ -418,7 +418,7 @@ namespace MOP.Managers
 
                     if (state == null)
                     {
-                        ModConsole.LogError($"FSM {i} has no Create or Create product");
+                        ModConsole.LogError($"[MOP] FSM {i} has no Create or Create product");
                         continue;
                     }
 

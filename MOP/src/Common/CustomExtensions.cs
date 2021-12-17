@@ -101,25 +101,6 @@ namespace MOP.Common
             return false;
         }
 
-        readonly static string[] rainbow = new string[] { "red", "orange", "yellow", "green", "blue", "purple" };
-        public static string Rainbowmize(this string input)
-        {
-            char[] inputArray = input.ToCharArray();
-            string output = "";
-            int colorNumber = 0;
-            for (int i = 0; i < inputArray.Length; i++)
-            {
-                if (colorNumber >= rainbow.Length)
-                    colorNumber = 0;
-
-                string color = rainbow[colorNumber];
-                output += $"<color={color}>{inputArray[i]}</color>";
-                colorNumber++;
-            }
-
-            return output;
-        }
-
         /// <summary>
         /// Looks through the components of game object and returns the one matching it's name.
         /// </summary>

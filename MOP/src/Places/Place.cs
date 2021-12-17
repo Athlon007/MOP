@@ -152,7 +152,7 @@ namespace MOP.Places
                 }
                 catch 
                 {
-                    MSCLoader.ModConsole.LogError(currentChild.Path());
+                    ModConsole.LogError(currentChild.Path());
                 }
             }
 

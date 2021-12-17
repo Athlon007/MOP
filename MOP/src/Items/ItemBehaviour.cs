@@ -31,6 +31,7 @@ using MOP.Items.Helpers;
 using MOP.Rules;
 using MOP.Rules.Types;
 using MOP.Helpers;
+using MOP.Places;
 
 namespace MOP.Items
 {
@@ -101,45 +102,9 @@ namespace MOP.Items
 
             // Get object's components
             rb = GetComponent<Rigidbody>();
-            PlayMakerFSM fsm = GetComponent<PlayMakerFSM>();
             renderer = GetComponent<Renderer>();
             partMagnet = GetComponent<PartMagnet>();
             boltMagnet = GetComponent<BoltMagnet>();
-
-            // From PlayMakerFSM, find states that contain one of the names that relate to destroying object,
-            // and inject RemoveSelf void.
-            if (fsm != null)
-            {
-                foreach (var st in fsm.FsmStates)
-                {
-                    switch (st.Name)
-                    {
-                        case "Destroy self":
-                            FsmHook.FsmInject(this.gameObject, "Destroy self", RemoveSelf);
-                            break;
-                        case "Destroy":
-                            FsmHook.FsmInject(this.gameObject, "Destroy", RemoveSelf);
-                            break;
-                        case "Destroy 2":
-                            FsmHook.FsmInject(this.gameObject, "Destroy 2", RemoveSelf);
-                            break;
-                    }
-                }
-            }
-            
-            // If the item is a shopping bag, hook the RemoveSelf to "Is garbage" FsmState
-            if (gameObject.name.Contains("shopping bag"))
-            {
-                FsmHook.FsmInject(this.gameObject, "Is garbage", RemoveSelf);
-
-                // Destroys empty shopping bags appearing in the back of the yard.
-                PlayMakerArrayListProxy list = gameObject.GetComponent<PlayMakerArrayListProxy>();
-                if (list.arrayList.Count == 0)
-                {
-                    ItemsManager.Instance.Remove(this);
-                    Destroy(this.gameObject);
-                }
-            }
 
             position = transform.position;
 
@@ -167,22 +132,25 @@ namespace MOP.Items
             {
                 FsmFixes();
             }
+
             // HACK: For some reason the trigger that's supposed to fix tire job not working doesn't really work on game load,
             // toggle DontDisable to true, if tire is close to repair shop cash register.
-            if (this.gameObject.name.StartsWith("wheel_") && Vector3.Distance(gameObject.transform.position, GameObject.Find("REPAIRSHOP").transform.Find("LOD/Store/ShopCashRegister").position) < 5)
+            if (this.gameObject.name.StartsWith("wheel_"))
             {
-                DontDisable = true;
+                RepairShop repairShop = PlaceManager.Instance[2] as RepairShop;
+                if (Vector3.Distance(transform.position, repairShop.GetCashRegister().position) < 5)
+                {
+                    DontDisable = true;
+                }
             }
+            
+            timeDisabled = Time.timeSinceLevelLoad;
 
             if (!gameObject.name.EqualsAny("empty bottle(Clone)", "empty pack(Clone)"))
             {
-                if (IsPartMagnetAttached()) return;
-
-                if (rb?.velocity.magnitude > 0.1f) return;
+                if (IsPartMagnetAttached() || rb?.velocity.magnitude > 0.1f) return;
                 rb?.Sleep();
             }
-
-            timeDisabled = Time.timeSinceLevelLoad;
         }
 
         void Awake()
@@ -216,7 +184,7 @@ namespace MOP.Items
             if (spoilRate != null)
             {
                 float currentSpoil = condition.Value;
-                float currentSpoilRate = Places.Yard.Instance.IsItemInFridge(this.gameObject) ? spoilRateFridge.Value : spoilRate.Value;
+                float currentSpoilRate = Yard.Instance.IsItemInFridge(this.gameObject) ? spoilRateFridge.Value : spoilRate.Value;
                 // Apparently MSC uses some weird way of calculating time that has barely anything to do with Time.deltaTime...
                 // Making the value 1/3 of the currentSpoil somehow makes it closer to what it should've been
                 currentSpoil -= (Time.timeSinceLevelLoad - timeDisabled) * currentSpoilRate * 0.33f; 
@@ -267,10 +235,9 @@ namespace MOP.Items
                     firstLoad = true;
                 }
 
-                if (!Hypervisor.Instance.IsItemInitializationDone())
+                if (!Hypervisor.Instance.IsItemInitializationDone() && (transform.root != Satsuma.Instance.transform || IsPartMagnetAttached()))
                 {
-                    if (transform.root != Satsuma.Instance.transform || IsPartMagnetAttached())
-                        transform.position = position;
+                    transform.position = position;
                 }
 
                 if (DontDisable)
@@ -287,13 +254,8 @@ namespace MOP.Items
                 }
 
                 // Don't execute rest of the code, if the enabled is the same as activeSelf.
-                if (gameObject.activeSelf == enabled)
-                {
-                    return;
-                }
-
                 // Don't toggle, if the item is attached to Satsuma.
-                if (transform.root.gameObject.name == "SATSUMA(557kg, 248)" || IsPartMagnetAttached())
+                if (gameObject.activeSelf == enabled || transform.root.gameObject.name == "SATSUMA(557kg, 248)" || IsPartMagnetAttached())
                 {
                     return;
                 }
@@ -308,11 +270,8 @@ namespace MOP.Items
                         break;
                     // Fix for batteries popping out of the car.
                     case "battery(Clone)":
-                        if (gameObject.transform.parent.gameObject.name == "pivot_battery")
-                            return;
-
                         // Don't toggle if battery is left on charger.
-                        if (!enabled && batteryOnCharged.Value)
+                        if (gameObject.transform.parent.gameObject.name == "pivot_battery" || (!enabled && batteryOnCharged.Value))
                             return;
                         break;
                     // Don't disable the helmet, if player has put it on.
@@ -345,7 +304,7 @@ namespace MOP.Items
                 }
 
                 // CDs resetting fix.
-                if (this.gameObject.name.StartsWith("cd(item") && this.transform.parent != null && this.transform.parent.name == "cd_sled_pivot")
+                if (gameObject.name.StartsWith("cd(item") && transform.parent != null && transform.parent.name == "cd_sled_pivot")
                 {
                     return;
                 }
@@ -387,12 +346,10 @@ namespace MOP.Items
                     enabled = !MopSettings.IsModActive;
                 }
 
-                if (rb == null || rb.useGravity == enabled)
+                if (rb == null || rb.useGravity == enabled || IsPartMagnetAttached())
                 {
                     return;
                 }
-
-                if (IsPartMagnetAttached()) return;
 
                 if (this.gameObject.name == "wheel_regula")
                 {
@@ -467,15 +424,49 @@ namespace MOP.Items
 
         void FsmFixes()
         {
+            // From PlayMakerFSM, find states that contain one of the names that relate to destroying object,
+            // and inject RemoveSelf void.
+            PlayMakerFSM fsm = GetComponent<PlayMakerFSM>();
+            if (fsm != null)
+            {
+                foreach (var st in fsm.FsmStates)
+                {
+                    switch (st.Name)
+                    {
+                        case "Destroy self":
+                            FsmHook.FsmInject(this.gameObject, "Destroy self", RemoveSelf);
+                            break;
+                        case "Destroy":
+                            FsmHook.FsmInject(this.gameObject, "Destroy", RemoveSelf);
+                            break;
+                        case "Destroy 2":
+                            FsmHook.FsmInject(this.gameObject, "Destroy 2", RemoveSelf);
+                            break;
+                    }
+                }
+            }
+
+            // If the item is a shopping bag, hook the RemoveSelf to "Is garbage" FsmState
+            if (gameObject.name.Contains("shopping bag"))
+            {
+                FsmHook.FsmInject(gameObject, "Is garbage", RemoveSelf);
+
+                // Destroys empty shopping bags appearing in the back of the yard.
+                PlayMakerArrayListProxy list = gameObject.GetComponent<PlayMakerArrayListProxy>();
+                if (list.arrayList.Count == 0)
+                {
+                    ItemsManager.Instance.Remove(this);
+                    Destroy(this.gameObject);
+                }
+            }
+
             try
             {
                 PlayMakerFSM useFsm = gameObject.GetPlayMakerFSM("Use");
                 if (useFsm != null)
                 {
                     useFsm.Fsm.RestartOnEnable = false;
-                    if (gameObject.name.StartsWith("door ")) return;
-                    if (gameObject.name == ("amis-auto ky package(xxxxx)")) return;
-                    if (gameObject.name == "lottery ticket(xxxxx)") return;
+                    if (gameObject.name.StartsWith("door ") || gameObject.name.EqualsAny("amis-auto ky package(xxxxx)", "lottery ticket(xxxxx)")) return;
 
                     FsmState state1 = useFsm.GetState("State 1");
                     if (state1 != null)
@@ -509,8 +500,6 @@ namespace MOP.Items
                     {
                         spoilRateFridge = useFsm.FsmVariables.GetFsmFloat("SpoilingRateFridge");
                     }
-
-                    
                 }
 
                 // Fixes for particular items.
@@ -695,8 +684,8 @@ namespace MOP.Items
                 }
                 else
                 {
-                    SaveManager.SaveToItem<Transform>(id + "Transform", gameObject.transform);
-                    SaveManager.SaveToItem<bool>(id + "Consumed", useFSM.FsmVariables.GetFsmBool("Consumed").Value);
+                    SaveManager.SaveToItem(id + "Transform", gameObject.transform);
+                    SaveManager.SaveToItem(id + "Consumed", useFSM.FsmVariables.GetFsmBool("Consumed").Value);
 
                     if (id.Contains("juiceconcentrate"))
                     {
@@ -710,12 +699,12 @@ namespace MOP.Items
                             useFSM.FsmVariables.GetFsmBool("ContainsKilju").Value = true;
                         }
 
-                        SaveManager.SaveToItem<bool>(id + "ContainsJuice", useFSM.FsmVariables.GetFsmBool("ContainsJuice").Value);
-                        SaveManager.SaveToItem<bool>(id + "ContainsKilju", useFSM.FsmVariables.GetFsmBool("ContainsKilju").Value);
-                        SaveManager.SaveToItem<float>(id + "KiljuAlc", useFSM.FsmVariables.GetFsmFloat("KiljuAlc").Value);
-                        SaveManager.SaveToItem<float>(id + "KiljuSweetness", useFSM.FsmVariables.GetFsmFloat("KiljuSweetness").Value);
-                        SaveManager.SaveToItem<float>(id + "KiljuVinegar", useFSM.FsmVariables.GetFsmFloat("KiljuVinegar").Value);
-                        SaveManager.SaveToItem<float>(id + "KiljuYeast", useFSM.FsmVariables.GetFsmFloat("KiljuYeast").Value);
+                        SaveManager.SaveToItem(id + "ContainsJuice", useFSM.FsmVariables.GetFsmBool("ContainsJuice").Value);
+                        SaveManager.SaveToItem(id + "ContainsKilju", useFSM.FsmVariables.GetFsmBool("ContainsKilju").Value);
+                        SaveManager.SaveToItem(id + "KiljuAlc", useFSM.FsmVariables.GetFsmFloat("KiljuAlc").Value);
+                        SaveManager.SaveToItem(id + "KiljuSweetness", useFSM.FsmVariables.GetFsmFloat("KiljuSweetness").Value);
+                        SaveManager.SaveToItem(id + "KiljuVinegar", useFSM.FsmVariables.GetFsmFloat("KiljuVinegar").Value);
+                        SaveManager.SaveToItem(id + "KiljuYeast", useFSM.FsmVariables.GetFsmFloat("KiljuYeast").Value);
                         useFSM.enabled = false;
                     }
                 }

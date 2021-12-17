@@ -12,6 +12,10 @@
 - Many changes in class structures
 - Many minor optimization improvements
 
+### Bug Fixes
+
+- Fixed MOP not calculating the timeDisabled for certain items.
+
 ## 3.3.7 (30.11.21)
 
 ### Added

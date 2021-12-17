@@ -14,11 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using MSCLoader;
-using MOP.Common;
 using System.Collections.Generic;
 using UnityEngine;
-using HutongGames.PlayMaker;
+using MSCLoader;
 
 using MOP.Vehicles.Cases;
 
@@ -38,6 +36,8 @@ namespace MOP.Places
             "gauge_glass_fbx", "Pivot", "needle", "Bolt", "bolt", "grille", "wheel_steel5", "gear_stick",
             "Platform", "Coll", "Buy", "Product", "Key(Clone)", "LOD", "repair_shop_walls", "repair_shop_roof_metal"
         };
+
+        Transform cashRegister;
 
         /// <summary>
         /// Initialize the RepairShop class
@@ -88,7 +88,14 @@ namespace MOP.Places
             // Fix door resetting.
             transform.Find("LOD/Door/Handle").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
+            cashRegister = GameObject.Find("REPAIRSHOP").transform.Find("LOD/Store/ShopCashRegister");
+
             Compress();
+        }
+
+        public Transform GetCashRegister()
+        {
+            return cashRegister;
         }
     }
 }

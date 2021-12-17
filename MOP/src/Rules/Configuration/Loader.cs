@@ -237,11 +237,7 @@ namespace MOP.Rules.Configuration
                     return;
                 }
 
-                string message = $"[MOP] Found {files.Count} rule file{(files.Count > 1 ? "s" : "")}!";
-                if (files.Count == 69)
-                    message = message.Rainbowmize();
-
-                ModConsole.Log(message);
+                ModConsole.Log($"[MOP] Found {files.Count} rule file{(files.Count > 1 ? "s" : "")}!");
 
                 int removed = 0;
 
