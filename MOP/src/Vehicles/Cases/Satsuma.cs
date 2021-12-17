@@ -55,7 +55,7 @@ namespace MOP.Vehicles.Cases
             "WindFront", "WindRear", "CoG", "Interior", "Body", "MiscParts", "Dashboard" 
         };
         readonly string[] ignoredRendererNames = { "Sphere", "Capsule", "Cube", "Mokia" };
-        string[] maskedObjectNames = 
+        readonly string[] maskedObjectNames = 
         { 
             "MaskedClutchCover", "MaskedBearing2", "MaskedBearing3", "MaskedFlywheel", 
             "MaskedFlywheelRacing", "MaskedPiston2", "MaskedPiston3", "MaskedPiston4" 

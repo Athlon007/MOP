@@ -1,11 +1,25 @@
-﻿using System.Collections;
+﻿// Modern Optimization Plugin
+// Copyright(C) 2019-2021 Athlon
+
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program.If not, see<http://www.gnu.org/licenses/>.
+
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
 using MOP.Managers;
 using MOP.Common.Enumerations;
-using System;
-using MOP.Common;
 
 namespace MOP.Vehicles.Managers.SatsumaManagers
 {
@@ -22,13 +36,15 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
             instance = this;
 
             Transform body = VehicleManager.Instance.GetVehicle(VehiclesTypes.Satsuma).transform.Find("Body");
-            foreach (var t in body.GetComponentsInChildren<Transform>(true).Where(g => g.gameObject.name.StartsWith("trigger_")))
-            {
-                t.gameObject.AddComponent<SatsumaTrigger>();
-            }
-
             Transform block = GameObject.Find("block(Clone)").transform;
-            foreach (var t in block.GetComponentsInChildren<Transform>().Where(g => g.gameObject.name.StartsWith("trigger_")))
+
+            AddTriggerToChildren(body);
+            AddTriggerToChildren(block);
+        }
+
+        void AddTriggerToChildren(Transform parent)
+        {
+            foreach (var t in parent.GetComponentsInChildren<Transform>().Where(g => g.gameObject.name.StartsWith("trigger_")))
             {
                 t.gameObject.AddComponent<SatsumaTrigger>();
             }
@@ -46,40 +62,6 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
             if (trigger.Pivot.childCount == 0)
             {
                 trigger.gameObject.SetActive(true);
-            }
-        }
-    }
-
-    class SatsumaTrigger : MonoBehaviour
-    {
-        Transform pivot;
-        public Transform Pivot { get => pivot; }
-
-        void Awake()
-        {
-            try
-            {
-                GameObject gameObjectPivot = GetComponent<PlayMakerFSM>().FsmVariables.GetFsmGameObject("Parent").Value;
-
-                if (gameObjectPivot == null)
-                {
-                    Destroy(this);
-                    return;
-                }
-
-                pivot = gameObjectPivot.transform;
-            }
-            catch (Exception ex)
-            {
-                ExceptionManager.New(ex, false, gameObject.Path());
-            }
-        }
-
-        void OnDisable()
-        {
-            if (pivot != null)
-            {
-                SatsumaTriggerFixer.Instance.Check(this);
             }
         }
     }

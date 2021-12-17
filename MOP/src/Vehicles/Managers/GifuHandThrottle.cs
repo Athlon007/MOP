@@ -15,33 +15,41 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using UnityEngine;
+using System;
 
-using MOP.Common.Enumerations;
-
-namespace MOP.WorldObjects
+namespace MOP.Vehicles.Managers
 {
-    class RendererToggle : GenericObject
+    class GifuHandThrottle : HandThrottle
     {
-        Renderer renderer;
+        readonly GameObject key;
 
-        public RendererToggle(GameObject gameObject, DisableOn disableOn, int distance = 200) : base(gameObject, distance, disableOn)
+        bool isInvoked;
+
+        public GifuHandThrottle() : base("LOD/Dashboard/ButtonHandThrottle")
         {
-            renderer = this.gameObject.GetComponent<Renderer>();
-
-            if (renderer == null)
+            try
             {
-                throw new System.Exception($"[MOP] Couldn't find the renderer of {gameObject.name}");
+                key = transform.Find("LOD/Dashboard/KeyHole/Keys/Key").gameObject;
+                handThrottleValue.Value = 0.13f;
+            }
+            catch
+            {
+                throw new Exception("GifuHandThrottle: Key not found.");
             }
         }
 
-        public override void Toggle(bool enabled)
+        void Update()
         {
-            if (!renderer.gameObject.activeSelf || renderer.enabled == enabled)
+            if (isInvoked && !key.activeSelf)
             {
-                return;
+                isInvoked = false;
+                CancelInvoke();
             }
-
-            renderer.enabled = enabled;
+            else if (!isInvoked && key.activeSelf)
+            {
+                isInvoked = true;
+                Invoke();
+            }
         }
     }
 }

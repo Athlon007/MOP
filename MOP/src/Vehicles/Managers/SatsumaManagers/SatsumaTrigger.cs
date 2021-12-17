@@ -14,34 +14,44 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using System;
 using UnityEngine;
 
-using MOP.Common.Enumerations;
+using MOP.Common;
 
-namespace MOP.WorldObjects
+namespace MOP.Vehicles.Managers.SatsumaManagers
 {
-    class RendererToggle : GenericObject
+    class SatsumaTrigger : MonoBehaviour
     {
-        Renderer renderer;
+        Transform pivot;
+        public Transform Pivot { get => pivot; }
 
-        public RendererToggle(GameObject gameObject, DisableOn disableOn, int distance = 200) : base(gameObject, distance, disableOn)
+        void Awake()
         {
-            renderer = this.gameObject.GetComponent<Renderer>();
-
-            if (renderer == null)
+            try
             {
-                throw new System.Exception($"[MOP] Couldn't find the renderer of {gameObject.name}");
+                GameObject gameObjectPivot = GetComponent<PlayMakerFSM>().FsmVariables.GetFsmGameObject("Parent").Value;
+
+                if (gameObjectPivot == null)
+                {
+                    Destroy(this);
+                    return;
+                }
+
+                pivot = gameObjectPivot.transform;
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, gameObject.Path());
             }
         }
 
-        public override void Toggle(bool enabled)
+        void OnDisable()
         {
-            if (!renderer.gameObject.activeSelf || renderer.enabled == enabled)
+            if (pivot != null)
             {
-                return;
+                SatsumaTriggerFixer.Instance.Check(this);
             }
-
-            renderer.enabled = enabled;
         }
     }
 }

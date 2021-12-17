@@ -23,7 +23,7 @@ using MOP.Vehicles.Cases;
 namespace MOP.Vehicles.Managers.SatsumaManagers
 {
     /// <summary>
-    /// This scripts looksa for the BoltCheck or Use scripts and disables restting of the playmaker scripts.
+    /// This scripts looks for the BoltCheck or Use scripts and disables restting of the playmaker scripts.
     /// </summary>
     class SatsumaBoltsAntiReload : MonoBehaviour
     {

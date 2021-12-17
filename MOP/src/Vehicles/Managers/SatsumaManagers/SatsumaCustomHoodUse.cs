@@ -39,8 +39,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
 
         void FixedUpdate()
         {
-            if (!IsHoodAttached()) return;
-            if (!isHoodOpen && !isActive) return;
+            if (!IsHoodAttached() || (!isHoodOpen && !isActive)) return;
              
             if (transform.localEulerAngles.x > 340)
             { 
@@ -56,10 +55,10 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
 
         bool IsHoodAttached()
         {
-            if (gameObject.transform.parent == null)
+            if (transform.parent == null)
                 return false;
 
-            return gameObject.transform.parent.gameObject.name == "pivot_hood";
+            return transform.parent.gameObject.name == "pivot_hood";
         }
     }
 }
