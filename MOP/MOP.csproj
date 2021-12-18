@@ -147,11 +147,13 @@
     <Compile Include="src\Vehicles\Cases\Hayosiko.cs" />
     <Compile Include="src\Vehicles\Managers\BusRollFix.cs" />
     <Compile Include="src\FSM\Actions\CustomPlayMakerFixedUpdate.cs" />
+    <Compile Include="src\Vehicles\Managers\GifuHandThrottle.cs" />
     <Compile Include="src\Vehicles\Managers\HandThrottle.cs" />
     <Compile Include="src\Vehicles\Managers\HingeManager.cs" />
     <Compile Include="src\Vehicles\Cases\Boat.cs" />
     <Compile Include="src\FSM\Actions\MasterAudioAssembleCustom.cs" />
     <Compile Include="src\FSM\Actions\CustomBatteryDisable.cs" />
+    <Compile Include="src\Vehicles\Managers\KekmetHandThrottle.cs" />
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaCustomHoodUse.cs" />
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaBoltsAntiReload.cs" />
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaHingeManager.cs" />
@@ -159,6 +161,7 @@
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaRadiatorHoseFix.cs" />
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaSeatsManager.cs" />
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaPartMassManager.cs" />
+    <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaTrigger.cs" />
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaTriggerFixer.cs" />
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaWindscreenFixer.cs" />
     <Compile Include="src\Vehicles\Managers\TrailerLogUnderFloor.cs" />

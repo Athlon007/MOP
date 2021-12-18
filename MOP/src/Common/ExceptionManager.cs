@@ -280,7 +280,7 @@ namespace MOP.Common
             if (build > 9600)
             {
                 string realOS = build >= 22000 ? $"Windows 11 (10.0.{build})" : $"Windows 10 (10.0.{build})";
-                realOS += SystemInfo.operatingSystem.Contains("64bit") ? "64bit" : "32bit";
+                realOS += SystemInfo.operatingSystem.Contains("64bit") ? " 64bit" : " 32bit";
 
                 return realOS;
             }
@@ -313,13 +313,23 @@ namespace MOP.Common
         /// </summary>
         public static void DeleteAllLogs()
         {
-            if (!Directory.Exists($"{RootPath}/{LogFolder}"))
+            string[] files = Directory.GetFiles(LogFolder, "*.txt");
+
+            if (files.Length == 0)
             {
-                ModPrompt.CreatePrompt("Log folder doesn't exist.", "MOP");
+                ModPrompt.CreatePrompt("No logs exist.", "MOP");
                 return;
             }
 
-            ModPrompt.CreateYesNoPrompt("Are you sure you want to delete all logs?", "MOP", () => Directory.Delete($"{RootPath}/{LogFolder}", true));
+            ModPrompt.CreateYesNoPrompt($"Are you sure you want to delete <color=yellow>{files.Length}</color> log{(files.Length > 1 ? "s" : "")}?", "MOP", () => DeleteLogFiles(files));
+        }
+
+        static void DeleteLogFiles(string[] files)
+        {
+            foreach (string file in files)
+            {
+                File.Delete(file);
+            }
         }
 
         static string OutputLogPath => $"{RootPath}/output_log.txt";

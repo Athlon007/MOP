@@ -15,6 +15,7 @@
 ### Bug Fixes
 
 - Fixed MOP not calculating the timeDisabled for certain items.
+- Fixed "Delete All Logs" button not working correctly
 
 ## 3.3.7 (30.11.21)
 
