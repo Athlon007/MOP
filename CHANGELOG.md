@@ -18,6 +18,7 @@
 - Fixed MOP not calculating the timeDisabled for certain items.
 - Fixed "Delete All Logs" button not working correctly
 - Fixed an error if user deleted unused rule files and then tried to do it again
+- Fixed Satsuma being frozen, if using Safe Mode
 
 ## 3.3.7 (30.11.21)
 

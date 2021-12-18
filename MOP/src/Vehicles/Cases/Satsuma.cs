@@ -510,7 +510,10 @@ namespace MOP.Vehicles.Cases
 
             GameObject.Find("dashboard meters(Clone)/Gauges/Odometer").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
-            this.ForceToggleUnityCar(false);
+            if (MopSettings.Mode != PerformanceMode.Safe)
+            {
+                this.ForceToggleUnityCar(false);
+            }
 
             if (MopSettings.GenerateToggledItemsListDebug)
             {

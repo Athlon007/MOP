@@ -834,6 +834,7 @@ namespace MOP
                                 break;
                         }
 
+
                         vehicleManager[i].ToggleUnityCar(IsVehiclePhysicsEnabled(distance, toggleDistance));
                         vehicleManager[i].Toggle(IsVehicleEnabled(distance));
                     }
