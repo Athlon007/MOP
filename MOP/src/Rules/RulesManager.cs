@@ -119,6 +119,7 @@ namespace MOP.Rules
                 if (File.Exists(path))
                 {
                     File.Delete(path);
+                    Instance.UnusedRules.Remove(file);
                 }
                 else
                 {

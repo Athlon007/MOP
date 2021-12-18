@@ -11,11 +11,13 @@
 - Improved reading game data in MOP report
 - Many changes in class structures
 - Many minor optimization improvements
+- Minor changes in phrasing of some dialogues
 
 ### Bug Fixes
 
 - Fixed MOP not calculating the timeDisabled for certain items.
 - Fixed "Delete All Logs" button not working correctly
+- Fixed an error if user deleted unused rule files and then tried to do it again
 
 ## 3.3.7 (30.11.21)
 
