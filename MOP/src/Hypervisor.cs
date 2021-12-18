@@ -155,7 +155,7 @@ namespace MOP
             {
                 worldObjectManager.Add("CABIN", DisableOn.Distance | DisableOn.IgnoreInQualityMode);
                 worldObjectManager.Add("COTTAGE", DisableOn.Distance, 400);
-                worldObjectManager.Add("DANCEHALL", DisableOn.Distance, 500);
+                worldObjectManager.Add("DANCEHALL", DisableOn.Distance | DisableOn.IgnoreInQualityMode, 500);
                 worldObjectManager.Add("PERAJARVI", DisableOn.Distance | DisableOn.IgnoreInQualityMode, 400);
                 worldObjectManager.Add("SOCCER", DisableOn.Distance);
                 worldObjectManager.Add("WATERFACILITY", DisableOn.Distance, 300);
@@ -364,6 +364,35 @@ namespace MOP
             catch (Exception ex)
             {
                 ExceptionManager.New(ex, false, "FITTAN_RENDERERS_ERROR");
+            }
+
+            // Cabin: do not disable Cabin's house and burned house on Quality mode.
+            try
+            {
+                if (MopSettings.Mode >= PerformanceMode.Quality)
+                {
+                    Transform cabin = GameObject.Find("CABIN").transform;
+                    cabin.Find("Cabin").parent = null;
+                    cabin.Find("BurntHouse").parent = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "CABIN_DETAILS_QUALITY");
+            }
+
+            // Cottage: Do not disable main renderer in Quality mode.
+            try
+            {
+                if (MopSettings.Mode >= PerformanceMode.Quality)
+                {
+                    Transform cottage = GameObject.Find("COTTAGE").transform;
+                    cottage.Find("MESH").parent = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "CABIN_DETAILS_QUALITY");
             }
 
             // Initialize Items class

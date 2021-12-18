@@ -164,13 +164,24 @@ namespace MOP
             }
 
             // Fixed Ventii bet resetting to default on cabin load.
+            Transform cabin = GameObject.Find("CABIN").transform;
             try
             {
-                GameObject.Find("CABIN").transform.Find("Cabin/Ventti/Table/GameManager").GetPlayMakerFSM("Use").Fsm.RestartOnEnable = false;
+                cabin.Find("Cabin/Ventti/Table/GameManager").GetPlayMakerFSM("Use").Fsm.RestartOnEnable = false;
             }
             catch (Exception ex)
             {
                 ExceptionManager.New(ex, false, "VENTII_FIX_ERROR");
+            }
+
+            // Cabin door resetting fix.
+            try
+            {
+                cabin.Find("Cabin/Door/Pivot/Handle").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "CABIN_DOOR_RESET_FIX_ERROR");
             }
 
             // Junk cars - setting Load game to null.
@@ -368,16 +379,6 @@ namespace MOP
             catch (Exception ex)
             {
                 ExceptionManager.New(ex, false, "GRANDMA_HIKER_FIXES");
-            }
-
-            // Cabin door resetting fix.
-            try
-            {
-                GameObject.Find("CABIN").transform.Find("Cabin/Door/Pivot/Handle").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-            }
-            catch (Exception ex)
-            {
-                ExceptionManager.New(ex, false, "CABIN_DOOR_RESET_FIX_ERROR");
             }
 
             // Construction site

@@ -12,6 +12,7 @@
 - Many changes in class structures
 - Many minor optimization improvements
 - Minor changes in phrasing of some dialogues
+- Dance hall, cottage and cabin are not disabled in Quality mode
 
 ### Bug Fixes
 
