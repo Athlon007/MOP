@@ -81,8 +81,6 @@ namespace MOP.Common
                 vsyncCount = QualitySettings.vSyncCount;
             else
                 QualitySettings.vSyncCount = vsyncCount;
-
-            System.GC.Collect(); // (and collect garbage)
         }
 
         /// <summary>

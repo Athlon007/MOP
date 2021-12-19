@@ -37,7 +37,7 @@ namespace MOP
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
 #endif
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.3.7"; //Version
+        public override string Version => "3.3.8"; //Version
         public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_
         public override string UpdateLink => "https://github.com/Athlon007/MOP";
         public override byte[] Icon => Properties.Resources.icon;
@@ -79,7 +79,7 @@ namespace MOP
 #if DEBUG
             modSettings.AddHeader("Shh...Don't leak my hard work ;)", Color.yellow, Color.black);
 #endif
-            SettingButton ifoundabug = modSettings.AddButton("iFoundABug", "<color=red>I FOUND A BUG</color>", () => BugReporter.FileBugReport());
+            modSettings.AddButton("iFoundABug", "<color=red>I FOUND A BUG</color>", () => BugReporter.FileBugReport());
             modSettings.AddButton("faq", "FAQ", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/faq"));
             modSettings.AddButton("wiki", "WIKI", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/"));
             modSettings.AddButton("homepage", "HOMEPAGE", () => ShowDialog("http://athlon.kkmr.pl/"));
@@ -182,8 +182,7 @@ namespace MOP
                 lastVersion.Value = Version;
                 modSettings.SaveSettings();
                 ModPrompt.CreatePrompt($"Welcome to Modern Optimization Plugin <color=yellow>{Version}</color>!\n\n" +
-                    $"Please consider supporting the project using <color=#3687D7>PayPal</color>,\n" +
-                    $"or with <color=#ADAD46>Bitcoins</color>.", "MOP");
+                    $"Please consider supporting the project using <color=#3687D7>PayPal</color>.", "MOP");
             }
 
             FsmManager.ResetAll();
@@ -199,8 +198,8 @@ namespace MOP
                 MopSettings.RestartWarningShown = true;
                 ModPrompt prompt = ModPrompt.CreateCustomPrompt();
                 prompt.Text = "You've reloaded game without fully quitting it over 5 times.\n\n" +
-                                       "It is recommended to fully quit the game after a while, so it would fully unload the memory.\n" +
-                                       "Not doing that may lead to game breaking glitches.";
+                              "It is recommended to fully quit the game after a while, so it would fully unload the memory.\n" +
+                              "Not doing that may lead to game breaking glitches.";
                 prompt.Title = "MOP";
                 prompt.AddButton("OK", null);
                 prompt.AddButton("QUIT GAME", () => Application.Quit());
