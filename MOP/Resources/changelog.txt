@@ -8,11 +8,11 @@
 - Many changes in class structures
 - Many minor optimization improvements
 - Minor changes in phrasing of some dialogues
-- Dance hall, cottage and cabin are not disabled in Quality mode
+- Dance hall, cottage, and cabin are not disabled in Quality mode
 
 ### Bug Fixes
 
 - Fixed MOP not calculating the timeDisabled for certain items.
 - Fixed "Delete All Logs" button not working correctly
-- Fixed an error if user deleted unused rule files and then tried to do it again
-- Fixed Satsuma being frozen, if using Safe Mode
+- Fixed an error if the user deleted unused rule files and then tried to do it again
+- Fixed Satsuma being frozen if using Safe Mode
