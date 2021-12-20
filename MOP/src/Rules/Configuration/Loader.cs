@@ -123,19 +123,19 @@ namespace MOP.Rules.Configuration
                 ModConsole.Log("[MOP] No updates required.");
             }
 
+            List<string> previousMods = rulesInfo.LastModList;
+            rulesInfo.LastModList = new List<string>();
+
             foreach (Mod mod in mods)
             {
                 string modId = mod.ID;
-                if (!rulesInfo.LastModList.Contains(modId))
-                {
-                    rulesInfo.LastModList.Add(modId);
-                }
+                rulesInfo.LastModList.Add(modId);
 
                 string ruleUrl = $"{RemoteServer}/{modId}{RuleExtension}";
                 string filePath = $"{MOP.ModConfigPath}/{modId}{RuleExtension}";
 
                 // Continue if it's not time for an update, and the mod is in the list of last mods.
-                if (rulesInfo.LastModList.Contains(mod.ID) && !isUpdateTime)
+                if (previousMods.Contains(mod.ID) && !isUpdateTime)
                 {
                     continue;
                 }
