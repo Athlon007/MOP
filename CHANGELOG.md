@@ -5,6 +5,7 @@
 ### Added
 
 - MOP report includes MOP config file and MopSave.xml (if it exists)
+- Added "GitHub" button to settings
 
 ### Changes
 
