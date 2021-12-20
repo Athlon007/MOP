@@ -6,6 +6,10 @@
 
 - MOP report includes MOP config file and MopSave.xml (if it exists)
 
+### Changes
+
+- Updated the MOP bug report instruction
+
 ## 3.3.8 (19.12.21)
 
 ### Added
