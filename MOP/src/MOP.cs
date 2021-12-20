@@ -175,6 +175,7 @@ namespace MOP
         #endregion
         public override void MenuOnLoad()
         {
+            RemoveUnusedFiles();
             modSettings.LoadSettings();
             modConfigPath = ModLoader.GetModSettingsFolder(this, true);
             if (!Version.StartsWith(lastVersion.Value.ToString()))
@@ -397,5 +398,19 @@ namespace MOP
                                                                          $"Are you sure you want to continue?",
                                                                          "MOP",
                                                                          () => ModHelper.OpenWebsite(url));
+
+        void RemoveUnusedFiles()
+        {
+            RemoveIfExists(Path.Combine(ModConfigPath, "LastModList.mop"));
+            RemoveIfExists(Path.Combine(ModConfigPath, "LastUpdate.mop"));
+        }
+
+        void RemoveIfExists(string filename)
+        {
+            if (File.Exists(filename))
+            {
+                File.Delete(filename);
+            }
+        }
     }
 }

@@ -561,7 +561,6 @@ namespace MOP.Rules.Configuration
                                 ModConsole.LogError($"[MOP] Rule file {fileName} is for the newer version of MOP. Please update MOP right now!\n\n" +
                                                     $"Your MOP version: {mopVersion[0]}.{mopVersion[1]}.{mopVersion[2]}\n" +
                                                     $"Required version: {minVer[0]}.{minVer[1]}.{minVer[2]}");
-
                                 return;
                             }
 
@@ -648,22 +647,22 @@ namespace MOP.Rules.Configuration
         void ObsoleteWarning(string flag, string fileName, int lines, string content, string alternative)
         {
             ModConsole.Log($"\n=================================" +
-                                $"\n\n<color=cyan>[MOP] Flag '{flag}' is obsolete.\n" +
-                                $"Please use '{alternative}' instead!\n\n" +
-                                $"File: {fileName}\n" +
-                                $"Line: {lines}\n" +
-                                $"Context: {content}\n\n" +
-                                $"You can ignore that message.</color>");
+                            $"\n\n<color=cyan>[MOP] Flag '{flag}' is obsolete.\n" +
+                            $"Please use '{alternative}' instead!\n\n" +
+                            $"File: {fileName}\n" +
+                            $"Line: {lines}\n" +
+                            $"Context: {content}\n\n" +
+                            $"You can ignore that message.</color>");
         }
 
         void WrongArgumentWarning(string reason, string fileName, int lines, string content)
         {
             ModConsole.Log($"\n=================================" +
-                                $"\n\n<color=cyan>[MOP] {reason}.\n\n" +
-                                $"File: {fileName}\n" +
-                                $"Line: {lines}\n" +
-                                $"Context: {content}\n\n" +
-                                $"You can ignore that message.</color>");
+                            $"\n\n<color=cyan>[MOP] {reason}.\n\n" +
+                            $"File: {fileName}\n" +
+                            $"Line: {lines}\n" +
+                            $"Context: {content}\n\n" +
+                            $"You can ignore that message.</color>");
         }
 
         JsonSerializerSettings GetNewSettings()
