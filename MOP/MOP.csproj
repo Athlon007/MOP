@@ -72,6 +72,10 @@
     <Reference Include="MSCLoader.Features">
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\MSCLoader.Features.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car - oldloader\mysummercar_Data\Managed\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PlayMaker">
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\PlayMaker.dll</HintPath>
     </Reference>
@@ -141,6 +145,7 @@
     <Compile Include="src\ModConsole.cs" />
     <Compile Include="src\Places\Cases\Farm.cs" />
     <Compile Include="src\Places\Cases\Inspection.cs" />
+    <Compile Include="src\Rules\Configuration\RulesInfo.cs" />
     <Compile Include="src\Sector.cs" />
     <Compile Include="src\Places\Cases\Yard.cs" />
     <Compile Include="src\Vehicles\Cases\Combine.cs" />

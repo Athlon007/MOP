@@ -9,6 +9,11 @@
 ### Changes
 
 - Updated the MOP bug report instruction
+- Rule files loader data is now saved into RulesInfo.json
+
+### Bug Fixes
+
+- Fixed rule file auto update not working
 
 ## 3.3.8 (19.12.21)
 

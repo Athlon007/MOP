@@ -24,6 +24,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using Newtonsoft.Json;
 
 using MOP.Common;
 using MOP.Common.Enumerations;
@@ -37,12 +38,11 @@ namespace MOP.Rules.Configuration
         const string ServerContent = "servercontent.mop";
         const string CustomFile = "Custom.txt";
         const string RuleExtension = ".mopconfig";
+        string RulesInfoFile => Path.Combine(MOP.ModConfigPath, "RulesInfo.json");
 
         readonly string[] illegalValues = { "MOP", "MSCLoader", "MSCUnloader", "Steam", "PLAYER", "cObject", "FPSCamera" };
 
         List<ServerContentData> serverContent;
-        string lastModListPath;
-        string lastDateFilePath;
 
         bool fileDownloadCompleted;
         bool overrideUpdateCheck;
@@ -51,8 +51,6 @@ namespace MOP.Rules.Configuration
 
         public void Initialize(bool overrideUpdateCheck)
         {
-            lastModListPath = $"{MOP.ModConfigPath}/LastModList.mop";
-            lastDateFilePath = $"{MOP.ModConfigPath}/LastUpdate.mop";
             this.overrideUpdateCheck = overrideUpdateCheck;
 
             if (GameObject.Find("MOP_Messager") != null)
@@ -62,7 +60,7 @@ namespace MOP.Rules.Configuration
             }
             else
             {
-                float div = (float)Screen.width / (float)Screen.height;
+                float div = Screen.width / (float)Screen.height;
                 float x = div  < 1.3f ? 4f : div < 1.6f ? 4.5f : 6f;
 
                 GameObject text = GameObject.Instantiate(GameObject.Find("Interface/Songs/Text"));
@@ -84,7 +82,7 @@ namespace MOP.Rules.Configuration
                 return;
             }
 
-            // Don't check if the server is online, if the update check has been done already.
+            // Don't if the update check has been done already.
             if (RulesManager.Instance.UpdateChecked)
             {
                 GetAndReadRules();
@@ -104,27 +102,36 @@ namespace MOP.Rules.Configuration
 
         IEnumerator DownloadAndUpdateRoutine()
         {
-            string lastModList = File.Exists(lastModListPath) ? File.ReadAllText(lastModListPath) : "";
+            RulesInfo rulesInfo = ReadRulesInfo();   
             Mod[] mods = ModLoader.LoadedMods.Where(m => !m.ID.ContainsAny("MSCLoader_", "MOP")).ToArray();
-            string modListString = "";
 
             ModConsole.Log("[MOP] Checking for new mods...");
 
-            bool isUpdateTime = !File.Exists(lastDateFilePath) || IsUpdateTime();
+            bool isUpdateTime = IsUpdateTime(rulesInfo);
 
             if (isUpdateTime)
+            {
                 ModConsole.Log("[MOP] Looking for updates...");
+            }
+            else
+            {
+                ModConsole.Log("[MOP] No updates required.");
+            }
+
 
             foreach (Mod mod in mods)
             {
                 string modId = mod.ID;
-                modListString += $"{modId}\n";
+                if (!rulesInfo.LastModList.Contains(modId))
+                {
+                    rulesInfo.LastModList.Add(modId);
+                }
 
                 string ruleUrl = $"{RemoteServer}/{modId}{RuleExtension}";
                 string filePath = $"{MOP.ModConfigPath}/{modId}{RuleExtension}";
 
                 // Continue if it's not time for an update, and the mod is in the list of last mods.
-                if (lastModList.Contains(mod.ID) && !isUpdateTime)
+                if (rulesInfo.LastModList.Contains(mod.ID) && !isUpdateTime)
                 {
                     continue;
                 }
@@ -197,9 +204,13 @@ namespace MOP.Rules.Configuration
                 ModConsole.Log("<color=green>[MOP] Downloading completed!</color>");
             }
 
-            File.WriteAllText(lastModListPath, modListString);
+            ModConsole.Log("[MOP] Updating rules completed.");
+
             if (isUpdateTime)
-                File.WriteAllText(lastDateFilePath, DateTime.Now.ToString());
+            {
+                rulesInfo.LastTimeUpdate = DateTime.Now;
+            }
+            WriteRulesInfo(rulesInfo);
 
             // File downloading and updating completed!
             // Start reading those files.
@@ -337,15 +348,16 @@ namespace MOP.Rules.Configuration
         /// </summary>
         bool IsServerOnline()
         {
-            RulesManager.Instance.UpdateChecked = true;
             TcpClient tcpClient = new TcpClient();
             try
             {
                 tcpClient.Connect("193.143.77.46", 80);
+                ModConsole.Log("[MOP] Server Status: Online");
                 return true;
             }
             catch (Exception)
             {
+                ModConsole.Log("[MOP] Server Status: Offline");
                 return false;
             }
         }
@@ -353,19 +365,19 @@ namespace MOP.Rules.Configuration
         /// <summary>
         /// Returns true, if the time saved into the file with added FileThresholdHours is larger than the current time.
         /// </summary>
-        bool IsUpdateTime()
+        bool IsUpdateTime(RulesInfo rulesInfo)
         {
-            if (RulesManager.Instance.UpdateChecked) return false;
-            RulesManager.Instance.UpdateChecked = true;
-
-            if (DateTime.TryParse(File.ReadAllText(lastDateFilePath), out DateTime past))
+            if (RulesManager.Instance.UpdateChecked)
             {
-                int fileThresholdsHours = MopSettings.GetRuleFilesUpdateDaysFrequency() * 24;
-                past = past.AddHours(fileThresholdsHours);
-                return DateTime.Now > past;
+                ModConsole.Log("fuck");
+                return false;
             }
 
-            return true;
+            RulesManager.Instance.UpdateChecked = true;
+
+            int fileThresholdsHours = MopSettings.GetRuleFilesUpdateDaysFrequency() * 24;
+            DateTime past = rulesInfo.LastTimeUpdate.AddHours(fileThresholdsHours);
+            return DateTime.Now > past;
         }
 
         void GetServerContent()
@@ -692,6 +704,38 @@ namespace MOP.Rules.Configuration
                                 $"Line: {lines}\n" +
                                 $"Context: {content}\n\n" +
                                 $"You can ignore that message.</color>");
+        }
+
+        JsonSerializerSettings GetNewSettings()
+        {
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+            return settings;
+        }
+
+        void WriteRulesInfo(RulesInfo info)
+        {
+            string json = JsonConvert.SerializeObject(info, GetNewSettings());
+            StreamWriter writer = new StreamWriter(RulesInfoFile);
+            writer.Write(json);
+            writer.Close();
+        }
+
+        RulesInfo ReadRulesInfo()
+        {
+            if (!File.Exists(RulesInfoFile))
+            {
+                RulesInfo newRules = new RulesInfo();
+                newRules.LastModList = new List<string>();
+                return newRules;
+            }
+
+            StreamReader reader = new StreamReader(RulesInfoFile);
+            string content = reader.ReadToEnd();
+            reader.Close();
+
+            RulesInfo rules = JsonConvert.DeserializeObject<RulesInfo>(content, GetNewSettings());
+            return rules;
         }
     }
 }
