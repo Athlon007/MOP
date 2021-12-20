@@ -75,29 +75,34 @@ namespace MOP.Rules.Configuration
                 NewMessage("");
             }
 
+            string issue = "";
+
             if (!MOP.RulesAutoUpdate.Value && !overrideUpdateCheck)
             {
-                ModConsole.Log("<color=orange>[MOP] Rule files auto update is disabled.</color>");
-                GetAndReadRules();
-                return;
+                issue = "<color=orange>[MOP] Rule files auto update is disabled.</color>";
             }
 
             // Don't if the update check has been done already.
             if (RulesManager.Instance.UpdateChecked)
             {
-                GetAndReadRules();
-                return;
+                issue = "[MOP] Update check has already been done.";
             }
 
             // If server or user is offline, skip downloading and simply load available files.
             if (!IsServerOnline())
             {
-                ModConsole.Log("<color=red>[MOP] Connection error. Check your Internet connection.</color>");
-                GetAndReadRules();
-                return;
+                issue = "<color=red>[MOP] Connection error. Check your Internet connection.</color>";
             }
 
-            StartCoroutine(DownloadAndUpdateRoutine());
+            if (issue.Length > 0)
+            {
+                ModConsole.Log(issue);
+                GetAndReadRules();
+            }
+            else
+            {
+                StartCoroutine(DownloadAndUpdateRoutine());
+            }
         }
 
         IEnumerator DownloadAndUpdateRoutine()
@@ -117,7 +122,6 @@ namespace MOP.Rules.Configuration
             {
                 ModConsole.Log("[MOP] No updates required.");
             }
-
 
             foreach (Mod mod in mods)
             {
@@ -369,7 +373,6 @@ namespace MOP.Rules.Configuration
         {
             if (RulesManager.Instance.UpdateChecked)
             {
-                ModConsole.Log("fuck");
                 return false;
             }
 
