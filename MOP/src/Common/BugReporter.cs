@@ -34,6 +34,12 @@ namespace MOP.Common
 
         string BugReportPath => $"{ExceptionManager.RootPath}/MOP_bugreport";
 
+        const string ReportFileMessage = "A MOP report archive has been successfully generated. Please follow these steps:\n\n" +
+                                              "1.) Go to https://github.com/Athlon007/MOP/issues/new?assignees=&labels=&template=template-bug-report.md&title=Bug%20Report \n" +
+                                              "2.) Drag & Drop the MOP Bug Report .ZIP file to the report window.\n" +
+                                              "3.) Fill in the information about the error.\n\n" +
+                                              "Incorrectly filled bug and/or pirate-game-copy reports WILL BE IGNORED.";
+
         public BugReporter()
         {
             instance = this;
@@ -105,6 +111,20 @@ namespace MOP.Common
                     zip.AddFile(file, "");
                 }
 
+                // MOP config file.
+                string mopConfigPath = Path.Combine(MOP.ModConfigPath, "MOP.json");
+                if (File.Exists(mopConfigPath))
+                {
+                    zip.AddFile(mopConfigPath, "");
+                }
+
+                string mopSave = SaveManager.GetMopSavePathFull();
+                if (File.Exists(mopSave))
+                {
+                    zip.AddFile(mopSave, "");
+                }
+
+
                 zip.Save(lastZipFilePath);
             }
 
@@ -117,9 +137,7 @@ namespace MOP.Common
             // Create the tutorial.
             using (StreamWriter sw = new StreamWriter($"{BugReportPath}/README.txt"))
             {
-                sw.WriteLine("A MOP report archive has been successfully generated.\n");
-                sw.WriteLine("Upload .zip file to some file hosting site, such as https://www.mediafire.com/. \n\n" +
-                             "Remember to describe how you came acorss the error!");
+                sw.WriteLine(ReportFileMessage);
             }
 
             // We are asking the user if he wants to add his game save to the zip file.

@@ -34,6 +34,8 @@ namespace MOP.Helpers
         static string mopSavePath => Path.Combine(Application.persistentDataPath, "MopSave");
         readonly static ES2Settings setting = new ES2Settings();
 
+        static bool SaveFileExists => File.Exists(mopSavePath + ".xml");
+
         /// <summary>
         /// For some reason, the save files get marked as read only files, not allowing MSC to save the game.
         /// This script is ran in PreSaveGame() script and removes ReadOnly attribute.
@@ -296,8 +298,6 @@ namespace MOP.Helpers
             }
         }
 
-        static bool SaveFileExists => File.Exists(mopSavePath + ".xml");
-
         internal static void ReleaseSave()
         {
             try
@@ -354,6 +354,11 @@ namespace MOP.Helpers
             }
 
             return true;
+        }
+
+        public static string GetMopSavePathFull()
+        {
+            return mopSavePath + ".xml";
         }
     }
 }

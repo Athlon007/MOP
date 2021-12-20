@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.9 (TBA)
+
+### Added
+
+- MOP report includes MOP config file and MopSave.xml (if it exists)
+
 ## 3.3.8 (19.12.21)
 
 ### Added
