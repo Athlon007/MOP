@@ -419,18 +419,6 @@ namespace MOP.Rules.Configuration
             return File.GetLastWriteTime(filename);
         }
 
-        // You know the rules and so do I
-        // A full commitment's what I'm thinking of
-        // You wouldn't get this from any other guy
-        // I just wanna tell you how I'm feeling
-        // Gotta make you understand
-        // Never gonna give you up
-        // Never gonna let you down
-        // Never gonna run around and desert you
-        // Never gonna make you cry
-        // Never gonna say goodbye
-        // Never gonna tell a lie and hurt you
-
         void ReadRulesFromFile(string rulePath)
         {
             try
@@ -565,45 +553,14 @@ namespace MOP.Rules.Configuration
                                 $"You can ignore that message.</color>");
                             }
 
-                            int major, minor, revision = 0;
-                            string[] verSplitted = objects[0].Split('.');
-                            major = int.Parse(verSplitted[0]);
-                            minor = int.Parse(verSplitted[1]);
-                            if (verSplitted.Length == 3)
-                                revision = int.Parse(verSplitted[2]);
+                            int[] minVer = GetVersionFromString(objects[0]);
+                            int[] mopVersion = GetVersionFromString(MOP.ModVersion);
 
-                            int modMajor, modMinor, modRevision = 0;
-                            string[] modVersionSpliited = MOP.ModVersionShort.Split('.');
-                            modMajor = int.Parse(modVersionSpliited[0]);
-                            modMinor = int.Parse(modVersionSpliited[1]);
-                            if (modVersionSpliited.Length == 3)
-                                modRevision = int.Parse(modVersionSpliited[2]);
-
-                            bool isOutdated = false;
-                            if (major > modMajor)
-                            {
-                                isOutdated = true;
-                            }
-                            else
-                            {
-                                if (minor > modMinor && major == modMajor)
-                                {
-                                    isOutdated = true;
-                                }
-                                else
-                                {
-                                    if (revision > modRevision && minor == modMinor && major == modMajor)
-                                    {
-                                        isOutdated = true;
-                                    }
-                                }
-                            }
-
-                            if (isOutdated)
+                            if (IsOutdated(mopVersion, minVer))
                             {
                                 ModConsole.LogError($"[MOP] Rule file {fileName} is for the newer version of MOP. Please update MOP right now!\n\n" +
-                                    $"Your MOP version: {modMajor}.{modMinor}.{modRevision}\n" +
-                                    $"Required version: {major}.{minor}.{revision}");
+                                                    $"Your MOP version: {mopVersion[0]}.{mopVersion[1]}.{mopVersion[2]}\n" +
+                                                    $"Required version: {minVer[0]}.{minVer[1]}.{minVer[2]}");
 
                                 return;
                             }
@@ -739,6 +696,39 @@ namespace MOP.Rules.Configuration
 
             RulesInfo rules = JsonConvert.DeserializeObject<RulesInfo>(content, GetNewSettings());
             return rules;
+        }
+
+        int[] GetVersionFromString(string s)
+        {
+            int[] version = new int[3];
+            string[] splitted = s.Split('.');
+            for (int i = 0; i < splitted.Length; ++i)
+            {
+                version[i] = int.Parse(splitted[i]);
+                if (int.TryParse(splitted[i], out int digit))
+                {
+                    version[i] = digit;
+                }
+                else
+                {
+                    version[i] = 0;
+                }
+            }
+
+            return version;
+        }
+
+        bool IsOutdated(int[] mopVersion, int[] minimalVersion)
+        {
+            for (int i = 0; i < mopVersion.Length; ++i)
+            {
+                if (minimalVersion[i] > mopVersion[i])
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
