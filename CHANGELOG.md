@@ -11,6 +11,7 @@
 
 - Updated the MOP bug report instruction
 - Rule files loader data is now saved into RulesInfo.json
+- MopSave files are now saved into MopSave.json (instead of MopSave.xml)
 
 ### Bug Fixes
 

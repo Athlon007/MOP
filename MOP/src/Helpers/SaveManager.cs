@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using MSCLoader;
+using Newtonsoft.Json;
 
 using MOP.Common;
 
@@ -31,10 +32,14 @@ namespace MOP.Helpers
         public static string ItemsPath => Application.persistentDataPath + "/items.txt";
         static List<SaveBugs> saveBugs;
 
-        static string mopSavePath => Path.Combine(Application.persistentDataPath, "MopSave");
         readonly static ES2Settings setting = new ES2Settings();
 
-        static bool SaveFileExists => File.Exists(mopSavePath + ".xml");
+        // MOP Save Files.
+        static string mopSavePath => Path.Combine(Application.persistentDataPath, "MopSave.json");
+        static bool SaveFileExists => File.Exists(mopSavePath);
+        // LEGACY
+        static string legacyMopSavePath => Path.Combine(Application.persistentDataPath, "MopSave");
+        static bool LegacySaveFileExists => File.Exists(mopSavePath.Replace(".json", ".xml"));
 
         /// <summary>
         /// For some reason, the save files get marked as read only files, not allowing MSC to save the game.
@@ -152,10 +157,9 @@ namespace MOP.Helpers
             {
                 // This one applies fix quietly, as it happens so often,
                 // it would be annoying to nag player about that error.
-                if (SaveFileExists)
+                MopSaveData save = ReadData();
+                if (save != null)
                 {
-                    MopSaveData save = ModSave.Load<MopSaveData>(mopSavePath);
-
                     if (save.version == MOP.ModVersion)
                     {
                         bool bumperRearInstalled = ReadBoolean("bumper rear(Clone)Installed");
@@ -223,25 +227,6 @@ namespace MOP.Helpers
             }
         }
 
-        static void ReadDetails(List<SaveBugs> saveBugs)
-        {
-            string problemReport = Path.Combine(Path.GetTempPath(), "mopproblemsdetail.txt");
-            
-            if (File.Exists(problemReport))
-            {
-                File.Delete(problemReport);            
-            }
-
-            StreamWriter writer = new StreamWriter(problemReport);
-            foreach (SaveBugs bug in saveBugs)
-            {
-                writer.WriteLine($"{bug.BugName}:\n  {bug.Description}\n");
-            }
-            writer.Close();
-
-            System.Diagnostics.Process.Start(problemReport);
-        }
-
         static void FixAllProblems()
         {
             int success = 0, fail = 0;
@@ -294,7 +279,7 @@ namespace MOP.Helpers
                     wiringBatteryMinusTightness = ReadFloat("WiringBatteryMinusTightness"),
                     wiringBatteryMinusBolts = ReadStringList("WiringBatteryMinusBolts")
                 };
-                ModSave.Save(mopSavePath, save);
+                WriteData(save);
             }
         }
 
@@ -304,7 +289,7 @@ namespace MOP.Helpers
             {
                 if (SaveFileExists)
                 {
-                    ModSave.Delete(mopSavePath);
+                    File.Delete(mopSavePath);
                 }
             }
             catch (Exception ex)
@@ -358,7 +343,33 @@ namespace MOP.Helpers
 
         public static string GetMopSavePathFull()
         {
-            return mopSavePath + ".xml";
+            return mopSavePath;
+        }
+
+        static MopSaveData ReadData()
+        {
+            MopSaveData mopSaveData = null;
+            if (LegacySaveFileExists)
+            {
+                // Load save file from legacy file, if it exists (and then delete it).
+                mopSaveData = ModSave.Load<MopSaveData>(legacyMopSavePath);
+                File.Delete(legacyMopSavePath + ".xml");
+            }
+            else if (SaveFileExists)
+            {
+                mopSaveData = JsonConvert.DeserializeObject<MopSaveData>(mopSavePath);
+            }
+
+            return mopSaveData;
+        }
+
+        static void WriteData(MopSaveData data)
+        {
+            string json = JsonConvert.SerializeObject(data);
+
+            StreamWriter writer = new StreamWriter(mopSavePath);
+            writer.Write(json);
+            writer.Close();
         }
     }
 }
