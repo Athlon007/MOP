@@ -84,12 +84,6 @@ namespace MOP.Common
 
             Directory.CreateDirectory(BugReportPath);
 
-            // Get output_log.txt
-            if (File.Exists($"{ExceptionManager.RootPath}/output_log.txt"))
-            {
-                File.Copy($"{ExceptionManager.RootPath}/output_log.txt", $"{BugReportPath}/output_log.txt");
-            }
-
             // Now we are getting logs generated today.
             string today = DateTime.Now.ToString("yyyy-MM-dd");
             foreach (string log in Directory.GetFiles(ExceptionManager.LogFolder, $"*{today}*.txt"))
@@ -113,6 +107,9 @@ namespace MOP.Common
                 {
                     zip.AddFile(file, "");
                 }
+
+                // Output Log Path
+                zip.AddFile(ExceptionManager.OutputLogPath, "");
 
                 // MOP config file.
                 string mopConfigPath = Path.Combine(MOP.ModConfigPath, "MOP.json");

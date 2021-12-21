@@ -53,7 +53,9 @@ namespace MOP.Common
             {
                 int crashesInFolder = 0;
                 while (File.Exists($"{LogFolder}/{fileName}_{crashesInFolder}.txt"))
+                {
                     crashesInFolder++;
+                }
 
                 fileName += $"_{crashesInFolder}";
             }
@@ -70,8 +72,9 @@ namespace MOP.Common
                          $"{errorInfo}");
             }
 
-            string errorMessage = $"[MOP] An error has occured. Log has been saved into My Summer Car folder into:\n\n{logFilePath}.\n\n" +
-                                  $"Please go into MOP Settings and click \"<b>I found a bug</b>\" button, in order to generate bug report and then follow the instructions.\n";
+            string errorMessage = $"[MOP] An error has occured. Log has been saved into My Summer Car folder into:\n\n" +
+                $"{logFilePath}.\n\n" +
+                $"Please go into MOP Settings and click \"<b>I found a bug</b>\" button, in order to generate bug report and then follow the instructions.\n";
 
             if (isCritical)
             {
@@ -333,6 +336,6 @@ namespace MOP.Common
             }
         }
 
-        static string OutputLogPath => $"{RootPath}/output_log.txt";
+        public static string OutputLogPath => $"{RootPath}/output_log.txt";
     }
 }
