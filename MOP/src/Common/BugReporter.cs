@@ -35,7 +35,7 @@ namespace MOP.Common
         string BugReportPath => $"{ExceptionManager.RootPath}/MOP_bugreport";
 
         const string ReportFileMessage = "A MOP report archive has been successfully generated. Please follow these steps:\n\n" +
-                                        "1.) Go to https://github.com/Athlon007/MOP/issues/new?assignees=&labels=&template=template-bug-report.md&title=Bug%20Report \n" +
+                                        "1.) Go to https://github.com/Athlon007/MOP/issues/new?assignees=&labels=bug&template=template-bug-report.md&title=Bug%20Report \n" +
                                         "2.) Drag & Drop the MOP Bug Report .ZIP file to the report window.\n" +
                                         "3.) Fill in the information about the error.\n\n" +
                                         "Incorrectly filled bug and/or pirate-game-copy reports WILL BE IGNORED.";
