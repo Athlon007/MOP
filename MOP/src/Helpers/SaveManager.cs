@@ -91,6 +91,11 @@ namespace MOP.Helpers
             return ES2.Load<int>($"{SavePath}?tag={tag}", setting);
         }
 
+        static int ReadItemInt(string tag)
+        {
+            return ES2.Load<int>($"{ItemsPath}?tag={tag}", setting);
+        }
+
         static void WriteSavePath<T>(string tag, T value)
         {
             ES2.Save(value, $"{SavePath}?tag={tag}");
@@ -332,7 +337,7 @@ namespace MOP.Helpers
                     break;
                 }
 
-                if (ReadInt($"spark plug{i}TriggerID") == 1 && ES2.Load<bool>(ItemsPath + $"?tag=spark plug{i}Installed") && sparkPlug1Pivot.childCount == 0)
+                if (ReadItemInt($"spark plug{i}TriggerID") == 1 && ES2.Load<bool>(ItemsPath + $"?tag=spark plug{i}Installed") && sparkPlug1Pivot.childCount == 0)
                 {
                     return false;
                 }
@@ -341,7 +346,7 @@ namespace MOP.Helpers
             return true;
         }
 
-        public static string GetMopSavePathFull()
+        public static string GetMopSavePath()
         {
             return mopSavePath;
         }

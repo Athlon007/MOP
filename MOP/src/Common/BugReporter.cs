@@ -52,9 +52,11 @@ namespace MOP.Common
         {
             yield return null;
 
-            if (GameObject.Find("SaveSlotsCanvas(Clone)") != null)
+            GameObject saveSlotsCanvas = GameObject.Find("SaveSlotsCanvas(Clone)");
+
+            if (saveSlotsCanvas != null)
             {
-                GameObject.Find("SaveSlotsCanvas(Clone)").transform.Find("SaveSlotsUI/Saves/SavesList").gameObject.AddComponent<SaveSlotsSupport>();
+                saveSlotsCanvas.transform.Find("SaveSlotsUI/Saves/SavesList").gameObject.AddComponent<SaveSlotsSupport>();
             }
         }
 
@@ -118,12 +120,11 @@ namespace MOP.Common
                     zip.AddFile(mopConfigPath, "");
                 }
 
-                string mopSave = SaveManager.GetMopSavePathFull();
+                string mopSave = SaveManager.GetMopSavePath();
                 if (File.Exists(mopSave))
                 {
                     zip.AddFile(mopSave, "");
                 }
-
 
                 zip.Save(lastZipFilePath);
             }

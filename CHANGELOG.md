@@ -16,6 +16,7 @@
 ### Bug Fixes
 
 - Fixed rule file auto update not working
+- Fixed a bug which caused missing spark plugs detection not working
 
 ## 3.3.8 (19.12.21)
 
