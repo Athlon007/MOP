@@ -337,6 +337,7 @@ namespace MOP.Helpers
                     break;
                 }
 
+                // Check if the spark plug is missing or not.
                 if (ReadItemInt($"spark plug{i}TriggerID") == 1 && ES2.Load<bool>(ItemsPath + $"?tag=spark plug{i}Installed") && sparkPlug1Pivot.childCount == 0)
                 {
                     return false;

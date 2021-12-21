@@ -43,7 +43,9 @@ namespace MOP.Common
         {
             // Don't save errors that already occured.
             if (erorrsContainer.Contains(message))
+            {
                 return;
+            }
 
             string fileName = $"{DefaultErrorLogName}_{DateTime.Now:yyyy-MM-dd-HH-mm}";
 
@@ -85,7 +87,7 @@ namespace MOP.Common
 
         public static void OpenCurrentSessionLogFolder()
         {
-            if (ThisSessionLogDirectoryExists)
+            if (LogDirectoryExists)
             {
                 Process.Start(LogFolder);
             }
@@ -149,8 +151,7 @@ namespace MOP.Common
             {
                 var elapsed = DateTime.Now.Subtract(SessionTimeStart);
                 output += $"Session Time: {elapsed.Hours} Hours {elapsed.Minutes} Minutes {elapsed.Seconds} Seconds";
-            }
-            
+            }            
 
             output += "\n\n=== MOP SETTINGS ===\n\n";
             output += $"ActiveDistance: {MOP.ActiveDistance.Value}\n";
@@ -304,7 +305,7 @@ namespace MOP.Common
             }
         }
 
-        static bool ThisSessionLogDirectoryExists => Directory.Exists(Path.Combine(RootPath, LogFolder));
+        static bool LogDirectoryExists => Directory.Exists(Path.Combine(RootPath, LogFolder));
 
         internal static string RootPath => Application.dataPath.Replace("mysummercar_Data", "");
 
