@@ -353,11 +353,15 @@ namespace MOP.Helpers
             {
                 // Load save file from legacy file, if it exists (and then delete it).
                 mopSaveData = ModSave.Load<MopSaveData>(legacyMopSavePath);
-                File.Delete(legacyMopSavePath + ".xml");
+                ModSave.Delete(legacyMopSavePath);
             }
             else if (SaveFileExists)
             {
-                mopSaveData = JsonConvert.DeserializeObject<MopSaveData>(mopSavePath);
+                StreamReader reader = new StreamReader(mopSavePath);
+                string json = reader.ReadToEnd();
+                reader.Close();
+
+                mopSaveData = JsonConvert.DeserializeObject<MopSaveData>(json);
             }
 
             return mopSaveData;
