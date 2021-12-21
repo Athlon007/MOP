@@ -79,7 +79,7 @@ namespace MOP
 #if DEBUG
             modSettings.AddHeader("Shh...Don't leak my hard work ;)", Color.yellow, Color.black);
 #endif
-            modSettings.AddButton("iFoundABug", "<color=red>I FOUND A BUG</color>", () => BugReporter.FileBugReport());
+            modSettings.AddButton("iFoundABug", "<color=red>I FOUND A BUG</color>", BugReporter.FileBugReport);
             modSettings.AddButton("faq", "FAQ", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/faq"));
             modSettings.AddButton("wiki", "WIKI", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/"));
             modSettings.AddButton("homepage", "HOMEPAGE", () => ShowDialog("http://athlon.kkmr.pl/"));

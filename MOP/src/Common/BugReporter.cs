@@ -38,7 +38,8 @@ namespace MOP.Common
                                         "1.) Go to https://github.com/Athlon007/MOP/issues/new?assignees=&labels=bug&template=template-bug-report.md&title=Bug%20Report \n" +
                                         "2.) Drag & Drop the MOP Bug Report .ZIP file to the report window.\n" +
                                         "3.) Fill in the information about the error.\n\n" +
-                                        "Incorrectly filled bug and/or pirate-game-copy reports WILL BE IGNORED.";
+                                        "Incorrectly filled bug and/or pirate-game-copy reports WILL BE IGNORED.\n\n" +
+                                        "Alternatively, you can send an e-mail to bugreport@kkmr.pl";
 
         public BugReporter()
         {
@@ -147,8 +148,18 @@ namespace MOP.Common
                 ModPrompt.CreateYesNoPrompt("Would you like to your include save file?\n\n" +
                                             "This may greatly improve finding and fixing the bug.", "MOP - Bug Report",
                                             () => IncludeZip(lastZipFilePath),
-                                            onPromptClose: () => { Process.Start(BugReportPath); Process.Start($"{BugReportPath}/README.txt"); });
+                                            onPromptClose: OpenBugReportFolder);
             }
+            else
+            {
+                OpenBugReportFolder();
+            }
+        }
+
+        void OpenBugReportFolder()
+        {
+            Process.Start(BugReportPath);
+            Process.Start($"{BugReportPath}/README.txt");
         }
 
         void IncludeZip(string zipFilePath)
