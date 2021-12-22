@@ -46,7 +46,7 @@ For [nightly builds](https://en.wikipedia.org/wiki/Neutral_build), visit <a href
 
 If you found a bug in MOP and you would like to report it, the first thing you should do is to go into MSC, go to MOP settings and click "**I FOUND A BUG**".
 
-To send a bug report, please either [use GitHub](https://github.com/Athlon007/MOP/issues/new?assignees=&labels=bug&template=template-bug-report.md&title=Bug%20Report), or send e-mail to [bugreport@kkmr.pl](mailto:bugreport@kkmr.pl).
+To send a bug report, please either [use GitHub](https://github.com/Athlon007/MOP/issues/new?assignees=&labels=bug&template=template-bug-report.md&title=Bug%20Report), or send an e-mail to [bugreport@kkmr.pl](mailto:bugreport@kkmr.pl).
 
 ## License
 
