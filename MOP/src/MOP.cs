@@ -152,8 +152,9 @@ namespace MOP
             VerifyRuleFiles = modSettings.AddToggle("verifyRuleFiles", "VERIFY RULE FILES", true);
             RulesAutoUpdateFrequency = modSettings.AddSlider("ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 2, 0, 3);
             RulesAutoUpdateFrequency.TextValues = rulesAutoUpdateFrequencyText;
-            DeleteUnusedRules = modSettings.AddToggle("deleteUnusedRules", "DELETE UNUSED RULES AUTOMATICALLY", false);
+            DeleteUnusedRules = modSettings.AddToggle("deleteUnusedRules", "AUTOMATICALLY DELETE UNUSED RULES", false);
             modSettings.AddButton("deleteUnusedRulesButton", "DELETE UNUSED RULES", RulesManager.DeleteUnused);
+            modSettings.AddButton("forceRulesUpdate", "FORCE UPDATE", ForceRuleFilesUpdate);
 
             // Other
             modSettings.AddHeader("OTHER");
@@ -180,6 +181,7 @@ namespace MOP
                 $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}");
         }
         #endregion
+
         public override void MenuOnLoad()
         {
             RemoveUnusedFiles();
@@ -206,9 +208,9 @@ namespace MOP
             {
                 MopSettings.RestartWarningShown = true;
                 ModPrompt prompt = ModPrompt.CreateCustomPrompt();
-                prompt.Text = "You've reloaded game without fully quitting it over 5 times.\n\n" +
+                prompt.Text = "You've reloaded the game without fully quitting it over 5 times.\n\n" +
                               "It is recommended to fully quit the game after a while, so it would fully unload the memory.\n" +
-                              "Not doing that may lead to game breaking glitches.";
+                              "Not doing that may lead to game-breaking glitches.";
                 prompt.Title = "MOP";
                 prompt.AddButton("OK", null);
                 prompt.AddButton("QUIT GAME", () => Application.Quit());
@@ -316,17 +318,11 @@ namespace MOP
 
         static void ForceRuleFilesUpdate()
         {
-            if (ModLoader.CurrentScene == CurrentScene.MainMenu)
+            if (ModLoader.CurrentScene != CurrentScene.MainMenu)
             {
                 ModPrompt.CreatePrompt("You can only force update while in main menu.");
                 return;
             }
-
-            if (File.Exists($"{ModConfigPath}/LastModList.mop"))
-                File.Delete($"{ModConfigPath}/LastModList.mop");
-
-            if (File.Exists($"{ModConfigPath}/LastUpdate.mop"))
-                File.Delete($"{ModConfigPath}/LastUpdate.mop");
 
             new RulesManager(true);
         }

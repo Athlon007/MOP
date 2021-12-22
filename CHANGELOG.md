@@ -1,11 +1,13 @@
 # Changelog
 
-## 3.3.9 (TBA)
+## 3.3.9 (22.12.21)
 
 ### Added
 
 - MOP report includes MOP config file and MopSave.xml (if it exists)
-- Added "GitHub" button to settings
+- Added "GitHub" button into the settings
+- Added special welcome message
+- Restored the "Force Update" button for rule files
 
 ### Changes
 
@@ -16,7 +18,7 @@
 ### Bug Fixes
 
 - Fixed rule file auto-update not working
-- Fixed a bug which caused missing spark plugs detection not working
+- Fixed a bug which caused missing spark plugs detection to not work
 
 ## 3.3.8 (19.12.21)
 

@@ -21,10 +21,10 @@ namespace MOP.Common.Enumerations
     [Flags]
     public enum DisableOn
     {
-        None = 0,
-        Distance = 1,
-        PlayerInHome = 2,
-        PlayerAwayFromHome = 3,
-        IgnoreInQualityMode = 4
+        None,
+        Distance,
+        PlayerInHome,
+        PlayerAwayFromHome,
+        IgnoreInQualityMode
     }
 }
