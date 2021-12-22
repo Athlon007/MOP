@@ -16,7 +16,6 @@
 
 using System;
 using System.IO;
-using System.Collections.Generic;
 using UnityEngine;
 using MSCLoader;
 
@@ -37,8 +36,8 @@ namespace MOP
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
 #endif
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.3.9"; //Version
-        public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public override string Version => "3.4.0"; //Version
+        public const string SubVersion = "NIGHTLY-20211222"; // NIGHTLY-yyyymmdd | BETA_x | RC_
         public override string UpdateLink => "https://github.com/Athlon007/MOP";
         public override byte[] Icon => Properties.Resources.icon;
 
@@ -62,7 +61,7 @@ namespace MOP
         // TODO
         //static SettingString lastVersion;
 
-        readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
+        readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" }; 
         readonly string[] rulesAutoUpdateFrequencyText = { "On Restart", "Daily", "Every 2 days", "Weekly" };
 
         public static Guid SessionID;
