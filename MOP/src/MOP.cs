@@ -66,6 +66,12 @@ namespace MOP
 
         public static Guid SessionID;
 
+        const string WelcomeMessage = "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n\n" +
+                                      "Please consider supporting the project using <color=#3687D7>PayPal</color>.";
+        static string WelcomeMessageFestive = "Merry Christmas and Happy New Year {1}!\n\n" +
+                                              "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n" +
+                                              "Please consider supporting the project using <color=#3687D7>PayPal</color>.";
+
         /// <summary>
         /// All settings should be created here.
         /// DO NOT put anything else here that settings.
@@ -183,8 +189,9 @@ namespace MOP
             {
                 lastVersion.Value = Version;
                 modSettings.SaveSettings();
-                ModPrompt.CreatePrompt($"Welcome to Modern Optimization Plugin <color=yellow>{Version}</color>!\n\n" +
-                    $"Please consider supporting the project using <color=#3687D7>PayPal</color>.", "MOP");
+                string message = DateTime.Now.Month == 12 && DateTime.Now.Day >= 20 ? WelcomeMessageFestive : WelcomeMessage;
+                message = string.Format(message, Version, DateTime.Now.Year + 1);
+                ModPrompt.CreatePrompt(message, "MOP");
             }
 
             FsmManager.ResetAll();
