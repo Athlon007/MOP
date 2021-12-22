@@ -20,8 +20,6 @@ using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 using HutongGames.PlayMaker;
-using MSCLoader;
-using MSCLoader.Helper;
 
 using MOP.Managers;
 using MOP.Common;
@@ -154,8 +152,8 @@ namespace MOP
             {
                 GameObject fittan = GameObject.Find("TRAFFIC").transform.Find("VehiclesDirtRoad/Rally/FITTAN").gameObject;
                 GameObject kuski = GameObject.Find("NPC_CARS").transform.Find("KUSKI").gameObject;
-                FsmHook.FsmInject(fittan.transform.Find("PlayerTrigger/DriveTrigger").gameObject, "Player in car", () => fittan.transform.parent = null);
-                FsmHook.FsmInject(kuski.transform.Find("PlayerTrigger/DriveTrigger").gameObject, "Player in car", () => kuski.transform.parent = null);
+                MSCLoader.FsmHook.FsmInject(fittan.transform.Find("PlayerTrigger/DriveTrigger").gameObject, "Player in car", () => fittan.transform.parent = null);
+                MSCLoader.FsmHook.FsmInject(kuski.transform.Find("PlayerTrigger/DriveTrigger").gameObject, "Player in car", () => kuski.transform.parent = null);
 
             }
             catch (Exception ex)
@@ -167,7 +165,7 @@ namespace MOP
             Transform cabin = GameObject.Find("CABIN").transform;
             try
             {
-                cabin.Find("Cabin/Ventti/Table/GameManager").GetPlayMakerFSM("Use").Fsm.RestartOnEnable = false;
+                cabin.Find("Cabin/Ventti/Table/GameManager").GetPlayMaker("Use").Fsm.RestartOnEnable = false;
             }
             catch (Exception ex)
             {
@@ -236,7 +234,7 @@ namespace MOP
             try
             {
                 GameObject hand = GameObject.Find("PLAYER/Pivot/AnimPivot/Camera/FPSCamera/1Hand_Assemble/Hand");
-                PlayMakerFSM pickUp = hand.GetPlayMakerFSM("PickUp");
+                PlayMakerFSM pickUp = hand.GetPlayMaker("PickUp");
 
                 pickUp.GetState("Drop part").RemoveAction(0);
                 pickUp.GetState("Drop part 2").RemoveAction(0);
@@ -328,7 +326,7 @@ namespace MOP
             try
             {
                 Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "TriggerDiskette")
-                    .GetPlayMakerFSM("Assembly").Fsm.RestartOnEnable = false;
+                    .GetPlayMaker("Assembly").Fsm.RestartOnEnable = false;
             }
             catch (Exception ex)
             {
@@ -338,7 +336,7 @@ namespace MOP
             // Fixed computer memory resetting.
             try
             {
-                Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "TriggerPlayMode").GetPlayMakerFSM("PlayerTrigger").Fsm.RestartOnEnable = false;
+                Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "TriggerPlayMode").GetPlayMaker("PlayerTrigger").Fsm.RestartOnEnable = false;
             }
             catch (Exception ex)
             {
@@ -363,7 +361,7 @@ namespace MOP
                 {
                     GameObject skeleton = grandmaHiker.transform.Find("Char/skeleton").gameObject;
 
-                    PlayMakerFSM logicFSM = grandmaHiker.GetPlayMakerFSM("Logic");
+                    PlayMakerFSM logicFSM = grandmaHiker.GetPlayMaker("Logic");
 
                     FsmState openDoorFsmState = logicFSM.GetState("Open door");
                     List<FsmStateAction> openDoorActions = openDoorFsmState.Actions.ToList();

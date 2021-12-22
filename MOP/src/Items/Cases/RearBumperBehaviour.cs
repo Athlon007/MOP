@@ -17,8 +17,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MSCLoader.Helper;
 
+using MOP.FSM;
 using MOP.Vehicles.Cases;
 
 namespace MOP.Items.Cases
@@ -36,7 +36,7 @@ namespace MOP.Items.Cases
         {
             coll = GetComponent<Collider>();
             ignored = new List<Collider>();
-            fsm = gameObject.GetPlayMakerFSM("BoltCheck");
+            fsm = gameObject.GetPlayMaker("BoltCheck");
 
             seekColliders = transform.root == Satsuma.Instance.transform;
             if (seekColliders)

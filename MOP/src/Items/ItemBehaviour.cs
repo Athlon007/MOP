@@ -18,10 +18,10 @@ using HutongGames.PlayMaker;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using MSCLoader;
-using MSCLoader.Helper;
+
 using MSCLoader.PartMagnet;
 
+using MOP.FSM;
 using MOP.Common;
 using MOP.FSM.Actions;
 using MOP.Managers;
@@ -248,7 +248,7 @@ namespace MOP.Items
 
                 // Disable empty items function.
                 // Items that are marked as empty are disabled by the game.
-                if (MOP.DisableEmptyItems.Value && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent == null)
+                if (MOP.DisableEmptyItems.GetValue() && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent == null)
                 {
                     enabled = !MopSettings.IsModActive;
                 }
@@ -298,7 +298,7 @@ namespace MOP.Items
                         if (Vector3.Distance(transform.position, ItemsManager.Instance.LandfillSpawn.position) < 5)
                         {
                             gameObject.name = "empty plastic can(itemx)";
-                            gameObject.MakePickable(true);
+                            gameObject.MakePickable();
                         }
                         break;
                 }
@@ -341,7 +341,7 @@ namespace MOP.Items
                         transform.position = position;
                 }
 
-                if (MOP.DisableEmptyItems.Value && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent.gameObject.name != "ItemPivot")
+                if (MOP.DisableEmptyItems.GetValue() && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent.gameObject.name != "ItemPivot")
                 {
                     enabled = !MopSettings.IsModActive;
                 }
@@ -434,13 +434,13 @@ namespace MOP.Items
                     switch (st.Name)
                     {
                         case "Destroy self":
-                            FsmHook.FsmInject(this.gameObject, "Destroy self", RemoveSelf);
+                            MSCLoader.FsmHook.FsmInject(this.gameObject, "Destroy self", RemoveSelf);
                             break;
                         case "Destroy":
-                            FsmHook.FsmInject(this.gameObject, "Destroy", RemoveSelf);
+                            MSCLoader.FsmHook.FsmInject(this.gameObject, "Destroy", RemoveSelf);
                             break;
                         case "Destroy 2":
-                            FsmHook.FsmInject(this.gameObject, "Destroy 2", RemoveSelf);
+                            MSCLoader.FsmHook.FsmInject(this.gameObject, "Destroy 2", RemoveSelf);
                             break;
                     }
                 }
@@ -449,7 +449,7 @@ namespace MOP.Items
             // If the item is a shopping bag, hook the RemoveSelf to "Is garbage" FsmState
             if (gameObject.name.Contains("shopping bag"))
             {
-                FsmHook.FsmInject(gameObject, "Is garbage", RemoveSelf);
+                MSCLoader.FsmHook.FsmInject(gameObject, "Is garbage", RemoveSelf);
 
                 // Destroys empty shopping bags appearing in the back of the yard.
                 PlayMakerArrayListProxy list = gameObject.GetComponent<PlayMakerArrayListProxy>();
@@ -462,7 +462,7 @@ namespace MOP.Items
 
             try
             {
-                PlayMakerFSM useFsm = gameObject.GetPlayMakerFSM("Use");
+                PlayMakerFSM useFsm = gameObject.GetPlayMaker("Use");
                 if (useFsm != null)
                 {
                     useFsm.Fsm.RestartOnEnable = false;
@@ -534,19 +534,19 @@ namespace MOP.Items
                         transform.Find("Bolts").GetChild(7).GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
                         break;
                     case "spark plug(Clone)":
-                        gameObject.GetPlayMakerFSM("Screw").Fsm.RestartOnEnable = false;
+                        gameObject.GetPlayMaker("Screw").Fsm.RestartOnEnable = false;
                         break;
                     case "spark plug box(Clone)":
                         break;
                 }
                 
-                PlayMakerFSM dataFsm = gameObject.GetPlayMakerFSM("Data");
+                PlayMakerFSM dataFsm = gameObject.GetPlayMaker("Data");
                 if (dataFsm != null)
                 {
                     dataFsm.Fsm.RestartOnEnable = false;
                 }
 
-                PlayMakerFSM paintFSM = gameObject.GetPlayMakerFSM("Paint");
+                PlayMakerFSM paintFSM = gameObject.GetPlayMaker("Paint");
                 if (paintFSM != null)
                 {
                     paintFSM.Fsm.RestartOnEnable = false;
@@ -635,7 +635,7 @@ namespace MOP.Items
         {
             if (!gameObject.name.ContainsAny("empty plastic can", "kilju", "emptyca")) return;
            
-            gameObject.MakePickable(true);
+            gameObject.MakePickable();
             gameObject.tag = "ITEM";
 
             if (ItemsManager.Instance.GetCanTrigger())
@@ -645,7 +645,7 @@ namespace MOP.Items
                     transform.position = ItemsManager.Instance.LostSpawner.position;
                     kiljuInitialReset = false;
 
-                    PlayMakerFSM fsm = gameObject.GetPlayMakerFSM("Use");
+                    PlayMakerFSM fsm = gameObject.GetPlayMaker("Use");
                     if (fsm)
                     {
                         fsm.FsmVariables.GetFsmBool("ContainsKilju").Value = false;
@@ -661,7 +661,7 @@ namespace MOP.Items
                 {
                     transform.position = ItemsManager.Instance.LandfillSpawn.position;
 
-                    PlayMakerFSM fsm = gameObject.GetPlayMakerFSM("Use");
+                    PlayMakerFSM fsm = gameObject.GetPlayMaker("Use");
                     if (fsm)
                     {
                         fsm.FsmVariables.GetFsmBool("ContainsKilju").Value = false;
@@ -673,9 +673,9 @@ namespace MOP.Items
 
         internal void SaveGame()
         {
-            if (gameObject.GetPlayMakerFSM("Use"))
+            if (gameObject.GetPlayMaker("Use"))
             {
-                PlayMakerFSM useFSM = gameObject.GetPlayMakerFSM("Use");
+                PlayMakerFSM useFSM = gameObject.GetPlayMaker("Use");
                 string id = useFSM.FsmVariables.GetFsmString("ID").Value;
 
                 if (gameObject.name.StartsWith("wheel"))

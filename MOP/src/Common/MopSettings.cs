@@ -44,23 +44,31 @@ namespace MOP.Common
             bool dontUpdate = false;
             if (ModLoader.CurrentScene != CurrentScene.MainMenu)
             {
-                if ((Mode == PerformanceMode.Safe && MOP.PerformanceModes.Value != 3) || (Mode != PerformanceMode.Safe && MOP.PerformanceModes.Value == 3))
+                if ((Mode == PerformanceMode.Safe && MOP.ModeSafe.GetValue() == false) || (Mode != PerformanceMode.Safe && MOP.ModeSafe.GetValue() == true))
                 {
-                    ModPrompt.CreatePrompt("Safe Mode will be disabled after you quit to the Main Menu.", "MOP");
+                    ModUI.ShowMessage("Safe Mode will be disabled after you quit to the Main Menu.", "MOP");
                     dontUpdate = true;
                 }
             }
 
             if (!dontUpdate)
             {
-                Mode = (PerformanceMode)MOP.PerformanceModes.Value;
+                PerformanceMode pm = PerformanceMode.Balanced;
+                if (MOP.ModePerformance.GetValue())
+                    pm = PerformanceMode.Performance;
+                else if (MOP.ModeQuality.GetValue())
+                    pm = PerformanceMode.Quality;
+                else if (MOP.ModeSafe.GetValue())
+                    pm = PerformanceMode.Safe;
+
+                Mode = pm;
             }
         }
 
         internal static void UpdateFramerateLimiter()
         {
             // Framerate limiter
-            Application.targetFrameRate = (int)MOP.FramerateLimiter.Value != 21 ? (int)MOP.FramerateLimiter.Value * 10 : -1;
+            Application.targetFrameRate = (int)MOP.FramerateLimiter.GetValue() != 210 ? (int)MOP.FramerateLimiter.GetValue() : -1;
         }
 
         internal static void UpdateShadows()
@@ -68,8 +76,7 @@ namespace MOP.Common
             // Shadow distance.
             if (shadowDistanceOriginalValue == 0)
                 shadowDistanceOriginalValue = QualitySettings.shadowDistance;
-            QualitySettings.shadowDistance = MOP.EnableShadowAdjusting.Value ?
-                                             MOP.ShadowDistance.Value * 100 : shadowDistanceOriginalValue;
+            QualitySettings.shadowDistance = MOP.ShadowDistance.GetValue();
         }
 
         public static void UpdateMiscSettings()
@@ -92,7 +99,7 @@ namespace MOP.Common
         {
             get
             {
-                switch ((int)MOP.ActiveDistance.Value)
+                switch ((int)MOP.ActiveDistance.GetValue())
                 {
                     case 0:
                         return 0.75f;
@@ -108,7 +115,7 @@ namespace MOP.Common
 
         public static int GetRuleFilesUpdateDaysFrequency()
         {
-            switch ((int)MOP.RulesAutoUpdateFrequency.Value)
+            switch ((int)MOP.RulesAutoUpdateFrequency.GetValue())
             {
                 case 0:
                     return 0;
@@ -128,7 +135,7 @@ namespace MOP.Common
 
         internal static void ToggleBackgroundRunning()
         {
-            Application.runInBackground = MOP.KeepRunningInBackground.Value;
+            Application.runInBackground = MOP.KeepRunningInBackground.GetValue();
         }
     }
 }

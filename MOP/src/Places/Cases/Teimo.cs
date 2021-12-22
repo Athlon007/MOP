@@ -17,7 +17,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MSCLoader;
-using MSCLoader.Helper;
+
 using HutongGames.PlayMaker.Actions;
 
 namespace MOP.Places
@@ -89,11 +89,13 @@ namespace MOP.Places
             PlayMakers.AddRange(transform.Find("TeimoInShop").GetComponents<PlayMakerFSM>());
             PlayMakers.AddRange(transform.Find("TeimoInShop").GetComponents<PlayMakerFSM>());
 
-            List<Transform> teimoShit = new List<Transform>();
-            teimoShit.Add(transform.Find("TeimoInShop/Pivot/Speak"));
-            teimoShit.Add(transform.Find("TeimoInShop/Pivot/FacePissTrigger"));
-            teimoShit.Add(transform.Find("TeimoInShop/Pivot/TeimoCollider"));
-            teimoShit.Add(transform.Find("GasolineFire"));
+            List<Transform> teimoShit = new List<Transform>
+            {
+                transform.Find("TeimoInShop/Pivot/Speak"),
+                transform.Find("TeimoInShop/Pivot/FacePissTrigger"),
+                transform.Find("TeimoInShop/Pivot/TeimoCollider"),
+                transform.Find("GasolineFire")
+            };
             DisableableChilds.AddRange(teimoShit);
 
             // Disable resetting of the breakable windows.

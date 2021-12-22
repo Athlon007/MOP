@@ -16,7 +16,7 @@
 
 using HutongGames.PlayMaker;
 using UnityEngine;
-using MSCLoader.Helper;
+using MOP.FSM;
 
 namespace MOP.FSM.Actions
 {
@@ -31,7 +31,7 @@ namespace MOP.FSM.Actions
 
         public CustomBatteryDisable()
         {
-            fsmBoolInstalled = GameObject.Find("Database/DatabaseWiring/WiringBatteryMinus").GetPlayMakerFSM("Data").FsmVariables.FindFsmBool("Installed");
+            fsmBoolInstalled = GameObject.Find("Database/DatabaseWiring/WiringBatteryMinus").GetPlayMaker("Data").FsmVariables.FindFsmBool("Installed");
             batteryTerminalMinus = GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Wiring/Parts/battery_terminal_minus(xxxxx)").gameObject;
         }
 

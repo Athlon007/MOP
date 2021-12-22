@@ -14,29 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using UnityEngine;
+using HutongGames.PlayMaker;
+using System;
 
-namespace MOP.Items.Cases
+namespace MOP.FSM.Actions
 {
-    class ThrowableJunkBehaviour : MonoBehaviour
+    class CustomStateAction : FsmStateAction
     {
-        // This script is being added to the all the prefabs of bottles/glasses/jugs,
-        // and if the MopSettings.RemoveEmptyBeerBottles is enabled,
-        // it destroys the object the behaviour is attached to.
+        Action action;
 
-        // Alternatively, it also adds ItemBehaviour.
-
-        void Start()
+        public CustomStateAction(Action action)
         {
-            if (MOP.DestroyEmptyBottles.GetValue())
-            {
-                Destroy(gameObject);
-                return;
-            }
+            this.action = action;
+        }
 
-            gameObject.AddComponent<ItemBehaviour>();
-
-            this.enabled = false;
+        public override void OnEnter()
+        {
+            action?.Invoke();
+            this.Finish();
         }
     }
 }

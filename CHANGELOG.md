@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0 (TBA)
+
+### To-Do
+
+- BugReporter: Action after message is closed
+
 ## 3.3.9 (22.12.21)
 
 ### Added

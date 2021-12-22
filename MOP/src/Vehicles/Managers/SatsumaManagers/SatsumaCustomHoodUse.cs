@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using MSCLoader;
-using MSCLoader.Helper;
 using UnityEngine;
+
+using MOP.FSM;
 
 namespace MOP.Vehicles.Managers.SatsumaManagers
 {
@@ -29,12 +29,12 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
 
         void Start()
         {
-            FsmHook.FsmInject(gameObject, "State 2", () => isActive = true);
-            FsmHook.FsmInject(gameObject, "Mouse off", () => isActive = false);
-            FsmHook.FsmInject(gameObject, "Open hood 2", () => isHoodOpen = true);
-            FsmHook.FsmInject(gameObject, "Close hood 2", () => isHoodOpen = false);
+            MSCLoader.FsmHook.FsmInject(gameObject, "State 2", () => isActive = true);
+            MSCLoader.FsmHook.FsmInject(gameObject, "Mouse off", () => isActive = false);
+            MSCLoader.FsmHook.FsmInject(gameObject, "Open hood 2", () => isHoodOpen = true);
+            MSCLoader.FsmHook.FsmInject(gameObject, "Close hood 2", () => isHoodOpen = false);
 
-            useFsm = gameObject.GetPlayMakerFSM("Use");
+            useFsm = gameObject.GetPlayMaker("Use");
         }
 
         void FixedUpdate()

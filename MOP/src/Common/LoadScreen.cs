@@ -14,25 +14,38 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using MSCLoader;
-using MSCLoader.Helper;
-using UnityEngine;
 using UnityEngine.UI;
+using MOP.FSM;
+using UnityEngine;
 
 namespace MOP.Common
 {
     class LoadScreen : MonoBehaviour
     {
+        GameObject canvas;
         GameObject loadScreen;
         PlayMakerFSM cursorFSM;
         bool doDisplay;
 
         void Start()
         {
-            loadScreen = ModLoader.UICanvas.transform.Find("ModLoaderUI/ModLoadScreen").gameObject;
-            loadScreen.transform.Find("TextHolder/Text").gameObject.GetComponent<Text>().text = LoadText;
+            canvas = GameObject.Instantiate(MSCLoader.ModUI.GetCanvas());
+            canvas.name = "MOP_Canvas";
+            Destroy(canvas.transform.Find("MSCLoader Info").gameObject);
+            loadScreen = canvas.transform.Find("MSCLoader loading screen").gameObject;
+            loadScreen.name = "LoadScreen";
+            loadScreen.transform.Find("ModName").gameObject.GetComponent<Text>().text = LoadText;
+            loadScreen.transform.Find("Loading").gameObject.GetComponent<Text>().text = $"MODERN OPTIMIZATION PLUGIN <color=yellow>{MOP.ModVersion}</color>";
+
+
+            //Destroy(loadScreen.transform.Find("Loading").gameObject);
+            Destroy(loadScreen.transform.Find("Title").gameObject);
+            Destroy(loadScreen.transform.Find("Progress").gameObject);
+
+            loadScreen.SetActive(true);
+
             Cursor.visible = false;
-            cursorFSM = GameObject.Find("PLAYER").GetPlayMakerFSM("Update Cursor");
+            cursorFSM = GameObject.Find("PLAYER").GetPlayMaker("Update Cursor");
             cursorFSM.enabled = false;
         }
 
@@ -58,6 +71,6 @@ namespace MOP.Common
             this.enabled = false;
         }
 
-        string LoadText { get => Random.Range(0, 100) == 0 ? "HAVE A NICE DAY :)" : "LOADING\nMODERN OPTIMIZATION PLUGIN"; }
+        string LoadText { get => Random.Range(0, 100) == 0 ? "HAVE A NICE DAY :)" : "LOADING"; }
     }
 }

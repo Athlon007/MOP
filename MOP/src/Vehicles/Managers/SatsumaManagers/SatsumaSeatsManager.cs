@@ -16,7 +16,8 @@
 
 using HutongGames.PlayMaker;
 using UnityEngine;
-using MSCLoader.Helper;
+
+using MOP.FSM;
 
 namespace MOP.Vehicles.Managers.SatsumaManagers
 {
@@ -34,7 +35,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
         void Awake()
         {
             rb = GetComponent<Rigidbody>();
-            tightness = gameObject.GetPlayMakerFSM("BoltCheck").FsmVariables.GetFsmFloat("Tightness");
+            tightness = gameObject.GetPlayMaker("BoltCheck").FsmVariables.GetFsmFloat("Tightness");
 
             defaultMass = rb.mass;
             lastTightnessValue = tightness.Value;

@@ -77,7 +77,7 @@ namespace MOP.Rules.Configuration
 
             string issue = "";
 
-            if (!MOP.RulesAutoUpdate.Value && !overrideUpdateCheck)
+            if (!MOP.RulesAutoUpdate.GetValue() && !overrideUpdateCheck)
             {
                 issue = "<color=orange>[MOP] Rule files auto update is disabled.</color>";
             }
@@ -263,7 +263,7 @@ namespace MOP.Rules.Configuration
                     if (ModLoader.LoadedMods.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name)) == null && file.Name != CustomFile)
                     {
                         removed++;
-                        if (MOP.DeleteUnusedRules.Value)
+                        if (MOP.DeleteUnusedRules.GetValue())
                         {
                             File.Delete(file.FullName);
                             ModConsole.Log($"<color=yellow>[MOP] Rule file {file.Name} has been deleted, " +
@@ -280,7 +280,7 @@ namespace MOP.Rules.Configuration
                     // Verify if the servercontent has that rule file.
                     // Some mod makers may include poorly configured rule files,
                     // that's why they have to be only provided by the server.
-                    if (serverContent != null && MOP.VerifyRuleFiles.Value && file.Name != CustomFile)
+                    if (serverContent != null && MOP.VerifyRuleFiles.GetValue() && file.Name != CustomFile)
                     {
                         if (serverContent.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name)) == null)
                         {

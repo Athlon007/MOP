@@ -19,8 +19,8 @@ using System.Linq;
 using System;
 using UnityEngine;
 using HutongGames.PlayMaker;
-using MSCLoader;
-using MSCLoader.Helper;
+
+using MOP.FSM;
 
 namespace MOP.Vehicles.Managers
 {
@@ -34,11 +34,11 @@ namespace MOP.Vehicles.Managers
             {
                 GameObject starter = transform.Find("Simulation/Starter").gameObject;
 
-                FsmHook.FsmInject(starter, "Start engine", Invoke);
-                FsmHook.FsmInject(starter, "State 1", CancelInvoke);
+                MSCLoader.FsmHook.FsmInject(starter, "Start engine", Invoke);
+                MSCLoader.FsmHook.FsmInject(starter, "State 1", CancelInvoke);
                 Invoke();
 
-                PlayMakerFSM starterFSM = starter.GetPlayMakerFSM("Starter");
+                PlayMakerFSM starterFSM = starter.GetPlayMaker("Starter");
 
                 List<FsmStateAction> startEngineActions = starterFSM.GetState("Start engine").Actions.ToList();
                 startEngineActions.RemoveAt(3);

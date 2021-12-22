@@ -33,7 +33,7 @@ namespace MOP.Helpers
 
         void Update()
         {
-            if (!MOP.DynamicDrawDistance.Value) return;
+            if (!MOP.DynamicDrawDistance.GetValue()) return;
 
             float toGoDrawDistance = FsmManager.GetDrawDistance();
             if (player.position.y > 20)

@@ -96,7 +96,7 @@ namespace MOP.Common
             }
             else
             {
-                ModPrompt.CreatePrompt("Logs folder doesn't exist.", "MOP");
+                ModUI.ShowMessage("Logs folder doesn't exist.", "MOP");
             }
         }
 
@@ -108,7 +108,7 @@ namespace MOP.Common
             }
             else
             {
-                ModPrompt.CreatePrompt("File \"output_log.txt\" doesn't exist.", "MOP");
+                ModUI.ShowMessage("File \"output_log.txt\" doesn't exist.", "MOP");
             }
         }
 
@@ -143,7 +143,7 @@ namespace MOP.Common
         internal static string GetGameInfo()
         {
             string output = $"Modern Optimization Plugin\nVersion: {MOP.ModVersion}\n";
-            output += $"MSC Mod Loader Pro Version: {ModLoader.Version}\n";
+            output += $"MSC Mod Loader Version: {ModLoader.MSCLoader_Ver}\n";
             output += $"Date and Time: {DateTime.Now:yyyy-MM-ddTHH:mm:ssZ}\n";
             output += $"{GetSystemInfo()}\n";
             output += $"Session ID: {MOP.SessionID}\n";
@@ -157,20 +157,19 @@ namespace MOP.Common
             }            
 
             output += "\n\n=== MOP SETTINGS ===\n\n";
-            output += $"ActiveDistance: {MOP.ActiveDistance.Value}\n";
+            output += $"ActiveDistance: {MOP.ActiveDistance.GetValue()}\n";
             output += $"ActiveDistanceMultiplier: {MopSettings.ActiveDistanceMultiplicationValue}\n";
             output += $"PerformanceMode: {MopSettings.Mode}\n";
-            output += $"FramerateLimiter: {(int)MOP.FramerateLimiter.Value + "0"}\n";
-            output += $"ShadowAdjust: {MOP.EnableShadowAdjusting.Value}\n";
-            output += $"ShadowDistance: {MOP.ShadowDistance.Value}00\n";
-            output += $"RunInBackground: {MOP.KeepRunningInBackground.Value}\n";
-            output += $"DynamicDrawDistance: {MOP.DynamicDrawDistance.Value}\n";
-            output += $"RulesAutoUpdate: {MOP.RulesAutoUpdate.Value}\n";
-            output += $"VerifyRules: {MOP.VerifyRuleFiles.Value}\n";
+            output += $"FramerateLimiter: {MOP.FramerateLimiter.GetValue()}\n";
+            output += $"ShadowDistance: {MOP.ShadowDistance.GetValue()}\n";
+            output += $"RunInBackground: {MOP.KeepRunningInBackground.GetValue()}\n";
+            output += $"DynamicDrawDistance: {MOP.DynamicDrawDistance.GetValue()}\n";
+            output += $"RulesAutoUpdate: {MOP.RulesAutoUpdate.GetValue()}\n";
+            output += $"VerifyRules: {MOP.VerifyRuleFiles.GetValue()}\n";
             output += $"RulesAutoUpdateFrequency: {MopSettings.GetRuleFilesUpdateDaysFrequency()}\n";
-            output += $"RuledDeleteAutomatically: {MOP.DeleteUnusedRules.Value}\n";
-            output += $"DestroyEmptyBottles: {MOP.DestroyEmptyBottles.Value}\n";
-            output += $"DisableEmptyItems: {MOP.DisableEmptyItems.Value}\n";
+            output += $"RuledDeleteAutomatically: {MOP.DeleteUnusedRules.GetValue()}\n";
+            output += $"DestroyEmptyBottles: {MOP.DestroyEmptyBottles.GetValue()}\n";
+            output += $"DisableEmptyItems: {MOP.DisableEmptyItems.GetValue()}\n";
             output += $"ToggleVehiclePhysicsOnly: {RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";
             output += $"IgnoreModVehicles: {RulesManager.Instance.SpecialRules.IgnoreModVehicles}\n";
             output += $"CustomRuleFile: {File.Exists($"{MOP.ModConfigPath}/Custom.txt")}\n\n";
@@ -204,7 +203,7 @@ namespace MOP.Common
                 if (mod.ID.Equals("MOP"))
                     continue;
 
-                output += $"{mod.Name}:\n  ID: {mod.ID}\n  Version: {mod.Version}\n  Author: {mod.Author}\n  Enabled: {mod.Enabled}\n  {mod.UpdateLink}\n\n";
+                output += $"{mod.Name}:\n  ID: {mod.ID}\n  Version: {mod.Version}\n  Author: {mod.Author}\n\n";
             }
 
             // If only 3 mods have been found, that means the only mods active are MOP and two ModLoader modules.
@@ -321,11 +320,11 @@ namespace MOP.Common
 
             if (files.Length == 0)
             {
-                ModPrompt.CreatePrompt("No logs exist.", "MOP");
+                ModUI.ShowMessage("No logs exist.", "MOP");
                 return;
             }
 
-            ModPrompt.CreateYesNoPrompt($"Are you sure you want to delete <color=yellow>{files.Length}</color> log{(files.Length > 1 ? "s" : "")}?", "MOP", () => DeleteLogFiles(files));
+            ModUI.ShowYesNoMessage($"Are you sure you want to delete <color=yellow>{files.Length}</color> log{(files.Length > 1 ? "s" : "")}?", "MOP", () => DeleteLogFiles(files));
         }
 
         static void DeleteLogFiles(string[] files)

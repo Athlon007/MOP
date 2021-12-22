@@ -116,9 +116,11 @@
     <Compile Include="src\FSM\Actions\CustomPackageHandler.cs" />
     <Compile Include="src\FSM\Actions\CustomSatsumaBumperAttach.cs" />
     <Compile Include="src\FSM\Actions\CustomSatsumaBumperDetach.cs" />
+    <Compile Include="src\FSM\Actions\CustomStateAction.cs" />
     <Compile Include="src\FSM\Actions\DelayedItemBehaviour.cs" />
     <Compile Include="src\FSM\Actions\GrandmaHiker.cs" />
     <Compile Include="src\FSM\Actions\WindscreenRepairJob.cs" />
+    <Compile Include="src\FSM\FsmExtensions.cs" />
     <Compile Include="src\GameFixes.cs" />
     <Compile Include="src\Helpers\MopSaveData.cs" />
     <Compile Include="src\Helpers\SaveBugs.cs" />

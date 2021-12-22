@@ -16,9 +16,10 @@
 
 using System;
 using HutongGames.PlayMaker;
-using MSCLoader.Helper;
 using System.Linq;
 using UnityEngine;
+
+using MOP.FSM;
 using MOP.Common;
 
 namespace MOP.Places
@@ -103,7 +104,7 @@ namespace MOP.Places
             chillPoint = transform.Find("Building/KITCHEN/Fridge/FridgePoint/ChillArea");
             try
             {
-                fridgeRunning = Resources.FindObjectsOfTypeAll<GameObject>()?.First(g => g.name == "FridgePoint").GetPlayMakerFSM("Chilling")?.FsmVariables.GetFsmBool("Kitchen");
+                fridgeRunning = Resources.FindObjectsOfTypeAll<GameObject>()?.First(g => g.name == "FridgePoint").GetPlayMaker("Chilling")?.FsmVariables.GetFsmBool("Kitchen");
             }
             catch (Exception ex)
             {

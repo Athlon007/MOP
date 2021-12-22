@@ -15,11 +15,12 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
-using MSCLoader.Helper;
+
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+using MOP.FSM;
 using MOP.FSM.Actions;
 using MOP.Items;
 using MOP.Common;
@@ -133,7 +134,7 @@ namespace MOP.Vehicles
             preventToggleOnObjects = new List<PreventToggleOnObject>();
 
             // This should fix bug that leads to items inside of vehicles to fall through it.
-            PlayMakerFSM lodFSM = gameObject.GetPlayMakerFSM("LOD");
+            PlayMakerFSM lodFSM = gameObject.GetPlayMaker("LOD");
             if (lodFSM != null)
             {
                 lodFSM.Fsm.RestartOnEnable = false;
@@ -178,7 +179,7 @@ namespace MOP.Vehicles
                     transform.Find("Dashboard/Odometer").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
                     // Air pressure fix.
-                    transform.Find("Simulation/Airbrakes").GetPlayMakerFSM("Air Pressure").Fsm.RestartOnEnable = false;
+                    transform.Find("Simulation/Airbrakes").GetPlayMaker("Air Pressure").Fsm.RestartOnEnable = false;
 
                     // Hand throttle.
                     gameObject.AddComponent<GifuHandThrottle>();
@@ -204,7 +205,7 @@ namespace MOP.Vehicles
                     gameObject.AddComponent<KekmetHandThrottle>();
 
                     // Trailer connection.
-                    transform.Find("Trailer/Hook").GetPlayMakerFSM("Distance").Fsm.RestartOnEnable = false;
+                    transform.Find("Trailer/Hook").GetPlayMaker("Distance").Fsm.RestartOnEnable = false;
                     //transform.Find("Trailer/Remove").GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
                     break;
                 case VehiclesTypes.Flatbed:
@@ -215,7 +216,7 @@ namespace MOP.Vehicles
                     trailerLogUnderFloorCheck.AddComponent<TrailerLogUnderFloor>();
 
                     // Tractor connection.
-                    PlayMakerFSM detach = gameObject.GetPlayMakerFSM("Detach");
+                    PlayMakerFSM detach = gameObject.GetPlayMaker("Detach");
                     detach.Fsm.RestartOnEnable = false;
                     Object.Destroy(detach.FsmVariables.GetFsmGameObject("DetachPivot").Value.gameObject.GetComponent<FixedJoint>());
                     break;

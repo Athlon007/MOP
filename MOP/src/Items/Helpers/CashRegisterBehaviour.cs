@@ -17,8 +17,8 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using MSCLoader.Helper;
 
+using MOP.FSM;
 using MOP.FSM.Actions;
 
 namespace MOP.Items.Helpers
@@ -44,7 +44,7 @@ namespace MOP.Items.Helpers
             for (int i = 0; i < packages.Length; ++i)
             {
                 packages[i].AddComponent<ItemBehaviour>();
-                packages[i].GetPlayMakerFSM("Use").GetState("State 1").AddAction(new CustomPackageHandler(packages[i]));
+                packages[i].GetPlayMaker("Use").GetState("State 1").AddAction(new CustomPackageHandler(packages[i]));
             }
         }
     }

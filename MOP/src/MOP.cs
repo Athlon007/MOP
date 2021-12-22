@@ -19,7 +19,7 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using MSCLoader;
-using MSCLoader.Helper;
+
 
 using MOP.FSM;
 using MOP.Common;
@@ -53,13 +53,14 @@ namespace MOP
         public static string ModVersionShort { get => modVersion; }
 
         // Settings
-        static internal SettingSlider ActiveDistance, FramerateLimiter, ShadowDistance, RulesAutoUpdateFrequency;
-        static internal SettingRadioButtons PerformanceModes, Resolution;
-        static internal SettingToggle EnableShadowAdjusting, KeepRunningInBackground,
-                                      DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
-                                      DestroyEmptyBottles, DisableEmptyItems;
+        static internal SettingsSliderInt ActiveDistance, FramerateLimiter, ShadowDistance, RulesAutoUpdateFrequency;
+        static internal SettingsCheckBoxGroup ModePerformance, ModeBalanced, ModeQuality, ModeSafe;
+        static internal SettingsCheckBox  KeepRunningInBackground,
+                                          DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
+                                          DestroyEmptyBottles, DisableEmptyItems;
 
-        static SettingString lastVersion;
+        // TODO
+        //static SettingString lastVersion;
 
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
         readonly string[] rulesAutoUpdateFrequencyText = { "On Restart", "Daily", "Every 2 days", "Weekly" };
@@ -78,104 +79,71 @@ namespace MOP
         /// </summary>
         public override void ModSettings()
         {
-            lastVersion = modSettings.AddString("lastVersion", "1.0");
+           // lastVersion = modSettings.AddString("lastVersion", "1.0");
 
             modVersion = Version;
+            modConfigPath = ModLoader.GetModSettingsFolder(this);
             SessionID = Guid.NewGuid();
 #if DEBUG
-            modSettings.AddHeader("Shh...Don't leak my hard work ;)", Color.yellow, Color.black);
+            Settings.AddHeader(this, "Shh...Don't leak my hard work ;)", Color.yellow, Color.black);
 #endif
-            modSettings.AddButton("iFoundABug", "<color=red>I FOUND A BUG</color>", BugReporter.FileBugReport);
-            modSettings.AddButton("faq", "FAQ", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/faq"));
-            modSettings.AddButton("wiki", "WIKI", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/"));
-            modSettings.AddButton("homepage", "HOMEPAGE", () => ShowDialog("http://athlon.kkmr.pl/"));
-            modSettings.AddButton("github", "GITHUB", () => ShowDialog("https://github.com/Athlon007/MOP"));
-            modSettings.AddButton("homepage", "NEXUSMODS", () => ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
-            modSettings.AddButton("paypal", "<color=aqua>PAYPAL</color>", () => ShowDialog("https://paypal.me/figurakonrad"));
+            Settings.AddButton(this, "iFoundABug", "<color=red>I FOUND A BUG</color>", BugReporter.FileBugReport);
+            Settings.AddButton(this, "faq", "FAQ", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/faq"));
+            Settings.AddButton(this, "wiki", "WIKI", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/"));
+            Settings.AddButton(this, "homepage", "HOMEPAGE", () => ShowDialog("http://athlon.kkmr.pl/"));
+            Settings.AddButton(this, "github", "GITHUB", () => ShowDialog("https://github.com/Athlon007/MOP"));
+            Settings.AddButton(this, "homepage", "NEXUSMODS", () => ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
+            Settings.AddButton(this, "paypal", "<color=aqua>PAYPAL</color>", () => ShowDialog("https://paypal.me/figurakonrad"));
 
             // Activating objects.
-            modSettings.AddHeader("DESPAWNING");
-            ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 1, 0, 3);
-            ActiveDistance.gameObject.AddComponent<UITooltip>().toolTipText = "Distance uppon which objects will spawn.";
-            ActiveDistance.TextValues = activeDistanceText;
-            ActiveDistance.ChangeValueText();
-            PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1, 
-                                                          () => { MopSettings.UpdatePerformanceMode(); UpdateSettingsUI(); },
-                                                          "PERFORMANCE", "BALANCED", "QUALITY", "<color=red>SAFE</color>");
-            PerformanceModes.gameObject.AddComponent<UITooltip>().toolTipText =
-                "<color=yellow>PERFORMANCE</color>: <color=white>Visibly disables and enables objects</color>\n" +
-                "<color=yellow>BALANCED (recommended)</color>: <color=white>Maintains balance between PERFORMANCE and QUALITY</color>\n" +
-                "<color=yellow>QUALITY</color>: <color=white>Hides obvious on-screen spawning and despawning, at the cost of performance</color>\n" +
-                "<color=yellow>SAFE</color>: <color=white>Despawns only minimum number of objects that are known to not cause any issues</color>";
+            Settings.AddHeader(this, "DESPAWNING");
+            ActiveDistance = Settings.AddSlider(this, "activateDistance", "ACTIVATE DISTANCE", 0, 3, 1, textValues: activeDistanceText);
+            ModePerformance = Settings.AddCheckBoxGroup(this, "modePerformance", "PERFORMANCE", false, "performanceMode", 
+                                                          () => { MopSettings.UpdatePerformanceMode(); UpdateSettingsUI(); });
+            ModeBalanced = Settings.AddCheckBoxGroup(this, "modeBalanced", "PERFORMANCE", true, "performanceMode",
+                                                          () => { MopSettings.UpdatePerformanceMode(); UpdateSettingsUI(); });
+            ModeQuality = Settings.AddCheckBoxGroup(this, "modeQuality", "PERFORMANCE", false, "performanceMode",
+                                                          () => { MopSettings.UpdatePerformanceMode(); UpdateSettingsUI(); });
+            ModeSafe = Settings.AddCheckBoxGroup(this, "modeSafe", "SAFE", false, "performanceMode",
+                                                          () => { MopSettings.UpdatePerformanceMode(); UpdateSettingsUI(); });
 
             // Graphics
-            modSettings.AddHeader("GRAPHICS");
-            FramerateLimiter = modSettings.AddSlider("framerateLimiterUpdated", "FRAMERATE LIMITER", 21, 2, 21, () => { MopSettings.UpdateFramerateLimiter(); UpdateSettingsUI(); });
-            FramerateLimiter.ValueSuffix = "0 FPS";
-            EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ADJUST SHADOWS", false, () => { MopSettings.UpdateShadows(); ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value); } );
-            EnableShadowAdjusting.gameObject.AddComponent<UITooltip>().toolTipText = "Allows you to set the shadow render distance with the slider below.";
-            ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 2, 0, 20, () => { MopSettings.UpdateShadows(); UpdateSettingsUI(); });
-            ShadowDistance.ValueSuffix = "00 Meters";
-            ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value);
-            KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
-            KeepRunningInBackground.gameObject.AddComponent<UITooltip>().toolTipText = "If disabled, game will pause when you ALT+TAB from the game.";
-            DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false);
-            DynamicDrawDistance.gameObject.AddComponent<UITooltip>().toolTipText = "MOP will change the draw distance according to situation\n" +
-                                                                                   "(ex. lower render distance while in interior)";
-            modSettings.AddButton("changeResolution", "CHANGE RESOLUTION", () => { Resolution.gameObject.SetActive(!Resolution.gameObject.activeSelf); });
-            List<string> resolutions = new List<string>();
-            int selected = 0;
-            int i = 0;
-            foreach (var res in Screen.resolutions)
-            {
-                resolutions.Add(res.width + "x" + res.height);
-                if (res.width == Screen.width && res.height == Screen.height)
-                {
-                    selected = i;
-                }
-                ++i;
-            }
-            Resolution = modSettings.AddRadioButtons("resolution", "RESOLUTION", selected, () =>
-            {
-                string s = Resolution.GetButtonLabelText(Resolution.Value);
-                int width = int.Parse(s.Split('x')[0]);
-                int height = int.Parse(s.Split('x')[1]);
-                Screen.SetResolution(width, height, Screen.fullScreen);
-            }, resolutions.ToArray());
-            Resolution.gameObject.SetActive(false);
+            Settings.AddHeader(this, "GRAPHICS");
+            FramerateLimiter = Settings.AddSlider(this, "framerateLimiterUpdated", "FRAMERATE LIMITER (FPS)", 20, 210, 210, () => { MopSettings.UpdateFramerateLimiter(); UpdateSettingsUI(); });
+            ShadowDistance = Settings.AddSlider(this, "shadowDistance", "SHADOW DISTANCE (METERS)", 0, 2000, 200, () => { MopSettings.UpdateShadows(); UpdateSettingsUI(); });
+            KeepRunningInBackground = Settings.AddCheckBox(this, "keepRunningInBackground", "RUN IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
+            DynamicDrawDistance = Settings.AddCheckBox(this, "dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false);
 
             // Rules
-            modSettings.AddHeader("RULES");
-            SettingButton learnMore = modSettings.AddButton("rulesLearnMore", "LEARN MORE", () => ShowDialog("http://athlon.kkmr.pl/mop"));
-            learnMore.gameObject.AddComponent<UITooltip>().toolTipText = "Learn about how rules work.";
-            RulesAutoUpdate = modSettings.AddToggle("rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true);
-            VerifyRuleFiles = modSettings.AddToggle("verifyRuleFiles", "VERIFY RULE FILES", true);
-            RulesAutoUpdateFrequency = modSettings.AddSlider("ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 2, 0, 3);
-            RulesAutoUpdateFrequency.TextValues = rulesAutoUpdateFrequencyText;
-            DeleteUnusedRules = modSettings.AddToggle("deleteUnusedRules", "AUTOMATICALLY DELETE UNUSED RULES", false);
-            modSettings.AddButton("deleteUnusedRulesButton", "DELETE UNUSED RULES", RulesManager.DeleteUnused);
-            modSettings.AddButton("forceRulesUpdate", "FORCE UPDATE", ForceRuleFilesUpdate);
+            Settings.AddHeader(this, "RULES");
+            Settings.AddButton(this, "rulesLearnMore", "LEARN MORE", () => ShowDialog("http://athlon.kkmr.pl/mop"));
+            RulesAutoUpdate = Settings.AddCheckBox(this, "rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true);
+            VerifyRuleFiles = Settings.AddCheckBox(this, "verifyRuleFiles", "VERIFY RULE FILES", true);
+            RulesAutoUpdateFrequency = Settings.AddSlider(this, "ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 0, 3, 2, textValues: rulesAutoUpdateFrequencyText);
+            DeleteUnusedRules = Settings.AddCheckBox(this, "deleteUnusedRules", "AUTOMATICALLY DELETE UNUSED RULES", false);
+            Settings.AddButton(this, "deleteUnusedRulesButton", "DELETE UNUSED RULES", RulesManager.DeleteUnused);
+            Settings.AddButton(this, "forceRulesUpdate", "FORCE UPDATE", ForceRuleFilesUpdate);
 
             // Other
-            modSettings.AddHeader("OTHER");
-            DestroyEmptyBottles = modSettings.AddToggle("destroyEmptyBottles", "DESTROY EMPTY BOTTLES", false);
-            DisableEmptyItems = modSettings.AddToggle("disableEmptyItems", "DISABLE EMPTY ITEMS", false);
+            Settings.AddHeader(this, "OTHER");
+            DestroyEmptyBottles = Settings.AddCheckBox(this, "destroyEmptyBottles", "DESTROY EMPTY BOTTLES", false);
+            DisableEmptyItems = Settings.AddCheckBox(this, "disableEmptyItems", "DISABLE EMPTY ITEMS", false);
 
             // Logging
-            modSettings.AddHeader("LOGGING");
-            modSettings.AddText("If you want to file a bug report, use <color=yellow>I FOUND A BUG</color> button!");
-            modSettings.AddButton("openLogFolder", "OPEN LOG FOLDER", "", ExceptionManager.OpenCurrentSessionLogFolder);
-            modSettings.AddButton("generateModReprt", "GENERATE MOD REPORT", "", ExceptionManager.GenerateReport);
-            modSettings.AddButton("deleteAllLogs", "DELETE ALL LOGS", "", ExceptionManager.DeleteAllLogs);
+            Settings.AddHeader(this, "LOGGING");
+            Settings.AddText(this, "If you want to file a bug report, use <color=yellow>I FOUND A BUG</color> button!");
+            Settings.AddButton(this, "openLogFolder", "OPEN LOG FOLDER", ExceptionManager.OpenCurrentSessionLogFolder);
+            Settings.AddButton(this, "generateModReprt", "GENERATE MOD REPORT", ExceptionManager.GenerateReport);
+            Settings.AddButton(this, "deleteAllLogs", "DELETE ALL LOGS", ExceptionManager.DeleteAllLogs);
 
             // Changelog
-            modSettings.AddHeader("CHANGELOG");
-            modSettings.AddText(GetChangelog());
+            Settings.AddHeader(this, "CHANGELOG");
+            Settings.AddText(this, GetChangelog());
 
             // Info
-            modSettings.AddHeader("INFO");
-            modSettings.AddText($"<color=yellow>MOP</color> {ModVersion}\n" +
-                $"<color=yellow>Mod Loader Pro</color> {ModLoader.Version}\n" +
+            Settings.AddHeader(this, "INFO");
+            Settings.AddText(this, $"<color=yellow>MOP</color> {ModVersion}\n" +
+                $"<color=yellow>MSCLoader</color> {ModLoader.MSCLoader_Ver}\n" +
                 $"{ExceptionManager.GetSystemInfo()}\n" +
                 $"<color=yellow>Session ID:</color> {SessionID}\n" +
                 $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}");
@@ -185,16 +153,17 @@ namespace MOP
         public override void MenuOnLoad()
         {
             RemoveUnusedFiles();
-            modSettings.LoadSettings();
-            modConfigPath = ModLoader.GetModSettingsFolder(this, true);
+            /*
+             TODO
             if (!Version.StartsWith(lastVersion.Value.ToString()))
             {
                 lastVersion.Value = Version;
                 modSettings.SaveSettings();
                 string message = DateTime.Now.Month == 12 && DateTime.Now.Day >= 20 ? WelcomeMessageFestive : WelcomeMessage;
                 message = string.Format(message, Version, DateTime.Now.Year + 1);
-                ModPrompt.CreatePrompt(message, "MOP");
+                ModUI.ShowMessage(message, "MOP");
             }
+            */
 
             FsmManager.ResetAll();
             Resources.UnloadUnusedAssets();
@@ -207,13 +176,10 @@ namespace MOP
             if (MopSettings.Restarts > MopSettings.MaxRestarts && !MopSettings.RestartWarningShown)
             {
                 MopSettings.RestartWarningShown = true;
-                ModPrompt prompt = ModPrompt.CreateCustomPrompt();
-                prompt.Text = "You've reloaded the game without fully quitting it over 5 times.\n\n" +
-                              "It is recommended to fully quit the game after a while, so it would fully unload the memory.\n" +
-                              "Not doing that may lead to game-breaking glitches.";
-                prompt.Title = "MOP";
-                prompt.AddButton("OK", null);
-                prompt.AddButton("QUIT GAME", () => Application.Quit());
+                ModUI.ShowYesNoMessage("You've reloaded the game without fully quitting it over 5 times.\n\n" +
+                                       "It is recommended to fully quit the game after a while, so it would fully unload the memory.\n" +
+                                       "Not doing that may lead to game-breaking glitches.\n\n" +
+                                       "Would you like to do that now?", "MOP", Application.Quit);
             }
 
             if (MopSettings.GameFixStatus == Common.Enumerations.GameFixStatus.DoFix)
@@ -229,6 +195,7 @@ namespace MOP
         void UpdateSettingsUI()
         {
             // UI Update.
+            /* TODO
             if ((int)FramerateLimiter.Value == 21)
             {
                 FramerateLimiter.valueText.text = "Disabled";
@@ -250,6 +217,7 @@ namespace MOP
             }
 
             Resolution.Value = selected;
+            */
 
             modVersion = Version;
         }
@@ -258,7 +226,7 @@ namespace MOP
         {
             if (modConfigPath == null)
             {
-                modConfigPath = ModLoader.GetModSettingsFolder(this, true);
+                modConfigPath = ModLoader.GetModSettingsFolder(this);
             }
             MopSettings.UpdateFramerateLimiter();
             MopSettings.UpdatePerformanceMode();
@@ -272,7 +240,7 @@ namespace MOP
 
             if (CompatibilityManager.IsConfilctingModPresent(out string modName))
             {
-                ModPrompt.CreatePrompt($"MOP does not work with <color=yellow>{modName}</color>. Please disable that mod first.", "MOP");
+                ModUI.ShowMessage($"MOP does not work with <color=yellow>{modName}</color>. Please disable that mod first.", "MOP");
             }
             SaveManager.VerifySave();
 
@@ -306,21 +274,11 @@ namespace MOP
             SaveManager.AddSaveFlag();
         }
 
-        public override void ModSettingsOpen()
-        {
-            UpdateSettingsUI();
-        }
-
-        public override void ModSettingsClose()
-        {
-            Resolution.gameObject.SetActive(false);
-        }
-
         static void ForceRuleFilesUpdate()
         {
             if (ModLoader.CurrentScene != CurrentScene.MainMenu)
             {
-                ModPrompt.CreatePrompt("You can only force update while in main menu.");
+                ModUI.ShowMessage("You can only force update while in main menu.");
                 return;
             }
 
@@ -397,11 +355,11 @@ namespace MOP
             return output;
         }
 
-        public static void ShowDialog(string url) => ModPrompt.CreateYesNoPrompt($"This will open the following link:\n" +
+        public static void ShowDialog(string url) => ModUI.ShowYesNoMessage($"This will open the following link:\n" +
                                                                          $"<color=yellow>{url}</color>\n\n" +
                                                                          $"Are you sure you want to continue?",
                                                                          "MOP",
-                                                                         () => ModHelper.OpenWebsite(url));
+                                                                         () => System.Diagnostics.Process.Start(url));
 
         void RemoveUnusedFiles()
         {

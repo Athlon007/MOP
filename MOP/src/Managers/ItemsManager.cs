@@ -19,9 +19,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using HutongGames.PlayMaker;
-using MSCLoader;
-using MSCLoader.Helper;
 
+using MOP.FSM;
 using MOP.Common;
 using MOP.Items;
 using MOP.Items.Cases;
@@ -145,7 +144,7 @@ namespace MOP.Managers
                 GameObject postOrder = GameObject.Find("STORE").transform.Find("LOD/ActivateStore/PostOffice/PostOrderBuy").gameObject;
                 bool isPostOrderActive = postOrder.activeSelf;
                 postOrder.SetActive(true);
-                FsmHook.FsmInject(postOrder, "State 3", cashRegisterHook.Packages);
+                MSCLoader.FsmHook.FsmInject(postOrder, "State 3", cashRegisterHook.Packages);
                 if (!isPostOrderActive)
                     postOrder.SetActive(false);
 
@@ -212,7 +211,7 @@ namespace MOP.Managers
                 f.AddComponent<ItemBehaviour>();
             }
 
-            radiatorHose3Database = GameObject.Find("Database/DatabaseMechanics/RadiatorHose3").GetPlayMakerFSM("Data");
+            radiatorHose3Database = GameObject.Find("Database/DatabaseMechanics/RadiatorHose3").GetPlayMaker("Data");
             GameObject attachedHose = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(xxxxx)");
             realRadiatorHose = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(Clone)");
             GameObject dummy = GameObject.Instantiate(realRadiatorHose); // used for spawning the radiator hose3 after it gets detached.
@@ -286,7 +285,7 @@ namespace MOP.Managers
             }
 
             // CD Player Enhanced compatibility
-            if (ModLoader.GetMod("CDPlayer") != null)
+            if (MSCLoader.ModLoader.GetMod("CDPlayer") != null)
             {
                 GameObject[] cdEnchancedObjects = Resources.FindObjectsOfTypeAll<GameObject>()
                 .Where(gm => gm.name.ContainsAny("cd case(itemy)", "CD Rack(itemy)", "cd(itemy)") && gm.activeSelf).ToArray();

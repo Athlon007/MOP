@@ -20,9 +20,8 @@ using System.IO;
 using System.Collections;
 using Ionic.Zip;
 using UnityEngine;
-using MSCLoader;
-using MSCLoader.Helper;
 
+using MOP.FSM;
 using MOP.Helpers;
 
 namespace MOP.Common
@@ -65,7 +64,7 @@ namespace MOP.Common
         {
             if (!MopSettings.LoadedOnce)
             {
-                ModPrompt.CreateContinueAbortPrompt("It is recommended to start the game at least once before filing bug report.\n\n" +
+                MSCLoader.ModUI.ShowContinueAbortMessage("It is recommended to start the game at least once before filing bug report.\n\n" +
                                                     "If you can't load the game, press Continue to generate mod report anyway.", 
                                                     "MOP - Bug Report", 
                                                     () => instance.BugReport());
@@ -142,10 +141,9 @@ namespace MOP.Common
             // We are asking the user if he wants to add his game save to the zip file.
             if (File.Exists(SaveManager.SavePath))
             {
-                ModPrompt.CreateYesNoPrompt("Would you like to your include save file?\n\n" +
+                MSCLoader.ModUI.ShowYesNoMessage("Would you like to your include save file?\n\n" +
                                             "This may greatly improve finding and fixing the bug.", "MOP - Bug Report",
-                                            () => IncludeZip(lastZipFilePath),
-                                            onPromptClose: OpenBugReportFolder);
+                                            () => IncludeZip(lastZipFilePath));
             }
             else
             {
@@ -177,6 +175,8 @@ namespace MOP.Common
 
                 zip.Save();
             }
+
+            OpenBugReportFolder();
         }
 
         public void RestartGame()
@@ -195,7 +195,7 @@ namespace MOP.Common
             }
 
             buttonContinue.SetActive(true);
-            PlayMakerFSM fsm = buttonContinue.GetPlayMakerFSM("SetSize");
+            PlayMakerFSM fsm = buttonContinue.GetPlayMaker("SetSize");
             var state = fsm.GetState("Action");
             while (!state.ActionsLoaded)
                 yield return null;

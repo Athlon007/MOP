@@ -17,7 +17,7 @@
 using HutongGames.PlayMaker;
 using UnityEngine;
 using System;
-using MSCLoader.Helper;
+using MOP.FSM;
 
 namespace MOP.Vehicles.Managers
 {
@@ -46,8 +46,8 @@ namespace MOP.Vehicles.Managers
             try
             {
                 Transform handThrottle = transform.Find(throttlePath);
-                handThrottleValue = handThrottle.GetPlayMakerFSM("Use").FsmVariables.GetFsmFloat("Throttle");
-                handThrottle.GetPlayMakerFSM("Throttle").enabled = false;
+                handThrottleValue = handThrottle.GetPlayMaker("Use").FsmVariables.GetFsmFloat("Throttle");
+                handThrottle.GetPlayMaker("Throttle").enabled = false;
             }
             catch
             {

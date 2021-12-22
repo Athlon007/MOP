@@ -17,8 +17,8 @@
 using HutongGames.PlayMaker;
 using System.Reflection;
 using UnityEngine;
-using MSCLoader.Helper;
 
+using MOP.FSM;
 using MOP.Common.Enumerations;
 using MOP.Managers;
 
@@ -184,7 +184,7 @@ namespace MOP.FSM
         public static float GetDrawDistance()
         {
             if (drawDistance == null)
-                drawDistance = GameObject.Find("Systems/Options").GetPlayMakerFSM("GFX").FsmVariables.GetFsmFloat("DrawDistance");
+                drawDistance = GameObject.Find("Systems/Options").GetPlayMaker("GFX").FsmVariables.GetFsmFloat("DrawDistance");
 
             return drawDistance.Value;
         }

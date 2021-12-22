@@ -18,8 +18,8 @@ using HutongGames.PlayMaker;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using MSCLoader.Helper;
 
+using MOP.FSM;
 using MOP.FSM.Actions;
 using MOP.Common;
 using MOP.Common.Enumerations;
@@ -155,7 +155,7 @@ namespace MOP.Vehicles.Cases
             // Fixes handbrake lever position.
             try
             {
-                transform.Find("MiscParts/HandBrake/handbrake(xxxxx)/handbrake lever").GetPlayMakerFSM("Use").Fsm.RestartOnEnable = false;
+                transform.Find("MiscParts/HandBrake/handbrake(xxxxx)/handbrake lever").GetPlayMaker("Use").Fsm.RestartOnEnable = false;
             }
             catch
             {
@@ -166,7 +166,7 @@ namespace MOP.Vehicles.Cases
             // For some reason in the vanilla game, the negative battery terminal sometimes gets disabled, and the game doesn't allow to reenable it.
             try
             {
-                FsmState wiringBatteryDisable = transform.Find("Wiring").GetPlayMakerFSM("Status").GetState("Disable battery wires");
+                FsmState wiringBatteryDisable = transform.Find("Wiring").GetPlayMaker("Status").GetState("Disable battery wires");
                 List<FsmStateAction> disableBatteryActions = new List<FsmStateAction>
                 {
                     new CustomBatteryDisable()
@@ -255,7 +255,7 @@ namespace MOP.Vehicles.Cases
             }
 
             // Fixes car body color resetting to default.
-            transform.Find("Body/car body(xxxxx)").GetPlayMakerFSM("Paint").Fsm.RestartOnEnable = false;
+            transform.Find("Body/car body(xxxxx)").GetPlayMaker("Paint").Fsm.RestartOnEnable = false;
             
             // Wiping Load for alternator belts, oil filters, spark plugs and batteries.
             GameObject[] parts = Resources.FindObjectsOfTypeAll<GameObject>()
@@ -265,7 +265,7 @@ namespace MOP.Vehicles.Cases
             {
                 if (part.transform.root.gameObject.name == "GAZ24(1420kg)") continue;
 
-                PlayMakerFSM useFsm = part.GetPlayMakerFSM("Use");
+                PlayMakerFSM useFsm = part.GetPlayMaker("Use");
                 FsmState state1 = useFsm.GetState("State 1");
                 List<FsmStateAction> emptyState1 = state1.Actions.ToList();
                 emptyState1.Insert(0, new CustomStop());
@@ -280,7 +280,7 @@ namespace MOP.Vehicles.Cases
             {
                 Resources.FindObjectsOfTypeAll<GameObject>()
                 .First(g => g.name == "cd player(Clone)" && g.GetComponent<PlayMakerFSM>() != null && g.GetComponent<MeshRenderer>() != null)
-                .transform.Find("ButtonsCD/RadioVolume").GetPlayMakerFSM("Knob").Fsm.RestartOnEnable = false;
+                .transform.Find("ButtonsCD/RadioVolume").GetPlayMaker("Knob").Fsm.RestartOnEnable = false;
             }
             catch
             {
@@ -289,7 +289,7 @@ namespace MOP.Vehicles.Cases
             try
             {
                 Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radio(Clone)" && g.transform.root.gameObject.name != "JAIL")
-                .transform.Find("ButtonsRadio/RadioVolume").GetPlayMakerFSM("Knob").Fsm.RestartOnEnable = false;
+                .transform.Find("ButtonsRadio/RadioVolume").GetPlayMaker("Knob").Fsm.RestartOnEnable = false;
             }
             catch
             {
@@ -299,8 +299,8 @@ namespace MOP.Vehicles.Cases
             // Fix for window grille paint resetting to the default.
             try
             {
-                Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "window grille(Clone)" && g.GetPlayMakerFSM("Paint") != null)
-                    .GetPlayMakerFSM("Paint").Fsm.RestartOnEnable = false;
+                Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "window grille(Clone)" && g.GetPlayMaker("Paint") != null)
+                    .GetPlayMaker("Paint").Fsm.RestartOnEnable = false;
             }
             catch
             {
@@ -317,8 +317,8 @@ namespace MOP.Vehicles.Cases
             databaseBumper.SetActive(false);
             databaseBumper.SetActive(true);
             Items.Cases.RearBumperBehaviour behaviour = rearBumper.AddComponent<Items.Cases.RearBumperBehaviour>();
-            rearBumper.GetPlayMakerFSM("Removal").GetState("Remove part").AddAction(new CustomSatsumaBumperDetach(behaviour));
-            transform.Find("Body/trigger_bumper_rear").GetPlayMakerFSM("Assembly").GetState("Assemble 2").AddAction(new CustomSatsumaBumperAttach(behaviour));
+            rearBumper.GetPlayMaker("Removal").GetState("Remove part").AddAction(new CustomSatsumaBumperDetach(behaviour));
+            transform.Find("Body/trigger_bumper_rear").GetPlayMaker("Assembly").GetState("Assemble 2").AddAction(new CustomSatsumaBumperAttach(behaviour));
 
             // Fix suspension adding a weight to the car on each car respawn.
             GameObject[] suspensionParts = Resources.FindObjectsOfTypeAll<GameObject>()
@@ -401,8 +401,8 @@ namespace MOP.Vehicles.Cases
             GameObject.Find("bootlid(Clone)").AddComponent<SatsumaHingeManager>();
 
             // Fixes doors resetting it's paint colour.
-            GameObject.Find("door left(Clone)").GetPlayMakerFSM("Paint").Fsm.RestartOnEnable = false;
-            GameObject.Find("door right(Clone)").GetPlayMakerFSM("Paint").Fsm.RestartOnEnable = false;
+            GameObject.Find("door left(Clone)").GetPlayMaker("Paint").Fsm.RestartOnEnable = false;
+            GameObject.Find("door right(Clone)").GetPlayMaker("Paint").Fsm.RestartOnEnable = false;
 
             // Setup stuff that gets disabled using ToggleElements
             satsumaOnActionObjects = new List<SatsumaOnActionObjects>
@@ -414,12 +414,12 @@ namespace MOP.Vehicles.Cases
                 new SatsumaOnActionObjects(transform.Find("RainScript").gameObject, SatsumaEnableOn.OnPlayerClose),
                 new SatsumaOnActionObjects(transform.Find("DriverHeadPivot").gameObject, SatsumaEnableOn.OnPlayerClose),
                 new SatsumaOnActionObjects(transform.Find("AirIntake").gameObject, SatsumaEnableOn.OnPlayerClose),
-                new SatsumaOnActionObjects(this.gameObject.GetPlayMakerFSM("ButtonShifter"), SatsumaEnableOn.OnPlayerClose),
+                new SatsumaOnActionObjects(this.gameObject.GetPlayMaker("ButtonShifter"), SatsumaEnableOn.OnPlayerClose),
                 new SatsumaOnActionObjects(transform.Find("Chassis").gameObject, SatsumaEnableOn.OnPlayerFar)
             };
 
             // Replace on assemble sound playing with custom script.
-            PlayMakerFSM blockBoltCheck = GameObject.Find("block(Clone)").GetPlayMakerFSM("BoltCheck");
+            PlayMakerFSM blockBoltCheck = GameObject.Find("block(Clone)").GetPlayMaker("BoltCheck");
             FsmState boltsONState = blockBoltCheck.GetState("Bolts ON");
             FsmStateAction[] boltsONActions = boltsONState.Actions;
             boltsONActions[1] = new MasterAudioAssembleCustom();
@@ -427,7 +427,7 @@ namespace MOP.Vehicles.Cases
             boltsONState.SaveActions();
 
             // Disable the "Fix Collider" state in FSM Setup, so it won't make items fall through the car.
-            this.gameObject.GetPlayMakerFSM("Setup").Fsm.RestartOnEnable = false;
+            this.gameObject.GetPlayMaker("Setup").Fsm.RestartOnEnable = false;
 
             MeshCollider bootFloor = transform.Find("Colliders/collider_floor3").gameObject.GetComponent<MeshCollider>();
             bootFloor.isTrigger = false;
@@ -446,7 +446,7 @@ namespace MOP.Vehicles.Cases
             }
 
             // It is not used right now by the game, but it is safe to assume that one day it might be used.
-            drivingAI = transform.Find("AI")?.GetPlayMakerFSM("Driving");
+            drivingAI = transform.Find("AI")?.GetPlayMaker("Driving");
 
             // radiator hose 3
             try

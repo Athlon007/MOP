@@ -102,12 +102,13 @@ namespace MOP.Rules
         {
             if (Instance.UnusedRules.Count == 0)
             {
-                ModPrompt.CreatePrompt("No unused rule files found.", "MOP");
+                ModUI.ShowMessage("No unused rule files found.", "MOP");
                 return;
             }
             else
             {
-                ModPrompt.CreateYesNoPrompt($"Are you sure you want to delete <color=yellow>{Instance.UnusedRules.Count}</color> unused rule file{(Instance.UnusedRules.Count == 1 ? "" : "s")}?", "MOP", DoDeleteUnused);
+                ModUI.ShowYesNoMessage($"Are you sure you want to delete <color=yellow>{Instance.UnusedRules.Count}</color> unused rule file{(Instance.UnusedRules.Count == 1 ? "" : "s")}?", 
+                                       "MOP", DoDeleteUnused);
             }
         }
 
