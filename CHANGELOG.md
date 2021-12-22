@@ -1,10 +1,10 @@
 # Changelog
 
-## 4.0 (TBA)
+## 3.4 (TBA)
 
-### To-Do
+### Changes
 
-- BugReporter: Action after message is closed
+- MOP has been ported to MSCLoader by Piotrulos
 
 ## 3.3.9 (22.12.21)
 
