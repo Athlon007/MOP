@@ -99,9 +99,9 @@ namespace MOP
             ActiveDistance = Settings.AddSlider(this, "activateDistance", "ACTIVATE DISTANCE", 0, 3, 1, textValues: activeDistanceText);
             ModePerformance = Settings.AddCheckBoxGroup(this, "modePerformance", "PERFORMANCE", false, "performanceMode", 
                                                           () => { MopSettings.UpdatePerformanceMode(); UpdateSettingsUI(); });
-            ModeBalanced = Settings.AddCheckBoxGroup(this, "modeBalanced", "PERFORMANCE", true, "performanceMode",
+            ModeBalanced = Settings.AddCheckBoxGroup(this, "modeBalanced", "BALANCED", true, "performanceMode",
                                                           () => { MopSettings.UpdatePerformanceMode(); UpdateSettingsUI(); });
-            ModeQuality = Settings.AddCheckBoxGroup(this, "modeQuality", "PERFORMANCE", false, "performanceMode",
+            ModeQuality = Settings.AddCheckBoxGroup(this, "modeQuality", "QUALITY", false, "performanceMode",
                                                           () => { MopSettings.UpdatePerformanceMode(); UpdateSettingsUI(); });
             ModeSafe = Settings.AddCheckBoxGroup(this, "modeSafe", "SAFE", false, "performanceMode",
                                                           () => { MopSettings.UpdatePerformanceMode(); UpdateSettingsUI(); });

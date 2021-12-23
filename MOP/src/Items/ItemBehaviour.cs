@@ -19,8 +19,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-using MSCLoader.PartMagnet;
-
 using MOP.FSM;
 using MOP.Common;
 using MOP.FSM.Actions;
@@ -80,9 +78,6 @@ namespace MOP.Items
 
         bool kiljuInitialReset;
 
-        readonly PartMagnet partMagnet;
-        readonly BoltMagnet boltMagnet;
-
         bool fsmFixesOnActive;
 
         // Item spoilage
@@ -103,8 +98,6 @@ namespace MOP.Items
             // Get object's components
             rb = GetComponent<Rigidbody>();
             renderer = GetComponent<Renderer>();
-            partMagnet = GetComponent<PartMagnet>();
-            boltMagnet = GetComponent<BoltMagnet>();
 
             position = transform.position;
 
@@ -148,7 +141,7 @@ namespace MOP.Items
 
             if (!gameObject.name.EqualsAny("empty bottle(Clone)", "empty pack(Clone)"))
             {
-                if (IsPartMagnetAttached() || rb?.velocity.magnitude > 0.1f) return;
+                if (rb?.velocity.magnitude > 0.1f) return;
                 rb?.Sleep();
             }
         }
@@ -235,7 +228,7 @@ namespace MOP.Items
                     firstLoad = true;
                 }
 
-                if (!Hypervisor.Instance.IsItemInitializationDone() && (transform.root != Satsuma.Instance.transform || IsPartMagnetAttached()))
+                if (!Hypervisor.Instance.IsItemInitializationDone() && (transform.root != Satsuma.Instance.transform))
                 {
                     transform.position = position;
                 }
@@ -255,7 +248,7 @@ namespace MOP.Items
 
                 // Don't execute rest of the code, if the enabled is the same as activeSelf.
                 // Don't toggle, if the item is attached to Satsuma.
-                if (gameObject.activeSelf == enabled || transform.root.gameObject.name == "SATSUMA(557kg, 248)" || IsPartMagnetAttached())
+                if (gameObject.activeSelf == enabled || transform.root.gameObject.name == "SATSUMA(557kg, 248)")
                 {
                     return;
                 }
@@ -346,7 +339,7 @@ namespace MOP.Items
                     enabled = !MopSettings.IsModActive;
                 }
 
-                if (rb == null || rb.useGravity == enabled || IsPartMagnetAttached())
+                if (rb == null || rb.useGravity == enabled)
                 {
                     return;
                 }
@@ -620,8 +613,6 @@ namespace MOP.Items
                 renderer.enabled = true;
             }
 
-            if (IsPartMagnetAttached()) return;
-
             // Fixing disabled physics.
             if (rb != null && (rb.isKinematic || !rb.useGravity || !rb.detectCollisions))
             {
@@ -709,11 +700,6 @@ namespace MOP.Items
                     }
                 }
             }
-        }
-
-        internal bool IsPartMagnetAttached()
-        {
-            return (partMagnet != null && partMagnet.attached) || (boltMagnet != null && boltMagnet.attached);
         }
     }
 }

@@ -801,7 +801,6 @@ namespace MOP
 
                         if (item.rb != null && item.rb.IsSleeping())
                         {
-                            if (item.IsPartMagnetAttached()) continue;
                             if (CompatibilityManager.IsInBackpack(item)) continue;
                             item.rb.isKinematic = true;
                         }
