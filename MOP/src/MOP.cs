@@ -37,8 +37,7 @@ namespace MOP
 #endif
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.4.0"; //Version
-        public const string SubVersion = "NIGHTLY-20211222"; // NIGHTLY-yyyymmdd | BETA_x | RC_
-        public override string UpdateLink => "https://github.com/Athlon007/MOP";
+        public const string SubVersion = "NIGHTLY-20211223"; // NIGHTLY-yyyymmdd | BETA_x | RC_
         public override byte[] Icon => Properties.Resources.icon;
 
         #region Settings & Configuration
