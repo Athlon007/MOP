@@ -151,17 +151,15 @@ namespace MOP
         public override void MenuOnLoad()
         {
             RemoveUnusedFiles();
-            /*
-             TODO
-            if (!Version.StartsWith(lastVersion.Value.ToString()))
+
+            if (!Version.StartsWith(MopSettings.Data.Version.ToString()))
             {
-                lastVersion.Value = Version;
-                modSettings.SaveSettings();
+                MopSettings.Data.Version = Version;
+                MopSettings.WriteData(MopSettings.Data);
                 string message = DateTime.Now.Month == 12 && DateTime.Now.Day >= 20 ? WelcomeMessageFestive : WelcomeMessage;
                 message = string.Format(message, Version, DateTime.Now.Year + 1);
                 ModUI.ShowMessage(message, "MOP");
             }
-            */
 
             FsmManager.ResetAll();
             Resources.UnloadUnusedAssets();

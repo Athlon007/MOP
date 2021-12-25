@@ -17,10 +17,11 @@
 using System;
 using System.Collections.Generic;
 
-namespace MOP.Rules.Configuration
+namespace MOP.Common
 {
-    class RulesInfo
+    class MopData
     {
+        public string Version = "1.0";
         public DateTime LastTimeUpdate;
         public List<string> LastModList;
     }

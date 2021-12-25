@@ -144,7 +144,7 @@
     <Compile Include="src\ModConsole.cs" />
     <Compile Include="src\Places\Cases\Farm.cs" />
     <Compile Include="src\Places\Cases\Inspection.cs" />
-    <Compile Include="src\Rules\Configuration\RulesInfo.cs" />
+    <Compile Include="src\Common\MopData.cs" />
     <Compile Include="src\Sector.cs" />
     <Compile Include="src\Places\Cases\Yard.cs" />
     <Compile Include="src\Vehicles\Cases\Combine.cs" />

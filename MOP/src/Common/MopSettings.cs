@@ -16,8 +16,11 @@
 
 using MSCLoader;
 using UnityEngine;
+using System.IO;
+using Newtonsoft.Json;
 
 using MOP.Common.Enumerations;
+using System.Collections.Generic;
 
 namespace MOP.Common
 {
@@ -36,6 +39,11 @@ namespace MOP.Common
 
         static float shadowDistanceOriginalValue;
         static int vsyncCount = -1;
+
+        // MopVersionInfo
+        static string DataFile => Path.Combine(MOP.ModConfigPath, "MopData.json");
+        static string DataFileOld => Path.Combine(MOP.ModConfigPath, "RulesInfo.json");
+        static MopData loadedData;
 
         internal static void UpdatePerformanceMode()
         {
@@ -136,6 +144,51 @@ namespace MOP.Common
         internal static void ToggleBackgroundRunning()
         {
             Application.runInBackground = MOP.KeepRunningInBackground.GetValue();
+        }
+
+        static JsonSerializerSettings GetNewSettings()
+        {
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+            return settings;
+        }
+
+        public static void WriteData(MopData data)
+        {
+            string json = JsonConvert.SerializeObject(data, GetNewSettings());
+            StreamWriter writer = new StreamWriter(DataFile);
+            writer.Write(json);
+            writer.Close();
+        }
+
+        static MopData ReadData()
+        {
+            if (!File.Exists(DataFile))
+            {
+                MopData newRules = new MopData();
+                newRules.LastModList = new List<string>();
+                return newRules;
+            }
+
+            StreamReader reader = new StreamReader(DataFile);
+            string content = reader.ReadToEnd();
+            reader.Close();
+
+            MopData rules = JsonConvert.DeserializeObject<MopData>(content, GetNewSettings());
+            return rules;
+        }
+
+        public static MopData Data
+        {
+            get
+            {
+                if (loadedData == null)
+                {
+                    loadedData = ReadData();
+                }
+
+                return loadedData;
+            }
         }
     }
 }

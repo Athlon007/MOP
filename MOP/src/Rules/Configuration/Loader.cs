@@ -24,7 +24,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using Newtonsoft.Json;
 
 using MOP.Common;
 using MOP.Common.Enumerations;
@@ -38,7 +37,6 @@ namespace MOP.Rules.Configuration
         const string ServerContent = "servercontent.mop";
         const string CustomFile = "Custom.txt";
         const string RuleExtension = ".mopconfig";
-        string RulesInfoFile => Path.Combine(MOP.ModConfigPath, "RulesInfo.json");
 
         readonly string[] illegalValues = { "MOP", "MSCLoader", "MSCUnloader", "Steam", "PLAYER", "cObject", "FPSCamera" };
 
@@ -107,7 +105,7 @@ namespace MOP.Rules.Configuration
 
         IEnumerator DownloadAndUpdateRoutine()
         {
-            RulesInfo rulesInfo = ReadRulesInfo();   
+            MopData rulesInfo = MopSettings.Data;   
             Mod[] mods = ModLoader.LoadedMods.Where(m => !m.ID.ContainsAny("MSCLoader_", "MOP")).ToArray();
 
             ModConsole.Log("[MOP] Checking for new mods...");
@@ -214,7 +212,7 @@ namespace MOP.Rules.Configuration
             {
                 rulesInfo.LastTimeUpdate = DateTime.Now;
             }
-            WriteRulesInfo(rulesInfo);
+            MopSettings.WriteData(rulesInfo);
 
             // File downloading and updating completed!
             // Start reading those files.
@@ -369,7 +367,7 @@ namespace MOP.Rules.Configuration
         /// <summary>
         /// Returns true, if the time saved into the file with added FileThresholdHours is larger than the current time.
         /// </summary>
-        bool IsUpdateTime(RulesInfo rulesInfo)
+        bool IsUpdateTime(MopData rulesInfo)
         {
             if (RulesManager.Instance.UpdateChecked)
             {
@@ -663,38 +661,6 @@ namespace MOP.Rules.Configuration
                             $"Line: {lines}\n" +
                             $"Context: {content}\n\n" +
                             $"You can ignore that message.</color>");
-        }
-
-        JsonSerializerSettings GetNewSettings()
-        {
-            JsonSerializerSettings settings = new JsonSerializerSettings();
-            settings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-            return settings;
-        }
-
-        void WriteRulesInfo(RulesInfo info)
-        {
-            string json = JsonConvert.SerializeObject(info, GetNewSettings());
-            StreamWriter writer = new StreamWriter(RulesInfoFile);
-            writer.Write(json);
-            writer.Close();
-        }
-
-        RulesInfo ReadRulesInfo()
-        {
-            if (!File.Exists(RulesInfoFile))
-            {
-                RulesInfo newRules = new RulesInfo();
-                newRules.LastModList = new List<string>();
-                return newRules;
-            }
-
-            StreamReader reader = new StreamReader(RulesInfoFile);
-            string content = reader.ReadToEnd();
-            reader.Close();
-
-            RulesInfo rules = JsonConvert.DeserializeObject<RulesInfo>(content, GetNewSettings());
-            return rules;
         }
 
         int[] GetVersionFromString(string s)
