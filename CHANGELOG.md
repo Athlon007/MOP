@@ -6,6 +6,10 @@
 
 - MOP has been ported to MSCLoader by Piotrulos
 
+### Removed
+
+- Removed resolution changing in the settings (unable to be ported with how MSCLoader handles settings)
+
 ## 3.3.9 (22.12.21)
 
 ### Added

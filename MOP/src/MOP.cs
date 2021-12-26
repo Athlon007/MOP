@@ -19,7 +19,6 @@ using System.IO;
 using UnityEngine;
 using MSCLoader;
 
-
 using MOP.FSM;
 using MOP.Common;
 using MOP.Helpers;
@@ -53,12 +52,9 @@ namespace MOP
         // Settings
         static internal SettingsSliderInt ActiveDistance, FramerateLimiter, ShadowDistance, RulesAutoUpdateFrequency;
         static internal SettingsCheckBoxGroup ModePerformance, ModeBalanced, ModeQuality, ModeSafe;
-        static internal SettingsCheckBox  KeepRunningInBackground,
-                                          DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
+        static internal SettingsCheckBox  KeepRunningInBackground, LimitFramerate, DynamicDrawDistance, 
+                                          RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
                                           DestroyEmptyBottles, DisableEmptyItems;
-
-        // TODO
-        //static SettingString lastVersion;
 
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" }; 
         readonly string[] rulesAutoUpdateFrequencyText = { "On Restart", "Daily", "Every 2 days", "Weekly" };
@@ -94,19 +90,16 @@ namespace MOP
             // Activating objects.
             Settings.AddHeader(this, "DESPAWNING");
             ActiveDistance = Settings.AddSlider(this, "activateDistance", "ACTIVATE DISTANCE", 0, 3, 1, textValues: activeDistanceText);
-            ModePerformance = Settings.AddCheckBoxGroup(this, "modePerformance", "PERFORMANCE", false, "performanceMode", 
-                                                          () => { MopSettings.UpdatePerformanceMode(); UpdateSettingsUI(); });
-            ModeBalanced = Settings.AddCheckBoxGroup(this, "modeBalanced", "BALANCED", true, "performanceMode",
-                                                          () => { MopSettings.UpdatePerformanceMode(); UpdateSettingsUI(); });
-            ModeQuality = Settings.AddCheckBoxGroup(this, "modeQuality", "QUALITY", false, "performanceMode",
-                                                          () => { MopSettings.UpdatePerformanceMode(); UpdateSettingsUI(); });
-            ModeSafe = Settings.AddCheckBoxGroup(this, "modeSafe", "SAFE", false, "performanceMode",
-                                                          () => { MopSettings.UpdatePerformanceMode(); UpdateSettingsUI(); });
+            ModePerformance = Settings.AddCheckBoxGroup(this, "modePerformance", "PERFORMANCE", false, "performanceMode", MopSettings.UpdatePerformanceMode);
+            ModeBalanced = Settings.AddCheckBoxGroup(this, "modeBalanced", "BALANCED", true, "performanceMode", MopSettings.UpdatePerformanceMode);
+            ModeQuality = Settings.AddCheckBoxGroup(this, "modeQuality", "QUALITY", false, "performanceMode", MopSettings.UpdatePerformanceMode);
+            ModeSafe = Settings.AddCheckBoxGroup(this, "modeSafe", "<color=red>SAFE</color>", false, "performanceMode", MopSettings.UpdatePerformanceMode);
 
             // Graphics
             Settings.AddHeader(this, "GRAPHICS");
-            FramerateLimiter = Settings.AddSlider(this, "framerateLimiterUpdated", "FRAMERATE LIMITER (FPS)", 20, 210, 210, () => { MopSettings.UpdateFramerateLimiter(); UpdateSettingsUI(); });
-            ShadowDistance = Settings.AddSlider(this, "shadowDistance", "SHADOW DISTANCE (METERS)", 0, 2000, 200, () => { MopSettings.UpdateShadows(); UpdateSettingsUI(); });
+            LimitFramerate = Settings.AddCheckBox(this, "limitFramerate", "LIMIT FRAMERATE", false, MopSettings.UpdateFramerateLimiter);
+            FramerateLimiter = Settings.AddSlider(this, "framerateLimiterUpdated", "FRAMERATE LIMITER (FPS)", 20, 200, 60, MopSettings.UpdateFramerateLimiter);
+            ShadowDistance = Settings.AddSlider(this, "shadowDistance", "SHADOW DISTANCE (METERS, 200 DEFAULT)", 0, 2000, 200, MopSettings.UpdateShadows);
             KeepRunningInBackground = Settings.AddCheckBox(this, "keepRunningInBackground", "RUN IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
             DynamicDrawDistance = Settings.AddCheckBox(this, "dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false);
 
@@ -186,36 +179,6 @@ namespace MOP
             MopSettings.GameFixStatus = Common.Enumerations.GameFixStatus.None;
         }
 
-        void UpdateSettingsUI()
-        {
-            // UI Update.
-            /* TODO
-            if ((int)FramerateLimiter.Value == 21)
-            {
-                FramerateLimiter.valueText.text = "Disabled";
-            }
-            if (ShadowDistance.Value == 0)
-            {
-                ShadowDistance.valueText.text = "No Shadows";
-            }
-
-            int selected = 0;
-            int i = 0;
-            foreach (var res in Screen.resolutions)
-            {
-                if (res.width == Screen.width && res.height == Screen.height)
-                {
-                    selected = i;
-                }
-                i++;
-            }
-
-            Resolution.Value = selected;
-            */
-
-            modVersion = Version;
-        }
-
         public override void ModSettingsLoaded()
         {
             if (modConfigPath == null)
@@ -226,8 +189,6 @@ namespace MOP
             MopSettings.UpdatePerformanceMode();
             MopSettings.UpdateShadows();
             MopSettings.UpdateMiscSettings();
-
-            UpdateSettingsUI();
 
             new RulesManager();
             ConsoleCommand.Add(new ConsoleCommands());
@@ -338,9 +299,9 @@ namespace MOP
                     line = line.Replace("Rule Files API:", "<color=cyan>Rule Files API:</color>");
                 }
 
-                if (line.Contains("(Mod Loader Pro)"))
+                if (line.Contains("(MSCLoader)"))
                 {
-                    line = line.Replace("(Mod Loader Pro)", "<color=yellow>Mod Loader Pro:</color>");
+                    line = line.Replace("(MSCLoader)", "<color=yellow>MSCLoader:</color>");
                 }
 
                 output += line + "\n";

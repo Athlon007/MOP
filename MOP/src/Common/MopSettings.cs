@@ -75,8 +75,7 @@ namespace MOP.Common
 
         internal static void UpdateFramerateLimiter()
         {
-            // Framerate limiter
-            Application.targetFrameRate = (int)MOP.FramerateLimiter.GetValue() != 210 ? (int)MOP.FramerateLimiter.GetValue() : -1;
+            Application.targetFrameRate = MOP.LimitFramerate.GetValue() ? (int)MOP.FramerateLimiter.GetValue() : -1;
         }
 
         internal static void UpdateShadows()

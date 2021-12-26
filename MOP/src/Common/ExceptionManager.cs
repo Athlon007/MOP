@@ -160,6 +160,7 @@ namespace MOP.Common
             output += $"ActiveDistance: {MOP.ActiveDistance.GetValue()}\n";
             output += $"ActiveDistanceMultiplier: {MopSettings.ActiveDistanceMultiplicationValue}\n";
             output += $"PerformanceMode: {MopSettings.Mode}\n";
+            output += $"LimitFramerate: {MOP.LimitFramerate.GetValue()}\n";
             output += $"FramerateLimiter: {MOP.FramerateLimiter.GetValue()}\n";
             output += $"ShadowDistance: {MOP.ShadowDistance.GetValue()}\n";
             output += $"RunInBackground: {MOP.KeepRunningInBackground.GetValue()}\n";
@@ -279,6 +280,12 @@ namespace MOP.Common
         public static string GetSystemInfo()
         {
             string fullOS = SystemInfo.operatingSystem;
+            
+            if (RootPath.Contains("Z:/home/"))
+            {
+                return "Linux [Wine] | " + fullOS;
+            }
+
             int build = int.Parse(fullOS.Split('(')[1].Split(')')[0].Split('.')[2]);
             if (build > 9600)
             {
