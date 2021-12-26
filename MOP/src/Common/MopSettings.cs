@@ -41,7 +41,7 @@ namespace MOP.Common
         static int vsyncCount = -1;
 
         // MopVersionInfo
-        static string DataFile => Path.Combine(MOP.ModConfigPath, "MopData.json");
+        public static string DataFile => Path.Combine(MOP.ModConfigPath, "MopData.json");
         static string DataFileOld => Path.Combine(MOP.ModConfigPath, "RulesInfo.json");
         static MopData loadedData;
 

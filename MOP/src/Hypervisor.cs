@@ -15,7 +15,6 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
-//using MSCLoader;
 
 using System;
 using System.Collections;
@@ -1030,7 +1029,7 @@ namespace MOP
                     if (retries >= MaxRetries)
                     {
                         ModConsole.LogError("[MOP] Restart attempt failed. Enabling Safe Mode.");
-                        ModConsole.LogError("[MOP] Please contact mod developer. Make sure you send output_log and last MOP crash log!");
+                        ModConsole.LogError("[MOP] Please contact mod developer. Please use \"I Found a Bug\" button in MOP settings!");
                         try { ToggleAll(true); } catch { }
                         MopSettings.EnableSafeMode();
                         yield break;
@@ -1243,6 +1242,7 @@ namespace MOP
                 FinishLoading();
                 Satsuma.Instance?.ToggleActive(true);
                 Satsuma.Instance?.ForceToggleUnityCar(true);
+                FsmManager.PlayerInMenu = false;
             }
         }
     }

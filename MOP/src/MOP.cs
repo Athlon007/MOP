@@ -165,7 +165,7 @@ namespace MOP
                 MopSettings.RestartWarningShown = true;
                 ModUI.ShowYesNoMessage("You've reloaded the game without fully quitting it over 5 times.\n\n" +
                                        "It is recommended to fully quit the game after a while, so it would fully unload the memory.\n" +
-                                       "Not doing that may lead to game-breaking glitches.\n\n" +
+                                       "Not doing so may lead to game-breaking glitches.\n\n" +
                                        "Would you like to do that now?", "MOP", Application.Quit);
             }
 

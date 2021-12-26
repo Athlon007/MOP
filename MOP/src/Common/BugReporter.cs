@@ -35,8 +35,8 @@ namespace MOP.Common
 
         const string ReportFileMessage = "A MOP report archive has been successfully generated. Please follow these steps:\n\n" +
                                         "1.) Go to https://github.com/Athlon007/MOP/issues/new?assignees=&labels=bug&template=template-bug-report.md&title=Bug%20Report \n" +
-                                        "2.) Drag & Drop the MOP Bug Report .ZIP file to the report window.\n" +
-                                        "3.) Fill in the information about the error.\n\n" +
+                                        "2.) Drag & Drop the MOP Bug Report .ZIP file into the report window.\n" +
+                                        "3.) Fill in the information about the issue.\n\n" +
                                         "Incorrectly filled bug and/or pirate-game-copy reports WILL BE IGNORED.\n\n" +
                                         "Alternatively, you can send an e-mail to bugreport@kkmr.pl";
 
@@ -64,8 +64,8 @@ namespace MOP.Common
         {
             if (!MopSettings.LoadedOnce)
             {
-                MSCLoader.ModUI.ShowContinueAbortMessage("It is recommended to start the game at least once before filing bug report.\n\n" +
-                                                    "If you can't load the game, press Continue to generate mod report anyway.", 
+                MSCLoader.ModUI.ShowContinueAbortMessage("It is recommended to start the game at least once before filing the bug report.\n\n" +
+                                                    "If you can't load the game, press Continue to generate the mod report anyway.", 
                                                     "MOP - Bug Report", 
                                                     () => instance.BugReport());
                 return;
@@ -115,6 +115,12 @@ namespace MOP.Common
                 if (File.Exists(mopConfigPath))
                 {
                     zip.AddFile(mopConfigPath, "");
+                }
+
+                // MopData
+                if (File.Exists(MopSettings.DataFile))
+                {
+                    zip.AddFile(MopSettings.DataFile, "");
                 }
 
                 string mopSave = SaveManager.GetMopSavePath();
