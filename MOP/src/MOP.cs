@@ -77,8 +77,6 @@ namespace MOP
         /// </summary>
         public override void ModSettings()
         {
-           // lastVersion = modSettings.AddString("lastVersion", "1.0");
-
             modVersion = Version;
             modConfigPath = ModLoader.GetModSettingsFolder(this);
             SessionID = Guid.NewGuid();

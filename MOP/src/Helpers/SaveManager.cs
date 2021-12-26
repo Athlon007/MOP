@@ -37,9 +37,6 @@ namespace MOP.Helpers
         // MOP Save Files.
         static string mopSavePath => Path.Combine(Application.persistentDataPath, "MopSave.json");
         static bool SaveFileExists => File.Exists(mopSavePath);
-        // LEGACY
-        static string legacyMopSavePath => Path.Combine(Application.persistentDataPath, "MopSave");
-        static bool LegacySaveFileExists => File.Exists(mopSavePath.Replace(".json", ".xml"));
 
         /// <summary>
         /// For some reason, the save files get marked as read only files, not allowing MSC to save the game.
@@ -355,13 +352,7 @@ namespace MOP.Helpers
         static MopSaveData ReadData()
         {
             MopSaveData mopSaveData = null;
-            if (LegacySaveFileExists)
-            {
-                // Load save file from legacy file, if it exists (and then delete it).
-                mopSaveData = ModSave.Load<MopSaveData>(legacyMopSavePath);
-                ModSave.Delete(legacyMopSavePath);
-            }
-            else if (SaveFileExists)
+            if (SaveFileExists)
             {
                 StreamReader reader = new StreamReader(mopSavePath);
                 string json = reader.ReadToEnd();
