@@ -6,6 +6,10 @@
 
 - MOP has been ported to MSCLoader by Piotrulos
 
+### Bug Fixes
+
+- Fixed few typos
+
 ### Removed
 
 - Removed resolution changing in the settings (unable to be ported with how MSCLoader handles settings)

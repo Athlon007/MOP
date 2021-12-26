@@ -141,7 +141,7 @@ namespace MOP.Common
             // We are asking the user if he wants to add his game save to the zip file.
             if (File.Exists(SaveManager.SavePath))
             {
-                MSCLoader.ModUI.ShowYesNoMessage("Would you like to your include save file?\n\n" +
+                MSCLoader.ModUI.ShowYesNoMessage("Would you like to include your save file?\n\n" +
                                             "This may greatly improve finding and fixing the bug.", "MOP - Bug Report",
                                             () => IncludeZip(lastZipFilePath));
             }
