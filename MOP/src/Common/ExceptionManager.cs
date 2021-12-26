@@ -27,10 +27,6 @@ namespace MOP.Common
 {
     class ExceptionManager
     {
-        public const string LogFolderName = "MOP_Logs";
-        const string DefaultErrorLogName = "MOP_Crash";
-        const string DefaultReportLogName = "MOP_Report";
-
         static readonly List<string> erorrsContainer = new List<string>();
 
         public static DateTime SessionTimeStart;
@@ -47,12 +43,12 @@ namespace MOP.Common
                 return;
             }
 
-            string fileName = $"{DefaultErrorLogName}_{DateTime.Now:yyyy-MM-dd-HH-mm}";
+            string fileName = $"{Paths.DefaultErrorLogName}_{DateTime.Now:yyyy-MM-dd-HH-mm}";
 
-            if (File.Exists($"{LogFolder}/{fileName}.txt"))
+            if (File.Exists($"{Paths.LogFolder}/{fileName}.txt"))
             {
                 int crashesInFolder = 0;
-                while (File.Exists($"{LogFolder}/{fileName}_{crashesInFolder}.txt"))
+                while (File.Exists($"{Paths.LogFolder}/{fileName}_{crashesInFolder}.txt"))
                 {
                     crashesInFolder++;
                 }
@@ -60,7 +56,7 @@ namespace MOP.Common
                 fileName += $"_{crashesInFolder}";
             }
 
-            string logFilePath = $"{LogFolder}/{fileName}.txt";
+            string logFilePath = $"{Paths.LogFolder}/{fileName}.txt";
             string gameInfo = GetGameInfo();
             string errorInfo = $"{ex.Message}\n{ex.StackTrace}\nTarget Site: {ex.TargetSite}";
 
@@ -90,9 +86,9 @@ namespace MOP.Common
 
         public static void OpenCurrentSessionLogFolder()
         {
-            if (LogDirectoryExists)
+            if (Paths.LogDirectoryExists)
             {
-                Process.Start(LogFolder);
+                Process.Start(Paths.LogFolder);
             }
             else
             {
@@ -102,9 +98,9 @@ namespace MOP.Common
 
         public static void OpenOutputLog()
         {
-            if (File.Exists(OutputLogPath))
+            if (File.Exists(Paths.OutputLogPath))
             {
-                Process.Start(OutputLogPath);
+                Process.Start(Paths.OutputLogPath);
             }
             else
             {
@@ -120,10 +116,10 @@ namespace MOP.Common
             string gameInfo = GetGameInfo();
 
             int reportsInFolder = 0;
-            while (File.Exists($"{LogFolder}/{DefaultReportLogName}_{reportsInFolder}.txt"))
+            while (File.Exists($"{Paths.LogFolder}/{Paths.DefaultReportLogName}_{reportsInFolder}.txt"))
                 reportsInFolder++;
 
-            string path = $"{LogFolder}/{DefaultReportLogName}_{reportsInFolder}.txt";
+            string path = $"{Paths.LogFolder}/{Paths.DefaultReportLogName}_{reportsInFolder}.txt";
 
             using (StreamWriter sw = new StreamWriter(path))
             {
@@ -281,7 +277,7 @@ namespace MOP.Common
         {
             string fullOS = SystemInfo.operatingSystem;
             
-            if (RootPath.Contains("Z:/home/"))
+            if (Paths.RootPath.Contains("Z:/home/"))
             {
                 return "Linux [Wine] | " + fullOS;
             }
@@ -299,31 +295,11 @@ namespace MOP.Common
         }
 
         /// <summary>
-        /// Returns MOP log folder, ex.: C:\My Summer Car\MOP_Logs
-        /// </summary>
-        /// <returns></returns>
-        internal static string LogFolder
-        {
-            get
-            {
-                string path = $"{RootPath}/{LogFolderName}";
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
-
-                return path;
-            }
-        }
-
-        static bool LogDirectoryExists => Directory.Exists(Path.Combine(RootPath, LogFolder));
-
-        internal static string RootPath => Application.dataPath.Replace("mysummercar_Data", "");
-
-        /// <summary>
         /// Deletes the entire logs folder.
         /// </summary>
         public static void DeleteAllLogs()
         {
-            string[] files = Directory.GetFiles(LogFolder, "*.txt");
+            string[] files = Directory.GetFiles(Paths.LogFolder, "*.txt");
 
             if (files.Length == 0)
             {
@@ -341,7 +317,5 @@ namespace MOP.Common
                 File.Delete(file);
             }
         }
-
-        public static string OutputLogPath => $"{RootPath}/output_log.txt";
     }
 }

@@ -31,7 +31,7 @@ namespace MOP.Common
         static BugReporter instance;
         public static BugReporter Instance => instance;
 
-        string BugReportPath => $"{ExceptionManager.RootPath}/MOP_bugreport";
+        string BugReportPath => $"{Paths.RootPath}/MOP_bugreport";
 
         const string ReportFileMessage = "A MOP report archive has been successfully generated. Please follow these steps:\n\n" +
                                         "1.) Go to https://github.com/Athlon007/MOP/issues/new?assignees=&labels=bug&template=template-bug-report.md&title=Bug%20Report \n" +
@@ -85,7 +85,7 @@ namespace MOP.Common
 
             // Now we are getting logs generated today.
             string today = DateTime.Now.ToString("yyyy-MM-dd");
-            foreach (string log in Directory.GetFiles(ExceptionManager.LogFolder, $"*{today}*.txt"))
+            foreach (string log in Directory.GetFiles(Paths.LogFolder, $"*{today}*.txt"))
             {
                 string pathToFile = log.Replace("\\", "/");
                 string nameOfFile = log.Split('\\')[1];
@@ -108,7 +108,7 @@ namespace MOP.Common
                 }
 
                 // Output Log Path
-                zip.AddFile(ExceptionManager.OutputLogPath, "");
+                zip.AddFile(Paths.OutputLogPath, "");
 
                 // MOP config file.
                 string mopConfigPath = Path.Combine(MOP.ModConfigPath, "MOP.json");
