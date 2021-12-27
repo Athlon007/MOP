@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Konrad Figura")]
 [assembly: AssemblyProduct("Modern Optimization Plugin")]
-[assembly: AssemblyCopyright("Copyright © Konrad Figura 2019-2021")]
+[assembly: AssemblyCopyright("Copyright © Konrad Figura 2019-2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

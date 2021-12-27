@@ -1,5 +1,5 @@
 ﻿// Modern Optimization Plugin
-// Copyright(C) 2019-2021 Athlon
+// Copyright(C) 2019-2022 Athlon
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
