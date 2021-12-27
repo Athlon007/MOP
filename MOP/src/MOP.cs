@@ -85,7 +85,7 @@ namespace MOP
             Settings.AddButton(this, "homepage", "HOMEPAGE", () => ShowDialog("http://athlon.kkmr.pl/"));
             Settings.AddButton(this, "github", "GITHUB", () => ShowDialog("https://github.com/Athlon007/MOP"));
             Settings.AddButton(this, "homepage", "NEXUSMODS", () => ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
-            Settings.AddButton(this, "paypal", "<color=aqua>PAYPAL</color>", () => ShowDialog("https://paypal.me/figurakonrad"));
+            Settings.AddButton(this, "paypal", "PAYPAL", () => ShowDialog("https://paypal.me/figurakonrad"), new Color32(37, 59, 128, 255), new Color(1,1,1));
 
             // Activating objects.
             Settings.AddHeader(this, "DESPAWNING");
