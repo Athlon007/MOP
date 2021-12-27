@@ -28,5 +28,6 @@ namespace MOP.Common
         public static bool LogDirectoryExists => Directory.Exists(LogFolder);
         public static string RootPath => Application.dataPath.Replace("mysummercar_Data", "");
         public static string OutputLogPath => $"{RootPath}/output_log.txt";
+        public static string BugReportPath => $"{RootPath}/MOP_bugreport";
     }
 }

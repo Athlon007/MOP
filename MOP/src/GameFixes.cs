@@ -566,7 +566,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                ExceptionManager.New(ex, false, $"GAMEFIXES_PARENTCHANGING_UNKOWN_TRANSFORM");
+                ExceptionManager.New(ex, false, $"GAMEFIXES_PARENTCHANGING_UNKNOWN_TRANSFORM");
             }
         }
     }

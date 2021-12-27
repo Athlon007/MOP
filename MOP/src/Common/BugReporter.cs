@@ -31,8 +31,6 @@ namespace MOP.Common
         static BugReporter instance;
         public static BugReporter Instance => instance;
 
-        string BugReportPath => $"{Paths.RootPath}/MOP_bugreport";
-
         const string ReportFileMessage = "A MOP report archive has been successfully generated. Please follow these steps:\n\n" +
                                         "1.) Go to https://github.com/Athlon007/MOP/issues/new?assignees=&labels=bug&template=template-bug-report.md&title=Bug%20Report \n" +
                                         "2.) Drag & Drop the MOP Bug Report .ZIP file into the report window.\n" +
@@ -76,12 +74,12 @@ namespace MOP.Common
 
         public void BugReport()
         {
-            if (Directory.Exists(BugReportPath))
+            if (Directory.Exists(Paths.BugReportPath))
             {
-                Directory.Delete(BugReportPath, true);
+                Directory.Delete(Paths.BugReportPath, true);
             }
 
-            Directory.CreateDirectory(BugReportPath);
+            Directory.CreateDirectory(Paths.BugReportPath);
 
             // Now we are getting logs generated today.
             string today = DateTime.Now.ToString("yyyy-MM-dd");
@@ -89,20 +87,20 @@ namespace MOP.Common
             {
                 string pathToFile = log.Replace("\\", "/");
                 string nameOfFile = log.Split('\\')[1];
-                File.Copy(pathToFile, $"{BugReportPath}/{nameOfFile}");
+                File.Copy(pathToFile, $"{Paths.BugReportPath}/{nameOfFile}");
             }
 
             // Generate a MOP report.
-            using (StreamWriter sw = new StreamWriter($"{BugReportPath}/MOP_REPORT.txt"))
+            using (StreamWriter sw = new StreamWriter($"{Paths.BugReportPath}/MOP_REPORT.txt"))
             {
                 sw.WriteLine(ExceptionManager.GetGameInfo());
             }
 
             // Now we are packing up everything.
-            string lastZipFilePath = $"{BugReportPath}/MOP Bug Report - {DateTime.Now:yyyy-MM-dd_HH-mm}.zip";
+            string lastZipFilePath = $"{Paths.BugReportPath}/MOP Bug Report - {DateTime.Now:yyyy-MM-dd_HH-mm}.zip";
             using (ZipFile zip = new ZipFile())
             {
-                foreach (string file in Directory.GetFiles(BugReportPath, "*.txt"))
+                foreach (string file in Directory.GetFiles(Paths.BugReportPath, "*.txt"))
                 {
                     zip.AddFile(file, "");
                 }
@@ -133,13 +131,13 @@ namespace MOP.Common
             }
 
             // Now we are deleting all .txt files.
-            foreach (string file in Directory.GetFiles(BugReportPath, "*.txt"))
+            foreach (string file in Directory.GetFiles(Paths.BugReportPath, "*.txt"))
             {
                 File.Delete(file);
             }
 
             // Create the tutorial.
-            using (StreamWriter sw = new StreamWriter($"{BugReportPath}/README.txt"))
+            using (StreamWriter sw = new StreamWriter($"{Paths.BugReportPath}/README.txt"))
             {
                 sw.WriteLine(ReportFileMessage);
             }
@@ -159,8 +157,8 @@ namespace MOP.Common
 
         void OpenBugReportFolder()
         {
-            Process.Start(BugReportPath);
-            Process.Start($"{BugReportPath}/README.txt");
+            Process.Start(Paths.BugReportPath);
+            Process.Start($"{Paths.BugReportPath}/README.txt");
         }
 
         void IncludeZip(string zipFilePath)
