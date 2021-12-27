@@ -19,6 +19,7 @@ using System.Collections.Generic;
 
 namespace MOP.Common
 {
+    // Stored in MOP config folder.
     class MopData
     {
         public string Version = "1.0";

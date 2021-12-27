@@ -63,9 +63,9 @@ namespace MOP
 
         const string WelcomeMessage = "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n\n" +
                                       "Please consider supporting the project using <color=#3687D7>PayPal</color>.";
-        static string WelcomeMessageFestive = "Merry Christmas and Happy New Year {1}!\n\n" +
-                                              "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n" +
-                                              "Please consider supporting the project using <color=#3687D7>PayPal</color>.";
+        const string WelcomeMessageFestive = "Merry Christmas and Happy New Year {1}!\n\n" +
+                                             "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n" +
+                                             "Please consider supporting the project using <color=#3687D7>PayPal</color>.";
 
         /// <summary>
         /// All settings should be created here.
@@ -217,14 +217,14 @@ namespace MOP
                 return;
             }
 
-            // Create WorldManager game object
-            GameObject worldManager = new GameObject("MOP");
+            // Create MOP game object
+            GameObject mop = new GameObject("MOP");
 
             // Initialize CompatibiliyManager
             new CompatibilityManager();
 
-            // Add WorldManager class
-            worldManager.AddComponent<Hypervisor>();
+            // Add Hypervisor class
+            mop.AddComponent<Hypervisor>();
 
             SaveManager.AddSaveFlag();
         }
@@ -233,7 +233,7 @@ namespace MOP
         {
             if (ModLoader.CurrentScene != CurrentScene.MainMenu)
             {
-                ModUI.ShowMessage("You can only force update while in main menu.");
+                ModUI.ShowMessage("You can only force update while in the main menu.");
                 return;
             }
 
@@ -320,6 +320,7 @@ namespace MOP
         {
             RemoveIfExists(Path.Combine(ModConfigPath, "LastModList.mop"));
             RemoveIfExists(Path.Combine(ModConfigPath, "LastUpdate.mop"));
+            RemoveIfExists(Path.Combine(ModConfigPath, "RulesInfo.json"));
         }
 
         void RemoveIfExists(string filename)

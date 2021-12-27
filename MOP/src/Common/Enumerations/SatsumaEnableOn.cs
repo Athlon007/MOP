@@ -20,6 +20,6 @@ namespace MOP.Common.Enumerations
     {
         OnEngine,
         OnPlayerClose,
-        OnPlayerFar,
+        OnPlayerFar
     }
 }

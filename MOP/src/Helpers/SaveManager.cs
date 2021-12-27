@@ -159,7 +159,7 @@ namespace MOP.Helpers
             {
                 // This one applies fix quietly, as it happens so often,
                 // it would be annoying to nag player about that error.
-                MopSaveData save = ReadData();
+                MopSaveFileData save = ReadData();
                 if (save != null)
                 {
                     if (save.version == MOP.ModVersion)
@@ -269,7 +269,7 @@ namespace MOP.Helpers
         {
             if (TagExists("Bumper_RearTightness") && TagExists("Bumper_RearBolts"))
             {
-                MopSaveData save = new MopSaveData
+                MopSaveFileData save = new MopSaveFileData
                 {
                     version = MOP.ModVersion,
                     rearBumperTightness = ReadFloat("Bumper_RearTightness"),
@@ -306,7 +306,7 @@ namespace MOP.Helpers
             GameObject satsuma = GameObject.Find("SATSUMA(557kg, 248)");
             GameObject cylinderHead = Resources.FindObjectsOfTypeAll<GameObject>().First( g => g.name == "cylinder head(Clone)");
             GameObject block = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "block(Clone)");
-            MopSaveData save = new MopSaveData();
+            MopSaveFileData save = new MopSaveFileData();
             bool isCylinderHeadInstalled = ReadBoolean("cylinder head(Clone)Installed");
             bool isEngineBlockInstalled = ReadBoolean("block(Clone)Installed");
 
@@ -349,22 +349,22 @@ namespace MOP.Helpers
             return mopSavePath;
         }
 
-        static MopSaveData ReadData()
+        static MopSaveFileData ReadData()
         {
-            MopSaveData mopSaveData = null;
+            MopSaveFileData mopSaveData = null;
             if (SaveFileExists)
             {
                 StreamReader reader = new StreamReader(mopSavePath);
                 string json = reader.ReadToEnd();
                 reader.Close();
 
-                mopSaveData = JsonConvert.DeserializeObject<MopSaveData>(json);
+                mopSaveData = JsonConvert.DeserializeObject<MopSaveFileData>(json);
             }
 
             return mopSaveData;
         }
 
-        static void WriteData(MopSaveData data)
+        static void WriteData(MopSaveFileData data)
         {
             string json = JsonConvert.SerializeObject(data);
 

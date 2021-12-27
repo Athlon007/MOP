@@ -18,7 +18,8 @@ using System.Collections.Generic;
 
 namespace MOP.Helpers
 {
-    public class MopSaveData
+    // Stored with the game's save file.
+    public class MopSaveFileData
     {
         public string version = "1.0";
 

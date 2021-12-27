@@ -33,6 +33,7 @@ namespace MOP.Common
         public static bool LoadedOnce; // Tracks if the game has been fully loaded at least once.
         public static GameFixStatus GameFixStatus;
         
+        // Restarts manager.
         internal static int Restarts = 0;
         internal const int MaxRestarts = 5;
         internal static bool RestartWarningShown = false;
@@ -42,40 +43,41 @@ namespace MOP.Common
 
         // MopVersionInfo
         public static string DataFile => Path.Combine(MOP.ModConfigPath, "MopData.json");
-        static string DataFileOld => Path.Combine(MOP.ModConfigPath, "RulesInfo.json");
         static MopData loadedData;
 
         internal static void UpdatePerformanceMode()
         {
             // MODES
             // Show the warning about safe mode, if the player disables safe mode and is not in main menu.
-            bool dontUpdate = false;
             if (ModLoader.CurrentScene != CurrentScene.MainMenu)
             {
                 if ((Mode == PerformanceMode.Safe && MOP.ModeSafe.GetValue() == false) || (Mode != PerformanceMode.Safe && MOP.ModeSafe.GetValue() == true))
                 {
                     ModUI.ShowMessage("Safe Mode will be disabled after you quit to the Main Menu.", "MOP");
-                    dontUpdate = true;
+                    return;
                 }
             }
 
-            if (!dontUpdate)
+            PerformanceMode pm = PerformanceMode.Balanced;
+            if (MOP.ModePerformance.GetValue())
             {
-                PerformanceMode pm = PerformanceMode.Balanced;
-                if (MOP.ModePerformance.GetValue())
-                    pm = PerformanceMode.Performance;
-                else if (MOP.ModeQuality.GetValue())
-                    pm = PerformanceMode.Quality;
-                else if (MOP.ModeSafe.GetValue())
-                    pm = PerformanceMode.Safe;
-
-                Mode = pm;
+                pm = PerformanceMode.Performance;
             }
+            else if (MOP.ModeQuality.GetValue())
+            {
+                pm = PerformanceMode.Quality;
+            }
+            else if (MOP.ModeSafe.GetValue())
+            {
+                pm = PerformanceMode.Safe;
+            }
+
+            Mode = pm;
         }
 
         internal static void UpdateFramerateLimiter()
         {
-            Application.targetFrameRate = MOP.LimitFramerate.GetValue() ? (int)MOP.FramerateLimiter.GetValue() : -1;
+            Application.targetFrameRate = MOP.LimitFramerate.GetValue() ? MOP.FramerateLimiter.GetValue() : -1;
         }
 
         internal static void UpdateShadows()
@@ -147,8 +149,10 @@ namespace MOP.Common
 
         static JsonSerializerSettings GetNewSettings()
         {
-            JsonSerializerSettings settings = new JsonSerializerSettings();
-            settings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc
+            };
             return settings;
         }
 
@@ -164,8 +168,10 @@ namespace MOP.Common
         {
             if (!File.Exists(DataFile))
             {
-                MopData newRules = new MopData();
-                newRules.LastModList = new List<string>();
+                MopData newRules = new MopData
+                {
+                    LastModList = new List<string>()
+                };
                 return newRules;
             }
 

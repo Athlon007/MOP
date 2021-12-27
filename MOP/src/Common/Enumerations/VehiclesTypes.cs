@@ -18,16 +18,16 @@ namespace MOP.Common.Enumerations
 {
     public enum VehiclesTypes
     {
-        Satsuma = 0,
-        Hayosiko = 1,
-        Jonnez = 2,
-        Kekmet = 3,
-        Ruscko = 4,
-        Ferndale = 5,
-        Flatbed = 6,
-        Gifu = 7,
-        Boat = 8,
-        Combine = 9,
-        Generic = 10
+        Satsuma,
+        Hayosiko,
+        Jonnez,
+        Kekmet,
+        Ruscko,
+        Ferndale,
+        Flatbed,
+        Gifu,
+        Boat,
+        Combine,
+        Generic
     }
 }

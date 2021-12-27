@@ -19,7 +19,9 @@ namespace MOP.Common
             {
                 string path = $"{RootPath}/{LogFolderName}";
                 if (!Directory.Exists(path))
+                {
                     Directory.CreateDirectory(path);
+                }
 
                 return path;
             }
