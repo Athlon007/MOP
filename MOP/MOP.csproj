@@ -69,9 +69,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\MSCLoader.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car - oldloader\mysummercar_Data\Managed\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\MSC\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PlayMaker">
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\PlayMaker.dll</HintPath>
@@ -105,6 +105,7 @@
     <Compile Include="src\Common\Enumerations\VehiclesTypes.cs" />
     <Compile Include="src\Common\FramerateRecorder.cs" />
     <Compile Include="src\Common\LoadScreen.cs" />
+    <Compile Include="src\Common\Paths.cs" />
     <Compile Include="src\Common\SaveSlotsSupport.cs" />
     <Compile Include="src\Common\ToggledItemsListGenerator.cs" />
     <Compile Include="src\FSM\Actions\CustomAddItemBehaviour.cs" />
@@ -119,7 +120,7 @@
     <Compile Include="src\FSM\Actions\WindscreenRepairJob.cs" />
     <Compile Include="src\FSM\FsmExtensions.cs" />
     <Compile Include="src\GameFixes.cs" />
-    <Compile Include="src\Helpers\MopSaveData.cs" />
+    <Compile Include="src\Helpers\MopSaveFileData.cs" />
     <Compile Include="src\Helpers\SaveBugs.cs" />
     <Compile Include="src\Items\Cases\RearBumperBehaviour.cs" />
     <Compile Include="src\Items\Cases\SuitcaseMoneyBehaviour.cs" />
@@ -213,7 +214,9 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if "$(ConfigurationName)" == "Debug" (
+    <PostBuildEvent>exit
+
+if "$(ConfigurationName)" == "Debug" (
 copy "$(TargetPath)" "D:\SteamLibrary\steamapps\common\My Summer Car\Mods" /y
 copy "$(TargetDir)$(TargetName).pdb" "D:\SteamLibrary\steamapps\common\My Summer Car\Mods" /y
 cd "D:\SteamLibrary\steamapps\common\My Summer Car\Mods"
