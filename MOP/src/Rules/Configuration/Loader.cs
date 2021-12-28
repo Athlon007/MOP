@@ -59,7 +59,7 @@ namespace MOP.Rules.Configuration
             else
             {
                 float div = Screen.width / (float)Screen.height;
-                float x = div  < 1.3f ? 4f : div < 1.6f ? 4.5f : 6f;
+                float x = div  < 1.3f ? 4f : div <= 1.6f ? 4.5f : 6f;
 
                 GameObject text = GameObject.Instantiate(GameObject.Find("Interface/Songs/Text"));
                 text.transform.localPosition = new Vector3(x, 2.6f, 0.01f);
