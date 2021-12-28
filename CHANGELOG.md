@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.10 (28.12.21)
+
+### Bug Fixes
+
+- Fixed a bug that caused MOP to detect rule files for MSC 2.X as outdated, causing them to not load
+
 ## 3.3.9 (22.12.21)
 
 ### Added
