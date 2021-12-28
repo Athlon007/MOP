@@ -277,7 +277,8 @@ namespace MOP.Common
         {
             string fullOS = SystemInfo.operatingSystem;
             
-            if (Paths.RootPath.Contains("Z:/home/"))
+            //if (Paths.RootPath.Contains("Z:/home/"))
+            if (File.Exists("Z:/var/log/syslog"))
             {
                 return "Linux [Wine] | " + fullOS;
             }

@@ -22,6 +22,7 @@ using UnityEngine;
 
 using MOP.Rules;
 using MOP.Rules.Types;
+using System;
 
 namespace MOP.Common
 {
@@ -42,7 +43,7 @@ namespace MOP.Common
                                 "<color=yellow>cat [File Name]</color> - Print the content of a rule file\n" +
                                 "<color=yellow>generate-list [true/false]</color> - Generates text files which contain the list of items that are toggled by MOP\n" +
                                 "<color=yellow>load-rules [true/false]</color> - If set to false, prevents MOP from loading any rule files.\n" +
-                                "<color=yellow>force-crash [critical]</color> - Forces MOP to crash itself. If 'critical' is added, it will force MOP a critical crash.\n" +
+                                "<color=yellow>force-crash [critical]</color> - Forces MOP to crash itself. If 'critical' is added, it will force a critical crash.\n" +
                                 "<color=yellow>resolution</color> - Lists the available resolutions\n" +
                                 "<color=yellow>resolution [nOfResolution]</color> - Sets the desired resolution from 'mop resolution' list\n" +
                                 "<color=yellow>resolution [width] [height]</color> - Sets the desired resolution";
@@ -61,9 +62,9 @@ namespace MOP.Common
                     ModConsole.Log("Invalid command. Type \"mop help\" for command list.");
                     break;
                 case "help":
+                    string[] helpList = HelpList.Split('\n');
                     if (args.Length > 1)
                     {
-                        string[] helpList = HelpList.Split('\n');
                         bool commandsFound = false;
                         foreach (string s in helpList)
                         {
@@ -77,7 +78,8 @@ namespace MOP.Common
                             ModConsole.Log($"Command {args[1]} not found.");
                         return;
                     }
-                    ModConsole.Log(HelpList);
+                    Array.Sort(helpList, StringComparer.InvariantCulture);
+                    ModConsole.Log(string.Join("\n", helpList));
                     break;
                 case "rules":
                     if (args.Length > 1 && args[1] == "roll")
