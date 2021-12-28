@@ -552,7 +552,7 @@ namespace MOP.Rules.Configuration
                             }
 
                             int[] minVer = GetVersionFromString(objects[0]);
-                            int[] mopVersion = GetVersionFromString(MOP.ModVersion);
+                            int[] mopVersion = GetVersionFromString(MOP.ModVersionShort);
 
                             if (IsOutdated(mopVersion, minVer))
                             {
@@ -669,7 +669,6 @@ namespace MOP.Rules.Configuration
             string[] splitted = s.Split('.');
             for (int i = 0; i < splitted.Length; ++i)
             {
-                version[i] = int.Parse(splitted[i]);
                 if (int.TryParse(splitted[i], out int digit))
                 {
                     version[i] = digit;
@@ -685,15 +684,22 @@ namespace MOP.Rules.Configuration
 
         bool IsOutdated(int[] mopVersion, int[] minimalVersion)
         {
-            for (int i = 0; i < mopVersion.Length; ++i)
+            if (mopVersion[0] > minimalVersion[0])
             {
-                if (minimalVersion[i] > mopVersion[i])
-                {
-                    return true;
-                }
+                return false;
             }
 
-            return false;
+            if (mopVersion[1] > minimalVersion[1])
+            {
+                return false;
+            }
+
+            if (mopVersion[2] >= minimalVersion[2])
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
