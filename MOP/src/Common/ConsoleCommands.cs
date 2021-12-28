@@ -337,6 +337,27 @@ namespace MOP.Common
                 case "resolution":
                     try
                     {
+                        if (args.Length == 1)
+                        {
+                            string availableResolutions = "";
+                            for (int i = 0; i < Screen.resolutions.Length; ++i)
+                            {
+                                Resolution res = Screen.resolutions[i];
+                                availableResolutions += $"  {i+1}. {res.width}x{res.height}\n";
+                            }
+                            ModConsole.Log(availableResolutions);
+                            ModConsole.Log("Use '<color=yellow>mop resolution [nOfResolution]</color> to set the prefered resolution.");
+                            return;
+                        }
+
+                        if (args.Length == 2)
+                        {
+                            int nOfResolution = int.Parse(args[1]) - 1;
+                            Resolution res = Screen.resolutions[nOfResolution];
+                            Screen.SetResolution(res.width, res.height, false);
+                            return;
+                        }
+
                         int width = int.Parse(args[1]);
                         int height = int.Parse(args[2]);
 

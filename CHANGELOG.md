@@ -4,6 +4,12 @@
 
 This version REQUIRES the MSCLoader!
 
+### Added
+
+- Added two new console commands:
+  - 'mop resolution' - Lists all available resolutions
+  - 'mop resolution [nOfResolution]' - Sets the resolution from the 'mop resolution' list
+
 ### Changes
 
 - MOP has been ported to MSCLoader by Piotrulos
