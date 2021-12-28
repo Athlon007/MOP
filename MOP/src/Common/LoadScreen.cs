@@ -35,10 +35,11 @@ namespace MOP.Common
             loadScreen = canvas.transform.Find("MSCLoader loading screen").gameObject;
             loadScreen.name = "LoadScreen";
             loadScreen.transform.Find("ModName").gameObject.GetComponent<Text>().text = LoadText;
-            loadScreen.transform.Find("Loading").gameObject.GetComponent<Text>().text = $"MODERN OPTIMIZATION PLUGIN <color=yellow>{MOP.ModVersion}</color>";
+            string displayedVersion = MOP.ModVersion;
+            displayedVersion = displayedVersion.Replace('-', ' ');
+            displayedVersion = displayedVersion.Replace('_', ' ');
+            loadScreen.transform.Find("Loading").gameObject.GetComponent<Text>().text = $"MODERN OPTIMIZATION PLUGIN <color=yellow>{displayedVersion}</color>";
 
-
-            //Destroy(loadScreen.transform.Find("Loading").gameObject);
             Destroy(loadScreen.transform.Find("Title").gameObject);
             Destroy(loadScreen.transform.Find("Progress").gameObject);
 
