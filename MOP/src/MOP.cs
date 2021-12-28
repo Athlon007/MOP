@@ -52,11 +52,11 @@ namespace MOP
         // Settings
         static internal SettingsSliderInt ActiveDistance, FramerateLimiter, ShadowDistance, RulesAutoUpdateFrequency;
         static internal SettingsCheckBoxGroup ModePerformance, ModeBalanced, ModeQuality, ModeSafe;
-        static internal SettingsCheckBox  KeepRunningInBackground, LimitFramerate, DynamicDrawDistance, 
+        static internal SettingsCheckBox KeepRunningInBackground, LimitFramerate, DynamicDrawDistance,
                                           RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
                                           DestroyEmptyBottles, DisableEmptyItems;
 
-        readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" }; 
+        readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
         readonly string[] rulesAutoUpdateFrequencyText = { "On Restart", "Daily", "Every 2 days", "Weekly" };
 
         public static Guid SessionID;
@@ -85,7 +85,7 @@ namespace MOP
             Settings.AddButton(this, "homepage", "HOMEPAGE", () => ShowDialog("http://athlon.kkmr.pl/"));
             Settings.AddButton(this, "github", "GITHUB", () => ShowDialog("https://github.com/Athlon007/MOP"));
             Settings.AddButton(this, "homepage", "NEXUSMODS", () => ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
-            Settings.AddButton(this, "paypal", "PAYPAL", () => ShowDialog("https://paypal.me/figurakonrad"), new Color32(37, 59, 128, 255), new Color(1,1,1));
+            Settings.AddButton(this, "paypal", "PAYPAL", () => ShowDialog("https://paypal.me/figurakonrad"), new Color32(37, 59, 128, 255), new Color(1, 1, 1));
 
             // Activating objects.
             Settings.AddHeader(this, "DESPAWNING");
