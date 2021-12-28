@@ -2,6 +2,8 @@
 
 ## 3.4 (TBA)
 
+This version REQUIRES the MSCLoader!
+
 ### Changes
 
 - MOP has been ported to MSCLoader by Piotrulos

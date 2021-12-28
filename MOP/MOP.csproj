@@ -66,7 +66,7 @@
     </Reference>
     <Reference Include="MSCLoader, Version=1.2.3.250, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\mschah\mysummercar_Data\Managed\MSCLoader.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\MSC\MSCLoader.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
