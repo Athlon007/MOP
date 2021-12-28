@@ -355,7 +355,7 @@ namespace MOP.Common
                                 }
                             }
                             ModConsole.Log(availableResolutions);
-                            ModConsole.Log("Use '<color=yellow>mop resolution [nOfResolution]</color> to set the prefered resolution.");
+                            ModConsole.Log("Use '<color=yellow>mop resolution [nOfResolution]</color>' to set the preferred resolution.");
                             return;
                         }
 
