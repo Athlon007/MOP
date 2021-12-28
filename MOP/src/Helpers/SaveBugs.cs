@@ -21,15 +21,13 @@ namespace MOP.Helpers
     struct SaveBugs
     {
         public string BugName;
-        public string Description;
         public UnityAction Fix;
 
-        public static SaveBugs New(string bugName, string description, UnityAction fix)
+        public static SaveBugs New(string bugName, UnityAction fix)
         {
             SaveBugs bug = new SaveBugs
             {
                 BugName = bugName,
-                Description = description,
                 Fix = fix
             };
             return bug;

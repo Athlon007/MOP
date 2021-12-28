@@ -124,7 +124,7 @@ namespace MOP.Helpers
 
                 if (bucketDriverSeat != bucketPassengerSeat)
                 {
-                    saveBugs.Add(SaveBugs.New("Bucket Seats", "One bucket seat is present in the game world, while the other isn't - both should be in game world.", () =>
+                    saveBugs.Add(SaveBugs.New("Bucket Seats", () =>
                     {
                         WriteSavePath("bucket seat passenger(Clone)Purchased", true);
                         WriteSavePath("bucket seat driver(Clone)Purchased", true);
@@ -144,7 +144,7 @@ namespace MOP.Helpers
 
                 if (tractorTrailerAttached && Vector3.Distance(flatbedTransform.position, kekmetTransform.position) > 5.5f)
                 {
-                    saveBugs.Add(SaveBugs.New("Flatbed Trailer Attached", "Trailer and tractor are too far apart from each other - impossible for them to be attached.", () =>
+                    saveBugs.Add(SaveBugs.New("Flatbed Trailer Attached", () =>
                     {
                         WriteSavePath("TractorTrailerAttached", false);
                     }));
@@ -177,7 +177,7 @@ namespace MOP.Helpers
                         float halfshaft_FLTightness = ReadFloat("Halfshaft_FLTightness");
                         if (halfshaft_FLInstalled && halfshaft_FLTightness != save.halfshaft_FLTightness)
                         {
-                            saveBugs.Add(SaveBugs.New("Halfshaft (FL) Missmateched Bolt Stages", "Bolt stages in Halfshaft (FL) aren't correct.", () =>
+                            saveBugs.Add(SaveBugs.New("Halfshaft (FL) Missmateched Bolt Stages", () =>
                             {
                                 WriteSavePath("Halfshaft_FLTightness", save.halfshaft_FLTightness);
                                 WriteSavePath("Halfshaft_FLBolts", save.halfshaft_FLBolts);
@@ -188,7 +188,7 @@ namespace MOP.Helpers
                         float halfshaft_FRTightness = ReadFloat("Halfshaft_FRTightness");
                         if (halfshaft_FRInstalled && halfshaft_FRTightness != save.halfshaft_FRTightness)
                         {
-                            saveBugs.Add(SaveBugs.New("Halfshaft (FR) Missmateched Bolt Stages", "Bolt stages in Halfshaft (FR) aren't correct.", () =>
+                            saveBugs.Add(SaveBugs.New("Halfshaft (FR) Missmateched Bolt Stages", () =>
                             {
                                 WriteSavePath("Halfshaft_FRTightness", save.halfshaft_FRTightness);
                                 WriteSavePath("Halfshaft_FRBolts", save.halfshaft_FRBolts);
@@ -199,7 +199,7 @@ namespace MOP.Helpers
                         float wiringBatteryMinusTightness = ReadFloat("WiringBatteryMinusTightness");
                         if (wiringBatteryMinusInstalled && wiringBatteryMinusTightness != save.wiringBatteryMinusTightness)
                         {
-                            saveBugs.Add(SaveBugs.New("Battery terminal minus bolt is not tightened.", "Incorrect bolt tightness of battery minus terminal.", () =>
+                            saveBugs.Add(SaveBugs.New("Battery terminal minus bolt is not tightened.", () =>
                             {
                                 WriteSavePath("WiringBatteryMinusTightness", save.wiringBatteryMinusTightness);
                                 WriteSavePath("WiringBatteryMinusBolts", save.wiringBatteryMinusBolts);
