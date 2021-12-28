@@ -277,10 +277,10 @@ namespace MOP.Common
         {
             string fullOS = SystemInfo.operatingSystem;
             
-            //if (Paths.RootPath.Contains("Z:/home/"))
             if (File.Exists("Z:/var/log/syslog"))
             {
-                return "Linux [Wine] | " + fullOS;
+                string name = GetLinuxName();
+                return $"{name} [Wine, {fullOS}]";
             }
 
             int build = int.Parse(fullOS.Split('(')[1].Split(')')[0].Split('.')[2]);
@@ -293,6 +293,31 @@ namespace MOP.Common
             }
 
             return fullOS;
+        }
+
+        static string GetLinuxName()
+        {
+            string linuxInfoFile = "Z:/etc/os-release";
+            string output = "Linux";
+            if (File.Exists(linuxInfoFile))
+            {
+                StreamReader reader = new StreamReader(linuxInfoFile);
+                while (!reader.EndOfStream)
+                {
+                    string line = reader.ReadLine();
+                    if (line.Contains("PRETTY_NAME"))
+                    {
+                        line = line.Replace("PRETTY_NAME=", "");
+                        line = line.Replace("\"", "");
+                        output = line;
+                        break;
+                    }
+                }
+
+                reader.Close();
+            }
+
+            return output;
         }
 
         /// <summary>
