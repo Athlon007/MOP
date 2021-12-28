@@ -43,6 +43,8 @@ namespace MOP.Common
                                 "<color=yellow>generate-list [true/false]</color> - Generates text files which contain the list of items that are toggled by MOP\n" +
                                 "<color=yellow>load-rules [true/false]</color> - If set to false, prevents MOP from loading any rule files.\n" +
                                 "<color=yellow>force-crash [critical]</color> - Forces MOP to crash itself. If 'critical' is added, it will force MOP a critical crash.\n" +
+                                "<color=yellow>resolution</color> - Lists the available resolutions\n" +
+                                "<color=yellow>resolution [nOfResolution]</color> - Sets the desired resolution from 'mop resolution' list\n" +
                                 "<color=yellow>resolution [width] [height]</color> - Sets the desired resolution";
 
         public override void Run(string[] args)
@@ -343,7 +345,14 @@ namespace MOP.Common
                             for (int i = 0; i < Screen.resolutions.Length; ++i)
                             {
                                 Resolution res = Screen.resolutions[i];
-                                availableResolutions += $"  {i+1}. {res.width}x{res.height}\n";
+                                if (res.width == Screen.width && res.height == Screen.height)
+                                {
+                                    availableResolutions += $"  <color=green>{i + 1}. {res.width}x{res.height}</color>\n";
+                                }
+                                else
+                                {
+                                    availableResolutions += $"  {i + 1}. {res.width}x{res.height}\n";
+                                }
                             }
                             ModConsole.Log(availableResolutions);
                             ModConsole.Log("Use '<color=yellow>mop resolution [nOfResolution]</color> to set the prefered resolution.");
