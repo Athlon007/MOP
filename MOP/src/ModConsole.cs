@@ -24,7 +24,7 @@ namespace MOP
         // This class overrides default MSCLoader console messages,
         // in order to catch what MOP "says" and stores it into a list.
 
-        static List<string> messages = new List<string>();
+        static readonly List<string> messages = new List<string>();
 
         public new static void Log(string message)
         {

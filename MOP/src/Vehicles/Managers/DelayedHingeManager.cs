@@ -14,14 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using MSCLoader;
+using System.Collections;
 using UnityEngine;
 
 namespace MOP.Vehicles.Managers
 {
-    class HingeManager : MonoBehaviour
+    class DelayedHingeManager : MonoBehaviour
     {
-        // This script is responsible for resetting the door hinges, when vehiclee gets despawned.
-        // Script from https://answers.unity.com/questions/368249/hingejoint-stops-working-properly-after-disableena.html
+        // Used only for the hood.
 
         private Quaternion initialLocalRotation;
         private Vector3 initialLocalPosition;
@@ -31,10 +32,28 @@ namespace MOP.Vehicles.Managers
 
         private bool hasDisabled;
 
+        bool initialHookDone;
+
         void Awake()
         {
+            StartCoroutine(InitializationRoutine());
+        }
+
+        IEnumerator InitializationRoutine(bool noDelay = false)
+        {
+            if (noDelay)
+                yield return null;
+            else
+                yield return new WaitForSeconds(2);
+
             this.initialLocalRotation = this.transform.localRotation;
             this.initialLocalPosition = this.transform.localPosition;
+
+            if (!initialHookDone)
+            {
+                FsmHook.FsmInject(GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Body/trigger_hood").gameObject, "Assemble 2", UpdateInitialRotation);
+                initialHookDone = true;
+            }
         }
 
         void OnDisable()
@@ -55,6 +74,19 @@ namespace MOP.Vehicles.Managers
                 this.hasDisabled = false;
                 this.transform.localRotation = this.localRotationOnDisable;
                 this.transform.localPosition = this.localPositionOnDisable;
+            }
+        }
+
+        void UpdateInitialRotation()
+        {
+            StartCoroutine(InitializationRoutine(true));
+        }
+
+        void OnEnable()
+        {
+            while (gameObject.GetComponents<FixedJoint>().Length > 1)
+            {
+                gameObject.GetComponent<FixedJoint>().breakForce = 0;
             }
         }
     }

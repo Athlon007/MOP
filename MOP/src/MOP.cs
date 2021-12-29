@@ -67,10 +67,6 @@ namespace MOP
                                              "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n" +
                                              "Please consider supporting the project using <color=#3687D7>PayPal</color>.";
 
-        /// <summary>
-        /// All settings should be created here.
-        /// DO NOT put anything else here that settings.
-        /// </summary>
         public override void ModSettings()
         {
             modVersion = Version;
@@ -80,12 +76,12 @@ namespace MOP
             Settings.AddHeader(this, "Shh...Don't leak my hard work ;)", Color.yellow, Color.black);
 #endif
             Settings.AddButton(this, "iFoundABug", "<color=red>I FOUND A BUG</color>", BugReporter.FileBugReport);
-            Settings.AddButton(this, "faq", "FAQ", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/faq"));
-            Settings.AddButton(this, "wiki", "WIKI", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/"));
-            Settings.AddButton(this, "homepage", "HOMEPAGE", () => ShowDialog("http://athlon.kkmr.pl/"));
-            Settings.AddButton(this, "github", "GITHUB", () => ShowDialog("https://github.com/Athlon007/MOP"));
-            Settings.AddButton(this, "homepage", "NEXUSMODS", () => ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
-            Settings.AddButton(this, "paypal", "PAYPAL", () => ShowDialog("https://paypal.me/figurakonrad"), new Color32(37, 59, 128, 255), new Color(1, 1, 1));
+            Settings.AddButton(this, "linkFAQ", "FAQ", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/faq"));
+            Settings.AddButton(this, "linkWiki", "WIKI", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/"));
+            Settings.AddButton(this, "linkHomepage", "HOMEPAGE", () => ShowDialog("http://athlon.kkmr.pl/"));
+            Settings.AddButton(this, "linkGithub", "GITHUB", () => ShowDialog("https://github.com/Athlon007/MOP"));
+            Settings.AddButton(this, "linkNexusmods", "NEXUSMODS", () => ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
+            Settings.AddButton(this, "linkDonate", "DONATE", () => ShowDialog("https://paypal.me/figurakonrad"), new Color32(37, 59, 128, 255), new Color(1, 1, 1));
 
             // Activating objects.
             Settings.AddHeader(this, "DESPAWNING");
@@ -107,8 +103,8 @@ namespace MOP
             Settings.AddHeader(this, "RULES");
             Settings.AddButton(this, "rulesLearnMore", "LEARN MORE", () => ShowDialog("http://athlon.kkmr.pl/mop"));
             RulesAutoUpdate = Settings.AddCheckBox(this, "rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true);
-            VerifyRuleFiles = Settings.AddCheckBox(this, "verifyRuleFiles", "VERIFY RULE FILES", true);
             RulesAutoUpdateFrequency = Settings.AddSlider(this, "ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 0, 3, 2, textValues: rulesAutoUpdateFrequencyText);
+            VerifyRuleFiles = Settings.AddCheckBox(this, "verifyRuleFiles", "VERIFY RULE FILES", true);
             DeleteUnusedRules = Settings.AddCheckBox(this, "deleteUnusedRules", "AUTOMATICALLY DELETE UNUSED RULES", false);
             Settings.AddButton(this, "deleteUnusedRulesButton", "DELETE UNUSED RULES", RulesManager.DeleteUnused);
             Settings.AddButton(this, "forceRulesUpdate", "FORCE UPDATE", ForceRuleFilesUpdate);

@@ -530,9 +530,9 @@ namespace MOP.Rules.Configuration
                             RulesManager.Instance.SpecialRules.DontDestroyEmptyBeerBottles = true;
                             break;
                         case "sector":
-                            Vector3 pos = ParseToVector3(objects[0]);
-                            Vector3 scale = ParseToVector3(objects[1]);
-                            Vector3 rot = ParseToVector3(objects[2]);
+                            Vector3 pos = StringToVector3(objects[0]);
+                            Vector3 scale = StringToVector3(objects[1]);
+                            Vector3 rot = StringToVector3(objects[2]);
                             string[] whitelist = GetWhitelist(objects);
                             RulesManager.Instance.NewSectors.Add(new NewSector(pos, scale, rot, whitelist));
                             break;
@@ -608,7 +608,7 @@ namespace MOP.Rules.Configuration
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        Vector3 ParseToVector3(string s)
+        Vector3 StringToVector3(string s)
         {
             try
             {
