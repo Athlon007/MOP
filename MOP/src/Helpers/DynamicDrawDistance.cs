@@ -37,9 +37,13 @@ namespace MOP.Helpers
 
             float toGoDrawDistance = FsmManager.GetDrawDistance();
             if (player.position.y > 20)
+            {
                 toGoDrawDistance *= 2;
+            }
             else if (Hypervisor.Instance.IsInSector())
+            {
                 toGoDrawDistance /= 2;
+            }
 
             mainCamera.farClipPlane = Mathf.Lerp(mainCamera.farClipPlane, toGoDrawDistance, Time.deltaTime * .5f);
         }

@@ -68,9 +68,9 @@ namespace MOP.Common
                          $"{errorInfo}");
             }
 
-            string errorMessage = $"[MOP] An error has occured. Log has been saved into My Summer Car folder into:\n\n" +
+            string errorMessage = $"[MOP] An error has occured. The log file has been saved folder into:\n\n" +
                 $"{logFilePath}.\n\n" +
-                $"Please go into MOP Settings and click \"<b>I found a bug</b>\" button, in order to generate bug report and then follow the instructions.\n";
+                $"Please go into MOP Settings and click \"<b>I found a bug</b>\" button, in order to generate the bug report and then follow the instructions.\n";
 
             if (isCritical)
             {
@@ -276,13 +276,21 @@ namespace MOP.Common
         public static string GetSystemInfo()
         {
             string fullOS = SystemInfo.operatingSystem;
+            string windowsVersion = GetWindowsName(fullOS);
             
             if (File.Exists("Z:/var/log/syslog"))
             {
                 string name = GetLinuxName();
-                return $"{name} [Wine, {fullOS}]";
+                return $"{name} [Wine, {windowsVersion}]";
             }
+            else
+            {
+                return windowsVersion;
+            }
+        }
 
+        static string GetWindowsName(string fullOS)
+        {
             int build = int.Parse(fullOS.Split('(')[1].Split(')')[0].Split('.')[2]);
             if (build > 9600)
             {

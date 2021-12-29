@@ -75,7 +75,9 @@ namespace MOP.Common
                             }
                         }
                         if (!commandsFound)
+                        {
                             ModConsole.Log($"Command {args[1]} not found.");
+                        }
                         return;
                     }
                     Array.Sort(helpList, StringComparer.InvariantCulture);
@@ -145,7 +147,7 @@ namespace MOP.Common
                 case "reload":
                     if (ModLoader.CurrentScene != CurrentScene.MainMenu)
                     {
-                        ModConsole.Log("You can only reload rule files in the main menu");
+                        ModConsole.Log("You can only reload the rule files in the main menu.");
                         return;
                     }
 
@@ -165,7 +167,7 @@ namespace MOP.Common
                         return;
                     }
 
-                    File.WriteAllText(path, "## Every line which starts with ## will be ignored.\n" +
+                    File.WriteAllText(path, "## Every line which starts with '##' will be ignored.\n" +
                                             "## All new flags MUST be written in a new line.\n" +
                                             "## Visit http://athlon.kkmr.pl/mop/wiki/#/rulefiles_commands for documentation.\n" +
                                             "## WARNING: Using custom rule files may cause issues. Use only at your own risk!");
@@ -186,32 +188,6 @@ namespace MOP.Common
                     break;
                 case "cowsay":
                     string say = string.Join(" ", args, 1, args.Length - 1);
-
-                    switch (say.ToLower())
-                    {
-                        case "tell me your secrets":
-                            say = "all pls fix and no appreciation makes Athlon an angry boy";
-                            break;
-                        case "tell me your wisdoms":
-                            say = "people saying that MOP is just improved KruFPS are straight up wrong";
-                            break;
-                        case "wieski":
-                            say = "it really do be like dat doe sometimes";
-                            break;
-                        case "embu":
-                            say = "pee vee good";
-                            break;
-                        case "owo":
-                            say = "UwU";
-                            break;
-                        case "uwu":
-                            say = "OwO";
-                            break;
-                        case "mop sucks":
-                            say = "no u";
-                            Process.Start("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-                            break;
-                    }
 
                     ModConsole.Log($"< {say} >\n" +
                                     "        \\   ^__^\n" +
@@ -304,8 +280,7 @@ namespace MOP.Common
                     {
                         if (RulesManager.Instance.LoadRules && 
                             (RulesManager.Instance.IgnoreRules.Count > 0 || RulesManager.Instance.IgnoreRulesAtPlaces.Count > 0 ||
-                             RulesManager.Instance.NewSectors.Count > 0 || RulesManager.Instance.ToggleRules.Count > 0)
-                            )
+                             RulesManager.Instance.NewSectors.Count > 0 || RulesManager.Instance.ToggleRules.Count > 0))
                         {
                             ModConsole.Log("<color=red>WARNING:</color> For accurate results, use \"mop load-rules false\" to prevent MOP from using rule files.");
                         }
@@ -314,7 +289,7 @@ namespace MOP.Common
                     }
 
                     ModConsole.Log($"Generating toggled elements list is set to " +
-                                     $"<color={(MopSettings.GenerateToggledItemsListDebug ? "green" : "red")}>{MopSettings.GenerateToggledItemsListDebug}</color>");
+                                   $"<color={(MopSettings.GenerateToggledItemsListDebug ? "green" : "red")}>{MopSettings.GenerateToggledItemsListDebug}</color>");
                     break;
                 case "load-rules":
                     if (args.Length > 1)
@@ -322,7 +297,7 @@ namespace MOP.Common
                         RulesManager.Instance.LoadRules = args[1].ToLower() == "true";
                         if (!RulesManager.Instance.LoadRules)
                         {
-                            ModConsole.Log("\n\n<color=red>WARNING:</color>\nDisabling rule files may cause serious issues with game, or even break your game save.\n\n" +
+                            ModConsole.Log("\n\n<color=red>WARNING:</color>\nDisabling rule files may cause serious issues with the game, or even break your save file.\n\n" +
                                              "<b><color=red>!!! USE ONLY AT YOUR OWN RISK !!!</color></b>\n\n");
                         }
                     }
@@ -336,7 +311,7 @@ namespace MOP.Common
                     {
                         isCritical = true;
                     }
-                    ExceptionManager.New(new System.Exception("Test exception"), isCritical, "Test exception: " + System.Guid.NewGuid());
+                    ExceptionManager.New(new Exception("Test exception"), isCritical, "Test exception: " + System.Guid.NewGuid());
                     break;
                 case "resolution":
                     try

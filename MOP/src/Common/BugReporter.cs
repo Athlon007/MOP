@@ -63,9 +63,9 @@ namespace MOP.Common
             if (!MopSettings.LoadedOnce)
             {
                 MSCLoader.ModUI.ShowContinueAbortMessage("It is recommended to start the game at least once before filing the bug report.\n\n" +
-                                                    "If you can't load the game, press Continue to generate the mod report anyway.", 
-                                                    "MOP - Bug Report", 
-                                                    () => instance.BugReport());
+                                                        "If you can't load the game, press Continue to generate the mod report anyway.", 
+                                                        "MOP - Bug Report", 
+                                                        instance.BugReport);
                 return;
             }
 

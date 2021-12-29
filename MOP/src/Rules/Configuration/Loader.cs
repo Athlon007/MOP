@@ -563,7 +563,9 @@ namespace MOP.Rules.Configuration
                             }
 
                             break;
-
+                        case "skip_fury_collider_fix":
+                            RulesManager.Instance.SpecialRules.SkipFuryColliderFix = true;
+                            break;
                         // Custom.txt exclusives.
                         case "ignore_mod_vehicles":
                             if (fileName != CustomFile)

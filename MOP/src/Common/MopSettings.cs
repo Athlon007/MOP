@@ -108,7 +108,7 @@ namespace MOP.Common
         {
             get
             {
-                switch ((int)MOP.ActiveDistance.GetValue())
+                switch (MOP.ActiveDistance.GetValue())
                 {
                     case 0:
                         return 0.75f;

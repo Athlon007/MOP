@@ -9,6 +9,7 @@ This version REQUIRES the MSCLoader!
 - Added two new console commands:
   - 'mop resolution' - Lists all available resolutions
   - 'mop resolution [nOfResolution]' - Sets the resolution from the 'mop resolution' list
+- (Rule Files API) Added "skip_fury_collider_fix" that makes MOP skip the repair shop missing Fury collider fix
 
 ### Changes
 

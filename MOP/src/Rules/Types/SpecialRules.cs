@@ -21,6 +21,7 @@ namespace MOP.Rules.Types
     {
         public bool SatsumaIgnoreRenderers;
         public bool DontDestroyEmptyBeerBottles;
+        public bool SkipFuryColliderFix;
         #region Custom Rule Files
         public bool IgnoreModVehicles;
         public bool ToggleAllVehiclesPhysicsOnly;

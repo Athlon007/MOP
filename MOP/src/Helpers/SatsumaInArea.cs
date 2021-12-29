@@ -38,29 +38,27 @@ namespace MOP.Helpers
             collider.size = size;
             collider.transform.position = transform.position;
 
-            isParcFerme = this.gameObject.name == "MOP_ParcFermeTrigger";
+            isParcFerme = gameObject.name == "MOP_ParcFermeTrigger";
         }
 
         void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject == referenceObject)
-            {
-                Satsuma.Instance.IsSatsumaInInspectionArea = true;
-                if (isParcFerme)
-                {
-                    Satsuma.Instance.IsSatsumaInParcFerme = true;
-                }
-            }
+            Toggle(true, other);
         }
 
         void OnTriggerExit(Collider other)
         {
+            Toggle(false, other);
+        }
+
+        void Toggle(bool enabled, Collider other)
+        {
             if (other.gameObject == referenceObject)
             {
-                Satsuma.Instance.IsSatsumaInInspectionArea = false;
+                Satsuma.Instance.IsSatsumaInInspectionArea = enabled;
                 if (isParcFerme)
                 {
-                    Satsuma.Instance.IsSatsumaInParcFerme = false;
+                    Satsuma.Instance.IsSatsumaInParcFerme = enabled;
                 }
             }
         }

@@ -19,6 +19,7 @@ using UnityEngine;
 using MSCLoader;
 
 using MOP.Vehicles.Cases;
+using MOP.Rules;
 
 namespace MOP.Places
 {
@@ -68,12 +69,15 @@ namespace MOP.Places
             registerCollider.center = newBounds;
 
             // Add collider to Fury.
-            BoxCollider collBox0 = transform.Find("LOD/Vehicle/FURY").gameObject.AddComponent<BoxCollider>();
-            BoxCollider collBox1 = transform.Find("LOD/Vehicle/FURY").gameObject.AddComponent<BoxCollider>();
-            collBox0.center = new Vector3(0, 0, -.2f);
-            collBox0.size = new Vector3(2.2f, 1.3f, 5);
-            collBox1.center = new Vector3(0, 0, -.25f);
-            collBox1.size = new Vector3(1.4f, 2.3f, 1.1f);
+            if (!RulesManager.Instance.SpecialRules.SkipFuryColliderFix)
+            {
+                BoxCollider collBox0 = transform.Find("LOD/Vehicle/FURY").gameObject.AddComponent<BoxCollider>();
+                BoxCollider collBox1 = transform.Find("LOD/Vehicle/FURY").gameObject.AddComponent<BoxCollider>();
+                collBox0.center = new Vector3(0, 0, -.2f);
+                collBox0.size = new Vector3(2.2f, 1.3f, 5);
+                collBox1.center = new Vector3(0, 0, -.25f);
+                collBox1.size = new Vector3(1.4f, 2.3f, 1.1f);
+            }
 
             // Hooks a trigger for when Satsuma has been moved by the Fleetari, so it won't get teleported back.
             try

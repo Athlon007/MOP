@@ -48,9 +48,6 @@ namespace MOP.Managers
             "COMBINE(350-400psi)"
         };
 
-        // owo, what's this?
-        readonly string[] vehicleArrayMWC = { };
-
         List<Vehicle> vehicles;
 
         public VehicleManager()
@@ -59,7 +56,7 @@ namespace MOP.Managers
 
             // Loading vehicles
             vehicles = new List<Vehicle>();
-            string[] activeVehicleArray = CompatibilityManager.IsMySummerCar ? vehicleArrayMSC : vehicleArrayMWC;
+            string[] activeVehicleArray = vehicleArrayMSC;
             
             foreach (string vehicle in activeVehicleArray)
             {
