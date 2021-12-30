@@ -29,14 +29,11 @@ namespace MOP
     public class MOP : Mod
     {
         public override string ID => "MOP";
-#if DEBUG
-        public override string Name => "Modern Optimization Plugin (Debug)";
-#else
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
-#endif
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.4"; //Version
         public const string SubVersion = "BETA_1"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public override string Description => "The Ultimate My Summer Car optimization project!";
         public override byte[] Icon => Properties.Resources.icon;
 
         #region Settings & Configuration

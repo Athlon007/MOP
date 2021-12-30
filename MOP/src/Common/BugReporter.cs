@@ -192,6 +192,8 @@ namespace MOP.Common
         {
             yield return null;
 
+            MSCLoader.ModConsole.Log("[MOP] Initializing the restart procedure...");
+
             GameObject buttonContinue = GameObject.Find("Interface").transform.Find("Buttons/ButtonContinue").gameObject;
             if (!buttonContinue.activeSelf)
             {

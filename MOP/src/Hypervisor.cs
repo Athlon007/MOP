@@ -107,7 +107,7 @@ namespace MOP
                 else
                 {
                     MopSettings.GameFixStatus = GameFixStatus.DoFix;
-                    ModConsole.Log("MOP attempts to restart the scene...");
+                    ModConsole.Log("MOP is attempting to restart the scene...");
                     Application.LoadLevel(1);
                 }
             }
