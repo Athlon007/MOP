@@ -6,9 +6,10 @@ This version REQUIRES the MSCLoader!
 
 ### Added
 
-- Added two new console commands:
+- Added three new console commands:
   - 'mop resolution' - Lists all available resolutions
   - 'mop resolution [nOfResolution]' - Sets the resolution from the 'mop resolution' list
+  - 'mop force-load-restart [true/false]' - Forces the 'missing Satsuma parts' game reload to happen
 - Rule Files API: Added "skip_fury_collider_fix" that makes MOP skip the repair shop missing Fury collider fix
 
 ### Changes

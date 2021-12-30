@@ -46,7 +46,8 @@ namespace MOP.Common
                                 "<color=yellow>force-crash [critical]</color> - Forces MOP to crash itself. If 'critical' is added, it will force a critical crash.\n" +
                                 "<color=yellow>resolution</color> - Lists the available resolutions\n" +
                                 "<color=yellow>resolution [nOfResolution]</color> - Sets the desired resolution from 'mop resolution' list\n" +
-                                "<color=yellow>resolution [width] [height]</color> - Sets the desired resolution";
+                                "<color=yellow>resolution [width] [height]</color> - Sets the desired resolution\n" +
+                                "<color=yellow>force-load-restart [true/false]</color> - Forces the 'missing Satsuma parts' game reload to happen";
 
         public override void Run(string[] args)
         {
@@ -363,6 +364,27 @@ namespace MOP.Common
                     {
                         ModConsole.LogError("Failed setting quality settings.");
                     }
+                    break;
+                case "force-load-restart":
+                    if (args.Length == 2)
+                    {
+                        string var = args[1].ToLower();
+                        if (var == "true")
+                        {
+                            MopSettings.ForceLoadRestart = true;
+                        }
+                        else if (var == "false")
+                        {
+                            MopSettings.ForceLoadRestart = false;
+                        }
+                        else
+                        {
+                            ModConsole.LogError("Unrecognized argument: " + var);
+                            return;
+                        }
+                    }
+
+                    ModConsole.Log($"force-load-restart is set to <color=yellow>{MopSettings.ForceLoadRestart}</color>.");
                     break;
             }
         }

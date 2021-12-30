@@ -98,8 +98,9 @@ namespace MOP
 
             // Check if the Satsuma has been loaded completely by the game.
             // If not, restart the scene at least once.
-            if (!SaveManager.IsSatsumaLoadedCompletely())
+            if (!SaveManager.IsSatsumaLoadedCompletely() || MopSettings.ForceLoadRestart)
             {
+                MopSettings.ForceLoadRestart = false;
                 if ((int)MopSettings.GameFixStatus >= 1)
                 {
                     MSCLoader.ModUI.ShowMessage("Satsuma has not been fully loaded by the game!\n\n" +

@@ -31,7 +31,9 @@ namespace MOP.Common
         public const int UnityCarActiveDistance = 5; // Distance after which car physics is toggled.
         public static bool GenerateToggledItemsListDebug; // Debugging functionality.
         public static bool LoadedOnce; // Tracks if the game has been fully loaded at least once.
+        
         public static GameFixStatus GameFixStatus;
+        public static bool ForceLoadRestart;
         
         // Restarts manager.
         internal static int Restarts = 0;
