@@ -96,6 +96,16 @@ namespace MOP
 
             ExceptionManager.SessionTimeStart = DateTime.Now;
 
+            // Start the delayed initialization routine
+            StartCoroutine(DelayedInitializaitonRoutine());
+        }
+
+        #region MOP Initialization
+        IEnumerator DelayedInitializaitonRoutine()
+        {
+            for (int i = 0; i < 30; i++)
+                yield return null;
+
             // Check if the Satsuma has been loaded completely by the game.
             // If not, restart the scene at least once.
             if (!SaveManager.IsSatsumaLoadedCompletely() || MopSettings.ForceLoadRestart)
@@ -108,32 +118,20 @@ namespace MOP
                 }
                 else
                 {
-                    StartCoroutine(DelayRestart());
-                    return;
+                    GameObject mscloaderLoadscreen = MSCLoader.ModUI.GetCanvas().transform.Find("MSCLoader loading screen").gameObject;
+                    ModConsole.Log("[MOP] Waiting for the MSCLoader to finish to load...");
+                    
+                    while (mscloaderLoadscreen.activeSelf)
+                        yield return null;
+
+                    MopSettings.GameFixStatus = GameFixStatus.DoFix;
+                    ModConsole.Log("[MOP] Attempting to restart the scene...");
+                    Application.LoadLevel(1);
+                    
+                    yield break;
                 }
             }
 
-            // Start the delayed initialization routine
-            StartCoroutine(DelayedInitializaitonRoutine());
-        }
-
-        #region MOP Initialization
-        IEnumerator DelayRestart()
-        {
-            GameObject mscloaderLoadscreen = MSCLoader.ModUI.GetCanvas().transform.Find("MSCLoader loading screen").gameObject;
-            ModConsole.Log("[MOP] Waiting for the MSCLoader to finish to load...");
-            while (mscloaderLoadscreen.activeSelf)
-                yield return null;
-
-            MopSettings.GameFixStatus = GameFixStatus.DoFix;
-            ModConsole.Log("[MOP] Attempting to restart the scene...");
-            Application.LoadLevel(1);
-        }
-
-        IEnumerator DelayedInitializaitonRoutine()
-        {
-            for (int i = 0; i < 30; i++)
-                yield return null;
             Initialize();
         }
 
