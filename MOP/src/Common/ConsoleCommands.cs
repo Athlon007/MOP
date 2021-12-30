@@ -14,15 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using MSCLoader;
+using System;
 using System.IO;
 using System.Diagnostics;
 using System.Reflection;
 using UnityEngine;
+using MSCLoader;
 
 using MOP.Rules;
 using MOP.Rules.Types;
-using System;
 
 namespace MOP.Common
 {
@@ -64,6 +64,7 @@ namespace MOP.Common
                     break;
                 case "help":
                     string[] helpList = HelpList.Split('\n');
+                    Array.Sort(helpList, StringComparer.InvariantCulture);
                     if (args.Length > 1)
                     {
                         bool commandsFound = false;
@@ -81,7 +82,6 @@ namespace MOP.Common
                         }
                         return;
                     }
-                    Array.Sort(helpList, StringComparer.InvariantCulture);
                     ModConsole.Log(string.Join("\n", helpList));
                     break;
                 case "rules":
