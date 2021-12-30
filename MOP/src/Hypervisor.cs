@@ -102,7 +102,8 @@ namespace MOP
             {
                 if ((int)MopSettings.GameFixStatus >= 1)
                 {
-                    MSCLoader.ModUI.ShowMessage("Satsuma has not been fully loaded by the game!\n\nConsider restarting the game in order to avoid any issues.", "MOP");
+                    MSCLoader.ModUI.ShowMessage("Satsuma has not been fully loaded by the game!\n\n" +
+                                                "Consider restarting the game in order to avoid any issues.", "MOP");
                 }
                 else
                 {
@@ -118,13 +119,13 @@ namespace MOP
         #region MOP Initialization
         IEnumerator DelayRestart()
         {
-            // To-Do - make it wait instead for the MSCLoader load screen to finish.
             GameObject mscloaderLoadscreen = MSCLoader.ModUI.GetCanvas().transform.Find("MSCLoader loading screen").gameObject;
+            ModConsole.Log("[MOP] Waiting for the MSCLoader to finish to load...");
             while (mscloaderLoadscreen.activeSelf)
                 yield return null;
 
             MopSettings.GameFixStatus = GameFixStatus.DoFix;
-            ModConsole.Log("MOP is attempting to restart the scene...");
+            ModConsole.Log("[MOP] Attempting to restart the scene...");
             Application.LoadLevel(1);
         }
 
