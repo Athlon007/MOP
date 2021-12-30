@@ -106,9 +106,8 @@ namespace MOP
                 }
                 else
                 {
-                    MopSettings.GameFixStatus = GameFixStatus.DoFix;
-                    ModConsole.Log("MOP is attempting to restart the scene...");
-                    Application.LoadLevel(1);
+                    StartCoroutine(DelayRestart());
+                    return;
                 }
             }
 
@@ -116,7 +115,19 @@ namespace MOP
             StartCoroutine(DelayedInitializaitonRoutine());
         }
 
-#region MOP Initialization
+        #region MOP Initialization
+        IEnumerator DelayRestart()
+        {
+            // To-Do - make it wait instead for the MSCLoader load screen to finish.
+            GameObject mscloaderLoadscreen = MSCLoader.ModUI.GetCanvas().transform.Find("MSCLoader loading screen").gameObject;
+            while (mscloaderLoadscreen.activeSelf)
+                yield return null;
+
+            MopSettings.GameFixStatus = GameFixStatus.DoFix;
+            ModConsole.Log("MOP is attempting to restart the scene...");
+            Application.LoadLevel(1);
+        }
+
         IEnumerator DelayedInitializaitonRoutine()
         {
             for (int i = 0; i < 30; i++)
