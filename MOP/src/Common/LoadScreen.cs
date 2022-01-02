@@ -27,24 +27,30 @@ namespace MOP.Common
         PlayMakerFSM cursorFSM;
         bool doDisplay;
 
+        Text status;
+
         void Start()
         {
-            canvas = GameObject.Instantiate(MSCLoader.ModUI.GetCanvas());
+            canvas = GameObject.Instantiate(GameObject.Find("MSCLoader Canvas loading"));
             canvas.name = "MOP_Canvas";
-            Destroy(canvas.transform.Find("MSCLoader Info").gameObject);
-            loadScreen = canvas.transform.Find("MSCLoader loading screen").gameObject;
+            Destroy(canvas.transform.Find("MSCLoader update dialog").gameObject);
+            loadScreen = canvas.transform.Find("MSCLoader loading dialog").gameObject;
             loadScreen.name = "LoadScreen";
-            loadScreen.transform.Find("ModName").gameObject.GetComponent<Text>().text = LoadText;
+            
+            // Title
             string displayedVersion = MOP.ModVersion;
-            displayedVersion = displayedVersion.Replace('-', ' ');
+            displayedVersion = displayedVersion.Replace('-', ' '); 
             displayedVersion = displayedVersion.Replace('_', ' ');
-            loadScreen.transform.Find("Loading").gameObject.GetComponent<Text>().text = $"MODERN OPTIMIZATION PLUGIN <color=yellow>{displayedVersion}</color>";
+            loadScreen.transform.Find("Title").gameObject.GetComponent<Text>().text = $"MODERN OPTIMIZATION PLUGIN <color=green>{displayedVersion}</color>";
 
-            Destroy(loadScreen.transform.Find("Title").gameObject);
-            Destroy(loadScreen.transform.Find("Progress").gameObject);
+            // Main Window
+            Destroy(loadScreen.transform.Find("Loading Container/LoadingStuff/Progress").gameObject);
+            Destroy(loadScreen.transform.Find("Loading Container/LoadingStuff/LoadingRow2").gameObject);
+            loadScreen.transform.Find("Loading Container/LoadingStuff/LoadingRow1/LoadingTitle").gameObject.GetComponent<Text>().text = LoadText;
 
             loadScreen.SetActive(true);
 
+            // Disable the cursor.
             Cursor.visible = false;
             cursorFSM = GameObject.Find("PLAYER").GetPlayMaker("Update Cursor");
             cursorFSM.enabled = false;
