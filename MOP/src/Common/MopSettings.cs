@@ -126,7 +126,7 @@ namespace MOP.Common
 
         public static int GetRuleFilesUpdateDaysFrequency()
         {
-            switch ((int)MOP.RulesAutoUpdateFrequency.GetValue())
+            switch (MOP.RulesAutoUpdateFrequency.GetValue())
             {
                 case 0:
                     return 0;
