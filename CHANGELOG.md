@@ -16,10 +16,11 @@ This version REQUIRES the MSCLoader!
 
 - MOP has been ported to MSCLoader by Piotrulos
 - 'mop help' now is shown alphabetically
+- MopSave.json in bug report is now stored in Save folder
 
 ### Bug Fixes
 
-- Fixed few typos
+- Fixed a few typos
 
 ### Removed
 

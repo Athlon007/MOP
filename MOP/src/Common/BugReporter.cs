@@ -63,7 +63,7 @@ namespace MOP.Common
             if (!MopSettings.LoadedOnce)
             {
                 MSCLoader.ModUI.ShowContinueAbortMessage("It is recommended to start the game at least once before filing the bug report.\n\n" +
-                                                        "If you can't load the game, press Continue to generate the mod report anyway.", 
+                                                        "If you can't load the game, press <color=yellow>CONTINUE</color> to generate the mod report anyway.", 
                                                         "MOP - Bug Report", 
                                                         instance.BugReport);
                 return;
@@ -121,10 +121,11 @@ namespace MOP.Common
                     zip.AddFile(MopSettings.DataFile, "");
                 }
 
+                zip.AddDirectoryByName("Save");
                 string mopSave = SaveManager.GetMopSavePath();
                 if (File.Exists(mopSave))
                 {
-                    zip.AddFile(mopSave, "");
+                    zip.AddFile(mopSave, "Save");
                 }
 
                 zip.Save(lastZipFilePath);
