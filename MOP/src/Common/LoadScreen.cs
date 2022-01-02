@@ -27,8 +27,6 @@ namespace MOP.Common
         PlayMakerFSM cursorFSM;
         bool doDisplay;
 
-        Text status;
-
         void Start()
         {
             canvas = GameObject.Instantiate(GameObject.Find("MSCLoader Canvas loading"));
