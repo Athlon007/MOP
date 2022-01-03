@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.4.1 (03.01.22)
+
+Version bump, because releasing updates on MSCLoader is stupid.
+
 ## 3.4 (03.01.22)
 
 This version REQUIRES the MSCLoader!
