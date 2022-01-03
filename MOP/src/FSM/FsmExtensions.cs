@@ -68,7 +68,7 @@ namespace MOP.FSM
 
         public static void AddAction(this FsmState state, FsmStateAction action)
         {
-            List<FsmStateAction> actions = state.ActiveActions.ToList();
+            List<FsmStateAction> actions = state.Actions.ToList();
             actions.Add(action);
             state.Actions = actions.ToArray();
         }

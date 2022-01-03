@@ -31,7 +31,7 @@ namespace MOP
         public override string ID => "MOP";
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.4.1"; //Version
+        public override string Version => "3.4.2"; //Version
         public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_
         public override string Description => "The ultimate My Summer Car optimization project!";
         public override byte[] Icon => Properties.Resources.icon;

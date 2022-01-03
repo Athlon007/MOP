@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.2 (03.01.22)
+
+### Bug Fixes
+
+- Fixed a bug which caused the game to not spawn bought items
+
 ## 3.4.1 (03.01.22)
 
 Version bump, because releasing updates on MSCLoader is stupid.
