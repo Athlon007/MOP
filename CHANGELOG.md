@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.4 (TBA)
+## 3.4 (03.01.22)
 
 This version REQUIRES the MSCLoader!
 
