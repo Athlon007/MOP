@@ -15,7 +15,7 @@ This version REQUIRES the MSCLoader!
 ### Changes
 
 - MOP has been ported to MSCLoader by Piotrulos
-- 'mop help' now is shown alphabetically
+- 'mop help' list is now shown alphabetically
 - MopSave.json in bug report is now stored in Save folder
 
 ### Bug Fixes
