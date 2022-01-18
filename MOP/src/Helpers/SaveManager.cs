@@ -302,46 +302,54 @@ namespace MOP.Helpers
 
         public static bool IsSatsumaLoadedCompletely()
         {
-            // Check if cylinder head is supposed to be installed, but for some reason its disabled, or not a part of Satsuma at all.
-            GameObject satsuma = GameObject.Find("SATSUMA(557kg, 248)");
-            GameObject cylinderHead = Resources.FindObjectsOfTypeAll<GameObject>().First( g => g.name == "cylinder head(Clone)");
-            GameObject block = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "block(Clone)");
-            MopSaveFileData save = new MopSaveFileData();
-            bool isCylinderHeadInstalled = ReadBoolean("cylinder head(Clone)Installed");
-            bool isEngineBlockInstalled = ReadBoolean("block(Clone)Installed");
-
-            if (!isEngineBlockInstalled)
+            try
             {
-                if (isCylinderHeadInstalled && !cylinderHead.transform.Path().Contains("block(Clone)"))
+                // Check if cylinder head is supposed to be installed, but for some reason its disabled, or not a part of Satsuma at all.
+                GameObject satsuma = GameObject.Find("SATSUMA(557kg, 248)");
+                GameObject cylinderHead = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "cylinder head(Clone)");
+                GameObject block = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "block(Clone)");
+                MopSaveFileData save = new MopSaveFileData();
+                bool isCylinderHeadInstalled = ReadBoolean("cylinder head(Clone)Installed");
+                bool isEngineBlockInstalled = ReadBoolean("block(Clone)Installed");
+
+                if (!isEngineBlockInstalled)
                 {
-                    return false;
+                    if (isCylinderHeadInstalled && !cylinderHead.transform.Path().Contains("block(Clone)"))
+                    {
+                        return false;
+                    }
                 }
+                else
+                {
+                    if ((cylinderHead.gameObject.activeSelf == false || cylinderHead.transform.root != satsuma.transform) && isCylinderHeadInstalled)
+                    {
+                        return false;
+                    }
+                }
+
+                Transform sparkPlug1Pivot = cylinderHead.transform.Find("pivot_sparkplug1");
+
+                for (int i = 1; i < 1000; ++i)
+                {
+                    if (ES2.Load<int?>(ItemsPath + $"?tag=spark plug{i}TriggerID") == null)
+                    {
+                        break;
+                    }
+
+                    // Check if the spark plug is missing or not.
+                    if (ReadItemInt($"spark plug{i}TriggerID") == 1 && ES2.Load<bool>(ItemsPath + $"?tag=spark plug{i}Installed") && sparkPlug1Pivot.childCount == 0)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
             }
-            else
+            catch (Exception ex)
             {
-                if ((cylinderHead.gameObject.activeSelf == false || cylinderHead.transform.root != satsuma.transform) && isCylinderHeadInstalled)
-                {
-                    return false;
-                }
+                ExceptionManager.New(ex, true, "SATSUMA_LOADED_COMPLETELY_FAIL");
+                return false;
             }
-
-            Transform sparkPlug1Pivot = cylinderHead.transform.Find("pivot_sparkplug1");
-            
-            for (int i = 1; i < 1000; ++i)
-            {
-                if (ES2.Load<int?>(ItemsPath + $"?tag=spark plug{i}TriggerID") == null)
-                {
-                    break;
-                }
-
-                // Check if the spark plug is missing or not.
-                if (ReadItemInt($"spark plug{i}TriggerID") == 1 && ES2.Load<bool>(ItemsPath + $"?tag=spark plug{i}Installed") && sparkPlug1Pivot.childCount == 0)
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
 
         public static string GetMopSavePath()

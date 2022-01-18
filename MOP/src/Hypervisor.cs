@@ -83,9 +83,9 @@ namespace MOP
             loadScreenWorkaround = InfiniteLoadscreenWorkaround();
             StartCoroutine(loadScreenWorkaround);
 
+            // Disable player controller and pretend like he's in the main menu.
             playerController = GameObject.Find("PLAYER").GetComponent<CharacterController>();
             playerController.enabled = false;
-
             FsmManager.PlayerInMenu = true;
 
             // Disable rule files if user wants it.
