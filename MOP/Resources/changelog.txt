@@ -1,23 +1,5 @@
-This version REQUIRES the MSCLoader!
-
-### Added
-
-- Added three new console commands:
-  - 'mop resolution' - Lists all available resolutions
-  - 'mop resolution [nOfResolution]' - Sets the resolution from the 'mop resolution' list
-  - 'mop force-load-restart [true/false]' - Forces the 'missing Satsuma parts' game reload to happen
-- Rule Files API: Added "skip_fury_collider_fix" that makes MOP skip the repair shop missing Fury collider fix
-
-### Changes
-
-- MOP has been ported to MSCLoader by Piotrulos
-- 'mop help' list is now shown alphabetically
-- MopSave.json in bug report is now stored in Save folder
-
 ### Bug Fixes
 
-- Fixed a few typos
-
-### Removed
-
-- Removed resolution changing in the settings (unable to be ported with how MSCLoader handles settings)
+- Posibly fixed issue related to MOP crashing on IsSatsumaLoadedCompletely()
+- The grill will not be disabled, if it's set on fire
+- Items on the grill will not be disabled
