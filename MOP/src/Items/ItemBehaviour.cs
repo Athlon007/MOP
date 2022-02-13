@@ -89,6 +89,8 @@ namespace MOP.Items
         FsmFloat condition;
         float timeDisabled;
 
+        bool isObjectOnGrill;
+
         public ItemBehaviour()
         {
             if (gameObject.GetComponents<ItemBehaviour>().Length > 1)
@@ -236,7 +238,7 @@ namespace MOP.Items
                     transform.position = position;
                 }
 
-                if (DontDisable || GrillIsOnFire())
+                if (DontDisable || GrillIsOnFire() || isObjectOnGrill)
                 {
                     TogglePhysicsOnly(enabled);
                     return;
@@ -539,6 +541,7 @@ namespace MOP.Items
                     case "grill(itemx)":
                         grillFlame = transform.Find("Fireplace/Flame/FireEffects").gameObject;
                         grillTrigger = transform.Find("Fireplace/GrillTrigger").gameObject;
+                        transform.Find("Fireplace/SausageTrigger").gameObject.AddComponent<GrillTriggerBehaviour>();
                         break;
                 }
                 
@@ -725,6 +728,11 @@ namespace MOP.Items
             }
 
             return active;
+        }
+
+        public void IsObjectOnGrill(bool isObjectOnGrill)
+        {
+            this.isObjectOnGrill = isObjectOnGrill;
         }
     }
 }

@@ -6,6 +6,7 @@
 
 - Posibly fixed issue related to MOP crashing on IsSatsumaLoadedCompletely()
 - The grill will not be disabled, if it's set on fire
+- Items on the grill will not be disabled
 
 ## 3.4.2 (03.01.22)
 
