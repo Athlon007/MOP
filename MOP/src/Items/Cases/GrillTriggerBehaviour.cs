@@ -22,21 +22,18 @@ namespace MOP.Items.Cases
     {
         void OnTriggerEnter(Collider other)
         {
-            TriggerItem(other, true);
+            IsItemOnGrill(other, true);
         }
 
         void OnTriggerExit(Collider other)
         {
-            TriggerItem(other, false);
+            IsItemOnGrill(other, false);
         }
 
-        void TriggerItem(Collider other, bool enabled)
+        void IsItemOnGrill(Collider other, bool enabled)
         {
             ItemBehaviour item = other.gameObject.GetComponent<ItemBehaviour>();
-            if (item)
-            {
-                item.IsObjectOnGrill(enabled);
-            }
+            item?.IsObjectOnGrill(enabled);
         }
     }
 }
