@@ -8,7 +8,6 @@ import os
 import sys
 import zipfile
 from zipfile import ZipFile
-from array import array
 import shutil
 import math
 from datetime import date

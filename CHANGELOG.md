@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.4.3 (TBA)
+
+### Bug Fixes
+
+- Posibly fixed issue related to MOP crashing on IsSatsumaLoadedCompletely()
+- The grill will not be disabled, if it's set on fire
+
 ## 3.4.2 (03.01.22)
 
 ### Bug Fixes
@@ -700,7 +707,7 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
   - And it will be lowered, if you're in the building
   - You can enable it in the settings
 - Added "Run in Background" toggle in the MOP settings, letting you choose if the game pauses on ALT+TAB
-- Added CheatBox warning (it will NEVER be supported, stop messaging me about it, here's an explanation: https://youtube.com/watch?v=dQw4w9WgXcQ)
+- Added CheatBox warning (it will NEVER be supported, stop messaging me about it, here's an explanation: <https://youtube.com/watch?v=dQw4w9WgXcQ>)
 - Added info at the bottom of MOP settings
 - If the incorrect flag has been found in rule file, the error line will be displayed
 
@@ -1049,7 +1056,7 @@ Welcome to MOP 2.7. After 9 days of in development, hopefully, it will be worth 
 - Satsuma enabling and disabling overhaul
 - Added support for user made rule files!
   - Simply create Custom.txt where rule files are located and do your magic!
-  - For documentation, visit https://github.com/Athlon007/MOP/wiki/Rule-Files-Documentation
+  - For documentation, visit <https://github.com/Athlon007/MOP/wiki/Rule-Files-Documentation>
 - Added new items to toggled elements:
   - Computer
   - Rykipohja

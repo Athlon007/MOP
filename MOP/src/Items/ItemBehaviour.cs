@@ -75,8 +75,11 @@ namespace MOP.Items
 
         FsmBool batteryOnCharged;
         readonly FsmFloat floorJackTriggerY;
-
         bool kiljuInitialReset;
+        
+        // Grill
+        GameObject grillFlame, grillTrigger;
+        bool grillKeepActive;
 
         bool fsmFixesOnActive;
 
@@ -233,7 +236,7 @@ namespace MOP.Items
                     transform.position = position;
                 }
 
-                if (DontDisable)
+                if (DontDisable || GrillIsOnFire())
                 {
                     TogglePhysicsOnly(enabled);
                     return;
@@ -405,6 +408,8 @@ namespace MOP.Items
                     }
                 }
 
+                if (GrillIsOnFire()) return;
+
                 // Disable object's renderer on distance
                 if (renderer != null && !IgnoreRenderer)
                 {
@@ -530,6 +535,10 @@ namespace MOP.Items
                         gameObject.GetPlayMaker("Screw").Fsm.RestartOnEnable = false;
                         break;
                     case "spark plug box(Clone)":
+                        break;
+                    case "grill(itemx)":
+                        grillFlame = transform.Find("Fireplace/Flame/FireEffects").gameObject;
+                        grillTrigger = transform.Find("Fireplace/GrillTrigger").gameObject;
                         break;
                 }
                 
@@ -700,6 +709,22 @@ namespace MOP.Items
                     }
                 }
             }
+        }
+
+        bool GrillIsOnFire()
+        {
+            bool active = grillFlame && grillFlame.activeSelf || grillTrigger && grillTrigger.activeSelf || grillKeepActive;
+            if (active)
+            {
+                grillKeepActive = true;
+            }
+
+            if (grillTrigger && grillTrigger.activeSelf)
+            {
+                grillKeepActive = false;
+            }
+
+            return active;
         }
     }
 }
