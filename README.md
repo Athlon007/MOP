@@ -4,7 +4,7 @@
 [![](https://img.shields.io/github/v/release/Athlon007/MOP?style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
 [![](https://img.shields.io/github/v/release/Athlon007/MOP?include_prereleases&label=Beta&style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
 [![](https://img.shields.io/github/license/Athlon007/MOP?style=for-the-badge)](LICENSE.md)
-[![](https://img.shields.io/tokei/lines/github/Athlon007/MOP?style=for-the-badge)]()
+[![](https://img.shields.io/github/downloads/Athlon007/MOP/total?style=for-the-badge)]()
 
 <img align="right" src="images/icon.png" alt="icon" width=128 />
 
@@ -18,7 +18,7 @@ Originates from [KruFPS](https://github.com/Krutonium/KruFPS).
 
 ## Requirements
 
-- **Latest** version of My Summer Car
+- **Latest LEGAL COPY** of My Summer Car
 - [MSCLoader 1.2.3 (or better)](https://www.nexusmods.com/mysummercar/mods/147)
 
 ## Installation
