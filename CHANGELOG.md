@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.4.3 (TBA)
+## 3.4.3 (14.02.2022)
 
 ### Bug Fixes
 
@@ -8,17 +8,17 @@
 - The grill will not be disabled if it's set on fire
 - Items on the grill will not be disabled
 
-## 3.4.2 (03.01.22)
+## 3.4.2 (03.01.2022)
 
 ### Bug Fixes
 
 - Fixed a bug which caused the game to not spawn bought items
 
-## 3.4.1 (03.01.22)
+## 3.4.1 (03.01.2022)
 
 Version bump, because releasing updates on MSCLoader is stupid.
 
-## 3.4 (03.01.22)
+## 3.4 (03.01.2022)
 
 This version REQUIRES the MSCLoader!
 
@@ -44,13 +44,13 @@ This version REQUIRES the MSCLoader!
 
 - Removed resolution changing in the settings (unable to be ported with how MSCLoader handles settings)
 
-## 3.3.10 (28.12.21)
+## 3.3.10 (28.12.2021)
 
 ### Bug Fixes
 
 - Fixed a bug that caused MOP to detect rule files for MOP 2.X as outdated, causing them to not load
 
-## 3.3.9 (22.12.21)
+## 3.3.9 (22.12.2021)
 
 ### Added
 
@@ -70,7 +70,7 @@ This version REQUIRES the MSCLoader!
 - Fixed rule file auto-update not working
 - Fixed a bug that caused missing spark plugs detection to not work
 
-## 3.3.8 (19.12.21)
+## 3.3.8 (19.12.2021)
 
 ### Added
 
@@ -91,7 +91,7 @@ This version REQUIRES the MSCLoader!
 - Fixed an error if the user deleted unused rule files and then tried to do it again
 - Fixed Satsuma being frozen if using Safe Mode
 
-## 3.3.7 (30.11.21)
+## 3.3.7 (30.11.2021)
 
 ### Added
 
