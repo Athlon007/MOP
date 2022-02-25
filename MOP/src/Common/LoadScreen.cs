@@ -29,6 +29,10 @@ namespace MOP.Common
 
         void Start()
         {
+#if PRO
+            loadScreen = MSCLoader.ModLoader.UICanvas.transform.Find("ModLoaderUI/ModLoadScreen").gameObject;
+            loadScreen.transform.Find("TextHolder/Text").gameObject.GetComponent<Text>().text = LoadText;
+#else
             canvas = GameObject.Instantiate(GameObject.Find("MSCLoader Canvas loading"));
             canvas.name = "MOP_Canvas";
             Destroy(canvas.transform.Find("MSCLoader update dialog").gameObject);
@@ -47,7 +51,7 @@ namespace MOP.Common
             loadScreen.transform.Find("Loading Container/LoadingStuff/LoadingRow1/LoadingTitle").gameObject.GetComponent<Text>().text = LoadText;
 
             loadScreen.SetActive(true);
-
+#endif
             // Disable the cursor.
             Cursor.visible = false;
             cursorFSM = GameObject.Find("PLAYER").GetPlayMaker("Update Cursor");
@@ -76,6 +80,10 @@ namespace MOP.Common
             this.enabled = false;
         }
 
+#if PRO
+        string LoadText { get => Random.Range(0, 100) == 0 ? "HAVE A NICE DAY :)" : "LOADING\nMODERN OPTIMIZATION PLUGIN"; }
+#else
         string LoadText { get => Random.Range(0, 100) == 0 ? "HAVE A NICE DAY :)" : "LOADING"; }
+#endif
     }
 }

@@ -20,7 +20,7 @@ using MOP.Items;
 
 namespace MOP.Common
 {
-    class CompatibilityManager
+    static class CompatibilityManager
     {
         // This script manages the compatibility with other mods
        
@@ -38,7 +38,7 @@ namespace MOP.Common
 
         static readonly string[] incompatibleMods = { "KruFPS", "ImproveFPS", "OptimizeMSC", "ZZDisableAll", "DisableAll" };
 
-        public CompatibilityManager()
+        public static void Initialize()
         {
             CarryMore = ModLoader.GetMod("CarryMore") != null;
             AdvancedBackpack = ModLoader.GetMod("AdvancedBackpack") != null;
@@ -74,5 +74,28 @@ namespace MOP.Common
         }
 
         public static bool IsMySummerCar => Application.productName == "My Summer Car";
+
+#if PRO
+        // Compatibility layer between MSCLoader's and Mod Loader Pro settings.
+        public static int GetValue(this SettingSlider slider)
+        {
+            return (int)slider.Value;
+        }
+
+        public static bool GetValue(this SettingToggle toggle)
+        {
+            return toggle.Value;
+        }
+#endif
+
+        public static bool IsMSCLoader()
+        {
+            return GameObject.Find("MSCLoader Canvas menu") != null;
+        }
+
+        public static bool IsModLoaderPro()
+        {
+            return GameObject.Find("MSCLoader Canvas menu") == null;
+        }
     }
 }

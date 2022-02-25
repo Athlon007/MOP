@@ -136,11 +136,7 @@ namespace MOP.Common
         {
             get
             {
-#if PRO
-                switch ((int)MOP.ActiveDistance.Value)
-#else
                 switch (MOP.ActiveDistance.GetValue())
-#endif
                 {
                     case 0:
                         return 0.75f;
@@ -156,11 +152,7 @@ namespace MOP.Common
 
         public static int GetRuleFilesUpdateDaysFrequency()
         {
-#if PRO
-            switch ((int)MOP.RulesAutoUpdateFrequency.Value)
-#else
             switch (MOP.RulesAutoUpdateFrequency.GetValue())
-#endif
             {
                 case 0:
                     return 0;

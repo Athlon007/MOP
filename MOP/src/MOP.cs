@@ -32,8 +32,8 @@ namespace MOP
         public override string ID => "MOP";
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.4.3"; //Version
-        public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public override string Version => "3.5"; //Version
+        public const string SubVersion = "NIGHTLY_20220225"; // NIGHTLY-yyyymmdd | BETA_x | RC_
         public override string Description => "The ultimate My Summer Car optimization project!";
         public override byte[] Icon => Properties.Resources.icon;
 
@@ -49,6 +49,8 @@ namespace MOP
 
         // Settings
 #if PRO
+        public override string UpdateLink => "https://github.com/Athlon007/MOP";
+
         static internal SettingSlider ActiveDistance, FramerateLimiter, ShadowDistance, RulesAutoUpdateFrequency;
         static internal SettingRadioButtons PerformanceModes, Resolution;
         static internal SettingToggle EnableShadowAdjusting, KeepRunningInBackground,
@@ -73,6 +75,17 @@ namespace MOP
                                              "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n" +
                                              "Please consider supporting the project using <color=#3687D7>PayPal</color>.";
 
+        public MOP()
+        {
+#if PRO
+            if (CompatibilityManager.IsMSCLoader())
+            {
+                ModUI.ShowMessage("You are trying to use MOP version for <color=yellow>Mod Loader Pro</color>.\n\n" +
+                                  "Please install MOP version for <color=yellow>MSCLoader</color>!", "MOP - Error");
+            }
+#endif
+        }
+
         public override void ModSettings()
         {
             modVersion = Version;
@@ -89,11 +102,11 @@ namespace MOP
             modSettings.AddButton("homepage", "HOMEPAGE", () => ShowDialog("http://athlon.kkmr.pl/"));
             modSettings.AddButton("github", "GITHUB", () => ShowDialog("https://github.com/Athlon007/MOP"));
             modSettings.AddButton("homepage", "NEXUSMODS", () => ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
-            modSettings.AddButton("paypal", "<color=aqua>PAYPAL</color>", () => ShowDialog("https://paypal.me/figurakonrad"));
+            modSettings.AddButton("paypal", "<color=#5b6ca0>DONATE</color>", () => ShowDialog("https://paypal.me/figurakonrad"));
 
             // Activating objects.
             modSettings.AddHeader("DESPAWNING");
-            ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 1, 0, 3);
+            ActiveDistance = (SettingSlider)modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 1, 0, 3);
             ActiveDistance.gameObject.AddComponent<UITooltip>().toolTipText = "Distance uppon which objects will spawn.";
             ActiveDistance.TextValues = activeDistanceText;
             ActiveDistance.ChangeValueText();
@@ -147,9 +160,9 @@ namespace MOP
             SettingButton learnMore = modSettings.AddButton("rulesLearnMore", "LEARN MORE", () => ShowDialog("http://athlon.kkmr.pl/mop"));
             learnMore.gameObject.AddComponent<UITooltip>().toolTipText = "Learn about how rules work.";
             RulesAutoUpdate = modSettings.AddToggle("rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true);
-            VerifyRuleFiles = modSettings.AddToggle("verifyRuleFiles", "VERIFY RULE FILES", true);
             RulesAutoUpdateFrequency = modSettings.AddSlider("ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 2, 0, 3);
             RulesAutoUpdateFrequency.TextValues = rulesAutoUpdateFrequencyText;
+            VerifyRuleFiles = modSettings.AddToggle("verifyRuleFiles", "VERIFY RULE FILES", true);
             DeleteUnusedRules = modSettings.AddToggle("deleteUnusedRules", "AUTOMATICALLY DELETE UNUSED RULES", false);
             modSettings.AddButton("deleteUnusedRulesButton", "DELETE UNUSED RULES", RulesManager.DeleteUnused);
             modSettings.AddButton("forceRulesUpdate", "FORCE UPDATE", ForceRuleFilesUpdate);
@@ -177,6 +190,8 @@ namespace MOP
                 $"{ExceptionManager.GetSystemInfo()}\n" +
                 $"<color=yellow>Session ID:</color> {SessionID}\n" +
                 $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}");
+
+            UpdateSettingsUI();
 #else
             Settings.AddButton(this, "iFoundABug", "<color=red>I FOUND A BUG</color>", BugReporter.FileBugReport);
             Settings.AddButton(this, "linkFAQ", "FAQ", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/faq"));
@@ -321,7 +336,7 @@ namespace MOP
             GameObject mop = new GameObject("MOP");
 
             // Initialize CompatibiliyManager
-            new CompatibilityManager();
+            CompatibilityManager.Initialize();
 
             // Add Hypervisor class
             mop.AddComponent<Hypervisor>();
@@ -402,6 +417,11 @@ namespace MOP
                 if (line.Contains("(MSCLoader)"))
                 {
                     line = line.Replace("(MSCLoader)", "<color=yellow>MSCLoader:</color>");
+                }
+
+                if (line.Contains("(Mod Loader Pro)"))
+                {
+                    line = line.Replace("(Mod Loader Pro)", "<color=yellow>Mod Loader Pro:</color>");
                 }
 
                 output += line + "\n";

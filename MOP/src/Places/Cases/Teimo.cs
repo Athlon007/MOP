@@ -16,9 +16,9 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-using MSCLoader;
 
 using HutongGames.PlayMaker.Actions;
+using MOP.FSM;
 
 namespace MOP.Places
 {
@@ -74,7 +74,7 @@ namespace MOP.Places
             // because that's much easier than hooking it...
             Transform videoPoker = transform.Find("LOD/VideoPoker/HookSlot");
             if (videoPoker != null)
-                FsmHook.FsmInject(videoPoker.gameObject, "Activate cable", RemoveVideoPokerParent);
+                PlayMakerExtensions.FsmInject(videoPoker.gameObject, "Activate cable", RemoveVideoPokerParent);
 
             GameObjectBlackList.AddRange(blackList);
             DisableableChilds = GetDisableableChilds();

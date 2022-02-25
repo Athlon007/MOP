@@ -139,7 +139,11 @@ namespace MOP.Common
         internal static string GetGameInfo()
         {
             string output = $"Modern Optimization Plugin\nVersion: {MOP.ModVersion}\n";
+#if PRO
+            output += $"MSC Mod Loader Pro Version: {ModLoader.Version}\n";
+#else
             output += $"MSC Mod Loader Version: {ModLoader.MSCLoader_Ver}\n";
+#endif
             output += $"Date and Time: {DateTime.Now:yyyy-MM-ddTHH:mm:ssZ}\n";
             output += $"{GetSystemInfo()}\n";
             output += $"Session ID: {MOP.SessionID}\n";
@@ -156,7 +160,9 @@ namespace MOP.Common
             output += $"ActiveDistance: {MOP.ActiveDistance.GetValue()}\n";
             output += $"ActiveDistanceMultiplier: {MopSettings.ActiveDistanceMultiplicationValue}\n";
             output += $"PerformanceMode: {MopSettings.Mode}\n";
+#if !PRO
             output += $"LimitFramerate: {MOP.LimitFramerate.GetValue()}\n";
+#endif
             output += $"FramerateLimiter: {MOP.FramerateLimiter.GetValue()}\n";
             output += $"ShadowDistance: {MOP.ShadowDistance.GetValue()}\n";
             output += $"RunInBackground: {MOP.KeepRunningInBackground.GetValue()}\n";
@@ -323,6 +329,10 @@ namespace MOP.Common
                 }
 
                 reader.Close();
+            }
+            else if (Directory.Exists("Z:/AppleInternal"))
+            {
+                output = "macOS";
             }
 
             return output;

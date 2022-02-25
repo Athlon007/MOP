@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.5 (TBA)
+
+A lot of people were no complaining that MOP 3.4 is not available for Mod Loader Pro, so guess what? MOP 3.5 is available for BOTH mod loaders!
+
+### Added
+
+- (Mod Loader Pro) Restored tooltips
+- (Mod Loader Pro) Restored resolution changing
+
 ## 3.4.3 (14.02.2022)
 
 ### Bug Fixes

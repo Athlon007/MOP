@@ -18,7 +18,7 @@ Originates from [KruFPS](https://github.com/Krutonium/KruFPS).
 ## Requirements
 
 - **Latest LEGAL COPY** of My Summer Car
-- [MSCLoader 1.2.3 (or better)](https://www.nexusmods.com/mysummercar/mods/147)
+- MSCLoader 1.2.3 or Mod Loader Pro 1.1.1
 
 ## Installation
 

@@ -64,8 +64,11 @@
     <Reference Include="Ionic.Zip">
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car ProLoader\mysummercar_Data\Managed\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="MSCLoader">
+    <Reference Include="MSCLoader" Condition="'$(Configuration)'=='ProRelease'">
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car ProLoader\mysummercar_Data\Managed\MSCLoader.dll</HintPath>
+    </Reference>
+    <Reference Include="MSCLoader" Condition="'$(Configuration)'=='Debug' OR '$(Configuration)'=='Release'">
+      <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car\mysummercar_Data\Managed\MSCLoader.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>D:\SteamLibrary\steamapps\common\My Summer Car ProLoader\mysummercar_Data\Managed\Newtonsoft.Json.dll</HintPath>
@@ -140,6 +143,7 @@
     <Compile Include="src\Helpers\SatsumaInArea.cs" />
     <Compile Include="src\Helpers\SaveManager.cs" />
     <Compile Include="src\ModConsole.cs" />
+    <Compile Include="src\zModLoad.cs" />
     <Compile Include="src\Places\Cases\Farm.cs" />
     <Compile Include="src\Places\Cases\Inspection.cs" />
     <Compile Include="src\Common\MopData.cs" />
@@ -212,14 +216,14 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if "$(ConfigurationName)" == "Debug" (
-copy "$(TargetPath)" "D:\SteamLibrary\steamapps\common\My Summer Car\Mods" /y
-copy "$(TargetDir)$(TargetName).pdb" "D:\SteamLibrary\steamapps\common\My Summer Car\Mods" /y
-cd "D:\SteamLibrary\steamapps\common\My Summer Car\Mods"
+    <PostBuildEvent>rem if "$(ConfigurationName)" == "Debug" (
+rem copy "$(TargetPath)" "D:\SteamLibrary\steamapps\common\My Summer Car\Mods" /y
+rem copy "$(TargetDir)$(TargetName).pdb" "D:\SteamLibrary\steamapps\common\My Summer Car\Mods" /y
+rem cd "D:\SteamLibrary\steamapps\common\My Summer Car\Mods"
 rem call "D:\SteamLibrary\steamapps\common\My Summer Car\Mods\debug.bat"
-) ELSE (
-copy $(TargetPath) "D:\SteamLibrary\steamapps\common\My Summer Car\Mods" /y
-)</PostBuildEvent>
+rem ) ELSE (
+rem copy $(TargetPath) "D:\SteamLibrary\steamapps\common\My Summer Car\Mods" /y
+rem )</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

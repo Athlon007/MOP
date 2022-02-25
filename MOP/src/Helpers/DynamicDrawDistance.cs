@@ -16,6 +16,7 @@
 
 using UnityEngine;
 
+using MOP.Common;
 using MOP.FSM;
 
 namespace MOP.Helpers
