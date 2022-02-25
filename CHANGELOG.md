@@ -8,6 +8,7 @@ A lot of people were no complaining that MOP 3.4 is not available for Mod Loader
 
 - (Mod Loader Pro) Restored tooltips
 - (Mod Loader Pro) Restored resolution changing
+- Added a warning if you try to run MSCLoader version of MOP on Mod Loader Pro and vice-versa
 
 ## 3.4.3 (14.02.2022)
 
