@@ -49,6 +49,20 @@ namespace MOP.Common
 
         internal static void UpdatePerformanceMode()
         {
+#if PRO
+            // MODES
+            // Show the warning about safe mode, if the player disables safe mode and is not in main menu.
+            if (ModLoader.CurrentScene != CurrentScene.MainMenu)
+            {
+                if ((Mode == PerformanceMode.Safe && MOP.PerformanceModes.Value != 3) || (Mode != PerformanceMode.Safe && MOP.PerformanceModes.Value == 3))
+                {
+                    ModPrompt.CreatePrompt("Safe Mode will be disabled after you quit to the Main Menu.", "MOP");
+                    return;
+                }
+            }
+            
+            Mode = (PerformanceMode)MOP.PerformanceModes.Value;
+#else
             // MODES
             // Show the warning about safe mode, if the player disables safe mode and is not in main menu.
             if (ModLoader.CurrentScene != CurrentScene.MainMenu)
@@ -75,19 +89,31 @@ namespace MOP.Common
             }
 
             Mode = pm;
+#endif
         }
 
         internal static void UpdateFramerateLimiter()
         {
+#if PRO
+            Application.targetFrameRate = (int)MOP.FramerateLimiter.Value != 21 ? (int)MOP.FramerateLimiter.Value * 10 : -1;
+#else
             Application.targetFrameRate = MOP.LimitFramerate.GetValue() ? MOP.FramerateLimiter.GetValue() : -1;
+#endif
         }
 
         internal static void UpdateShadows()
         {
+#if PRO
+            if (shadowDistanceOriginalValue == 0)
+                shadowDistanceOriginalValue = QualitySettings.shadowDistance;
+            QualitySettings.shadowDistance = MOP.EnableShadowAdjusting.Value ?
+                                             MOP.ShadowDistance.Value * 100 : shadowDistanceOriginalValue;
+#else
             // Shadow distance.
             if (shadowDistanceOriginalValue == 0)
                 shadowDistanceOriginalValue = QualitySettings.shadowDistance;
             QualitySettings.shadowDistance = MOP.ShadowDistance.GetValue();
+#endif
         }
 
         public static void UpdateMiscSettings()
@@ -110,7 +136,11 @@ namespace MOP.Common
         {
             get
             {
+#if PRO
+                switch ((int)MOP.ActiveDistance.Value)
+#else
                 switch (MOP.ActiveDistance.GetValue())
+#endif
                 {
                     case 0:
                         return 0.75f;
@@ -126,7 +156,11 @@ namespace MOP.Common
 
         public static int GetRuleFilesUpdateDaysFrequency()
         {
+#if PRO
+            switch ((int)MOP.RulesAutoUpdateFrequency.Value)
+#else
             switch (MOP.RulesAutoUpdateFrequency.GetValue())
+#endif
             {
                 case 0:
                     return 0;
@@ -146,7 +180,11 @@ namespace MOP.Common
 
         internal static void ToggleBackgroundRunning()
         {
+#if PRO
+            Application.runInBackground = MOP.KeepRunningInBackground.Value;
+#else
             Application.runInBackground = MOP.KeepRunningInBackground.GetValue();
+#endif
         }
 
         static JsonSerializerSettings GetNewSettings()

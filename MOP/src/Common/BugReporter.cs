@@ -38,6 +38,9 @@ namespace MOP.Common
                                         "Incorrectly filled bug and/or pirate-game-copy reports WILL BE IGNORED.\n\n" +
                                         "Alternatively, you can send an e-mail to bugreport@kkmr.pl";
 
+        const string FileBugReportMessage = "It is recommended to start the game at least once before filing the bug report.\n\n" +
+                                            "If you can't load the game, press <color=yellow>CONTINUE</color> to generate the mod report anyway.";
+
         public BugReporter()
         {
             instance = this;
@@ -62,10 +65,11 @@ namespace MOP.Common
         {
             if (!MopSettings.LoadedOnce)
             {
-                MSCLoader.ModUI.ShowContinueAbortMessage("It is recommended to start the game at least once before filing the bug report.\n\n" +
-                                                        "If you can't load the game, press <color=yellow>CONTINUE</color> to generate the mod report anyway.", 
-                                                        "MOP - Bug Report", 
-                                                        instance.BugReport);
+#if PRO
+                MSCLoader.ModPrompt.CreateContinueAbortPrompt(FileBugReportMessage, "MOP - Bug Report", instance.BugReport);
+#else
+                MSCLoader.ModUI.ShowContinueAbortMessage(FileBugReportMessage, "MOP - Bug Report", instance.BugReport);
+#endif
                 return;
             }
 

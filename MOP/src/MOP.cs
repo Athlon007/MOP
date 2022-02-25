@@ -23,6 +23,7 @@ using MOP.FSM;
 using MOP.Common;
 using MOP.Helpers;
 using MOP.Rules;
+using System.Collections.Generic;
 
 namespace MOP
 {
@@ -47,11 +48,19 @@ namespace MOP
         public static string ModVersionShort { get => modVersion; }
 
         // Settings
+#if PRO
+        static internal SettingSlider ActiveDistance, FramerateLimiter, ShadowDistance, RulesAutoUpdateFrequency;
+        static internal SettingRadioButtons PerformanceModes, Resolution;
+        static internal SettingToggle EnableShadowAdjusting, KeepRunningInBackground,
+                                      DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
+                                      DestroyEmptyBottles, DisableEmptyItems;
+#else
         static internal SettingsSliderInt ActiveDistance, FramerateLimiter, ShadowDistance, RulesAutoUpdateFrequency;
         static internal SettingsCheckBoxGroup ModePerformance, ModeBalanced, ModeQuality, ModeSafe;
         static internal SettingsCheckBox KeepRunningInBackground, LimitFramerate, DynamicDrawDistance,
                                           RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
                                           DestroyEmptyBottles, DisableEmptyItems;
+#endif
 
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
         readonly string[] rulesAutoUpdateFrequencyText = { "On Restart", "Daily", "Every 2 days", "Weekly" };
@@ -72,6 +81,103 @@ namespace MOP
 #if DEBUG
             Settings.AddHeader(this, "Shh...Don't leak my hard work ;)", Color.yellow, Color.black);
 #endif
+
+#if PRO
+            modSettings.AddButton("iFoundABug", "<color=red>I FOUND A BUG</color>", BugReporter.FileBugReport);
+            modSettings.AddButton("faq", "FAQ", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/faq"));
+            modSettings.AddButton("wiki", "WIKI", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/"));
+            modSettings.AddButton("homepage", "HOMEPAGE", () => ShowDialog("http://athlon.kkmr.pl/"));
+            modSettings.AddButton("github", "GITHUB", () => ShowDialog("https://github.com/Athlon007/MOP"));
+            modSettings.AddButton("homepage", "NEXUSMODS", () => ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
+            modSettings.AddButton("paypal", "<color=aqua>PAYPAL</color>", () => ShowDialog("https://paypal.me/figurakonrad"));
+
+            // Activating objects.
+            modSettings.AddHeader("DESPAWNING");
+            ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 1, 0, 3);
+            ActiveDistance.gameObject.AddComponent<UITooltip>().toolTipText = "Distance uppon which objects will spawn.";
+            ActiveDistance.TextValues = activeDistanceText;
+            ActiveDistance.ChangeValueText();
+            PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1,
+                                                          () => { MopSettings.UpdatePerformanceMode(); UpdateSettingsUI(); },
+                                                          "PERFORMANCE", "BALANCED", "QUALITY", "<color=red>SAFE</color>");
+            PerformanceModes.gameObject.AddComponent<UITooltip>().toolTipText =
+                "<color=yellow>PERFORMANCE</color>: <color=white>Visibly disables and enables objects</color>\n" +
+                "<color=yellow>BALANCED (recommended)</color>: <color=white>Maintains balance between PERFORMANCE and QUALITY</color>\n" +
+                "<color=yellow>QUALITY</color>: <color=white>Hides obvious on-screen spawning and despawning, at the cost of performance</color>\n" +
+                "<color=yellow>SAFE</color>: <color=white>Despawns only minimum number of objects that are known to not cause any issues</color>";
+
+            // Graphics
+            modSettings.AddHeader("GRAPHICS");
+            FramerateLimiter = modSettings.AddSlider("framerateLimiterUpdated", "FRAMERATE LIMITER", 21, 2, 21, () => { MopSettings.UpdateFramerateLimiter(); UpdateSettingsUI(); });
+            FramerateLimiter.ValueSuffix = "0 FPS";
+            EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ADJUST SHADOWS", false, () => { MopSettings.UpdateShadows(); ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value); });
+            EnableShadowAdjusting.gameObject.AddComponent<UITooltip>().toolTipText = "Allows you to set the shadow render distance with the slider below.";
+            ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 2, 0, 20, () => { MopSettings.UpdateShadows(); UpdateSettingsUI(); });
+            ShadowDistance.ValueSuffix = "00 Meters";
+            ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value);
+            KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
+            KeepRunningInBackground.gameObject.AddComponent<UITooltip>().toolTipText = "If disabled, game will pause when you ALT+TAB from the game.";
+            DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false);
+            DynamicDrawDistance.gameObject.AddComponent<UITooltip>().toolTipText = "MOP will change the draw distance according to situation\n" +
+                                                                                   "(ex. lower render distance while in interior)";
+            modSettings.AddButton("changeResolution", "CHANGE RESOLUTION", () => { Resolution.gameObject.SetActive(!Resolution.gameObject.activeSelf); });
+            List<string> resolutions = new List<string>();
+            int selected = 0;
+            int i = 0;
+            foreach (var res in Screen.resolutions)
+            {
+                resolutions.Add(res.width + "x" + res.height);
+                if (res.width == Screen.width && res.height == Screen.height)
+                {
+                    selected = i;
+                }
+                ++i;
+            }
+            Resolution = modSettings.AddRadioButtons("resolution", "RESOLUTION", selected, () =>
+            {
+                string s = Resolution.GetButtonLabelText(Resolution.Value);
+                int width = int.Parse(s.Split('x')[0]);
+                int height = int.Parse(s.Split('x')[1]);
+                Screen.SetResolution(width, height, Screen.fullScreen);
+            }, resolutions.ToArray());
+            Resolution.gameObject.SetActive(false);
+
+            // Rules
+            modSettings.AddHeader("RULES");
+            SettingButton learnMore = modSettings.AddButton("rulesLearnMore", "LEARN MORE", () => ShowDialog("http://athlon.kkmr.pl/mop"));
+            learnMore.gameObject.AddComponent<UITooltip>().toolTipText = "Learn about how rules work.";
+            RulesAutoUpdate = modSettings.AddToggle("rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true);
+            VerifyRuleFiles = modSettings.AddToggle("verifyRuleFiles", "VERIFY RULE FILES", true);
+            RulesAutoUpdateFrequency = modSettings.AddSlider("ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 2, 0, 3);
+            RulesAutoUpdateFrequency.TextValues = rulesAutoUpdateFrequencyText;
+            DeleteUnusedRules = modSettings.AddToggle("deleteUnusedRules", "AUTOMATICALLY DELETE UNUSED RULES", false);
+            modSettings.AddButton("deleteUnusedRulesButton", "DELETE UNUSED RULES", RulesManager.DeleteUnused);
+            modSettings.AddButton("forceRulesUpdate", "FORCE UPDATE", ForceRuleFilesUpdate);
+
+            // Other
+            modSettings.AddHeader("OTHER");
+            DestroyEmptyBottles = modSettings.AddToggle("destroyEmptyBottles", "DESTROY EMPTY BOTTLES", false);
+            DisableEmptyItems = modSettings.AddToggle("disableEmptyItems", "DISABLE EMPTY ITEMS", false);
+
+            // Logging
+            modSettings.AddHeader("LOGGING");
+            modSettings.AddText("If you want to file a bug report, use <color=yellow>I FOUND A BUG</color> button!");
+            modSettings.AddButton("openLogFolder", "OPEN LOG FOLDER", "", ExceptionManager.OpenCurrentSessionLogFolder);
+            modSettings.AddButton("generateModReprt", "GENERATE MOD REPORT", "", ExceptionManager.GenerateReport);
+            modSettings.AddButton("deleteAllLogs", "DELETE ALL LOGS", "", ExceptionManager.DeleteAllLogs);
+
+            // Changelog
+            modSettings.AddHeader("CHANGELOG");
+            modSettings.AddText(GetChangelog());
+
+            // Info
+            modSettings.AddHeader("INFO");
+            modSettings.AddText($"<color=yellow>MOP</color> {ModVersion}\n" +
+                $"<color=yellow>Mod Loader Pro</color> {ModLoader.Version}\n" +
+                $"{ExceptionManager.GetSystemInfo()}\n" +
+                $"<color=yellow>Session ID:</color> {SessionID}\n" +
+                $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}");
+#else
             Settings.AddButton(this, "iFoundABug", "<color=red>I FOUND A BUG</color>", BugReporter.FileBugReport);
             Settings.AddButton(this, "linkFAQ", "FAQ", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/faq"));
             Settings.AddButton(this, "linkWiki", "WIKI", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/"));
@@ -129,8 +235,9 @@ namespace MOP
                 $"{ExceptionManager.GetSystemInfo()}\n" +
                 $"<color=yellow>Session ID:</color> {SessionID}\n" +
                 $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}");
+#endif
         }
-        #endregion
+#endregion
 
         public override void MenuOnLoad()
         {
@@ -323,5 +430,35 @@ namespace MOP
                 File.Delete(filename);
             }
         }
+
+#if PRO
+        void UpdateSettingsUI()
+        {
+            // UI Update.
+            if ((int)FramerateLimiter.Value == 21)
+            {
+                FramerateLimiter.valueText.text = "Disabled";
+            }
+            if (ShadowDistance.Value == 0)
+            {
+                ShadowDistance.valueText.text = "No Shadows";
+            }
+
+            int selected = 0;
+            int i = 0;
+            foreach (var res in Screen.resolutions)
+            {
+                if (res.width == Screen.width && res.height == Screen.height)
+                {
+                    selected = i;
+                }
+                i++;
+            }
+
+            Resolution.Value = selected;
+
+            modVersion = Version;
+        }
+#endif
     }
 }
