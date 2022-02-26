@@ -178,7 +178,7 @@ namespace MOP.Rules.Configuration
 #if DEBUG
                     web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion}_DEBUG {ExceptionManager.GetSystemInfo()}");
 #else
-                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {ExceptionManager.GetSystemInfo()}");
+                    web.Headers.Add("user-agent", $"MOP/{MOP.ModVersion} {MOP.Edition} {ExceptionManager.GetSystemInfo()}");
 #endif
                     if (File.Exists(filePath))
                         File.Delete(filePath);

@@ -185,7 +185,7 @@ namespace MOP.Common
                     }
                     break;
                 case "version":
-                    ModConsole.Log(MOP.ModVersion);
+                    ModConsole.Log(MOP.ModVersion + " for " + MOP.Edition);
                     break;
                 case "cowsay":
                     string say = string.Join(" ", args, 1, args.Length - 1);

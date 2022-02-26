@@ -34,10 +34,15 @@ namespace MOP
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.5"; //Version
         public const string SubVersion = "BETA_1"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+#if PRO
+        public const string Edition = "Mod Loader Pro";
+#else
+        public const string Edition = "MSCLoader";
+#endif
         public override string Description => "The ultimate My Summer Car optimization project!";
         public override byte[] Icon => Properties.Resources.icon;
 
-        #region Settings & Configuration
+#region Settings & Configuration
         // Stores the config path of mod.
         static string modConfigPath;
         public static string ModConfigPath { get => modConfigPath; }
@@ -106,33 +111,32 @@ namespace MOP
 
             // Activating objects.
             modSettings.AddHeader("DESPAWNING");
-            ActiveDistance = (SettingSlider)modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 1, 0, 3);
-            ActiveDistance.gameObject.AddComponent<UITooltip>().toolTipText = "Distance uppon which objects will spawn.";
+            ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 1, 0, 3);
+            ActiveDistance.AddTooltip("Distance uppon which objects will spawn.");
             ActiveDistance.TextValues = activeDistanceText;
             ActiveDistance.ChangeValueText();
             PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1,
                                                           () => { MopSettings.UpdatePerformanceMode(); UpdateSettingsUI(); },
                                                           "PERFORMANCE", "BALANCED", "QUALITY", "<color=red>SAFE</color>");
-            PerformanceModes.gameObject.AddComponent<UITooltip>().toolTipText =
+            PerformanceModes.AddTooltip(
                 "<color=yellow>PERFORMANCE</color>: <color=white>Visibly disables and enables objects</color>\n" +
                 "<color=yellow>BALANCED (recommended)</color>: <color=white>Maintains balance between PERFORMANCE and QUALITY</color>\n" +
                 "<color=yellow>QUALITY</color>: <color=white>Hides obvious on-screen spawning and despawning, at the cost of performance</color>\n" +
-                "<color=yellow>SAFE</color>: <color=white>Despawns only minimum number of objects that are known to not cause any issues</color>";
+                "<color=yellow>SAFE</color>: <color=white>Despawns only minimum number of objects that are known to not cause any issues</color>");
 
             // Graphics
             modSettings.AddHeader("GRAPHICS");
             FramerateLimiter = modSettings.AddSlider("framerateLimiterUpdated", "FRAMERATE LIMITER", 21, 2, 21, () => { MopSettings.UpdateFramerateLimiter(); UpdateSettingsUI(); });
             FramerateLimiter.ValueSuffix = "0 FPS";
             EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ADJUST SHADOWS", false, () => { MopSettings.UpdateShadows(); ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value); });
-            EnableShadowAdjusting.gameObject.AddComponent<UITooltip>().toolTipText = "Allows you to set the shadow render distance with the slider below.";
+            EnableShadowAdjusting.AddTooltip("Allows you to set the shadow render distance with the slider below.");
             ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 2, 0, 20, () => { MopSettings.UpdateShadows(); UpdateSettingsUI(); });
             ShadowDistance.ValueSuffix = "00 Meters";
             ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value);
             KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
-            KeepRunningInBackground.gameObject.AddComponent<UITooltip>().toolTipText = "If disabled, game will pause when you ALT+TAB from the game.";
+            KeepRunningInBackground.AddTooltip("If disabled, game will pause when you ALT+TAB from the game.");
             DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false);
-            DynamicDrawDistance.gameObject.AddComponent<UITooltip>().toolTipText = "MOP will change the draw distance according to situation\n" +
-                                                                                   "(ex. lower render distance while in interior)";
+            DynamicDrawDistance.AddTooltip("MOP will change the draw distance according to situation\n(ex. Lower render distance while in interior)");
             modSettings.AddButton("changeResolution", "CHANGE RESOLUTION", () => { Resolution.gameObject.SetActive(!Resolution.gameObject.activeSelf); });
             List<string> resolutions = new List<string>();
             int selected = 0;
@@ -158,7 +162,7 @@ namespace MOP
             // Rules
             modSettings.AddHeader("RULES");
             SettingButton learnMore = modSettings.AddButton("rulesLearnMore", "LEARN MORE", () => ShowDialog("http://athlon.kkmr.pl/mop"));
-            learnMore.gameObject.AddComponent<UITooltip>().toolTipText = "Learn about how rules work.";
+            learnMore.AddTooltip("Learn about how rules work.");
             RulesAutoUpdate = modSettings.AddToggle("rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true);
             RulesAutoUpdateFrequency = modSettings.AddSlider("ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 2, 0, 3);
             RulesAutoUpdateFrequency.TextValues = rulesAutoUpdateFrequencyText;
@@ -476,7 +480,11 @@ namespace MOP
         string GetFooter()
         {
             return  $"<color=yellow>MOP</color> {ModVersion}\n" +
+#if PRO
+                    $"<color=yellow>Mod Loader Pro</color> {ModLoader.Version}\n" +
+#else
                     $"<color=yellow>MSCLoader</color> {ModLoader.MSCLoader_Ver}\n" +
+#endif
                     $"{ExceptionManager.GetSystemInfo()}\n" +
                     $"<color=yellow>Session ID:</color> {SessionID}\n" +
                     $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}";

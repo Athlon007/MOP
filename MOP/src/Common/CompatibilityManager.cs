@@ -86,6 +86,12 @@ namespace MOP.Common
         {
             return toggle.Value;
         }
+
+
+        public static void AddTooltip(this ModSetting setting, string text)
+        {
+            setting.gameObject.AddComponent<UITooltip>().toolTipText = text;
+        }
 #endif
 
         public static bool IsMSCLoader()
