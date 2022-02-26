@@ -301,7 +301,15 @@ namespace MOP.Common
             if (build > 9600)
             {
                 string realOS = build >= 22000 ? $"Windows 11 (10.0.{build})" : $"Windows 10 (10.0.{build})";
-                realOS += SystemInfo.operatingSystem.Contains("64bit") ? " 64bit" : " 32bit";
+                if (Directory.Exists("C:\\Program Files (Arm)"))
+                {
+                    realOS += " ARM";
+                }
+                else
+                {
+                    realOS += SystemInfo.operatingSystem.Contains("64bit") ? " 64bit" : " 32bit";
+                }
+                ModConsole.Log(SystemInfo.operatingSystem);
 
                 return realOS;
             }
