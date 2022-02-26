@@ -75,16 +75,16 @@ namespace MOP
                                              "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n" +
                                              "Please consider supporting the project using <color=#3687D7>PayPal</color>.";
 
+#if PRO
         public MOP()
         {
-#if PRO
             if (CompatibilityManager.IsMSCLoader())
             {
                 ModUI.ShowMessage("You are trying to use MOP version for <color=yellow>Mod Loader Pro</color>.\n\n" +
                                   "Please install MOP version for <color=yellow>MSCLoader</color>!", "MOP - Error");
             }
-#endif
         }
+#endif
 
         public override void ModSettings()
         {
@@ -185,11 +185,7 @@ namespace MOP
 
             // Info
             modSettings.AddHeader("INFO");
-            modSettings.AddText($"<color=yellow>MOP</color> {ModVersion}\n" +
-                $"<color=yellow>Mod Loader Pro</color> {ModLoader.Version}\n" +
-                $"{ExceptionManager.GetSystemInfo()}\n" +
-                $"<color=yellow>Session ID:</color> {SessionID}\n" +
-                $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}");
+            modSettings.AddText(GetFooter());
 
             UpdateSettingsUI();
 #else
@@ -245,11 +241,7 @@ namespace MOP
 
             // Info
             Settings.AddHeader(this, "INFO");
-            Settings.AddText(this, $"<color=yellow>MOP</color> {ModVersion}\n" +
-                $"<color=yellow>MSCLoader</color> {ModLoader.MSCLoader_Ver}\n" +
-                $"{ExceptionManager.GetSystemInfo()}\n" +
-                $"<color=yellow>Session ID:</color> {SessionID}\n" +
-                $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}");
+            Settings.AddText(this,  GetFooter());
 #endif
         }
 #endregion
@@ -480,5 +472,14 @@ namespace MOP
             modVersion = Version;
         }
 #endif
+
+        string GetFooter()
+        {
+            return  $"<color=yellow>MOP</color> {ModVersion}\n" +
+                    $"<color=yellow>MSCLoader</color> {ModLoader.MSCLoader_Ver}\n" +
+                    $"{ExceptionManager.GetSystemInfo()}\n" +
+                    $"<color=yellow>Session ID:</color> {SessionID}\n" +
+                    $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}";
+        }
     }
 }
