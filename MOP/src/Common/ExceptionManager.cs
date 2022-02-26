@@ -309,7 +309,6 @@ namespace MOP.Common
                 {
                     realOS += SystemInfo.operatingSystem.Contains("64bit") ? " 64bit" : " 32bit";
                 }
-                ModConsole.Log(SystemInfo.operatingSystem);
 
                 return realOS;
             }
