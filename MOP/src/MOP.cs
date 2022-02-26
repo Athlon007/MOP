@@ -38,8 +38,8 @@ namespace MOP
         public const string Edition = "Mod Loader Pro";
 #else
         public const string Edition = "MSCLoader";
-#endif
         public override string Description => "The ultimate My Summer Car optimization project!";
+#endif
         public override byte[] Icon => Properties.Resources.icon;
 
 #region Settings & Configuration
