@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.5.1 (28.02.2022)
+
+Version bump, because I incorrectly signed the 3.5 :)
+
 ## 3.5 (28.02.2022)
 
 A lot of people were no complaining that MOP 3.4 is not available for Mod Loader Pro, so guess what? MOP 3.5 is available for BOTH mod loaders!
