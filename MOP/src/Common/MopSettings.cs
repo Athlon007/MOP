@@ -172,11 +172,7 @@ namespace MOP.Common
 
         internal static void ToggleBackgroundRunning()
         {
-#if PRO
-            Application.runInBackground = MOP.KeepRunningInBackground.Value;
-#else
             Application.runInBackground = MOP.KeepRunningInBackground.GetValue();
-#endif
         }
 
         static JsonSerializerSettings GetNewSettings()
