@@ -143,6 +143,7 @@
     <Compile Include="src\Helpers\SatsumaInArea.cs" />
     <Compile Include="src\Helpers\SaveManager.cs" />
     <Compile Include="src\ModConsole.cs" />
+    <Compile Include="src\Rules\Types\ChangeParentRule.cs" />
     <Compile Include="src\zModLoad.cs" />
     <Compile Include="src\Places\Cases\Farm.cs" />
     <Compile Include="src\Places\Cases\Inspection.cs" />

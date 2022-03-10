@@ -129,6 +129,13 @@ namespace MOP.Common
                             ModConsole.Log($"<b>Pos:</b> {r.Position} <b>Scale:</b> {r.Scale} <b>Rot:</b> {r.Rotation} <b>Ignore:</b> {string.Join(", ", r.Whitelist)}");
                     }
 
+                    if (RulesManager.Instance.ChangeParentRules.Count > 0)
+                    {
+                        ModConsole.Log("\n<color=yellow><b>Change Parent</b></color>");
+                        foreach (ChangeParentRule r in RulesManager.Instance.ChangeParentRules)
+                            ModConsole.Log($"<b>Object:</b> {r.ObjectName} <b>New Parent:</b> {r.NewParentName}");
+                    }
+
                     ModConsole.Log("\n<color=yellow><b>Special Rules</b></color>");
                     // Obtain all fields
                     FieldInfo[] fields = typeof(SpecialRules).GetFields();
