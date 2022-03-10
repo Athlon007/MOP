@@ -23,7 +23,9 @@ using MOP.FSM;
 using MOP.Common;
 using MOP.Helpers;
 using MOP.Rules;
+#if PRO
 using System.Collections.Generic;
+#endif
 
 namespace MOP
 {
@@ -32,7 +34,7 @@ namespace MOP
         public override string ID => "MOP";
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.5.1"; //Version
+        public override string Version => "3.5.2"; //Version
         public const string SubVersion = "NIGHTLY-20220310"; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public const string Edition = "Mod Loader Pro";

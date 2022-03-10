@@ -459,8 +459,7 @@ namespace MOP.Rules.Configuration
 
                     if (objects.Length > 0 && objects.ContainsAny(illegalValues))
                     {
-                        ModConsole.LogError($"[MOP] Illegal object: {objects[0]} in rule file {fileName}.");
-                        continue;
+                        throw new ArgumentException($"[MOP] Illegal object: {objects[0]} in rule file {fileName}.");
                     }
 
                     // Apply these rules
@@ -523,11 +522,6 @@ namespace MOP.Rules.Configuration
                             if (objects.Length != 2)
                             {
                                 throw new ArgumentException("Incorrect use of change_parent. Usage: ObjectName NewParentName");
-                            }
-
-                            if (objects[0].Contains("MOP_") || objects[1].Contains("MOP_"))
-                            {
-                                throw new ArgumentException("Cannot change parents of MOP objects.");
                             }
 
                             RulesManager.Instance.ChangeParentRules.Add(new ChangeParentRule(objects[0], objects[1]));
@@ -601,7 +595,7 @@ namespace MOP.Rules.Configuration
             }
             catch (Exception ex)
             {
-                ModConsole.LogError($"[MOP] Error loading rule {Path.GetFileName(rulePath)}: {ex}.");
+                ModConsole.LogError($"[MOP] Error loading rule {Path.GetFileName(rulePath)}: {ex.Message}.");
                 NewMessage($"<color=red>MOP: Error loading rule :(");
             }
         }

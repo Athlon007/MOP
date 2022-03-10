@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.5.2 (TBA)
+
+### Added
+
+- Rule Files API: Added flag "change_parent: object_name new_parent_object_name"
+  - Changes the object's root parent, indicated by object_name, to parent defined by new_parent_object_name
+  - new_parent_object_name can be set to NULL, in order to make it nulled
+
+### Changes
+
+- Very minor changes in exception throwing
+
 ## 3.5.1 (28.02.2022)
 
 Version bump, because I incorrectly signed the 3.5 :)
