@@ -105,7 +105,7 @@ namespace MOP.Rules.Configuration
 
         IEnumerator DownloadAndUpdateRoutine()
         {
-            MopData rulesInfo = MopSettings.Data;   
+            MopData rulesInfo = MopSettings.Data;
             Mod[] mods = ModLoader.LoadedMods.Where(m => !m.ID.ContainsAny("MSCLoader_", "MOP")).ToArray();
 
             ModConsole.Log("[MOP] Checking for new mods...");
@@ -235,7 +235,7 @@ namespace MOP.Rules.Configuration
             {
                 // Find and .mopconfig files.
                 DirectoryInfo dir = new DirectoryInfo(MOP.ModConfigPath);
-                List<FileInfo> files = dir.GetFiles().Where(d => d.Name.EndsWith(RuleExtension)).ToList();
+                List<FileInfo> files = dir.GetFiles().Where(d => d.Name.EndsWith(RuleExtension) && !d.Name.StartsWith("._")).ToList();
                 // Load custom rule file.
                 if (File.Exists($"{dir}/{CustomFile}"))
                 {
