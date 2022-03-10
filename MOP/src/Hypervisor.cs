@@ -505,6 +505,38 @@ namespace MOP
                 }
             }
 
+            foreach (ChangeParentRule rule in RulesManager.Instance.ChangeParentRules)
+            {
+                try
+                {
+                    GameObject obj = GameObject.Find(rule.ObjectName);
+                    if (obj == null)
+                    {
+                        throw new Exception($"Object {rule.ObjectName} doesn't exist.");
+                    }
+
+                    if (rule.NewParentName.ToLower() == "null")
+                    {
+                        obj.transform.parent = null;
+                    }
+                    else
+                    {
+                        GameObject parent = GameObject.Find(rule.NewParentName);
+                        if (parent == null)
+                        {
+                            throw new Exception($"Parent {rule.NewParentName} doesn't exist.");
+                        }
+
+                        obj.transform.parent = parent.transform;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, false, "CHANGE_PARENT_RULE_ERROR");
+                }
+
+            }
+
             ModConsole.Log("[MOP] Rules loading complete!");
 
             // Initialzie sector manager

@@ -519,6 +519,19 @@ namespace MOP.Rules.Configuration
 
                             RulesManager.Instance.ToggleRules.Add(new ToggleRule(objects[0], mode));
                             break;
+                        case "change_parent":
+                            if (objects.Length != 2)
+                            {
+                                throw new ArgumentException("Incorrect use of change_parent. Usage: ObjectName NewParentName");
+                            }
+
+                            if (objects[0].Contains("MOP_") || objects[1].Contains("MOP_"))
+                            {
+                                throw new ArgumentException("Cannot change parents of MOP objects.");
+                            }
+
+                            RulesManager.Instance.ChangeParentRules.Add(new ChangeParentRule(objects[0], objects[1]));
+                            break;
                         case "satsuma_ignore_renderer":
                             RulesManager.Instance.SpecialRules.SatsumaIgnoreRenderers = true;
                             break;

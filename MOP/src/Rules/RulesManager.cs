@@ -45,6 +45,9 @@ namespace MOP.Rules
         // Sectors (adds a new sector).
         public List<NewSector> NewSectors;
 
+        // Change Parent
+        public List<ChangeParentRule> ChangeParentRules;
+
         // If false, no rule files will be loaded.
         public bool LoadRules = true;
 
@@ -67,6 +70,7 @@ namespace MOP.Rules
             RuleFileNames = new List<string>();
             NewSectors = new List<NewSector>();
             UnusedRules = new List<string>();
+            ChangeParentRules = new List<ChangeParentRule>();
         }
 
         public void WipeAll(bool overrideUpdateCheck)
