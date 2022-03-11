@@ -165,7 +165,7 @@ namespace MOP
             modSettings.AddHeader("RULES");
             SettingButton learnMore = modSettings.AddButton("rulesLearnMore", "LEARN MORE", () => ShowDialog("http://athlon.kkmr.pl/mop"));
             learnMore.AddTooltip("Learn about how rules work.");
-            RulesAutoUpdate = modSettings.AddToggle("rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true);
+            RulesAutoUpdate = modSettings.AddToggle("rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true, WarningDisableAutoUpdate);
             RulesAutoUpdateFrequency = modSettings.AddSlider("ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 2, 0, 3);
             RulesAutoUpdateFrequency.TextValues = rulesAutoUpdateFrequencyText;
             VerifyRuleFiles = modSettings.AddToggle("verifyRuleFiles", "VERIFY RULE FILES", true);
@@ -222,7 +222,7 @@ namespace MOP
             // Rules
             Settings.AddHeader(this, "RULES");
             Settings.AddButton(this, "rulesLearnMore", "LEARN MORE", () => ShowDialog("http://athlon.kkmr.pl/mop"));
-            RulesAutoUpdate = Settings.AddCheckBox(this, "rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true);
+            RulesAutoUpdate = Settings.AddCheckBox(this, "rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true, WarningDisableAutoUpdate);
             RulesAutoUpdateFrequency = Settings.AddSlider(this, "ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 0, 3, 2, textValues: rulesAutoUpdateFrequencyText);
             VerifyRuleFiles = Settings.AddCheckBox(this, "verifyRuleFiles", "VERIFY RULE FILES", true);
             DeleteUnusedRules = Settings.AddCheckBox(this, "deleteUnusedRules", "AUTOMATICALLY DELETE UNUSED RULES", false);
@@ -490,6 +490,15 @@ namespace MOP
                     $"{ExceptionManager.GetSystemInfo()}\n" +
                     $"<color=yellow>Session ID:</color> {SessionID}\n" +
                     $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}";
+        }
+
+        void WarningDisableAutoUpdate()
+        {
+            if (RulesAutoUpdate.GetValue() == false)
+            {
+                ModUI.ShowMessage("<color=yellow>Warning!</color>\n\n" +
+                                  "Disabling rule files auto update means newly installed mods might not work.", "MOP");
+            }
         }
     }
 }

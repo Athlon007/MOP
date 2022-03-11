@@ -7,6 +7,7 @@
 - Rule Files API: Added flag "change_parent: object_name new_parent_object_name"
   - Changes the object's root parent, indicated by object_name, to parent defined by new_parent_object_name
   - new_parent_object_name can be set to NULL, in order to make it nulled
+- Added warning when disabling automatic rule updates
 
 ### Changes
 
