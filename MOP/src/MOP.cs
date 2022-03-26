@@ -109,7 +109,7 @@ namespace MOP
             modSettings.AddButton("homepage", "HOMEPAGE", () => ShowDialog("http://athlon.kkmr.pl/"));
             modSettings.AddButton("github", "GITHUB", () => ShowDialog("https://github.com/Athlon007/MOP"));
             modSettings.AddButton("homepage", "NEXUSMODS", () => ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
-            modSettings.AddButton("paypal", "<color=#5b6ca0>DONATE</color>", () => ShowDialog("https://paypal.me/figurakonrad"));
+            modSettings.AddButton("paypal", "<color=#254280>DONATE</color>", () => ShowDialog("https://paypal.me/figurakonrad"));
 
             // Activating objects.
             modSettings.AddHeader("DESPAWNING");
