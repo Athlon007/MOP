@@ -65,7 +65,6 @@ namespace MOP
         #endregion
 
         readonly List<ItemBehaviour> itemsToEnable = new List<ItemBehaviour>();
-        readonly List<ItemBehaviour> itemsToDisable = new List<ItemBehaviour>();
         readonly List<ItemBehaviour> itemsToRemove = new List<ItemBehaviour>();
 
         public Hypervisor()
@@ -801,7 +800,6 @@ namespace MOP
                 // So if we are disabling items, we need to do that BEFORE we disable vehicles.
                 // And we need to enable items AFTER we enable vehicles.
                 itemsToEnable.Clear();
-                itemsToDisable.Clear();
                 half = ItemsManager.Instance.Count >> 1;
                 for (i = 0; i < ItemsManager.Instance.Count; ++i)
                 {
@@ -838,7 +836,7 @@ namespace MOP
                         else
                         {
                             if (!item.ActiveSelf) continue;
-                            itemsToDisable.Add(item);
+                            item.Toggle(false);
                         }
 
                         if (item.rb != null && item.rb.IsSleeping())
@@ -851,27 +849,6 @@ namespace MOP
                     catch (Exception ex)
                     {
                         ExceptionManager.New(ex, false, "ITEM_TOGGLE_GATHER_ERROR");
-                    }
-                }
-
-                // Items To Disable
-                int full = itemsToDisable.Count;
-                if (full > 0)
-                {
-                    half = itemsToDisable.Count >> 1;
-                    for (i = 0; i < full; ++i)
-                    {
-                        if (half != 0 && i == half)
-                            yield return null;
-
-                        try
-                        {
-                            itemsToDisable[i].Toggle(false);
-                        }
-                        catch (Exception ex)
-                        {
-                            ExceptionManager.New(ex, false, "ITEM_TOGGLE_DISABLE_ERROR - " + itemsToDisable[i] != null ? itemsToDisable[i].gameObject.name : "null");
-                        }
                     }
                 }
 
@@ -915,7 +892,7 @@ namespace MOP
                 }
 
                 // Items To Enable
-                full = itemsToEnable.Count;
+                int full = itemsToEnable.Count;
                 if (full > 0)
                 {
                     half = full >> 1;
@@ -929,7 +906,7 @@ namespace MOP
                         }
                         catch (Exception ex)
                         {
-                            ExceptionManager.New(ex, false, "ITEM_TOGGLE_ENABLE_ERROR - " + itemsToEnable[i] != null ? itemsToDisable[i].gameObject.name : "null");
+                            ExceptionManager.New(ex, false, "ITEM_TOGGLE_ENABLE_ERROR - " + itemsToEnable[i] != null ? itemsToEnable[i].gameObject.name : "null");
                         }
                     }
                 }
