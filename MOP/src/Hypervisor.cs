@@ -789,7 +789,7 @@ namespace MOP
                 // Safe mode prevents toggling elemenets that MAY case some issues (vehicles, items, etc.)
                 if (MopSettings.Mode == PerformanceMode.Safe)
                 {
-                    yield return new WaitForSeconds(.7f);
+                    yield return new WaitForSeconds(MOP.FasterAlgo.GetValue() ? .1f : .7f);
                     continue;
                 }
 
@@ -821,11 +821,9 @@ namespace MOP
                         }
 
                         // Check the mode in what MOP is supposed to run and adjust to it.
-                        bool toEnable = true;
-                        if (MopSettings.Mode == PerformanceMode.Performance)
-                            toEnable = IsEnabled(item.transform, FsmManager.IsPlayerInCar() && !isPlayerAtYard ? 20 : 150);
-                        else
-                            toEnable = IsEnabled(item.transform, 150);
+                        bool toEnable = MopSettings.Mode == PerformanceMode.Performance 
+                            ? IsEnabled(item.transform, FsmManager.IsPlayerInCar() && !isPlayerAtYard ? 20 : 150) 
+                            : IsEnabled(item.transform, 150);
 
                         if (toEnable)
                         {
@@ -856,7 +854,8 @@ namespace MOP
                 half = vehicleManager.Count >> 1;
                 for (i = 0; i < vehicleManager.Count; ++i)
                 {
-                    if (half != 0 && i == half) yield return null;
+                    if (i == half)
+                        yield return null;
 
                     try
                     {
@@ -945,7 +944,7 @@ namespace MOP
                     itemsToRemove.Clear();
                 }
 
-                yield return new WaitForSeconds(.7f);
+                yield return new WaitForSeconds(MOP.FasterAlgo.GetValue() ? .1f : .7f);
 
                 if (retries > 0 && !restartSucceedMessaged)
                 {

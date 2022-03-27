@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.5.2 (TBA)
+## 3.6 (TBA)
 
 ### Added
 
@@ -8,6 +8,7 @@
   - Changes the object's root parent, indicated by object_name, to parent defined by new_parent_object_name
   - new_parent_object_name can be set to NULL, in order to make it nulled
 - Added warning when disabling automatic rule updates
+- Beta: Added "Fast Algorithm" function - it decreases the time it takes for MOP to enable/disable objects
 
 ### Changes
 
