@@ -11,8 +11,9 @@
 
 ### Changes
 
-- Very minor changes in exception throwing
+- Modified
 - Mod Loader Pro: Adjusted the color of the DONATE button
+- Very minor changes in exception throwing
 
 ## 3.5.1 (28.02.2022)
 
