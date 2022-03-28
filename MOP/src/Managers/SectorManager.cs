@@ -189,7 +189,7 @@ namespace MOP.Managers
             sectors.Add(newSector);
         }
 
-        public void ToggleActive(bool enabled)
+        public void ToggleActive()
         {
             if (MOP.LazySectorUpdating.GetValue())
             {

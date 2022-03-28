@@ -44,7 +44,7 @@ namespace MOP
             if (other.gameObject.name == ReferenceObjectName)
             {
                 SectorManager.Instance.AddActiveSector(this);
-                SectorManager.Instance.ToggleActive(false);
+                SectorManager.Instance.ToggleActive();
             }
         }
 
@@ -53,7 +53,7 @@ namespace MOP
             if (other.gameObject.name == ReferenceObjectName)
             {
                 SectorManager.Instance.RemoveActiveSector(this);
-                SectorManager.Instance.ToggleActive(true);
+                SectorManager.Instance.ToggleActive();
             }
         }
 
