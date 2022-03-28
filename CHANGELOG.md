@@ -7,8 +7,9 @@
 - Rule Files API: Added flag "change_parent: object_name new_parent_object_name"
   - Changes the object's root parent, indicated by object_name, to parent defined by new_parent_object_name
   - new_parent_object_name can be set to NULL, to make the object an orphan
-- Beta: Added "Fast Algorithm" function - it decreases the time it takes for MOP to enable/disable objects
-- Beta: Added "Lazy Sector Updating" - it should decrease the lag when disabling/enabling objects while entering the sector
+- Added "Experimental" settings section:
+  - "Fast Algorithm" - it decreases the time it takes for MOP to enable/disable objects
+  - "Lazy Sector Updating" - it decreases the lag when disabling/enabling objects while entering the sector
 - Added warning when disabling automatic rule updates
 
 ### Changes

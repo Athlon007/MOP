@@ -160,7 +160,6 @@ namespace MOP.Common
             output += $"ActiveDistance: {MOP.ActiveDistance.GetValue()}\n";
             output += $"ActiveDistanceMultiplier: {MopSettings.ActiveDistanceMultiplicationValue}\n";
             output += $"PerformanceMode: {MopSettings.Mode}\n";
-            output += $"FastAlgo: {MOP.FasterAlgo.GetValue()}\n";
 #if !PRO
             output += $"LimitFramerate: {MOP.LimitFramerate.GetValue()}\n";
 #endif
@@ -177,6 +176,8 @@ namespace MOP.Common
             output += $"ToggleVehiclePhysicsOnly: {RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";
             output += $"IgnoreModVehicles: {RulesManager.Instance.SpecialRules.IgnoreModVehicles}\n";
             output += $"CustomRuleFile: {File.Exists($"{MOP.ModConfigPath}/Custom.txt")}\n\n";
+            output += $"FastAlgo: {MOP.FasterAlgo.GetValue()}\n";
+            output += $"LazySectors: {MOP.LazySectorUpdating.GetValue()}\n";
 
             // Game data
             if (ModLoader.CurrentScene == CurrentScene.Game)
