@@ -24,6 +24,7 @@
 
 - Fixed a bug that could crash the MOP, if MOP tried to enable an item that does not exist
 - Fixed an empty gap between sectors of the main part of the home and bathroom/sauna area, which removed a lag caused by enabling and then disabling all objects corresponding to those areas
+- Fixed identical gap between kitchen and the storage closet
 - Fixed a bug which would sometimes cause MOP to not load the sector, if player quickly moved between one and another
 
 ## 3.5.1 (28.02.2022)

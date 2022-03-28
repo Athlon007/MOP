@@ -136,7 +136,7 @@ namespace MOP.Managers
             // Home
             CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.9f), new Vector3(11, 5, 9.5f), "PierHome", "TREES_SMALL1", "BUSHES7", "Building"); // Living room, kitchen, bedrooms.
             CreateNewSector(new Vector3(-12.5f, -0.5062422f, 1.2f), new Vector3(3, 5, 8f), "PierHome", "TREES_SMALL1", "BUSHES7", "Building"); // Sauna, bathroom.
-            CreateNewSector(new Vector3(-13.5f, -0.5062422f, 6.4f), new Vector3(1.3f, 5, 1.7f), "PierHome", "TREES_SMALL1", "BUSHES7", "Building"); // Storage room (kitchen).
+            CreateNewSector(new Vector3(-13.4f, -0.5062422f, 6.4f), new Vector3(1.4f, 5, 1.7f), "PierHome", "TREES_SMALL1", "BUSHES7", "Building"); // Storage room (kitchen).
             // Jail
             CreateNewSector(new Vector3(-655, 5, -1156), new Vector3(5, 5, 9f));
             // Cottage
