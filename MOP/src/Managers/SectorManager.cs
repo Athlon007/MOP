@@ -115,10 +115,17 @@ namespace MOP.Managers
             }
 
             // Garage
-            CreateNewSector(new Vector3(-16.77627f, -0.5062422f, 1.559867f), new Vector3(5, 5, 9), "PierHome");
+            if (MopSettings.Mode == PerformanceMode.Performance)
+            {
+                CreateNewSector(new Vector3(-16.77627f, -0.5062422f, 1.559867f), new Vector3(5, 5, 9), "PierHome");
+            }
+            else
+            {
+                CreateNewSector(new Vector3(-16.77627f, -0.5062422f, 1.559867f), new Vector3(5, 5, 9), "PierHome", "Tile", "LakeNice", "TREES_MEDIUM3");
+            }
             // Teimo
             CreateNewSector(new Vector3(-1547.3f, 4, 1183.35f), new Vector3(9.6f, 5, 5.5f), new Vector3(0, 328, 0),
-                "StreetLights", "HUMANS", "TRAFFIC", "NPC_CARS", "PERAJARVI", "TrafficSigns", "StreetLights", "ELEC_POLES", "TREES_SMALL1");
+                "StreetLights", "HUMANS", "TRAFFIC", "NPC_CARS", "PERAJARVI", "TrafficSigns", "StreetLights", "ELEC_POLES", "TREES_SMALL1", "BusStop", "BUSHES3");
             CreateNewSector(new Vector3(-1551.7f, 4, 1185.8f), new Vector3(4.6f, 5, 2.5f), new Vector3(0, 328, 0),
                 "StreetLights", "HUMANS", "TRAFFIC", "NPC_CARS", "PERAJARVI", "TrafficSigns", "StreetLights", "ELEC_POLES", "TREES_SMALL1");
             // Repair shop
@@ -147,7 +154,14 @@ namespace MOP.Managers
             {
                 foreach (NewSector sector in RulesManager.Instance.NewSectors)
                 {
-                    CreateNewSector(sector.Position, sector.Scale, sector.Rotation, sector.Whitelist);
+                    try
+                    {
+                        CreateNewSector(sector.Position, sector.Scale, sector.Rotation, sector.Whitelist);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        ExceptionManager.New(ex, false, "CUSTOM_SECTOR_FAIL");
+                    }
                 }
             }
 

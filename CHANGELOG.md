@@ -6,15 +6,22 @@
 
 - Rule Files API: Added flag "change_parent: object_name new_parent_object_name"
   - Changes the object's root parent, indicated by object_name, to parent defined by new_parent_object_name
-  - new_parent_object_name can be set to NULL, in order to make it nulled
-- Added warning when disabling automatic rule updates
+  - new_parent_object_name can be set to NULL, to make the object an orphan
 - Beta: Added "Fast Algorithm" function - it decreases the time it takes for MOP to enable/disable objects
+- Added warning when disabling automatic rule updates
 
 ### Changes
 
-- Modified
+- Adjusted what objects are not disabled when entering the sector:
+  - Lake and trees are not being disabled when entering the garage (on Balanced quality mode and above)
+  - Bus stop and bushes are not being disabled when entering Teimo's store
+- Optimization in item disabling (should reduce the lag and delay when disabling objects)
 - Mod Loader Pro: Adjusted the color of the DONATE button
 - Very minor changes in exception throwing
+
+### Bug Fixes
+
+- Fixed a bug that could crash the MOP, if MOP tried to enable an item that does not exist
 
 ## 3.5.1 (28.02.2022)
 
