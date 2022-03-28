@@ -160,6 +160,7 @@ namespace MOP.Common
             output += $"ActiveDistance: {MOP.ActiveDistance.GetValue()}\n";
             output += $"ActiveDistanceMultiplier: {MopSettings.ActiveDistanceMultiplicationValue}\n";
             output += $"PerformanceMode: {MopSettings.Mode}\n";
+            output += $"FastAlgo: {MOP.FasterAlgo.GetValue()}\n";
 #if !PRO
             output += $"LimitFramerate: {MOP.LimitFramerate.GetValue()}\n";
 #endif
