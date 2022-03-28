@@ -68,7 +68,7 @@ namespace MOP
         static internal SettingsCheckBoxGroup ModePerformance, ModeBalanced, ModeQuality, ModeSafe;
         static internal SettingsCheckBox KeepRunningInBackground, LimitFramerate, DynamicDrawDistance,
                                           RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
-                                          DestroyEmptyBottles, DisableEmptyItems, FasterAlgo;
+                                          DestroyEmptyBottles, DisableEmptyItems, FasterAlgo, LazySectorUpdating;
 #endif
 
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
@@ -214,10 +214,11 @@ namespace MOP
             ModeBalanced = Settings.AddCheckBoxGroup(this, "modeBalanced", "BALANCED", true, "performanceMode", MopSettings.UpdatePerformanceMode);
             ModeQuality = Settings.AddCheckBoxGroup(this, "modeQuality", "QUALITY", false, "performanceMode", MopSettings.UpdatePerformanceMode);
             ModeSafe = Settings.AddCheckBoxGroup(this, "modeSafe", "<color=red>SAFE</color>", false, "performanceMode", MopSettings.UpdatePerformanceMode);
-            Settings.AddDynamicText(this, "\n<b>WARNING ZONE</b>");
-            FasterAlgo = Settings.AddCheckBox(this, "fastAlgo", "<color=yellow>BETA</color>: FAST ALGORITHM", false);
+            Settings.AddDynamicText(this, "\n<b>BETA ZONE</b>");
+            FasterAlgo = Settings.AddCheckBox(this, "fastAlgo", "FAST ALGORITHM", false);
             Settings.AddDynamicText(this, "FAST ALGORITHM is an experimental function that is supposed to decrease the time it takes for MOP to toggle objects on and off. " +
                 "It will decrease the delay of enabling/disabling objects but might reduce the framerate.");
+            LazySectorUpdating = Settings.AddCheckBox(this, "lazySectorUpdating", "LAZY SECTOR UPDATING", false);
 
             // Graphics
             Settings.AddHeader(this, "GRAPHICS");

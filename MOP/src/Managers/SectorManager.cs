@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using MSCLoader;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -23,6 +22,7 @@ using MOP.Common;
 using MOP.Common.Enumerations;
 using MOP.Rules;
 using MOP.Rules.Types;
+using System.Collections;
 
 namespace MOP.Managers
 {
@@ -45,7 +45,7 @@ namespace MOP.Managers
             ModConsole.Log("[MOP] Loading sectors...");
 
             GameObject colliderCheck = new GameObject("MOP_PlayerCheck");
-            colliderCheck.layer = 20;
+            colliderCheck.layer = 20; // This layer is ignored by MSC's player "hand" raycasting.
             colliderCheck.transform.parent = GameObject.Find("PLAYER").transform;
             colliderCheck.transform.localPosition = Vector3.zero;
             BoxCollider collider = colliderCheck.AddComponent<BoxCollider>();
@@ -135,7 +135,7 @@ namespace MOP.Managers
             CreateNewSector(new Vector3(54.7f, -0.5062422f, -73.9f), new Vector3(6, 5, 5.2f), "YARD", "MachineHall", "BUSHES3", "BUSHES6", "TREES_SMALL1");
             // Home
             CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.9f), new Vector3(11, 5, 9.5f), "PierHome", "TREES_SMALL1", "BUSHES7", "Building"); // Living room, kitchen, bedrooms.
-            CreateNewSector(new Vector3(-12.5f, -0.5062422f, 1), new Vector3(3, 5, 7.7f), "PierHome", "TREES_SMALL1", "BUSHES7", "Building"); // Sauna, bathroom.
+            CreateNewSector(new Vector3(-12.5f, -0.5062422f, 1.2f), new Vector3(3, 5, 8f), "PierHome", "TREES_SMALL1", "BUSHES7", "Building"); // Sauna, bathroom.
             CreateNewSector(new Vector3(-13.5f, -0.5062422f, 6.4f), new Vector3(1.3f, 5, 1.7f), "PierHome", "TREES_SMALL1", "BUSHES7", "Building"); // Storage room (kitchen).
             // Jail
             CreateNewSector(new Vector3(-655, 5, -1156), new Vector3(5, 5, 9f));
@@ -191,6 +191,18 @@ namespace MOP.Managers
 
         public void ToggleActive(bool enabled)
         {
+            if (MOP.LazySectorUpdating.GetValue())
+            {
+                if (currentLazyToggle != null)
+                {
+                    StopCoroutine(currentLazyToggle);
+                }
+
+                currentLazyToggle = LazyToggleActive();
+                StartCoroutine(currentLazyToggle);
+                return;
+            }
+
             for (int i = 0; i < objectsToDisable.Count; i++)
             {
                 // Safe check if somehow the i gets bigger than array length.
@@ -210,7 +222,43 @@ namespace MOP.Managers
                     continue;
                 }
 
-                obj.SetActive(enabled);
+                obj.SetActive(activeSectors.Count == 0);
+            }
+        }
+
+        private IEnumerator currentLazyToggle;
+        IEnumerator LazyToggleActive()
+        {
+            if (activeSectors.Count > 0)
+            {
+                for (int i = 0; i < 15; ++i)
+                    yield return null;
+            }
+
+            int half = objectsToDisable.Count >> 1;
+            for (int i = 0; i < objectsToDisable.Count; i++)
+            {
+                if (i == half) 
+                    yield return null;
+
+                // Safe check if somehow the i gets bigger than array length.
+                if (i > objectsToDisable.Count) break;
+
+                GameObject obj = objectsToDisable[i];
+
+                if (obj == null)
+                    continue;
+
+                if (MopSettings.Mode == PerformanceMode.Quality && obj.name.ContainsAny(qualityModeIgnore))
+                    continue;
+
+                if (SectorRulesContains(obj.name))
+                {
+                    obj.SetActive(true);
+                    continue;
+                }
+
+                obj.SetActive(activeSectors.Count == 0);
             }
         }
 

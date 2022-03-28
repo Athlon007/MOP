@@ -8,6 +8,7 @@
   - Changes the object's root parent, indicated by object_name, to parent defined by new_parent_object_name
   - new_parent_object_name can be set to NULL, to make the object an orphan
 - Beta: Added "Fast Algorithm" function - it decreases the time it takes for MOP to enable/disable objects
+- Beta: Added "Lazy Sector Updating" - it should decrease the lag when disabling/enabling objects while entering the sector
 - Added warning when disabling automatic rule updates
 
 ### Changes
@@ -22,6 +23,8 @@
 ### Bug Fixes
 
 - Fixed a bug that could crash the MOP, if MOP tried to enable an item that does not exist
+- Fixed an empty gap between sectors of the main part of the home and bathroom/sauna area, which removed a lag caused by enabling and then disabling all objects corresponding to those areas
+- Fixed a bug which would sometimes cause MOP to not load the sector, if player quickly moved between one and another
 
 ## 3.5.1 (28.02.2022)
 
