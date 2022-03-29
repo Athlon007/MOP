@@ -28,6 +28,7 @@
 - Fixed identical gap between kitchen and the storage closet
 - Fixed a bug which would sometimes cause MOP to not load the sector, if player quickly moved between one and another
 - Fixed bug reports not working when pressing "Yes" to include a bug report
+- After generating bug report and clicking "No" to including save file, the bug report folder will open again
 
 ## 3.5.1 (28.02.2022)
 

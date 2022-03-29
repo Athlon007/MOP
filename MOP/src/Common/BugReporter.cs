@@ -150,9 +150,17 @@ namespace MOP.Common
             // We are asking the user if he wants to add his game save to the zip file.
             if (File.Exists(SaveManager.SavePath))
             {
+#if PRO
+                MSCLoader.ModPrompt.CreateYesNoPrompt("Would you like to include your save file?\n\n" +
+                                            "This may greatly improve finding and fixing the bug.", "MOP - Bug Report",
+                                            onYes: () => { IncludeZip(lastZipFilePath); OpenBugReportFolder(); },
+                                            onNo: OpenBugReportFolder);
+#else
                 MSCLoader.ModUI.ShowYesNoMessage("Would you like to include your save file?\n\n" +
                                             "This may greatly improve finding and fixing the bug.", "MOP - Bug Report",
                                             () => IncludeZip(lastZipFilePath));
+                StartCoroutine(WaitForPromptToClose());
+#endif
             }
             else
             {
@@ -190,8 +198,6 @@ namespace MOP.Common
 
                 zip.Save();
             }
-
-            OpenBugReportFolder();
         }
 
         public void RestartGame()
@@ -225,5 +231,25 @@ namespace MOP.Common
             fsm.SendEvent("OVER");
             fsm.SendEvent("DOWN");
         }
+
+#if !PRO
+        IEnumerator WaitForPromptToClose()
+        {
+            GameObject promptCanvas = GameObject.Find("MSCLoader Canvas msgbox");
+            GameObject prompt = promptCanvas.transform.GetChild(promptCanvas.transform.childCount - 1)?.gameObject;
+            
+            if (prompt == null)
+            {
+                yield break;
+            }
+
+            while (prompt != null)
+            {
+                yield return null;
+            }
+
+            OpenBugReportFolder();
+        }
+#endif
     }
 }
