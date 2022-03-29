@@ -20,6 +20,7 @@
 - Optimization in item disabling (should reduce the lag and delay when disabling objects)
 - Mod Loader Pro: Adjusted the color of the DONATE button
 - Very minor changes in exception throwing
+- Removed unnecessary exceptions for certain sectors
 
 ### Bug Fixes
 
