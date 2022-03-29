@@ -171,7 +171,13 @@ namespace MOP.Common
             using (ZipFile zip = ZipFile.Read(zipFilePath))
             {
                 // Create folder called Save in the zip and get defaultES2Save.txt and items.txt.
-                zip.AddDirectoryByName("Save");
+                // Added try-catch block, because there is no way of checking if folder exists in the zip-file already.
+                // If it does, this script will crash.
+                try
+                {
+                    zip.AddDirectoryByName("Save");
+                }
+                catch { }
                 if (File.Exists(SaveManager.SavePath))
                 {
                     zip.AddFile(SaveManager.SavePath, "Save");
