@@ -1,0 +1,27 @@
+### Added
+
+- Rule Files API: Added flag "change_parent: object_name new_parent_object_name"
+  - Changes the object's root parent, indicated by object_name, to parent defined by new_parent_object_name
+  - new_parent_object_name can be set to NULL, to make the object an orphan
+- Added "Experimental" settings section:
+  - "Fast Algorithm" - it decreases the time it takes for MOP to enable/disable objects
+  - "Lazy Sector Updating" - it decreases the lag when disabling/enabling objects while entering the sector
+- Added warning when disabling automatic rule updates
+
+### Changes
+
+- Adjusted what objects are not disabled when entering the sector:
+  - Lake and trees are not being disabled when entering the garage (on Balanced quality mode and above)
+  - Bus stop and bushes are not being disabled when entering Teimo's store
+- Optimization in item disabling (should reduce the lag and delay when disabling objects)
+- Mod Loader Pro: Adjusted the color of the DONATE button
+- Very minor changes in exception throwing
+
+### Bug Fixes
+
+- Fixed a bug that could crash the MOP, if MOP tried to enable an item that does not exist
+- Fixed an empty gap between sectors of the main part of the home and bathroom/sauna area, which removed a lag caused by enabling and then disabling all objects corresponding to those areas
+- Fixed identical gap between kitchen and the storage closet
+- Fixed a bug which would sometimes cause MOP to not load the sector, if player quickly moved between one and another
+- Fixed bug reports not working when pressing "Yes" to include a bug report
+- After generating bug report and clicking "No" to including save file, the bug report folder will open again
