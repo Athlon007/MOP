@@ -11,7 +11,7 @@
   - "Fast Algorithm" - it decreases the time it takes for MOP to enable/disable objects
   - "Lazy Sector Updating" - it decreases the lag when disabling/enabling objects while entering the sector
 - Added warning when disabling automatic rule updates
-- Added warning when attempting to change Mode while in-game
+- Added warning in settings when attempting to change Mode while in-game
 
 ### Changes
 
