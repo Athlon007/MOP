@@ -92,6 +92,12 @@ namespace MOP.Common
         {
             setting.gameObject.AddComponent<UITooltip>().toolTipText = text;
         }
+
+        public static void SetValue(this SettingText settingText, string text)
+        {
+            settingText.Enabled = !string.IsNullOrEmpty(text);
+            settingText.Text = text;
+        }
 #endif
 
         public static bool IsMSCLoader()

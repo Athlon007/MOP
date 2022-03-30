@@ -63,13 +63,18 @@ namespace MOP
         static internal SettingToggle EnableShadowAdjusting, KeepRunningInBackground,
                                       DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
                                       DestroyEmptyBottles, DisableEmptyItems, FasterAlgo, LazySectorUpdating;
+        SettingText modeWarningText;
 #else
         static internal SettingsSliderInt ActiveDistance, FramerateLimiter, ShadowDistance, RulesAutoUpdateFrequency;
         static internal SettingsCheckBoxGroup ModePerformance, ModeBalanced, ModeQuality, ModeSafe;
         static internal SettingsCheckBox KeepRunningInBackground, LimitFramerate, DynamicDrawDistance,
                                           RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
                                           DestroyEmptyBottles, DisableEmptyItems, FasterAlgo, LazySectorUpdating;
+
+        // Misc.
+        SettingsDynamicText modeWarningText;
 #endif
+        const string WarningMode = "Some changes will be applied after game reload.";
 
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
         readonly string[] rulesAutoUpdateFrequencyText = { "On Restart", "Daily", "Every 2 days", "Weekly" };
@@ -125,7 +130,7 @@ namespace MOP
                 "<color=yellow>BALANCED (recommended)</color>: <color=white>Maintains balance between PERFORMANCE and QUALITY</color>\n" +
                 "<color=yellow>QUALITY</color>: <color=white>Hides obvious on-screen spawning and despawning, at the cost of performance</color>\n" +
                 "<color=yellow>SAFE</color>: <color=white>Despawns only minimum number of objects that are known to not cause any issues</color>");
-            modSettings.AddSpacer(10);
+            modeWarningText = modSettings.AddText("");
 
             // Graphics
             modSettings.AddHeader("GRAPHICS");
@@ -218,7 +223,8 @@ namespace MOP
             ModePerformance = Settings.AddCheckBoxGroup(this, "modePerformance", "PERFORMANCE", false, "performanceMode", MopSettings.UpdatePerformanceMode);
             ModeBalanced = Settings.AddCheckBoxGroup(this, "modeBalanced", "BALANCED", true, "performanceMode", MopSettings.UpdatePerformanceMode);
             ModeQuality = Settings.AddCheckBoxGroup(this, "modeQuality", "QUALITY", false, "performanceMode", MopSettings.UpdatePerformanceMode);
-            ModeSafe = Settings.AddCheckBoxGroup(this, "modeSafe", "<color=red>SAFE</color>", false, "performanceMode", MopSettings.UpdatePerformanceMode);            
+            ModeSafe = Settings.AddCheckBoxGroup(this, "modeSafe", "<color=red>SAFE</color>", false, "performanceMode", MopSettings.UpdatePerformanceMode);
+            modeWarningText = Settings.AddDynamicText(this, "");
 
             // Graphics
             Settings.AddHeader(this, "GRAPHICS");
@@ -307,6 +313,7 @@ namespace MOP
             }
 
             MopSettings.GameFixStatus = Common.Enumerations.GameFixStatus.None;
+            modeWarningText.SetValue("");
         }
 
         public override void ModSettingsLoaded()
@@ -357,6 +364,8 @@ namespace MOP
             mop.AddComponent<Hypervisor>();
 
             SaveManager.AddSaveFlag();
+
+            modeWarningText.SetValue(WarningMode);
         }
 
         static void ForceRuleFilesUpdate()
