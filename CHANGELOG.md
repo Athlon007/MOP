@@ -25,12 +25,12 @@
 
 ### Bug Fixes
 
-- Fixed a bug that could crash the MOP, if MOP tried to enable an item that does not exist
+- Fixed a bug that could crash the MOP, if the MOP tried to enable an item that does not exist
 - Fixed an empty gap between sectors of the main part of the home and bathroom/sauna area, which removed a lag caused by enabling and then disabling all objects corresponding to those areas
-- Fixed identical gap between kitchen and the storage closet
-- Fixed a bug which would sometimes cause MOP to not load the sector, if player quickly moved between one and another
+- Fixed identical gap between the kitchen and the storage closet
+- Fixed a bug that would sometimes cause MOP to not load the sector if player quickly moved between one another
 - Fixed bug reports not working when pressing "Yes" to include a bug report
-- After generating bug report and clicking "No" to including save file, the bug report folder will open again
+- After generating a bug report and clicking "No" to include save file, the bug report folder will open again
 
 ## 3.5.1 (28.02.2022)
 
