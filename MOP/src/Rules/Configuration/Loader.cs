@@ -693,22 +693,30 @@ namespace MOP.Rules.Configuration
 
         bool IsOutdated(int[] mopVersion, int[] minimalVersion)
         {
-            if (mopVersion[0] > minimalVersion[0])
+            // This array keeps track of numbers that are equal.
+            bool[] isEqual = new bool[mopVersion.Length];
+            for (int i = 0; i < mopVersion.Length; ++i)
             {
-                return false;
+                if (i == 0)
+                {
+                    if (mopVersion[i] < minimalVersion[i])
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    // If index is more than 0, make sure that the previou set of numbers is equal - otherwise this comparison does not make sense.
+                    if (isEqual[i - 1] && mopVersion[i] < minimalVersion[i])
+                    {
+                        return true;
+                    }
+                }
+
+                isEqual[i] = mopVersion[i] == minimalVersion[i];
             }
 
-            if (mopVersion[1] > minimalVersion[1])
-            {
-                return false;
-            }
-
-            if (mopVersion[2] >= minimalVersion[2])
-            {
-                return false;
-            }
-
-            return true;
+            return false;
         }
     }
 }

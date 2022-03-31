@@ -31,6 +31,7 @@
 - Fixed a bug that would sometimes cause MOP to not load the sector if player quickly moved between one another
 - Fixed bug reports not working when pressing "Yes" to include a bug report
 - After generating a bug report and clicking "No" to include save file, the bug report folder will open again
+- Fixed MOP not detecting rule file minimum mod version correctly
 
 ## 3.5.1 (28.02.2022)
 
