@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.6.1 (TBA)
+
+### Added
+
+- On beta builds, a warning will be shown in top right corner of the main menu and in console
+
 ## 3.6 (01.04.2022)
 
 ### Added

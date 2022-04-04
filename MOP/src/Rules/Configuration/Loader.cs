@@ -64,6 +64,7 @@ namespace MOP.Rules.Configuration
                 GameObject text = GameObject.Instantiate(GameObject.Find("Interface/Songs/Text"));
                 text.transform.localPosition = new Vector3(x, 2.6f, 0.01f);
                 text.name = "MOP_Messager";
+                text.GetComponent<MeshRenderer>().materials[0].color = Color.white;
                 message = text.GetComponent<TextMesh>();
                 message.alignment = TextAlignment.Right;
                 message.anchor = TextAnchor.UpperRight;
@@ -606,8 +607,15 @@ namespace MOP.Rules.Configuration
         /// <param name="value"></param>
         void NewMessage(string value)
         {
-            message.text = value;
+            message.text = "<color=yellow>" + value + "</color>";
             shadow.text = value;
+
+            if (!string.IsNullOrEmpty(MOP.SubVersion))
+            {
+                string version = MOP.SubVersion.Replace("_", " ").Replace("-", " ");
+                message.text += $"\n<color=magenta>{version}</color>";
+                shadow.text += $"\n{version}";
+            }
         }
 
         /// <summary>
