@@ -6,6 +6,10 @@
 
 - On beta builds, a warning will be shown in top right corner of the main menu and in console
 
+### Changes
+
+- The MOP rule files message in main menu has been moved back to center of the screen
+
 ## 3.6 (01.04.2022)
 
 ### Added

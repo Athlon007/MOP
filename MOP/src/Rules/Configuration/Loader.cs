@@ -58,19 +58,16 @@ namespace MOP.Rules.Configuration
             }
             else
             {
-                float div = Screen.width / (float)Screen.height;
-                float x = div  < 1.3f ? 4f : div <= 1.6f ? 4.5f : 6f;
-
                 GameObject text = GameObject.Instantiate(GameObject.Find("Interface/Songs/Text"));
-                text.transform.localPosition = new Vector3(x, 2.6f, 0.01f);
+                text.transform.localPosition = new Vector3(0, 2.6f, 0.01f);
                 text.name = "MOP_Messager";
                 text.GetComponent<MeshRenderer>().materials[0].color = Color.white;
                 message = text.GetComponent<TextMesh>();
-                message.alignment = TextAlignment.Right;
-                message.anchor = TextAnchor.UpperRight;
+                message.alignment = TextAlignment.Center;
+                message.anchor = TextAnchor.UpperCenter;
                 shadow = text.transform.GetChild(0).gameObject.GetComponent<TextMesh>();
-                shadow.alignment = TextAlignment.Right;
-                shadow.anchor = TextAnchor.UpperRight;
+                shadow.alignment = TextAlignment.Center;
+                shadow.anchor = TextAnchor.UpperCenter;
                 NewMessage("");
             }
 
@@ -607,15 +604,19 @@ namespace MOP.Rules.Configuration
         /// <param name="value"></param>
         void NewMessage(string value)
         {
-            message.text = "<color=yellow>" + value + "</color>";
-            shadow.text = value;
+            string text = $"<color=yellow>{value}</color>";
 
             if (!string.IsNullOrEmpty(MOP.SubVersion))
             {
-                string version = MOP.SubVersion.Replace("_", " ").Replace("-", " ");
-                message.text += $"\n<color=magenta>{version}</color>";
-                shadow.text += $"\n{version}";
+                if (!string.IsNullOrEmpty(value))
+                {
+                    text += "\n";
+                }
+                text += $"<color=magenta>MOP {MOP.ModVersion.Replace("_", " ").Replace("-", " ")}</color>";
             }
+
+            message.text = text;
+            shadow.text = text;
         }
 
         /// <summary>
