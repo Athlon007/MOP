@@ -4,11 +4,11 @@
 
 ### Added
 
-- On beta builds, a warning will be shown in top right corner of the main menu and in console
+- On beta builds, a warning will be shown at the top of the main menu and in the console
 
 ### Changes
 
-- The MOP rule files message in main menu has been moved back to center of the screen
+- The MOP rule files message in the main menu has been moved back to the center of the screen
 - Partial overhaul of rule files back-end
 - Rule files for mods that are disabled won't be loaded anymore
 
