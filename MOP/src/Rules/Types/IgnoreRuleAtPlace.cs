@@ -14,14 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using MSCLoader;
+
 namespace MOP.Rules.Types
 {
-    class IgnoreRuleAtPlace
+    class IgnoreRuleAtPlace : Rule
     {
         public string Place;
         public string ObjectName;
 
-        public IgnoreRuleAtPlace(string Place, string ObjectName)
+        public IgnoreRuleAtPlace(Mod mod, string filename, string Place, string ObjectName) : base(mod, filename)
         {
             this.Place = Place;
             this.ObjectName = ObjectName;

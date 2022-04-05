@@ -15,15 +15,16 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using MOP.Common.Enumerations;
+using MSCLoader;
 
 namespace MOP.Rules.Types
 {
-    class ToggleRule
+    class ToggleRule : Rule
     {
         public string ObjectName;
         public ToggleModes ToggleMode;
 
-        public ToggleRule(string ObjectName, ToggleModes ToggleMode)
+        public ToggleRule(Mod mod, string filename, string ObjectName, ToggleModes ToggleMode) : base(mod, filename)
         {
             this.ObjectName = ObjectName;
             this.ToggleMode = ToggleMode;

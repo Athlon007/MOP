@@ -9,6 +9,8 @@
 ### Changes
 
 - The MOP rule files message in main menu has been moved back to center of the screen
+- Partial overhaul of rule files back-end
+- Rule files for mods that are disabled won't be loaded anymore
 
 ## 3.6 (01.04.2022)
 

@@ -16,8 +16,8 @@
 
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
 using MSCLoader;
+using UnityEngine;
 
 using MOP.Rules.Configuration;
 using MOP.Rules.Types;
@@ -29,24 +29,8 @@ namespace MOP.Rules
         static RulesManager instance;
         public static RulesManager Instance { get => instance; }
 
-        // Ignore rules.
-        public List<IgnoreRule> IgnoreRules;
-        public List<IgnoreRuleAtPlace> IgnoreRulesAtPlaces;
-
-        // Toggling rules.
-        public List<ToggleRule> ToggleRules;
-
-        // Special rules.
+        public List<Rule> Rules { get; private set; }
         public SpecialRules SpecialRules;
-
-        // Used for mod report only.
-        public List<string> RuleFileNames;
-
-        // Sectors (adds a new sector).
-        public List<NewSector> NewSectors;
-
-        // Change Parent
-        public List<ChangeParentRule> ChangeParentRules;
 
         // If false, no rule files will be loaded.
         public bool LoadRules = true;
@@ -63,14 +47,9 @@ namespace MOP.Rules
 
         void ResetLists()
         {
-            IgnoreRules = new List<IgnoreRule>();
-            IgnoreRulesAtPlaces = new List<IgnoreRuleAtPlace>();
-            ToggleRules = new List<ToggleRule>();
+            Rules = new List<Rule>();
             SpecialRules = new SpecialRules();
-            RuleFileNames = new List<string>();
-            NewSectors = new List<NewSector>();
             UnusedRules = new List<string>();
-            ChangeParentRules = new List<ChangeParentRule>();
         }
 
         public void WipeAll(bool overrideUpdateCheck)
@@ -93,13 +72,6 @@ namespace MOP.Rules
         public void Unload()
         {
             ResetLists();
-        }
-
-        public void DeleteAll()
-        {
-            DirectoryInfo di = new DirectoryInfo(MOP.ModConfigPath);
-            foreach (var f in di.GetFiles("*.mopconfig"))
-                f.Delete();
         }
 
         public static void DeleteUnused()
@@ -137,5 +109,37 @@ namespace MOP.Rules
         {
             return IgnoreRules.Find(g => g.ObjectName == gm.name) != null;
         }
+
+        public void AddRule(Rule rule)
+        {
+            Rules.Add(rule);
+        }
+
+        List<T> GetList<T>() where T : class
+        {
+            List<T> list = new List<T>();
+
+            foreach (Rule rule in Rules)
+            {
+#if PRO
+                if (!rule.Mod.Enabled) continue;
+#else
+                if (rule.Mod.isDisabled) continue;
+#endif
+
+                if (rule.GetType() == typeof(T))
+                {
+                    list.Add(rule as T);
+                }
+            }
+
+            return list;
+        }
+
+        public List<IgnoreRule> IgnoreRules => GetList<IgnoreRule>();
+        public List<IgnoreRuleAtPlace> IgnoreRulesAtPlaces => GetList<IgnoreRuleAtPlace>();
+        public List<ToggleRule> ToggleRules => GetList<ToggleRule>();
+        public List<NewSector> NewSectors => GetList<NewSector>();
+        public List<ChangeParentRule> ChangeParentRules => GetList<ChangeParentRule>();
     }
 }

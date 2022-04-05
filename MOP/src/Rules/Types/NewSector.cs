@@ -14,18 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using MSCLoader;
 using UnityEngine;
 
 namespace MOP.Rules.Types
 {
-    class NewSector
+    class NewSector : Rule
     {
         public Vector3 Position;
         public Vector3 Rotation;
         public Vector3 Scale;
         public string[] Whitelist;
 
-        public NewSector(Vector3 Position, Vector3 Scale, Vector3 Rotation, string[] Whitelist)
+        public NewSector(Mod mod, string filename, Vector3 Position, Vector3 Scale, Vector3 Rotation, string[] Whitelist) : base(mod, filename)
         {
             this.Position = Position;
             this.Scale = Scale;

@@ -14,14 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using MSCLoader;
+
 namespace MOP.Rules.Types
 {
-    class ChangeParentRule
+    class ChangeParentRule : Rule
     {
         public string ObjectName { get; private set; }
         public string NewParentName { get; private set; }
 
-        public ChangeParentRule(string objectName, string newParentName)
+        public ChangeParentRule(Mod mod, string filename, string objectName, string newParentName) : base(mod, filename)
         {
             ObjectName = objectName;
             NewParentName = newParentName;

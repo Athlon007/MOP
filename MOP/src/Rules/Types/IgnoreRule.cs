@@ -14,14 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using MSCLoader;
+
 namespace MOP.Rules.Types
 {
-    class IgnoreRule
+    class IgnoreRule : Rule
     {
         public string ObjectName;
         public bool TotalIgnore;
 
-        public IgnoreRule(string ObjectName, bool TotalIgnore)
+        public IgnoreRule(Mod mod, string filename, string ObjectName, bool TotalIgnore) : base(mod, filename)
         {
             this.ObjectName = ObjectName;
             this.TotalIgnore = TotalIgnore;

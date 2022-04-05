@@ -22,6 +22,7 @@ using System.IO;
 using UnityEngine;
 
 using MOP.Rules;
+using MOP.Rules.Types;
 
 namespace MOP.Common
 {
@@ -219,12 +220,12 @@ namespace MOP.Common
 
             // List rule files.
             output += "=== RULE FILES ===\n\n";
-            foreach (string ruleFile in RulesManager.Instance.RuleFileNames)
+            foreach (Rule ruleFile in RulesManager.Instance.Rules)
             {
-                output += $"{ruleFile}\n";
+                output += $"{ruleFile.Filename}\n";
             }
 
-            if (RulesManager.Instance.RuleFileNames.Count == 0)
+            if (RulesManager.Instance.Rules.Count == 0)
             {
                 output += $"No rule files loaded!\n";
             }

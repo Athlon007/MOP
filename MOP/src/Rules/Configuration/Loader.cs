@@ -256,7 +256,8 @@ namespace MOP.Rules.Configuration
                 foreach (FileInfo file in files)
                 {
                     // Delete rules for mods that don't exist.
-                    if (ModLoader.LoadedMods.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name)) == null && file.Name != CustomFile)
+                    Mod mod = ModLoader.LoadedMods.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name));
+                    if (mod == null && file.Name != CustomFile)
                     {
                         removed++;
                         if (MOP.DeleteUnusedRules.GetValue())
@@ -286,8 +287,7 @@ namespace MOP.Rules.Configuration
                         }
                     }
 
-                    RulesManager.Instance.RuleFileNames.Add(file.Name);
-                    ReadRulesFromFile(file.FullName);
+                    ReadRulesFromFile(mod, file.FullName);
                 }
 
                 int loaded = files.Count - removed;
@@ -415,7 +415,7 @@ namespace MOP.Rules.Configuration
             return File.GetLastWriteTime(filename);
         }
 
-        void ReadRulesFromFile(string rulePath)
+        void ReadRulesFromFile(Mod mod, string rulePath)
         {
             try
             {
@@ -477,18 +477,18 @@ namespace MOP.Rules.Configuration
                                 }
                                 else
                                 {
-                                    RulesManager.Instance.IgnoreRulesAtPlaces.Add(new IgnoreRuleAtPlace(objects[0], objects[1]));
+                                    RulesManager.Instance.AddRule(new IgnoreRuleAtPlace(mod, fileName, objects[0], objects[1]));
                                     break;
                                 }
                             }
 
                             // Disabling some of the root object is pointless, so we inform abot that the user.
 
-                            RulesManager.Instance.IgnoreRules.Add(new IgnoreRule(objects[0], fullIgnore));
+                            RulesManager.Instance.AddRule(new IgnoreRule(mod, fileName, objects[0], fullIgnore));
                             break;
                         case "ignore_full":
                             ObsoleteWarning(flag, fileName, lines, s, "ignore: <object_name> fullIgnore");
-                            RulesManager.Instance.IgnoreRules.Add(new IgnoreRule(objects[0], true));
+                            RulesManager.Instance.AddRule(new IgnoreRule(mod, fileName, objects[0], true));
                             break;
                         case "toggle":
                             ToggleModes mode = ToggleModes.Simple;
@@ -514,7 +514,7 @@ namespace MOP.Rules.Configuration
                                 }
                             }
 
-                            RulesManager.Instance.ToggleRules.Add(new ToggleRule(objects[0], mode));
+                            RulesManager.Instance.AddRule(new ToggleRule(mod, fileName, objects[0], mode));
                             break;
                         case "change_parent":
                             if (objects.Length != 2)
@@ -522,7 +522,7 @@ namespace MOP.Rules.Configuration
                                 throw new ArgumentException("Incorrect use of change_parent. Usage: ObjectName NewParentName");
                             }
 
-                            RulesManager.Instance.ChangeParentRules.Add(new ChangeParentRule(objects[0], objects[1]));
+                            RulesManager.Instance.AddRule(new ChangeParentRule(mod, fileName, objects[0], objects[1]));
                             break;
                         case "satsuma_ignore_renderer":
                             RulesManager.Instance.SpecialRules.SatsumaIgnoreRenderers = true;
@@ -539,7 +539,7 @@ namespace MOP.Rules.Configuration
                             Vector3 scale = StringToVector3(objects[1]);
                             Vector3 rot = StringToVector3(objects[2]);
                             string[] whitelist = GetWhitelist(objects);
-                            RulesManager.Instance.NewSectors.Add(new NewSector(pos, scale, rot, whitelist));
+                            RulesManager.Instance.AddRule(new NewSector(mod, fileName, pos, scale, rot, whitelist));
                             break;
                         case "min_ver":
                             if (fileName == CustomFile)
