@@ -17,10 +17,10 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using MSCLoader;
 
 using MOP.Rules.Configuration;
 using MOP.Rules.Types;
-using MSCLoader;
 
 namespace MOP.Rules
 {
