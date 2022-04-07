@@ -29,7 +29,7 @@ namespace MOP.Helpers
     class SaveManager
     {
         public static string SavePath => Path.Combine(Application.persistentDataPath, "defaultES2File.txt").Replace('\\', '/');
-        public static string ItemsPath => Application.persistentDataPath + "/items.txt";
+        public static string ItemsPath => Path.Combine(Application.persistentDataPath, "items.txt").Replace("\\", "/");
         static List<SaveBugs> saveBugs;
 
         readonly static ES2Settings setting = new ES2Settings();
@@ -331,13 +331,13 @@ namespace MOP.Helpers
 
                 for (int i = 1; i < 1000; ++i)
                 {
-                    if (ES2.Load<int?>(ItemsPath + $"?tag=spark plug{i}TriggerID") == null)
+                    if (ES2.Load<int?>($"{ItemsPath}?tag=spark plug{i}TriggerID") == null)
                     {
                         break;
                     }
 
                     // Check if the spark plug is missing or not.
-                    if (ReadItemInt($"spark plug{i}TriggerID") == 1 && ES2.Load<bool>(ItemsPath + $"?tag=spark plug{i}Installed") && sparkPlug1Pivot.childCount == 0)
+                    if (ReadItemInt($"spark plug{i}TriggerID") == 1 && ES2.Load<bool>($"{ItemsPath}?tag=spark plug{i}Installed") && sparkPlug1Pivot.childCount == 0)
                     {
                         return false;
                     }

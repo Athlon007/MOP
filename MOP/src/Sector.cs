@@ -22,7 +22,9 @@ namespace MOP
     class Sector : MonoBehaviour
     {
         const string ReferenceObjectName = "MOP_PlayerCheck";
+        
         string[] ignoreList;
+        public string[] IgnoreList { get => ignoreList; }
 
         public void Initialize(Vector3 size, params string[] ignoreList)
         {
@@ -36,7 +38,7 @@ namespace MOP
             if (ignoreList != null)
                 this.ignoreList = ignoreList;
 
-            this.transform.parent = Hypervisor.Instance.gameObject.transform;
+            transform.parent = Hypervisor.Instance.gameObject.transform;
         }
 
         void OnTriggerEnter(Collider other)
@@ -55,11 +57,6 @@ namespace MOP
                 SectorManager.Instance.RemoveActiveSector(this);
                 SectorManager.Instance.ToggleActive();
             }
-        }
-
-        public string[] GetIgnoreList()
-        {
-            return ignoreList;
         }
     }
 }

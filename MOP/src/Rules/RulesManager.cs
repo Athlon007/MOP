@@ -45,7 +45,7 @@ namespace MOP.Rules
             WipeAll(overrideUpdateCheck);
         }
 
-        void ResetLists()
+        public void ResetLists()
         {
             Rules = new List<Rule>();
             SpecialRules = new SpecialRules();
@@ -64,14 +64,6 @@ namespace MOP.Rules
             GameObject ruleFileDownloader = new GameObject("MOP_RuleFilesLoader");
             Loader ruleFilesLoader = ruleFileDownloader.AddComponent<Loader>();
             ruleFilesLoader.Initialize(overrideUpdateCheck);
-        }
-
-        /// <summary>
-        /// Triggered by Hypervisor, if the LoadRules is set to false.
-        /// </summary>
-        public void Unload()
-        {
-            ResetLists();
         }
 
         public static void DeleteUnused()

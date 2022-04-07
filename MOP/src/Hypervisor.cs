@@ -14,12 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using HutongGames.PlayMaker;
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using HutongGames.PlayMaker;
 using UnityEngine;
 
 using MOP.Managers;
@@ -90,7 +89,7 @@ namespace MOP
             // Disable rule files if user wants it.
             if (!RulesManager.Instance.LoadRules)
             {
-                RulesManager.Instance.Unload();
+                RulesManager.Instance.ResetLists();
             }
 
             ExceptionManager.SessionTimeStart = DateTime.Now;

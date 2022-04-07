@@ -38,6 +38,8 @@ namespace MOP.Managers
 
         readonly string[] qualityModeIgnore = { "RadioMast", "Tile", "LakeNice", "BUSHES", "PierHome", "TREES" };
 
+        const int FramesWaitOnSectorEnter = 15;
+
         public SectorManager()
         {
             instance = this;
@@ -222,16 +224,16 @@ namespace MOP.Managers
                     continue;
                 }
 
-                obj.SetActive(activeSectors.Count == 0);
+                obj.SetActive(!IsPlayerInSector());
             }
         }
 
         private IEnumerator currentLazyToggle;
         IEnumerator LazyToggleActive()
         {
-            if (activeSectors.Count > 0)
+            if (IsPlayerInSector())
             {
-                for (int i = 0; i < 15; ++i)
+                for (int i = 0; i < FramesWaitOnSectorEnter; ++i)
                     yield return null;
             }
 
@@ -258,18 +260,24 @@ namespace MOP.Managers
                     continue;
                 }
 
-                obj.SetActive(activeSectors.Count == 0);
+                obj.SetActive(!IsPlayerInSector());
             }
         }
 
         internal void AddActiveSector(Sector sector)
         {
-            activeSectors.Add(sector);
+            if (!activeSectors.Contains(sector))
+            {
+                activeSectors.Add(sector);
+            }
         }
 
         internal void RemoveActiveSector(Sector sector)
         {
-            activeSectors.Remove(sector);
+            if (activeSectors.Contains(sector))
+            {
+                activeSectors.Remove(sector);
+            }
         }
 
         public bool SectorRulesContains(string name)
@@ -281,7 +289,7 @@ namespace MOP.Managers
 
             for (int i = 0; i < activeSectors.Count; i++)
             {
-                if (activeSectors[i].GetIgnoreList().Contains(name))
+                if (activeSectors[i].IgnoreList.Contains(name))
                 {
                     return true;
                 }
