@@ -25,7 +25,7 @@ namespace MOP.Common
         public const string DefaultErrorLogName = "MOP_Crash";
         public const string DefaultReportLogName = "MOP_Report";
 
-        public  static string LogFolder
+        public static string LogFolder
         {
             get
             {
