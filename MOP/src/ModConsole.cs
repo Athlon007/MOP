@@ -48,12 +48,9 @@ namespace MOP
         static void Add(string message)
         {
             message = message.Replace("[MOP] ", "");
-            //message = message.Replace("</color>", "");
             message = message.Replace("<color=yellow>", "[WARNING] ");
             message = message.Replace("<color=green>", "[SYSTEM] ");
             message = message.Replace("<color=red>", "[ERROR] ");
-            //message = message.Replace("<b>", "");
-            //message = message.Replace("</b>", "");
             message = message.Trim();
             message = DateTime.Now.ToString("HH:mm:ss") + ": " + message;
 

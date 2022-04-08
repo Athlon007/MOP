@@ -423,35 +423,12 @@ namespace MOP
                     line = $"    • {line}";
                 }
 
-                if (line.Contains("(Beta)"))
-                {
-                    line = line.Replace("(Beta)", "<color=orange>Beta: </color>");
-                }
-
-                if (line.Contains("(My Summer Car Bug)"))
-                {
-                    line = line.Replace("(My Summer Car Bug)", "<color=green>My Summer Car Bug: </color>");
-                }
-
-                if (line.Contains("(My Summer Car)"))
-                {
-                    line = line.Replace("(My Summer Car)", "<color=green>My Summer Car: </color>");
-                }
-
-                if (line.Contains("Rule Files API:"))
-                {
-                    line = line.Replace("Rule Files API:", "<color=cyan>Rule Files API:</color>");
-                }
-
-                if (line.Contains("(MSCLoader)"))
-                {
-                    line = line.Replace("(MSCLoader)", "<color=yellow>MSCLoader:</color>");
-                }
-
-                if (line.Contains("(Mod Loader Pro)"))
-                {
-                    line = line.Replace("(Mod Loader Pro)", "<color=yellow>Mod Loader Pro:</color>");
-                }
+                line = line.Replace("(Beta)", "<color=orange>Beta: </color>");
+                line = line.Replace("(My Summer Car Bug)", "<color=green>My Summer Car Bug: </color>");
+                line = line.Replace("(My Summer Car)", "<color=green>My Summer Car: </color>");
+                line = line.Replace("Rule Files API:", "<color=cyan>Rule Files API:</color>");
+                line = line.Replace("(MSCLoader)", "<color=yellow>MSCLoader:</color>");
+                line = line.Replace("(Mod Loader Pro)", "<color=yellow>Mod Loader Pro:</color>");
 
                 output += line + "\n";
             }
