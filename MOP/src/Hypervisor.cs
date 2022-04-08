@@ -702,8 +702,11 @@ namespace MOP
         {
             MopSettings.IsModActive = true;
 
-            FramerateRecorder rec = gameObject.AddComponent<FramerateRecorder>();
-            rec.Initialize();
+            if (gameObject.GetComponent<FramerateRecorder>() == null)
+            {
+                FramerateRecorder rec = gameObject.AddComponent<FramerateRecorder>();
+                rec.Initialize();
+            }
 
             while (MopSettings.IsModActive)
             {

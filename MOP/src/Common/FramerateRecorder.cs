@@ -60,6 +60,13 @@ namespace MOP.Common
                 samples.Add(float.Parse(fpsMesh.text));
                 yield return new WaitForSeconds(5);
             }
+
+            Stop();
+        }
+
+        void Stop()
+        {
+            enabled = false;
         }
 
         internal float GetAverage()

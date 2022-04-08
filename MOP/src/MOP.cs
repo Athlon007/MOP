@@ -35,7 +35,7 @@ namespace MOP
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.6.1"; //Version
-        public const string SubVersion = "NIGHTLY-20220405"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public const string SubVersion = "NIGHTLY-20220408"; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public const string Edition = "Mod Loader Pro";
 #else
@@ -70,22 +70,20 @@ namespace MOP
         static internal SettingsCheckBox KeepRunningInBackground, LimitFramerate, DynamicDrawDistance,
                                           RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
                                           DestroyEmptyBottles, DisableEmptyItems, FasterAlgo, LazySectorUpdating;
-
-        // Misc.
         SettingsDynamicText modeWarningText;
 #endif
-        const string WarningMode = "Some changes will be applied after game reload.";
 
+        // Constant text.
+        const string WarningMode = "Some changes will be applied after game reload.";
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
         readonly string[] rulesAutoUpdateFrequencyText = { "On Restart", "Daily", "Every 2 days", "Weekly" };
-
-        public static Guid SessionID;
-
         const string WelcomeMessage = "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n\n" +
                                       "Please consider supporting the project using <color=#3687D7>PayPal</color>.";
         const string WelcomeMessageFestive = "Merry Christmas and Happy New Year {1}!\n\n" +
                                              "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n" +
                                              "Please consider supporting the project using <color=#3687D7>PayPal</color>.";
+        public static Guid SessionID;
+
 
 #if PRO
         public MOP()
@@ -355,7 +353,7 @@ namespace MOP
             MopSettings.UpdateMiscSettings();
             if (CompatibilityManager.IsConfilctingModPresent(out string modName))
             {
-                ModConsole.LogError("MOP could not be loaded, because the following mod is present: " + modName);
+                ModConsole.LogError($"MOP could not be loaded, because the following mod is present: <color=yellow>{modName}</color>");
                 return;
             }
 

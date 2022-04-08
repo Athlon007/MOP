@@ -14,6 +14,10 @@
 - Improved saving of MOP's console output
 - Many minor optimisation changes
 
+### Bug Fixes
+
+- Fixed a bug which would make MOP unable to restart the function that controls enabling/disabling objects
+
 ## 3.6 (01.04.2022)
 
 ### Added
