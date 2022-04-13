@@ -57,8 +57,11 @@ namespace MOP
         #region Loading Variables
         readonly CharacterController playerController;
         bool itemInitializationDelayDone;
-        int waitTime;
-        const int WaitDone = 2;
+        bool isFinishedCheckingSatsuma;
+
+        const int WaitForPhysicsToSettleTime = 2; // How many seconds to wait for the physics of MSC to "settle".
+        const int WaitForSatsumaCheckTime = 10; // How many seconds will the MOP wait for SatsumaIsLoaded check to finish.
+        const int LoadScreenWorkaroundTime = 20; // How long the game will wait for the loading to finish (if it fails).
 
         readonly LoadScreen loadScreen;
         #endregion
@@ -102,35 +105,70 @@ namespace MOP
         IEnumerator DelayedInitializaitonRoutine()
         {
             for (int i = 0; i < 30; i++)
+            {
                 yield return null;
+            }
 
             // Check if the Satsuma has been loaded completely by the game.
             // If not, restart the scene at least once.
-            if (!SaveManager.IsSatsumaLoadedCompletely() || MopSettings.ForceLoadRestart)
-            {
-                MopSettings.ForceLoadRestart = false;
-                if ((int)MopSettings.GameFixStatus >= 1)
-                {
-                    MSCLoader.ModUI.ShowMessage("Satsuma has not been fully loaded by the game!\n\n" +
-                                                "Consider restarting the game in order to avoid any issues.", "MOP");
-                }
-                else
-                {
-                    GameObject mscloaderLoadscreen = MSCLoader.ModUI.GetCanvas().transform.Find("MSCLoader loading screen").gameObject;
-                    ModConsole.Log("[MOP] Waiting for the MSCLoader to finish to load...");
-                    
-                    while (mscloaderLoadscreen.activeSelf)
-                        yield return null;
+            CheckIfSatsumaIsLoaded();
 
-                    MopSettings.GameFixStatus = GameFixStatus.DoFix;
-                    ModConsole.Log("[MOP] Attempting to restart the scene...");
-                    Application.LoadLevel(1);
-                    
-                    yield break;
-                }
+            for (int i = 0; i < WaitForSatsumaCheckTime; ++i)
+            {
+                if (isFinishedCheckingSatsuma)
+                    break;
+
+                yield return new WaitForSeconds(1);
             }
 
             Initialize();
+        }        
+
+        void CheckIfSatsumaIsLoaded()
+        {
+            try
+            {
+                if (!SaveManager.IsSatsumaLoadedCompletely() || MopSettings.ForceLoadRestart)
+                {
+                    MopSettings.ForceLoadRestart = false;
+                    if ((int)MopSettings.GameFixStatus >= 1)
+                    {
+                        MSCLoader.ModUI.ShowMessage("Satsuma has not been fully loaded by the game!\n\n" +
+                                                    "Consider restarting the game in order to avoid any issues.", "MOP");
+                    }
+                    else
+                    {
+                        StartCoroutine(GameRestartCoroutine());
+                        return;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ExceptionManager.New(e, true, "SATSUMA_IS_LOADED_ERROR");
+            }
+
+            isFinishedCheckingSatsuma = true;
+        }
+
+        /// <summary>
+        /// This routine restarts the game. Called by CheckIfSatsumaIsLoaded, after it detects that the Satsuma has not been loaded fully.
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator GameRestartCoroutine()
+        {
+            GameObject mscloaderLoadscreen = MSCLoader.ModUI.GetCanvas().transform.Find("MSCLoader loading screen").gameObject;
+            ModConsole.Log("[MOP] Waiting for the MSCLoader to finish to load...");
+
+            // We must wait for the MSCLoader to finish loading. Otherwise we are in the BIG trouble.
+            while (mscloaderLoadscreen.activeSelf)
+                yield return null;
+
+            MopSettings.GameFixStatus = GameFixStatus.DoFix;
+            ModConsole.Log("[MOP] Attempting to restart the scene...");
+            Application.LoadLevel(1);
+
+            yield break;
         }
 
         void Initialize()
@@ -708,6 +746,8 @@ namespace MOP
                 rec.Initialize();
             }
 
+            int waitTimer = 0;
+
             while (MopSettings.IsModActive)
             {
                 // Ticks make sure that MOP is still up and running.
@@ -717,8 +757,8 @@ namespace MOP
                 if (!IsItemInitializationDone())
                 {
                     // We are slightly delaying the initialization, so all items have chance to set in place, because fuck MSC and its physics.
-                    waitTime++;
-                    if (waitTime >= WaitDone)
+                    waitTimer++;
+                    if (waitTimer >= WaitForPhysicsToSettleTime)
                     {
                         FinishLoading();
                     }
@@ -1256,7 +1296,7 @@ namespace MOP
         private readonly IEnumerator loadScreenWorkaround;
         IEnumerator InfiniteLoadscreenWorkaround()
         {
-            yield return new WaitForSeconds(20);
+            yield return new WaitForSeconds(LoadScreenWorkaroundTime);
             if (FsmManager.PlayerInMenu)
             {
                 ModConsole.LogError("[MOP] MOP failed to load in time. Please go into MOP settings and use \"I found a bug\" button.");
