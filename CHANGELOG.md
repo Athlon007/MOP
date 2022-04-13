@@ -19,6 +19,7 @@
 
 - Fixed a bug which would make MOP unable to restart the function that controls enabling/disabling objects
 - Fixed game restarting procedure not working correctly
+- Fixed a bug in which sometimes certain engine parts would be invisible
 
 ## 3.6 (01.04.2022)
 

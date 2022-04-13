@@ -1,4 +1,5 @@
-﻿// Modern Optimization Plugin
+﻿
+// Modern Optimization Plugin
 // Copyright(C) 2019-2022 Athlon
 
 // This program is free software: you can redistribute it and/or modify
@@ -64,6 +65,7 @@ namespace MOP.Vehicles.Cases
         // Renderers.
         // Renderes of the entire car.
         readonly List<Renderer> renderers;
+        bool renderersOnCloseEnabled;
 
         // Pivot transform of hood.
         readonly Transform pivotHood;
@@ -613,7 +615,7 @@ namespace MOP.Vehicles.Cases
         /// <summary>
         /// Toggles all renderers of the Satsuma,
         /// </summary>
-        /// <param name="enabled"></param>
+        /// <param name="enabled">If set to true, the renderers are enabled.</param>
         void RenderersCulling(bool enabled)
         {
             if (RulesManager.Instance.SpecialRules.SatsumaIgnoreRenderers) enabled = true;
@@ -741,6 +743,19 @@ namespace MOP.Vehicles.Cases
                 else
                 {
                     cooldownTick.SetActive(false);
+                }
+
+                if (onClose)
+                {
+                    if (!renderersOnCloseEnabled)
+                    {
+                        renderersOnCloseEnabled = true;
+                        RenderersCulling(true);
+                    }
+                }
+                else
+                {
+                    renderersOnCloseEnabled = false;
                 }
 
                 if (onFar)
