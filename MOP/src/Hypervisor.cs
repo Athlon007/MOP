@@ -122,31 +122,48 @@ namespace MOP
             }
 
             Initialize();
-        }        
+        }
 
+        /// <summary>
+        /// Performs a check that makes sure that Satsuma is loaded by the game.
+        /// </summary>
         void CheckIfSatsumaIsLoaded()
         {
+
+            bool satsumaIsLoaded = false;
+
             try
             {
-                if (!SaveManager.IsSatsumaLoadedCompletely() || MopSettings.ForceLoadRestart)
+                satsumaIsLoaded = SaveManager.IsSatsumaLoadedCompletely();
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, true, "SATSUMA_IS_LOADED_ERROR");
+            }
+
+            // For testing purposes.
+            if (MopSettings.ForceLoadRestart)
+            {
+                satsumaIsLoaded = false;
+            }
+
+            if (!satsumaIsLoaded)
+            {
+                if (MopSettings.GameFixStatus >= GameFixStatus.DoFix)
                 {
-                    MopSettings.ForceLoadRestart = false;
-                    if ((int)MopSettings.GameFixStatus >= 1)
-                    {
-                        MSCLoader.ModUI.ShowMessage("Satsuma has not been fully loaded by the game!\n\n" +
-                                                    "Consider restarting the game in order to avoid any issues.", "MOP");
-                    }
-                    else
-                    {
-                        StartCoroutine(GameRestartCoroutine());
-                        return;
-                    }
+                    // Fix already has been attempted? Show error!
+                    MSCLoader.ModUI.ShowMessage("Satsuma has not been fully loaded by the game!\n\n" +
+                                                "Consider restarting the game in order to avoid any issues.",
+                                                "MOP");
+                }
+                else
+                {
+                    MopSettings.ForceLoadRestart = false; // Disable force load restart, cuz it is used for debug purposes only.
+                    StartCoroutine(GameRestartCoroutine());
+                    return;
                 }
             }
-            catch (Exception e)
-            {
-                ExceptionManager.New(e, true, "SATSUMA_IS_LOADED_ERROR");
-            }
+
 
             isFinishedCheckingSatsuma = true;
         }
@@ -157,7 +174,10 @@ namespace MOP
         /// <returns></returns>
         IEnumerator GameRestartCoroutine()
         {
-            GameObject mscloaderLoadscreen = MSCLoader.ModUI.GetCanvas().transform.Find("MSCLoader loading screen").gameObject;
+#if PRO
+#else
+            GameObject mscloaderLoadscreen = GameObject.Find("MSCLoader Canvas loading").transform.Find("MSCLoader loading dialog").gameObject;
+#endif
             ModConsole.Log("[MOP] Waiting for the MSCLoader to finish to load...");
 
             // We must wait for the MSCLoader to finish loading. Otherwise we are in the BIG trouble.
@@ -167,8 +187,6 @@ namespace MOP
             MopSettings.GameFixStatus = GameFixStatus.DoFix;
             ModConsole.Log("[MOP] Attempting to restart the scene...");
             Application.LoadLevel(1);
-
-            yield break;
         }
 
         void Initialize()

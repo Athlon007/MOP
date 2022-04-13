@@ -13,10 +13,12 @@
 - Rule files for mods that are disabled won't be loaded anymore
 - Improved saving of MOP's console output
 - Many minor optimisation changes
+- MOP will fail more gracefully, if there was some issue while checking if Satsuma is fully loaded
 
 ### Bug Fixes
 
 - Fixed a bug which would make MOP unable to restart the function that controls enabling/disabling objects
+- Fixed game restarting procedure not working correctly
 
 ## 3.6 (01.04.2022)
 
