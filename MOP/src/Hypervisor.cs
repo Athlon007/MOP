@@ -129,7 +129,6 @@ namespace MOP
         /// </summary>
         void CheckIfSatsumaIsLoaded()
         {
-
             bool satsumaIsLoaded = false;
 
             try
@@ -174,15 +173,15 @@ namespace MOP
         /// <returns></returns>
         IEnumerator GameRestartCoroutine()
         {
-#if PRO
-#else
+#if !PRO
             GameObject mscloaderLoadscreen = GameObject.Find("MSCLoader Canvas loading").transform.Find("MSCLoader loading dialog").gameObject;
-#endif
             ModConsole.Log("[MOP] Waiting for the MSCLoader to finish to load...");
 
             // We must wait for the MSCLoader to finish loading. Otherwise we are in the BIG trouble.
             while (mscloaderLoadscreen.activeSelf)
                 yield return null;
+#endif
+            yield return null;
 
             MopSettings.GameFixStatus = GameFixStatus.DoFix;
             ModConsole.Log("[MOP] Attempting to restart the scene...");
