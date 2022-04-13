@@ -71,6 +71,8 @@ namespace MOP
 
         public Hypervisor()
         {
+            instance = this;
+
             if (RulesManager.Instance == null)
             {
                 ModConsole.LogError("[MOP] Rule Files haven't been loaded! Please exit to the main menu and start the game again.");
@@ -113,6 +115,8 @@ namespace MOP
             // If not, restart the scene at least once.
             CheckIfSatsumaIsLoaded();
 
+            // Wait either for the isFinishedCheckingSatsuma to be set to true,
+            // or wait WaitForSastumaCheckTime seconds to break.
             for (int i = 0; i < WaitForSatsumaCheckTime; ++i)
             {
                 if (isFinishedCheckingSatsuma)
@@ -148,21 +152,18 @@ namespace MOP
 
             if (!satsumaIsLoaded)
             {
-                if (MopSettings.GameFixStatus >= GameFixStatus.DoFix)
-                {
-                    // Fix already has been attempted? Show error!
-                    MSCLoader.ModUI.ShowMessage("Satsuma has not been fully loaded by the game!\n\n" +
-                                                "Consider restarting the game in order to avoid any issues.",
-                                                "MOP");
-                }
-                else
+                if (MopSettings.GameFixStatus == GameFixStatus.None)
                 {
                     MopSettings.ForceLoadRestart = false; // Disable force load restart, cuz it is used for debug purposes only.
                     StartCoroutine(GameRestartCoroutine());
                     return;
                 }
-            }
 
+                // Fix already has been attempted? Show error!
+                MSCLoader.ModUI.ShowMessage("Satsuma has not been fully loaded by the game!\n\n" +
+                                            "Consider restarting the game in order to avoid any issues.",
+                                            "MOP");
+            }
 
             isFinishedCheckingSatsuma = true;
         }
@@ -174,10 +175,10 @@ namespace MOP
         IEnumerator GameRestartCoroutine()
         {
 #if !PRO
+            // On MSCLoader, we must wait for the mod loader to finish, otherwise it will break.
             GameObject mscloaderLoadscreen = GameObject.Find("MSCLoader Canvas loading").transform.Find("MSCLoader loading dialog").gameObject;
             ModConsole.Log("[MOP] Waiting for the MSCLoader to finish to load...");
 
-            // We must wait for the MSCLoader to finish loading. Otherwise we are in the BIG trouble.
             while (mscloaderLoadscreen.activeSelf)
                 yield return null;
 #endif
@@ -190,8 +191,6 @@ namespace MOP
 
         void Initialize()
         {
-            instance = this;
-
             ModConsole.Log("[MOP] Loading MOP...");
 
             // Initialize the worldObjectManager list
