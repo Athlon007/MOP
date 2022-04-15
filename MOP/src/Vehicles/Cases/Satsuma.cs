@@ -686,36 +686,42 @@ namespace MOP.Vehicles.Cases
 
                 for (int i = 0; i < satsumaOnActionObjects.Count; i++)
                 {
-                    if (satsumaOnActionObjects[i].FSM == null && satsumaOnActionObjects[i].GameObject == null) continue;
-
-                    if (satsumaOnActionObjects[i].FSM != null)
+                    SatsumaOnActionObjects sao = satsumaOnActionObjects[i];
+                    if (sao == null)
                     {
-                        switch (satsumaOnActionObjects[i].EnableOn)
+                        continue;
+                    }
+
+                    PlayMakerFSM fsm = sao.FSM;
+                    if (fsm != null)
+                    {
+                        switch (sao.EnableOn)
                         {
                             case SatsumaEnableOn.OnEngine:
-                                satsumaOnActionObjects[i].FSM.enabled = onEngine;
+                                fsm.enabled = onEngine;
                                 break;
                             case SatsumaEnableOn.OnPlayerClose:
-                                satsumaOnActionObjects[i].FSM.enabled = onClose;
+                                fsm.enabled = onClose;
                                 break;
                             case SatsumaEnableOn.OnPlayerFar:
-                                satsumaOnActionObjects[i].FSM.enabled = onFar;
+                                fsm.enabled = onFar;
                                 break;
                         }
                     }
-                    
-                    if (satsumaOnActionObjects[i].GameObject != null)
+
+                    GameObject gm = sao.GameObject;
+                    if (gm != null)
                     {
-                        switch (satsumaOnActionObjects[i].EnableOn)
+                        switch (sao.EnableOn)
                         {
                             case SatsumaEnableOn.OnEngine:
-                                satsumaOnActionObjects[i].GameObject.SetActive(onEngine);
+                                gm.SetActive(onEngine);
                                 break;
                             case SatsumaEnableOn.OnPlayerClose:
-                                satsumaOnActionObjects[i].GameObject.SetActive(onClose);
+                                gm.SetActive(onClose);
                                 break;
                             case SatsumaEnableOn.OnPlayerFar:
-                                satsumaOnActionObjects[i].GameObject.SetActive(onFar);
+                                gm.SetActive(onFar);
                                 break;
                         }
                     }

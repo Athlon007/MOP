@@ -506,5 +506,16 @@ namespace MOP
                                   "Disabling rule files auto update means newly installed mods might not work.", "MOP");
             }
         }
+
+        /*
+        long last = 0;
+        public override void Update()
+        {
+            long mem = GC.GetTotalMemory(false);
+            long diff = mem - last;
+            ModConsole.Log($"{mem} ({diff})");
+            last = mem;
+        }
+        */
     }
 }

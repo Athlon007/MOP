@@ -33,6 +33,7 @@ using MOP.Helpers;
 using MOP.Rules;
 using MOP.Rules.Types;
 using MOP.WorldObjects;
+using MOP.Stacks;
 
 namespace MOP
 {
@@ -66,8 +67,11 @@ namespace MOP
         readonly LoadScreen loadScreen;
         #endregion
 
-        readonly List<ItemBehaviour> itemsToEnable = new List<ItemBehaviour>();
-        readonly List<ItemBehaviour> itemsToRemove = new List<ItemBehaviour>();
+        ItemStack itemsToRemove = new ItemStack();
+        ItemStack itemsToEnable = new ItemStack();
+        GameObject computerSystem;
+        float distance;
+        float toggleDistance;
 
         public Hypervisor()
         {
@@ -623,6 +627,9 @@ namespace MOP
                 }
             }
 
+            // Locate computer system.
+            computerSystem = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "COMPUTER").transform.Find("SYSTEM").gameObject;
+
             // Initialize the coroutines.
             currentLoop = LoopRoutine();
             StartCoroutine(currentLoop);
@@ -807,27 +814,30 @@ namespace MOP
                     try
                     {
                         GenericObject worldObject = worldObjectManager[i];
+                        GameObject gm = worldObject.GameObject;
 
                         // Check if object was destroyed (mostly intended for AI pedastrians).
-                        if (worldObject.GameObject == null)
+                        if (gm == null)
                         {
                             worldObjectManager.Remove(worldObject);
                             continue;
                         }
 
-                        if (SectorManager.Instance.IsPlayerInSector() && SectorManager.Instance.SectorRulesContains(worldObject.GameObject.name))
+                        string name = gm.name;
+
+                        if (SectorManager.Instance.IsPlayerInSector() && SectorManager.Instance.SectorRulesContains(name))
                         {
-                            worldObject.GameObject.SetActive(true);
+                            gm.SetActive(true);
                             continue;
                         }
 
                         // Should the object be disabled when the player leaves the house?
                         if (worldObject.DisableOn.HasFlag(DisableOn.PlayerAwayFromHome) || worldObject.DisableOn.HasFlag(DisableOn.PlayerInHome))
                         {
-                            if (worldObject.GameObject.name == "NPC_CARS" && inSectorMode)
+                            if (name == "NPC_CARS" && inSectorMode)
                                 continue;
 
-                            if (worldObject.GameObject.name == "COMPUTER" && worldObject.GameObject.transform.Find("SYSTEM").gameObject.activeSelf)
+                            if (name == "COMPUTER" && computerSystem.activeSelf)
                                 continue;
 
                             worldObject.Toggle(worldObject.DisableOn.HasFlag(DisableOn.PlayerAwayFromHome) ? isPlayerAtYard : !isPlayerAtYard);
@@ -857,7 +867,6 @@ namespace MOP
                 // And the opposite happens if we disable vehicles before disabling items.
                 // So if we are disabling items, we need to do that BEFORE we disable vehicles.
                 // And we need to enable items AFTER we enable vehicles.
-                itemsToEnable.Clear();
                 half = ItemsManager.Instance.Count >> 1;
                 for (i = 0; i < ItemsManager.Instance.Count; ++i)
                 {
@@ -874,7 +883,7 @@ namespace MOP
 
                         if (item == null || item.gameObject == null)
                         {
-                            itemsToRemove.Add(item);
+                            itemsToRemove.Pull(item);
                             continue;
                         }
 
@@ -887,7 +896,7 @@ namespace MOP
                         {
                             item.ToggleChangeFix();
                             if (item.ActiveSelf) continue;
-                            itemsToEnable.Add(item);
+                            itemsToEnable.Pull(item);
                         }
                         else
                         {
@@ -909,6 +918,7 @@ namespace MOP
                 }
 
                 // Vehicles (new)
+                // MEM-LEAK-SAVED: 5 sec
                 half = vehicleManager.Count >> 1;
                 for (i = 0; i < vehicleManager.Count; ++i)
                 {
@@ -917,30 +927,31 @@ namespace MOP
 
                     try
                     {
-                        if (vehicleManager[i] == null)
+                        Vehicle vehicle = vehicleManager[i];
+                        if (vehicle == null)
                         {
                             vehicleManager.RemoveAt(i);
                             continue;
                         }
 
-                        float distance = Vector3.Distance(player.transform.position, vehicleManager[i].transform.position);
-                        float toggleDistance = MOP.ActiveDistance.GetValue() == 0
+                        distance = Vector3.Distance(player.transform.position, vehicle.transform.position);
+                        toggleDistance = MOP.ActiveDistance.GetValue() == 0
                             ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
 
-                        switch (vehicleManager[i].VehicleType)
+                        switch (vehicle.VehicleType)
                         {
                             case VehiclesTypes.Satsuma:
                                 Satsuma.Instance.ToggleElements(distance);
-                                vehicleManager[i].ToggleEventSounds(distance < 3);
+                                vehicle.ToggleEventSounds(distance < 3);
                                 break;
                             case VehiclesTypes.Jonnez:
-                                vehicleManager[i].ToggleEventSounds(distance < 2);
+                                vehicle.ToggleEventSounds(distance < 2);
                                 break;
                         }
 
 
-                        vehicleManager[i].ToggleUnityCar(IsVehiclePhysicsEnabled(distance, toggleDistance));
-                        vehicleManager[i].Toggle(IsVehicleEnabled(distance));
+                        vehicle.ToggleUnityCar(IsVehiclePhysicsEnabled(distance, toggleDistance));
+                        vehicle.Toggle(IsVehicleEnabled(distance));
                     }
                     catch (Exception ex)
                     {
@@ -949,27 +960,20 @@ namespace MOP
                 }
 
                 // Items To Enable
-                int full = itemsToEnable.Count;
-                if (full > 0)
+                while (!itemsToEnable.IsEmpty)
                 {
-                    half = full >> 1;
-                    for (i = 0; i < full; ++i)
+                    try
                     {
-                        if (half != 0 && i == half) yield return null;
-
-                        try
-                        {
-                            itemsToEnable[i].Toggle(true);
-                        }
-                        catch (Exception ex)
-                        {
-                            ExceptionManager.New(ex, false, "ITEM_TOGGLE_ENABLE_ERROR - " + itemsToEnable[i] != null ? itemsToEnable[i].gameObject.name : "null");
-                        }
+                        itemsToEnable.Pop().Toggle(true);
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionManager.New(ex, false, "ITEM_TOGGLE_ENABLE_ERROR");
                     }
                 }
 
                 // Places (New)
-                full = placeManager.Count;
+                int full = placeManager.Count;
                 half = full >> 1;
                 for (i = 0; i < full; ++i)
                 {
@@ -992,14 +996,9 @@ namespace MOP
                 }
 
                 // Remove items that don't exist anymore.
-                if (itemsToRemove.Count > 0)
+                while (!itemsToRemove.IsEmpty)
                 {
-                    for (i = itemsToRemove.Count - 1; i >= 0; --i)
-                    {
-                        ItemsManager.Instance.RemoveAt(i);
-                    }
-
-                    itemsToRemove.Clear();
+                    ItemsManager.Instance.Remove(itemsToRemove.Pop());
                 }
 
                 yield return new WaitForSeconds(MOP.FasterAlgo.GetValue() ? .1f : .7f);
@@ -1043,7 +1042,7 @@ namespace MOP
                     if (vehicleManager[i].IsTrafficCarInArea())
                         vehicleManager[i].ToggleUnityCar(true);
                 }
-            }       
+            }
         }
 
 #endregion

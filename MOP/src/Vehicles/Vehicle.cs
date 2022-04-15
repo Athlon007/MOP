@@ -313,8 +313,8 @@ namespace MOP.Vehicles
             {
                 MoveNonDisableableObjects(temporaryParent);
 
-                Position = gameObject.transform.localPosition;
-                Rotation = gameObject.transform.localRotation;
+                Position = transform.localPosition;
+                Rotation = transform.localRotation;
             }
 
             gameObject.SetActive(enabled);
@@ -508,10 +508,12 @@ namespace MOP.Vehicles
         /// <returns></returns>
         public bool IsTrafficCarInArea()
         {
+            // CAUSES MEMORY LEAK!
+            //return false;
             // Don't execute if player is driving this vehicle.
             if (IsPlayerInThisCar()) return false;
 
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 7);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 7, 17);
             foreach (var hitCollider in hitColliders)
             {
                 if (hitCollider.transform.root != null && hitCollider.transform.root.gameObject.name.EqualsAny("NPC_CARS", "TRAFFIC"))

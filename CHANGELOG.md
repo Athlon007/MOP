@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.6.2 (TBA)
+
+### Bug Fixes
+
+- Drastically reduced the number of lag spikes by code optimization and fixing memory leaks in MOP (6x less lag spikes!)
+
 ## 3.6.1 (15.04.2022)
 
 ### Added
