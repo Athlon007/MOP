@@ -1132,7 +1132,7 @@ namespace MOP
         /// </summary>
         public void ToggleAll(bool enabled, ToggleAllMode mode = ToggleAllMode.Default)
         {
-            ModConsole.Log("[MOP] Toggling all to " + enabled.ToString().ToUpper() + " in mode " + mode.ToString().ToUpper());
+            ModConsole.Log($"[MOP] Toggling all to {enabled.ToString().ToUpper()} in mode {mode.ToString().ToUpper()}");
 
             // World objects
             for (int i = 0; i < worldObjectManager.Count; i++)
