@@ -5,6 +5,7 @@
 ### Bug Fixes
 
 - Drastically reduced the number of lag spikes by code optimization and fixing memory leaks in MOP (6x less lag spikes!)
+- Fixed a bug where if mod used primitive cubes on Satsuma, they would appear with MOP running
 
 ## 3.6.1 (15.04.2022)
 

@@ -828,7 +828,22 @@ namespace MOP.Vehicles.Cases
                 renderers = renderers.Where(r => !RulesManager.Instance.IsObjectInIgnoreList(r.gameObject)).ToList();
             }
 
-            return renderers;
+            List<Renderer> toReturn = new List<Renderer>();
+            foreach (Renderer r in renderers)
+            {
+                MeshFilter f = r.GetComponent<MeshFilter>();
+                // check if object is a primitive cube.
+                if (f && f.sharedMesh.name == "Cube" && f.mesh.subMeshCount == 1 && f.mesh.vertexCount == 24)
+                {
+                    ModConsole.Log(r.gameObject.Path());
+                }
+                else
+                {
+                    toReturn.Add(r);
+                }
+            }
+
+            return toReturn;
         }
     }
 }

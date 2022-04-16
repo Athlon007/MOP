@@ -508,12 +508,11 @@ namespace MOP.Vehicles
         /// <returns></returns>
         public bool IsTrafficCarInArea()
         {
-            // CAUSES MEMORY LEAK!
-            //return false;
             // Don't execute if player is driving this vehicle.
             if (IsPlayerInThisCar()) return false;
 
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, 7, 17);
+
             foreach (var hitCollider in hitColliders)
             {
                 if (hitCollider.transform.root != null && hitCollider.transform.root.gameObject.name.EqualsAny("NPC_CARS", "TRAFFIC"))
@@ -534,10 +533,11 @@ namespace MOP.Vehicles
         {
             for (int i = 0; i < preventToggleOnObjects.Count; i++)
             {
-                if (preventToggleOnObjects[i].ObjectTransform == null)
+               PreventToggleOnObject p = preventToggleOnObjects[i];
+                if (p.ObjectTransform == null)
                     continue;
 
-                preventToggleOnObjects[i].ObjectTransform.parent = parent ?? preventToggleOnObjects[i].OriginalParent;
+                p.ObjectTransform.parent = parent ?? p.OriginalParent;
             }
         }
     }
