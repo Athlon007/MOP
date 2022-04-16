@@ -835,7 +835,7 @@ namespace MOP.Vehicles.Cases
                 // check if object is a primitive cube.
                 if (f && f.sharedMesh.name == "Cube" && f.mesh.subMeshCount == 1 && f.mesh.vertexCount == 24)
                 {
-                    ModConsole.Log(r.gameObject.Path());
+                    //ModConsole.Log(r.gameObject.Path());
                 }
                 else
                 {
