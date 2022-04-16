@@ -2,6 +2,11 @@
 
 ## 3.6.2 (16.04.2022)
 
+### Added
+
+- Added a debugging custom rule flag: "show_garbage_memory_usage":
+  - Replaces FPS meter functionality, to show currently garbage collector memory and the rate at which the memory is being filled
+
 ### Bug Fixes
 
 - Drastically reduced the number of lag spikes by code optimization and fixing memory leaks in MOP (6x less lag spikes!)

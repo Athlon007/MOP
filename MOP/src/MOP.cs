@@ -507,12 +507,14 @@ namespace MOP
             }
         }
   
-        /*
+        
         long last = 0;
         TextMesh fps;
         TextMesh fpsShadow;
         public override void Update()
         {
+            if (!RulesManager.Instance.SpecialRules.ShowGarbageMemoryUsage) return;
+
             if (fps == null)
             {
                 GameObject fpsObject = GameObject.Find("GUI").transform.Find("HUD/FPS/HUDValue").gameObject;
@@ -530,6 +532,6 @@ namespace MOP
             fpsShadow.text = text;
             last = mem;
         }
-        */
+        
     }
 }

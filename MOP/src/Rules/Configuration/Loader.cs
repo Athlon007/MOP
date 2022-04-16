@@ -588,6 +588,14 @@ namespace MOP.Rules.Configuration
                             }
                             RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly = true;
                             break;
+                        case "show_garbage_memory_usage":
+                            if (fileName != CustomFile)
+                            {
+                                ModConsole.LogError($"[MOP] Flag: {flag} is only allowed to be used in custom rule file.");
+                                continue;
+                            }
+                            RulesManager.Instance.SpecialRules.ShowGarbageMemoryUsage = true;
+                            break;
                     }
                 }
             }
