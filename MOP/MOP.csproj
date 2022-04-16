@@ -119,6 +119,7 @@
     <Compile Include="src\FSM\Actions\WindscreenRepairJob.cs" />
     <Compile Include="src\FSM\FsmExtensions.cs" />
     <Compile Include="src\GameFixes.cs" />
+    <Compile Include="src\Helpers\MopPauseMenuHandler.cs" />
     <Compile Include="src\Helpers\MopSaveFileData.cs" />
     <Compile Include="src\Helpers\SaveBugs.cs" />
     <Compile Include="src\Items\Cases\GrillTriggerBehaviour.cs" />

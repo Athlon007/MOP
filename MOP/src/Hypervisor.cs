@@ -630,6 +630,8 @@ namespace MOP
             // Locate computer system.
             computerSystem = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "COMPUTER").transform.Find("SYSTEM").gameObject;
 
+            GameObject.Find("Systems").transform.Find("OptionsMenu").gameObject.AddComponent<MopPauseMenuHandler>();
+
             // Initialize the coroutines.
             currentLoop = LoopRoutine();
             StartCoroutine(currentLoop);

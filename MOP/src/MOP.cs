@@ -507,15 +507,30 @@ namespace MOP
             }
         }
 
-        /*
+        
+
         long last = 0;
+        TextMesh fps;
+        TextMesh fpsShadow;
         public override void Update()
         {
+            if (fps == null)
+            {
+                GameObject fpsObject = GameObject.Find("GUI").transform.Find("HUD/FPS/HUDValue").gameObject;
+                PlayMakerFSM[] fsms = fpsObject.GetComponents<PlayMakerFSM>();
+                foreach (var fsm in fsms)
+                    fsm.enabled = false;
+
+                fps = fpsObject.GetComponent<TextMesh>();
+                fpsShadow = fpsObject.transform.Find("HUDValueShadow").GetComponent<TextMesh>();
+            }
             long mem = GC.GetTotalMemory(false);
             long diff = mem - last;
-            ModConsole.Log($"{mem} ({diff})");
+            string text = string.Format("{0, 10} {1, 10}", mem, diff);
+            fps.text = text;
+            fpsShadow.text = text;
             last = mem;
         }
-        */
+        
     }
 }
