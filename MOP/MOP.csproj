@@ -147,8 +147,6 @@
     <Compile Include="src\Rules\Types\ChangeParentRule.cs" />
     <Compile Include="src\Rules\Types\Rule.cs" />
     <Compile Include="src\Stacks\ItemStack.cs" />
-    <Compile Include="src\Stacks\VehicleStack.cs" />
-    <Compile Include="src\Stacks\WorldObjectStack.cs" />
     <Compile Include="src\zModLoad.cs" />
     <Compile Include="src\Places\Cases\Farm.cs" />
     <Compile Include="src\Places\Cases\Inspection.cs" />
@@ -218,9 +216,6 @@
   <ItemGroup>
     <None Include="Resources\changelog.txt" />
     <None Include="Resources\icon" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\Common\Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

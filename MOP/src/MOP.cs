@@ -34,7 +34,7 @@ namespace MOP
         public override string ID => "MOP";
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.6.1"; //Version
+        public override string Version => "3.6.2"; //Version
         public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public const string Edition = "Mod Loader Pro";
@@ -506,9 +506,8 @@ namespace MOP
                                   "Disabling rule files auto update means newly installed mods might not work.", "MOP");
             }
         }
-
-        
-
+  
+        /*
         long last = 0;
         TextMesh fps;
         TextMesh fpsShadow;
@@ -531,6 +530,6 @@ namespace MOP
             fpsShadow.text = text;
             last = mem;
         }
-        
+        */
     }
 }
