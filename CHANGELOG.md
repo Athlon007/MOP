@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.6.3 (TBA)
+
+### Bug Fixes
+
+- Fixed drag race disappearing when getting to the end of the drag strip on low toggle distance.
+
 ## 3.6.2 (16.04.2022)
 
 ### Added
