@@ -35,13 +35,13 @@ namespace MOP
 
         public new static void LogError(string message)
         {
-            Add("[ERROR] " + message);
+            Add($"[ERROR] {message}");
             MSCLoader.ModConsole.LogError(message);
         }
 
         public new static void LogWarning(string message)
         {
-            Add("[WARNING] " + message);
+            Add($"[WARNING] {message}");
             MSCLoader.ModConsole.LogWarning(message);
         }
 
@@ -52,12 +52,13 @@ namespace MOP
             message = message.Replace("<color=green>", "[SYSTEM] ");
             message = message.Replace("<color=red>", "[ERROR] ");
             message = message.Trim();
-            message = DateTime.Now.ToString("HH:mm:ss") + ": " + message;
+            message = $"{DateTime.Now:HH:mm:ss}: {message}";
 
+            // Remove all things inside of <>.
             string[] messageArray = message.Split('\n');
             for (int i = 0; i < messageArray.Length; ++i)
             {
-                if (i > 0)
+                if (i >= 1)
                 {
                     messageArray[i] = new string(' ', 10) + messageArray[i];
                 }
