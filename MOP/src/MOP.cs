@@ -309,8 +309,9 @@ namespace MOP
                 BugReporter.Instance.RestartGame();
                 return;
             }
-
+            
             MopSettings.GameFixStatus = Common.Enumerations.GameFixStatus.None;
+
             modeWarningText.SetValue("");
 
             if (!string.IsNullOrEmpty(MOP.SubVersion))

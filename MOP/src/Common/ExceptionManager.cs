@@ -220,10 +220,15 @@ namespace MOP.Common
 
             // List rule files.
             output += "=== RULE FILES ===\n\n";
+            List<string> files = new List<string>();
             foreach (Rule ruleFile in RulesManager.Instance.Rules)
             {
-                output += $"{ruleFile.Filename}\n";
+                if (!files.Contains(ruleFile.Filename))
+                {
+                    files.Add(ruleFile.Filename);
+                }
             }
+            output += string.Join("\n", files.ToArray());
 
             if (RulesManager.Instance.Rules.Count == 0)
             {

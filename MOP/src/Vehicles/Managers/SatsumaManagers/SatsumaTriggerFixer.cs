@@ -51,8 +51,13 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
         }
 
         internal void Check(SatsumaTrigger trigger)
-        {
-            StartCoroutine(CheckTriggerChild(trigger));
+        { 
+            if (trigger == null) return;
+            try
+            {
+                StartCoroutine(CheckTriggerChild(trigger));
+            }
+            catch { }
         }
 
         IEnumerator CheckTriggerChild(SatsumaTrigger trigger)

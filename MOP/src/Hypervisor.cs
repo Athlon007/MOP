@@ -158,7 +158,6 @@ namespace MOP
             {
                 if (MopSettings.GameFixStatus == GameFixStatus.None)
                 {
-                    MopSettings.ForceLoadRestart = false; // Disable force load restart, cuz it is used for debug purposes only.
                     StartCoroutine(GameRestartCoroutine());
                     return;
                 }
@@ -1040,6 +1039,7 @@ namespace MOP
             {
                 for (int i = 0; i < vehicleManager.Count; i++)
                 {
+                    if (vehicleManager[i] == null) continue;
                     if (!vehicleManager[i].IsActive) continue;
                     if (vehicleManager[i].IsTrafficCarInArea())
                         vehicleManager[i].ToggleUnityCar(true);
