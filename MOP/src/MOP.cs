@@ -69,7 +69,8 @@ namespace MOP
         static internal SettingsCheckBoxGroup ModePerformance, ModeBalanced, ModeQuality, ModeSafe;
         static internal SettingsCheckBox KeepRunningInBackground, LimitFramerate, DynamicDrawDistance,
                                           RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
-                                          DestroyEmptyBottles, DisableEmptyItems, FasterAlgo, LazySectorUpdating;
+                                          DestroyEmptyBottles, DisableEmptyItems, FasterAlgo, LazySectorUpdating,
+                                          AlwaysDisableSkidmarks;
         SettingsDynamicText modeWarningText;
 #endif
 
@@ -246,6 +247,8 @@ namespace MOP
             Settings.AddHeader(this, "OTHER");
             DestroyEmptyBottles = Settings.AddCheckBox(this, "destroyEmptyBottles", "DESTROY EMPTY BOTTLES", false);
             DisableEmptyItems = Settings.AddCheckBox(this, "disableEmptyItems", "DISABLE EMPTY ITEMS", false);
+            AlwaysDisableSkidmarks = Settings.AddCheckBox(this, "alwaysDisableSkidmarks", "DISABLE SKIDMARKS", false);
+            Settings.AddText(this, "Skidmarks cause a massive memory leak, everytime you brake/accelerate hard. Disabling them mitigates that problem.");
 
             // Experimental
             Settings.AddHeader(this, "<color=red>EXPERIMENTAL</color>");

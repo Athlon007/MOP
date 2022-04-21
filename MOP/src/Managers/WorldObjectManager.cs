@@ -94,20 +94,29 @@ namespace MOP.Managers
                 toggleMode = ToggleModes.Renderer;
             }
 
+            GenericObject obj;
+
             switch (toggleMode)
             {
                 default:
                     throw new NotImplementedException($"Toggle mode: {toggleMode} is not supported by WorldObjectManager!");
                 case ToggleModes.Simple:
-                    worldObjects.Add(new SimpleObjectToggle(gameObject, disableOn, distance));
+                    obj = new SimpleObjectToggle(gameObject, disableOn, distance);
                     break;
                 case ToggleModes.Renderer:
-                    worldObjects.Add(new RendererToggle(gameObject, disableOn, distance));
+                    obj = new RendererToggle(gameObject, disableOn, distance);
                     break;
                 case ToggleModes.MultipleRenderers:
-                    worldObjects.Add(new MultipleRenderersToggle(gameObject, disableOn, distance));
+                    obj = new MultipleRenderersToggle(gameObject, disableOn, distance);
                     break;
             }
+
+            Add(obj);
+        }
+
+        public void Add(GenericObject generic)
+        {
+            worldObjects.Add(generic);
         }
 
         public List<GenericObject> GetList()

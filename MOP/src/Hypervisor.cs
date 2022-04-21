@@ -231,6 +231,9 @@ namespace MOP
                 worldObjectManager.Add("LakeSmallBottom1", DisableOn.Distance, 500);
                 worldObjectManager.Add("machine", DisableOn.Distance, 200, silent: true);
 
+                SkidmarkObject skidmark = new SkidmarkObject(GameObject.Find("Skidmarks"), 0);
+                worldObjectManager.Add(skidmark);
+
                 ModConsole.Log("[MOP] World objects (1) loaded");
             }
             catch (Exception ex)
@@ -1056,6 +1059,11 @@ namespace MOP
         /// <param name="toggleDistance">Distance below which the object should be enabled (default 200 units).</param>
         bool IsEnabled(Transform target, float toggleDistance = 200)
         {
+            if (toggleDistance == 0)
+            {
+                return false;
+            }
+
             if (inSectorMode)
                 toggleDistance *= MOP.ActiveDistance.GetValue() == 0 ? 0.5f : 0.1f;
 
@@ -1065,6 +1073,10 @@ namespace MOP
         bool IsGenericObjectEnabled(GenericObject obj)
         {
             float toggleDistance = obj.Distance;
+
+            if (obj.Distance == 0)
+                return false;
+
             if (obj.DisableOn.HasFlag(DisableOn.AlwaysUse1xDistance))
             {
                 toggleDistance *= MOP.ActiveDistance.GetValue() == 0 ? 0.5f : 0.1f;

@@ -2,6 +2,11 @@
 
 ## 3.6.3 (TBA)
 
+### Added
+
+- Skidmarks are now disabled in Performance mode, due to a huge memory leak they cause
+  - You can also disable then on Balanced and Quality modes in MOP settings. To do so, go to MOP settings -> Others -> Disable Skidmarks
+
 ### Bug Fixes
 
 - Fixed drag race disappearing when getting to the end of the drag strip on low toggle distance.

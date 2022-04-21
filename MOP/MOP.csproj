@@ -103,6 +103,7 @@
     <Compile Include="src\Common\Enumerations\ToggleModes.cs" />
     <Compile Include="src\Common\Enumerations\VehiclesTypes.cs" />
     <Compile Include="src\Common\FramerateRecorder.cs" />
+    <Compile Include="src\Common\Interfaces\IDisableUnderCondition.cs" />
     <Compile Include="src\Common\LoadScreen.cs" />
     <Compile Include="src\Common\Paths.cs" />
     <Compile Include="src\Common\SaveSlotsSupport.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="src\Rules\Types\ChangeParentRule.cs" />
     <Compile Include="src\Rules\Types\Rule.cs" />
     <Compile Include="src\Stacks\ItemStack.cs" />
+    <Compile Include="src\WorldObjects\SkidmarkObject.cs" />
     <Compile Include="src\zModLoad.cs" />
     <Compile Include="src\Places\Cases\Farm.cs" />
     <Compile Include="src\Places\Cases\Inspection.cs" />
