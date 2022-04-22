@@ -75,6 +75,7 @@ namespace MOP
 
         readonly string[] trafficVehicleRoots = { "NPC_CARS", "TRAFFIC", "RALLY" };
         public string[] TrafficVehicleRoots => trafficVehicleRoots;
+        GameObject traffic, trafficHighway, trafficDirt;
 
         public Hypervisor()
         {
@@ -635,9 +636,26 @@ namespace MOP
             }
 
             // Locate computer system.
-            computerSystem = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "COMPUTER").transform.Find("SYSTEM").gameObject;
+            try
+            {
+                computerSystem = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "COMPUTER").transform.Find("SYSTEM").gameObject;
+                GameObject.Find("Systems").transform.Find("OptionsMenu").gameObject.AddComponent<MopPauseMenuHandler>();
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "COMPUTER_SYSTEM_ERROR");
+            }
 
-            GameObject.Find("Systems").transform.Find("OptionsMenu").gameObject.AddComponent<MopPauseMenuHandler>();
+            try
+            {
+                traffic = worldObjectManager.Get("TRAFFIC");
+                trafficDirt = worldObjectManager.Get("VehiclesDirtRoad");
+                trafficHighway = worldObjectManager.Get("VehiclesHighway");
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "TRAFFIC_LOOKUP_ERROR");
+            }
 
             // Initialize the coroutines.
             currentLoop = LoopRoutine();
@@ -1060,10 +1078,24 @@ namespace MOP
             if (MopSettings.Mode > PerformanceMode.Performance)
             {
                 if (noFix) return;
+
+                if (!traffic.activeSelf)
+                {
+                    return;
+                }
+
+                if (!trafficHighway.activeSelf && !trafficDirt.activeSelf)
+                {
+                    return;
+                }
+
                 for (int i = 0; i < vehicleManager.Count; i++)
                 {
                     if (vehicleManager[i] == null) continue;
                     if (!vehicleManager[i].IsActive) continue;
+
+                    if (Vector3.Distance(Vector3.zero, vehicleManager[i].transform.position) < 1000) continue;
+
                     if (vehicleManager[i].IsTrafficCarInArea())
                         vehicleManager[i].ToggleUnityCar(true);
                 }

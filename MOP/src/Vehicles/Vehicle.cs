@@ -510,6 +510,7 @@ namespace MOP.Vehicles
         {
             // Don't execute if player is driving this vehicle.
             if (IsPlayerInThisCar()) return false;
+            if (rb.useGravity) return false;
 
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, 7, 17);
 
