@@ -1079,11 +1079,13 @@ namespace MOP
             {
                 if (noFix) return;
 
+                // Pointless to checck if traffic is about to collide with other vehicles, if traffic is disabled.
                 if (!traffic.activeSelf)
                 {
                     return;
                 }
 
+                // Same for traffic highway and dirt road traffic.
                 if (!trafficHighway.activeSelf && !trafficDirt.activeSelf)
                 {
                     return;
@@ -1093,7 +1095,6 @@ namespace MOP
                 {
                     if (vehicleManager[i] == null) continue;
                     if (!vehicleManager[i].IsActive) continue;
-
                     if (Vector3.Distance(Vector3.zero, vehicleManager[i].transform.position) < 1000) continue;
 
                     if (vehicleManager[i].IsTrafficCarInArea())
