@@ -1045,8 +1045,6 @@ namespace MOP
             }
         }
 
-        bool noFix = false;
-
         void Update()
         {
 #if DEBUG
@@ -1070,15 +1068,8 @@ namespace MOP
 
             Satsuma.Instance?.ForceRotation();
 
-            if (Input.GetKeyDown(KeyCode.U))
-            {
-                noFix ^= true;
-            }
-
             if (MopSettings.Mode > PerformanceMode.Performance)
             {
-                if (noFix) return;
-
                 // Pointless to checck if traffic is about to collide with other vehicles, if traffic is disabled.
                 if (!traffic.activeSelf)
                 {
@@ -1095,7 +1086,9 @@ namespace MOP
                 {
                     if (vehicleManager[i] == null) continue;
                     if (!vehicleManager[i].IsActive) continue;
-                    if (Vector3.Distance(Vector3.zero, vehicleManager[i].transform.position) < 1000) continue;
+                    // Vehicle is not on the dirt road, nor on highway.
+                    // It's very unlikely that it will be hit by anything.
+                    if (Vector3.Distance(Vector3.zero, vehicleManager[i].transform.position) < 1000) continue; 
 
                     if (vehicleManager[i].IsTrafficCarInArea())
                         vehicleManager[i].ToggleUnityCar(true);
