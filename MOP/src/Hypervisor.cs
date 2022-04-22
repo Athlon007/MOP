@@ -73,6 +73,9 @@ namespace MOP
         float distance;
         float toggleDistance;
 
+        readonly string[] trafficVehicleRoots = { "NPC_CARS", "TRAFFIC", "RALLY" };
+        public string[] TrafficVehicleRoots => trafficVehicleRoots;
+
         public Hypervisor()
         {
             instance = this;
@@ -252,6 +255,8 @@ namespace MOP
             {
                 worldObjectManager.Add("NPC_CARS", DisableOn.PlayerInHome);
                 worldObjectManager.Add("TRAFFIC", DisableOn.PlayerInHome);
+                worldObjectManager.Add("VehiclesHighway", DisableOn.PlayerInHome | DisableOn.DoNotEnableWhenLeavingHome);
+                worldObjectManager.Add("VehiclesDirtRoad", DisableOn.PlayerInHome);
                 worldObjectManager.Add("TRAIN", DisableOn.PlayerInHome | DisableOn.IgnoreInQualityMode);
                 worldObjectManager.Add("Buildings", DisableOn.PlayerInHome);
                 worldObjectManager.Add("TrafficSigns", DisableOn.PlayerInHome);
@@ -844,6 +849,13 @@ namespace MOP
                             if (name == "COMPUTER" && computerSystem.activeSelf)
                                 continue;
 
+                            bool enableObject = worldObject.DisableOn.HasFlag(DisableOn.PlayerAwayFromHome) ? isPlayerAtYard : !isPlayerAtYard;
+
+                            if (worldObject.DisableOn.HasFlag(DisableOn.DoNotEnableWhenLeavingHome) && enableObject && !isPlayerAtYard)
+                            {
+                                continue;
+                            }
+
                             worldObject.Toggle(worldObject.DisableOn.HasFlag(DisableOn.PlayerAwayFromHome) ? isPlayerAtYard : !isPlayerAtYard);
                         }
                         else if (worldObject.DisableOn.HasFlag(DisableOn.Distance))
@@ -1015,6 +1027,8 @@ namespace MOP
             }
         }
 
+        bool noFix = false;
+
         void Update()
         {
 #if DEBUG
@@ -1038,8 +1052,14 @@ namespace MOP
 
             Satsuma.Instance?.ForceRotation();
 
-            if (MopSettings.Mode != PerformanceMode.Performance)
+            if (Input.GetKeyDown(KeyCode.U))
             {
+                noFix ^= true;
+            }
+
+            if (MopSettings.Mode > PerformanceMode.Performance)
+            {
+                if (noFix) return;
                 for (int i = 0; i < vehicleManager.Count; i++)
                 {
                     if (vehicleManager[i] == null) continue;

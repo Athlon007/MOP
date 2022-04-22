@@ -59,6 +59,12 @@ namespace MOP.Managers
         public void Add(string gameObjectName, DisableOn disableOn, int distance = 200, ToggleModes toggleMode = ToggleModes.Simple, bool silent = false)
         {
             GameObject gm = GameObject.Find(gameObjectName);
+
+            if (gm == null)
+            {
+                gm = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.name == gameObjectName);
+            }
+
             if (!gm)
             {
                 if (!silent)

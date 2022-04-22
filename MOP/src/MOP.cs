@@ -515,6 +515,8 @@ namespace MOP
         long last = 0;
         TextMesh fps;
         TextMesh fpsShadow;
+        long[] differenceAverage = new long[128];
+        int differenceCounter = 0;
         public override void Update()
         {
             if (!RulesManager.Instance.SpecialRules.ShowGarbageMemoryUsage) return;
@@ -531,7 +533,22 @@ namespace MOP
             }
             long mem = GC.GetTotalMemory(false);
             long diff = mem - last;
-            string text = string.Format("{0, 10} {1, 10}", mem, diff);
+            differenceAverage[differenceCounter] = diff;
+            differenceCounter++;
+            if (differenceCounter >= differenceAverage.Length) differenceCounter = 0;
+
+            long averageDiff = 0;
+            int divBy = 0;
+            for (int i = 0; i < differenceAverage.Length; ++i)
+            {
+                if (differenceAverage[i] <= 0) continue;
+                averageDiff += differenceAverage[i];
+                divBy++;
+            }
+
+            averageDiff /= divBy;
+
+            string text = string.Format("{0, -10} {1, 10}", mem, averageDiff);
             fps.text = text;
             fpsShadow.text = text;
             last = mem;

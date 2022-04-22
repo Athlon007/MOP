@@ -12,6 +12,7 @@
 - Fixed drag race disappearing when getting to the end of the drag strip on low toggle distance.
 - Fixed a single rule file showing up in the mod report many times
 - Fixed MOP trying to affect Satsuma mod triggers that do not use PlayMakerFSM for their logic
+- Rally cars will now also affect player controlled cars when parked
 
 ## 3.6.2 (16.04.2022)
 

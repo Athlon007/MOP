@@ -515,7 +515,7 @@ namespace MOP.Vehicles
 
             foreach (var hitCollider in hitColliders)
             {
-                if (hitCollider.transform.root != null && hitCollider.transform.root.gameObject.name.EqualsAny("NPC_CARS", "TRAFFIC"))
+                if (hitCollider.transform.root != null && hitCollider.transform.root.gameObject.name.EqualsAny(Hypervisor.Instance.TrafficVehicleRoots))
                 {
                     return true;
                 }
