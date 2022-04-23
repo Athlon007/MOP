@@ -861,8 +861,6 @@ namespace MOP
                         // Should the object be disabled when the player leaves the house?
                         if (worldObject.DisableOn.HasFlag(DisableOn.PlayerAwayFromHome) || worldObject.DisableOn.HasFlag(DisableOn.PlayerInHome))
                         {
-                            if (worldObject.GetName() == "PERAJARVI")
-                                ModConsole.Log("fucks");
                             if (name == "NPC_CARS" && inSectorMode)
                                 continue;
 
@@ -1127,10 +1125,8 @@ namespace MOP
                 return false;
             }
 
-
             if (obj.DisableOn.HasFlag(DisableOn.AlwaysUse1xDistance))
             {
-                ModConsole.Log(obj.GetName());
                 toggleDistance *= MOP.ActiveDistance.GetValue() == 0 ? 0.5f : 0.1f;
                 return Vector3.Distance(player.transform.position, obj.transform.position) < toggleDistance;
             }
