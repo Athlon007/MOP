@@ -35,7 +35,7 @@ namespace MOP
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.6.3"; //Version
-        public const string SubVersion = "NIGHTLY-20220420"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public const string SubVersion = "BETA_1"; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public const string Edition = "Mod Loader Pro";
 #else
@@ -62,7 +62,8 @@ namespace MOP
         static internal SettingRadioButtons PerformanceModes, Resolution;
         static internal SettingToggle EnableShadowAdjusting, KeepRunningInBackground,
                                       DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
-                                      DestroyEmptyBottles, DisableEmptyItems, FasterAlgo, LazySectorUpdating;
+                                      DestroyEmptyBottles, DisableEmptyItems, FasterAlgo, LazySectorUpdating,
+                                      AlwaysDisableSkidmarks;
         SettingText modeWarningText;
 #else
         static internal SettingsSliderInt ActiveDistance, FramerateLimiter, ShadowDistance, RulesAutoUpdateFrequency;
@@ -182,6 +183,8 @@ namespace MOP
             modSettings.AddHeader("OTHER");
             DestroyEmptyBottles = modSettings.AddToggle("destroyEmptyBottles", "DESTROY EMPTY BOTTLES", false);
             DisableEmptyItems = modSettings.AddToggle("disableEmptyItems", "DISABLE EMPTY ITEMS", false);
+            AlwaysDisableSkidmarks = modSettings.AddToggle("alwaysDisableSkidmarks", "DISABLE SKIDMARKS", false);
+            AlwaysDisableSkidmarks.AddTooltip("Skidmarks cause a massive memory leak,\neverytime you brake/accelerate hard.\nDisabling them mitigates that problem.");
 
             // Experimental
             modSettings.AddHeader("<color=red>EXPERIMENTAL</color>");

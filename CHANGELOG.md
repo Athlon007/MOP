@@ -5,14 +5,14 @@
 ### Added
 
 - Skidmarks are now disabled in Performance mode, due to a huge memory leak they cause
-  - You can also disable then on Balanced and Quality modes in MOP settings. To do so, go to MOP settings -> Others -> Disable Skidmarks
+  - You can also disable them in Balanced and Quality modes in MOP settings. To do so, go to MOP settings -> Others -> Disable Skidmarks
 
 ### Bug Fixes
 
 - Fixed drag race disappearing when getting to the end of the drag strip on low toggle distance.
 - Fixed a single rule file showing up in the mod report many times
 - Fixed MOP trying to affect Satsuma mod triggers that do not use PlayMakerFSM for their logic
-- Rally cars will now also affect player controlled cars when parked (on Balanced mode or above)
+- Rally cars will now also affect player-controlled cars when parked (on Balanced mode or above)
 - Further reduction in garbage memory accumulation
 
 ## 3.6.2 (16.04.2022)
