@@ -556,6 +556,5 @@ namespace MOP
             fpsShadow.text = text;
             last = mem;
         }
-        
     }
 }
