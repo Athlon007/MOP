@@ -21,12 +21,11 @@ namespace MOP.Common.Enumerations
     [Flags]
     public enum DisableOn
     {
-        None,
-        Distance,
-        PlayerInHome,
-        PlayerAwayFromHome,
-        IgnoreInQualityMode,
-        AlwaysUse1xDistance,
-        DoNotEnableWhenLeavingHome
+        Distance = 0,
+        PlayerInHome = 1,
+        PlayerAwayFromHome = 2,
+        IgnoreInQualityMode = 4,
+        AlwaysUse1xDistance = 8,
+        DoNotEnableWhenLeavingHome = 16
     }
 }
