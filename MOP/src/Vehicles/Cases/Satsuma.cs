@@ -831,16 +831,16 @@ namespace MOP.Vehicles.Cases
             List<Renderer> toReturn = new List<Renderer>();
             foreach (Renderer r in renderers)
             {
-                MeshFilter f = r.GetComponent<MeshFilter>();
-                // check if object is a primitive cube.
-                if (f && f.sharedMesh.name == "Cube" && f.mesh.subMeshCount == 1 && f.mesh.vertexCount == 24)
+                try
                 {
-                    //ModConsole.Log(r.gameObject.Path());
+                    MeshFilter f = r.GetComponent<MeshFilter>();
+                    // check if object is a primitive cube.
+                    if (!(f && f.sharedMesh.name == "Cube" && f.mesh.subMeshCount == 1 && f.mesh.vertexCount == 24))
+                    {
+                        toReturn.Add(r);
+                    }
                 }
-                else
-                {
-                    toReturn.Add(r);
-                }
+                catch { }
             }
 
             return toReturn;
