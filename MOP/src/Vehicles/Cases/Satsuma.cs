@@ -834,7 +834,8 @@ namespace MOP.Vehicles.Cases
                 try
                 {
                     MeshFilter f = r.GetComponent<MeshFilter>();
-                    // check if object is a primitive cube.
+                    // Check if object is a primitive cube.
+                    // If not, add it toReturn list.
                     if (!(f && f.sharedMesh.name == "Cube" && f.mesh.subMeshCount == 1 && f.mesh.vertexCount == 24))
                     {
                         toReturn.Add(r);
