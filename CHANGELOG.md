@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.6.3 (TBA)
+## 3.6.3 (30.04.2022)
 
 ### Added
 
@@ -14,6 +14,7 @@
 - Fixed MOP trying to affect Satsuma part triggers created by MOP
 - Rally cars will now also affect player-controlled cars when parked (on Balanced mode or above)
 - Further reduction in garbage memory accumulation
+- Fixed a possible bug in which MOP tries to teleport Satsuma while driving it
 
 ## 3.6.2 (16.04.2022)
 

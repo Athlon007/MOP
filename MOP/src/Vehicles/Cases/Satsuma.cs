@@ -648,6 +648,7 @@ namespace MOP.Vehicles.Cases
         {
             if (MopSettings.Mode == PerformanceMode.Safe) return;
             if (carDynamics == null) return;
+            if (IsPlayerInThisCar()) return;
 
             if (!hasBeenMovedByFleetari && !carDynamics.enabled)
             {
