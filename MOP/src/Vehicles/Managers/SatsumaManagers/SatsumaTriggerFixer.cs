@@ -46,7 +46,10 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
         {
             foreach (var t in parent.GetComponentsInChildren<Transform>().Where(g => g.gameObject.name.StartsWith("trigger_")))
             {
-                t.gameObject.AddComponent<SatsumaTrigger>();
+                if (t.GetComponent<PlayMakerFSM>() != null)
+                {
+                    t.gameObject.AddComponent<SatsumaTrigger>();
+                }
             }
         }
 

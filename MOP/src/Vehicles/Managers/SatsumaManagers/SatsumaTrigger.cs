@@ -30,13 +30,14 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
         {
             try
             {
-                if (GetComponent<PlayMakerFSM>() == null)
+                PlayMakerFSM fsm = GetComponent<PlayMakerFSM>();
+                if (fsm == null)
                 {
                     Destroy(this);
                     return;
                 }
 
-                GameObject gameObjectPivot = GetComponent<PlayMakerFSM>().FsmVariables.GetFsmGameObject("Parent").Value;
+                GameObject gameObjectPivot = fsm.FsmVariables.GetFsmGameObject("Parent").Value;
 
                 if (gameObjectPivot == null)
                 {
