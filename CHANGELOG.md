@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.6.4 (TBA)
+
+### Added
+
+- MOP attempts to remove "read-only" flag from MSC save files, when the save files are verified
+
 ## 3.6.3 (30.04.2022)
 
 ### Added
