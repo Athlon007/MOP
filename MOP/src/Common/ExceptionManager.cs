@@ -36,7 +36,7 @@ namespace MOP.Common
         /// Creates then new error dump file
         /// </summary>
         /// <param name="ex"></param>
-        public static void New(Exception ex, bool isCritical, string message)
+        public static void New(Exception ex, bool isCritical, string message, string messageBoxText = "")
         {
             // Don't save errors that already occured.
             if (erorrsContainer.Contains(message))
@@ -83,6 +83,12 @@ namespace MOP.Common
             }
 
             erorrsContainer.Add(message);
+
+            if (messageBoxText != "")
+            {
+                message += $"\n\nError Code: {message}";
+                ModUI.ShowMessage(message);
+            }
         }
 
         public static void OpenCurrentSessionLogFolder()

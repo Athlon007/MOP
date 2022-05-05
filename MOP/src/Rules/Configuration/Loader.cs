@@ -403,7 +403,12 @@ namespace MOP.Rules.Configuration
             }
             catch (Exception ex)
             {
-                ExceptionManager.New(ex, false, "SERVER_CONTENT_DOWNLOAD_ERROR");
+                ExceptionManager.New(ex, false, "SERVER_CONTENT_DOWNLOAD_ERROR", 
+                    "MOP could not obtain rule files server content. " +
+                    "In order to fix that:\n" +
+                    "- Check your firewall configuraiton\n" +
+                    "- Check your router DNS configuration\n" +
+                    "- Disable 'UPDATE RULES AUTOMATICALLY' option in the settings");
             }
         }
 
