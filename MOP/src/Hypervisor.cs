@@ -952,7 +952,6 @@ namespace MOP
                 }
 
                 // Vehicles (new)
-                // MEM-LEAK-SAVED: 5 sec
                 half = vehicleManager.Count >> 1;
                 for (i = 0; i < vehicleManager.Count; ++i)
                 {
