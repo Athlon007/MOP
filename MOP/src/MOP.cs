@@ -62,7 +62,7 @@ namespace MOP
         static internal SettingRadioButtons PerformanceModes, Resolution;
         static internal SettingToggle EnableShadowAdjusting, KeepRunningInBackground,
                                       DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
-                                      DestroyEmptyBottles, DisableEmptyItems, FasterAlgo, LazySectorUpdating,
+                                      DestroyEmptyBottles, DisableEmptyItems, LazySectorUpdating,
                                       AlwaysDisableSkidmarks;
         SettingText modeWarningText;
 #else
@@ -70,7 +70,7 @@ namespace MOP
         static internal SettingsCheckBoxGroup ModePerformance, ModeBalanced, ModeQuality, ModeSafe;
         static internal SettingsCheckBox KeepRunningInBackground, LimitFramerate, DynamicDrawDistance,
                                           RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
-                                          DestroyEmptyBottles, DisableEmptyItems, FasterAlgo, LazySectorUpdating,
+                                          DestroyEmptyBottles, DisableEmptyItems, LazySectorUpdating,
                                           AlwaysDisableSkidmarks;
         SettingsDynamicText modeWarningText;
 #endif
@@ -188,9 +188,6 @@ namespace MOP
 
             // Experimental
             modSettings.AddHeader("<color=red>EXPERIMENTAL</color>");
-            FasterAlgo = modSettings.AddToggle("fastAlgo", "FAST ALGORITHM", false);
-            FasterAlgo.AddTooltip("FAST ALGORITHM is an experimental function\nthat is supposed to decrease the time\nit takes for MOP to toggle objects on and off.\n" +
-                "It will decrease the delay of enabling/disabling objects\nbut might reduce the framerate.");
             LazySectorUpdating = modSettings.AddToggle("lazySectorUpdating", "LAZY SECTOR UPDATING", false);
             LazySectorUpdating.AddTooltip("LAZY SECTOR UPDATING offloads disabling/enabling\nobjects between couple of frames, in order to\nease-out the load on the CPU.");
 
@@ -255,9 +252,6 @@ namespace MOP
 
             // Experimental
             Settings.AddHeader(this, "<color=red>EXPERIMENTAL</color>");
-            FasterAlgo = Settings.AddCheckBox(this, "fastAlgo", "FAST ALGORITHM", false);
-            Settings.AddDynamicText(this, "FAST ALGORITHM is an experimental function that is supposed to decrease the time it takes for MOP to toggle objects on and off. " +
-                "It will decrease the delay of enabling/disabling objects but might reduce the framerate.");
             LazySectorUpdating = Settings.AddCheckBox(this, "lazySectorUpdating", "LAZY SECTOR UPDATING", false);
             Settings.AddDynamicText(this, "LAZY SECTOR UPDATING offloads disabling/enabling objects between couple of frames, in order to ease-out the load on the CPU.");
 

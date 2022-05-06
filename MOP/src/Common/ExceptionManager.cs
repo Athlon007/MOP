@@ -183,7 +183,6 @@ namespace MOP.Common
             output += $"ToggleVehiclePhysicsOnly: {RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";
             output += $"IgnoreModVehicles: {RulesManager.Instance.SpecialRules.IgnoreModVehicles}\n";
             output += $"CustomRuleFile: {File.Exists($"{MOP.ModConfigPath}/Custom.txt")}\n\n";
-            output += $"FastAlgo: {MOP.FasterAlgo.GetValue()}\n";
             output += $"LazySectors: {MOP.LazySectorUpdating.GetValue()}\n";
 
             // Game data

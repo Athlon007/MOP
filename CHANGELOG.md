@@ -12,6 +12,10 @@
 
 - (Mod Loader Pro) Renamed "CHANGE RESOLUTION" to "RESOLUTION"
 
+### Removed
+
+- Removed "FAST ALGORITHM" experimental setting
+
 ## 3.6.3 (30.04.2022)
 
 ### Added

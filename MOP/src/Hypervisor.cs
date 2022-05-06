@@ -891,7 +891,7 @@ namespace MOP
                 // Safe mode prevents toggling elemenets that MAY case some issues (vehicles, items, etc.)
                 if (MopSettings.Mode == PerformanceMode.Safe)
                 {
-                    yield return new WaitForSeconds(MOP.FasterAlgo.GetValue() ? .1f : .7f);
+                    yield return new WaitForSeconds(.7f);
                     continue;
                 }
 
@@ -1035,7 +1035,7 @@ namespace MOP
                     ItemsManager.Instance.Remove(itemsToRemove.Pop());
                 }
 
-                yield return new WaitForSeconds(MOP.FasterAlgo.GetValue() ? .1f : .7f);
+                yield return new WaitForSeconds(.7f);
 
                 if (retries > 0 && !restartSucceedMessaged)
                 {
