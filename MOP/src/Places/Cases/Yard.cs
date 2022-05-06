@@ -110,7 +110,9 @@ namespace MOP.Places
             {
                 ExceptionManager.New(ex, false, "FRIDGE_RUNNING_FAILURE");
             }
-            }
+
+            LightSources = GetLightSources();
+        }
 
         public bool IsItemInFridge(GameObject item)
         {

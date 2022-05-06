@@ -6,6 +6,11 @@
 
 - MOP attempts to remove "read-only" flag from MSC save files, when the save files are verified
 - Added a troubleshooting message, if MOP couldn't communicate with the rule files server
+- If you have House Shadows enabled, they are now automatically disabled, if you are away from house
+
+### Changes
+
+- (Mod Loader Pro) Renamed "CHANGE RESOLUTION" to "RESOLUTION"
 
 ## 3.6.3 (30.04.2022)
 

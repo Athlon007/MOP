@@ -34,8 +34,8 @@ namespace MOP
         public override string ID => "MOP";
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.6.3"; //Version
-        public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public override string Version => "3.7"; //Version
+        public const string SubVersion = "NIGHTLY-20220506"; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public const string Edition = "Mod Loader Pro";
 #else
@@ -145,7 +145,7 @@ namespace MOP
             KeepRunningInBackground.AddTooltip("If disabled, game will pause when you ALT+TAB from the game.");
             DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false);
             DynamicDrawDistance.AddTooltip("MOP will change the draw distance according to situation\n(ex. Lower render distance while in interior)");
-            modSettings.AddButton("changeResolution", "CHANGE RESOLUTION", () => { Resolution.gameObject.SetActive(!Resolution.gameObject.activeSelf); });
+            modSettings.AddButton("changeResolution", "RESOLUTION", () => { Resolution.gameObject.SetActive(!Resolution.gameObject.activeSelf); });
             List<string> resolutions = new List<string>();
             int selected = 0;
             int i = 0;
