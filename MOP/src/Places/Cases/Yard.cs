@@ -65,12 +65,8 @@ namespace MOP.Places
 
             // Fix for broken computer.
             // We're changing it to null.
-            if (GameObject.Find("COMPUTER") != null)
-                GameObject.Find("COMPUTER").transform.parent = null;
-
-            GameObject garageDoors = GameObject.Find("GarageDoors");
-            garageDoors.transform.Find("DoorLeft/Coll").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-            garageDoors.transform.Find("DoorRight/Coll").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            RemoveComputerFromHome();
+            FixGarageDoors();
 
             try
             {
@@ -94,12 +90,10 @@ namespace MOP.Places
 
             // Disable restarting of FSM in UNCLE object.
             transform.Find("UNCLE").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+
             Compress();
 
-            transform.Find("Building/SAUNA/Sauna/Kiuas/ButtonPower").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-            transform.Find("Building/SAUNA/Sauna/Kiuas/ButtonTime").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-            transform.Find("Building/SAUNA/Sauna/Kiuas/StoveTrigger").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-            transform.Find("Building/SAUNA/Sauna/Simulation").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            FixSaunaSimulation();
 
             chillPoint = transform.Find("Building/KITCHEN/Fridge/FridgePoint/ChillArea");
             try
@@ -114,6 +108,25 @@ namespace MOP.Places
             LightSources = GetLightSources();
         }
 
+        private static void FixGarageDoors()
+        {
+            GameObject garageDoors = GameObject.Find("GarageDoors");
+            if (garageDoors)
+            {
+                garageDoors.transform.Find("DoorLeft/Coll").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                garageDoors.transform.Find("DoorRight/Coll").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            }
+        }
+
+        private static void RemoveComputerFromHome()
+        {
+            GameObject computer = GameObject.Find("COMPUTER");
+            if (computer != null)
+            {
+                computer.transform.parent = null;
+            }
+        }
+
         public bool IsItemInFridge(GameObject item)
         {
             if (fridgeRunning == null)
@@ -123,6 +136,14 @@ namespace MOP.Places
                 return false;
 
             return Vector3.Distance(item.transform.position, chillPoint.position) < ChillDistance;
+        }
+
+        private void FixSaunaSimulation()
+        {
+            transform.Find("Building/SAUNA/Sauna/Kiuas/ButtonPower").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            transform.Find("Building/SAUNA/Sauna/Kiuas/ButtonTime").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            transform.Find("Building/SAUNA/Sauna/Kiuas/StoveTrigger").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            transform.Find("Building/SAUNA/Sauna/Simulation").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
         }
     }
 }
