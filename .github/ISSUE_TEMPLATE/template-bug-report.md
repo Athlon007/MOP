@@ -23,10 +23,8 @@ assignees: ''
 **Screenshots**
 [If applicable, add screenshots to help explain your problem.]
 
-**Game Version:** [e.g. 15.11.2019/Experimental]
-
 **Mod Report:**
- [Go into mod settings and click "I FOUND A BUG", and paste the content here]
+[Go into mod settings and click "I FOUND A BUG", and paste the content here]
 
 **Additional context**
 [Add any other context about the problem here.]
