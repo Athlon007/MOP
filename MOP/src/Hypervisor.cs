@@ -277,7 +277,7 @@ namespace MOP
                 worldObjectManager.Add("BRIDGE_highway", DisableOn.PlayerInHome);
                 worldObjectManager.Add("BirdTower", DisableOn.Distance, 400);
                 worldObjectManager.Add("RYKIPOHJA", DisableOn.PlayerInHome);
-                worldObjectManager.Add("COMPUTER", DisableOn.PlayerAwayFromHome);
+                worldObjectManager.Add("COMPUTER", DisableOn.PlayerAwayFromHome, silent: true);
 
                 ModConsole.Log("[MOP] World objects (2) loaded");
             }
@@ -638,8 +638,12 @@ namespace MOP
             // Locate computer system.
             try
             {
-                computerSystem = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "COMPUTER").transform.Find("SYSTEM").gameObject;
-                GameObject.Find("Systems").transform.Find("OptionsMenu").gameObject.AddComponent<MopPauseMenuHandler>();
+                GameObject computer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.name == "COMPUTER");
+                if (computer != null)
+                {
+                    computerSystem = computer.transform.Find("SYSTEM").gameObject;
+                    GameObject.Find("Systems").transform.Find("OptionsMenu").gameObject.AddComponent<MopPauseMenuHandler>();
+                }
             }
             catch (Exception ex)
             {
@@ -729,12 +733,16 @@ namespace MOP
                 i++;
 
                 // Adding custom action to state that will trigger PreSaveGame, if the player picks up the phone with large Suski.
-                PlayMakerFSM useHandleFSM = GameObject.Find("Telephone").transform.Find("Logic/UseHandle").GetComponent<PlayMakerFSM>();
-                FsmState phoneFlip = useHandleFSM.GetState("Pick phone");
-                List<FsmStateAction> phoneFlipActions = phoneFlip.Actions.ToList();
-                phoneFlipActions.Insert(0, new CustomSuskiLargeFlip());
-                phoneFlip.Actions = phoneFlipActions.ToArray();
-                i++;
+                GameObject telephone = GameObject.Find("Telephone");
+                if (telephone != null)
+                {
+                    PlayMakerFSM useHandleFSM = telephone.transform.Find("Logic/UseHandle").GetComponent<PlayMakerFSM>();
+                    FsmState phoneFlip = useHandleFSM.GetState("Pick phone");
+                    List<FsmStateAction> phoneFlipActions = phoneFlip.Actions.ToList();
+                    phoneFlipActions.Insert(0, new CustomSuskiLargeFlip());
+                    phoneFlip.Actions = phoneFlipActions.ToArray();
+                    i++;
+                }
 
                 ModConsole.Log($"[MOP] Hooked {i} save points!");
             }

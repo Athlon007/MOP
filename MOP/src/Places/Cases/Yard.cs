@@ -98,7 +98,11 @@ namespace MOP.Places
             chillPoint = transform.Find("Building/KITCHEN/Fridge/FridgePoint/ChillArea");
             try
             {
-                fridgeRunning = Resources.FindObjectsOfTypeAll<GameObject>()?.First(g => g.name == "FridgePoint").GetPlayMaker("Chilling")?.FsmVariables.GetFsmBool("Kitchen");
+                GameObject fridgePoint = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.name == "FridgePoint");
+                if (fridgePoint)
+                {
+                    fridgeRunning = fridgePoint.GetPlayMaker("Chilling")?.FsmVariables.GetFsmBool("Kitchen");
+                }
             }
             catch (Exception ex)
             {
@@ -140,10 +144,13 @@ namespace MOP.Places
 
         private void FixSaunaSimulation()
         {
-            transform.Find("Building/SAUNA/Sauna/Kiuas/ButtonPower").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-            transform.Find("Building/SAUNA/Sauna/Kiuas/ButtonTime").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-            transform.Find("Building/SAUNA/Sauna/Kiuas/StoveTrigger").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-            transform.Find("Building/SAUNA/Sauna/Simulation").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            if (transform.Find("Building/SAUNA") != null)
+            {
+                transform.Find("Building/SAUNA/Sauna/Kiuas/ButtonPower").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                transform.Find("Building/SAUNA/Sauna/Kiuas/ButtonTime").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                transform.Find("Building/SAUNA/Sauna/Kiuas/StoveTrigger").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                transform.Find("Building/SAUNA/Sauna/Simulation").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            }
         }
     }
 }
