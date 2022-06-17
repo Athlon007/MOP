@@ -10,6 +10,8 @@
 
 ### Changes
 
+- Abandoned mansion is not disabled In Balanced mode or above
+- Increased the distance where wheels left at repair shop are detected
 - (Mod Loader Pro) Renamed "CHANGE RESOLUTION" to "RESOLUTION"
 
 ### Removed

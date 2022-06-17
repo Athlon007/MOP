@@ -136,7 +136,7 @@ namespace MOP.Items
             if (this.gameObject.name.StartsWith("wheel_"))
             {
                 RepairShop repairShop = PlaceManager.Instance[2] as RepairShop;
-                if (Vector3.Distance(transform.position, repairShop.GetCashRegister().position) < 5)
+                if (Vector3.Distance(transform.position, repairShop.GetCashRegister().position) < 7)
                 {
                     DontDisable = true;
                 }
