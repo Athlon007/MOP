@@ -14,6 +14,10 @@
 - Increased the distance where wheels left at repair shop are detected
 - (Mod Loader Pro) Renamed "CHANGE RESOLUTION" to "RESOLUTION"
 
+### Bug Fixes
+
+- Fixed Custom rule files crashing the game
+
 ### Removed
 
 - Removed "FAST ALGORITHM" experimental setting
