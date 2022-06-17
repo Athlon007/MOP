@@ -17,6 +17,7 @@
 ### Bug Fixes
 
 - Fixed Custom rule files crashing the game
+- Fixed flatbed teleporting next to the house and being stuck, if the tractor got disabled before the trailer.
 
 ### Removed
 
