@@ -15,6 +15,7 @@
 - Increased the distance where wheels left at repair shop are detected
 - Tractor and Flatbed connected together are treated as a one object (meaning, if one is disabled - both of them are)
 - Van colliders are not being disabled anymore
+- (MSCLoader) Updated to MSCLoader 1.2.6
 - (Mod Loader Pro) Renamed "CHANGE RESOLUTION" to "RESOLUTION"
 
 ### Bug Fixes
