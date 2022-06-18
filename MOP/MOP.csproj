@@ -115,6 +115,7 @@
     <Compile Include="src\FSM\Actions\CustomSatsumaBumperAttach.cs" />
     <Compile Include="src\FSM\Actions\CustomSatsumaBumperDetach.cs" />
     <Compile Include="src\FSM\Actions\CustomStateAction.cs" />
+    <Compile Include="src\FSM\Actions\CustomToggleAllBoltsAction.cs" />
     <Compile Include="src\FSM\Actions\DelayedItemBehaviour.cs" />
     <Compile Include="src\FSM\Actions\GrandmaHiker.cs" />
     <Compile Include="src\FSM\Actions\WindscreenRepairJob.cs" />

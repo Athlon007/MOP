@@ -12,6 +12,7 @@
 
 - Abandoned mansion is not disabled In Balanced mode or above
 - Increased the distance where wheels left at repair shop are detected
+- Tractor and Flatbed connected together are treated as a one object (meaning, if one is disabled - both of them are)
 - (Mod Loader Pro) Renamed "CHANGE RESOLUTION" to "RESOLUTION"
 
 ### Bug Fixes
@@ -19,6 +20,7 @@
 - Fixed Custom rule files crashing the game
 - Fixed flatbed teleporting next to the house and being stuck, if the tractor got disabled before the trailer
 - Fixed MOP not working, if the house is burned down
+- Subframe bolts shouldn't be missing when assembling the subframe
 
 ### Removed
 
