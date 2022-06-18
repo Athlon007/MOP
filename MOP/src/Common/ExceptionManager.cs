@@ -31,6 +31,7 @@ namespace MOP.Common
         static readonly List<string> erorrsContainer = new List<string>();
 
         public static DateTime SessionTimeStart;
+        static string currentLogFile;
 
         /// <summary>
         /// Creates then new error dump file
@@ -44,29 +45,31 @@ namespace MOP.Common
                 return;
             }
 
-            string fileName = $"{Paths.DefaultErrorLogName}_{DateTime.Now:yyyy-MM-dd-HH-mm}";
-
-            if (File.Exists($"{Paths.LogFolder}/{fileName}.txt"))
+            // Log file doens't exist? Generate a new one.
+            if (string.IsNullOrEmpty(currentLogFile))
             {
-                int crashesInFolder = 0;
-                while (File.Exists($"{Paths.LogFolder}/{fileName}_{crashesInFolder}.txt"))
+                string fileName = $"{Paths.DefaultErrorLogName}_{DateTime.Now:yyyy-MM-dd-HH-mm}";
+                if (File.Exists($"{Paths.LogFolder}/{fileName}.txt"))
                 {
-                    crashesInFolder++;
+                    int crashesInFolder = 0;
+                    while (File.Exists($"{Paths.LogFolder}/{fileName}_{crashesInFolder}.txt"))
+                    {
+                        crashesInFolder++;
+                    }
+
+                    fileName += $"_{crashesInFolder}";
                 }
 
-                fileName += $"_{crashesInFolder}";
+                currentLogFile = fileName + ".txt";
             }
 
-            string logFilePath = $"{Paths.LogFolder}/{fileName}.txt";
-            string gameInfo = GetGameInfo();
-            string errorInfo = $"{ex.Message}\n{ex.StackTrace}\nTarget Site: {ex.TargetSite}";
 
-            using (StreamWriter sw = new StreamWriter(logFilePath))
+            string logFilePath = Path.Combine(Paths.LogFolder, currentLogFile);
+            string errorInfo = $"({DateTime.Now:HH:mm:ss.fff}) {message}\n{ex.Message}{ex.StackTrace}\nTarget Site: {ex.TargetSite}";
+
+            using (StreamWriter sw = new StreamWriter(logFilePath, true))
             {
-                sw.Write($"{gameInfo}\n=== ERROR ===\n\n// " +
-                         $"{WittyComments.GetErrorWittyText()}\n\n" +
-                         $"{message}{(message.Length > 0 ? "\n\n" : "")}" +
-                         $"{errorInfo}");
+                sw.Write(errorInfo + "\n");
             }
 
             string errorMessage = $"[MOP] An error has occured. The log file has been saved folder into:\n\n" +
@@ -161,7 +164,10 @@ namespace MOP.Common
             {
                 var elapsed = DateTime.Now.Subtract(SessionTimeStart);
                 output += $"Session Time: {elapsed.Hours} Hours {elapsed.Minutes} Minutes {elapsed.Seconds} Seconds";
-            }            
+            }
+            output += $"CPU: {SystemInfo.processorType} ({SystemInfo.processorCount} cores)\n";
+            output += $"RAM: {SystemInfo.systemMemorySize}\n MB";
+            output += $"GPU: {SystemInfo.graphicsDeviceName} ({SystemInfo.graphicsMemorySize} MB VRAM\n";
 
             output += "\n\n=== MOP SETTINGS ===\n\n";
             output += $"ActiveDistance: {MOP.ActiveDistance.GetValue()}\n";

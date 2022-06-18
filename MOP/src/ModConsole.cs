@@ -52,7 +52,7 @@ namespace MOP
             message = message.Replace("<color=green>", "[SYSTEM] ");
             message = message.Replace("<color=red>", "[ERROR] ");
             message = message.Trim();
-            message = $"{DateTime.Now:HH:mm:ss}: {message}";
+            message = $"{DateTime.Now:HH:mm:ss.fff}: {message}";
 
             // Remove all things inside of <>.
             string[] messageArray = message.Split('\n');

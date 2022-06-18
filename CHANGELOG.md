@@ -8,6 +8,7 @@
 - Added a troubleshooting message, if MOP couldn't communicate with the rule files server
 - If you have House Shadows enabled, they are now automatically disabled, if you are away from house
 - Sauna is now simulated, if you've left it turned on and left the house
+- Added CPU, RAM, and GPU info to MOP Report
 
 ### Changes
 
@@ -15,6 +16,9 @@
 - Increased the distance where wheels left at repair shop are detected
 - Tractor and Flatbed connected together are treated as a one object (meaning, if one is disabled - both of them are)
 - Van colliders are not being disabled anymore
+- Changes to crash logs generation:
+  - Now all crashes are saved into the single file per game session
+  - "MOP_Crash" file doesn't have game details anymore
 - (MSCLoader) Updated to MSCLoader 1.2.6
 - (Mod Loader Pro) Renamed "CHANGE RESOLUTION" to "RESOLUTION"
 
