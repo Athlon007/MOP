@@ -229,7 +229,7 @@ namespace MOP.Places
                 else
                 {
                     sauna.SetActive(enabled);
-                    saumaSimulation.SetActive(false);
+                    saumaSimulation.SetActive(enabled);
                 }
             }
         }

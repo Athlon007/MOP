@@ -14,6 +14,7 @@
 - Abandoned mansion is not disabled In Balanced mode or above
 - Increased the distance where wheels left at repair shop are detected
 - Tractor and Flatbed connected together are treated as a one object (meaning, if one is disabled - both of them are)
+- Van colliders are not being disabled anymore
 - (Mod Loader Pro) Renamed "CHANGE RESOLUTION" to "RESOLUTION"
 
 ### Bug Fixes
@@ -22,6 +23,7 @@
 - Fixed flatbed teleporting next to the house and being stuck, if the tractor got disabled before the trailer
 - Fixed MOP not working, if the house is burned down
 - Subframe bolts shouldn't be missing when assembling the subframe
+- Objects left in the van should not fall through it anymore
 
 ### Removed
 
