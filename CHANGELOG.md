@@ -29,6 +29,7 @@
 - Fixed MOP not working, if the house is burned down
 - Subframe bolts shouldn't be missing when assembling the subframe
 - Objects left in the van should not fall through it anymore
+- Inspection shop lifter is not disabled anymore, meaning cars won't fall through it
 
 ### Removed
 
