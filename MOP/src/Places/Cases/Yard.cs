@@ -49,12 +49,18 @@ namespace MOP.Places
             "WC", "Hallway", "Entry", "ContactPivot", "DoorRight", "DoorLeft", "GarageDoors", "BatteryCharger",
             "Clamps", "ChargerPivot", "Clamp", "BatteryPivot", "battery_charger", "Wire", "cable", "TriggerCharger",
             "tvtable", "VHS_Screen", "tv_table(Clone)", "scart_con", "Haybale", "Combine", "UncleWalking", "LOD", "house_wall_brick",
-            "houseuncle_roof", "houseuncle_walls", "fuse holder(Clone)"
+            "houseuncle_roof", "houseuncle_walls", "fuse holder(Clone)", "SAUNA"
         };
 
         const float ChillDistance = .45f;
         readonly Transform chillPoint;
         readonly FsmBool fridgeRunning;
+        
+        GameObject sauna;
+        GameObject saumaSimulation;
+        readonly FsmFloat saunaStoveHeat;
+        const float StoveOnSimulationPoint = 35; // Stove heat after which we will simulate stove overheating
+
 
         /// <summary>
         /// Initialize the RepairShop class
@@ -109,6 +115,24 @@ namespace MOP.Places
                 ExceptionManager.New(ex, false, "FRIDGE_RUNNING_FAILURE");
             }
 
+            // Get sauna simulation.
+            try
+            {
+                sauna = transform.Find("Building/SAUNA")?.gameObject;
+                if (sauna != null)
+                {
+                    saumaSimulation = sauna.transform.Find("Sauna/Simulation")?.gameObject;
+                    if (saumaSimulation != null)
+                    {
+                        saunaStoveHeat = saumaSimulation.GetPlayMaker("Time").FsmVariables.GetFsmFloat("StoveHeat");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "SAUNA_STOVE_SIMULATION_FAILURE");
+            }
+
             LightSources = GetLightSources();
         }
 
@@ -150,6 +174,63 @@ namespace MOP.Places
                 transform.Find("Building/SAUNA/Sauna/Kiuas/ButtonTime").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
                 transform.Find("Building/SAUNA/Sauna/Kiuas/StoveTrigger").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
                 transform.Find("Building/SAUNA/Sauna/Simulation").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            }
+        }
+
+        public override void ToggleActive(bool enabled)
+        {
+            // Don't execute the code, if the enabled value is the same as the activity status.
+            if (isActive == enabled)
+                return;
+
+            isActive = enabled;
+
+            // Load and unload only the objects that aren't on the whitelist.
+            for (int i = 0; i < DisableableChilds.Count; i++)
+            {
+                // If the object is missing, skip and continue.
+                if (DisableableChilds[i] == null)
+                    continue;
+
+                DisableableChilds[i].gameObject.SetActive(enabled);
+            }
+
+            if (PlayMakers.Count > 0)
+            {
+                for (int i = 0; i < PlayMakers.Count; i++)
+                {
+                    if (PlayMakers[i] == null)
+                    {
+                        continue;
+                    }
+
+                    PlayMakers[i].enabled = enabled;
+                }
+            }
+
+            if (LightSources.Count > 0)
+            {
+                if (FsmManager.ShadowsHouse)
+                {
+                    for (int i = 0; i < LightSources.Count; ++i)
+                    {
+                        LightSources[i].shadows = enabled ? LightShadows.Hard : LightShadows.None;
+                    }
+                }
+            }
+
+            if (sauna != null)
+            {
+                if (saunaStoveHeat.Value > StoveOnSimulationPoint)
+                {
+                    sauna.SetActive(true);
+                    saumaSimulation.SetActive(true);
+                }
+                else
+                {
+                    sauna.SetActive(enabled);
+                    saumaSimulation.SetActive(false);
+                }
             }
         }
     }

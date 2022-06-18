@@ -75,7 +75,7 @@ namespace MOP.Places
         /// Enable or disable the place
         /// </summary>
         /// <param name="enabled"></param>
-        public void ToggleActive(bool enabled)
+        public virtual void ToggleActive(bool enabled)
         {
             // Don't execute the code, if the enabled value is the same as the activity status.
             if (isActive == enabled) 

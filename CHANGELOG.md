@@ -7,6 +7,7 @@
 - MOP attempts to remove "read-only" flag from MSC save files, when the save files are verified
 - Added a troubleshooting message, if MOP couldn't communicate with the rule files server
 - If you have House Shadows enabled, they are now automatically disabled, if you are away from house
+- Sauna is now simulated, if you've left it turned on and left the house
 
 ### Changes
 
