@@ -31,6 +31,7 @@
 - Subframe bolts shouldn't be missing when assembling the subframe
 - Objects left in the van should not fall through it anymore
 - Inspection shop lifter is not disabled anymore, meaning cars won't fall through it
+- Rule Files: Fixed a bug, which caused "fullIgnore" flag not being detected, if the object's name was written between double quotes
 
 ### Removed
 
