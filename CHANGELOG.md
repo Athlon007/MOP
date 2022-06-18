@@ -9,6 +9,7 @@
 - If you have House Shadows enabled, they are now automatically disabled, if you are away from house
 - Sauna is now simulated, if you've left it turned on and left the house
 - Added CPU, RAM, and GPU info to MOP Report
+- While using 'mop rules' for Ignored objects shows "(Full Ignore)", if object uses "fullIgnore" mode
 
 ### Changes
 

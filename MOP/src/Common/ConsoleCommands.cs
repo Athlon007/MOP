@@ -105,7 +105,7 @@ namespace MOP.Common
                     {
                         ModConsole.Log("<color=yellow><b>Ignore Rules</b></color>");
                         foreach (IgnoreRule r in RulesManager.Instance.IgnoreRules)
-                            ModConsole.Log($"<b>Object:</b> {r.ObjectName}");
+                            ModConsole.Log($"<b>Object:</b> {r.ObjectName}" + (r.TotalIgnore ? " <i>(Full Ignore)</i>" : ""));
                     }
 
                     if (RulesManager.Instance.IgnoreRulesAtPlaces.Count > 0)
