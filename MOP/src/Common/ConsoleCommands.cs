@@ -321,7 +321,14 @@ namespace MOP.Common
                     {
                         isCritical = true;
                     }
-                    ExceptionManager.New(new Exception("Test exception"), isCritical, "Test exception: " + System.Guid.NewGuid());
+                    try
+                    {
+                        throw new Exception("Test Exception");
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionManager.New(ex, isCritical, "TEST_EXCEPTION");
+                    }
                     break;
                 case "resolution":
                     try

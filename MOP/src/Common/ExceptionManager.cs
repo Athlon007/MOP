@@ -64,7 +64,7 @@ namespace MOP.Common
             }
 
 
-            string logFilePath = Path.Combine(Paths.LogFolder, currentLogFile);
+            string logFilePath = Path.Combine(Paths.LogFolder, currentLogFile).Replace("\\", "/");
             string errorInfo = $"({DateTime.Now:HH:mm:ss.fff}) {message}\n{ex.Message}{ex.StackTrace}\nTarget Site: {ex.TargetSite}";
 
             using (StreamWriter sw = new StreamWriter(logFilePath, true))
@@ -72,17 +72,18 @@ namespace MOP.Common
                 sw.Write(errorInfo + "\n");
             }
 
-            string errorMessage = $"[MOP] An error has occured. The log file has been saved folder into:\n\n" +
+            string errorMessage = $"[MOP] An error has occured. The log file has been saved into:\n\n" +
                 $"{logFilePath}.\n\n" +
-                $"Please go into MOP Settings and click \"<b>I found a bug</b>\" button, in order to generate the bug report and then follow the instructions.\n";
+                $"Please go into MOP Settings and click \"<b>I found a bug</b>\" button, in order to generate the bug report. " +
+                $"Then please follow the provided instructions.\n";
 
-            if (isCritical)
+            if (isCritical || erorrsContainer.Contains(message))
             {
                 ModConsole.LogError(errorMessage);
             }
             else
             {
-                ModConsole.LogWarning(errorMessage + "\nYou can continue playing.");
+                ModConsole.LogWarning(errorMessage + "\n<b>You can continue playing.</b>");
             }
 
             erorrsContainer.Add(message);

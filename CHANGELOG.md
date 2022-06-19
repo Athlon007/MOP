@@ -36,6 +36,7 @@
 ### Removed
 
 - Removed "FAST ALGORITHM" experimental setting
+- Removed unused code
 
 ## 3.6.3 (30.04.2022)
 
