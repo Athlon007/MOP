@@ -141,7 +141,7 @@ namespace MOP
             ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 2, 0, 20, () => { MopSettings.UpdateShadows(); UpdateSettingsUI(); });
             ShadowDistance.ValueSuffix = "00 Meters";
             ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value);
-            KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
+            KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN GAME IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
             KeepRunningInBackground.AddTooltip("If disabled, game will pause when you ALT+TAB from the game.");
             DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false);
             DynamicDrawDistance.AddTooltip("MOP will change the draw distance according to situation\n(ex. Lower render distance while in interior)");
@@ -219,6 +219,7 @@ namespace MOP
             // Activating objects.
             Settings.AddHeader(this, "DESPAWNING");
             ActiveDistance = Settings.AddSlider(this, "activateDistance", "ACTIVATE DISTANCE", 0, 3, 1, textValues: activeDistanceText);
+            Settings.AddText(this, "MODE");
             ModePerformance = Settings.AddCheckBoxGroup(this, "modePerformance", "PERFORMANCE", false, "performanceMode", MopSettings.UpdatePerformanceMode);
             ModeBalanced = Settings.AddCheckBoxGroup(this, "modeBalanced", "BALANCED", true, "performanceMode", MopSettings.UpdatePerformanceMode);
             ModeQuality = Settings.AddCheckBoxGroup(this, "modeQuality", "QUALITY", false, "performanceMode", MopSettings.UpdatePerformanceMode);
@@ -230,7 +231,7 @@ namespace MOP
             LimitFramerate = Settings.AddCheckBox(this, "limitFramerate", "LIMIT FRAMERATE", false, MopSettings.UpdateFramerateLimiter);
             FramerateLimiter = Settings.AddSlider(this, "framerateLimiterUpdated", "FRAMERATE LIMITER (FPS)", 20, 200, 60, MopSettings.UpdateFramerateLimiter);
             ShadowDistance = Settings.AddSlider(this, "shadowDistance", "SHADOW DISTANCE (METERS, 200 DEFAULT)", 0, 2000, 200, MopSettings.UpdateShadows);
-            KeepRunningInBackground = Settings.AddCheckBox(this, "keepRunningInBackground", "RUN IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
+            KeepRunningInBackground = Settings.AddCheckBox(this, "keepRunningInBackground", "RUN GAME IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
             DynamicDrawDistance = Settings.AddCheckBox(this, "dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false);
 
             // Rules
