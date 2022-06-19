@@ -40,7 +40,7 @@ namespace MOP
         public const string Edition = "Mod Loader Pro";
 #else
         public const string Edition = "MSCLoader";
-        public override string Description => "The ultimate My Summer Car optimization project!";
+        public override string Description => "The <color=yellow>ultimate</color> My Summer Car optimization project!";
 #endif
         public override byte[] Icon => Properties.Resources.icon;
 
@@ -78,12 +78,12 @@ namespace MOP
         // Constant text.
         const string WarningMode = "Some changes will be applied after game reload.";
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
-        readonly string[] rulesAutoUpdateFrequencyText = { "On Restart", "Daily", "Every 2 days", "Weekly" };
+        readonly string[] rulesAutoUpdateFrequencyText = { "Every launch", "Daily", "Every 2 days", "Weekly" };
         const string WelcomeMessage = "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n\n" +
-                                      "Please consider supporting the project using <color=#3687D7>PayPal</color>.";
+                                      "Please consider supporting the project using <color=#3687D7>PayPal</color>, or on <color=orange>NexusMods</color>.";
         const string WelcomeMessageFestive = "Merry Christmas and Happy New Year {1}!\n\n" +
                                              "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n" +
-                                             "Please consider supporting the project using <color=#3687D7>PayPal</color>.";
+                                             "Please consider supporting the project using <color=#3687D7>PayPal</color>, or on <color=orange>NexusMods</color>.";
         public static Guid SessionID;
 
 
@@ -193,7 +193,7 @@ namespace MOP
 
             // Logging
             modSettings.AddHeader("LOGGING");
-            modSettings.AddText("If you want to file a bug report, use <color=yellow>I FOUND A BUG</color> button!");
+            modSettings.AddText("If you want to file a bug report, use <color=red>I FOUND A BUG</color> button!");
             modSettings.AddButton("openLogFolder", "OPEN LOG FOLDER", "", ExceptionManager.OpenCurrentSessionLogFolder);
             modSettings.AddButton("generateModReprt", "GENERATE MOD REPORT", "", ExceptionManager.GenerateReport);
             modSettings.AddButton("deleteAllLogs", "DELETE ALL LOGS", "", ExceptionManager.DeleteAllLogs);
@@ -258,7 +258,7 @@ namespace MOP
 
             // Logging
             Settings.AddHeader(this, "LOGGING");
-            Settings.AddText(this, "If you want to file a bug report, use <color=yellow>I FOUND A BUG</color> button!");
+            Settings.AddText(this, "If you want to file a bug report, use <color=red><b>I FOUND A BUG</b></color> button!");
             Settings.AddButton(this, "openLogFolder", "OPEN LOG FOLDER", ExceptionManager.OpenCurrentSessionLogFolder);
             Settings.AddButton(this, "generateModReprt", "GENERATE MOD REPORT", ExceptionManager.GenerateReport);
             Settings.AddButton(this, "deleteAllLogs", "DELETE ALL LOGS", ExceptionManager.DeleteAllLogs);
@@ -489,14 +489,13 @@ namespace MOP
 
         string GetFooter()
         {
-            return  $"<color=yellow>MOP</color> {ModVersion}\n" +
+            return  $"<color=yellow>MOP</color> {ModVersion.Replace("_", " ")}\n" +
 #if PRO
                     $"<color=yellow>Mod Loader Pro</color> {ModLoader.Version}\n" +
 #else
                     $"<color=yellow>MSCLoader</color> {ModLoader.MSCLoader_Ver}\n" +
 #endif
                     $"{ExceptionManager.GetSystemInfo()}\n" +
-                    $"<color=yellow>Session ID:</color> {SessionID}\n" +
                     $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}";
         }
 

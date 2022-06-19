@@ -167,8 +167,8 @@ namespace MOP.Common
                 output += $"Session Time: {elapsed.Hours} Hours {elapsed.Minutes} Minutes {elapsed.Seconds} Seconds";
             }
             output += $"CPU: {SystemInfo.processorType} ({SystemInfo.processorCount} cores)\n";
-            output += $"RAM: {SystemInfo.systemMemorySize}\n MB";
-            output += $"GPU: {SystemInfo.graphicsDeviceName} ({SystemInfo.graphicsMemorySize} MB VRAM\n";
+            output += $"RAM: {SystemInfo.systemMemorySize} MB\n";
+            output += $"GPU: {SystemInfo.graphicsDeviceName} ({SystemInfo.graphicsMemorySize} MB VRAM)";
 
             output += "\n\n=== MOP SETTINGS ===\n\n";
             output += $"ActiveDistance: {MOP.ActiveDistance.GetValue()}\n";
@@ -249,7 +249,7 @@ namespace MOP.Common
 
             if (File.Exists($"{MOP.ModConfigPath}/Custom.txt"))
             {
-                output += "\n=== CUSTOM.TXT CONTENT ===\n\n";
+                output += "\n\n=== CUSTOM.TXT CONTENT ===\n\n";
                 output += File.ReadAllText($"{MOP.ModConfigPath}/Custom.txt") + "\n\n";
             }
 

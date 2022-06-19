@@ -21,6 +21,7 @@
   - Now all crashes are saved into the single file per game session
   - "MOP_Crash" file doesn't have game details anymore
 - Renamed "Run in background" to "Run game in background"
+- Other minor changes in the settings
 - (MSCLoader) Updated to MSCLoader 1.2.6
 - (Mod Loader Pro) Renamed "CHANGE RESOLUTION" to "RESOLUTION"
 
