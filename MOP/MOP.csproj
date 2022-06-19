@@ -196,7 +196,6 @@
     <Compile Include="src\Common\ConsoleCommands.cs" />
     <Compile Include="src\Common\CustomExtensions.cs" />
     <Compile Include="src\Common\ExceptionManager.cs" />
-    <Compile Include="src\Common\WittyComments.cs" />
     <Compile Include="src\Common\MopSettings.cs" />
     <Compile Include="src\Rules\Types\IgnoreRule.cs" />
     <Compile Include="src\Rules\Configuration\ServerContentData.cs" />
