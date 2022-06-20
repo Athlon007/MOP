@@ -35,7 +35,7 @@ namespace MOP
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.7"; //Version
-        public const string SubVersion = "BETA_1"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public const string Edition = "Mod Loader Pro";
 #else
@@ -219,7 +219,7 @@ namespace MOP
             // Activating objects.
             Settings.AddHeader(this, "DESPAWNING");
             ActiveDistance = Settings.AddSlider(this, "activateDistance", "ACTIVATE DISTANCE", 0, 3, 1, textValues: activeDistanceText);
-            Settings.AddText(this, "MODE");
+            Settings.AddText(this, "PERFORMANCE MODE");
             ModePerformance = Settings.AddCheckBoxGroup(this, "modePerformance", "PERFORMANCE", false, "performanceMode", MopSettings.UpdatePerformanceMode);
             ModeBalanced = Settings.AddCheckBoxGroup(this, "modeBalanced", "BALANCED", true, "performanceMode", MopSettings.UpdatePerformanceMode);
             ModeQuality = Settings.AddCheckBoxGroup(this, "modeQuality", "QUALITY", false, "performanceMode", MopSettings.UpdatePerformanceMode);
