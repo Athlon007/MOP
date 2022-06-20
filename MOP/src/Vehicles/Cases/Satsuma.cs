@@ -510,7 +510,43 @@ namespace MOP.Vehicles.Cases
                 throw new System.Exception("Fire extinguisher holder error");
             }
 
-            GameObject.Find("dashboard meters(Clone)/Gauges/Odometer").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            // Odometer resetting fix
+            try
+            {
+                GameObject.Find("dashboard meters(Clone)/Gauges/Odometer").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, false, "SATS_ODOMETER_RESET_FIX_ERROR");
+            }
+
+            // New bolt enabling/disabling.
+            try
+            {
+                GameObject subframeBolts = transform.Find("Chassis/sub frame(xxxxx)/Bolts")?.gameObject;
+                GameObject triggerSubframe = transform.Find("Chassis/trigger_subframe")?.gameObject;
+                if (triggerSubframe == null || subframeBolts == null)
+                {
+                    throw new MissingReferenceException("Could not find trigger_subframe or subframe.");
+                }
+
+                bool isSubframeTriggerActive = triggerSubframe.activeSelf;
+                triggerSubframe.SetActive(true);
+
+                PlayMakerFSM triggerSubframeFSM = triggerSubframe.GetPlayMaker("Assembly");
+                if (triggerSubframeFSM == null)
+                {
+                    throw new MissingReferenceException("Could not find Assembly FSM.");
+                }
+
+                triggerSubframeFSM.GetState("Assemble").AddAction(new CustomToggleAllBoltsAction(subframeBolts, true));
+                triggerSubframe.SetActive(isSubframeTriggerActive);
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, false, "SUBFRAME_BOLTS_ERROR");
+            }
+
 
             if (MopSettings.Mode != PerformanceMode.Safe)
             {

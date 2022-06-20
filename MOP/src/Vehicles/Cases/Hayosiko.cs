@@ -32,11 +32,17 @@ namespace MOP.Vehicles.Cases
             "SideDoor", "body", "GetInPivot", "Colliders", "Starter" 
         };
 
-        readonly GameObject[] partialDisableItems;        
+        readonly GameObject[] partialDisableItems;
+
+        Transform colliders;
+        Vector3 colliderPosition;
 
         public Hayosiko(string gameObjectName = "HAYOSIKO(1500kg, 250)") : base(gameObjectName)
         {
             transform.Find("Odometer").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            
+            colliders = transform.Find("Colliders");
+            colliderPosition = colliders.localPosition;
 
             try
             {
@@ -77,6 +83,7 @@ namespace MOP.Vehicles.Cases
             if (!enabled)
             {
                 MoveNonDisableableObjects(temporaryParent);
+                colliders.parent = temporaryParent;
             }
 
             gameObject.SetActive(enabled);
@@ -84,6 +91,8 @@ namespace MOP.Vehicles.Cases
             if (enabled)
             {
                 MoveNonDisableableObjects(null);
+                colliders.parent = transform;
+                colliders.localPosition = colliderPosition;
             }
         }
 

@@ -34,13 +34,13 @@ namespace MOP
         public override string ID => "MOP";
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.6.3"; //Version
+        public override string Version => "3.7"; //Version
         public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public const string Edition = "Mod Loader Pro";
 #else
         public const string Edition = "MSCLoader";
-        public override string Description => "The ultimate My Summer Car optimization project!";
+        public override string Description => "The <color=yellow>ultimate</color> My Summer Car optimization project!";
 #endif
         public override byte[] Icon => Properties.Resources.icon;
 
@@ -62,7 +62,7 @@ namespace MOP
         static internal SettingRadioButtons PerformanceModes, Resolution;
         static internal SettingToggle EnableShadowAdjusting, KeepRunningInBackground,
                                       DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
-                                      DestroyEmptyBottles, DisableEmptyItems, FasterAlgo, LazySectorUpdating,
+                                      DestroyEmptyBottles, DisableEmptyItems, LazySectorUpdating,
                                       AlwaysDisableSkidmarks;
         SettingText modeWarningText;
 #else
@@ -70,7 +70,7 @@ namespace MOP
         static internal SettingsCheckBoxGroup ModePerformance, ModeBalanced, ModeQuality, ModeSafe;
         static internal SettingsCheckBox KeepRunningInBackground, LimitFramerate, DynamicDrawDistance,
                                           RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
-                                          DestroyEmptyBottles, DisableEmptyItems, FasterAlgo, LazySectorUpdating,
+                                          DestroyEmptyBottles, DisableEmptyItems, LazySectorUpdating,
                                           AlwaysDisableSkidmarks;
         SettingsDynamicText modeWarningText;
 #endif
@@ -78,12 +78,12 @@ namespace MOP
         // Constant text.
         const string WarningMode = "Some changes will be applied after game reload.";
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
-        readonly string[] rulesAutoUpdateFrequencyText = { "On Restart", "Daily", "Every 2 days", "Weekly" };
+        readonly string[] rulesAutoUpdateFrequencyText = { "Every launch", "Daily", "Every 2 days", "Weekly" };
         const string WelcomeMessage = "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n\n" +
-                                      "Please consider supporting the project using <color=#3687D7>PayPal</color>.";
+                                      "Please consider supporting the project using <color=#3687D7>PayPal</color>, or on <color=orange>NexusMods</color>.";
         const string WelcomeMessageFestive = "Merry Christmas and Happy New Year {1}!\n\n" +
                                              "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n" +
-                                             "Please consider supporting the project using <color=#3687D7>PayPal</color>.";
+                                             "Please consider supporting the project using <color=#3687D7>PayPal</color>, or on <color=orange>NexusMods</color>.";
         public static Guid SessionID;
 
 
@@ -141,11 +141,11 @@ namespace MOP
             ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 2, 0, 20, () => { MopSettings.UpdateShadows(); UpdateSettingsUI(); });
             ShadowDistance.ValueSuffix = "00 Meters";
             ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value);
-            KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
+            KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN GAME IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
             KeepRunningInBackground.AddTooltip("If disabled, game will pause when you ALT+TAB from the game.");
             DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false);
             DynamicDrawDistance.AddTooltip("MOP will change the draw distance according to situation\n(ex. Lower render distance while in interior)");
-            modSettings.AddButton("changeResolution", "CHANGE RESOLUTION", () => { Resolution.gameObject.SetActive(!Resolution.gameObject.activeSelf); });
+            modSettings.AddButton("changeResolution", "RESOLUTION", () => { Resolution.gameObject.SetActive(!Resolution.gameObject.activeSelf); });
             List<string> resolutions = new List<string>();
             int selected = 0;
             int i = 0;
@@ -188,15 +188,12 @@ namespace MOP
 
             // Experimental
             modSettings.AddHeader("<color=red>EXPERIMENTAL</color>");
-            FasterAlgo = modSettings.AddToggle("fastAlgo", "FAST ALGORITHM", false);
-            FasterAlgo.AddTooltip("FAST ALGORITHM is an experimental function\nthat is supposed to decrease the time\nit takes for MOP to toggle objects on and off.\n" +
-                "It will decrease the delay of enabling/disabling objects\nbut might reduce the framerate.");
             LazySectorUpdating = modSettings.AddToggle("lazySectorUpdating", "LAZY SECTOR UPDATING", false);
             LazySectorUpdating.AddTooltip("LAZY SECTOR UPDATING offloads disabling/enabling\nobjects between couple of frames, in order to\nease-out the load on the CPU.");
 
             // Logging
             modSettings.AddHeader("LOGGING");
-            modSettings.AddText("If you want to file a bug report, use <color=yellow>I FOUND A BUG</color> button!");
+            modSettings.AddText("If you want to file a bug report, use <color=red>I FOUND A BUG</color> button!");
             modSettings.AddButton("openLogFolder", "OPEN LOG FOLDER", "", ExceptionManager.OpenCurrentSessionLogFolder);
             modSettings.AddButton("generateModReprt", "GENERATE MOD REPORT", "", ExceptionManager.GenerateReport);
             modSettings.AddButton("deleteAllLogs", "DELETE ALL LOGS", "", ExceptionManager.DeleteAllLogs);
@@ -222,6 +219,7 @@ namespace MOP
             // Activating objects.
             Settings.AddHeader(this, "DESPAWNING");
             ActiveDistance = Settings.AddSlider(this, "activateDistance", "ACTIVATE DISTANCE", 0, 3, 1, textValues: activeDistanceText);
+            Settings.AddText(this, "PERFORMANCE MODE");
             ModePerformance = Settings.AddCheckBoxGroup(this, "modePerformance", "PERFORMANCE", false, "performanceMode", MopSettings.UpdatePerformanceMode);
             ModeBalanced = Settings.AddCheckBoxGroup(this, "modeBalanced", "BALANCED", true, "performanceMode", MopSettings.UpdatePerformanceMode);
             ModeQuality = Settings.AddCheckBoxGroup(this, "modeQuality", "QUALITY", false, "performanceMode", MopSettings.UpdatePerformanceMode);
@@ -233,7 +231,7 @@ namespace MOP
             LimitFramerate = Settings.AddCheckBox(this, "limitFramerate", "LIMIT FRAMERATE", false, MopSettings.UpdateFramerateLimiter);
             FramerateLimiter = Settings.AddSlider(this, "framerateLimiterUpdated", "FRAMERATE LIMITER (FPS)", 20, 200, 60, MopSettings.UpdateFramerateLimiter);
             ShadowDistance = Settings.AddSlider(this, "shadowDistance", "SHADOW DISTANCE (METERS, 200 DEFAULT)", 0, 2000, 200, MopSettings.UpdateShadows);
-            KeepRunningInBackground = Settings.AddCheckBox(this, "keepRunningInBackground", "RUN IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
+            KeepRunningInBackground = Settings.AddCheckBox(this, "keepRunningInBackground", "RUN GAME IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
             DynamicDrawDistance = Settings.AddCheckBox(this, "dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false);
 
             // Rules
@@ -255,15 +253,12 @@ namespace MOP
 
             // Experimental
             Settings.AddHeader(this, "<color=red>EXPERIMENTAL</color>");
-            FasterAlgo = Settings.AddCheckBox(this, "fastAlgo", "FAST ALGORITHM", false);
-            Settings.AddDynamicText(this, "FAST ALGORITHM is an experimental function that is supposed to decrease the time it takes for MOP to toggle objects on and off. " +
-                "It will decrease the delay of enabling/disabling objects but might reduce the framerate.");
             LazySectorUpdating = Settings.AddCheckBox(this, "lazySectorUpdating", "LAZY SECTOR UPDATING", false);
             Settings.AddDynamicText(this, "LAZY SECTOR UPDATING offloads disabling/enabling objects between couple of frames, in order to ease-out the load on the CPU.");
 
             // Logging
             Settings.AddHeader(this, "LOGGING");
-            Settings.AddText(this, "If you want to file a bug report, use <color=yellow>I FOUND A BUG</color> button!");
+            Settings.AddText(this, "If you want to file a bug report, use <color=red><b>I FOUND A BUG</b></color> button!");
             Settings.AddButton(this, "openLogFolder", "OPEN LOG FOLDER", ExceptionManager.OpenCurrentSessionLogFolder);
             Settings.AddButton(this, "generateModReprt", "GENERATE MOD REPORT", ExceptionManager.GenerateReport);
             Settings.AddButton(this, "deleteAllLogs", "DELETE ALL LOGS", ExceptionManager.DeleteAllLogs);
@@ -494,14 +489,13 @@ namespace MOP
 
         string GetFooter()
         {
-            return  $"<color=yellow>MOP</color> {ModVersion}\n" +
+            return  $"<color=yellow>MOP</color> {ModVersion.Replace("_", " ")}\n" +
 #if PRO
                     $"<color=yellow>Mod Loader Pro</color> {ModLoader.Version}\n" +
 #else
                     $"<color=yellow>MSCLoader</color> {ModLoader.MSCLoader_Ver}\n" +
 #endif
                     $"{ExceptionManager.GetSystemInfo()}\n" +
-                    $"<color=yellow>Session ID:</color> {SessionID}\n" +
                     $"\nCopyright © Konrad Figura 2019-{DateTime.Now.Year}";
         }
 

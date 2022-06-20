@@ -403,7 +403,12 @@ namespace MOP.Rules.Configuration
             }
             catch (Exception ex)
             {
-                ExceptionManager.New(ex, false, "SERVER_CONTENT_DOWNLOAD_ERROR");
+                ExceptionManager.New(ex, false, "SERVER_CONTENT_DOWNLOAD_ERROR", 
+                    "MOP could not obtain rule files server content. " +
+                    "In order to fix that:\n" +
+                    "- Check your firewall configuraiton\n" +
+                    "- Check your router DNS configuration\n" +
+                    "- Disable 'UPDATE RULES AUTOMATICALLY' option in the settings");
             }
         }
 
@@ -444,7 +449,11 @@ namespace MOP.Rules.Configuration
                                 continue;
                             }
 
-                            splitted[1] = Regex.Match(splitted[1], "\"[^\"]*\"").Value.Replace(" ", "%20").Replace("\"", "");
+                            string interpret = Regex.Match(splitted[1], "\"[^\"]*\"").Value.Replace(" ", "%20").Replace("\"", "");
+                            interpret += splitted[1].Replace("\"", "").Replace(interpret, "");
+                            splitted[1] = interpret;
+
+                            ModConsole.Log(String.Join(" | ", splitted));
                         }
 
                         // Split all objects with space char.
@@ -471,7 +480,7 @@ namespace MOP.Rules.Configuration
                             bool fullIgnore = false;
                             if (objects.Length > 1)
                             {
-                                if (objects[1].ToLower() == "fullignore")
+                                if (objects[objects.Length - 1].ToLower() == "fullignore")
                                 {
                                     fullIgnore = true;
                                 }

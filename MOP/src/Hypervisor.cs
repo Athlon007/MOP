@@ -230,7 +230,7 @@ namespace MOP
                 worldObjectManager.Add("WATERFACILITY", DisableOn.Distance, 300);
                 worldObjectManager.Add("DRAGRACE", DisableOn.Distance | DisableOn.AlwaysUse1xDistance, 1100);
                 worldObjectManager.Add("StrawberryField", DisableOn.Distance, 400);
-                worldObjectManager.Add("MAP/Buildings/DINGONBIISI", DisableOn.Distance, 400);
+                worldObjectManager.Add("MAP/Buildings/DINGONBIISI", DisableOn.Distance | DisableOn.IgnoreInBalancedAndAbove, 400);
                 worldObjectManager.Add("RALLY/PartsSalesman", DisableOn.Distance, 400);
                 worldObjectManager.Add("LakeSmallBottom1", DisableOn.Distance, 500);
                 worldObjectManager.Add("machine", DisableOn.Distance, 200, silent: true);
@@ -277,7 +277,7 @@ namespace MOP
                 worldObjectManager.Add("BRIDGE_highway", DisableOn.PlayerInHome);
                 worldObjectManager.Add("BirdTower", DisableOn.Distance, 400);
                 worldObjectManager.Add("RYKIPOHJA", DisableOn.PlayerInHome);
-                worldObjectManager.Add("COMPUTER", DisableOn.PlayerAwayFromHome);
+                worldObjectManager.Add("COMPUTER", DisableOn.PlayerAwayFromHome, silent: true);
 
                 ModConsole.Log("[MOP] World objects (2) loaded");
             }
@@ -638,8 +638,12 @@ namespace MOP
             // Locate computer system.
             try
             {
-                computerSystem = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "COMPUTER").transform.Find("SYSTEM").gameObject;
-                GameObject.Find("Systems").transform.Find("OptionsMenu").gameObject.AddComponent<MopPauseMenuHandler>();
+                GameObject computer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.name == "COMPUTER");
+                if (computer != null)
+                {
+                    computerSystem = computer.transform.Find("SYSTEM").gameObject;
+                    GameObject.Find("Systems").transform.Find("OptionsMenu").gameObject.AddComponent<MopPauseMenuHandler>();
+                }
             }
             catch (Exception ex)
             {
@@ -729,12 +733,16 @@ namespace MOP
                 i++;
 
                 // Adding custom action to state that will trigger PreSaveGame, if the player picks up the phone with large Suski.
-                PlayMakerFSM useHandleFSM = GameObject.Find("Telephone").transform.Find("Logic/UseHandle").GetComponent<PlayMakerFSM>();
-                FsmState phoneFlip = useHandleFSM.GetState("Pick phone");
-                List<FsmStateAction> phoneFlipActions = phoneFlip.Actions.ToList();
-                phoneFlipActions.Insert(0, new CustomSuskiLargeFlip());
-                phoneFlip.Actions = phoneFlipActions.ToArray();
-                i++;
+                GameObject telephone = GameObject.Find("Telephone");
+                if (telephone != null)
+                {
+                    PlayMakerFSM useHandleFSM = telephone.transform.Find("Logic/UseHandle").GetComponent<PlayMakerFSM>();
+                    FsmState phoneFlip = useHandleFSM.GetState("Pick phone");
+                    List<FsmStateAction> phoneFlipActions = phoneFlip.Actions.ToList();
+                    phoneFlipActions.Insert(0, new CustomSuskiLargeFlip());
+                    phoneFlip.Actions = phoneFlipActions.ToArray();
+                    i++;
+                }
 
                 ModConsole.Log($"[MOP] Hooked {i} save points!");
             }
@@ -891,7 +899,7 @@ namespace MOP
                 // Safe mode prevents toggling elemenets that MAY case some issues (vehicles, items, etc.)
                 if (MopSettings.Mode == PerformanceMode.Safe)
                 {
-                    yield return new WaitForSeconds(MOP.FasterAlgo.GetValue() ? .1f : .7f);
+                    yield return new WaitForSeconds(.7f);
                     continue;
                 }
 
@@ -952,7 +960,6 @@ namespace MOP
                 }
 
                 // Vehicles (new)
-                // MEM-LEAK-SAVED: 5 sec
                 half = vehicleManager.Count >> 1;
                 for (i = 0; i < vehicleManager.Count; ++i)
                 {
@@ -1035,7 +1042,7 @@ namespace MOP
                     ItemsManager.Instance.Remove(itemsToRemove.Pop());
                 }
 
-                yield return new WaitForSeconds(MOP.FasterAlgo.GetValue() ? .1f : .7f);
+                yield return new WaitForSeconds(.7f);
 
                 if (retries > 0 && !restartSucceedMessaged)
                 {

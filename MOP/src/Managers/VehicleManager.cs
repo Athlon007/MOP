@@ -39,10 +39,10 @@ namespace MOP.Managers
             "SATSUMA(557kg, 248)",
             "HAYOSIKO(1500kg, 250)",
             "JONNEZ ES(Clone)",
+            "FLATBED",
             "KEKMET(350-400psi)",
             "RCO_RUSCKO12(270)",
             "FERNDALE(1630kg)",
-            "FLATBED",
             "GIFU(750/450psi)",
             "BOAT",
             "COMBINE(350-400psi)"
@@ -62,7 +62,11 @@ namespace MOP.Managers
             {
                 try
                 {
-                    if (GameObject.Find(vehicle) == null) continue;
+                    if (GameObject.Find(vehicle) == null)
+                    {
+                        ModConsole.Log("[MOP] Unable to locate vehicle " + vehicle);
+                        continue;
+                    }
 
                     Vehicle newVehicle = null;
                     switch (vehicle)
@@ -81,6 +85,12 @@ namespace MOP.Managers
                             break;
                         case "HAYOSIKO(1500kg, 250)":
                             newVehicle = new Hayosiko(vehicle);
+                            break;
+                        case "KEKMET(350-400psi)":
+                            newVehicle = new Kekmet(vehicle);
+                            break;
+                        case "FLATBED":
+                            newVehicle = new Flatbed(vehicle);
                             break;
                     }
 

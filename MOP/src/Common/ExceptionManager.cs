@@ -31,12 +31,13 @@ namespace MOP.Common
         static readonly List<string> erorrsContainer = new List<string>();
 
         public static DateTime SessionTimeStart;
+        static string currentLogFile;
 
         /// <summary>
         /// Creates then new error dump file
         /// </summary>
         /// <param name="ex"></param>
-        public static void New(Exception ex, bool isCritical, string message)
+        public static void New(Exception ex, bool isCritical, string message, string messageBoxText = "")
         {
             // Don't save errors that already occured.
             if (erorrsContainer.Contains(message))
@@ -44,45 +45,54 @@ namespace MOP.Common
                 return;
             }
 
-            string fileName = $"{Paths.DefaultErrorLogName}_{DateTime.Now:yyyy-MM-dd-HH-mm}";
-
-            if (File.Exists($"{Paths.LogFolder}/{fileName}.txt"))
+            // Log file doens't exist? Generate a new one.
+            if (string.IsNullOrEmpty(currentLogFile))
             {
-                int crashesInFolder = 0;
-                while (File.Exists($"{Paths.LogFolder}/{fileName}_{crashesInFolder}.txt"))
+                string fileName = $"{Paths.DefaultErrorLogName}_{DateTime.Now:yyyy-MM-dd-HH-mm}";
+                if (File.Exists($"{Paths.LogFolder}/{fileName}.txt"))
                 {
-                    crashesInFolder++;
+                    int crashesInFolder = 0;
+                    while (File.Exists($"{Paths.LogFolder}/{fileName}_{crashesInFolder}.txt"))
+                    {
+                        crashesInFolder++;
+                    }
+
+                    fileName += $"_{crashesInFolder}";
                 }
 
-                fileName += $"_{crashesInFolder}";
+                currentLogFile = fileName + ".txt";
             }
 
-            string logFilePath = $"{Paths.LogFolder}/{fileName}.txt";
-            string gameInfo = GetGameInfo();
-            string errorInfo = $"{ex.Message}\n{ex.StackTrace}\nTarget Site: {ex.TargetSite}";
 
-            using (StreamWriter sw = new StreamWriter(logFilePath))
+            string logFilePath = Path.Combine(Paths.LogFolder, currentLogFile).Replace("\\", "/");
+            string errorInfo = $"({DateTime.Now:HH:mm:ss.fff}) {message}\n{ex.Message}{ex.StackTrace}\nTarget Site: {ex.TargetSite}";
+
+            using (StreamWriter sw = new StreamWriter(logFilePath, true))
             {
-                sw.Write($"{gameInfo}\n=== ERROR ===\n\n// " +
-                         $"{WittyComments.GetErrorWittyText()}\n\n" +
-                         $"{message}{(message.Length > 0 ? "\n\n" : "")}" +
-                         $"{errorInfo}");
+                sw.Write(errorInfo + "\n");
             }
 
-            string errorMessage = $"[MOP] An error has occured. The log file has been saved folder into:\n\n" +
+            string errorMessage = $"[MOP] An error has occured. The log file has been saved into:\n\n" +
                 $"{logFilePath}.\n\n" +
-                $"Please go into MOP Settings and click \"<b>I found a bug</b>\" button, in order to generate the bug report and then follow the instructions.\n";
+                $"Please go into MOP Settings and click \"<b>I found a bug</b>\" button, in order to generate the bug report. " +
+                $"Then please follow the provided instructions.\n";
 
-            if (isCritical)
+            if (isCritical || erorrsContainer.Contains(message))
             {
                 ModConsole.LogError(errorMessage);
             }
             else
             {
-                ModConsole.LogWarning(errorMessage + "\nYou can continue playing.");
+                ModConsole.LogWarning(errorMessage + "\n<b>You can continue playing.</b>");
             }
 
             erorrsContainer.Add(message);
+
+            if (messageBoxText != "")
+            {
+                message += $"\n\nError Code: {message}";
+                ModUI.ShowMessage(message);
+            }
         }
 
         public static void OpenCurrentSessionLogFolder()
@@ -155,7 +165,10 @@ namespace MOP.Common
             {
                 var elapsed = DateTime.Now.Subtract(SessionTimeStart);
                 output += $"Session Time: {elapsed.Hours} Hours {elapsed.Minutes} Minutes {elapsed.Seconds} Seconds";
-            }            
+            }
+            output += $"CPU: {SystemInfo.processorType} ({SystemInfo.processorCount} cores)\n";
+            output += $"RAM: {SystemInfo.systemMemorySize} MB\n";
+            output += $"GPU: {SystemInfo.graphicsDeviceName} ({SystemInfo.graphicsMemorySize} MB VRAM)";
 
             output += "\n\n=== MOP SETTINGS ===\n\n";
             output += $"ActiveDistance: {MOP.ActiveDistance.GetValue()}\n";
@@ -177,7 +190,6 @@ namespace MOP.Common
             output += $"ToggleVehiclePhysicsOnly: {RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";
             output += $"IgnoreModVehicles: {RulesManager.Instance.SpecialRules.IgnoreModVehicles}\n";
             output += $"CustomRuleFile: {File.Exists($"{MOP.ModConfigPath}/Custom.txt")}\n\n";
-            output += $"FastAlgo: {MOP.FasterAlgo.GetValue()}\n";
             output += $"LazySectors: {MOP.LazySectorUpdating.GetValue()}\n";
 
             // Game data
@@ -237,7 +249,7 @@ namespace MOP.Common
 
             if (File.Exists($"{MOP.ModConfigPath}/Custom.txt"))
             {
-                output += "\n=== CUSTOM.TXT CONTENT ===\n\n";
+                output += "\n\n=== CUSTOM.TXT CONTENT ===\n\n";
                 output += File.ReadAllText($"{MOP.ModConfigPath}/Custom.txt") + "\n\n";
             }
 

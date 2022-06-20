@@ -26,6 +26,7 @@ namespace MOP.Common.Enumerations
         PlayerAwayFromHome = 2,
         IgnoreInQualityMode = 4,
         AlwaysUse1xDistance = 8,
-        DoNotEnableWhenLeavingHome = 16
+        DoNotEnableWhenLeavingHome = 16,
+        IgnoreInBalancedAndAbove = 32
     }
 }

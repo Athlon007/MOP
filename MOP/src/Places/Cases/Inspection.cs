@@ -22,7 +22,7 @@ namespace MOP.Places
         {
             "INSPECTION", "BoozeJobTrigger", "Building", "inspection_concrete", "inspection_floor",
             "garage_doors", "glass", "Light", "register plate", "InspectionProcess", "Recipiet", "Order",
-            "Audio", "Functions", "DoorWhite" 
+            "Audio", "Functions", "DoorWhite", "LOD", "Lifter", "Coll", "Platform"
         };
 
         public Inspection() : base("INSPECTION")

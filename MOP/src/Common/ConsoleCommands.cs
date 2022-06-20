@@ -105,7 +105,7 @@ namespace MOP.Common
                     {
                         ModConsole.Log("<color=yellow><b>Ignore Rules</b></color>");
                         foreach (IgnoreRule r in RulesManager.Instance.IgnoreRules)
-                            ModConsole.Log($"<b>Object:</b> {r.ObjectName}");
+                            ModConsole.Log($"<b>Object:</b> {r.ObjectName}" + (r.TotalIgnore ? " <i>(Full Ignore)</i>" : ""));
                     }
 
                     if (RulesManager.Instance.IgnoreRulesAtPlaces.Count > 0)
@@ -321,7 +321,14 @@ namespace MOP.Common
                     {
                         isCritical = true;
                     }
-                    ExceptionManager.New(new Exception("Test exception"), isCritical, "Test exception: " + System.Guid.NewGuid());
+                    try
+                    {
+                        throw new Exception("Test Exception");
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionManager.New(ex, isCritical, "TEST_EXCEPTION");
+                    }
                     break;
                 case "resolution":
                     try

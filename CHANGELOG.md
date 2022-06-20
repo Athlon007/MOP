@@ -1,5 +1,45 @@
 # Changelog
 
+## 3.7 (20.06.2022)
+
+### Added
+
+- MOP attempts to remove "read-only" flag from MSC save files, when the save files are verified
+- Added a troubleshooting message, if MOP couldn't communicate with the rule files server
+- If you have House Shadows enabled, they are now automatically disabled, if you are away from house
+- Sauna is now simulated, if you've left it turned on and left the house
+- Added CPU, RAM, and GPU info to MOP Report
+- While using 'mop rules' for Ignored objects shows "(Full Ignore)", if object uses "fullIgnore" mode
+
+### Changes
+
+- Abandoned mansion is not disabled In Balanced mode or above
+- Increased the distance where wheels left at repair shop are detected
+- Tractor and Flatbed connected together are treated as a one object (meaning, if one is disabled - both of them are)
+- Van colliders are not being disabled anymore
+- Changes to crash logs generation:
+  - Now all crashes are saved into the single file per game session
+  - "MOP_Crash" file doesn't have game details anymore
+- Renamed "Run in background" to "Run game in background"
+- Other minor changes in the settings
+- (MSCLoader) Updated to MSCLoader 1.2.6
+- (Mod Loader Pro) Renamed "CHANGE RESOLUTION" to "RESOLUTION"
+
+### Bug Fixes
+
+- Fixed Custom rule files crashing the game
+- Fixed flatbed teleporting next to the house and being stuck, if the tractor got disabled before the trailer
+- Fixed MOP not working, if the house is burned down
+- Subframe bolts shouldn't be missing when assembling the subframe
+- Objects left in the van should not fall through it anymore
+- Inspection shop lifter is not disabled anymore, meaning cars won't fall through it
+- Rule Files API: Fixed a bug, which caused "fullIgnore" flag not being detected, if the object's name was written between double quotes
+
+### Removed
+
+- Removed "FAST ALGORITHM" experimental setting
+- Removed unused code
+
 ## 3.6.3 (30.04.2022)
 
 ### Added

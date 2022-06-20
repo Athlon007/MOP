@@ -18,9 +18,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+using MOP.FSM;
+using MOP.Common;
 using MOP.Rules;
 using MOP.Rules.Types;
-using MOP.Common;
 
 namespace MOP.Places
 {
@@ -39,6 +40,7 @@ namespace MOP.Places
         /// </summary>
         internal List<Transform> DisableableChilds;
         internal List<PlayMakerFSM> PlayMakers;
+        internal List<Light> LightSources;
 
         /// <summary>
         /// Saves what value has been last used, to prevent unnescesary launch of loop.
@@ -61,6 +63,7 @@ namespace MOP.Places
             toggleDistance = distance;
             GameObjectBlackList = new List<string>();
             PlayMakers = new List<PlayMakerFSM>();
+            LightSources = new List<Light>();
 
             IgnoreRuleAtPlace[] ignoreRulesAtThisPlace = RulesManager.Instance.IgnoreRulesAtPlaces.Where(r => r.Place == placeName).ToArray();
             if (ignoreRulesAtThisPlace.Length > 0)
@@ -72,7 +75,7 @@ namespace MOP.Places
         /// Enable or disable the place
         /// </summary>
         /// <param name="enabled"></param>
-        public void ToggleActive(bool enabled)
+        public virtual void ToggleActive(bool enabled)
         {
             // Don't execute the code, if the enabled value is the same as the activity status.
             if (isActive == enabled) 
@@ -100,6 +103,17 @@ namespace MOP.Places
                     }
 
                     PlayMakers[i].enabled = enabled;
+                }
+            }
+
+            if (LightSources.Count > 0)
+            {
+                if (FsmManager.ShadowsHouse)
+                {
+                    for (int i = 0; i < LightSources.Count; ++i)
+                    {
+                        LightSources[i].shadows = enabled ? LightShadows.Hard : LightShadows.None;
+                    }
                 }
             }
         }
@@ -160,6 +174,13 @@ namespace MOP.Places
             {
                 DisableableChilds.Remove(child);
             }
+        }
+
+        internal List<Light> GetLightSources()
+        {
+            return Resources.FindObjectsOfTypeAll<GameObject>()
+                   .Where(g => g.transform.root == gameObject.transform && g.name.StartsWith("Light") && g.GetComponent<Light>())
+                   .Select(g => g.GetComponent<Light>()).ToList();
         }
     }
 }

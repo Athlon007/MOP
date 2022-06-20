@@ -227,5 +227,17 @@ namespace MOP.FSM
                 return playerComputer.Value;
             }
         }
+
+        static FsmBool shadowsHouse;
+        public static bool ShadowsHouse
+        {
+            get
+            {
+                if (shadowsHouse == null)
+                    shadowsHouse = GameObject.Find("Systems").transform.Find("Options").GetPlayMaker("GFX").FsmVariables.GetFsmBool("ShadowsHouse");
+
+                return shadowsHouse.Value;
+            }
+        }
     }
 }

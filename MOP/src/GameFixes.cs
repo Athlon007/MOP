@@ -86,6 +86,7 @@ namespace MOP
                 SetParent(perajarvi, buildings, "HouseSmall3");
                 SetParent(buildings, null, "ChickenHouse"); // Home barn.
                 SetParent(null, "CHURCHWALL");
+                SetParent(null, "DINGONBIISI");
 
                 // Perajarvi fixes for multiple objects with the same name.
                 // Instead of being the part of Perajarvi, we're changing it to be the part of Buildings.
@@ -325,8 +326,16 @@ namespace MOP
             // Fixes diskette ejecting not wokring.
             try
             {
-                Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "TriggerDiskette")
-                    .GetPlayMaker("Assembly").Fsm.RestartOnEnable = false;
+                GameObject triggerDiskette = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.name == "TriggerDiskette");
+
+                if (triggerDiskette != null)
+                {
+                    triggerDiskette.GetPlayMaker("Assembly").Fsm.RestartOnEnable = false;
+                }
+                else
+                {
+                    ModConsole.Log("[MOP] Trigger diskette was null");
+                }
             }
             catch (Exception ex)
             {
@@ -336,11 +345,19 @@ namespace MOP
             // Fixed computer memory resetting.
             try
             {
-                Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "TriggerPlayMode").GetPlayMaker("PlayerTrigger").Fsm.RestartOnEnable = false;
+                GameObject triggerPlayMode = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.name == "TriggerPlayMode");
+                if (triggerPlayMode != null)
+                {
+                    Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "TriggerPlayMode").GetPlayMaker("PlayerTrigger").Fsm.RestartOnEnable = false;
+                }
+                else
+                {
+                    ModConsole.Log("[MOP] Trigger play mode was null");
+                }
             }
             catch (Exception ex)
             {
-                ExceptionManager.New(ex, false, "TRIGGER_DISKETTE_ERROR");
+                ExceptionManager.New(ex, false, "TRIGGER_PLAY_MODE_ERROR");
             }
 
             // Fixes berry picking skill resetting to default.

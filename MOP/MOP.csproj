@@ -115,6 +115,7 @@
     <Compile Include="src\FSM\Actions\CustomSatsumaBumperAttach.cs" />
     <Compile Include="src\FSM\Actions\CustomSatsumaBumperDetach.cs" />
     <Compile Include="src\FSM\Actions\CustomStateAction.cs" />
+    <Compile Include="src\FSM\Actions\CustomToggleAllBoltsAction.cs" />
     <Compile Include="src\FSM\Actions\DelayedItemBehaviour.cs" />
     <Compile Include="src\FSM\Actions\GrandmaHiker.cs" />
     <Compile Include="src\FSM\Actions\WindscreenRepairJob.cs" />
@@ -148,6 +149,8 @@
     <Compile Include="src\Rules\Types\ChangeParentRule.cs" />
     <Compile Include="src\Rules\Types\Rule.cs" />
     <Compile Include="src\Stacks\ItemStack.cs" />
+    <Compile Include="src\Vehicles\Cases\Flatbed.cs" />
+    <Compile Include="src\Vehicles\Cases\Kekmet.cs" />
     <Compile Include="src\WorldObjects\SkidmarkObject.cs" />
     <Compile Include="src\zModLoad.cs" />
     <Compile Include="src\Places\Cases\Farm.cs" />
@@ -193,7 +196,6 @@
     <Compile Include="src\Common\ConsoleCommands.cs" />
     <Compile Include="src\Common\CustomExtensions.cs" />
     <Compile Include="src\Common\ExceptionManager.cs" />
-    <Compile Include="src\Common\WittyComments.cs" />
     <Compile Include="src\Common\MopSettings.cs" />
     <Compile Include="src\Rules\Types\IgnoreRule.cs" />
     <Compile Include="src\Rules\Configuration\ServerContentData.cs" />

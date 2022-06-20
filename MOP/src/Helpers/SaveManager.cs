@@ -113,6 +113,8 @@ namespace MOP.Helpers
             if (!File.Exists(SavePath))
                 return;
 
+            RemoveReadOnlyAttribute();
+
             // Passenger bucket seat.
             // Check if driver bucket seat is bought and check the same for passenger one.
             // If they do not match, fix it.
