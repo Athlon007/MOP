@@ -84,7 +84,6 @@ namespace MOP
         const string WelcomeMessageFestive = "Merry Christmas and Happy New Year {1}!\n\n" +
                                              "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n" +
                                              "Please consider supporting the project using <color=#3687D7>PayPal</color>, or on <color=orange>NexusMods</color>.";
-        public static Guid SessionID;
 
 
 #if PRO
@@ -102,7 +101,6 @@ namespace MOP
         {
             modVersion = Version;
             modConfigPath = ModLoader.GetModSettingsFolder(this);
-            SessionID = Guid.NewGuid();
 #if DEBUG
             Settings.AddHeader(this, "Shh...Don't leak my hard work ;)", Color.yellow, Color.black);
 #endif

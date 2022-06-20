@@ -1,5 +1,11 @@
 # Changelog
 
+## TBA (TBA
+
+### Removed
+
+- Removed "Session ID"
+
 ## 3.7 (20.06.2022)
 
 ### Added
