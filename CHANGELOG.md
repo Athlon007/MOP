@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.7.1 (TBA)
+
+### Bug Fixes
+
+- Fixed coffee cup physics not working
+
 ## 3.7 (20.06.2022)
 
 ### Added
