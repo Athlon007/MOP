@@ -2,6 +2,10 @@
 
 ## TBA (TBA)
 
+### Changes
+
+- Moved Kekmet and Flatbed related scripts to their corresponding classes
+
 ### Bug Fixes
 
 - Fixed initial lag that was sometimes happening, until player has reached the Satsuma

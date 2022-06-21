@@ -17,6 +17,7 @@
 using MOP.Managers;
 using MOP.Common.Enumerations;
 using MOP.FSM;
+using MOP.Vehicles.Managers;
 
 namespace MOP.Vehicles.Cases
 {
@@ -27,6 +28,14 @@ namespace MOP.Vehicles.Cases
         public Kekmet(string gameObjectName) : base(gameObjectName)
         {
             flatbed = VehicleManager.Instance.GetVehicle(VehiclesTypes.Flatbed) as Flatbed;
+
+            transform.Find("Dashboard/HourMeter").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+
+            // Hand Throttle.
+            gameObject.AddComponent<KekmetHandThrottle>();
+
+            // Trailer connection.
+            transform.Find("Trailer/Hook").GetPlayMaker("Distance").Fsm.RestartOnEnable = false;
         }
 
         internal override void ToggleActive(bool enabled)

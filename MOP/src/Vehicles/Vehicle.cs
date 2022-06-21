@@ -198,28 +198,6 @@ namespace MOP.Vehicles
                     // Tries to fix shaking of the Jonnez.
                     gameObject.transform.Find("LOD/PlayerTrigger").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
                     break;
-                case VehiclesTypes.Kekmet:
-                    transform.Find("Dashboard/HourMeter").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-
-                    // Hand Throttle.
-                    gameObject.AddComponent<KekmetHandThrottle>();
-
-                    // Trailer connection.
-                    transform.Find("Trailer/Hook").GetPlayMaker("Distance").Fsm.RestartOnEnable = false;
-                    //transform.Find("Trailer/Remove").GetPlayMakerByName("Use").Fsm.RestartOnEnable = false;
-                    break;
-                case VehiclesTypes.Flatbed:
-                    transform.Find("Bed/LogTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-
-                    GameObject trailerLogUnderFloorCheck = new GameObject("MOP_TrailerLogUnderFloorFix");
-                    trailerLogUnderFloorCheck.transform.parent = gameObject.transform;
-                    trailerLogUnderFloorCheck.AddComponent<TrailerLogUnderFloor>();
-
-                    // Tractor connection.
-                    PlayMakerFSM detach = gameObject.GetPlayMaker("Detach");
-                    detach.Fsm.RestartOnEnable = false;
-                    Object.Destroy(detach.FsmVariables.GetFsmGameObject("DetachPivot").Value.gameObject.GetComponent<FixedJoint>());
-                    break;
 
             }
 

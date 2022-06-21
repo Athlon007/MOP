@@ -14,11 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using UnityEngine;
+using MOP.FSM;
+using MOP.Vehicles.Managers;
+
 namespace MOP.Vehicles.Cases
 {
     internal class Flatbed : Vehicle
     {
-        public Flatbed(string gameObjectName) : base(gameObjectName) { }
+        public Flatbed(string gameObjectName) : base(gameObjectName) 
+        {
+            transform.Find("Bed/LogTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+
+            GameObject trailerLogUnderFloorCheck = new GameObject("MOP_TrailerLogUnderFloorFix");
+            trailerLogUnderFloorCheck.transform.parent = gameObject.transform;
+            trailerLogUnderFloorCheck.AddComponent<TrailerLogUnderFloor>();
+
+            // Tractor connection.
+            PlayMakerFSM detach = gameObject.GetPlayMaker("Detach");
+            detach.Fsm.RestartOnEnable = false;
+            Object.Destroy(detach.FsmVariables.GetFsmGameObject("DetachPivot").Value.gameObject.GetComponent<FixedJoint>());
+        }
 
         internal override void ToggleActive(bool enabled)
         {
