@@ -557,6 +557,8 @@ namespace MOP.Vehicles.Cases
             {
                 ToggledItemsListGenerator.CreateSatsumaList(disableableObjects);
             }
+
+            rb.isKinematic = true;
         }
 
         /// <summary>

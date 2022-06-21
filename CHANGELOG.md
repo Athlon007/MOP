@@ -1,6 +1,10 @@
 # Changelog
 
-## TBA (TBA
+## TBA (TBA)
+
+### Bug Fixes
+
+- Fixed initial lag that was sometimes happening, until player has reached the Satsuma
 
 ### Removed
 
