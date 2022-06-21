@@ -689,39 +689,41 @@ namespace MOP
         {
             try
             {
-            GameObject[] saveGames = Resources.FindObjectsOfTypeAll<GameObject>()
-                .Where(obj => obj.name.Contains("SAVEGAME")).ToArray();
+            IEnumerable<GameObject> saveGames = Resources.FindObjectsOfTypeAll<GameObject>()
+                .Where(obj => obj.name.Contains("SAVEGAME"));
 
                 int i = 0;
-                for (; i < saveGames.Length; i++)
+                for (; i < saveGames.Count(); i++)
                 {
                     bool useInnactiveFix = false;
                     bool isJail = false;
 
-                    if (!saveGames[i].activeSelf)
+                    GameObject savegame = saveGames.ElementAt(i);
+
+                    if (!savegame.activeSelf)
                     {
                         useInnactiveFix = true;
-                        saveGames[i].SetActive(true);
+                        savegame.SetActive(true);
                     }
 
-                    if (saveGames[i].transform.parent != null && saveGames[i].transform.parent.name == "JAIL" && saveGames[i].transform.parent.gameObject.activeSelf == false)
+                    if (savegame.transform.parent != null && savegame.transform.parent.name == "JAIL" && savegame.transform.parent.gameObject.activeSelf == false)
                     {
                         useInnactiveFix = true;
                         isJail = true;
-                        saveGames[i].transform.parent.gameObject.SetActive(true);
+                        savegame.transform.parent.gameObject.SetActive(true);
                     }
 
-                    MSCLoader.FsmHook.FsmInject(saveGames[i], "Mute audio", PreSaveGame);
+                    MSCLoader.FsmHook.FsmInject(savegame, "Mute audio", PreSaveGame);
 
                     if (useInnactiveFix)
                     {
                         if (isJail)
                         {
-                            saveGames[i].transform.parent.gameObject.SetActive(false);
+                            savegame.transform.parent.gameObject.SetActive(false);
                             continue;
                         }
 
-                        saveGames[i].SetActive(false);
+                        savegame.SetActive(false);
                     }
                 }
 
@@ -736,11 +738,7 @@ namespace MOP
                 GameObject telephone = GameObject.Find("Telephone");
                 if (telephone != null)
                 {
-                    PlayMakerFSM useHandleFSM = telephone.transform.Find("Logic/UseHandle").GetComponent<PlayMakerFSM>();
-                    FsmState phoneFlip = useHandleFSM.GetState("Pick phone");
-                    List<FsmStateAction> phoneFlipActions = phoneFlip.Actions.ToList();
-                    phoneFlipActions.Insert(0, new CustomSuskiLargeFlip());
-                    phoneFlip.Actions = phoneFlipActions.ToArray();
+                    telephone.transform.Find("Logic/UseHandle").GetComponent<PlayMakerFSM>().GetState("Pick phone").InsertAction(0, new CustomSuskiLargeFlip());
                     i++;
                 }
 

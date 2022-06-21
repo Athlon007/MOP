@@ -72,5 +72,12 @@ namespace MOP.FSM
             actions.Add(action);
             state.Actions = actions.ToArray();
         }
+
+        public static void InsertAction(this FsmState state, int index, FsmStateAction action)
+        {
+            List<FsmStateAction> actions = state.Actions.ToList();
+            actions.Insert(index, action);
+            state.Actions = actions.ToArray();
+        }
     }
 }
