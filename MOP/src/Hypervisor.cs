@@ -713,7 +713,7 @@ namespace MOP
                         savegame.transform.parent.gameObject.SetActive(true);
                     }
 
-                    MSCLoader.FsmHook.FsmInject(savegame, "Mute audio", PreSaveGame);
+                    savegame.FsmInject("Mute audio", PreSaveGame);
 
                     if (useInnactiveFix)
                     {
@@ -1263,8 +1263,7 @@ namespace MOP
             // Find all kilju, emptyca, empty juice container, and force empty them if applicable
             try
             {
-                IEnumerable<GameObject> bottles = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name.ContainsAny("kilju", "emptyca", "empty plastic can"));
-                foreach (GameObject bottle in bottles)
+                foreach (GameObject bottle in Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name.ContainsAny("kilju", "emptyca", "empty plastic can")))
                 {
                     bottle.GetComponent<ItemBehaviour>()?.ResetKiljuContainer();
                     if (mode == ToggleAllMode.OnSave)

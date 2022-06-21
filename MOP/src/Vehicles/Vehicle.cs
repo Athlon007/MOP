@@ -44,23 +44,21 @@ namespace MOP.Vehicles
 
         // All objects that cannot be unloaded (because it causes problems) land under that object
         protected Transform temporaryParent;
-        protected List<PreventToggleOnObject> preventToggleOnObjects;
+        protected List<PreventToggleOnObject> preventToggleOnObjects = new List<PreventToggleOnObject>();
 
         // Unity car systems and rigidbody
         public Transform transform => gameObject.transform;
-        internal CarDynamics carDynamics;
-        internal Axles axles;
-        internal Rigidbody rb;
+        protected Rigidbody rb;
+        protected CarDynamics carDynamics;
+        protected Axles axles;
         protected Drivetrain drivetrain;
+        protected Wheel wheel;
 
         // Prevents MOP from disabling car's physics when the car has rope hooked
         protected PlayMakerFSM fsmHookFront, fsmHookRear;
 
-        // Reference to one of the wheels that checks if the vehicle is on ground
-        protected Wheel wheel;
-
         // Currently used only by Shitsuma.
-        EventSounds eventSounds;
+        private EventSounds eventSounds;
 
         /// <summary>
         /// Initialize class
@@ -92,8 +90,6 @@ namespace MOP.Vehicles
             // Creates a new gameobject that is names after the original file + '_TEMP' (ex. "SATSUMA(557kg, 248)_TEMP")
             temporaryParent = new GameObject($"{gameObject.name}_TEMP").transform;
 
-            preventToggleOnObjects = new List<PreventToggleOnObject>();
-
             // This should fix bug that leads to items inside of vehicles to fall through it.
             PlayMakerFSM lodFSM = gameObject.GetPlayMaker("LOD");
             if (lodFSM != null)
@@ -101,9 +97,7 @@ namespace MOP.Vehicles
                 lodFSM.Fsm.RestartOnEnable = false;
                 if (lodFSM.FsmStates.FirstOrDefault(s => s.Name == "Fix Collider") != null)
                 {
-                    FsmState resetState = lodFSM.GetState("Fix Collider");
-                    resetState.Actions = new FsmStateAction[] { new CustomStop() };
-                    resetState.SaveActions();
+                    lodFSM.GetState("Fix Collider").ClearActions();
                 }
             }
             

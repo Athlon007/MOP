@@ -14,12 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using HutongGames.PlayMaker;
-using MOP.FSM.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using HutongGames.PlayMaker;
+using MOP.FSM.Actions;
 
 namespace MOP.FSM
 {
@@ -35,16 +35,31 @@ namespace MOP.FSM
             return GetPlayMaker(t.gameObject, name);
         }
 
+        /// <summary>
+        /// Gets FsmState of PlayMakerFSM by name.
+        /// </summary>
+        /// <param name="fsm">FSM object to take State from.</param>
+        /// <param name="name">State's name.</param>
+        /// <returns></returns>
         public static FsmState GetState(this PlayMakerFSM fsm, string name)
         {
             return fsm.FsmStates.FirstOrDefault(s => s.Name == name);
         }
 
+        /// <summary>
+        /// Makes the object pickable.
+        /// </summary>
+        /// <param name="gm">Game object to make pickable.</param>
         public static void MakePickable(this GameObject gm)
         {
             gm.layer = LayerMask.NameToLayer("Parts");
         }
 
+        /// <summary>
+        /// Removes action at the selected index.
+        /// </summary>
+        /// <param name="state">State to remove action from.</param>
+        /// <param name="index">Index at which the action will be removed,</param>
         public static void RemoveAction(this FsmState state, int index)
         {
             List<FsmStateAction> actions = state.Actions.ToList();
@@ -52,7 +67,13 @@ namespace MOP.FSM
             state.Actions = actions.ToArray();
         }
 
-        public static void FsmInject(GameObject gm, string name, Action action)
+        /// <summary>
+        /// A replacement for MSCLoader's FsmHook.FsmInject.
+        /// </summary>
+        /// <param name="gm"></param>
+        /// <param name="name"></param>
+        /// <param name="action"></param>
+        public static void FsmInject(this GameObject gm, string name, Action action)
         {
             PlayMakerFSM fsm = gm.GetComponent<PlayMakerFSM>();
 
@@ -66,6 +87,11 @@ namespace MOP.FSM
             }
         }
 
+        /// <summary>
+        /// Adds a new action.
+        /// </summary>
+        /// <param name="state">State where the actions will be inserted.</param>
+        /// <param name="action"></param>
         public static void AddAction(this FsmState state, FsmStateAction action)
         {
             List<FsmStateAction> actions = state.Actions.ToList();
@@ -73,11 +99,28 @@ namespace MOP.FSM
             state.Actions = actions.ToArray();
         }
 
+        /// <summary>
+        /// Inserts action into provided index.
+        /// </summary>
+        /// <param name="state">State to insert action into.</param>
+        /// <param name="index">Index at which to insert action.</param>
+        /// <param name="action">Action to insert.</param>
         public static void InsertAction(this FsmState state, int index, FsmStateAction action)
         {
             List<FsmStateAction> actions = state.Actions.ToList();
             actions.Insert(index, action);
             state.Actions = actions.ToArray();
+        }
+
+        /// <summary>
+        /// Removes every action in the state.
+        /// </summary>
+        /// <param name="state">State to remove actions from.</param>
+        public static void ClearActions(this FsmState state)
+        {
+            FsmStateAction[] actions = new FsmStateAction[] { new CustomStop() };
+            state.Actions = actions.ToArray();
+            state.SaveActions();
         }
     }
 }
