@@ -16,6 +16,7 @@
 
 using UnityEngine;
 
+using MOP.Common.Enumerations;
 using MOP.Rules;
 using MOP.Rules.Types;
 
@@ -30,6 +31,7 @@ namespace MOP.Vehicles.Cases
 
         public Boat(string gameObject) : base(gameObject)
         {
+            vehicleType = VehiclesTypes.Boat;
             Toggle = ToggleActive;
 
             transform.Find("GFX/Motor/Pivot/FuelTank").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
@@ -80,6 +82,26 @@ namespace MOP.Vehicles.Cases
 
             rb.detectCollisions = enabled;
             rb.isKinematic = !enabled;
+        }
+
+        /// <summary>
+        /// Boat does not have UnityCar component. Therefore, we don't disable it.
+        /// </summary>
+        /// <param name="enabled"></param>
+        public override void ToggleUnityCar(bool enabled)
+        {
+            return;
+        }
+
+        public override void ForceToggleUnityCar(bool enabled)
+        {
+            return;
+        }
+
+        protected override void LoadCarElements()
+        {
+            // Boat car has no car elements.
+            return;
         }
     }
 }

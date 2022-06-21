@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using MOP.FSM;
+using MOP.Common.Enumerations;
 
 namespace MOP.Vehicles.Cases
 {
@@ -39,6 +40,8 @@ namespace MOP.Vehicles.Cases
 
         public Hayosiko(string gameObjectName = "HAYOSIKO(1500kg, 250)") : base(gameObjectName)
         {
+            vehicleType = VehiclesTypes.Hayosiko;
+
             transform.Find("Odometer").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
             
             colliders = transform.Find("Colliders");

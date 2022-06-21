@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using UnityEngine;
+
 using MOP.Managers;
 using MOP.Common.Enumerations;
 using MOP.FSM;
@@ -27,6 +29,8 @@ namespace MOP.Vehicles.Cases
 
         public Kekmet(string gameObjectName) : base(gameObjectName)
         {
+            vehicleType = VehiclesTypes.Kekmet;
+
             flatbed = VehicleManager.Instance.GetVehicle(VehiclesTypes.Flatbed) as Flatbed;
 
             transform.Find("Dashboard/HourMeter").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
@@ -66,6 +70,27 @@ namespace MOP.Vehicles.Cases
             if (enabled)
             {
                 MoveNonDisableableObjects(null);
+            }
+        }
+
+        protected override void DisableHooksResetting()
+        {
+            // Hook HookFront and HookRear
+            // Get hooks first
+            Transform hookFront = transform.Find("Frontloader/ArmPivot/Arm/LoaderPivot/Loader/RopePoint/HookFront");
+            Transform hookRear = transform.Find("HookRear");
+
+            // If hooks exists, attach the RopeHookUp and RopeUnhook to appropriate states
+            if (hookFront != null)
+            {
+                fsmHookFront = hookFront.GetComponent<PlayMakerFSM>();
+                fsmHookFront.Fsm.RestartOnEnable = false;
+            }
+
+            if (hookRear != null)
+            {
+                fsmHookRear = hookRear.GetComponent<PlayMakerFSM>();
+                fsmHookRear.Fsm.RestartOnEnable = false;
             }
         }
     }

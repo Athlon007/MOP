@@ -15,20 +15,18 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
-
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-
+using MOP.Common;
+using MOP.Common.Enumerations;
 using MOP.FSM;
 using MOP.FSM.Actions;
 using MOP.Items;
-using MOP.Common;
-using MOP.Common.Enumerations;
-using MOP.Vehicles.Cases;
-using MOP.Vehicles.Managers;
 using MOP.Rules;
 using MOP.Rules.Types;
+using MOP.Vehicles.Cases;
+using MOP.Vehicles.Managers;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace MOP.Vehicles
 {
@@ -41,7 +39,7 @@ namespace MOP.Vehicles
         // Values that are being saved or loaded
         protected Vector3 Position { get; set; }
         protected Quaternion Rotation { get; set; }
-        readonly VehiclesTypes vehicleType;
+        protected VehiclesTypes vehicleType;
         public VehiclesTypes VehicleType { get => vehicleType; }
 
         // All objects that cannot be unloaded (because it causes problems) land under that object
@@ -53,20 +51,16 @@ namespace MOP.Vehicles
         internal CarDynamics carDynamics;
         internal Axles axles;
         internal Rigidbody rb;
-        readonly Drivetrain drivetrain;
+        protected Drivetrain drivetrain;
 
         // Prevents MOP from disabling car's physics when the car has rope hooked
-        readonly PlayMakerFSM fsmHookFront;
-        readonly PlayMakerFSM fsmHookRear;
+        protected PlayMakerFSM fsmHookFront, fsmHookRear;
 
         // Reference to one of the wheels that checks if the vehicle is on ground
-        readonly Wheel wheel;
+        protected Wheel wheel;
 
         // Currently used only by Shitsuma.
-        internal Quaternion lastGoodRotation;
-        internal Vector3 lastGoodPosition;
-        bool lastGoodRotationSaved;
-        readonly EventSounds eventSounds;
+        EventSounds eventSounds;
 
         /// <summary>
         /// Initialize class
@@ -79,7 +73,9 @@ namespace MOP.Vehicles
 
             // Use Resources.FindObjectsOfTypeAll method, if the vehicle was not found.
             if (gameObject == null)
+            {
                 gameObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.name == gameObjectName);
+            }
 
             if (gameObject == null)
             {
@@ -91,42 +87,7 @@ namespace MOP.Vehicles
             Position = gameObject.transform.localPosition;
             Rotation = gameObject.transform.localRotation;
 
-            switch (gameObject.name)
-            {
-                default:
-                    vehicleType = VehiclesTypes.Generic;
-                    break;
-                case "SATSUMA(557kg, 248)":
-                    vehicleType = VehiclesTypes.Satsuma;
-                    break;
-                case "HAYOSIKO(1500kg, 250)":
-                    vehicleType = VehiclesTypes.Hayosiko;
-                    break;
-                case "JONNEZ ES(Clone)":
-                    vehicleType = VehiclesTypes.Jonnez;
-                    break;
-                case "KEKMET(350-400psi)":
-                    vehicleType = VehiclesTypes.Kekmet;
-                    break;
-                case "RCO_RUSCKO12(270)":
-                    vehicleType = VehiclesTypes.Ruscko;
-                    break;
-                case "FERNDALE(1630kg)":
-                    vehicleType = VehiclesTypes.Ferndale;
-                    break;
-                case "FLATBED":
-                    vehicleType = VehiclesTypes.Flatbed;
-                    break;
-                case "GIFU(750/450psi)":
-                    vehicleType = VehiclesTypes.Gifu;
-                    break;
-                case "BOAT":
-                    vehicleType = VehiclesTypes.Boat;
-                    break;
-                case "COMBINE(350-400psi)":
-                    vehicleType = VehiclesTypes.Combine;
-                    break;
-            }
+            vehicleType = VehiclesTypes.Generic;
 
             // Creates a new gameobject that is names after the original file + '_TEMP' (ex. "SATSUMA(557kg, 248)_TEMP")
             temporaryParent = new GameObject($"{gameObject.name}_TEMP").transform;
@@ -145,10 +106,15 @@ namespace MOP.Vehicles
                     resetState.SaveActions();
                 }
             }
+            
+            LoadCarElements();
+            LoadRules();
 
-            if (vehicleType == VehiclesTypes.Boat)
-                return;
+            eventSounds = gameObject.GetComponent<EventSounds>();
+        }
 
+        protected virtual void LoadCarElements()
+        {
             // Get the object's child which are responsible for audio
             foreach (Transform audioObject in FindAudioObjects())
             {
@@ -164,64 +130,13 @@ namespace MOP.Vehicles
                     fuelTankFSM.Fsm.RestartOnEnable = false;
             }
 
-            // If the vehicle is Gifu, find knobs and add them to list of unloadable objects
-            switch (vehicleType)
-            {
-                case VehiclesTypes.Gifu:
-                    Transform knobs = gameObject.transform.Find("Dashboard/Knobs");
-                    foreach (PlayMakerFSM knobsFSMs in knobs.GetComponentsInChildren<PlayMakerFSM>())
-                        knobsFSMs.Fsm.RestartOnEnable = false;
-
-                    // Fix resetting of shit tank.
-                    gameObject.transform.Find("ShitTank").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-
-                    // Odometer fix.
-                    transform.Find("Dashboard/Odometer").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-
-                    // Air pressure fix.
-                    transform.Find("Simulation/Airbrakes").GetPlayMaker("Air Pressure").Fsm.RestartOnEnable = false;
-
-                    // Hand throttle.
-                    gameObject.AddComponent<GifuHandThrottle>();
-                    break;
-                case VehiclesTypes.Jonnez:
-                    gameObject.transform.Find("Kickstand").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-
-                    // Disable on restart for wheels script.
-                    Transform wheelsParent = transform.Find("Wheels");
-                    foreach (Transform wheel in wheelsParent.GetComponentsInChildren<Transform>())
-                    {
-                        if (!wheel.gameObject.name.StartsWith("Moped_wheel")) continue;
-                        wheel.gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    }
-
-                    // Tries to fix shaking of the Jonnez.
-                    gameObject.transform.Find("LOD/PlayerTrigger").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-                    break;
-
-            }
-
             carDynamics = gameObject.GetComponent<CarDynamics>();
             axles = gameObject.GetComponent<Axles>();
             rb = gameObject.GetComponent<Rigidbody>();
 
             // Hook HookFront and HookRear
             // Get hooks first
-            Transform hookFront = transform.Find(vehicleType == VehiclesTypes.Kekmet ? "Frontloader/ArmPivot/Arm/LoaderPivot/Loader/RopePoint/HookFront" : "HookFront");
-            Transform hookRear = transform.Find("HookRear");
-
-            // If hooks exists, attach the RopeHookUp and RopeUnhook to appropriate states
-            if (hookFront != null)
-            {
-                fsmHookFront = hookFront.GetComponent<PlayMakerFSM>();
-                fsmHookFront.Fsm.RestartOnEnable = false;
-            }
-
-            if (hookRear != null)
-            {
-                fsmHookRear = hookRear.GetComponent<PlayMakerFSM>();
-                fsmHookRear.Fsm.RestartOnEnable = false;
-            }
+            DisableHooksResetting();
 
             // Set default toggling method - that is entire vehicle
             Toggle = ToggleActive;
@@ -232,18 +147,18 @@ namespace MOP.Vehicles
             }
 
             // Get all HingeJoints and add HingeManager to them
-            // Ignore for Satsuma or cars that use ToggleUnityCar method (and force for Hayosiko - no matter what)
-            if (vehicleType != VehiclesTypes.Satsuma && Toggle != ToggleUnityCar || vehicleType == VehiclesTypes.Hayosiko)
-            {
-                HingeJoint[] joints = gameObject.transform.GetComponentsInChildren<HingeJoint>();
-                foreach (HingeJoint joint in joints)
-                    joint.gameObject.AddComponent<HingeManager>();
-            }
+            ApplyHingeManager();
 
             // Get one of the wheels.
             wheel = axles.allWheels[0];
             drivetrain = gameObject.GetComponent<Drivetrain>();
+        }
 
+        /// <summary>
+        /// Loads rule files.
+        /// </summary>
+        private void LoadRules()
+        {
             // Ignore Rules.
             IgnoreRule vehicleRule = RulesManager.Instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
             if (vehicleRule != null)
@@ -271,8 +186,20 @@ namespace MOP.Vehicles
                     preventToggleOnObjects.Add(new PreventToggleOnObject(t));
                 }
             }
+        }
 
-            eventSounds = gameObject.GetComponent<EventSounds>();
+        /// <summary>
+        /// Applies hinge managers to cars, if they are not using ToggleUnityCar method of disabling/enabling them,
+        /// or if they are Hayosiko.
+        /// </summary>
+        protected virtual void ApplyHingeManager()
+        {
+            if (Toggle != ToggleUnityCar || vehicleType == VehiclesTypes.Hayosiko)
+            {
+                HingeJoint[] joints = gameObject.transform.GetComponentsInChildren<HingeJoint>();
+                foreach (HingeJoint joint in joints)
+                    joint.gameObject.AddComponent<HingeManager>();
+            }
         }
 
         public delegate void ToggleHandler(bool enabled);
@@ -309,9 +236,9 @@ namespace MOP.Vehicles
         /// Toggle car physics only.
         /// </summary>
         /// <param name="enabled"></param>
-        public void ToggleUnityCar(bool enabled)
+        public virtual void ToggleUnityCar(bool enabled)
         {
-            if ((gameObject == null) || vehicleType == VehiclesTypes.Boat || !IsActive)
+            if ((gameObject == null) || !IsActive)
                 return;
 
             if (rb.isKinematic == !enabled && carDynamics.enabled == enabled && rb.useGravity)
@@ -325,10 +252,6 @@ namespace MOP.Vehicles
             if (IsPlayerInThisCar())
                 enabled = true;
 
-            // If the car is a Satsuma, and Satsuma is in inspection area, don't disable the car.
-            if (!enabled && vehicleType == VehiclesTypes.Satsuma && Satsuma.Instance.IsSatsumaInInspectionArea)
-                enabled = true;
-
             // Prevent disabling car physics if the rope is hooked
             if (!enabled && gameObject.activeSelf == true && IsRopeHooked())
                 enabled = true;
@@ -337,29 +260,11 @@ namespace MOP.Vehicles
             axles.enabled = enabled;
             rb.isKinematic = !enabled;
             rb.useGravity = enabled;
-
-            // We're completly freezing Satsuma, so it won't flip (hopefully...).
-            if (vehicleType == VehiclesTypes.Satsuma)
-            {
-                if (!enabled && !lastGoodRotationSaved)
-                {
-                    lastGoodRotationSaved = true;
-                    lastGoodRotation = transform.localRotation;
-                    lastGoodPosition = transform.localPosition;
-                }
-
-                if (enabled)
-                {
-                    lastGoodRotationSaved = false;
-                }
-
-                rb.constraints = enabled ? RigidbodyConstraints.None : RigidbodyConstraints.FreezePosition;
-            }
         }
 
-        public void ForceToggleUnityCar(bool enabled)
+        public virtual void ForceToggleUnityCar(bool enabled)
         {
-            if ((gameObject == null) || vehicleType == VehiclesTypes.Boat || (carDynamics.enabled == enabled) || !IsActive)
+            if ((gameObject == null) || (carDynamics.enabled == enabled) || !IsActive)
                 return;
 
             // If player is sitting in this specific vehicle, **NEVER** disable it.
@@ -370,24 +275,6 @@ namespace MOP.Vehicles
             axles.enabled = enabled;
             rb.isKinematic = !enabled;
             rb.useGravity = enabled;
-
-            // We're completly freezing Satsuma, so it won't flip (hopefully...).
-            if (vehicleType == VehiclesTypes.Satsuma)
-            {
-                if (!enabled && !lastGoodRotationSaved)
-                {
-                    lastGoodRotationSaved = true;
-                    lastGoodRotation = transform.localRotation;
-                    lastGoodPosition = transform.localPosition;
-                }
-
-                if (enabled)
-                {
-                    lastGoodRotationSaved = false;
-                }
-
-                rb.constraints = enabled ? RigidbodyConstraints.None : RigidbodyConstraints.FreezePosition;
-            }
         }
 
         /// <summary>
@@ -423,23 +310,10 @@ namespace MOP.Vehicles
 
         /// <summary>
         /// Checks one of the wheels' onGroundDown value
-        ///
-        /// WORKAROUND FOR JONNEZ:
-        /// Because onGroundDown for Jonnez doesn't work the same way as for others, it will check if the Jonnnez's engine torque.
         /// </summary>
         /// <returns></returns>
-        internal bool IsOnGround()
+        public virtual bool IsOnGround()
         {
-            switch (vehicleType)
-            {
-                case VehiclesTypes.Jonnez:
-                    return drivetrain.torque == 0;
-                case VehiclesTypes.Satsuma:
-                    if (!wheel.enabled)
-                        return drivetrain.torque == 0;
-                    break;
-            }
-
             return wheel.onGroundDown;
         }
 
@@ -517,6 +391,27 @@ namespace MOP.Vehicles
                     continue;
 
                 p.ObjectTransform.parent = parent ?? p.OriginalParent;
+            }
+        }
+
+        protected virtual void DisableHooksResetting()
+        {
+            // Hook HookFront and HookRear
+            // Get hooks first
+            Transform hookFront = transform.Find("HookFront");
+            Transform hookRear = transform.Find("HookRear");
+
+            // If hooks exists, attach the RopeHookUp and RopeUnhook to appropriate states
+            if (hookFront != null)
+            {
+                fsmHookFront = hookFront.GetComponent<PlayMakerFSM>();
+                fsmHookFront.Fsm.RestartOnEnable = false;
+            }
+
+            if (hookRear != null)
+            {
+                fsmHookRear = hookRear.GetComponent<PlayMakerFSM>();
+                fsmHookRear.Fsm.RestartOnEnable = false;
             }
         }
     }

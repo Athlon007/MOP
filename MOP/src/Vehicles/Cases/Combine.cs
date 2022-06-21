@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using MOP.Common.Enumerations;
 using MOP.FSM;
 using MOP.Rules;
 using MOP.Rules.Types;
@@ -24,6 +25,8 @@ namespace MOP.Vehicles.Cases
     {
         public Combine(string gameObjectName) : base(gameObjectName)
         {
+            vehicleType = VehiclesTypes.Combine;
+
             Toggle = ToggleCombineActive;
 
             // Ignore Rule

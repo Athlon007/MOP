@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using UnityEngine;
+using MOP.Common.Enumerations;
 using MOP.FSM;
 using MOP.Vehicles.Managers;
 
@@ -24,6 +25,8 @@ namespace MOP.Vehicles.Cases
     {
         public Flatbed(string gameObjectName) : base(gameObjectName) 
         {
+            vehicleType = VehiclesTypes.Flatbed;
+
             transform.Find("Bed/LogTrigger").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
             GameObject trailerLogUnderFloorCheck = new GameObject("MOP_TrailerLogUnderFloorFix");

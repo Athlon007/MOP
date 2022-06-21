@@ -1,5 +1,4 @@
-﻿
-// Modern Optimization Plugin
+﻿// Modern Optimization Plugin
 // Copyright(C) 2019-2022 Athlon
 
 // This program is free software: you can redistribute it and/or modify
@@ -24,6 +23,7 @@ using MOP.FSM;
 using MOP.FSM.Actions;
 using MOP.Common;
 using MOP.Common.Enumerations;
+using MOP.Items.Cases;
 using MOP.Vehicles.Managers.SatsumaManagers;
 using MOP.Rules;
 using MOP.Rules.Types;
@@ -101,12 +101,17 @@ namespace MOP.Vehicles.Cases
         // It prevents the car teleporting back to the last position known to the player.
         bool hasBeenMovedByFleetari;
 
+        internal Quaternion lastGoodRotation;
+        internal Vector3 lastGoodPosition;
+        bool lastGoodRotationSaved;
+
         /// <summary>
         /// Initialize class
         /// </summary>
         public Satsuma(string gameObject) : base(gameObject)
         {
             instance = this;
+            vehicleType = VehiclesTypes.Satsuma;
 
             disableableObjects = GetDisableableChilds();
 
@@ -168,12 +173,7 @@ namespace MOP.Vehicles.Cases
             // For some reason in the vanilla game, the negative battery terminal sometimes gets disabled, and the game doesn't allow to reenable it.
             try
             {
-                FsmState wiringBatteryDisable = transform.Find("Wiring").GetPlayMaker("Status").GetState("Disable battery wires");
-                List<FsmStateAction> disableBatteryActions = new List<FsmStateAction>
-                {
-                    new CustomBatteryDisable()
-                };
-                wiringBatteryDisable.Actions = disableBatteryActions.ToArray();
+                transform.Find("Wiring").GetPlayMaker("Status").GetState("Disable battery wires").AddAction(new CustomBatteryDisable());
             }
             catch
             {
@@ -288,6 +288,8 @@ namespace MOP.Vehicles.Cases
             {
                 ExceptionManager.New(new System.Exception("FSM RadioCD Fix"), false, "Unable to fix cd player(Clone).");
             }
+            
+            // Fix radio.
             try
             {
                 Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radio(Clone)" && g.transform.root.gameObject.name != "JAIL")
@@ -311,23 +313,23 @@ namespace MOP.Vehicles.Cases
 
             // Apply hood fix.
             GameFixes.Instance.HoodFix(transform.Find("Body/pivot_hood"),
-                transform.Find("MiscParts/trigger_battery"), transform.Find("MiscParts/pivot_battery"));
+                                       transform.Find("MiscParts/trigger_battery"), 
+                                       transform.Find("MiscParts/pivot_battery"));
 
             // Rear bumper detachng fix.
             rearBumper = GameObject.Find("bumper rear(Clone)");
             databaseBumper = GameObject.Find("Database/DatabaseBody/Bumper_Rear");
             databaseBumper.SetActive(false);
             databaseBumper.SetActive(true);
-            Items.Cases.RearBumperBehaviour behaviour = rearBumper.AddComponent<Items.Cases.RearBumperBehaviour>();
+            RearBumperBehaviour behaviour = rearBumper.AddComponent<RearBumperBehaviour>();
             rearBumper.GetPlayMaker("Removal").GetState("Remove part").AddAction(new CustomSatsumaBumperDetach(behaviour));
             transform.Find("Body/trigger_bumper_rear").GetPlayMaker("Assembly").GetState("Assemble 2").AddAction(new CustomSatsumaBumperAttach(behaviour));
 
             // Fix suspension adding a weight to the car on each car respawn.
-            GameObject[] suspensionParts = Resources.FindObjectsOfTypeAll<GameObject>()
-                .Where(g => g.name.ContainsAny("strut", "coil spring", "shock absorber") 
-                         && g.transform.root != null 
-                         && g.transform.root == this.gameObject.transform)
-                .ToArray();
+            IEnumerable<GameObject> suspensionParts = Resources.FindObjectsOfTypeAll<GameObject>()
+                .Where(g => g.name.ContainsAny("strut", "coil spring", "shock absorber")
+                         && g.transform.root != null
+                         && g.transform.root == this.gameObject.transform);
             foreach (GameObject part in suspensionParts)
             {
                 try
@@ -624,6 +626,52 @@ namespace MOP.Vehicles.Cases
             RenderersCulling(enabled);
         }
 
+        public override void ToggleUnityCar(bool enabled)
+        {
+            // Satsuma in inspection zone and mod wants to disable it?
+            // Set enabled to true, so it won't be disabled.
+            if (!enabled && IsSatsumaInInspectionArea)
+                enabled = true;
+
+            base.ToggleUnityCar(enabled);
+
+            // We're completly freezing Satsuma, so it won't flip (hopefully...).
+            SaveCarPosition(enabled);
+        }
+
+        public override void ForceToggleUnityCar(bool enabled)
+        {
+            base.ForceToggleUnityCar(enabled);
+
+            // We're completly freezing Satsuma, so it won't flip (hopefully...).
+            SaveCarPosition(enabled);
+        }
+
+        private void SaveCarPosition(bool enabled)
+        {
+            if (!enabled && !lastGoodRotationSaved)
+            {
+                lastGoodRotationSaved = true;
+                lastGoodRotation = transform.localRotation;
+                lastGoodPosition = transform.localPosition;
+            }
+
+            if (enabled)
+            {
+                lastGoodRotationSaved = false;
+            }
+
+            rb.constraints = enabled ? RigidbodyConstraints.None : RigidbodyConstraints.FreezePosition;
+        }
+
+        public override bool IsOnGround()
+        {
+            if (!wheel.enabled)
+                return drivetrain.torque == 0;
+
+            return wheel.onGroundDown;
+        }
+
         /// <summary>
         /// Get list of disableable childs.
         /// It looks for objects that contian the name from the whiteList
@@ -884,6 +932,11 @@ namespace MOP.Vehicles.Cases
             }
 
             return toReturn;
+        }
+
+        protected override void ApplyHingeManager()
+        {
+            return;
         }
     }
 }

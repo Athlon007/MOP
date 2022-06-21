@@ -92,6 +92,18 @@ namespace MOP.Managers
                         case "FLATBED":
                             newVehicle = new Flatbed(vehicle);
                             break;
+                        case "RCO_RUSCKO12(270)":
+                            newVehicle = new Ruscko(vehicle);
+                            break;
+                        case "FERNDALE(1630kg)":
+                            newVehicle = new Ferndale(vehicle);
+                            break;
+                        case "GIFU(750/450psi)":
+                            newVehicle = new Gifu(vehicle);
+                            break;
+                        case "JONNEZ ES(Clone)":
+                            newVehicle = new Jonnez(vehicle);
+                            break;
                     }
 
                     vehicles.Add(newVehicle);
