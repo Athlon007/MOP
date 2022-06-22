@@ -9,6 +9,7 @@
 ### Bug Fixes
 
 - Fixed initial lag that was sometimes happening, until player has reached the Satsuma
+- Fixed coffee cup physics not working
 
 ### Removed
 
