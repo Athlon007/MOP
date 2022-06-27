@@ -81,7 +81,7 @@ namespace MOP.Vehicles.Cases
         readonly List<SatsumaOnActionObjects> satsumaOnActionObjects;
 
         // Bolts that resetting will be disabled.
-        readonly List<SatsumaBoltsAntiReload> satsumaBoltsAntiReloads;
+        List<SatsumaBoltsAntiReload> satsumaBoltsAntiReloads;
         bool partsUnglued;
         // Fix for elements for which the bolts are masked.
         readonly Dictionary<GameObject, bool> maskedElements;
@@ -180,81 +180,7 @@ namespace MOP.Vehicles.Cases
                 ExceptionManager.New(new System.Exception("battery terminal fix"), false, "Unable to fix battery terminal wire.");
             }
 
-            // Get all bolts.
-            satsumaBoltsAntiReloads = new List<SatsumaBoltsAntiReload>();
-            GameObject[] bolts = Resources.FindObjectsOfTypeAll<GameObject>().Where(obj => obj.name == "BoltPM").ToArray();
-            foreach (GameObject bolt in bolts)
-            {
-                Transform parent = bolt.transform.parent;
-
-                // Elements with that name have their BoltCheck parents as a grandparent (water_pump and Hooks are exception)
-                if (parent.name.EqualsAny("Bolts", "_Motor", "water_pump_pulley_mesh", "Hooks", "hooks"))
-                {
-                    // Great-great grandparents for these ones.
-                    if (parent.parent.gameObject.name.EqualsAny("water_pump_pulley_mesh", "Hooks", "hooks"))
-                    {
-                        parent = parent.parent.parent;
-                    }
-                    else
-                    {
-                        parent = parent.parent;
-                    }
-                }
-                // Great-great grandparents for these too...
-                else if (parent.name.ContainsAny("Masked", "ValveAdjust"))
-                {
-                    parent = parent.parent.parent;
-                }
-                // Sibling of bolt if the parent is IK_wishbone.
-                else if (parent.name.StartsWith("IK_wishbone_"))
-                {
-                    string suffix = parent.gameObject.name.Replace("IK_wishbone_", "");
-                    parent = parent.Find($"wishbone {suffix}(xxxxx)");
-                }
-
-                // Skip those if the assigned parent is one of these.
-                if (parent.name.ContainsAny("bolts_shock", "shock_bottom", "halfshaft_", "pivot_steering_arm_", "OFFSET", "pivot_shock_"))
-                {
-                    continue;
-                }
-
-                // Skip if the parent is Pivot and the grandparent name starts with "alternator".
-                if (parent.name == "Pivot" && parent.parent.gameObject.name.StartsWith("alternator"))
-                {
-                    continue;
-                }
-
-                if (parent.gameObject.name == "hood(Clone)")
-                    continue;
-
-                if (parent.gameObject.GetComponent<SatsumaBoltsAntiReload>() == null)
-                {
-                    SatsumaBoltsAntiReload s = parent.gameObject.AddComponent<SatsumaBoltsAntiReload>();
-                }
-            }
-
-            // Halfshafts hook.
-            GameObject[] halfshafts = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "halfshaft(xxxxx)").ToArray();
-            foreach (GameObject halfshaft in halfshafts)
-            {
-                if (halfshaft.GetComponent<SatsumaBoltsAntiReload>() == null)
-                    halfshaft.AddComponent<SatsumaBoltsAntiReload>();
-            }
-
-            // Engine Block.
-            GameObject.Find("block(Clone)").AddComponent<SatsumaBoltsAntiReload>();
-
-            // Steering rods.
-            transform.Find("Chassis/steering rod fr(xxxxx)").gameObject.AddComponent<SatsumaBoltsAntiReload>();
-            transform.Find("Chassis/steering rod fl(xxxxx)").gameObject.AddComponent<SatsumaBoltsAntiReload>();
-
-            // Destroy all bolt anti reloads.
-            ModConsole.Log($"[MOP] Found {satsumaBoltsAntiReloads.Count} bolts.");
-            // If there's less bolts found than the value, warn user.
-            if (satsumaBoltsAntiReloads.Count < MinimumBolts)
-            {
-                ModConsole.Log($"<color=yellow>[MOP] Only {satsumaBoltsAntiReloads.Count} out of expected {MinimumBolts} have been reset!</color>");
-            }
+            BoltsFix();
 
             // Fixes car body color resetting to default.
             transform.Find("Body/car body(xxxxx)").GetPlayMaker("Paint").Fsm.RestartOnEnable = false;
@@ -937,6 +863,88 @@ namespace MOP.Vehicles.Cases
         protected override void ApplyHingeManager()
         {
             return;
+        }
+
+        // This class tries to repair the bolts resetting.
+        private void BoltsFix()
+        {
+            // Get all bolts.
+            satsumaBoltsAntiReloads = new List<SatsumaBoltsAntiReload>();
+            GameObject[] bolts = Resources.FindObjectsOfTypeAll<GameObject>().Where(obj => obj.name == "BoltPM").ToArray();
+            foreach (GameObject bolt in bolts)
+            {
+                Transform parent = bolt.transform.parent;
+
+                // Elements with that name have their BoltCheck parents as a grandparent (water_pump and Hooks are exception)
+                if (parent.name.EqualsAny("Bolts", "_Motor", "water_pump_pulley_mesh", "Hooks", "hooks"))
+                {
+                    // Great-great grandparents for these ones.
+                    if (parent.parent.gameObject.name.EqualsAny("water_pump_pulley_mesh", "Hooks", "hooks"))
+                    {
+                        parent = parent.parent.parent;
+                    }
+                    else
+                    {
+                        parent = parent.parent;
+                    }
+                }
+                // Great-great grandparents for these too...
+                else if (parent.name.ContainsAny("Masked", "ValveAdjust"))
+                {
+                    parent = parent.parent.parent;
+                }
+                // Sibling of bolt if the parent is IK_wishbone.
+                else if (parent.name.StartsWith("IK_wishbone_"))
+                {
+                    string suffix = parent.gameObject.name.Replace("IK_wishbone_", "");
+                    parent = parent.Find($"wishbone {suffix}(xxxxx)");
+                }
+
+                // Skip those if the assigned parent is one of these.
+                if (parent.name.ContainsAny("bolts_shock", "shock_bottom", "halfshaft_", "pivot_steering_arm_", "OFFSET", "pivot_shock_"))
+                {
+                    continue;
+                }
+
+                // Skip if the parent is Pivot and the grandparent name starts with "alternator".
+                if (parent.name == "Pivot" && parent.parent.gameObject.name.StartsWith("alternator"))
+                {
+                    continue;
+                }
+
+                if (parent.gameObject.name == "hood(Clone)")
+                    continue;
+
+                if (parent.gameObject.GetComponent<SatsumaBoltsAntiReload>() == null)
+                {
+                    SatsumaBoltsAntiReload s = parent.gameObject.AddComponent<SatsumaBoltsAntiReload>();
+                }
+            }
+
+            // Halfshafts hook.
+            GameObject[] halfshafts = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "halfshaft(xxxxx)").ToArray();
+            foreach (GameObject halfshaft in halfshafts)
+            {
+                if (halfshaft.GetComponent<SatsumaBoltsAntiReload>() == null)
+                    halfshaft.AddComponent<SatsumaBoltsAntiReload>();
+            }
+
+            // Engine Block.
+            GameObject.Find("block(Clone)").AddComponent<SatsumaBoltsAntiReload>();
+
+            // Steering rods.
+            transform.Find("Chassis/steering rod fr(xxxxx)").gameObject.AddComponent<SatsumaBoltsAntiReload>();
+            transform.Find("Chassis/steering rod fl(xxxxx)").gameObject.AddComponent<SatsumaBoltsAntiReload>();
+
+            // Fuel line.
+            transform.Find("MiscParts/fuel line(xxxxx)").gameObject.AddComponent<SatsumaBoltsAntiReload>();
+
+            ModConsole.Log($"[MOP] Found {satsumaBoltsAntiReloads.Count} bolts.");
+            // If there's less bolts found than the value, warn user.
+            if (satsumaBoltsAntiReloads.Count < MinimumBolts)
+            {
+                ModConsole.Log($"<color=yellow>[MOP] Only {satsumaBoltsAntiReloads.Count} out of expected {MinimumBolts} have been reset!</color>");
+            }
         }
     }
 }

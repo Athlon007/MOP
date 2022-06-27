@@ -219,6 +219,28 @@ namespace MOP.Helpers
                 ExceptionManager.New(ex, false, "VERIFY_BUMPER_REAR");
             }
 
+            try
+            {
+                // Fix fuel line tightness going below 0.
+                List<string> fuelLineBolts = ReadStringList("FuelLineBolts");
+                float fuelLineTightness = ReadFloat("FuelLineTightness");
+
+                int boltOneValue = int.Parse(fuelLineBolts[0].Replace("int(", "").Replace(")", ""));
+
+                if (boltOneValue != fuelLineTightness)
+                {
+                    saveBugs.Add(SaveBugs.New($"Fuel Line tightness is not a correct value." +
+                                              $"\n\nValue is <b>{fuelLineTightness}</b>.\n<b>{boltOneValue}</b> is expected", () =>
+                    {
+                        WriteSavePath("FuelLineTightness", (float)boltOneValue);
+                    }));
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "VERIFY_FUELLINE_TIGHTNESS");
+            }
+
             if (saveBugs.Count > 0)
             {
                 ModUI.ShowYesNoMessage($"MOP has found <color=yellow>{saveBugs.Count}</color> problem{(saveBugs.Count > 1 ? "s" : "")} with your save:\n\n" +

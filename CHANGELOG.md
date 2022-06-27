@@ -2,6 +2,10 @@
 
 ## TBA (TBA)
 
+### Added
+
+- Added a fix, if fuel line bolt tightness is not matching what it should really be
+
 ### Changes
 
 - Moved Kekmet and Flatbed related scripts to their corresponding classes
@@ -10,6 +14,7 @@
 
 - Fixed initial lag that was sometimes happening, until player has reached the Satsuma
 - Fixed coffee cup physics not working
+- Fixed fuel line bolt resetting to default
 
 ### Removed
 
