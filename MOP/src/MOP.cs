@@ -182,7 +182,7 @@ namespace MOP
             DestroyEmptyBottles = modSettings.AddToggle("destroyEmptyBottles", "DESTROY EMPTY BOTTLES", false);
             DisableEmptyItems = modSettings.AddToggle("disableEmptyItems", "DISABLE EMPTY ITEMS", false);
             AlwaysDisableSkidmarks = modSettings.AddToggle("alwaysDisableSkidmarks", "DISABLE SKIDMARKS", false);
-            AlwaysDisableSkidmarks.AddTooltip("Skidmarks cause a massive memory leak,\neverytime you brake/accelerate hard.\nDisabling them mitigates that problem.");
+            AlwaysDisableSkidmarks.AddTooltip("Skidmarks cause a massive memory leak,\nevery time you brake/accelerate hard.\nDisabling them mitigates that problem.");
 
             // Experimental
             modSettings.AddHeader("<color=red>EXPERIMENTAL</color>");
@@ -247,7 +247,7 @@ namespace MOP
             DestroyEmptyBottles = Settings.AddCheckBox(this, "destroyEmptyBottles", "DESTROY EMPTY BOTTLES", false);
             DisableEmptyItems = Settings.AddCheckBox(this, "disableEmptyItems", "DISABLE EMPTY ITEMS", false);
             AlwaysDisableSkidmarks = Settings.AddCheckBox(this, "alwaysDisableSkidmarks", "DISABLE SKIDMARKS", false);
-            Settings.AddText(this, "Skidmarks cause a massive memory leak, everytime you brake/accelerate hard. Disabling them mitigates that problem.");
+            Settings.AddText(this, "Skidmarks cause a massive memory leak, every time you brake/accelerate hard. Disabling them mitigates that problem.");
 
             // Experimental
             Settings.AddHeader(this, "<color=red>EXPERIMENTAL</color>");
@@ -300,6 +300,7 @@ namespace MOP
                                        "It is recommended to fully quit the game after a while, so it would fully unload the memory.\n" +
                                        "Not doing so may lead to game-breaking glitches.\n\n" +
                                        "Would you like to do that now?", "MOP", Application.Quit);
+                ModUI.ShowYesNoMessage("Game has been reloaded over 5 times, which may cause issues with game physics.", "MOP", Application.Quit);
             }
 
             if (MopSettings.GameFixStatus == Common.Enumerations.GameFixStatus.DoFix)
