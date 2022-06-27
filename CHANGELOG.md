@@ -1,6 +1,6 @@
 # Changelog
 
-## TBA (TBA)
+## 3.7.1 (TBA)
 
 ### Added
 
@@ -9,6 +9,7 @@
 ### Changes
 
 - Moved Kekmet and Flatbed related scripts to their corresponding classes
+- Vehicle temporary objects have been renamed from "vehiclename_TEMP" to "MOP_vehiclename"
 - Minor code optimisation and improvements
 
 ### Bug Fixes

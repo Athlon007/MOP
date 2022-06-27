@@ -92,7 +92,7 @@ namespace MOP.Vehicles
             vehicleType = VehiclesTypes.Generic;
 
             // Creates a new gameobject that is names after the original file + '_TEMP' (ex. "SATSUMA(557kg, 248)_TEMP")
-            temporaryParent = new GameObject($"{gameObject.name}_TEMP").transform;
+            temporaryParent = new GameObject($"MOP_{gameObject.name}").transform;
 
             // This should fix bug that leads to items inside of vehicles to fall through it.
             PlayMakerFSM lodFSM = gameObject.GetPlayMaker("LOD");
