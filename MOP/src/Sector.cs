@@ -20,9 +20,7 @@ using MOP.Managers;
 namespace MOP
 {
     class Sector : MonoBehaviour
-    {
-        const string ReferenceObjectName = "MOP_PlayerCheck";
-        
+    {        
         string[] ignoreList;
         public string[] IgnoreList { get => ignoreList; }
 
@@ -43,7 +41,7 @@ namespace MOP
 
         void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.name == ReferenceObjectName)
+            if (other.gameObject == SectorManager.Instance.PlayerCheck)
             {
                 SectorManager.Instance.AddActiveSector(this);
                 SectorManager.Instance.ToggleActive();
@@ -52,7 +50,7 @@ namespace MOP
 
         void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.name == ReferenceObjectName)
+            if (other.gameObject == SectorManager.Instance.PlayerCheck)
             {
                 SectorManager.Instance.RemoveActiveSector(this);
                 SectorManager.Instance.ToggleActive();

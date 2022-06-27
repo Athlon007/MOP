@@ -9,6 +9,7 @@
 ### Changes
 
 - Moved Kekmet and Flatbed related scripts to their corresponding classes
+- Minor code optimisation and improvements
 
 ### Bug Fixes
 

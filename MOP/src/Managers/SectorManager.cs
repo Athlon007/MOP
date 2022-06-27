@@ -40,20 +40,22 @@ namespace MOP.Managers
 
         const int FramesWaitOnSectorEnter = 15;
 
+        public GameObject PlayerCheck { get; private set; }
+
         public SectorManager()
         {
             instance = this;
 
             ModConsole.Log("[MOP] Loading sectors...");
 
-            GameObject colliderCheck = new GameObject("MOP_PlayerCheck");
-            colliderCheck.layer = 20; // This layer is ignored by MSC's player "hand" raycasting.
-            colliderCheck.transform.parent = GameObject.Find("PLAYER").transform;
-            colliderCheck.transform.localPosition = Vector3.zero;
-            BoxCollider collider = colliderCheck.AddComponent<BoxCollider>();
+            PlayerCheck = new GameObject("MOP_PlayerCheck");
+            PlayerCheck.layer = 20; // This layer is ignored by MSC's player "hand" raycasting.
+            PlayerCheck.transform.parent = GameObject.Find("PLAYER").transform;
+            PlayerCheck.transform.localPosition = Vector3.zero;
+            BoxCollider collider = PlayerCheck.AddComponent<BoxCollider>();
             collider.isTrigger = true;
             collider.size = new Vector3(.1f, 1, .1f);
-            Rigidbody rb = colliderCheck.AddComponent<Rigidbody>();
+            Rigidbody rb = PlayerCheck.AddComponent<Rigidbody>();
             rb.useGravity = false;
             rb.isKinematic = true;
 
