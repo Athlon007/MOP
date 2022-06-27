@@ -74,6 +74,8 @@ namespace MOP.Vehicles.Cases
 
                 Position = transform.localPosition;
                 Rotation = transform.localRotation;
+
+                colliders.parent = temporaryParent;
             }
 
             gameObject.SetActive(enabled);
@@ -83,6 +85,9 @@ namespace MOP.Vehicles.Cases
             if (enabled)
             {
                 MoveNonDisableableObjects(null);
+
+                colliders.parent = transform;
+                colliders.localPosition = colliderPosition;
             }
         }
     }

@@ -29,6 +29,8 @@ namespace MOP.Vehicles.Cases
         // we use vehicle toggling method, 
         // in order to eliminate boat teleporting back to it's on load spawn point.
 
+        Transform collidersParent;
+
         public Boat(string gameObject) : base(gameObject)
         {
             vehicleType = VehiclesTypes.Boat;
@@ -54,7 +56,7 @@ namespace MOP.Vehicles.Cases
         /// <summary>
         /// Enable or disable car
         /// </summary>
-        new void ToggleActive(bool enabled)
+        internal override void ToggleActive(bool enabled)
         {
             if (gameObject == null || gameObject.activeSelf == enabled || !IsActive) return;
 
@@ -63,6 +65,8 @@ namespace MOP.Vehicles.Cases
             if (!enabled)
             {
                 MoveNonDisableableObjects(temporaryParent);
+
+                colliders.parent = temporaryParent;
             }
 
             gameObject.SetActive(enabled);
@@ -72,10 +76,17 @@ namespace MOP.Vehicles.Cases
             if (enabled)
             {
                 MoveNonDisableableObjects(null);
+
+                colliders.parent = collidersParent;
+                colliders.localPosition = colliderPosition;
             }
         }
 
-        void ToggleBoatPhysics(bool enabled)
+        /// <summary>
+        /// Toggles boat's physics.
+        /// </summary>
+        /// <param name="enabled"></param>
+        private void ToggleBoatPhysics(bool enabled)
         {
             if ((gameObject == null) || (rb.detectCollisions == enabled) || !IsActive)
                 return;
@@ -102,6 +113,13 @@ namespace MOP.Vehicles.Cases
         {
             // Boat car has no car elements.
             return;
+        }
+
+        protected override void LoadColliders()
+        {
+            colliders = transform.Find("GFX/Colliders");
+            colliderPosition = colliders.localPosition;
+            collidersParent = colliders.parent;
         }
     }
 }

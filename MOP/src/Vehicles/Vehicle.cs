@@ -60,6 +60,10 @@ namespace MOP.Vehicles
         // Currently used only by Shitsuma.
         private EventSounds eventSounds;
 
+        // Colliders and its position
+        protected Transform colliders;
+        protected Vector3 colliderPosition;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -100,7 +104,8 @@ namespace MOP.Vehicles
                     lodFSM.GetState("Fix Collider").ClearActions();
                 }
             }
-            
+
+            LoadColliders();
             LoadCarElements();
             LoadRules();
 
@@ -214,6 +219,11 @@ namespace MOP.Vehicles
 
                 Position = transform.localPosition;
                 Rotation = transform.localRotation;
+
+                if (colliders)
+                {
+                    colliders.parent = temporaryParent;
+                }
             }
 
             gameObject.SetActive(enabled);
@@ -223,6 +233,12 @@ namespace MOP.Vehicles
             if (enabled)
             {
                 MoveNonDisableableObjects(null);
+
+                if (colliders)
+                {
+                    colliders.parent = transform;
+                    colliders.localPosition = colliderPosition;
+                }
             }
         }
 
@@ -407,6 +423,19 @@ namespace MOP.Vehicles
                 fsmHookRear = hookRear.GetComponent<PlayMakerFSM>();
                 fsmHookRear.Fsm.RestartOnEnable = false;
             }
+        }
+
+        protected virtual void LoadColliders()
+        {
+            colliders = transform.Find("Colliders");
+
+            if (colliders == null)
+            {
+                ModConsole.Log($"[MOP] Could not locate the colliders of vehicle {gameObject.name}");
+                return;
+            }
+
+            colliderPosition = colliders.localPosition;
         }
     }
 }

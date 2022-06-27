@@ -35,17 +35,11 @@ namespace MOP.Vehicles.Cases
 
         readonly GameObject[] partialDisableItems;
 
-        Transform colliders;
-        Vector3 colliderPosition;
-
         public Hayosiko(string gameObjectName = "HAYOSIKO(1500kg, 250)") : base(gameObjectName)
         {
             vehicleType = VehiclesTypes.Hayosiko;
 
             transform.Find("Odometer").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
-            
-            colliders = transform.Find("Colliders");
-            colliderPosition = colliders.localPosition;
 
             try
             {

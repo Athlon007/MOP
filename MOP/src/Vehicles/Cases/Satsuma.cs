@@ -946,5 +946,10 @@ namespace MOP.Vehicles.Cases
                 ModConsole.Log($"<color=yellow>[MOP] Only {satsumaBoltsAntiReloads.Count} out of expected {MinimumBolts} have been reset!</color>");
             }
         }
+
+        protected override void LoadColliders()
+        {
+            return;
+        }
     }
 }

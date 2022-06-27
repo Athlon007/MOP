@@ -15,6 +15,7 @@
 - Fixed initial lag that was sometimes happening, until player has reached the Satsuma
 - Fixed coffee cup physics not working
 - Fixed fuel line bolt resetting to default
+- Items shouldn't fall through Kekmet, Gifu, Flatbed, Ferndale, and Boat
 
 ### Removed
 
