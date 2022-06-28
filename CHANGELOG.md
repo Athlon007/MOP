@@ -9,7 +9,7 @@
 ### Changes
 
 - Moved Kekmet and Flatbed related scripts to their corresponding classes
-- Vehicle temporary objects have been renamed from "vehiclename_TEMP" to "MOP_vehiclename"
+- Vehicle temporary objects have been renamed from "VEHICLE-NAME_TEMP" to "MOP_VEHICLE-NAME"
 - Minor code optimisation and improvements
 
 ### Bug Fixes

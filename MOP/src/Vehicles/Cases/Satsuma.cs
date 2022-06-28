@@ -56,6 +56,8 @@ namespace MOP.Vehicles.Cases
             "WindFront", "WindRear", "CoG", "Interior", "Body", "MiscParts", "Dashboard" 
         };
         readonly string[] ignoredRendererNames = { "Sphere", "Capsule", "Cube", "Mokia" };
+
+        // Masked objets are the ones which bolts are hidden, until the overlaping object is detached.
         readonly string[] maskedObjectNames = 
         { 
             "MaskedClutchCover", "MaskedBearing2", "MaskedBearing3", "MaskedFlywheel", 
@@ -293,7 +295,7 @@ namespace MOP.Vehicles.Cases
             {
                 ExceptionManager.New(new System.Exception("SatsumKey: Cannot Locate Key"), false, "SatsumaPartsMassManager: Key Error");
             }
-                cooldownTick = GameObject.Find("block(Clone)").transform.Find("CooldownTick").gameObject;
+            cooldownTick = GameObject.Find("block(Clone)").transform.Find("CooldownTick").gameObject;
 
             // Fix for reg plates Z fighting.
             try
