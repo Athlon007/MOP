@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.7.1 (TBA)
+## 3.7.1 (28.06.2022)
 
 ### Added
 
@@ -640,7 +640,7 @@ This version fully ditches MSCLoader. From now on, Mod Loader Pro is a requireme
 
 - Removed "mop sector-debug" command from the help list
 
-## 3.0 (04.01.2020)
+## 3.0 (04.01.2021)
 
 ### Added
 
