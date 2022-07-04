@@ -299,6 +299,9 @@ namespace MOP.Items
                             gameObject.MakePickable();
                         }
                         break;
+                    case "bucket lid(itemx)":
+                        if (transform.parent != null && transform.parent.gameObject.name == "PivotLid") return;
+                        break;
                 }
 
                 // CDs resetting fix.

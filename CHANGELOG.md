@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.7.2 (TBA)
+
+### Bug Fixes
+
+- Possibly fixed kilju bucket lid detaching when left behind
+
 ## 3.7.1 (29.06.2022)
 
 ### Added
