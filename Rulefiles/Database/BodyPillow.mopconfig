@@ -1,6 +1,6 @@
-min_ver:2.12.0
-ignore_full: Body%20Pillow(Clone)
-ignore: Sleep%20Pillow
+min_ver:3.7
+ignore: "Body Pillow(Clone)" fullIgnore
+ignore: "Sleep Pillow"
 ignore: SatsumaPivot
 ignore: SatBelt(Clone)
 ignore: HayosikoPivot
@@ -11,8 +11,8 @@ ignore: FerndalePivot
 ignore: FerndalePivotJR
 ignore: GifuPivot
 ignore: GifuPivotJR
-ignore: seat%20passenger(Clone)
+ignore: "seat passenger(Clone)"
 ignore: FERNDALE(1630kg)
 ignore: RCO_RUSCKO12(270)
 ignore: GIFU(750/450psi)
-ignore: SATSUMA(557kg,%20248)
+ignore: "SATSUMA(557kg, 248)"

@@ -35,7 +35,7 @@ namespace MOP.Common
         const string HelpList = "<color=yellow>help</color> - Show this list\n" +
                                 "<color=yellow>version</color> - Prints MOP version\n" +
                                 "<color=yellow>rules</color> - Show the list of active rules and loaded rule files\n" +
-                                "<color=yellow>reload</color> - Forces MOP to reload rule files\n" +
+                                "<color=yellow>reload [all]</color> - Forces MOP to reload rule files. If \"all\" modifier is added, MOP will load all rule files\n" +
                                 "<color=yellow>new [ModID]</color> - Create custom rule file (if no ModID is provided, will create Custom.txt)\n" +
                                 "<color=yellow>open [ModID]</color> - Opens the .modconfig for mod\n" +
                                 "<color=yellow>open-config</color> - Opens MOP config folder\n" +
@@ -161,7 +161,11 @@ namespace MOP.Common
                         return;
                     }
 
-                    RulesManager.Instance.WipeAll(false);
+                    bool loadAll = false;
+                    if (args.Length > 1)
+                        loadAll = args[1].ToLower() == "all";
+
+                    RulesManager.Instance.WipeAll(false, loadAll);
                     break;
                 case "new":
                     string path = $"{MOP.ModConfigPath}/Custom.txt";

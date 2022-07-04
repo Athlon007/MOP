@@ -44,12 +44,14 @@ namespace MOP.Rules.Configuration
 
         bool fileDownloadCompleted;
         bool overrideUpdateCheck;
+        bool loadAll;
 
         TextMesh message, shadow;
 
-        public void Initialize(bool overrideUpdateCheck)
+        public void Initialize(bool overrideUpdateCheck, bool loadAll = false)
         {
             this.overrideUpdateCheck = overrideUpdateCheck;
+            this.loadAll = loadAll;
 
             if (GameObject.Find("MOP_Messager") != null)
             {
@@ -257,7 +259,7 @@ namespace MOP.Rules.Configuration
                 {
                     // Delete rules for mods that don't exist.
                     Mod mod = ModLoader.LoadedMods.Find(m => m.ID == Path.GetFileNameWithoutExtension(file.Name));
-                    if (mod == null && file.Name != CustomFile)
+                    if (mod == null && file.Name != CustomFile && !loadAll)
                     {
                         removed++;
                         if (MOP.DeleteUnusedRules.GetValue())
@@ -449,8 +451,9 @@ namespace MOP.Rules.Configuration
                                 continue;
                             }
 
-                            string interpret = Regex.Match(splitted[1], "\"[^\"]*\"").Value.Replace(" ", "%20").Replace("\"", "");
-                            interpret += splitted[1].Replace("\"", "").Replace(interpret, "");
+                            string interpret = Regex.Match(splitted[1], "\"[^\"]*\"").Value.Replace(" ", "%20").Replace( "\"", "");
+                            ModConsole.Log($"<color=orange>{splitted[1]}</color>");
+                            interpret += splitted[1].Split('"')[2].Replace("\"", "");
                             splitted[1] = interpret;
 
                             ModConsole.Log(String.Join(" | ", splitted));

@@ -52,7 +52,7 @@ namespace MOP.Rules
             UnusedRules = new List<string>();
         }
 
-        public void WipeAll(bool overrideUpdateCheck)
+        public void WipeAll(bool overrideUpdateCheck, bool loadAll = false)
         {
             ResetLists();
 
@@ -63,7 +63,7 @@ namespace MOP.Rules
 
             GameObject ruleFileDownloader = new GameObject("MOP_RuleFilesLoader");
             Loader ruleFilesLoader = ruleFileDownloader.AddComponent<Loader>();
-            ruleFilesLoader.Initialize(overrideUpdateCheck);
+            ruleFilesLoader.Initialize(overrideUpdateCheck, loadAll);
         }
 
         public static void DeleteUnused()

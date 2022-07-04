@@ -2,9 +2,14 @@
 
 ## 3.7.2 (TBA)
 
+### Added
+
+- Added "mop reload all" console command, which will load all rule files - regardless if the mod corresponding to it is present or not
+
 ### Bug Fixes
 
 - Possibly fixed kilju bucket lid detaching when left behind
+- Further fixes regarding loading of rule files
 
 ## 3.7.1 (29.06.2022)
 
