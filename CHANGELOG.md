@@ -10,6 +10,7 @@
 
 - Possibly fixed kilju bucket lid detaching when left behind
 - Further fixes regarding loading of rule files
+- Fixed exhaust muffler trigger sometimes not being enabled back when muffler detaches
 
 ## 3.7.1 (29.06.2022)
 

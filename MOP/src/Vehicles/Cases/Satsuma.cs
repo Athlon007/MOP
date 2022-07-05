@@ -477,6 +477,16 @@ namespace MOP.Vehicles.Cases
                 ExceptionManager.New(ex, false, "SUBFRAME_BOLTS_ERROR");
             }
 
+            // Fix exhaust muffler trigger.
+            try
+            {
+                transform.Find("MiscParts/pivot_exhaust_muffler").gameObject.AddComponent<SatsumaExhaustMufflerFix>();
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, false, "EXHAUST_MUFFLER_FIX_ERROR");
+            }
+
 
             if (MopSettings.Mode != PerformanceMode.Safe)
             {

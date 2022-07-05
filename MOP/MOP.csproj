@@ -155,6 +155,7 @@
     <Compile Include="src\Vehicles\Cases\Jonnez.cs" />
     <Compile Include="src\Vehicles\Cases\Kekmet.cs" />
     <Compile Include="src\Vehicles\Cases\Ruscko.cs" />
+    <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaExhaustMufflerFix.cs" />
     <Compile Include="src\WorldObjects\SkidmarkObject.cs" />
     <Compile Include="src\zModLoad.cs" />
     <Compile Include="src\Places\Cases\Farm.cs" />
