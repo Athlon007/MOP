@@ -45,7 +45,7 @@ namespace MOP.FSM
             // Store Uncle's PlayMakerFSM for later
             if (uncleStage == null)
                 uncleStage = GameObject.Find("UNCLE").GetComponent<PlayMakerFSM>().FsmVariables.GetFsmInt("UncleStage");
-
+             
             return uncleStage.Value == 5;
         }
 
@@ -237,6 +237,18 @@ namespace MOP.FSM
                     shadowsHouse = GameObject.Find("Systems").transform.Find("Options").GetPlayMaker("GFX").FsmVariables.GetFsmBool("ShadowsHouse");
 
                 return shadowsHouse.Value;
+            }
+        }
+
+        static FsmFloat hour;
+        public static int Hour
+        {
+            get
+            {
+                if (hour == null)
+                    hour = GameObject.Find("MAP/SUN/Pivot/SUN").GetPlayMaker("Clock").FsmVariables.GetFsmFloat("Hours");
+
+                return (int)hour.Value;
             }
         }
     }
