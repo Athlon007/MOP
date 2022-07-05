@@ -300,7 +300,7 @@ namespace MOP.Rules.Configuration
                 }
                 else
                 {
-                    NewMessage($"MOP: Succesfully loaded {loaded} rule file{(loaded == 1 ? "" : "s")}! {(removed > 0 ? $"({removed} rule{(removed == 1 ? "" : "s")} skipped)" : "" )}");
+                    NewMessage($"MOP: Succesfully loaded {loaded} rule file{(loaded == 1 ? "" : "s")}! {(removed > 0 ? $"({removed} rule{(removed == 1 ? "" : "s")} skipped)" : "")}");
                 }
             }
             catch (Exception ex)
@@ -405,7 +405,7 @@ namespace MOP.Rules.Configuration
             }
             catch (Exception ex)
             {
-                ExceptionManager.New(ex, false, "SERVER_CONTENT_DOWNLOAD_ERROR", 
+                ExceptionManager.New(ex, false, "SERVER_CONTENT_DOWNLOAD_ERROR",
                     "MOP could not obtain rule files server content. " +
                     "In order to fix that:\n" +
                     "- Check your firewall configuraiton\n" +
@@ -451,12 +451,10 @@ namespace MOP.Rules.Configuration
                                 continue;
                             }
 
-                            string interpret = Regex.Match(splitted[1], "\"[^\"]*\"").Value.Replace(" ", "%20").Replace( "\"", "");
+                            string interpret = Regex.Match(splitted[1], "\"[^\"]*\"").Value.Replace(" ", "%20").Replace("\"", "");
                             ModConsole.Log($"<color=orange>{splitted[1]}</color>");
                             interpret += splitted[1].Split('"')[2].Replace("\"", "");
                             splitted[1] = interpret;
-
-                            ModConsole.Log(String.Join(" | ", splitted));
                         }
 
                         // Split all objects with space char.
@@ -556,7 +554,7 @@ namespace MOP.Rules.Configuration
                         case "min_ver":
                             if (fileName == CustomFile)
                             {
-                                break;
+                                continue;
                             }
 
                             if (currentLine != 1)

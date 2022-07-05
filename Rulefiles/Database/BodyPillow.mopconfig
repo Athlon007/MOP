@@ -1,4 +1,4 @@
-min_ver:3.7
+min_ver:3.7.2
 ignore: "Body Pillow(Clone)" fullIgnore
 ignore: "Sleep Pillow"
 ignore: SatsumaPivot
