@@ -163,7 +163,7 @@ namespace MOP.Common
             if (ModLoader.CurrentScene == CurrentScene.Game)
             {
                 var elapsed = DateTime.Now.Subtract(SessionTimeStart);
-                output += $"Session Time: {elapsed.Hours} Hours {elapsed.Minutes} Minutes {elapsed.Seconds} Seconds";
+                output += $"Session Time: {elapsed.Hours} Hours {elapsed.Minutes} Minutes {elapsed.Seconds} Seconds\n";
             }
             output += $"CPU: {SystemInfo.processorType} ({SystemInfo.processorCount} cores)\n";
             output += $"RAM: {SystemInfo.systemMemorySize} MB\n";
