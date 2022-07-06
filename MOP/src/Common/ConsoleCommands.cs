@@ -109,7 +109,7 @@ namespace MOP.Common
                     }
 
                     if (RulesManager.Instance.IgnoreRulesAtPlaces.Count > 0)
-                        {
+                    {
                         ModConsole.Log("\n<color=yellow><b>Ignore Rules At Place</b></color>");
                         foreach (IgnoreRuleAtPlace r in RulesManager.Instance.IgnoreRulesAtPlaces)
                             ModConsole.Log($"<b>Place:</b> {r.Place} <b>Object:</b> {r.ObjectName}");
@@ -140,7 +140,7 @@ namespace MOP.Common
                     // Obtain all fields
                     FieldInfo[] fields = typeof(SpecialRules).GetFields();
                     // Loop through fields
-                    foreach (var field in fields) 
+                    foreach (var field in fields)
                     {
                         ModConsole.Log($"<b>{field.Name}</b>: {field.GetValue(RulesManager.Instance.SpecialRules)}");
                     }
@@ -232,7 +232,7 @@ namespace MOP.Common
                     }
 
                     if (!File.Exists($"{MOP.ModConfigPath}/{args[1]}"))
-                    { 
+                    {
                         ModConsole.Log($"File {args[1]} doesn't exist.");
                         return;
                     }
@@ -292,7 +292,7 @@ namespace MOP.Common
                 case "generate-list":
                     if (args.Length > 1)
                     {
-                        if (RulesManager.Instance.LoadRules && 
+                        if (RulesManager.Instance.LoadRules &&
                             (RulesManager.Instance.IgnoreRules.Count > 0 || RulesManager.Instance.IgnoreRulesAtPlaces.Count > 0 ||
                              RulesManager.Instance.NewSectors.Count > 0 || RulesManager.Instance.ToggleRules.Count > 0))
                         {
@@ -405,6 +405,17 @@ namespace MOP.Common
                     }
 
                     ModConsole.Log($"force-load-restart is set to <color=yellow>{MopSettings.ForceLoadRestart}</color>.");
+                    break;
+                case "stop":
+                    if (ModLoader.CurrentScene != CurrentScene.Game)
+                    {
+                        ModConsole.Log("[MOP] MOP can only be stopped while in-game.");
+                        return;
+                    }
+
+                    Hypervisor.Instance.StopAllCoroutines();
+                    Hypervisor.Instance.ToggleAll(true);
+                    ModConsole.Log("[MOP] MOP has been stopped. Saving game in this state may break your game!");
                     break;
             }
         }
