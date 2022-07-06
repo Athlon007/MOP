@@ -276,6 +276,8 @@ namespace MOP.Rules.Configuration
                         continue;
                     }
 
+                    ModConsole.Log($"[MOP] Loading {file.Name}...");
+
                     // Verify if the servercontent has that rule file.
                     // Some mod makers may include poorly configured rule files,
                     // that's why they have to be only provided by the server.
@@ -452,7 +454,6 @@ namespace MOP.Rules.Configuration
                             }
 
                             string interpret = Regex.Match(splitted[1], "\"[^\"]*\"").Value.Replace(" ", "%20").Replace("\"", "");
-                            ModConsole.Log($"<color=orange>{splitted[1]}</color>");
                             interpret += splitted[1].Split('"')[2].Replace("\"", "");
                             splitted[1] = interpret;
                         }
