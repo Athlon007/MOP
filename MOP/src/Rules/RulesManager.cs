@@ -133,5 +133,10 @@ namespace MOP.Rules
         public List<ToggleRule> ToggleRules => GetList<ToggleRule>();
         public List<NewSector> NewSectors => GetList<NewSector>();
         public List<ChangeParentRule> ChangeParentRules => GetList<ChangeParentRule>();
+
+        public static void Disable()
+        {
+
+        }
     }
 }
