@@ -54,6 +54,8 @@ namespace MOP
         public static string ModVersion { get => modVersion + (SubVersion != "" ? "_" + SubVersion : ""); }
         public static string ModVersionShort { get => modVersion; }
 
+        private bool menuLoaded;
+
         // Settings
 #if PRO
         public override string UpdateLink => "https://github.com/Athlon007/MOP";
@@ -274,6 +276,7 @@ namespace MOP
 
         public override void MenuOnLoad()
         {
+            menuLoaded = true;
             RemoveUnusedFiles();
 
             if (!Version.StartsWith(MopSettings.Data.Version.ToString()))
@@ -506,7 +509,6 @@ namespace MOP
                                   "Disabling rule files auto update means newly installed mods might not work.", "MOP");
             }
         }
-  
         
         long last = 0;
         TextMesh fps;
@@ -549,5 +551,20 @@ namespace MOP
             fpsShadow.text = text;
             last = mem;
         }
+
+#if !PRO
+        public override void OnModEnabled()
+        {
+            if (!menuLoaded)
+            {
+                MenuOnLoad();
+                ModSettingsLoaded();
+            }
+        }
+
+        public override void OnModDisabled()
+        {
+        }
+#endif
     }
 }

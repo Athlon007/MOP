@@ -5,6 +5,7 @@
 ### Added
 
 - Added "mop reload all" console command, which will load all rule files - regardless if the mod corresponding to it is present or not
+- (MSCLoader) MOP will successfully load back, after it was disabled
 
 ### Bug Fixes
 
