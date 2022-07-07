@@ -147,7 +147,7 @@ namespace MOP.Common
                     }
 
                     // List rule files.
-                    ModConsole.Log("\n<color=yellow><b>Rule Files</b></color>\n");
+                    ModConsole.Log("\n<color=yellow><b>Rule Files</b></color>");
                     List<string> files = new List<string>();
                     foreach (Rule ruleFile in RulesManager.Instance.Rules)
                     {
