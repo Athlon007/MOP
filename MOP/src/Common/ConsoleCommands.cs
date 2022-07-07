@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Diagnostics;
 using System.Reflection;
@@ -146,13 +147,16 @@ namespace MOP.Common
                     }
 
                     // List rule files.
-                    string output = "\n<color=yellow><b>Rule Files</b></color>\n";
+                    ModConsole.Log("\n<color=yellow><b>Rule Files</b></color>\n");
+                    List<string> files = new List<string>();
                     foreach (Rule ruleFile in RulesManager.Instance.Rules)
                     {
-                        output += $"{ruleFile}\n";
+                        if (!files.Contains(ruleFile.ToString()))
+                        {
+                            files.Add(ruleFile.ToString());
+                        }
                     }
-
-                    ModConsole.Log(output);
+                    ModConsole.Log(string.Join("\n", files.ToArray()));
                     break;
                 case "reload":
                     if (ModLoader.CurrentScene != CurrentScene.MainMenu)
