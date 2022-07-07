@@ -570,10 +570,6 @@ namespace MOP
                 ModSettingsLoaded();
             }
         }
-
-        public override void OnModDisabled()
-        {
-        }
 #endif
     }
 }
