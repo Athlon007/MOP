@@ -438,11 +438,20 @@ namespace MOP
             return output;
         }
 
-        public static void ShowDialog(string url) => ModUI.ShowYesNoMessage($"This will open the following link:\n" +
+        public static void ShowDialog(string url)
+        {
+            if (Input.GetKey(KeyCode.LeftAlt))
+            {
+                System.Diagnostics.Process.Start(url);
+                return;
+            }
+
+            ModUI.ShowYesNoMessage($"This will open the following link:\n" +
                                                                          $"<color=yellow>{url}</color>\n\n" +
                                                                          $"Are you sure you want to continue?",
                                                                          "MOP",
                                                                          () => System.Diagnostics.Process.Start(url));
+        }
 
         void RemoveUnusedFiles()
         {
