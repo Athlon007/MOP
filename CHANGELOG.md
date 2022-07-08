@@ -1,5 +1,11 @@
 # Changelog
 
+## TBA (TBA)
+
+### Added
+
+- Added loading indication during the load screen
+
 ## 3.7.2 (08.07.2022)
 
 ### Added

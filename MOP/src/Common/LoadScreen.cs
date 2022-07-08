@@ -17,6 +17,7 @@
 using UnityEngine.UI;
 using MOP.FSM;
 using UnityEngine;
+using System.Collections;
 
 namespace MOP.Common
 {
@@ -27,11 +28,13 @@ namespace MOP.Common
         PlayMakerFSM cursorFSM;
         bool doDisplay;
 
+        Text loadingText;
+
         void Start()
         {
 #if PRO
             loadScreen = MSCLoader.ModLoader.UICanvas.transform.Find("ModLoaderUI/ModLoadScreen").gameObject;
-            loadScreen.transform.Find("TextHolder/Text").gameObject.GetComponent<Text>().text = LoadText;
+            loadingText = loadScreen.transform.Find("TextHolder/Text").gameObject.GetComponent<Text>();
 #else
             canvas = GameObject.Instantiate(GameObject.Find("MSCLoader Canvas loading"));
             canvas.name = "MOP_Canvas";
@@ -48,7 +51,7 @@ namespace MOP.Common
             // Main Window
             Destroy(loadScreen.transform.Find("Loading Container/LoadingStuff/Progress").gameObject);
             Destroy(loadScreen.transform.Find("Loading Container/LoadingStuff/LoadingRow2").gameObject);
-            loadScreen.transform.Find("Loading Container/LoadingStuff/LoadingRow1/LoadingTitle").gameObject.GetComponent<Text>().text = LoadText;
+            loadingText = loadScreen.transform.Find("Loading Container/LoadingStuff/LoadingRow1/LoadingTitle").gameObject.GetComponent<Text>();
 
             loadScreen.SetActive(true);
 #endif
@@ -56,6 +59,22 @@ namespace MOP.Common
             Cursor.visible = false;
             cursorFSM = GameObject.Find("PLAYER").GetPlayMaker("Update Cursor");
             cursorFSM.enabled = false;
+
+            StartCoroutine(LoadingRoutine());
+        }
+
+        IEnumerator LoadingRoutine()
+        {
+            string text = LoadText;
+            int dots = 0;
+            while (true)
+            {
+                loadingText.text = text + new string('.', dots);
+                dots++;
+                if (dots > 3)
+                    dots = 0;
+                yield return new WaitForSeconds(.5f);
+            }
         }
 
         void Update()
@@ -78,6 +97,7 @@ namespace MOP.Common
             loadScreen.SetActive(false);
             cursorFSM.enabled = true;
             this.enabled = false;
+            this.StopAllCoroutines();
         }
 
 #if PRO
