@@ -35,7 +35,7 @@ namespace MOP
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.7.2"; //Version
-        public const string SubVersion = "BETA_2"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public const string Edition = "Mod Loader Pro";
 #else
@@ -65,7 +65,7 @@ namespace MOP
         static internal SettingToggle EnableShadowAdjusting, KeepRunningInBackground,
                                       DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
                                       DestroyEmptyBottles, DisableEmptyItems, LazySectorUpdating,
-                                      AlwaysDisableSkidmarks;
+                                      AlwaysDisableSkidmarks, FastLoading;
         SettingText modeWarningText;
 #else
         static internal SettingsSliderInt ActiveDistance, FramerateLimiter, ShadowDistance, RulesAutoUpdateFrequency;
@@ -73,7 +73,7 @@ namespace MOP
         static internal SettingsCheckBox KeepRunningInBackground, LimitFramerate, DynamicDrawDistance,
                                           RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
                                           DestroyEmptyBottles, DisableEmptyItems, LazySectorUpdating,
-                                          AlwaysDisableSkidmarks;
+                                          AlwaysDisableSkidmarks, FastLoading;
         SettingsDynamicText modeWarningText;
 #endif
 
@@ -185,6 +185,8 @@ namespace MOP
             DisableEmptyItems = modSettings.AddToggle("disableEmptyItems", "DISABLE EMPTY ITEMS", false);
             AlwaysDisableSkidmarks = modSettings.AddToggle("alwaysDisableSkidmarks", "DISABLE SKIDMARKS", false);
             AlwaysDisableSkidmarks.AddTooltip("Skidmarks cause a massive memory leak,\nevery time you brake/accelerate hard.\nDisabling them mitigates that problem.");
+            FastLoading = modSettings.AddToggle("fastLoading", "FAST LOADING", false);
+            FastLoading.AddTooltip("Decreases the time it takes for MOP to load. This can lead to engine parts or textures not loading as intended.");
 
             // Experimental
             modSettings.AddHeader("<color=red>EXPERIMENTAL</color>");
@@ -250,6 +252,9 @@ namespace MOP
             DisableEmptyItems = Settings.AddCheckBox(this, "disableEmptyItems", "DISABLE EMPTY ITEMS", false);
             AlwaysDisableSkidmarks = Settings.AddCheckBox(this, "alwaysDisableSkidmarks", "DISABLE SKIDMARKS", false);
             Settings.AddText(this, "Skidmarks cause a massive memory leak, every time you brake/accelerate hard. Disabling them mitigates that problem.");
+            FastLoading = Settings.AddCheckBox(this, "fastLoading", "FAST LOADING", false);
+            Settings.AddText(this, "Decreases the time it takes for MOP to load. This can lead to engine parts or textures not loading as intended.");
+
 
             // Experimental
             Settings.AddHeader(this, "<color=red>EXPERIMENTAL</color>");
@@ -349,7 +354,12 @@ namespace MOP
         /// <summary>
         /// Called once, when mod is loading after game is fully loaded.
         /// </summary>
+#if PRO
         public override void PostLoad()
+#else
+        public override bool SecondPass => true;
+        public override void SecondPassOnLoad()
+#endif
         {
             MopSettings.UpdateFramerateLimiter();
             MopSettings.UpdatePerformanceMode();

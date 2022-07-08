@@ -7,12 +7,19 @@
 - Added "mop reload all" console command, which will load all rule files - regardless if the mod corresponding to it is present or not
 - (MSCLoader) MOP will successfully load back, after it was disabled
 
+### Changes
+
+- (MSCLoader) MOP is now loaded in SecondPassOnLoad, instead of PostLoad
+- MOP will now load slower, to mitigate issues with textures and engine parts not loading
+  - If you want it to load fast again, you can enable "FAST LOADING" option in the MOP Settings under "Other" section
+
 ### Bug Fixes
 
 - Possibly fixed kilju bucket lid detaching when left behind
 - Further fixes regarding loading of rule files
 - Fixed exhaust muffler trigger sometimes not being enabled back when muffler detaches
 - Fixed duplicate rule files while using "mop rules" command
+- Fixed issues with engine parts and car textures not fully loading
 
 ## 3.7.1 (29.06.2022)
 

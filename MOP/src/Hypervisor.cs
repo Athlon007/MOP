@@ -113,7 +113,7 @@ namespace MOP
         #region MOP Initialization
         IEnumerator DelayedInitializaitonRoutine()
         {
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < (MOP.FastLoading.GetValue() ? 30 : 200); i++)
             {
                 yield return null;
             }

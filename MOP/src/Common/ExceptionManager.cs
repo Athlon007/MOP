@@ -187,6 +187,7 @@ namespace MOP.Common
             output += $"DestroyEmptyBottles: {MOP.DestroyEmptyBottles.GetValue()}\n";
             output += $"DisableEmptyItems: {MOP.DisableEmptyItems.GetValue()}\n";
             output += $"NoSkidmarks: {MOP.AlwaysDisableSkidmarks.GetValue()}\n";
+            output += $"FastLoading: {MOP.FastLoading.GetValue()}\n";
             output += $"ToggleVehiclePhysicsOnly: {RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";
             output += $"IgnoreModVehicles: {RulesManager.Instance.SpecialRules.IgnoreModVehicles}\n";
             output += $"CustomRuleFile: {File.Exists($"{MOP.ModConfigPath}/Custom.txt")}\n\n";
