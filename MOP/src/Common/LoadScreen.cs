@@ -101,7 +101,7 @@ namespace MOP.Common
         }
 
 #if PRO
-        string LoadText { get => Random.Range(0, 100) == 0 ? "HAVE A NICE DAY :)" : "LOADING\nMODERN OPTIMIZATION PLUGIN"; }
+        string LoadText { get => Random.Range(0, 100) == 0 ? "HAVE A NICE DAY :)" : $"MODERN OPTIMIZATION PLUGIN {MOP.ModVersion}\nLOADING"; }
 #else
         string LoadText { get => Random.Range(0, 100) == 0 ? "HAVE A NICE DAY :)" : "LOADING"; }
 #endif
