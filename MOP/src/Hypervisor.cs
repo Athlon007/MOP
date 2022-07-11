@@ -1304,7 +1304,7 @@ namespace MOP
 
             if (mode == ToggleAllMode.OnSave)
             {
-                Satsuma.Instance.GlueAll();
+                Satsuma.Instance.OnSaveGlueAll();
             }
 
             ModConsole.Log("[MOP] Toggled VEHICLES");
