@@ -24,11 +24,12 @@ namespace MOP.Common
 {
     class LoadScreen : MonoBehaviour
     {
-        bool doDisplay;
-        PlayMakerFSM cursorFSM;
+        private Sprite[] frames;
+        private Image img;
+        private IEnumerator currentLoadingRoutine;
 
-        Sprite[] frames;
-        Image img;
+        private PlayMakerFSM cursorFSM;
+        private bool doDisplay;
 
         public LoadScreen()
         {
@@ -37,7 +38,7 @@ namespace MOP.Common
             img = transform.Find("Icon/Frame1").GetComponent<Image>();
         }
 
-        IEnumerator LoadingRoutine()
+        private IEnumerator LoadingRoutine()
         {
             int spriteCount = 0;
             while (true)
@@ -50,7 +51,7 @@ namespace MOP.Common
             }
         }
 
-        void Update()
+        private void Update()
         {
             if (doDisplay)
             {
@@ -60,7 +61,13 @@ namespace MOP.Common
 
         public void Activate()
         {
-            StartCoroutine(LoadingRoutine());
+            if (currentLoadingRoutine != null)
+            {
+                StopCoroutine(currentLoadingRoutine);
+            }
+            currentLoadingRoutine = LoadingRoutine();
+            StartCoroutine(currentLoadingRoutine);
+
             this.enabled = true;
             doDisplay = true;
 
@@ -72,8 +79,11 @@ namespace MOP.Common
         {
             doDisplay = false;
             gameObject.SetActive(false);
-            cursorFSM.enabled = true;
-            this.StopAllCoroutines();
+            cursorFSM.enabled = true;        
+            if (currentLoadingRoutine != null)
+            {
+                StopCoroutine(currentLoadingRoutine);
+            }
             this.enabled = false;
         }
 
