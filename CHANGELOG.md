@@ -1,5 +1,11 @@
 # Changelog
 
+## TBA (TBA)
+
+### Bug Fixes
+
+- Fixed exhaust muffler detaching, if the player died when the car was at hom and player was away from it
+
 ## 3.7.2 (08.07.2022)
 
 ### Added

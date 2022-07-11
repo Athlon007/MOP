@@ -844,6 +844,24 @@ namespace MOP.Vehicles.Cases
             }
         }
 
+        /// <summary>
+        /// Executed when game is being saved, makes all items permamently attached to the car.
+        /// </summary>
+        public void OnSaveGlueAll()
+        {
+            for (int i = 0; i < satsumaBoltsAntiReloads.Count; ++i)
+            {
+                satsumaBoltsAntiReloads[i].enabled = true;
+                satsumaBoltsAntiReloads[i].Glue();
+
+                PlayMakerFSM removalFSM = satsumaBoltsAntiReloads[i].gameObject.GetPlayMaker("Removal");
+                if (removalFSM)
+                {
+                    Object.Destroy(removalFSM);
+                }
+            }
+        }
+
         List<Renderer> GetRenderersToDisable()
         {
             List<Renderer> renderers = gameObject.transform.GetComponentsInChildren<Renderer>(true).Where(r => !r.gameObject.name.ContainsAny(ignoredRendererNames)).ToList();
