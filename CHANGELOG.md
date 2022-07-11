@@ -1,10 +1,10 @@
 # Changelog
 
-## TBA (TBA)
+## 3.8 (TBA)
 
 ### Added
 
-- Added loading indication during the load screen
+- Added a brand new load screen for both Mod Loaders
 
 ## 3.7.2 (08.07.2022)
 
