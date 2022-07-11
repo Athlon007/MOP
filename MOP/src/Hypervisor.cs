@@ -87,11 +87,20 @@ namespace MOP
             }
 
             MopSettings.LoadedOnce = true;
-            
-            loadScreen = gameObject.AddComponent<LoadScreen>();
-            loadScreen.Activate();
-            loadScreenWorkaround = InfiniteLoadscreenWorkaround();
-            StartCoroutine(loadScreenWorkaround);
+
+            // Load loadscreen.
+            try
+            {
+                GameObject loadscreenObj = GameObject.Instantiate(MOP.MopLoadScreenPrefab);
+                loadScreen = loadscreenObj.AddComponent<LoadScreen>();
+                loadScreen.Activate();
+                loadScreenWorkaround = InfiniteLoadscreenWorkaround();
+                StartCoroutine(loadScreenWorkaround);
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "LOAD_SCREEN_ERROR");
+            }
 
             // Disable player controller and pretend like he's in the main menu.
             playerController = GameObject.Find("PLAYER").GetComponent<CharacterController>();

@@ -14,66 +14,39 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using MOP.FSM;
 using UnityEngine;
-using System.Collections;
 
 namespace MOP.Common
 {
     class LoadScreen : MonoBehaviour
     {
-        GameObject canvas;
-        GameObject loadScreen;
-        PlayMakerFSM cursorFSM;
         bool doDisplay;
+        PlayMakerFSM cursorFSM;
 
-        Text loadingText;
+        Sprite[] frames;
+        Image img;
 
-        void Start()
+        public LoadScreen()
         {
-#if PRO
-            loadScreen = MSCLoader.ModLoader.UICanvas.transform.Find("ModLoaderUI/ModLoadScreen").gameObject;
-            loadingText = loadScreen.transform.Find("TextHolder/Text").gameObject.GetComponent<Text>();
-#else
-            canvas = GameObject.Instantiate(GameObject.Find("MSCLoader Canvas loading"));
-            canvas.name = "MOP_Canvas";
-            Destroy(canvas.transform.Find("MSCLoader update dialog").gameObject);
-            loadScreen = canvas.transform.Find("MSCLoader loading dialog").gameObject;
-            loadScreen.name = "LoadScreen";
-            
-            // Title
-            string displayedVersion = MOP.ModVersion;
-            displayedVersion = displayedVersion.Replace('-', ' '); 
-            displayedVersion = displayedVersion.Replace('_', ' ');
-            loadScreen.transform.Find("Title").gameObject.GetComponent<Text>().text = $"MODERN OPTIMIZATION PLUGIN <color=green>{displayedVersion}</color>";
-
-            // Main Window
-            Destroy(loadScreen.transform.Find("Loading Container/LoadingStuff/Progress").gameObject);
-            Destroy(loadScreen.transform.Find("Loading Container/LoadingStuff/LoadingRow2").gameObject);
-            loadingText = loadScreen.transform.Find("Loading Container/LoadingStuff/LoadingRow1/LoadingTitle").gameObject.GetComponent<Text>();
-
-            loadScreen.SetActive(true);
-#endif
-            // Disable the cursor.
-            Cursor.visible = false;
             cursorFSM = GameObject.Find("PLAYER").GetPlayMaker("Update Cursor");
-            cursorFSM.enabled = false;
-
-            StartCoroutine(LoadingRoutine());
+            frames = GetLoadingIconFrames();
+            img = transform.Find("Icon/Frame1").GetComponent<Image>();
         }
 
         IEnumerator LoadingRoutine()
         {
-            string text = LoadText;
-            int dots = 0;
+            int spriteCount = 0;
             while (true)
             {
-                loadingText.text = text + new string('.', dots);
-                dots++;
-                if (dots > 3)
-                    dots = 0;
                 yield return new WaitForSeconds(.5f);
+                spriteCount++;
+                if (spriteCount >= frames.Length)
+                    spriteCount = 0;
+                img.sprite = frames[spriteCount];
             }
         }
 
@@ -81,29 +54,39 @@ namespace MOP.Common
         {
             if (doDisplay)
             {
-                loadScreen.SetActive(true);
+                gameObject.SetActive(true);
             }
         }
 
         public void Activate()
         {
+            StartCoroutine(LoadingRoutine());
             this.enabled = true;
             doDisplay = true;
+
+            Cursor.visible = false;
+            cursorFSM.enabled = false;
         }
 
         public void Deactivate()
         {
             doDisplay = false;
-            loadScreen.SetActive(false);
+            gameObject.SetActive(false);
             cursorFSM.enabled = true;
-            this.enabled = false;
             this.StopAllCoroutines();
+            this.enabled = false;
         }
 
-#if PRO
-        string LoadText { get => Random.Range(0, 100) == 0 ? "HAVE A NICE DAY :)" : $"MODERN OPTIMIZATION PLUGIN {MOP.ModVersion}\nLOADING"; }
-#else
-        string LoadText { get => Random.Range(0, 100) == 0 ? "HAVE A NICE DAY :)" : "LOADING"; }
-#endif
+        private Sprite[] GetLoadingIconFrames()
+        {
+            List<Sprite> sprites = new List<Sprite>();
+            Transform t = transform.Find("Icon");
+            foreach (Image child in t.GetComponentsInChildren<Image>(true))
+            {
+                sprites.Add(child.sprite);
+            }
+
+            return sprites.ToArray();
+        }
     }
 }

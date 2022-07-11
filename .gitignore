@@ -352,3 +352,6 @@ MOP.zip
 MOP-*.zip
 
 .DS_Store
+
+*/Temp
+*/Library

@@ -56,6 +56,8 @@ namespace MOP
 
         private bool menuLoaded;
 
+        public GameObject MopBundle { get; private set; }
+
         // Settings
 #if PRO
         public override string UpdateLink => "https://github.com/Athlon007/MOP";
@@ -87,7 +89,7 @@ namespace MOP
                                              "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n" +
                                              "Please consider supporting the project using <color=#3687D7>PayPal</color>, or on <color=orange>NexusMods</color>.";
 
-
+        public static GameObject MopLoadScreenPrefab { get; private set; }
 #if PRO
         public MOP()
         {
@@ -95,6 +97,7 @@ namespace MOP
             {
                 ModUI.ShowMessage("You are trying to use MOP version for <color=yellow>Mod Loader Pro</color>.\n\n" +
                                   "Please install MOP version for <color=yellow>MSCLoader</color>!", "MOP - Error");
+                return;
             }
         }
 #endif
@@ -326,6 +329,8 @@ namespace MOP
             {
                 ModConsole.Log("<size=60><color=magenta>\n\nWARNING!\nYOU ARE USING A PRE-RELEASE VERSION OF MOP!\n\n</color></size>");
             }
+
+            LoadAssetBundle();
         }
 
         public override void ModSettingsLoaded()
@@ -581,5 +586,15 @@ namespace MOP
             }
         }
 #endif
+
+        private void LoadAssetBundle()
+        {
+            if (MopLoadScreenPrefab == null)
+            {
+                AssetBundle bundle = LoadAssets.LoadBundle(Properties.Resources.mop);
+                MopLoadScreenPrefab = bundle.LoadAsset<GameObject>("MOP_Canvas.prefab");
+                bundle.Unload(false);
+            }
+        }
     }
 }

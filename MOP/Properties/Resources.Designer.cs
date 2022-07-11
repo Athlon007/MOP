@@ -19,7 +19,7 @@ namespace MOP.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -63,16 +63,14 @@ namespace MOP.Properties {
         /// <summary>
         ///   Looks up a localized string similar to ### Added
         ///
-        ///- If MOP got stuck on load screen for over 30 seconds, load screen will be disabled and an error will be displayed
+        ///- Added &quot;mop reload all&quot; console command, which will load all rule files - regardless if the mod corresponding to it is present or not
+        ///- (MSCLoader) MOP will successfully load back, after it was disabled
         ///
         ///### Changes
         ///
-        ///- MOP now asks if you want to generate a mod report, even if MOP couldn&apos;t load into the game.
-        ///
-        ///### Bug Fixes
-        ///
-        ///- Fixed infinite load screen due to CanTrigger finding
-        ///.
+        ///- (MSCLoader) MOP is now loaded in SecondPassOnLoad, instead of PostLoad
+        ///- MOP will now load slower, to mitigate issues with textures and engine parts not loading
+        ///  - If you want it to load fast again, you can enable &quot;FAST LOADING&quot; option in the MOP Settings under &quot;Other&quot; s [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string changelog {
             get {
@@ -86,6 +84,16 @@ namespace MOP.Properties {
         internal static byte[] icon {
             get {
                 object obj = ResourceManager.GetObject("icon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] mop {
+            get {
+                object obj = ResourceManager.GetObject("mop", resourceCulture);
                 return ((byte[])(obj));
             }
         }
