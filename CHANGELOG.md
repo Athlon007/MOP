@@ -6,6 +6,10 @@
 
 - Added a brand new load screen for both Mod Loaders
 
+### Changes
+
+- The "Learn More" button in "RULES" section now takes you to MOP's wiki
+
 ### Removed
 
 - Removed framerate recording
