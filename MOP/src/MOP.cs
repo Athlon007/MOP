@@ -591,7 +591,11 @@ namespace MOP
         {
             if (MopLoadScreenPrefab == null)
             {
+#if PRO
+                AssetBundle bundle = ModAssets.LoadBundle(Properties.Resources.mop);
+#else
                 AssetBundle bundle = LoadAssets.LoadBundle(Properties.Resources.mop);
+#endif
                 MopLoadScreenPrefab = bundle.LoadAsset<GameObject>("MOP_Canvas.prefab");
                 bundle.Unload(false);
             }
