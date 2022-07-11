@@ -103,7 +103,6 @@
     <Compile Include="src\Common\Enumerations\ToggleAllMode.cs" />
     <Compile Include="src\Common\Enumerations\ToggleModes.cs" />
     <Compile Include="src\Common\Enumerations\VehiclesTypes.cs" />
-    <Compile Include="src\Common\FramerateRecorder.cs" />
     <Compile Include="src\Common\Interfaces\IDisableUnderCondition.cs" />
     <Compile Include="src\Common\LoadScreen.cs" />
     <Compile Include="src\Common\Paths.cs" />

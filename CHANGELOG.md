@@ -6,6 +6,10 @@
 
 - Added a brand new load screen for both Mod Loaders
 
+### Removed
+
+- Removed framerate recording
+
 ## 3.7.2 (08.07.2022)
 
 ### Added

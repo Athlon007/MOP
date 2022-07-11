@@ -204,11 +204,6 @@ namespace MOP.Common
                 output += GetGameData("DrawDistance");
                 output += GetGameData("CanTriggerStatus");
                 output += GetGameData("IsTrailerAttached");
-
-                if (FramerateRecorder.Instance != null)
-                {
-                    output += $"AverageFramerate: {FramerateRecorder.Instance.GetAverage()} FPS\n";
-                }
             }
 
             output += "\n=== MESSAGES ===\n\n";

@@ -804,12 +804,6 @@ namespace MOP
         {
             MopSettings.IsModActive = true;
 
-            if (gameObject.GetComponent<FramerateRecorder>() == null)
-            {
-                FramerateRecorder rec = gameObject.AddComponent<FramerateRecorder>();
-                rec.Initialize();
-            }
-
             int waitTimer = 0;
 
             while (MopSettings.IsModActive)
