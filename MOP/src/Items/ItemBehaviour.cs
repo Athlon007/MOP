@@ -91,6 +91,8 @@ namespace MOP.Items
 
         bool isObjectOnGrill;
 
+        PlayMakerFSM removalFSM;
+
         public ItemBehaviour()
         {
             if (gameObject.GetComponents<ItemBehaviour>().Length > 1)
@@ -105,6 +107,8 @@ namespace MOP.Items
             renderer = GetComponent<Renderer>();
 
             position = transform.position;
+
+            removalFSM = gameObject.GetPlayMaker("Removal");
 
             // Fixes a bug which would prevent player from putting on the helmet, after taking it off.
             if (this.gameObject.name == "helmet(itemx)")
@@ -300,6 +304,11 @@ namespace MOP.Items
                         }
                         break;
                     case "bucket lid(itemx)":
+                        if (!enabled)
+                        {
+                            removalFSM.enabled = false;
+                        }
+
                         if (transform.parent != null && transform.parent.gameObject.name == "PivotLid") return;
                         break;
                 }
@@ -620,6 +629,16 @@ namespace MOP.Items
         /// </summary>
         internal void ToggleChangeFix()
         {
+            // Fixes bucket lid detaching itself while player's away
+            if (gameObject.name == "bucket lid(itemx)")
+            {
+                if (transform.parent != null && transform.parent.gameObject.name == "PivotLid")
+                {
+                    removalFSM.enabled = true;
+                    transform.localEulerAngles = Vector3.zero;
+                }
+            }
+
             if (Toggle != ToggleActive) return;
 
             // Fixing issue with objects not getting re-enabled (I hope).
