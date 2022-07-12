@@ -117,7 +117,7 @@ namespace MOP
             modSettings.AddButton("homepage", "HOMEPAGE", () => ShowDialog("http://athlon.kkmr.pl/"));
             modSettings.AddButton("github", "GITHUB", () => ShowDialog("https://github.com/Athlon007/MOP"));
             modSettings.AddButton("homepage", "NEXUSMODS", () => ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
-            modSettings.AddButton("paypal", "<color=#254280>DONATE</color>", () => ShowDialog("https://paypal.me/figurakonrad"));
+            modSettings.AddButton("paypal", "<color=#254280>DONATE</color>", () => ShowDialog("https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y"));
 
             // Activating objects.
             modSettings.AddHeader("DESPAWNING");
@@ -203,6 +203,11 @@ namespace MOP
             modSettings.AddButton("generateModReprt", "GENERATE MOD REPORT", "", ExceptionManager.GenerateReport);
             modSettings.AddButton("deleteAllLogs", "DELETE ALL LOGS", "", ExceptionManager.DeleteAllLogs);
 
+                        // Supporters
+            modSettings.AddHeader("SUPPORTERS");
+            modSettings.AddText(Properties.Resources.donates + 
+                "\n\nDo you want to see your name here? Send a donate and proof of transaction to MOP's author.");
+
             // Changelog
             modSettings.AddHeader("CHANGELOG");
             modSettings.AddText(GetChangelog());
@@ -219,7 +224,7 @@ namespace MOP
             Settings.AddButton(this, "linkHomepage", "HOMEPAGE", () => ShowDialog("http://athlon.kkmr.pl/"));
             Settings.AddButton(this, "linkGithub", "GITHUB", () => ShowDialog("https://github.com/Athlon007/MOP"));
             Settings.AddButton(this, "linkNexusmods", "NEXUSMODS", () => ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
-            Settings.AddButton(this, "linkDonate", "DONATE", () => ShowDialog("https://paypal.me/figurakonrad"), new Color32(37, 59, 128, 255), new Color(1, 1, 1));
+            Settings.AddButton(this, "linkDonate", "DONATE", () => ShowDialog("https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y"), new Color32(37, 59, 128, 255), new Color(1, 1, 1));
 
             // Activating objects.
             Settings.AddHeader(this, "DESPAWNING");
@@ -270,6 +275,11 @@ namespace MOP
             Settings.AddButton(this, "openLogFolder", "OPEN LOG FOLDER", ExceptionManager.OpenCurrentSessionLogFolder);
             Settings.AddButton(this, "generateModReprt", "GENERATE MOD REPORT", ExceptionManager.GenerateReport);
             Settings.AddButton(this, "deleteAllLogs", "DELETE ALL LOGS", ExceptionManager.DeleteAllLogs);
+
+            // Supporters
+            Settings.AddHeader(this, "SUPPORTERS");
+            Settings.AddText(this, Properties.Resources.donates + 
+                "\n\nDo you want to see your name here? Send a donate and proof of transaction to MOP's author.");
 
             // Changelog
             Settings.AddHeader(this, "CHANGELOG");

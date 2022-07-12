@@ -61,20 +61,20 @@ namespace MOP.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ### Added
-        ///
-        ///- Added &quot;mop reload all&quot; console command, which will load all rule files - regardless if the mod corresponding to it is present or not
-        ///- (MSCLoader) MOP will successfully load back, after it was disabled
-        ///
-        ///### Changes
-        ///
-        ///- (MSCLoader) MOP is now loaded in SecondPassOnLoad, instead of PostLoad
-        ///- MOP will now load slower, to mitigate issues with textures and engine parts not loading
-        ///  - If you want it to load fast again, you can enable &quot;FAST LOADING&quot; option in the MOP Settings under &quot;Other&quot; s [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string changelog {
             get {
                 return ResourceManager.GetString("changelog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string donates {
+            get {
+                return ResourceManager.GetString("donates", resourceCulture);
             }
         }
         

@@ -227,6 +227,9 @@
     <None Include="Resources\icon" />
     <None Include="Resources\mop.bundle" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\donates.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>rem if "$(ConfigurationName)" == "Debug" (
