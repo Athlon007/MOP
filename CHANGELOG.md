@@ -10,6 +10,7 @@
 ### Changes
 
 - The "Learn More" button in "RULES" section now takes you to MOP's wiki
+- Updated the Donate link
 
 ### Removed
 

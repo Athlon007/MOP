@@ -203,9 +203,9 @@ namespace MOP
             modSettings.AddButton("generateModReprt", "GENERATE MOD REPORT", "", ExceptionManager.GenerateReport);
             modSettings.AddButton("deleteAllLogs", "DELETE ALL LOGS", "", ExceptionManager.DeleteAllLogs);
 
-                        // Supporters
+            // Supporters
             modSettings.AddHeader("SUPPORTERS");
-            modSettings.AddText(Properties.Resources.donates + 
+            modSettings.AddText("<color=yellow>" + Properties.Resources.donates + "</color>" +
                 "\n\nDo you want to see your name here? Send a donate and proof of transaction to MOP's author.");
 
             // Changelog
@@ -278,7 +278,7 @@ namespace MOP
 
             // Supporters
             Settings.AddHeader(this, "SUPPORTERS");
-            Settings.AddText(this, Properties.Resources.donates + 
+            Settings.AddText(this, "<color=yellow>" + Properties.Resources.donates + "</color>" +
                 "\n\nDo you want to see your name here? Send a donate and proof of transaction to MOP's author.");
 
             // Changelog
