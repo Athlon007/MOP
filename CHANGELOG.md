@@ -5,6 +5,7 @@
 ### Added
 
 - Added a brand new load screen for both Mod Loaders
+- Added "Supporters" section in the MOP settings, with the list of people who donated to the project
 
 ### Changes
 
