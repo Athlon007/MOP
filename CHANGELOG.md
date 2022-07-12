@@ -2,6 +2,10 @@
 
 ## TBA (TBA)
 
+### Added
+
+- Exception type name is now included in crash log
+
 ### Bug Fixes
 
 - Fixed exhaust muffler detaching, if the player died when the car was at hom and player was away from it

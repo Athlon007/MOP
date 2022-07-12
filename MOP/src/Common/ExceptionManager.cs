@@ -65,7 +65,7 @@ namespace MOP.Common
 
 
             string logFilePath = Path.Combine(Paths.LogFolder, currentLogFile).Replace("\\", "/");
-            string errorInfo = $"({DateTime.Now:HH:mm:ss.fff}) {message}\n{ex.Message}{ex.StackTrace}\nTarget Site: {ex.TargetSite}";
+            string errorInfo = $"({DateTime.Now:HH:mm:ss.fff})\n  Code: {message}\n  Type: {ex.GetType().Name}\n  Message: {ex.Message}{ex.StackTrace}\n  Target Site: {ex.TargetSite}";
 
             using (StreamWriter sw = new StreamWriter(logFilePath, true))
             {
