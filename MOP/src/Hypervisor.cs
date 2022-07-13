@@ -670,14 +670,7 @@ namespace MOP
             }
 
             // Initialize the coroutines.
-            currentLoop = LoopRoutine();
-            StartCoroutine(currentLoop);
-            currentControlCoroutine = ControlCoroutine();
-            StartCoroutine(currentControlCoroutine);
-
-            ModConsole.Log("<color=green>[MOP] MOD LOADED SUCCESFULLY!</color>");
-            Resources.UnloadUnusedAssets();
-            GC.Collect();
+            Startup();
 
             // If generate-list command is set to true, generate the list of items that are disabled by MOP.
             if (MopSettings.GenerateToggledItemsListDebug)
@@ -687,6 +680,18 @@ namespace MOP
                 ToggledItemsListGenerator.CreateItemsList(ItemsManager.Instance.GetList());
                 ToggledItemsListGenerator.CreatePlacesList(PlaceManager.Instance.GetList());
             }
+        }
+
+        public void Startup()
+        {
+            currentLoop = LoopRoutine();
+            StartCoroutine(currentLoop);
+            currentControlCoroutine = ControlCoroutine();
+            StartCoroutine(currentControlCoroutine);
+
+            ModConsole.Log("<color=green>[MOP] MOD LOADED SUCCESFULLY!</color>");
+            Resources.UnloadUnusedAssets();
+            GC.Collect();
         }
 #endregion
 #region Save Game Actions

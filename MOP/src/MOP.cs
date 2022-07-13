@@ -41,6 +41,7 @@ namespace MOP
 #else
         public const string Edition = "MSCLoader";
         public override string Description => "The <color=yellow>ultimate</color> My Summer Car optimization project!";
+        private bool menuLoaded;
 #endif
         public override byte[] Icon => Properties.Resources.icon;
 
@@ -54,7 +55,6 @@ namespace MOP
         public static string ModVersion { get => modVersion + (SubVersion != "" ? "_" + SubVersion : ""); }
         public static string ModVersionShort { get => modVersion; }
 
-        private bool menuLoaded;
 
         public GameObject MopBundle { get; private set; }
 

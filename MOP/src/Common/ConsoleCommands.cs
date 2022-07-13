@@ -48,7 +48,9 @@ namespace MOP.Common
                                 "<color=yellow>resolution</color> - Lists the available resolutions\n" +
                                 "<color=yellow>resolution [nOfResolution]</color> - Sets the desired resolution from 'mop resolution' list\n" +
                                 "<color=yellow>resolution [width] [height]</color> - Sets the desired resolution\n" +
-                                "<color=yellow>force-load-restart [true/false]</color> - Forces the 'missing Satsuma parts' game reload to happen";
+                                "<color=yellow>force-load-restart [true/false]</color> - Forces the 'missing Satsuma parts' game reload to happen\n" +
+                                "<color=yellow>stop</color> - Stops MOP. MIGHT BREAK THE GAME!\n" +
+                                "<color=yellow>start</color> - Starts MOP back again";
 
         public override void Run(string[] args)
         {
@@ -417,9 +419,32 @@ namespace MOP.Common
                         return;
                     }
 
+                    if (MopSettings.IsModActive == false)
+                    {
+                        ModConsole.Log("[MOP] MOP is not running.");
+                        return;
+                    }
+
                     Hypervisor.Instance.StopAllCoroutines();
                     Hypervisor.Instance.ToggleAll(true);
-                    ModConsole.Log("[MOP] MOP has been stopped. Saving game in this state may break your game!");
+                    MopSettings.IsModActive = false; 
+                    ModConsole.Log("[MOP] MOP has been stopped. Some things may be broken. Saving game in this state may break your game!");
+                    break;
+                case "start":
+                    if (ModLoader.CurrentScene != CurrentScene.Game)
+                    {
+                        ModConsole.Log("[MOP] MOP can only be started while in-game.");
+                        return;
+                    }
+
+                    if (MopSettings.IsModActive)
+                    {
+                        ModConsole.Log("[MOP] MOP is already running.");
+                        return;
+                    }
+
+                    Hypervisor.Instance.ToggleAll(false, Enumerations.ToggleAllMode.OnLoad);
+                    Hypervisor.Instance.Startup();
                     break;
             }
         }
