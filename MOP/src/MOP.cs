@@ -199,7 +199,7 @@ namespace MOP
             // Logging
             modSettings.AddHeader("LOGGING");
             modSettings.AddText("If you want to file a bug report, use <color=red>I FOUND A BUG</color> button!");
-            modSettings.AddButton("openLogFolder", "OPEN LOG FOLDER", "", ExceptionManager.OpenCurrentSessionLogFolder);
+            modSettings.AddButton("openLogFolder", "OPEN LOGS FOLDER", "", ExceptionManager.OpenCurrentSessionLogFolder);
             modSettings.AddButton("generateModReprt", "GENERATE MOD REPORT", "", ExceptionManager.GenerateReport);
             modSettings.AddButton("deleteAllLogs", "DELETE ALL LOGS", "", ExceptionManager.DeleteAllLogs);
 
@@ -272,7 +272,7 @@ namespace MOP
             // Logging
             Settings.AddHeader(this, "LOGGING");
             Settings.AddText(this, "If you want to file a bug report, use <color=red><b>I FOUND A BUG</b></color> button!");
-            Settings.AddButton(this, "openLogFolder", "OPEN LOG FOLDER", ExceptionManager.OpenCurrentSessionLogFolder);
+            Settings.AddButton(this, "openLogFolder", "OPEN LOGS FOLDER", ExceptionManager.OpenCurrentSessionLogFolder);
             Settings.AddButton(this, "generateModReprt", "GENERATE MOD REPORT", ExceptionManager.GenerateReport);
             Settings.AddButton(this, "deleteAllLogs", "DELETE ALL LOGS", ExceptionManager.DeleteAllLogs);
 
