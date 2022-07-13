@@ -1305,6 +1305,11 @@ namespace MOP
                 }
             }
 
+            if (mode == ToggleAllMode.OnSave)
+            {
+                Satsuma.Instance.OnSaveGlueAll();
+            }
+
             ModConsole.Log("[MOP] Toggled VEHICLES");
 
             // Places

@@ -100,7 +100,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
             hingeJoint.breakForce = Mathf.Infinity;
         }
 
-        internal void Unglue()
+        public void Unglue()
         {
             glued = false;
 
@@ -117,6 +117,19 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
 
             // This script is no longer needed. Disable it.
             this.enabled = false;
+        }
+
+        public void Glue()
+        {
+            if (hingeJoint)
+            {
+                GlueHingeJoint();
+            }
+            
+            if (fixedJoint)
+            {
+                GlueFixedJoint();
+            }
         }
     }
 }

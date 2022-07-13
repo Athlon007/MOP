@@ -431,5 +431,16 @@ namespace MOP.Managers
                 }
             }
         }
+
+        ItemBehaviour bucket;
+        public ItemBehaviour GetBucket()
+        {
+            if (bucket == null)
+            {
+                bucket = itemHooks.First(g => g.name == "bucket(itemx)");
+            }
+            return bucket;
+        }
+
     }
 }

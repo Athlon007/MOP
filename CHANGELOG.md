@@ -6,11 +6,17 @@
 
 - Added a brand new load screen for both Mod Loaders
 - Added "Supporters" section in the MOP settings, with the list of people who donated to the project
+- Exception type name is now included in crash log
 
 ### Changes
 
 - The "Learn More" button in "RULES" section now takes you to MOP's wiki
 - Updated the Donate link
+
+### Bug Fixes
+
+- Fixed exhaust muffler detaching, if the player died when the car was at hom and player was away from it
+- Fixed bucket lid detaching
 
 ### Removed
 
