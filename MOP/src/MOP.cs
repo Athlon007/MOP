@@ -189,7 +189,7 @@ namespace MOP
             AlwaysDisableSkidmarks = modSettings.AddToggle("alwaysDisableSkidmarks", "DISABLE SKIDMARKS", false);
             AlwaysDisableSkidmarks.AddTooltip("Skidmarks cause a massive memory leak,\nevery time you brake/accelerate hard.\nDisabling them mitigates that problem.");
             FastLoading = modSettings.AddToggle("fastLoading", "FAST LOADING", false);
-            FastLoading.AddTooltip("Decreases the time it takes for MOP to load. This can lead to engine parts or textures not loading as intended.");
+            FastLoading.AddTooltip("Decreases the time it takes for MOP to load.\nThis can lead to engine parts\nor textures not loading as intended.");
 
             // Experimental
             modSettings.AddHeader("<color=red>EXPERIMENTAL</color>");
