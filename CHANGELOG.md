@@ -17,6 +17,7 @@
 
 - Fixed exhaust muffler detaching, if the player died when the car was at hom and player was away from it
 - Fixed bucket lid detaching
+- Fixed vodka shots glasses physics not working
 
 ### Removed
 

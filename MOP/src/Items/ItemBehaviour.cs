@@ -148,7 +148,7 @@ namespace MOP.Items
             
             timeDisabled = Time.timeSinceLevelLoad;
 
-            if (!gameObject.name.EqualsAny("empty bottle(Clone)", "empty pack(Clone)", "empty cup(Clone)", "coffee cup(Clone)"))
+            if (!gameObject.name.EqualsAny("empty bottle(Clone)", "empty pack(Clone)", "empty cup(Clone)", "coffee cup(Clone)", "empty glass(Clone)"))
             {
                 if (rb?.velocity.magnitude > 0.1f) return;
                 rb?.Sleep();
