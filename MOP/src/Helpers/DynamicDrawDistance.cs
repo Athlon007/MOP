@@ -77,7 +77,6 @@ namespace MOP.Helpers
 
                     // Finally, we set the render distance.
                     mainCamera.farClipPlane = targetDistance;
-                    ModConsole.Log(targetDistance);
                 }
                 catch (Exception ex)
                 {

@@ -136,15 +136,15 @@ namespace MOP.Managers
             CreateNewSector(new Vector3(1562.49f, 4.8f, 733.8835f), new Vector3(15, 5, 20), new Vector3(0, 335, 0), 500, 
                 "TRAFFIC", "ELEC_POLES", "Buildings", "HUMANS", "TrafficSigns", "StreetLights", "TREES_MEDIUM3", "BUSHES6");
             // Yard Machine Hall
-            CreateNewSector(new Vector3(54.7f, -0.5062422f, -73.9f), new Vector3(6, 5, 5.2f), 800, "YARD", "MachineHall", "BUSHES3", "BUSHES6", "TREES_SMALL1");
+            CreateNewSector(new Vector3(54.7f, -0.5062422f, -73.9f), new Vector3(6, 5, 5.2f), 1500, "YARD", "MachineHall", "BUSHES3", "BUSHES6", "TREES_SMALL1");
             // Home
             CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.9f), new Vector3(11, 5, 9.5f), 1500, "PierHome", "TREES_SMALL1", "BUSHES7", "Building", "RadioMast"); // Living room, kitchen, bedrooms.
-            CreateNewSector(new Vector3(-12.5f, -0.5062422f, 1.2f), new Vector3(3, 5, 8f), 800, "PierHome", "TREES_SMALL1", "Building"); // Sauna, bathroom.
-            CreateNewSector(new Vector3(-13.4f, -0.5062422f, 6.4f), new Vector3(1.4f, 5, 1.7f), 200, "PierHome"); // Storage room (kitchen).
+            CreateNewSector(new Vector3(-12.5f, -0.5062422f, 1.2f), new Vector3(3, 5, 8f), 300, "PierHome", "TREES_SMALL1", "Building"); // Sauna, bathroom.
+            CreateNewSector(new Vector3(-13.4f, -0.5062422f, 6.4f), new Vector3(1.4f, 5, 1.7f), 100, "PierHome"); // Storage room (kitchen).
             // Jail
-            CreateNewSector(new Vector3(-655, 5, -1156), new Vector3(5, 5, 9f), 100);
+            CreateNewSector(new Vector3(-655, 5, -1156), new Vector3(5, 5, 9f), 50);
             // Cottage
-            CreateNewSector(new Vector3(-848.2f, -2, 505.6f), new Vector3(5, 3, 5.2f), new Vector3(0, 342, -1.07f), 1400, 
+            CreateNewSector(new Vector3(-848.2f, -2, 505.6f), new Vector3(5, 3, 5.2f), new Vector3(0, 342, -1.07f), 2200, 
                 "BUSHES7", "TREES_SMALL4", "TREES_MEDIUM3", "LakeNice", "TRAFFIC", "Tile");
             // Cabin
             CreateNewSector(new Vector3(-165.55f, -3.7f, 1020.7f), new Vector3(5, 4, 3.5f), 1400, "LakeNice", "Tile", "BUSHES7", "TREES_SMALL1");
