@@ -153,6 +153,11 @@ namespace MOP.Items
                 if (rb?.velocity.magnitude > 0.1f) return;
                 rb?.Sleep();
             }
+
+            if (gameObject.name.Equals("spoiled pike(itemx)") && !gameObject.tag.Equals("PART"))
+            {
+                gameObject.MakePickable();
+            }
         }
 
         void Awake()

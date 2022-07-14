@@ -16,6 +16,7 @@
   - When player has entered a building, the render distance is lowered to cover the surrounding terrain
   - Render distance will not be set to higher than player's prefered draw distance
   - Around 5-20% performance increase if enabled (depending on player's location)
+- Dynamic Draw Distance is enabled by default
 - Less aggressive object disabling when entering home and repair shop
 - The "Learn More" button in "RULES" section now takes you to MOP's wiki
 - Updated the Donate link
@@ -25,6 +26,7 @@
 - Fixed exhaust muffler detaching, if the player died when the car was at hom and player was away from it
 - Fixed bucket lid detaching
 - Fixed vodka shots glasses physics not working
+- Spoiled fish left at grandma's house are pickable again
 
 ### Removed
 

@@ -145,9 +145,9 @@ namespace MOP
             ShadowDistance.ValueSuffix = "00 Meters";
             ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value);
             KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN GAME IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
-            KeepRunningInBackground.AddTooltip("If disabled, game will pause when you ALT+TAB from the game.");
-            DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false);
-            DynamicDrawDistance.AddTooltip("MOP will change the draw distance according to situation\n(ex. Lower render distance while in interior)");
+            KeepRunningInBackground.AddTooltip("If unchecked, game will be paused when the game's window looses focus.");
+            DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", true);
+            DynamicDrawDistance.AddTooltip("MOP will adjust the draw distance according to the current situation\n(ex. lower it while inside of a building).");
             modSettings.AddButton("changeResolution", "RESOLUTION", () => { Resolution.gameObject.SetActive(!Resolution.gameObject.activeSelf); });
             List<string> resolutions = new List<string>();
             int selected = 0;
@@ -237,7 +237,9 @@ namespace MOP
             FramerateLimiter = Settings.AddSlider(this, "framerateLimiterUpdated", "FRAMERATE LIMITER (FPS)", 20, 200, 60, MopSettings.UpdateFramerateLimiter);
             ShadowDistance = Settings.AddSlider(this, "shadowDistance", "SHADOW DISTANCE (METERS, 200 DEFAULT)", 0, 2000, 200, MopSettings.UpdateShadows);
             KeepRunningInBackground = Settings.AddCheckBox(this, "keepRunningInBackground", "RUN GAME IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
-            DynamicDrawDistance = Settings.AddCheckBox(this, "dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", false);
+            Settings.AddText(this, "If unchecked, game will be paused when the game's window looses focus.");
+            DynamicDrawDistance = Settings.AddCheckBox(this, "dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", true);
+            Settings.AddText(this, "MOP will adjust the draw distance according to the current situation\n(ex. lower it while inside of a building).");
 
             // Rules
             Settings.AddHeader(this, "RULES");
@@ -283,7 +285,9 @@ namespace MOP
 
         public override void MenuOnLoad()
         {
+#if !PRO
             menuLoaded = true;
+#endif
             RemoveUnusedFiles();
 
             if (!Version.StartsWith(MopSettings.Data.Version.ToString()))

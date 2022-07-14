@@ -53,6 +53,7 @@ namespace MOP.FSM
         public static void MakePickable(this GameObject gm)
         {
             gm.layer = LayerMask.NameToLayer("Parts");
+            gm.tag = "PART";
         }
 
         /// <summary>
