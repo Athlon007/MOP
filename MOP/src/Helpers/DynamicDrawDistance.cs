@@ -14,39 +14,81 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using System;
+using System.Collections;
 using UnityEngine;
 
 using MOP.Common;
 using MOP.FSM;
+using MOP.Managers;
 
 namespace MOP.Helpers
 {
     class DynamicDrawDistance : MonoBehaviour
     {
-        Camera mainCamera;
-        Transform player;
+        private Camera mainCamera;
+        private Transform player;
+
+        const int MaxDrawDistance = 5000; // This is how far player can see anyway.
+        const int FarRenderDistanceY = 20; // Player height after which the render distance is maximized.
 
         void Start()
         {
             mainCamera = Camera.main;
             player = GameObject.Find("PLAYER").transform;
+
+            StartCoroutine(UpdateDrawDistance());
         }
 
-        void Update()
+        IEnumerator UpdateDrawDistance()
         {
-            if (!MOP.DynamicDrawDistance.GetValue()) return;
-
-            float toGoDrawDistance = FsmManager.GetDrawDistance();
-            if (player.position.y > 20)
+            while (true)
             {
-                toGoDrawDistance *= 2;
-            }
-            else if (Hypervisor.Instance.IsInSector())
-            {
-                toGoDrawDistance /= 2;
-            }
+                yield return new WaitForSeconds(0.5f);
 
-            mainCamera.farClipPlane = Mathf.Lerp(mainCamera.farClipPlane, toGoDrawDistance, Time.deltaTime * .5f);
+                try
+                {
+                    if (!MOP.DynamicDrawDistance.GetValue())
+                    {
+                        continue;
+                    }
+
+                    float targetDistance = FsmManager.GetDrawDistance();
+                    if (IsFarRenderDistanceApplicable())
+                    {
+                        // Player is at high elevation (ski jump hill)?
+                        // Set render distance to far.
+                        targetDistance = MaxDrawDistance;
+                    }
+                    else if (SectorManager.Instance.IsPlayerInSector())
+                    {
+                        // Player in sector?
+                        // Set the render distance to sector's prefered distance..
+                        targetDistance = SectorManager.Instance.GetCurrentSectorDrawDistance();
+                    }
+
+                    if (targetDistance > FsmManager.GetDrawDistance() && !IsFarRenderDistanceApplicable())
+                    {
+                        // Is the target distance HIGHER than the player's prefered render distance,
+                        // AND far render distance IS NOT applicable?
+                        // Set the render distance to the player's prefered render distance.
+                        targetDistance = FsmManager.GetDrawDistance();
+                    }
+
+                    // Finally, we set the render distance.
+                    mainCamera.farClipPlane = targetDistance;
+                    ModConsole.Log(targetDistance);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, false, "DRAW_DISTANCE_ERROR");
+                }
+            }
+        }
+
+        private bool IsFarRenderDistanceApplicable()
+        {
+            return MopSettings.Mode >= Common.Enumerations.PerformanceMode.Balanced && player.position.y > FarRenderDistanceY;
         }
     }
 }

@@ -23,11 +23,14 @@ namespace MOP
     {        
         string[] ignoreList;
         public string[] IgnoreList { get => ignoreList; }
+        public int DrawDistance { get; private set; }
 
-        public void Initialize(Vector3 size, params string[] ignoreList)
+        public void Initialize(Vector3 size, int drawDistance, params string[] ignoreList)
         {
             // Set the layer to Ignore Raycast layer.
             gameObject.layer = 2;
+
+            DrawDistance = drawDistance;
 
             BoxCollider collider = gameObject.AddComponent<BoxCollider>();
             collider.isTrigger = true;

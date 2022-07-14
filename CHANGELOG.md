@@ -10,6 +10,12 @@
 
 ### Changes
 
+- Dynamic Draw Distance 2.0
+  - Render distance is determined depending on the sector player has entered
+  - In Balanced mode or above, render distance is set to 5000, if player is at higher elevation (to cover entire map)
+  - When player has entered a building, the render distance is lowered to cover the surrounding terrain
+  - Render distance will not be set to higher than player's prefered draw distance
+- Less aggressive object disabling when entering home and repair shop
 - The "Learn More" button in "RULES" section now takes you to MOP's wiki
 - Updated the Donate link
 

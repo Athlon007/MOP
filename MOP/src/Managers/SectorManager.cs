@@ -121,36 +121,37 @@ namespace MOP.Managers
             // Garage
             if (MopSettings.Mode == PerformanceMode.Performance)
             {
-                CreateNewSector(new Vector3(-16.77627f, -0.5062422f, 1.559867f), new Vector3(5, 5, 9), "PierHome");
+                CreateNewSector(new Vector3(-16.77627f, -0.5062422f, 1.559867f), new Vector3(5, 5, 9), 1500, "PierHome");
             }
             else
             {
-                CreateNewSector(new Vector3(-16.77627f, -0.5062422f, 1.559867f), new Vector3(5, 5, 9), "PierHome", "Tile", "LakeNice", "TREES_MEDIUM3", "BUSHES3", "BUSHES6", "RadioMast");
+                CreateNewSector(new Vector3(-16.77627f, -0.5062422f, 1.559867f), new Vector3(5, 5, 9), 1500, "PierHome", "Tile", "LakeNice", "TREES_MEDIUM3", "BUSHES3", "BUSHES6", "RadioMast");
             }
             // Teimo
-            CreateNewSector(new Vector3(-1547.3f, 4, 1183.35f), new Vector3(9.6f, 5, 5.5f), new Vector3(0, 328, 0),
+            CreateNewSector(new Vector3(-1547.3f, 4, 1183.35f), new Vector3(9.6f, 5, 5.5f), new Vector3(0, 328, 0), 500,
                 "StreetLights", "HUMANS", "TRAFFIC", "NPC_CARS", "PERAJARVI", "TrafficSigns", "StreetLights", "ELEC_POLES", "TREES_SMALL1", "BusStop", "BUSHES3");
-            CreateNewSector(new Vector3(-1551.7f, 4, 1185.8f), new Vector3(4.6f, 5, 2.5f), new Vector3(0, 328, 0),
-                "StreetLights", "HUMANS", "TRAFFIC", "NPC_CARS", "PERAJARVI", "TrafficSigns", "StreetLights", "ELEC_POLES", "TREES_SMALL1");
+            CreateNewSector(new Vector3(-1551.7f, 4, 1185.8f), new Vector3(4.6f, 5, 2.5f), new Vector3(0, 328, 0), 500,
+                "StreetLights", "HUMANS", "TRAFFIC", "NPC_CARS", "PERAJARVI", "TrafficSigns", "StreetLights", "ELEC_POLES", "TREES_SMALL1"); // Back.
             // Repair shop
-            CreateNewSector(new Vector3(1562.49f, 4.8f, 733.8835f), new Vector3(15, 5, 20), new Vector3(0, 335, 0), "TRAFFIC", "ELEC_POLES", "Buildings",
-                "HUMANS", "TrafficSigns", "StreetLights");
+            CreateNewSector(new Vector3(1562.49f, 4.8f, 733.8835f), new Vector3(15, 5, 20), new Vector3(0, 335, 0), 500, 
+                "TRAFFIC", "ELEC_POLES", "Buildings", "HUMANS", "TrafficSigns", "StreetLights", "TREES_MEDIUM3", "BUSHES6");
             // Yard Machine Hall
-            CreateNewSector(new Vector3(54.7f, -0.5062422f, -73.9f), new Vector3(6, 5, 5.2f), "YARD", "MachineHall", "BUSHES3", "BUSHES6", "TREES_SMALL1");
+            CreateNewSector(new Vector3(54.7f, -0.5062422f, -73.9f), new Vector3(6, 5, 5.2f), 800, "YARD", "MachineHall", "BUSHES3", "BUSHES6", "TREES_SMALL1");
             // Home
-            CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.9f), new Vector3(11, 5, 9.5f), "PierHome", "TREES_SMALL1", "BUSHES7", "Building", "RadioMast"); // Living room, kitchen, bedrooms.
-            CreateNewSector(new Vector3(-12.5f, -0.5062422f, 1.2f), new Vector3(3, 5, 8f), "PierHome", "TREES_SMALL1", "Building"); // Sauna, bathroom.
-            CreateNewSector(new Vector3(-13.4f, -0.5062422f, 6.4f), new Vector3(1.4f, 5, 1.7f), "PierHome"); // Storage room (kitchen).
+            CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.9f), new Vector3(11, 5, 9.5f), 1500, "PierHome", "TREES_SMALL1", "BUSHES7", "Building", "RadioMast"); // Living room, kitchen, bedrooms.
+            CreateNewSector(new Vector3(-12.5f, -0.5062422f, 1.2f), new Vector3(3, 5, 8f), 800, "PierHome", "TREES_SMALL1", "Building"); // Sauna, bathroom.
+            CreateNewSector(new Vector3(-13.4f, -0.5062422f, 6.4f), new Vector3(1.4f, 5, 1.7f), 200, "PierHome"); // Storage room (kitchen).
             // Jail
-            CreateNewSector(new Vector3(-655, 5, -1156), new Vector3(5, 5, 9f));
+            CreateNewSector(new Vector3(-655, 5, -1156), new Vector3(5, 5, 9f), 100);
             // Cottage
-            CreateNewSector(new Vector3(-848.2f, -2, 505.6f), new Vector3(5, 3, 5.2f), new Vector3(0, 342, -1.07f), "BUSHES7", "TREES_SMALL4", "TREES_MEDIUM3", "LakeNice", "TRAFFIC", "Tile");
+            CreateNewSector(new Vector3(-848.2f, -2, 505.6f), new Vector3(5, 3, 5.2f), new Vector3(0, 342, -1.07f), 1400, 
+                "BUSHES7", "TREES_SMALL4", "TREES_MEDIUM3", "LakeNice", "TRAFFIC", "Tile");
             // Cabin
-            CreateNewSector(new Vector3(-165.55f, -3.7f, 1020.7f), new Vector3(5, 4, 3.5f), "LakeNice", "Tile", "BUSHES7", "TREES_SMALL1");
+            CreateNewSector(new Vector3(-165.55f, -3.7f, 1020.7f), new Vector3(5, 4, 3.5f), 1400, "LakeNice", "Tile", "BUSHES7", "TREES_SMALL1");
 
             // Driveway sector
             if (MopSettings.Mode == PerformanceMode.Performance)
-                CreateNewSector(new Vector3(-18.5f, -0.5062422f, 11.9f), new Vector3(11f, 5, 9.5f),
+                CreateNewSector(new Vector3(-18.5f, -0.5062422f, 11.9f), new Vector3(11f, 5, 9.5f), 3000,
                     "TREES_SMALL1", "BUSHES7", "BUSHES3", "BUSHES6", "TREES_MEDIUM3", "YARD", "LakeNice", "Tile", "PierHome");
 
             // Generating sectors from rule files.
@@ -160,7 +161,7 @@ namespace MOP.Managers
                 {
                     try
                     {
-                        CreateNewSector(sector.Position, sector.Scale, sector.Rotation, sector.Whitelist);
+                        CreateNewSector(sector.Position, sector.Scale, sector.Rotation, 300, sector.Whitelist);
                     }
                     catch (System.Exception ex)
                     {
@@ -177,9 +178,8 @@ namespace MOP.Managers
             }
         }
 
-        void CreateNewSector(Vector3 position, Vector3 size, params string[] ignoreList) => CreateNewSector(position, size, Vector3.zero, ignoreList);
-
-        void CreateNewSector(Vector3 position, Vector3 size, Vector3 rotation, params string[] ignoreList)
+        void CreateNewSector(Vector3 position, Vector3 size, int renderDistance, params string[] ignoreList) => CreateNewSector(position, size, Vector3.zero, renderDistance, ignoreList);
+        void CreateNewSector(Vector3 position, Vector3 size, Vector3 rotation, int renderDistance, params string[] ignoreList)
         {
             GameObject newSector = new GameObject("MOP_Sector");
             newSector.transform.position = position;
@@ -189,24 +189,12 @@ namespace MOP.Managers
             if (ignoreList.Length == 0)
                 ignoreList = new string[0];
 
-            sectorInfo.Initialize(size, ignoreList);
+            sectorInfo.Initialize(size, renderDistance, ignoreList);
             sectors.Add(newSector);
         }
 
         public void ToggleActive()
         {
-            if (MOP.LazySectorUpdating.GetValue())
-            {
-                if (currentLazyToggle != null)
-                {
-                    StopCoroutine(currentLazyToggle);
-                }
-
-                currentLazyToggle = LazyToggleActive();
-                StartCoroutine(currentLazyToggle);
-                return;
-            }
-
             for (int i = 0; i < objectsToDisable.Count; i++)
             {
                 // Safe check if somehow the i gets bigger than array length.
@@ -303,6 +291,11 @@ namespace MOP.Managers
         public bool IsPlayerInSector()
         {
             return activeSectors.Count > 0;
+        }
+
+        public int GetCurrentSectorDrawDistance()
+        {
+            return activeSectors[0].DrawDistance;
         }
     }
 }
