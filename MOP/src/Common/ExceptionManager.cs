@@ -190,8 +190,7 @@ namespace MOP.Common
             output += $"FastLoading: {MOP.FastLoading.GetValue()}\n";
             output += $"ToggleVehiclePhysicsOnly: {RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";
             output += $"IgnoreModVehicles: {RulesManager.Instance.SpecialRules.IgnoreModVehicles}\n";
-            output += $"CustomRuleFile: {File.Exists($"{MOP.ModConfigPath}/Custom.txt")}\n\n";
-            output += $"LazySectors: {MOP.LazySectorUpdating.GetValue()}\n";
+            output += $"CustomRuleFile: {File.Exists($"{MOP.ModConfigPath}/Custom.txt")}\n";
 
             // Game data
             if (ModLoader.CurrentScene == CurrentScene.Game)

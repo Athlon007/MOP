@@ -22,6 +22,7 @@
 ### Removed
 
 - Removed framerate recording
+- Removed lazy sector updating
 
 ## 3.7.2 (08.07.2022)
 

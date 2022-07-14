@@ -74,7 +74,7 @@ namespace MOP
         static internal SettingsCheckBoxGroup ModePerformance, ModeBalanced, ModeQuality, ModeSafe;
         static internal SettingsCheckBox KeepRunningInBackground, LimitFramerate, DynamicDrawDistance,
                                           RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
-                                          DestroyEmptyBottles, DisableEmptyItems, LazySectorUpdating,
+                                          DestroyEmptyBottles, DisableEmptyItems,
                                           AlwaysDisableSkidmarks, FastLoading;
         SettingsDynamicText modeWarningText;
 #endif
@@ -191,11 +191,6 @@ namespace MOP
             FastLoading = modSettings.AddToggle("fastLoading", "FAST LOADING", false);
             FastLoading.AddTooltip("Decreases the time it takes for MOP to load.\nThis can lead to engine parts\nor textures not loading as intended.");
 
-            // Experimental
-            modSettings.AddHeader("<color=red>EXPERIMENTAL</color>");
-            LazySectorUpdating = modSettings.AddToggle("lazySectorUpdating", "LAZY SECTOR UPDATING", false);
-            LazySectorUpdating.AddTooltip("LAZY SECTOR UPDATING offloads disabling/enabling\nobjects between couple of frames, in order to\nease-out the load on the CPU.");
-
             // Logging
             modSettings.AddHeader("LOGGING");
             modSettings.AddText("If you want to file a bug report, use <color=red>I FOUND A BUG</color> button!");
@@ -262,12 +257,6 @@ namespace MOP
             Settings.AddText(this, "Skidmarks cause a massive memory leak, every time you brake/accelerate hard. Disabling them mitigates that problem.");
             FastLoading = Settings.AddCheckBox(this, "fastLoading", "FAST LOADING", false);
             Settings.AddText(this, "Decreases the time it takes for MOP to load. This can lead to engine parts or textures not loading as intended.");
-
-
-            // Experimental
-            Settings.AddHeader(this, "<color=red>EXPERIMENTAL</color>");
-            LazySectorUpdating = Settings.AddCheckBox(this, "lazySectorUpdating", "LAZY SECTOR UPDATING", false);
-            Settings.AddDynamicText(this, "LAZY SECTOR UPDATING offloads disabling/enabling objects between couple of frames, in order to ease-out the load on the CPU.");
 
             // Logging
             Settings.AddHeader(this, "LOGGING");

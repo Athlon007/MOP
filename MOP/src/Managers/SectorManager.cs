@@ -125,7 +125,7 @@ namespace MOP.Managers
             }
             else
             {
-                CreateNewSector(new Vector3(-16.77627f, -0.5062422f, 1.559867f), new Vector3(5, 5, 9), "PierHome", "Tile", "LakeNice", "TREES_MEDIUM3");
+                CreateNewSector(new Vector3(-16.77627f, -0.5062422f, 1.559867f), new Vector3(5, 5, 9), "PierHome", "Tile", "LakeNice", "TREES_MEDIUM3", "BUSHES3", "BUSHES6", "RadioMast");
             }
             // Teimo
             CreateNewSector(new Vector3(-1547.3f, 4, 1183.35f), new Vector3(9.6f, 5, 5.5f), new Vector3(0, 328, 0),
@@ -138,7 +138,7 @@ namespace MOP.Managers
             // Yard Machine Hall
             CreateNewSector(new Vector3(54.7f, -0.5062422f, -73.9f), new Vector3(6, 5, 5.2f), "YARD", "MachineHall", "BUSHES3", "BUSHES6", "TREES_SMALL1");
             // Home
-            CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.9f), new Vector3(11, 5, 9.5f), "PierHome", "TREES_SMALL1", "BUSHES7", "Building"); // Living room, kitchen, bedrooms.
+            CreateNewSector(new Vector3(-7.2f, -0.5062422f, 9.9f), new Vector3(11, 5, 9.5f), "PierHome", "TREES_SMALL1", "BUSHES7", "Building", "RadioMast"); // Living room, kitchen, bedrooms.
             CreateNewSector(new Vector3(-12.5f, -0.5062422f, 1.2f), new Vector3(3, 5, 8f), "PierHome", "TREES_SMALL1", "Building"); // Sauna, bathroom.
             CreateNewSector(new Vector3(-13.4f, -0.5062422f, 6.4f), new Vector3(1.4f, 5, 1.7f), "PierHome"); // Storage room (kitchen).
             // Jail
