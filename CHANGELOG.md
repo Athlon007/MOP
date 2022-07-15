@@ -16,6 +16,7 @@
   - When player has entered a building, the render distance is lowered to cover the surrounding terrain
   - Render distance will not be set to higher than player's prefered draw distance
   - Around 5-20% performance increase if enabled (depending on player's location)
+  - Removed the smooth change of rendering distance - now it happens instantly
 - Dynamic Draw Distance is enabled by default
 - Less aggressive object disabling when entering home and repair shop
 - The "Learn More" button in "RULES" section now takes you to MOP's wiki
