@@ -71,4 +71,4 @@ This program is distributed under GNU General Public License v3. Feel free to us
 
 Do you like MOP? Consider buying me a pizza :)
 
-[![](http://athlon.kkmr.pl/images/svg/paypal.svg)](https://www.paypal.me/figurakonrad)
+[![](http://athlon.kkmr.pl/images/svg/paypal.svg)](https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y)
