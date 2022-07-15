@@ -15,10 +15,11 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using HutongGames.PlayMaker.Actions;
 using UnityEngine;
 
-using HutongGames.PlayMaker.Actions;
 using MOP.FSM;
+using MOP.Places.Cases.Misc;
 
 namespace MOP.Places
 {
@@ -118,6 +119,9 @@ namespace MOP.Places
 
             // Moves RagDoll of Uncle to LODs.
             transform.Find("RagDoll")?.SetParent(transform.Find("LOD"));
+
+            // Rotating sausage and fries in the microwave, oooooo.
+            transform.Find("LOD/GFX_Pub/Microwave/GrillboxMicro").gameObject.AddComponent<SausageInMicrowaveBehaviour>();
 
             Compress();
         }
