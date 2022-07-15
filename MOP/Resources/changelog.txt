@@ -1,0 +1,31 @@
+### Added
+
+- Added a brand new load screen for both Mod Loaders
+- Added "Supporters" section in the MOP settings, with the list of people who donated to the project
+- Exception type name is now included in crash log
+
+### Changes
+
+- Dynamic Draw Distance 2.0
+  - Render distance is determined depending on the sector player has entered
+  - In Balanced mode or above, render distance is set to 5000, if player is at higher elevation (to cover entire map)
+  - When player has entered a building, the render distance is lowered to cover the surrounding terrain
+  - Render distance will not be set to higher than player's prefered draw distance
+  - Around 5-20% performance increase if enabled (depending on player's location)
+  - Removed the smooth change of rendering distance - now it happens instantly
+- Dynamic Draw Distance is enabled by default
+- Less aggressive object disabling when entering home and repair shop
+- The "Learn More" button in "RULES" section now takes you to MOP's wiki
+- Updated the Donate link
+
+### Bug Fixes
+
+- Fixed exhaust muffler detaching, if the player died when the car was at hom and player was away from it
+- Fixed bucket lid detaching
+- Fixed vodka shots glasses physics not working
+- Spoiled fish left at grandma's house are pickable again
+
+### Removed
+
+- Removed framerate recording
+- Removed lazy sector updating
