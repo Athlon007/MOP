@@ -28,6 +28,7 @@
 - Fixed bucket lid detaching
 - Fixed vodka shots glasses physics not working
 - Spoiled fish left at grandma's house are pickable again
+- Fixed double message box for 5 restarts warning
 
 ### Removed
 

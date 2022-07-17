@@ -310,11 +310,7 @@ namespace MOP
             if (MopSettings.Restarts > MopSettings.MaxRestarts && !MopSettings.RestartWarningShown)
             {
                 MopSettings.RestartWarningShown = true;
-                ModUI.ShowYesNoMessage("You've reloaded the game without fully quitting it over 5 times.\n\n" +
-                                       "It is recommended to fully quit the game after a while, so it would fully unload the memory.\n" +
-                                       "Not doing so may lead to game-breaking glitches.\n\n" +
-                                       "Would you like to do that now?", "MOP", Application.Quit);
-                ModUI.ShowYesNoMessage("Game has been reloaded over 5 times, which may cause issues with game physics.", "MOP", Application.Quit);
+                ModUI.ShowYesNoMessage($"Game has been reloaded over {MopSettings.MaxRestarts} times, which may cause issues with game physics.", "MOP", Application.Quit);
             }
 
             if (MopSettings.GameFixStatus == Common.Enumerations.GameFixStatus.DoFix)
