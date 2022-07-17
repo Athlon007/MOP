@@ -50,7 +50,8 @@ namespace MOP.Common
                                 "<color=yellow>resolution [width] [height]</color> - Sets the desired resolution\n" +
                                 "<color=yellow>force-load-restart [true/false]</color> - Forces the 'missing Satsuma parts' game reload to happen\n" +
                                 "<color=yellow>stop</color> - Stops MOP. MIGHT BREAK THE GAME!\n" +
-                                "<color=yellow>start</color> - Starts MOP back again";
+                                "<color=yellow>start</color> - Starts MOP back again\n" +
+                                "<color=yellow>quality [0-5]</color> - Set quality setting";
 
         public override void Run(string[] args)
         {
@@ -60,12 +61,12 @@ namespace MOP.Common
                 return;
             }
 
-            switch (args[0])
+            switch (args[0].ToUpperInvariant())
             {
                 default:
                     ModConsole.Log("Invalid command. Type \"mop help\" for command list.");
                     break;
-                case "help":
+                case "HELP":
                     string[] helpList = HelpList.Split('\n');
                     Array.Sort(helpList, StringComparer.InvariantCulture);
                     if (args.Length > 1)
@@ -87,7 +88,7 @@ namespace MOP.Common
                     }
                     ModConsole.Log(string.Join("\n", helpList));
                     break;
-                case "rules":
+                case "RULES":
                     if (args.Length > 1 && args[1] == "roll")
                     {
                         ModConsole.Log("\n<color=yellow>You know the rules and so do I\n" +
@@ -160,7 +161,7 @@ namespace MOP.Common
                     }
                     ModConsole.Log(string.Join("\n", files.ToArray()));
                     break;
-                case "reload":
+                case "RELOAD":
                     if (ModLoader.CurrentScene != CurrentScene.MainMenu)
                     {
                         ModConsole.Log("You can only reload the rule files in the main menu.");
@@ -169,11 +170,11 @@ namespace MOP.Common
 
                     bool loadAll = false;
                     if (args.Length > 1)
-                        loadAll = args[1].ToLower() == "all";
+                        loadAll = args[1].ToUpperInvariant() == "ALL";
 
                     RulesManager.Instance.WipeAll(false, loadAll);
                     break;
-                case "new":
+                case "NEW":
                     string path = $"{MOP.ModConfigPath}/Custom.txt";
 
                     if (args.Length > 1)
@@ -203,10 +204,10 @@ namespace MOP.Common
                         ModConsole.Log($"A rule file for {args[1]} mod has been created.");
                     }
                     break;
-                case "version":
-                    ModConsole.Log(MOP.ModVersion + " for " + MOP.Edition);
+                case "VERSION":
+                    ModConsole.Log($"{MOP.ModVersion} for {MOP.Edition}");
                     break;
-                case "cowsay":
+                case "COWSAY":
                     string say = string.Join(" ", args, 1, args.Length - 1);
 
                     ModConsole.Log($"< {say} >\n" +
@@ -216,10 +217,10 @@ namespace MOP.Common
                                     "                ||  ----w  |\n" +
                                     "                ||           || ");
                     break;
-                case "open-config":
+                case "OPEN-CONFIG":
                     Process.Start(MOP.ModConfigPath);
                     break;
-                case "open":
+                case "OPEN":
                     if (args.Length == 1)
                     {
                         ModConsole.Log($"Missing argument.");
@@ -245,7 +246,7 @@ namespace MOP.Common
 
                     Process.Start($"{MOP.ModConfigPath}/{args[1]}");
                     break;
-                case "delete":
+                case "DELETE":
                     if (args.Length == 1)
                     {
                         ModConsole.Log($"Missing argument.");
@@ -270,7 +271,7 @@ namespace MOP.Common
 
                     File.Delete($"{MOP.ModConfigPath}/{args[1]}");
                     break;
-                case "cat":
+                case "CAT":
                     if (args.Length == 1)
                     {
                         ModConsole.Log($"Missing argument.");
@@ -295,7 +296,7 @@ namespace MOP.Common
 
                     ModConsole.Log(File.ReadAllText($"{MOP.ModConfigPath}/{args[1]}"));
                     break;
-                case "generate-list":
+                case "GENERATE-LIST":
                     if (args.Length > 1)
                     {
                         if (RulesManager.Instance.LoadRules &&
@@ -305,16 +306,16 @@ namespace MOP.Common
                             ModConsole.Log("<color=red>WARNING:</color> For accurate results, use \"mop load-rules false\" to prevent MOP from using rule files.");
                         }
 
-                        MopSettings.GenerateToggledItemsListDebug = args[1].ToLower() == "true";
+                        MopSettings.GenerateToggledItemsListDebug = args[1].ToUpperInvariant() == "TRUE";
                     }
 
                     ModConsole.Log($"Generating toggled elements list is set to " +
                                    $"<color={(MopSettings.GenerateToggledItemsListDebug ? "green" : "red")}>{MopSettings.GenerateToggledItemsListDebug}</color>");
                     break;
-                case "load-rules":
+                case "LOAD-RULES":
                     if (args.Length > 1)
                     {
-                        RulesManager.Instance.LoadRules = args[1].ToLower() == "true";
+                        RulesManager.Instance.LoadRules = args[1].ToUpperInvariant() == "TRUE";
                         if (!RulesManager.Instance.LoadRules)
                         {
                             ModConsole.Log("\n\n<color=red>WARNING:</color>\nDisabling rule files may cause serious issues with the game, or even break your save file.\n\n" +
@@ -325,12 +326,13 @@ namespace MOP.Common
                     ModConsole.Log($"Loading rule files is set to " +
                                      $"<color={(RulesManager.Instance.LoadRules ? "green" : "red")}>{RulesManager.Instance.LoadRules}</color>");
                     break;
-                case "force-crash":
+                case "FORCE-CRASH":
                     bool isCritical = false;
-                    if (args.Length > 1 && args[1].ToLower() == "critical")
+                    if (args.Length > 1 && args[1].ToUpperInvariant() == "CRITICAL")
                     {
                         isCritical = true;
                     }
+
                     try
                     {
                         throw new Exception("Test Exception");
@@ -340,7 +342,7 @@ namespace MOP.Common
                         ExceptionManager.New(ex, isCritical, "TEST_EXCEPTION");
                     }
                     break;
-                case "resolution":
+                case "RESOLUTION":
                     try
                     {
                         if (args.Length == 1)
@@ -381,7 +383,7 @@ namespace MOP.Common
                         ModConsole.LogError("Failed setting resolution.");
                     }
                     break;
-                case "quality-settings":
+                case "QUALITY":
                     try
                     {
                         QualitySettings.SetQualityLevel(int.Parse(args[1]), true);
@@ -391,7 +393,7 @@ namespace MOP.Common
                         ModConsole.LogError("Failed setting quality settings.");
                     }
                     break;
-                case "force-load-restart":
+                case "FORCE-LOAD-RESTART":
                     if (args.Length == 2)
                     {
                         string var = args[1].ToLower();
@@ -412,7 +414,7 @@ namespace MOP.Common
 
                     ModConsole.Log($"force-load-restart is set to <color=yellow>{MopSettings.ForceLoadRestart}</color>.");
                     break;
-                case "stop":
+                case "STOP":
                     if (ModLoader.CurrentScene != CurrentScene.Game)
                     {
                         ModConsole.Log("[MOP] MOP can only be stopped while in-game.");
@@ -430,7 +432,7 @@ namespace MOP.Common
                     MopSettings.IsModActive = false; 
                     ModConsole.Log("[MOP] MOP has been stopped. Some things may be broken. Saving game in this state may break your game!");
                     break;
-                case "start":
+                case "START":
                     if (ModLoader.CurrentScene != CurrentScene.Game)
                     {
                         ModConsole.Log("[MOP] MOP can only be started while in-game.");

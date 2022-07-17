@@ -19,8 +19,9 @@ using System.IO;
 using UnityEngine;
 using MSCLoader;
 
-using MOP.FSM;
 using MOP.Common;
+using MOP.Common.Enumerations;
+using MOP.FSM;
 using MOP.Helpers;
 using MOP.Rules;
 #if PRO
@@ -200,7 +201,7 @@ namespace MOP
 
             // Supporters
             modSettings.AddHeader("SUPPORTERS");
-            modSettings.AddText("<color=yellow>" + Properties.Resources.donates + "</color>" +
+            modSettings.AddText("<color=yellow>" + GetSupporters() + "</color>" +
                 "\n\nDo you want to see your name here? Send a donate and proof of transaction to MOP's author.");
 
             // Changelog
@@ -269,7 +270,7 @@ namespace MOP
 
             // Supporters
             Settings.AddHeader(this, "SUPPORTERS");
-            Settings.AddText(this, "<color=yellow>" + Properties.Resources.donates + "</color>" +
+            Settings.AddText(this, "<color=yellow>" + GetSupporters() + "</color>" +
                 "\n\nDo you want to see your name here? Send a donate and proof of transaction to MOP's author.");
 
             // Changelog
@@ -313,14 +314,14 @@ namespace MOP
                 ModUI.ShowYesNoMessage($"Game has been reloaded over {MopSettings.MaxRestarts} times, which may cause issues with game physics.", "MOP", Application.Quit);
             }
 
-            if (MopSettings.GameFixStatus == Common.Enumerations.GameFixStatus.DoFix)
+            if (MopSettings.GameFixStatus == GameFixStatus.DoFix)
             {
-                MopSettings.GameFixStatus = Common.Enumerations.GameFixStatus.Restarted;
+                MopSettings.GameFixStatus = GameFixStatus.Restarted;
                 BugReporter.Instance.RestartGame();
                 return;
             }
             
-            MopSettings.GameFixStatus = Common.Enumerations.GameFixStatus.None;
+            MopSettings.GameFixStatus = GameFixStatus.None;
 
             modeWarningText.SetValue("");
 
@@ -598,6 +599,11 @@ namespace MOP
                 MopLoadScreenPrefab = bundle.LoadAsset<GameObject>("MOP_Canvas.prefab");
                 bundle.Unload(false);
             }
+        }
+
+        private string GetSupporters()
+        {
+            return Properties.Resources.donates;
         }
     }
 }
