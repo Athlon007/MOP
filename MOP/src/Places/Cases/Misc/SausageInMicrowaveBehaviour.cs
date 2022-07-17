@@ -24,18 +24,22 @@ namespace MOP.Places.Cases.Misc
         
         private float timer;
         private const float WaitTime = 4f;
+        private const float RunTime = 75f;
 
         private void FixedUpdate()
         {
+            timer += Time.deltaTime;
             if (timer < WaitTime)
             {
-                timer += Time.deltaTime;
                 return;
             }
 
-            Vector3 euler = transform.localEulerAngles;
-            euler.z += RotateSpeed;
-            transform.localEulerAngles = euler;
+            if (timer < RunTime)
+            {
+                Vector3 euler = transform.localEulerAngles;
+                euler.z += RotateSpeed;
+                transform.localEulerAngles = euler;
+            }
         }
 
         private void OnEnable()
