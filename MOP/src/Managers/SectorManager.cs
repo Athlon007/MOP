@@ -130,7 +130,7 @@ namespace MOP.Managers
             // Teimo
             CreateNewSector(new Vector3(-1547.4f, 4, 1183.35f), new Vector3(9.6f, 5, 5.5f), new Vector3(0, 328, 0), 500,
                 "StreetLights", "HUMANS", "TRAFFIC", "NPC_CARS", "PERAJARVI", "TrafficSigns", "StreetLights", "ELEC_POLES", "TREES_SMALL1", "BusStop", "BUSHES3");
-            CreateNewSector(new Vector3(-1551.7f, 4, 1185.8f), new Vector3(4.7f, 5, 3.3f), new Vector3(0, 328, 0), 100,
+            CreateNewSector(new Vector3(-1551.7f, 4, 1185.8f), new Vector3(4.7f, 5, 3.3f), new Vector3(0, 328, 0), 50,
                 "StreetLights", "HUMANS", "TRAFFIC", "NPC_CARS", "PERAJARVI", "TrafficSigns", "StreetLights", "ELEC_POLES", "TREES_SMALL1"); // Back.
             // Repair shop
             CreateNewSector(new Vector3(1562.49f, 4.8f, 733.8835f), new Vector3(15, 5, 20), new Vector3(0, 335, 0), 500, 

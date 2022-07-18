@@ -236,7 +236,7 @@ namespace MOP
                 worldObjectManager.Add("PERAJARVI", DisableOn.Distance | DisableOn.IgnoreInQualityMode, 400);
                 worldObjectManager.Add("SOCCER", DisableOn.Distance);
                 worldObjectManager.Add("WATERFACILITY", DisableOn.Distance, 300);
-                worldObjectManager.Add("DRAGRACE", DisableOn.Distance | DisableOn.AlwaysUse1xDistance, 1100);
+                //worldObjectManager.Add("DRAGRACE", DisableOn.Distance | DisableOn.AlwaysUse1xDistance, 1100);
                 worldObjectManager.Add("StrawberryField", DisableOn.Distance, 400);
                 worldObjectManager.Add("MAP/Buildings/DINGONBIISI", DisableOn.Distance | DisableOn.IgnoreInBalancedAndAbove, 400);
                 worldObjectManager.Add("RALLY/PartsSalesman", DisableOn.Distance, 400);

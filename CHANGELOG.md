@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.8 (TBA)
+## 3.8 (18.07.2022)
 
 ### Added
 
@@ -30,6 +30,7 @@
 - Fixed vodka shots glasses physics not working
 - Spoiled fish left at grandma's house are pickable again
 - Fixed double message box for 5 restarts warning
+- Fixed drag race not working
 
 ### Removed
 
