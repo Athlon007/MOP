@@ -85,10 +85,11 @@ namespace MOP
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
         readonly string[] rulesAutoUpdateFrequencyText = { "Every launch", "Daily", "Every 2 days", "Weekly" };
         const string WelcomeMessage = "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n\n" +
-                                      "Please consider supporting the project using <color=#3687D7>PayPal</color>, or on <color=orange>NexusMods</color>.";
+                                      "Consider supporting the project using <color=#3687D7>PayPal</color>, or on <color=orange>NexusMods</color>.\n\n" +
+                                      "<b><color=yellow>BACKUP YOUR SAVE FILES!</color></b>";
         const string WelcomeMessageFestive = "Merry Christmas and Happy New Year {1}!\n\n" +
                                              "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n" +
-                                             "Please consider supporting the project using <color=#3687D7>PayPal</color>, or on <color=orange>NexusMods</color>.";
+                                             "Consider supporting the project using <color=#3687D7>PayPal</color>, or on <color=orange>NexusMods</color>.";
 
         public static GameObject MopLoadScreenPrefab { get; private set; }
 #if PRO
@@ -291,7 +292,7 @@ namespace MOP
 #endif
             RemoveUnusedFiles();
 
-            if (!Version.StartsWith(MopSettings.Data.Version.ToString()))
+            if (!Version.Contains(MopSettings.Data.Version.ToString()))
             {
                 MopSettings.Data.Version = Version;
                 MopSettings.WriteData(MopSettings.Data);
