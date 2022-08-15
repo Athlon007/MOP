@@ -6,6 +6,7 @@
 
 - Fixed R20 battery boxes "jumping"
 - Fixed bug preventing Satsuma from being towed
+- Fixed MOP incorrectly interpreting rule file versions
 
 ## 3.8 (18.07.2022)
 

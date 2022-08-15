@@ -69,7 +69,7 @@ namespace MOP.Common
 
             using (StreamWriter sw = new StreamWriter(logFilePath, true))
             {
-                sw.Write(errorInfo + "\n");
+                sw.Write(errorInfo + "\n\n");
             }
 
             string errorMessage = $"[MOP] An error has occured. The log file has been saved into:\n\n" +

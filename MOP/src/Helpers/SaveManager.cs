@@ -162,66 +162,84 @@ namespace MOP.Helpers
                 ExceptionManager.New(ex, false, "VERIFY_SAVE_FLATBED");
             }
 
-            try
+            MopSaveFileData save = ReadData();
+            if (save != null && save.version == MOP.ModVersion)
             {
-                // This one applies fix quietly, as it happens so often,
-                // it would be annoying to nag player about that error.
-                MopSaveFileData save = ReadData();
-                if (save != null)
+                try
                 {
-                    if (save.version == MOP.ModVersion)
+                    // This one applies fix quietly, as it happens so often,
+                    // it would be annoying to nag player about that error.
+                    bool bumperRearInstalled = ReadBoolean("bumper rear(Clone)Installed");
+                    float bumperTightness = ReadFloat("Bumper_RearTightness");
+
+                    if (bumperRearInstalled && bumperTightness != save.rearBumperTightness)
                     {
-                        bool bumperRearInstalled = ReadBoolean("bumper rear(Clone)Installed");
-                        float bumperTightness = ReadFloat("Bumper_RearTightness");
-
-                        if (bumperRearInstalled && bumperTightness != save.rearBumperTightness)
-                        {
-                            WriteSavePath("Bumper_RearTightness", save.rearBumperTightness);
-                            WriteSavePath("Bumper_RearBolts", save.rearBumperBolts);
-                        }
-
-                        bool halfshaft_FLInstalled = ReadBoolean("halfshaft_flInstalled");
-                        float halfshaft_FLTightness = ReadFloat("Halfshaft_FLTightness");
-                        if (halfshaft_FLInstalled && halfshaft_FLTightness != save.halfshaft_FLTightness)
-                        {
-                            saveBugs.Add(SaveBugs.New("Halfshaft (FL) Missmateched Bolt Stages", () =>
-                            {
-                                WriteSavePath("Halfshaft_FLTightness", save.halfshaft_FLTightness);
-                                WriteSavePath("Halfshaft_FLBolts", save.halfshaft_FLBolts);
-                            }));
-                        }
-
-                        bool halfshaft_FRInstalled = ReadBoolean("halfshaft_frInstalled");
-                        float halfshaft_FRTightness = ReadFloat("Halfshaft_FRTightness");
-                        if (halfshaft_FRInstalled && halfshaft_FRTightness != save.halfshaft_FRTightness)
-                        {
-                            saveBugs.Add(SaveBugs.New("Halfshaft (FR) Missmateched Bolt Stages", () =>
-                            {
-                                WriteSavePath("Halfshaft_FRTightness", save.halfshaft_FRTightness);
-                                WriteSavePath("Halfshaft_FRBolts", save.halfshaft_FRBolts);
-                            }));
-                        }
-
-                        bool wiringBatteryMinusInstalled = ReadBoolean("battery_terminal_minus(xxxxx)Installed");
-                        float wiringBatteryMinusTightness = ReadFloat("WiringBatteryMinusTightness");
-                        if (wiringBatteryMinusInstalled && wiringBatteryMinusTightness != save.wiringBatteryMinusTightness)
-                        {
-                            saveBugs.Add(SaveBugs.New("Battery terminal minus bolt is not tightened.", () =>
-                            {
-                                WriteSavePath("WiringBatteryMinusTightness", save.wiringBatteryMinusTightness);
-                                WriteSavePath("WiringBatteryMinusBolts", save.wiringBatteryMinusBolts);
-                            }));
-                        }
-                    }
-                    else
-                    {
-                        ReleaseSave();
+                        WriteSavePath("Bumper_RearTightness", save.rearBumperTightness);
+                        WriteSavePath("Bumper_RearBolts", save.rearBumperBolts);
                     }
                 }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, false, "VERIFY_BUMPER_REAR");
+                }
+
+                try
+                {
+                    bool halfshaft_FLInstalled = ReadBoolean("halfshaft_flInstalled");
+                    float halfshaft_FLTightness = ReadFloat("Halfshaft_FLTightness");
+                    if (halfshaft_FLInstalled && halfshaft_FLTightness != save.halfshaft_FLTightness)
+                    {
+                        saveBugs.Add(SaveBugs.New("Halfshaft (FL) Missmateched Bolt Stages", () =>
+                        {
+                            WriteSavePath("Halfshaft_FLTightness", save.halfshaft_FLTightness);
+                            WriteSavePath("Halfshaft_FLBolts", save.halfshaft_FLBolts);
+                        }));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, false, "VERIFY_HALFSHAFT_FL");
+                }
+
+                try 
+                { 
+                    bool halfshaft_FRInstalled = ReadBoolean("halfshaft_frInstalled");
+                    float halfshaft_FRTightness = ReadFloat("Halfshaft_FRTightness");
+                    if (halfshaft_FRInstalled && halfshaft_FRTightness != save.halfshaft_FRTightness)
+                    {
+                        saveBugs.Add(SaveBugs.New("Halfshaft (FR) Missmateched Bolt Stages", () =>
+                        {
+                            WriteSavePath("Halfshaft_FRTightness", save.halfshaft_FRTightness);
+                            WriteSavePath("Halfshaft_FRBolts", save.halfshaft_FRBolts);
+                        }));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, false, "VERIFY_HALFSHAFT_FR");
+                }
+
+                try
+                { 
+                    bool wiringBatteryMinusInstalled = ReadBoolean("battery_terminal_minus(xxxxx)Installed");
+                    float wiringBatteryMinusTightness = ReadFloat("WiringBatteryMinusTightness");
+                    if (wiringBatteryMinusInstalled && wiringBatteryMinusTightness != save.wiringBatteryMinusTightness)
+                    {
+                        saveBugs.Add(SaveBugs.New("Battery terminal minus bolt is not tightened.", () =>
+                        {
+                            WriteSavePath("WiringBatteryMinusTightness", save.wiringBatteryMinusTightness);
+                            WriteSavePath("WiringBatteryMinusBolts", save.wiringBatteryMinusBolts);
+                        }));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, false, "VERIFY_BATTERY_TERMINAL_MINUS");
+                }
             }
-            catch (Exception ex)
+            else
             {
-                ExceptionManager.New(ex, false, "VERIFY_BUMPER_REAR");
+                ReleaseSave();
             }
 
             try
