@@ -73,6 +73,11 @@ namespace MOP.Helpers
             return ES2.Load<Transform>($"{SavePath}?tag={tag}", setting);
         }
 
+        public static Transform ReadItemTranform(string tag)
+        {
+            return ES2.Load<Transform>($"{ItemsPath}?tag={tag}", setting);
+        }
+
         static float ReadFloat(string tag)
         {
             return ES2.Load<float>($"{SavePath}?tag={tag}", setting);

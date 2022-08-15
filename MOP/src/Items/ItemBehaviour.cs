@@ -170,6 +170,11 @@ namespace MOP.Items
             {
                 SetInitialTogglingMethod();
             }
+
+            if (this.gameObject.name.Contains("r20 battery box"))
+            {
+                R20BoxBatteryLoadTransform();
+            }
         }
 
         void OnEnable()
@@ -760,6 +765,15 @@ namespace MOP.Items
         public void IsObjectOnGrill(bool isObjectOnGrill)
         {
             this.isObjectOnGrill = isObjectOnGrill;
+        }
+
+        private void R20BoxBatteryLoadTransform()
+        {
+            string transformID = gameObject.GetPlayMaker("Use").FsmVariables.GetFsmString("UniqueTagTransform").Value;
+            Transform loadedTransform = SaveManager.ReadItemTranform(transformID);
+            //ModConsole.Log($"{transformID}: {loadedTransform.position} | {transform.position}");
+            transform.position = loadedTransform.position;
+            transform.rotation = loadedTransform.rotation;
         }
     }
 }

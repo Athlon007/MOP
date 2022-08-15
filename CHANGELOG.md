@@ -1,5 +1,11 @@
 # Changelog
 
+## TBA (TBA)
+
+### Bug Fixes
+
+- Fixed R20 battery boxes "jumping" (#100)
+
 ## 3.8 (18.07.2022)
 
 ### Added
