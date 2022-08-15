@@ -746,7 +746,6 @@ namespace MOP.Rules.Configuration
                 }
 
                 isEqual[i] = mopVersion[i] == minimalVersion[i];
-                ModConsole.Log($"{mopVersion[i]} IS EQUAL TO {minimalVersion[i]}? {isEqual[i]}");
             }
 
             return false;
