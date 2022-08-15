@@ -100,7 +100,7 @@ namespace MOP.Helpers
 
         static void WriteSavePath<T>(string tag, T value)
         {
-            ES2.Save(value, $"{SavePath}?tag={tag}");
+            ES2.Save(value, $"{SavePath}?tag={tag}", setting);
         }
 
         public static void SaveToDefault<T>(string tag, T value)
@@ -171,7 +171,6 @@ namespace MOP.Helpers
                     // it would be annoying to nag player about that error.
                     bool bumperRearInstalled = ReadBoolean("bumper rear(Clone)Installed");
                     float bumperTightness = ReadFloat("Bumper_RearTightness");
-
                     if (bumperRearInstalled && bumperTightness != save.rearBumperTightness)
                     {
                         WriteSavePath("Bumper_RearTightness", save.rearBumperTightness);
@@ -180,7 +179,7 @@ namespace MOP.Helpers
                 }
                 catch (Exception ex)
                 {
-                    ExceptionManager.New(ex, false, "VERIFY_BUMPER_REAR");
+                    //ExceptionManager.New(ex, false, "VERIFY_BUMPER_REAR");
                 }
 
                 try

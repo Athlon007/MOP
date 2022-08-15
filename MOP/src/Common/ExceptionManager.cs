@@ -57,7 +57,7 @@ namespace MOP.Common
                         crashesInFolder++;
                     }
 
-                    fileName += $"_{crashesInFolder}";
+                    fileName += $"_{crashesInFolder}"; 
                 }
 
                 currentLogFile = fileName + ".txt";
