@@ -139,27 +139,55 @@ namespace MOP.Vehicles.Cases
             lastGoodPosition = transform.localPosition;
 
             // Adding components to normal and bucket seats.
-            GameObject.Find("seat driver(Clone)").AddComponent<SatsumaSeatsManager>();
-            GameObject.Find("seat passenger(Clone)").AddComponent<SatsumaSeatsManager>();
-
-            GameObject bucketDriver = GameObject.Find("bucket seat driver(Clone)");
-            GameObject bucketPassanger = GameObject.Find("bucket seat passenger(Clone)");
-            if (bucketDriver == null)
+            try
             {
-                bucketDriver = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "bucket seat driver(Clone)"
-                && g.transform.parent.gameObject.name == "Parts");
-                bucketPassanger = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "bucket seat passenger(Clone)"
-                && g.transform.parent.gameObject.name == "Parts");
+                GameObject.Find("seat driver(Clone)").AddComponent<SatsumaSeatsManager>();
+                GameObject.Find("seat passenger(Clone)").AddComponent<SatsumaSeatsManager>();
             }
-            
-            bucketDriver?.AddComponent<SatsumaSeatsManager>();
-            bucketPassanger?.AddComponent<SatsumaSeatsManager>();
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, true, "SATSUMA_SEAT_FIX_ERROR");
+            }
+
+            try
+            {
+                GameObject bucketDriver = GameObject.Find("bucket seat driver(Clone)");
+                GameObject bucketPassanger = GameObject.Find("bucket seat passenger(Clone)");
+                if (bucketDriver == null)
+                {
+                    bucketDriver = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "bucket seat driver(Clone)"
+                    && g.transform.parent.gameObject.name == "Parts");
+                    bucketPassanger = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "bucket seat passenger(Clone)"
+                    && g.transform.parent.gameObject.name == "Parts");
+                }
+
+                bucketDriver?.AddComponent<SatsumaSeatsManager>();
+                bucketPassanger?.AddComponent<SatsumaSeatsManager>();
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, true, "SATSUMA_BUCKET_SEAT_FIX_ERROR");
+            }
 
             // Fix for mechanical wear of the car.
-            transform.Find("CarSimulation/MechanicalWear").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            try
+            {
+                transform.Find("CarSimulation/MechanicalWear").gameObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, true, "SATSUMA_MECHANICAL_WEAR_FIX_ERROR");
+            }
 
             // Fix for not working handbrake after respawn.
-            GameObject.Find("HandBrake").GetComponent<PlayMakerFSM>().enabled = true;
+            try
+            {
+                GameObject.Find("HandBrake").GetComponent<PlayMakerFSM>().enabled = true;
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, true, "SATSUMA_HANDBRAKE_ERROR");
+            }
 
             // Fixes handbrake lever position.
             try
@@ -185,24 +213,38 @@ namespace MOP.Vehicles.Cases
             BoltsFix();
 
             // Fixes car body color resetting to default.
-            transform.Find("Body/car body(xxxxx)").GetPlayMaker("Paint").Fsm.RestartOnEnable = false;
-            
+            try
+            {
+                transform.Find("Body/car body(xxxxx)").GetPlayMaker("Paint").Fsm.RestartOnEnable = false;
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, true, "SATSUMA_BODY_PAINT_FIX_ERROR");
+            }
+
             // Wiping Load for alternator belts, oil filters, spark plugs and batteries.
             GameObject[] parts = Resources.FindObjectsOfTypeAll<GameObject>()
                                 .Where(obj => obj.name.ContainsAny("alternator belt(Clone)", "oil filter(Clone)", "spark plug(Clone)", "battery(Clone)"))
                                 .ToArray();
             foreach (GameObject part in parts)
             {
-                if (part.transform.root.gameObject.name == "GAZ24(1420kg)") continue;
+                try
+                {
+                    if (part.transform.root.gameObject.name == "GAZ24(1420kg)") continue;
 
-                PlayMakerFSM useFsm = part.GetPlayMaker("Use");
-                FsmState state1 = useFsm.GetState("State 1");
-                List<FsmStateAction> emptyState1 = state1.Actions.ToList();
-                emptyState1.Insert(0, new CustomStop());
-                state1.Actions = emptyState1.ToArray();
-                state1.SaveActions();
+                    PlayMakerFSM useFsm = part.GetPlayMaker("Use");
+                    FsmState state1 = useFsm.GetState("State 1");
+                    List<FsmStateAction> emptyState1 = state1.Actions.ToList();
+                    emptyState1.Insert(0, new CustomStop());
+                    state1.Actions = emptyState1.ToArray();
+                    state1.SaveActions();
 
-                useFsm.GetState("Load").Fsm.RestartOnEnable = false;
+                    useFsm.GetState("Load").Fsm.RestartOnEnable = false;
+                }
+                catch (System.Exception ex)
+                {
+                    ExceptionManager.New(ex, true, "SATSUMA_STATE1_WIPE_ERROR");
+                }
             }
 
             // Fix for cd player disabling other vehicles radio.
@@ -216,7 +258,7 @@ namespace MOP.Vehicles.Cases
             {
                 ExceptionManager.New(new System.Exception("FSM RadioCD Fix"), false, "Unable to fix cd player(Clone).");
             }
-            
+
             // Fix radio.
             try
             {
@@ -240,19 +282,31 @@ namespace MOP.Vehicles.Cases
             }
 
             // Apply hood fix.
-            GameFixes.Instance.HoodFix(transform.Find("Body/pivot_hood"),
-                                       transform.Find("MiscParts/trigger_battery"), 
-                                       transform.Find("MiscParts/pivot_battery"));
-
+            try
+            {
+                GameFixes.Instance.HoodFix(transform.Find("Body/pivot_hood"),
+                                           transform.Find("MiscParts/trigger_battery"),
+                                           transform.Find("MiscParts/pivot_battery"));
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, true, "SATSUMA_HOOD_FIX_ERROR");
+            }
             // Rear bumper detachng fix.
-            rearBumper = GameObject.Find("bumper rear(Clone)");
-            databaseBumper = GameObject.Find("Database/DatabaseBody/Bumper_Rear");
-            databaseBumper.SetActive(false);
-            databaseBumper.SetActive(true);
-            RearBumperBehaviour behaviour = rearBumper.AddComponent<RearBumperBehaviour>();
-            rearBumper.GetPlayMaker("Removal").GetState("Remove part").AddAction(new CustomSatsumaBumperDetach(behaviour));
-            transform.Find("Body/trigger_bumper_rear").GetPlayMaker("Assembly").GetState("Assemble 2").AddAction(new CustomSatsumaBumperAttach(behaviour));
-
+            try
+            {
+                rearBumper = GameObject.Find("bumper rear(Clone)");
+                databaseBumper = GameObject.Find("Database/DatabaseBody/Bumper_Rear");
+                databaseBumper.SetActive(false);
+                databaseBumper.SetActive(true);
+                RearBumperBehaviour behaviour = rearBumper.AddComponent<RearBumperBehaviour>();
+                rearBumper.GetPlayMaker("Removal").GetState("Remove part").AddAction(new CustomSatsumaBumperDetach(behaviour));
+                transform.Find("Body/trigger_bumper_rear").GetPlayMaker("Assembly").GetState("Assemble 2").AddAction(new CustomSatsumaBumperAttach(behaviour));
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, true, "SATSUMA_REAR_BUMPER_DETACH_FIX_ERROR");
+            }
             // Fix suspension adding a weight to the car on each car respawn.
             IEnumerable<GameObject> suspensionParts = Resources.FindObjectsOfTypeAll<GameObject>()
                 .Where(g => g.name.ContainsAny("strut", "coil spring", "shock absorber")
@@ -295,7 +349,15 @@ namespace MOP.Vehicles.Cases
             {
                 ExceptionManager.New(new System.Exception("SatsumKey: Cannot Locate Key"), false, "SatsumaPartsMassManager: Key Error");
             }
-            cooldownTick = GameObject.Find("block(Clone)").transform.Find("CooldownTick").gameObject;
+
+            try
+            {
+                cooldownTick = GameObject.Find("block(Clone)").transform.Find("CooldownTick").gameObject;
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, true, "SATSUMA_COOLDOWN_TICK_ERROR");
+            }
 
             // Fix for reg plates Z fighting.
             try
@@ -327,58 +389,103 @@ namespace MOP.Vehicles.Cases
             }
             catch { }
 
-            // Fixing the door hinges getting stuck.
-            GameObject.Find("door left(Clone)").AddComponent<SatsumaHingeManager>();
-            GameObject.Find("door right(Clone)").AddComponent<SatsumaHingeManager>();
-            GameObject.Find("bootlid(Clone)").AddComponent<SatsumaHingeManager>();
-
-            // Fixes doors resetting it's paint colour.
-            GameObject.Find("door left(Clone)").GetPlayMaker("Paint").Fsm.RestartOnEnable = false;
-            GameObject.Find("door right(Clone)").GetPlayMaker("Paint").Fsm.RestartOnEnable = false;
-
-            // Setup stuff that gets disabled using ToggleElements
-            satsumaOnActionObjects = new List<SatsumaOnActionObjects>
+            try
             {
-                new SatsumaOnActionObjects(transform.Find("CarSimulation/MechanicalWear").gameObject, SatsumaEnableOn.OnEngine),
-                new SatsumaOnActionObjects(transform.Find("CarSimulation/Fixes").gameObject, SatsumaEnableOn.OnEngine),
-                new SatsumaOnActionObjects(transform.Find("CarSimulation/DynoDistance").gameObject, SatsumaEnableOn.OnEngine),
-                new SatsumaOnActionObjects(transform.Find("CarSimulation/RandomBolt").gameObject, SatsumaEnableOn.OnEngine),
-                new SatsumaOnActionObjects(transform.Find("RainScript").gameObject, SatsumaEnableOn.OnPlayerClose),
-                new SatsumaOnActionObjects(transform.Find("DriverHeadPivot").gameObject, SatsumaEnableOn.OnPlayerClose),
-                new SatsumaOnActionObjects(transform.Find("AirIntake").gameObject, SatsumaEnableOn.OnPlayerClose),
-                new SatsumaOnActionObjects(this.gameObject.GetPlayMaker("ButtonShifter"), SatsumaEnableOn.OnPlayerClose),
-                new SatsumaOnActionObjects(transform.Find("Chassis").gameObject, SatsumaEnableOn.OnPlayerFar)
-            };
+                // Fixing the door hinges getting stuck.
+                GameObject.Find("door left(Clone)").AddComponent<SatsumaHingeManager>();
+                GameObject.Find("door right(Clone)").AddComponent<SatsumaHingeManager>();
+                GameObject.Find("bootlid(Clone)").AddComponent<SatsumaHingeManager>();
 
+                // Fixes doors resetting it's paint colour.
+                GameObject.Find("door left(Clone)").GetPlayMaker("Paint").Fsm.RestartOnEnable = false;
+                GameObject.Find("door right(Clone)").GetPlayMaker("Paint").Fsm.RestartOnEnable = false;
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, true, "SATSUMA_DOOR_FIX_ERROR");
+            }
+            // Setup stuff that gets disabled using ToggleElements
+            try
+            {
+                satsumaOnActionObjects = new List<SatsumaOnActionObjects>
+                {
+                    new SatsumaOnActionObjects(transform.Find("CarSimulation/MechanicalWear").gameObject, SatsumaEnableOn.OnEngine),
+                    new SatsumaOnActionObjects(transform.Find("CarSimulation/Fixes").gameObject, SatsumaEnableOn.OnEngine),
+                    new SatsumaOnActionObjects(transform.Find("CarSimulation/DynoDistance").gameObject, SatsumaEnableOn.OnEngine),
+                    new SatsumaOnActionObjects(transform.Find("CarSimulation/RandomBolt").gameObject, SatsumaEnableOn.OnEngine),
+                    new SatsumaOnActionObjects(transform.Find("RainScript").gameObject, SatsumaEnableOn.OnPlayerClose),
+                    new SatsumaOnActionObjects(transform.Find("DriverHeadPivot").gameObject, SatsumaEnableOn.OnPlayerClose),
+                    new SatsumaOnActionObjects(transform.Find("AirIntake").gameObject, SatsumaEnableOn.OnPlayerClose),
+                    new SatsumaOnActionObjects(this.gameObject.GetPlayMaker("ButtonShifter"), SatsumaEnableOn.OnPlayerClose),
+                    new SatsumaOnActionObjects(transform.Find("Chassis").gameObject, SatsumaEnableOn.OnPlayerFar)
+                };
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, true, "SATSUMA_ON_ACTION_OBJECTS_ERROR");
+            }
             // Replace on assemble sound playing with custom script.
-            PlayMakerFSM blockBoltCheck = GameObject.Find("block(Clone)").GetPlayMaker("BoltCheck");
-            FsmState boltsONState = blockBoltCheck.GetState("Bolts ON");
-            FsmStateAction[] boltsONActions = boltsONState.Actions;
-            boltsONActions[1] = new MasterAudioAssembleCustom();
-            boltsONState.Actions = boltsONActions;
-            boltsONState.SaveActions();
-
+            try
+            {
+                PlayMakerFSM blockBoltCheck = GameObject.Find("block(Clone)").GetPlayMaker("BoltCheck");
+                FsmState boltsONState = blockBoltCheck.GetState("Bolts ON");
+                FsmStateAction[] boltsONActions = boltsONState.Actions;
+                boltsONActions[1] = new MasterAudioAssembleCustom();
+                boltsONState.Actions = boltsONActions;
+                boltsONState.SaveActions();
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, true, "SATSUMA_BOLTS_AUDIO_ERROR");
+            }
             // Disable the "Fix Collider" state in FSM Setup, so it won't make items fall through the car.
-            this.gameObject.GetPlayMaker("Setup").Fsm.RestartOnEnable = false;
+            try
+            {
+                this.gameObject.GetPlayMaker("Setup").Fsm.RestartOnEnable = false;
 
-            MeshCollider bootFloor = transform.Find("Colliders/collider_floor3").gameObject.GetComponent<MeshCollider>();
-            bootFloor.isTrigger = false;
-            bootFloor.enabled = true;
-
+                MeshCollider bootFloor = transform.Find("Colliders/collider_floor3").gameObject.GetComponent<MeshCollider>();
+                bootFloor.isTrigger = false;
+                bootFloor.enabled = true;
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, true, "SATSUMA_COLLIDER_SETUP_ERROR");
+            }
             // Fixes driver dying way too easily from small impacts (hopefully).
-            transform.Find("DriverHeadPivot").GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            try
+            {
+                transform.Find("DriverHeadPivot").GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, true, "SATSUMA_DRIVER_HEAD_PIVOT_ERROR");
+            }
 
             // Masked Elements.
             // Those are objects that are disabled by default, so their bolts are not easily accessible.
-            maskedElements = new Dictionary<GameObject, bool>();
-            foreach (string obj in maskedObjectNames)
+            try
             {
-                GameObject gm = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == obj);
-                maskedElements.Add(gm, key.activeSelf);
+                maskedElements = new Dictionary<GameObject, bool>();
+                foreach (string obj in maskedObjectNames)
+                {
+                    GameObject gm = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == obj);
+                    maskedElements.Add(gm, key.activeSelf);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, true, "SATSUMA_MASKED_ELEMENTS_ERROR");
             }
 
             // It is not used right now by the game, but it is safe to assume that one day it might be used.
-            drivingAI = transform.Find("AI")?.GetPlayMaker("Driving");
+            try
+            {
+                drivingAI = transform.Find("AI")?.GetPlayMaker("Driving");
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, false, "SATSUMA_AI_ERROR");
+            }
 
             // radiator hose 3
             try

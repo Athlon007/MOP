@@ -65,28 +65,56 @@ namespace MOP.Places
         /// </summary>
         public Teimo() : base("STORE")
         {
+            BoxesFix();
+            AdvertFix();
+            InjectVideoPoker();
+
+            GameObjectBlackList.AddRange(blackList);
+            DisableableChilds = GetDisableableChilds();
+
+            FixSlotAndPoker();
+            TeimoShitFix();
+            FixWindowBreaking();
+            CheckMicrowaveDistanceFix();
+            UncleRagdollFix();
+            GrillBoxFix();
+
+            Compress();
+        }
+
+        private void BoxesFix()
+        {
             // Fix for items bought via envelope
             transform.Find("Boxes").parent = null;
+        }
 
+        private void AdvertFix()
+        {
             // Fix for advertisement pile disappearing when taken
             transform.Find("AdvertSpawn").transform.parent = null;
-            
+        }
+
+        private void InjectVideoPoker()
+        {
             // We're nulling the parent of the fucking video poker game,
             // because that's much easier than hooking it...
             Transform videoPoker = transform.Find("LOD/VideoPoker/HookSlot");
             if (videoPoker != null)
                 PlayMakerExtensions.FsmInject(videoPoker.gameObject, "Activate cable", RemoveVideoPokerParent);
+        }
 
-            GameObjectBlackList.AddRange(blackList);
-            DisableableChilds = GetDisableableChilds();
-
+        private void FixSlotAndPoker()
+        {
             // Remove video poker meshes.
             DisableableChilds.Remove(transform.Find("LOD/VideoPoker/Hatch/Pivot/mesh"));
 
             // Fix for Z-fighting of slot machine glass.
             transform.Find("LOD/GFX_Store/SlotMachine/slot_machine 1/slot_machine_glass")
                 .gameObject.GetComponent<Renderer>().material.renderQueue = 3001;
+        }
 
+        private void TeimoShitFix()
+        {
             PlayMakers.AddRange(transform.Find("TeimoInShop").GetComponents<PlayMakerFSM>());
             PlayMakers.AddRange(transform.Find("TeimoInShop").GetComponents<PlayMakerFSM>());
 
@@ -98,7 +126,10 @@ namespace MOP.Places
                 transform.Find("GasolineFire")
             };
             DisableableChilds.AddRange(teimoShit);
+        }
 
+        private static void FixWindowBreaking()
+        {
             // Disable resetting of the breakable windows.
             Transform storeBreakableWindow = GameObject.Find("STORE").transform.Find("LOD/GFX_Store/BreakableWindows/BreakableWindow");
             if (storeBreakableWindow != null)
@@ -112,18 +143,25 @@ namespace MOP.Places
                 foreach (PlayMakerFSM fsm in storeBreakableWindowPub.gameObject.GetComponents<PlayMakerFSM>())
                     fsm.Fsm.RestartOnEnable = false;
             }
+        }
 
+        private void CheckMicrowaveDistanceFix()
+        {
             // Disables the idiotic distance limit, below which if player is too close to the Teimo's, the restocking won't be executed.
             FloatCompare checkDistance = transform.Find("Inventory").gameObject.GetComponent<PlayMakerFSM>().GetState("Check distance").Actions[1] as FloatCompare;
             checkDistance.float2 = 0;
+        }
 
+        private void UncleRagdollFix()
+        {
             // Moves RagDoll of Uncle to LODs.
             transform.Find("RagDoll")?.SetParent(transform.Find("LOD"));
+        }
 
+        private void GrillBoxFix()
+        {
             // Rotating sausage and fries in the microwave, oooooo.
             transform.Find("LOD/GFX_Pub/Microwave/GrillboxMicro").gameObject.AddComponent<SausageInMicrowaveBehaviour>();
-
-            Compress();
         }
 
         /// <summary>
