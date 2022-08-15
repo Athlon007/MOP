@@ -4,7 +4,8 @@
 
 ### Bug Fixes
 
-- Fixed R20 battery boxes "jumping" (#100)
+- Fixed R20 battery boxes "jumping"
+- Fixed bug preventing Satsuma from being towed
 
 ## 3.8 (18.07.2022)
 

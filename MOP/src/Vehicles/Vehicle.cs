@@ -311,7 +311,7 @@ namespace MOP.Vehicles
         /// Checks PlayMaker of front and rear hooks and returns "true", if in any of the hooks value "Attached" is true.
         /// </summary>
         /// <returns></returns>
-        bool IsRopeHooked()
+        protected bool IsRopeHooked()
         {
             bool isFrontHookAttached = fsmHookFront ? fsmHookFront.FsmVariables.GetFsmBool("Attached").Value : false;
             bool isRearHookAttached = fsmHookRear ? fsmHookRear.FsmVariables.GetFsmBool("Attached").Value : false;

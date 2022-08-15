@@ -771,7 +771,6 @@ namespace MOP.Items
         {
             string transformID = gameObject.GetPlayMaker("Use").FsmVariables.GetFsmString("UniqueTagTransform").Value;
             Transform loadedTransform = SaveManager.ReadItemTranform(transformID);
-            //ModConsole.Log($"{transformID}: {loadedTransform.position} | {transform.position}");
             transform.position = loadedTransform.position;
             transform.rotation = loadedTransform.rotation;
         }

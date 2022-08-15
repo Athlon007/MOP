@@ -568,7 +568,7 @@ namespace MOP.Vehicles.Cases
         {
             // Satsuma in inspection zone and mod wants to disable it?
             // Set enabled to true, so it won't be disabled.
-            if (!enabled && IsSatsumaInInspectionArea)
+            if (!enabled && IsSatsumaInInspectionArea || IsRopeHooked())
                 enabled = true;
 
             base.ToggleUnityCar(enabled);
@@ -673,6 +673,7 @@ namespace MOP.Vehicles.Cases
             if (MopSettings.Mode == PerformanceMode.Safe) return;
             if (carDynamics == null) return;
             if (IsPlayerInThisCar()) return;
+            if (IsRopeHooked()) return;
 
             if (!hasBeenMovedByFleetari && !carDynamics.enabled)
             {
