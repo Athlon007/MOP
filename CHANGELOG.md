@@ -7,6 +7,7 @@
 - Fixed R20 battery boxes "jumping"
 - Fixed bug preventing Satsuma from being towed
 - Fixed MOP incorrectly interpreting rule file versions
+- Objects that fell way below the world map will respawn at the junkyard
 
 ## 3.8 (18.07.2022)
 

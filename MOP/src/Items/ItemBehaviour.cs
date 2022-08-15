@@ -37,8 +37,6 @@ namespace MOP.Items
     {
         // This class is an absolute disaster and must be rewritten.
 
-        bool firstLoad;
-
         bool dontDisable;
         internal bool DontDisable
         {
@@ -171,10 +169,12 @@ namespace MOP.Items
                 SetInitialTogglingMethod();
             }
 
-            if (this.gameObject.name.Contains("r20 battery box"))
+            if (transform.position.y < -100 && transform.position.x != 0 && transform.position.z != 0)
             {
-                R20BoxBatteryLoadTransform();
+                transform.position = ItemsManager.Instance.LostSpawner.position;
             }
+
+            LoadTransform();
         }
 
         void OnEnable()
@@ -237,16 +237,6 @@ namespace MOP.Items
         {
             try
             {
-                // If the item has fallen under the detection range of the game's built in garbage collector,
-                // teleport that item manually to the landfill.
-                if (!firstLoad)
-                {
-                    if (transform.position.y < -100 && transform.position.x != 0 && transform.position.z != 0)
-                        transform.position = ItemsManager.Instance.LostSpawner.position;
-
-                    firstLoad = true;
-                }
-
                 if (!Hypervisor.Instance.IsItemInitializationDone() && (transform.root != Satsuma.Instance.transform))
                 {
                     transform.position = position;
@@ -345,16 +335,6 @@ namespace MOP.Items
         {
             try
             {
-                // If the item has fallen under the detection range of the game's built in garbage collector,
-                // teleport that item manually to the landfill.
-                if (!firstLoad)
-                {
-                    if (transform.position.y < -100 && transform.position.x != 0 && transform.position.z != 0)
-                        transform.position = ItemsManager.Instance.LostSpawner.position;
-
-                    firstLoad = true;
-                }
-
                 if (!Hypervisor.Instance.IsItemInitializationDone())
                 {
                     if (transform.root != Satsuma.Instance.transform)
@@ -767,10 +747,15 @@ namespace MOP.Items
             this.isObjectOnGrill = isObjectOnGrill;
         }
 
-        private void R20BoxBatteryLoadTransform()
+        private void LoadTransform()
         {
+            if (!gameObject.name.Contains("r20 battery box")) return;
+
             string transformID = gameObject.GetPlayMaker("Use").FsmVariables.GetFsmString("UniqueTagTransform").Value;
             Transform loadedTransform = SaveManager.ReadItemTranform(transformID);
+
+            if (loadedTransform.position == Vector3.zero) return;
+
             transform.position = loadedTransform.position;
             transform.rotation = loadedTransform.rotation;
         }
