@@ -777,10 +777,7 @@ namespace MOP.Vehicles.Cases
         /// </summary>
         public void ForceRotation()
         {
-            if (MopSettings.Mode == PerformanceMode.Safe) return;
-            if (carDynamics == null) return;
-            if (IsPlayerInThisCar()) return;
-            if (IsRopeHooked()) return;
+            if (MopSettings.Mode == PerformanceMode.Safe || carDynamics == null || IsPlayerInThisCar() || IsRopeHooked()) return;
 
             if (!hasBeenMovedByFleetari && !carDynamics.enabled)
             {
@@ -968,6 +965,8 @@ namespace MOP.Vehicles.Cases
                     Object.Destroy(removalFSM);
                 }
             }
+
+            ModConsole.Log("[MOP] Glued all Satsuma parts.");
         }
 
         List<Renderer> GetRenderersToDisable()

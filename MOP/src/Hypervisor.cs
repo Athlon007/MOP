@@ -1094,7 +1094,7 @@ namespace MOP
                     return;
                 }
 
-                for (int i = 0; i < vehicleManager.Count; i++)
+                for (int i = 0; i < vehicleManager.Count; ++i)
                 {
                     if (vehicleManager[i] == null) continue;
                     if (!vehicleManager[i].IsActive) continue;

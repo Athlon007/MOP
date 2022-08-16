@@ -14,19 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
-using HutongGames.PlayMaker;
-using MOP.Common;
-using MOP.Common.Enumerations;
-using MOP.FSM;
-using MOP.FSM.Actions;
-using MOP.Items;
-using MOP.Rules;
-using MOP.Rules.Types;
-using MOP.Vehicles.Cases;
-using MOP.Vehicles.Managers;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+
+using MOP.Common;
+using MOP.Common.Enumerations;
+using MOP.FSM;
+using MOP.Items;
+using MOP.Rules;
+using MOP.Rules.Types;
+using MOP.Vehicles.Managers;
 
 namespace MOP.Vehicles
 {

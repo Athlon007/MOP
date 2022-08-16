@@ -85,6 +85,11 @@ namespace MOP.Helpers
             }
         }
 
+        /// <summary>
+        /// Decides if DDD can use far rendering.<br>
+        /// Performance mode MUST be set to Balanced or higher, and player Y position must be higher than FarRenderDistanceY.
+        /// </summary>
+        /// <returns></returns>
         private bool IsFarRenderDistanceApplicable()
         {
             return MopSettings.Mode >= Common.Enumerations.PerformanceMode.Balanced && player.position.y > FarRenderDistanceY;

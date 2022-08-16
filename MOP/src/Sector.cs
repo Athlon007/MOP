@@ -49,6 +49,10 @@ namespace MOP
                 SectorManager.Instance.AddActiveSector(this);
                 SectorManager.Instance.ToggleActive();
             }
+            else
+            {
+                Physics.IgnoreCollision(this.GetComponent<Collider>(), other);
+            }
         }
 
         void OnTriggerExit(Collider other)

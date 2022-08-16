@@ -1,10 +1,10 @@
 # Changelog
 
-## 3.8.1 (TBA)
+## 3.8.1 (16.08.2022)
 
 ### Bug Fixes
 
-- Fixed R20 battery boxes "jumping"
+- Fixed R20 battery boxes "jumping" upon game load
 - Fixed bug preventing Satsuma from being towed
 - Fixed MOP incorrectly interpreting rule file versions
 - Objects that fell way below the world map will respawn at the junkyard
