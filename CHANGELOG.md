@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.8.2 (TBA)
+
+### Bug Fixes
+
+- MOP will now load successfully, if the load screen somehow didn't load
+
 ## 3.8.1 (16.08.2022)
 
 ### Bug Fixes

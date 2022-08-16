@@ -1392,7 +1392,7 @@ namespace MOP
             }
 
             itemInitializationDelayDone = true;
-            loadScreen.Deactivate();
+            loadScreen?.Deactivate();
             playerController.enabled = true;
             FsmManager.PlayerInMenu = false;
 
