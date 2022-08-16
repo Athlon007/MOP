@@ -65,22 +65,46 @@ namespace MOP.Helpers
 
         static bool ReadBoolean(string tag)
         {
-            return ES2.Load<bool>($"{SavePath}?tag={tag}", setting);
+            string path = $"{SavePath}?tag={tag}";
+            if (!ES2.Exists(path, setting))
+            {
+                throw new NullReferenceException($"Boolean '{tag}' is not present in save file.");
+            }
+
+            return ES2.Load<bool>(path, setting);
         }
 
         static Transform ReadTransform(string tag)
         {
-            return ES2.Load<Transform>($"{SavePath}?tag={tag}", setting);
+            string path = $"{SavePath}?tag={tag}";
+            if (!ES2.Exists(path, setting))
+            {
+                throw new NullReferenceException($"Transform '{tag}' is not present in save file.");
+            }
+
+            return ES2.Load<Transform>(path, setting);
         }
 
         public static Transform ReadItemTranform(string tag)
         {
-            return ES2.Load<Transform>($"{ItemsPath}?tag={tag}", setting);
+            string path = $"{ItemsPath}?tag={tag}";
+            if (!ES2.Exists(path, setting))
+            {
+                throw new NullReferenceException($"Transform '{tag}' is not present in item save file.");
+            }
+
+            return ES2.Load<Transform>(path, setting);
         }
 
         static float ReadFloat(string tag)
         {
-            return ES2.Load<float>($"{SavePath}?tag={tag}", setting);
+            string path = $"{SavePath}?tag={tag}";
+            if (!ES2.Exists(path, setting))
+            {
+                throw new NullReferenceException($"Float '{tag}' is not present in save file.");
+            }
+
+            return ES2.Load<float>(path, setting);
         }
 
         static List<string> ReadStringList(string tag)
@@ -88,7 +112,7 @@ namespace MOP.Helpers
             string path = $"{SavePath}?tag={tag}";
             if (!ES2.Exists(path, setting))
             {
-                throw new NullReferenceException($"'{tag}' is not present in the save file.");
+                throw new NullReferenceException($"List<String> '{tag}' is not present in the save file.");
             }
 
             return ES2.LoadList<string>(path, setting);
@@ -96,12 +120,24 @@ namespace MOP.Helpers
 
         static int ReadInt(string tag)
         {
-            return ES2.Load<int>($"{SavePath}?tag={tag}", setting);
+            string path = $"{SavePath}?tag={tag}";
+            if (!ES2.Exists(path, setting))
+            {
+                throw new NullReferenceException($"Int '{tag}' is not present in save file.");
+            }
+
+            return ES2.Load<int>(path, setting);
         }
 
         static int ReadItemInt(string tag)
         {
-            return ES2.Load<int>($"{ItemsPath}?tag={tag}", setting);
+            string path = $"{ItemsPath}?tag={tag}";
+            if (!ES2.Exists(path, setting))
+            {
+                throw new NullReferenceException($"Int '{tag}' is not present in item save file.");
+            }
+
+            return ES2.Load<int>(path, setting);
         }
 
         static void WriteSavePath<T>(string tag, T value)
@@ -121,8 +157,16 @@ namespace MOP.Helpers
 
         public static void VerifySave()
         {
-            if (!File.Exists(SavePath) || IsSaveFileAfterPermadeath())
+            if (!File.Exists(SavePath))
+            {
                 return;
+            }
+
+            if (IsSaveFileAfterPermadeath())
+            {
+                ModConsole.Log($"[MOP] Save file wasn't checked, as it is post-permadeath.");
+                return;
+            }
 
             RemoveReadOnlyAttribute();
 

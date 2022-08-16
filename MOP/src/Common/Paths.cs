@@ -29,7 +29,7 @@ namespace MOP.Common
         {
             get
             {
-                string path = $"{RootPath}/{LogFolderName}";
+                string path = Path.Combine(RootPath, LogFolderName);
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);

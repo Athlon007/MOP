@@ -44,9 +44,13 @@ namespace MOP.Common
             while (true)
             {
                 yield return new WaitForSeconds(.5f);
+                
                 spriteCount++;
                 if (spriteCount >= frames.Length)
+                {
                     spriteCount = 0;
+                }
+
                 img.sprite = frames[spriteCount];
             }
         }
