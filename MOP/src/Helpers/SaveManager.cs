@@ -85,7 +85,13 @@ namespace MOP.Helpers
 
         static List<string> ReadStringList(string tag)
         {
-            return ES2.LoadList<string>($"{SavePath}?tag={tag}", setting);
+            string path = $"{SavePath}?tag={tag}";
+            if (!ES2.Exists(path, setting))
+            {
+                throw new NullReferenceException($"'{tag}' is not present in the save file.");
+            }
+
+            return ES2.LoadList<string>(path, setting);
         }
 
         static int ReadInt(string tag)
@@ -115,7 +121,7 @@ namespace MOP.Helpers
 
         public static void VerifySave()
         {
-            if (!File.Exists(SavePath))
+            if (!File.Exists(SavePath) || IsSaveFileAfterPermadeath())
                 return;
 
             RemoveReadOnlyAttribute();
@@ -245,17 +251,20 @@ namespace MOP.Helpers
             {
                 // Fix fuel line tightness going below 0.
                 List<string> fuelLineBolts = ReadStringList("FuelLineBolts");
-                float fuelLineTightness = ReadFloat("FuelLineTightness");
-
-                int boltOneValue = int.Parse(fuelLineBolts[0].Replace("int(", "").Replace(")", ""));
-
-                if (boltOneValue != fuelLineTightness)
+                if (fuelLineBolts != null)
                 {
-                    saveBugs.Add(SaveBugs.New($"Fuel Line tightness is not a correct value." +
-                                              $"\n\nValue is <b>{fuelLineTightness}</b>.\n<b>{boltOneValue}</b> is expected", () =>
+                    float fuelLineTightness = ReadFloat("FuelLineTightness");
+
+                    int boltOneValue = int.Parse(fuelLineBolts[0].Replace("int(", "").Replace(")", ""));
+
+                    if (boltOneValue != fuelLineTightness)
                     {
-                        WriteSavePath("FuelLineTightness", (float)boltOneValue);
-                    }));
+                        saveBugs.Add(SaveBugs.New($"Fuel Line tightness is not a correct value." +
+                                                  $"\n\nValue is <b>{fuelLineTightness}</b>.\n<b>{boltOneValue}</b> is expected", () =>
+                        {
+                            WriteSavePath("FuelLineTightness", (float)boltOneValue);
+                        }));
+                    }
                 }
             }
             catch (Exception ex)
@@ -436,6 +445,14 @@ namespace MOP.Helpers
             StreamWriter writer = new StreamWriter(mopSavePath);
             writer.Write(json);
             writer.Close();
+        }
+
+        /// <summary>
+        /// Returns true, if the save file is post permadeath.
+        /// </summary>
+        private static bool IsSaveFileAfterPermadeath()
+        {
+            return !ES2.Exists($"{SavePath}?tag=PlayerIsDead");
         }
     }
 }

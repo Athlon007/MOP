@@ -8,6 +8,7 @@
 - Fixed bug preventing Satsuma from being towed
 - Fixed MOP incorrectly interpreting rule file versions
 - Objects that fell way below the world map will respawn at the junkyard
+- MOP will not check save file integrity, if the player is dead
 
 ## 3.8 (18.07.2022)
 
