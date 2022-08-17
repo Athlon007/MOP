@@ -81,7 +81,7 @@ namespace MOP
 #endif
 
         // Constant text.
-        const string WarningMode = "Some changes will be applied after game reload.";
+        const string WarningMode = "Some changes will be applied after the game restart.";
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
         readonly string[] rulesAutoUpdateFrequencyText = { "Every launch", "Daily", "Every 2 days", "Weekly" };
         const string WelcomeMessage = "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n\n" +
