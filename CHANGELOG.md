@@ -5,6 +5,8 @@
 ### Bug Fixes
 
 - MOP will now load successfully, if the load screen somehow didn't load
+- Fixed a bug causing Satsuma to be stuck frozen, if the rule file told MOP to fully ignore Satsuma
+- Fixed the "SATS_ODOMETER_RESET_FIX_ERROR", which was caused by the "Speedometer Cable" mod removing Odometer's FSM object
 
 ## 3.8.1 (16.08.2022)
 

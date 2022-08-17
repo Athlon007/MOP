@@ -550,7 +550,15 @@ namespace MOP.Vehicles.Cases
             // Odometer resetting fix
             try
             {
-                GameObject.Find("dashboard meters(Clone)/Gauges/Odometer").GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                GameObject odometer = GameObject.Find("dashboard meters(Clone)/Gauges/Odometer");
+                if (odometer.GetComponent<PlayMakerFSM>() == null)
+                {
+                    ModConsole.Log("[MOP] Can't reset Odometer FSM. Perhaps a mod has removed it?");
+                }
+                else
+                {
+                    odometer.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
+                }
             }
             catch (System.Exception ex)
             {
@@ -595,7 +603,7 @@ namespace MOP.Vehicles.Cases
             }
 
 
-            if (MopSettings.Mode != PerformanceMode.Safe)
+            if (MopSettings.Mode != PerformanceMode.Safe && this.IsActive)
             {
                 this.ForceToggleUnityCar(false);
             }
