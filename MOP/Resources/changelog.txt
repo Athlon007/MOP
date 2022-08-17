@@ -1,7 +1,9 @@
+### Added
+
+- "options.txt" file is included in bug report, if user decides to include the save file
+
 ### Bug Fixes
 
-- Fixed R20 battery boxes "jumping" upon game load
-- Fixed bug preventing Satsuma from being towed
-- Fixed MOP incorrectly interpreting rule file versions
-- Objects that fell way below the world map will respawn at the junkyard
-- MOP will not check save file integrity, if the player is dead
+- MOP will now load successfully, if the load screen somehow didn't load
+- Fixed a bug causing Satsuma to be stuck frozen, if the rule file told MOP to fully ignore Satsuma
+- Fixed the "SATS_ODOMETER_RESET_FIX_ERROR", which was caused by the "Speedometer Cable" mod removing Odometer's FSM object

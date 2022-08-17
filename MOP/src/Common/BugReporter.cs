@@ -186,6 +186,7 @@ namespace MOP.Common
                     zip.AddDirectoryByName("Save");
                 }
                 catch { }
+
                 if (File.Exists(SaveManager.SavePath))
                 {
                     zip.AddFile(SaveManager.SavePath, "Save");
@@ -200,7 +201,6 @@ namespace MOP.Common
                 {
                     zip.AddFile(SaveManager.OptionsPath, "Save");
                 }
-
 
                 zip.Save();
             }
