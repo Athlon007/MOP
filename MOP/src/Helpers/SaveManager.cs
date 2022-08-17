@@ -30,6 +30,7 @@ namespace MOP.Helpers
     {
         public static string SavePath => Path.Combine(Application.persistentDataPath, "defaultES2File.txt").Replace('\\', '/');
         public static string ItemsPath => Path.Combine(Application.persistentDataPath, "items.txt").Replace("\\", "/");
+        public static string OptionsPath => Path.Combine(Application.persistentDataPath, "options.txt").Replace("\\", "/");
         static List<SaveBugs> saveBugs;
 
         readonly static ES2Settings setting = new ES2Settings();

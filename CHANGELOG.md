@@ -2,6 +2,10 @@
 
 ## 3.8.2 (TBA)
 
+### Added
+
+- "options.txt" file is included in bug report, if user decides to include the save file
+
 ### Bug Fixes
 
 - MOP will now load successfully, if the load screen somehow didn't load

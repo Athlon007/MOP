@@ -196,6 +196,12 @@ namespace MOP.Common
                     zip.AddFile(SaveManager.ItemsPath, "Save");
                 }
 
+                if (File.Exists(SaveManager.OptionsPath))
+                {
+                    zip.AddFile(SaveManager.OptionsPath, "Save");
+                }
+
+
                 zip.Save();
             }
         }
