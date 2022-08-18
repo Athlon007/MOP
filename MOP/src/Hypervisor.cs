@@ -702,8 +702,8 @@ namespace MOP
         {
             try
             {
-            IEnumerable<GameObject> saveGames = Resources.FindObjectsOfTypeAll<GameObject>()
-                .Where(obj => obj.name.Contains("SAVEGAME"));
+                IEnumerable<GameObject> saveGames = Resources.FindObjectsOfTypeAll<GameObject>()
+                    .Where(obj => obj.name.Contains("SAVEGAME"));
 
                 int i = 0;
                 for (; i < saveGames.Count(); i++)
