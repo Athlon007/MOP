@@ -5,6 +5,12 @@
 ### Added
 
 - "options.txt" file is included in bug report, if user decides to include the save file
+- (MSCLoader) Added "RESOLUTION" picker from Mod Loader Pro
+
+### Changes
+
+- Changed the type of a message saying "Game has been reloaded over X times" to the one with "OK" button. This also means that accepting the message will not close the game
+- (MSCLoader) Updated to MSCLoader 1.2.7
 
 ### Bug Fixes
 

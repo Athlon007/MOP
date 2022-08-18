@@ -24,9 +24,7 @@ using MOP.Common.Enumerations;
 using MOP.FSM;
 using MOP.Helpers;
 using MOP.Rules;
-#if PRO
 using System.Collections.Generic;
-#endif
 
 namespace MOP
 {
@@ -77,6 +75,7 @@ namespace MOP
                                           RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
                                           DestroyEmptyBottles, DisableEmptyItems,
                                           AlwaysDisableSkidmarks, FastLoading;
+        static SettingsDropDownList resolution;
         SettingsDynamicText modeWarningText;
 #endif
 
@@ -108,9 +107,6 @@ namespace MOP
         {
             modVersion = Version;
             modConfigPath = ModLoader.GetModSettingsFolder(this);
-#if DEBUG
-            Settings.AddHeader(this, "Shh...Don't leak my hard work ;)", Color.yellow, Color.black);
-#endif
 
 #if PRO
             modSettings.AddButton("iFoundABug", "<color=red>I FOUND A BUG</color>", BugReporter.FileBugReport);
@@ -242,6 +238,30 @@ namespace MOP
             Settings.AddText(this, "If unchecked, game will be paused when the game's window looses focus.");
             DynamicDrawDistance = Settings.AddCheckBox(this, "dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", true);
             Settings.AddText(this, "MOP will adjust the draw distance according to the current situation\n(ex. lower it while inside of a building).");
+            
+            List<string> resolutions = new List<string>();
+            int selected = 0;
+            int i = 0;
+            foreach (var res in Screen.resolutions)
+            {
+                resolutions.Add(res.width + "x" + res.height);
+                if (res.width == Screen.width && res.height == Screen.height)
+                {
+                    selected = i;
+                }
+                ++i;
+            }
+            resolution = Settings.AddDropDownList(this, "", "RESOLUTION", resolutions.ToArray(), selected, () =>
+            {
+                // Can't use resolution.GetSelectedItemName(), as the selected item name gets updated AFTER the OnSelectionChanged is called.
+                var res = Screen.resolutions[resolution.GetSelectedItemIndex()];
+                string s = res.width + "X" + res.height;
+                int width = int.Parse(s.Split('X')[0]);
+                int height = int.Parse(s.Split('X')[1]);
+                Screen.SetResolution(width, height, Screen.fullScreen);
+                ModConsole.Log("[MOP] Setting resolution to " + s);
+            });
+
 
             // Rules
             Settings.AddHeader(this, "RULES");
@@ -312,7 +332,7 @@ namespace MOP
             if (MopSettings.Restarts > MopSettings.MaxRestarts && !MopSettings.RestartWarningShown)
             {
                 MopSettings.RestartWarningShown = true;
-                ModUI.ShowYesNoMessage($"Game has been reloaded over {MopSettings.MaxRestarts} times, which may cause issues with game physics.", "MOP", Application.Quit);
+                ModUI.ShowMessage($"Game has been reloaded over {MopSettings.MaxRestarts} times, which may cause issues with game physics.", "MOP");
             }
 
             if (MopSettings.GameFixStatus == GameFixStatus.DoFix)
@@ -463,10 +483,10 @@ namespace MOP
             }
 
             ModUI.ShowYesNoMessage($"This will open the following link:\n" +
-                                                                         $"<color=yellow>{url}</color>\n\n" +
-                                                                         $"Are you sure you want to continue?",
-                                                                         "MOP",
-                                                                         () => System.Diagnostics.Process.Start(url));
+                                $"<color=yellow>{url}</color>\n\n" +
+                                $"Are you sure you want to continue?",
+                                "MOP",
+                                () => System.Diagnostics.Process.Start(url));
         }
 
         void RemoveUnusedFiles()
