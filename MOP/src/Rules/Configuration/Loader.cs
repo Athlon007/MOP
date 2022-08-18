@@ -449,7 +449,7 @@ namespace MOP.Rules.Configuration
                             // Check if there is an odd number of quotation marks.
                             if (splitted[1].Count(f => f == '\"') % 2 != 0)
                             {
-                                ModConsole.LogError($"[MOP] Quote hasn't been closed properly: {s} in rule file {fileName}({lines}).");
+                                ModConsole.LogError($"[MOP] Quote hasn't been closed properly: {s} in rule file {fileName}:{lines}.");
                                 continue;
                             }
 
@@ -475,7 +475,7 @@ namespace MOP.Rules.Configuration
                     switch (flag)
                     {
                         default:
-                            ModConsole.LogError($"[MOP] Unrecognized flag '{flag}' in {fileName} ({lines}).");
+                            ModConsole.LogError($"[MOP] Unrecognized flag '{flag}' in {fileName}:{lines}.");
                             break;
                         case "ignore":
                             // Ignore at place
@@ -508,7 +508,7 @@ namespace MOP.Rules.Configuration
                                 switch (objects[1])
                                 {
                                     default:
-                                        ModConsole.LogError($"[MOP] Unrecognized method '{objects[1]}' in {fileName} ({lines}).");
+                                        ModConsole.LogError($"[MOP] Unrecognized method '{objects[1]}' in {fileName}:{lines}.");
                                         break;
                                     case "renderer":
                                         mode = ToggleModes.Renderer;

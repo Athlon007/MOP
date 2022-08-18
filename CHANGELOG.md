@@ -1,10 +1,11 @@
 # Changelog
 
-## 3.8.2 (TBA)
+## 3.8.2 (18.08.2022)
 
 ### Added
 
 - "options.txt" file is included in bug report, if user decides to include the save file
+- "mop rules" command will show from which mod specific rule originate
 - (MSCLoader) Added "RESOLUTION" picker from Mod Loader Pro
 
 ### Changes

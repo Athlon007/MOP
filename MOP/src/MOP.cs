@@ -65,17 +65,17 @@ namespace MOP
         static internal SettingRadioButtons PerformanceModes, Resolution;
         static internal SettingToggle EnableShadowAdjusting, KeepRunningInBackground,
                                       DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
-                                      DestroyEmptyBottles, DisableEmptyItems, LazySectorUpdating,
+                                      DestroyEmptyBottles, DisableEmptyItems,
                                       AlwaysDisableSkidmarks, FastLoading;
         SettingText modeWarningText;
 #else
-        static internal SettingsSliderInt ActiveDistance, FramerateLimiter, ShadowDistance, RulesAutoUpdateFrequency;
+        static internal SettingsSliderInt ActiveDistance, FramerateLimiter, RulesAutoUpdateFrequency, ShadowDistance;
         static internal SettingsCheckBoxGroup ModePerformance, ModeBalanced, ModeQuality, ModeSafe;
         static internal SettingsCheckBox KeepRunningInBackground, LimitFramerate, DynamicDrawDistance,
                                           RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
                                           DestroyEmptyBottles, DisableEmptyItems,
                                           AlwaysDisableSkidmarks, FastLoading;
-        static SettingsDropDownList resolution;
+        static internal SettingsDropDownList GameResolution;
         SettingsDynamicText modeWarningText;
 #endif
 
@@ -235,9 +235,9 @@ namespace MOP
             FramerateLimiter = Settings.AddSlider(this, "framerateLimiterUpdated", "FRAMERATE LIMITER (FPS)", 20, 200, 60, MopSettings.UpdateFramerateLimiter);
             ShadowDistance = Settings.AddSlider(this, "shadowDistance", "SHADOW DISTANCE (METERS, 200 DEFAULT)", 0, 2000, 200, MopSettings.UpdateShadows);
             KeepRunningInBackground = Settings.AddCheckBox(this, "keepRunningInBackground", "RUN GAME IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
-            Settings.AddText(this, "If unchecked, game will be paused when the game's window looses focus.");
+            Settings.AddText(this, "If unchecked, the game will be paused when the game's window looses focus.");
             DynamicDrawDistance = Settings.AddCheckBox(this, "dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", true);
-            Settings.AddText(this, "MOP will adjust the draw distance according to the current situation\n(ex. lower it while inside of a building).");
+            Settings.AddText(this, "MOP will adjust the draw distance, according to the current situation\n(ex. lower it while inside of a building).");
             
             List<string> resolutions = new List<string>();
             int selected = 0;
@@ -251,10 +251,10 @@ namespace MOP
                 }
                 ++i;
             }
-            resolution = Settings.AddDropDownList(this, "", "RESOLUTION", resolutions.ToArray(), selected, () =>
+            GameResolution = Settings.AddDropDownList(this, "", "RESOLUTION", resolutions.ToArray(), selected, () =>
             {
                 // Can't use resolution.GetSelectedItemName(), as the selected item name gets updated AFTER the OnSelectionChanged is called.
-                var res = Screen.resolutions[resolution.GetSelectedItemIndex()];
+                var res = Screen.resolutions[GameResolution.GetSelectedItemIndex()];
                 string s = res.width + "X" + res.height;
                 int width = int.Parse(s.Split('X')[0]);
                 int height = int.Parse(s.Split('X')[1]);
@@ -276,7 +276,9 @@ namespace MOP
             // Other
             Settings.AddHeader(this, "OTHER");
             DestroyEmptyBottles = Settings.AddCheckBox(this, "destroyEmptyBottles", "DESTROY EMPTY BOTTLES", false);
+            Settings.AddText(this, "Empty bottles, created by player drinking, won't spawn.");
             DisableEmptyItems = Settings.AddCheckBox(this, "disableEmptyItems", "DISABLE EMPTY ITEMS", false);
+            Settings.AddText(this, "Items, which status changes to 'EMPTY', will be automatically disabled, in order to save on PC resources.");
             AlwaysDisableSkidmarks = Settings.AddCheckBox(this, "alwaysDisableSkidmarks", "DISABLE SKIDMARKS", false);
             Settings.AddText(this, "Skidmarks cause a massive memory leak, every time you brake/accelerate hard. Disabling them mitigates that problem.");
             FastLoading = Settings.AddCheckBox(this, "fastLoading", "FAST LOADING", false);
@@ -292,7 +294,7 @@ namespace MOP
             // Supporters
             Settings.AddHeader(this, "SUPPORTERS");
             Settings.AddText(this, "<color=yellow>" + GetSupporters() + "</color>" +
-                "\n\nDo you want to see your name here? Send a donate and proof of transaction to MOP's author.");
+                "\n\nDo you want to see your name here? Send a donate and the proof of transaction to MOP's author.");
 
             // Changelog
             Settings.AddHeader(this, "CHANGELOG");
@@ -332,7 +334,7 @@ namespace MOP
             if (MopSettings.Restarts > MopSettings.MaxRestarts && !MopSettings.RestartWarningShown)
             {
                 MopSettings.RestartWarningShown = true;
-                ModUI.ShowMessage($"Game has been reloaded over {MopSettings.MaxRestarts} times, which may cause issues with game physics.", "MOP");
+                ModUI.ShowMessage($"The game has been reloaded over {MopSettings.MaxRestarts} times, which may cause issues with the game's physics.", "MOP");
             }
 
             if (MopSettings.GameFixStatus == GameFixStatus.DoFix)
