@@ -551,7 +551,7 @@ namespace MOP
             if (RulesAutoUpdate.GetValue() == false)
             {
                 ModUI.ShowMessage("<color=yellow>Warning!</color>\n\n" +
-                                  "Disabling rule files auto update means newly installed mods might not work.", "MOP");
+                                  "Disabling rule files auto update means newly installed mods might not work, or MOP might break.", "MOP");
             }
         }
         

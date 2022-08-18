@@ -56,7 +56,7 @@ namespace MOP.Common
             {
                 if ((Mode == PerformanceMode.Safe && MOP.PerformanceModes.Value != 3) || (Mode != PerformanceMode.Safe && MOP.PerformanceModes.Value == 3))
                 {
-                    ModPrompt.CreatePrompt("Safe Mode will be disabled after you quit to the Main Menu.", "MOP");
+                    ModPrompt.CreatePrompt($"Safe Mode will be {(MOP.PerformanceModes.Value == 3 ? "enabled" : "disabled")} after you quit to the Main Menu.", "MOP");
                     return;
                 }
             }
@@ -69,7 +69,7 @@ namespace MOP.Common
             {
                 if ((Mode == PerformanceMode.Safe && MOP.ModeSafe.GetValue() == false) || (Mode != PerformanceMode.Safe && MOP.ModeSafe.GetValue() == true))
                 {
-                    ModUI.ShowMessage("Safe Mode will be disabled after you quit to the Main Menu.", "MOP");
+                    ModUI.ShowMessage($"Safe Mode will be {(MOP.ModeSafe.GetValue() ? "enabled" : "disabled")} after you quit to the Main Menu.", "MOP");
                     return;
                 }
             }

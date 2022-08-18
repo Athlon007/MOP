@@ -11,6 +11,7 @@
 
 - Changed the type of a message saying "Game has been reloaded over X times" to the one with "OK" button. This also means that accepting the message will not close the game
 - (MSCLoader) Updated to MSCLoader 1.2.7
+- Minor changes in text wording
 
 ### Bug Fixes
 
