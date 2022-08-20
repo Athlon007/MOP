@@ -173,8 +173,6 @@ namespace MOP.Items
             {
                 transform.position = ItemsManager.Instance.LostSpawner.position;
             }
-
-            LoadTransform();
         }
 
         void OnEnable()
@@ -747,8 +745,9 @@ namespace MOP.Items
             this.isObjectOnGrill = isObjectOnGrill;
         }
 
-        private void LoadTransform()
+        public void LoadTransform()
         {
+            WasTransformLoaded = true;
             if (!gameObject.name.Contains("r20 battery box")) return;
 
             string transformID = gameObject.GetPlayMaker("Use").FsmVariables.GetFsmString("UniqueTagTransform").Value;
@@ -759,5 +758,7 @@ namespace MOP.Items
             transform.position = loadedTransform.position;
             transform.rotation = loadedTransform.rotation;
         }
+
+        public bool WasTransformLoaded { get; private set; }
     }
 }

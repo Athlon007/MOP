@@ -942,6 +942,14 @@ namespace MOP
                         if (toEnable)
                         {
                             item.ToggleChangeFix();
+
+                            // Load object's position AFTER MOP starts to actually function,
+                            // AND item is meant to be enabled.
+                            if (ticks > 1 && !item.WasTransformLoaded)
+                            {
+                                item.LoadTransform();
+                            }
+
                             if (item.ActiveSelf) continue;
                             itemsToEnable.Pull(item);
                         }
@@ -1075,6 +1083,19 @@ namespace MOP
             {
                 FinishLoading();
             }
+
+            if (Input.GetKeyDown(KeyCode.F7))
+            {
+                List<ItemBehaviour> b = ItemsManager.Instance.GetList();
+                foreach (ItemBehaviour i in b)
+                {
+                    if (i.name.Contains("r20 battery box"))
+                    {
+                        i.LoadTransform();
+                    }
+                }
+            }
+
 #endif
             if (!MopSettings.IsModActive) return;
 
