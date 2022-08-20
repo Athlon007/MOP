@@ -156,6 +156,11 @@ namespace MOP.Helpers
             ES2.Save(value, $"{ItemsPath}?tag={tag}");
         }
 
+        static bool IsSaveTagPresent(string tag)
+        {
+            return ES2.Exists($"{SavePath}?tag={tag}");
+        }
+
         public static void VerifySave()
         {
             if (!File.Exists(SavePath))
@@ -196,16 +201,23 @@ namespace MOP.Helpers
 
             try
             {
-                bool tractorTrailerAttached = ReadBoolean("TractorTrailerAttached");
-                Transform flatbedTransform = ReadTransform("FlatbedTransform");
-                Transform kekmetTransform = ReadTransform("TractorTransform");
-
-                if (tractorTrailerAttached && Vector3.Distance(flatbedTransform.position, kekmetTransform.position) > 5.5f)
+                if (!IsSaveTagPresent("TractorTrailerAttached"))
                 {
-                    saveBugs.Add(SaveBugs.New("Flatbed Trailer Attached", () =>
+                    ModConsole.Log("[MOP] Save Verification: TractorTrailerAttached hasn't been found. Transform fix will be skipped...");
+                }
+                else
+                { 
+                    bool tractorTrailerAttached = ReadBoolean("TractorTrailerAttached");
+                    Transform flatbedTransform = ReadTransform("FlatbedTransform");
+                    Transform kekmetTransform = ReadTransform("TractorTransform");
+
+                    if (tractorTrailerAttached && Vector3.Distance(flatbedTransform.position, kekmetTransform.position) > 5.5f)
                     {
-                        WriteSavePath("TractorTrailerAttached", false);
-                    }));
+                        saveBugs.Add(SaveBugs.New("Flatbed Trailer Attached", () =>
+                        {
+                            WriteSavePath("TractorTrailerAttached", false);
+                        }));
+                    }
                 }
             }
             catch (Exception ex)
@@ -235,15 +247,22 @@ namespace MOP.Helpers
 
                 try
                 {
-                    bool halfshaft_FLInstalled = ReadBoolean("halfshaft_flInstalled");
-                    float halfshaft_FLTightness = ReadFloat("Halfshaft_FLTightness");
-                    if (halfshaft_FLInstalled && halfshaft_FLTightness != save.halfshaft_FLTightness)
+                    if (!IsSaveTagPresent("Halfshaft_FLTightness"))
                     {
-                        saveBugs.Add(SaveBugs.New("Halfshaft (FL) Missmateched Bolt Stages", () =>
+                        ModConsole.Log("[MOP] Save Verification: Halfshaft_FLTightness hasn't been found. Halfshaft FR mismatch won't be checked...");
+                    }
+                    else
+                    {
+                        bool halfshaft_FLInstalled = ReadBoolean("halfshaft_flInstalled");
+                        float halfshaft_FLTightness = ReadFloat("Halfshaft_FLTightness");
+                        if (halfshaft_FLInstalled && halfshaft_FLTightness != save.halfshaft_FLTightness)
                         {
-                            WriteSavePath("Halfshaft_FLTightness", save.halfshaft_FLTightness);
-                            WriteSavePath("Halfshaft_FLBolts", save.halfshaft_FLBolts);
-                        }));
+                            saveBugs.Add(SaveBugs.New("Halfshaft (FL) Mismateched Bolt Stages", () =>
+                            {
+                                WriteSavePath("Halfshaft_FLTightness", save.halfshaft_FLTightness);
+                                WriteSavePath("Halfshaft_FLBolts", save.halfshaft_FLBolts);
+                            }));
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -252,16 +271,23 @@ namespace MOP.Helpers
                 }
 
                 try 
-                { 
-                    bool halfshaft_FRInstalled = ReadBoolean("halfshaft_frInstalled");
-                    float halfshaft_FRTightness = ReadFloat("Halfshaft_FRTightness");
-                    if (halfshaft_FRInstalled && halfshaft_FRTightness != save.halfshaft_FRTightness)
+                {
+                    if (!IsSaveTagPresent("Halfshaft_FRTightness"))
                     {
-                        saveBugs.Add(SaveBugs.New("Halfshaft (FR) Missmateched Bolt Stages", () =>
+                        ModConsole.Log("[MOP] Save Verification: Halfshaft_FRTightness hasn't been found. Halfshaft FR mismatch won't be checked...");
+                    }
+                    else
+                    {
+                        bool halfshaft_FRInstalled = ReadBoolean("halfshaft_frInstalled");
+                        float halfshaft_FRTightness = ReadFloat("Halfshaft_FRTightness");
+                        if (halfshaft_FRInstalled && halfshaft_FRTightness != save.halfshaft_FRTightness)
                         {
-                            WriteSavePath("Halfshaft_FRTightness", save.halfshaft_FRTightness);
-                            WriteSavePath("Halfshaft_FRBolts", save.halfshaft_FRBolts);
-                        }));
+                            saveBugs.Add(SaveBugs.New("Halfshaft (FR) Mismateched Bolt Stages", () =>
+                            {
+                                WriteSavePath("Halfshaft_FRTightness", save.halfshaft_FRTightness);
+                                WriteSavePath("Halfshaft_FRBolts", save.halfshaft_FRBolts);
+                            }));
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -270,16 +296,23 @@ namespace MOP.Helpers
                 }
 
                 try
-                { 
-                    bool wiringBatteryMinusInstalled = ReadBoolean("battery_terminal_minus(xxxxx)Installed");
-                    float wiringBatteryMinusTightness = ReadFloat("WiringBatteryMinusTightness");
-                    if (wiringBatteryMinusInstalled && wiringBatteryMinusTightness != save.wiringBatteryMinusTightness)
+                {
+                    if (!IsSaveTagPresent("WiringBatteryMinusTightness"))
                     {
-                        saveBugs.Add(SaveBugs.New("Battery terminal minus bolt is not tightened.", () =>
+                        ModConsole.Log("[MOP] Save Verification: WiringBatteryMinusTightness hasn't been found. Battery terminal minus tightness won't be checked...");
+                    }
+                    else
+                    {
+                        bool wiringBatteryMinusInstalled = ReadBoolean("battery_terminal_minus(xxxxx)Installed");
+                        float wiringBatteryMinusTightness = ReadFloat("WiringBatteryMinusTightness");
+                        if (wiringBatteryMinusInstalled && wiringBatteryMinusTightness != save.wiringBatteryMinusTightness)
                         {
-                            WriteSavePath("WiringBatteryMinusTightness", save.wiringBatteryMinusTightness);
-                            WriteSavePath("WiringBatteryMinusBolts", save.wiringBatteryMinusBolts);
-                        }));
+                            saveBugs.Add(SaveBugs.New("Battery terminal minus bolt is not tightened.", () =>
+                            {
+                                WriteSavePath("WiringBatteryMinusTightness", save.wiringBatteryMinusTightness);
+                                WriteSavePath("WiringBatteryMinusBolts", save.wiringBatteryMinusBolts);
+                            }));
+                        }
                     }
                 }
                 catch (Exception ex)
