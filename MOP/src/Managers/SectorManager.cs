@@ -195,7 +195,7 @@ namespace MOP.Managers
 
         public void ToggleActive()
         {
-            for (int i = 0; i < objectsToDisable.Count; i++)
+            for (int i = 0; i < objectsToDisable.Count; ++i)
             {
                 // Safe check if somehow the i gets bigger than array length.
                 if (i > objectsToDisable.Count) break;
