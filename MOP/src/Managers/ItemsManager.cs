@@ -395,10 +395,7 @@ namespace MOP.Managers
             }
         }
 
-        internal List<ItemBehaviour> GetList()
-        {
-            return itemHooks;
-        }
+        internal List<ItemBehaviour> GetList => itemHooks;
 
         void InjectSpawnScripts(GameObject gm)
         {

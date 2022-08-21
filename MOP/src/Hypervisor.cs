@@ -676,8 +676,8 @@ namespace MOP
             if (MopSettings.GenerateToggledItemsListDebug)
             {
                 ToggledItemsListGenerator.CreateWorldList(WorldObjectManager.Instance.GetList());
-                ToggledItemsListGenerator.CreateVehicleList(VehicleManager.Instance.GetList());
-                ToggledItemsListGenerator.CreateItemsList(ItemsManager.Instance.GetList());
+                ToggledItemsListGenerator.CreateVehicleList(VehicleManager.Instance.GetList);
+                ToggledItemsListGenerator.CreateItemsList(ItemsManager.Instance.GetList);
                 ToggledItemsListGenerator.CreatePlacesList(PlaceManager.Instance.GetList());
             }
         }
@@ -1086,7 +1086,7 @@ namespace MOP
 
             if (Input.GetKeyDown(KeyCode.F7))
             {
-                List<ItemBehaviour> b = ItemsManager.Instance.GetList();
+                List<ItemBehaviour> b = ItemsManager.Instance.GetList;
                 foreach (ItemBehaviour i in b)
                 {
                     if (i.name.Contains("r20 battery box"))
@@ -1444,11 +1444,11 @@ namespace MOP
             int enabledItems = 0;
             int enabledVehicles = 0;
 
-            foreach (ItemBehaviour item in ItemsManager.Instance.GetList())
+            foreach (ItemBehaviour item in ItemsManager.Instance.GetList)
                 if (item.ActiveSelf)
                     enabledItems++;
 
-            foreach (Vehicle item in VehicleManager.Instance.GetList())
+            foreach (Vehicle item in VehicleManager.Instance.GetList)
                 if (item.gameObject.activeSelf)
                     enabledVehicles++;
 

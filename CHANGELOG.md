@@ -7,6 +7,10 @@
 - MOP won't show errors during save file verification, if the new save file has been created, but  the game hasn't been saved, which made certain save tags missing
 - Improved R20 Battery Box transform loading - now it's done when MOP is running, instead of during MOP loading
 
+### Removed
+
+- Removed unused code
+
 ## 3.8.2 (18.08.2022)
 
 ### Added

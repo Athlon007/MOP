@@ -218,42 +218,6 @@ namespace MOP.Managers
             }
         }
 
-        private IEnumerator currentLazyToggle;
-        IEnumerator LazyToggleActive()
-        {
-            if (IsPlayerInSector())
-            {
-                for (int i = 0; i < FramesWaitOnSectorEnter; ++i)
-                    yield return null;
-            }
-
-            int half = objectsToDisable.Count >> 1;
-            for (int i = 0; i < objectsToDisable.Count; i++)
-            {
-                if (i == half) 
-                    yield return null;
-
-                // Safe check if somehow the i gets bigger than array length.
-                if (i > objectsToDisable.Count) break;
-
-                GameObject obj = objectsToDisable[i];
-
-                if (obj == null)
-                    continue;
-
-                if (MopSettings.Mode == PerformanceMode.Quality && obj.name.ContainsAny(qualityModeIgnore))
-                    continue;
-
-                if (SectorRulesContains(obj.name))
-                {
-                    obj.SetActive(true);
-                    continue;
-                }
-
-                obj.SetActive(!IsPlayerInSector());
-            }
-        }
-
         internal void AddActiveSector(Sector sector)
         {
             if (!activeSectors.Contains(sector))
@@ -296,6 +260,11 @@ namespace MOP.Managers
         public int GetCurrentSectorDrawDistance()
         {
             return activeSectors[0].DrawDistance;
+        }
+
+        public bool IsPlayerInSector(Sector sector)
+        {
+            return activeSectors.Contains(sector);
         }
     }
 }

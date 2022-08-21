@@ -124,10 +124,7 @@ namespace MOP.Managers
 
         public int Count => vehicles.Count;
 
-        public List<Vehicle> GetList()
-        {
-            return vehicles;
-        }
+        public List<Vehicle> GetList => vehicles;
 
         public void RemoveAt(int i)
         {
