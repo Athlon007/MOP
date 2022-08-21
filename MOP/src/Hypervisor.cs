@@ -1437,5 +1437,27 @@ namespace MOP
                 FsmManager.PlayerInMenu = false;
             }
         }
+
+#if DEBUG
+        void OnGUI()
+        {
+            int enabledItems = 0;
+            int enabledVehicles = 0;
+
+            foreach (ItemBehaviour item in ItemsManager.Instance.GetList())
+                if (item.ActiveSelf)
+                    enabledItems++;
+
+            foreach (Vehicle item in VehicleManager.Instance.GetList())
+                if (item.gameObject.activeSelf)
+                    enabledVehicles++;
+
+            GUILayout.Box($"Tick: {ticks}\n" +
+                          $"GC: {GC.GetTotalMemory(false)}\n" +
+                          $"Items: {enabledItems} / {ItemsManager.Instance.Count}\n" +
+                          $"Vehicles: {enabledVehicles} / {VehicleManager.Instance.Count}\n" +
+                          $"World Obj: {WorldObjectManager.Instance.Count}");
+        }
+#endif
     }
 }
