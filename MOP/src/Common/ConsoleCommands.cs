@@ -449,6 +449,16 @@ namespace MOP.Common
                     Hypervisor.Instance.ToggleAll(false, Enumerations.ToggleAllMode.OnLoad);
                     Hypervisor.Instance.Startup();
                     break;
+                case "DEBUG_MONITOR":
+                    if (ModLoader.CurrentScene != CurrentScene.Game)
+                    {
+                        ModConsole.Log("[MOP] Debug monitor can only be used in-game.");
+                        return;
+                    }
+
+                    Hypervisor.Instance.ToggleDebugMode();
+
+                    break;
             }
         }
     }

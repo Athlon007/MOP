@@ -1191,11 +1191,12 @@ namespace MOP
         }
 #endregion
 #region System Control & Crash Protection
-        int ticks;
-        int lastTick;
-        int retries;
-        const int MaxRetries = 3;
-        bool restartSucceedMessaged;
+        private int ticks;
+        public int Tick { get => ticks; }
+        private int lastTick;
+        private int retries;
+        private const int MaxRetries = 3;
+        private bool restartSucceedMessaged;
         private IEnumerator currentControlCoroutine;
 
         /// <summary>
@@ -1438,26 +1439,16 @@ namespace MOP
             }
         }
 
-#if DEBUG
-        void OnGUI()
+        internal void ToggleDebugMode()
         {
-            int enabledItems = 0;
-            int enabledVehicles = 0;
-
-            foreach (ItemBehaviour item in ItemsManager.Instance.GetList)
-                if (item.ActiveSelf)
-                    enabledItems++;
-
-            foreach (Vehicle item in VehicleManager.Instance.GetList)
-                if (item.gameObject.activeSelf)
-                    enabledVehicles++;
-
-            GUILayout.Box($"Tick: {ticks}\n" +
-                          $"GC: {GC.GetTotalMemory(false)}\n" +
-                          $"Items: {enabledItems} / {ItemsManager.Instance.Count}\n" +
-                          $"Vehicles: {enabledVehicles} / {VehicleManager.Instance.Count}\n" +
-                          $"World Obj: {WorldObjectManager.Instance.Count}");
+            if (GetComponent<Debug.DebugMonitor>() == null)
+            {
+                gameObject.AddComponent<Debug.DebugMonitor>();
+            }
+            else
+            {
+                Destroy(GetComponent<Debug.DebugMonitor>());
+            }
         }
-#endif
     }
 }

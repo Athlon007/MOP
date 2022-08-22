@@ -556,49 +556,6 @@ namespace MOP
                                   "Disabling rule files auto update means newly installed mods might not work, or MOP might break.", "MOP");
             }
         }
-        
-        long last = 0;
-        TextMesh fps;
-        TextMesh fpsShadow;
-        long[] differenceAverage = new long[128];
-        int differenceCounter = 0;
-        public override void Update()
-        {
-            if (!RulesManager.Instance.SpecialRules.ShowGarbageMemoryUsage) return;
-
-            if (fps == null)
-            {
-                GameObject fpsObject = GameObject.Find("GUI").transform.Find("HUD/FPS/HUDValue").gameObject;
-                PlayMakerFSM[] fsms = fpsObject.GetComponents<PlayMakerFSM>();
-                foreach (var fsm in fsms)
-                    fsm.enabled = false;
-
-                fps = fpsObject.GetComponent<TextMesh>();
-                fpsShadow = fpsObject.transform.Find("HUDValueShadow").GetComponent<TextMesh>();
-            }
-            long mem = GC.GetTotalMemory(false);
-            long diff = mem - last;
-            differenceAverage[differenceCounter] = diff;
-            differenceCounter++;
-            if (differenceCounter >= differenceAverage.Length) differenceCounter = 0;
-
-            long averageDiff = 0;
-            int divBy = 0;
-            for (int i = 0; i < differenceAverage.Length; ++i)
-            {
-                if (differenceAverage[i] <= 0) continue;
-                averageDiff += differenceAverage[i];
-                divBy++;
-            }
-
-            averageDiff /= divBy;
-
-            string text = string.Format("{0, -10} {1, 10}", mem, averageDiff);
-            fps.text = text;
-            fpsShadow.text = text;
-            last = mem;
-        }
-
 #if !PRO
         public override void OnModEnabled()
         {
