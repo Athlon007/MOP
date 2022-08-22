@@ -182,5 +182,7 @@ namespace MOP.Places
                    .Where(g => g.transform.root == gameObject.transform && g.name.StartsWith("Light") && g.GetComponent<Light>())
                    .Select(g => g.GetComponent<Light>()).ToList();
         }
+
+        public bool IsActive => isActive;
     }
 }

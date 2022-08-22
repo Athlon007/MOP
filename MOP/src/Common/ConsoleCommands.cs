@@ -51,7 +51,8 @@ namespace MOP.Common
                                 "<color=yellow>force-load-restart [true/false]</color> - Forces the 'missing Satsuma parts' game reload to happen\n" +
                                 "<color=yellow>stop</color> - Stops MOP. MIGHT BREAK THE GAME!\n" +
                                 "<color=yellow>start</color> - Starts MOP back again\n" +
-                                "<color=yellow>quality [0-5]</color> - Set quality setting";
+                                "<color=yellow>quality [0-5]</color> - Set quality setting\n" +
+                                "<color=yellow>debug_montior</color> - Shows/hides the MOP debug monitor";
 
         public override void Run(string[] args)
         {
