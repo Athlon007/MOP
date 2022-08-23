@@ -108,7 +108,7 @@
     <Compile Include="src\Common\Paths.cs" />
     <Compile Include="src\Common\SaveSlotsSupport.cs" />
     <Compile Include="src\Common\ToggledItemsListGenerator.cs" />
-    <Compile Include="src\Debug\DebugMonitor.cs" />
+    <Compile Include="src\DebugTools\DebugMonitor.cs" />
     <Compile Include="src\FSM\Actions\CustomAddItemBehaviour.cs" />
     <Compile Include="src\FSM\Actions\CustomCreateHose.cs" />
     <Compile Include="src\FSM\Actions\CustomCreateObject.cs" />

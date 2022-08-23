@@ -1441,13 +1441,13 @@ namespace MOP
 
         internal void ToggleDebugMode()
         {
-            if (GetComponent<Debug.DebugMonitor>() == null)
+            if (GetComponent<DebugTools.DebugMonitor>() == null)
             {
-                gameObject.AddComponent<Debug.DebugMonitor>();
+                gameObject.AddComponent<DebugTools.DebugMonitor>();
             }
             else
             {
-                Destroy(GetComponent<Debug.DebugMonitor>());
+                Destroy(GetComponent<DebugTools.DebugMonitor>());
             }
         }
     }
