@@ -15,9 +15,9 @@ namespace MOP.DebugTools
         private TextMesh fpsShadow;
         
         // DATA
-        private long lastMemoryUsage = 0;
+        private long lastMemoryUsage;
         private long[] differenceAverage = new long[128];
-        private int differenceCounter = 0;
+        private int differenceCounter;
 
         private void Start()
         {
