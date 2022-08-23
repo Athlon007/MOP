@@ -1,17 +1,13 @@
 ### Added
 
-- "options.txt" file is included in bug report, if user decides to include the save file
-- "mop rules" command will show from which mod specific rule originate
-- (MSCLoader) Added "RESOLUTION" picker from Mod Loader Pro
-
-### Changes
-
-- Changed the type of a message saying "Game has been reloaded over X times" to the one with "OK" button. This also means that accepting the message will not close the game
-- (MSCLoader) Updated to MSCLoader 1.2.7
-- Minor changes in text wording
+- Added command "mop debug_monitor", which shows debug stats of MOP
 
 ### Bug Fixes
 
-- MOP will now load successfully, if the load screen somehow didn't load
-- Fixed a bug causing Satsuma to be stuck frozen, if the rule file told MOP to fully ignore Satsuma
-- Fixed the "SATS_ODOMETER_RESET_FIX_ERROR", which was caused by the "Speedometer Cable" mod removing Odometer's FSM object
+- MOP won't show errors during save file verification, if the new save file has been created, but  the game hasn't been saved, which made certain save tags missing
+- Improved R20 Battery Box transform loading - now it's done when MOP is running, instead of during MOP loading
+
+### Removed
+
+- Removed unused code
+- Removed custom rule file flag: "show_garbage_memory_usage"

@@ -190,7 +190,7 @@ namespace MOP.Helpers
                     saveBugs.Add(SaveBugs.New("Bucket Seats", () =>
                     {
                         WriteSavePath("bucket seat passenger(Clone)Purchased", true);
-                        WriteSavePath("bucket seat driver(Clone)Purchased", true);
+                        WriteSavePath("bucket seat driver(Clone)Purchased", true); 
                     }));
                 }
             }
