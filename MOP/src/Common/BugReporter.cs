@@ -89,9 +89,8 @@ namespace MOP.Common
             string today = DateTime.Now.ToString("yyyy-MM-dd");
             foreach (string log in Directory.GetFiles(Paths.LogFolder, $"*{today}*.txt"))
             {
-                string pathToFile = log.Replace("\\", "/");
-                string nameOfFile = log.Split('\\')[1];
-                File.Copy(pathToFile, $"{Paths.BugReportPath}/{nameOfFile}");
+                string[] pathArray = log.Replace("\\", "/").Split('/');
+                File.Copy(log, Path.Combine(Paths.BugReportPath, pathArray[pathArray.Length - 1]));
             }
 
             // Generate a MOP report.
@@ -104,6 +103,7 @@ namespace MOP.Common
             string lastZipFilePath = $"{Paths.BugReportPath}/MOP Bug Report - {DateTime.Now:yyyy-MM-dd_HH-mm}.zip";
             using (ZipFile zip = new ZipFile())
             {
+                // Include all text files from BugReportPath.
                 foreach (string file in Directory.GetFiles(Paths.BugReportPath, "*.txt"))
                 {
                     zip.AddFile(file, "");
