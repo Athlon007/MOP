@@ -2,6 +2,10 @@
 
 ## 3.8.4 (TBA)
 
+### Changes
+
+- Error message in the console will now also show the error code
+
 ### Bug Fixes
 
 - Fixed a warning error, when purchasing R20 Battery Box

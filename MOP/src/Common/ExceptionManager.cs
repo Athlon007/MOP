@@ -72,9 +72,10 @@ namespace MOP.Common
                 sw.Write(errorInfo + "\n\n");
             }
 
-            string errorMessage = $"[MOP] An error has occured. The log file has been saved into:\n\n" +
-                $"{logFilePath}.\n\n" +
-                $"Please go into MOP Settings and click \"<b>I found a bug</b>\" button, in order to generate the bug report. " +
+            string errorMessage = 
+                $"[MOP] An error has occured. The log file has been saved into:\n\n" +
+                $"{logFilePath}.\nMessage: {message}\n\n" +
+                $"Please go into MOP Settings, and click \"<b>I FOUND A BUG</b>\" button, in order to generate the bug report. " +
                 $"Then please follow the provided instructions.\n";
 
             if (isCritical || erorrsContainer.Contains(message))
