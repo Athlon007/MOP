@@ -748,12 +748,24 @@ namespace MOP.Items
         public void LoadTransform()
         {
             WasTransformLoaded = true;
-            if (!gameObject.name.Contains("r20 battery box")) return;
+            if (!gameObject.name.Contains("r20 battery box"))
+            {
+                return;
+            }
 
             string transformID = gameObject.GetPlayMaker("Use").FsmVariables.GetFsmString("UniqueTagTransform").Value;
+
+            if (!SaveManager.IsItemTagPresent(transformID))
+            {
+                return;
+            }
+
             Transform loadedTransform = SaveManager.ReadItemTranform(transformID);
 
-            if (loadedTransform.position == Vector3.zero) return;
+            if (loadedTransform.position == Vector3.zero)
+            {
+                return;
+            }
 
             transform.position = loadedTransform.position;
             transform.rotation = loadedTransform.rotation;

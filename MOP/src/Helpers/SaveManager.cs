@@ -161,6 +161,11 @@ namespace MOP.Helpers
             return ES2.Exists($"{SavePath}?tag={tag}");
         }
 
+        public static bool IsItemTagPresent(string tag)
+        {
+            return ES2.Exists($"{ItemsPath}?tag={tag}");
+        }
+
         public static void VerifySave()
         {
             if (!File.Exists(SavePath))
