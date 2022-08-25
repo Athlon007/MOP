@@ -100,7 +100,8 @@ namespace MOP.Common
             }
 
             // Now we are packing up everything.
-            string lastZipFilePath = $"{Paths.BugReportPath}/MOP Bug Report - {DateTime.Now:yyyy-MM-dd_HH-mm}.zip";
+            //string lastZipFilePath = $"{Paths.BugReportPath}/MOP Bug Report - {DateTime.Now:yyyy-MM-dd_HH-mm}.zip";
+            string lastZipFilePath = Path.Combine(Paths.BugReportPath, $"MOP Bug Report - {DateTime.Now:yyyy-MM-dd_HH-mm}.zip");
             using (ZipFile zip = new ZipFile())
             {
                 // Include all text files from BugReportPath.
