@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.8.4 (TBA)
+
+### Bug Fixes
+
+- Fixed a warning error, when purchasing R20 Battery Box
+
 ## 3.8.3 (23.08.2022)
 
 ### Added
