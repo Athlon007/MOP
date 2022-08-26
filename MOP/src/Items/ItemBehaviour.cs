@@ -745,28 +745,46 @@ namespace MOP.Items
             this.isObjectOnGrill = isObjectOnGrill;
         }
 
+        /// <summary>
+        /// Loads transform from save file.
+        /// </summary>
         public void LoadTransform()
         {
+            // Prevent loading that function twice.
             WasTransformLoaded = true;
+            // For now, we only support r20 battery box.
             if (!gameObject.name.Contains("r20 battery box"))
             {
                 return;
             }
 
-            string transformID = gameObject.GetPlayMaker("Use").FsmVariables.GetFsmString("UniqueTagTransform").Value;
+            // Read object's save transform ID from Use PlayMaker.
+            string transformID = gameObject.GetPlayMaker("Use")?.FsmVariables.GetFsmString("UniqueTagTransform").Value;
 
-            if (!SaveManager.IsItemTagPresent(transformID))
+            Transform loadedTransform;
+
+            // Check if transformID is exists in the save or items file.
+            // Load the item's transform from the appropriate save file.
+            if (SaveManager.IsItemTagPresent(transformID))
+            {
+                loadedTransform = SaveManager.ReadItemTranform(transformID);
+            }
+            else if (SaveManager.IsSaveTagPresent(transformID))
+            {
+                loadedTransform = SaveManager.ReadTransform(transformID);
+            }
+            else
             {
                 return;
             }
 
-            Transform loadedTransform = SaveManager.ReadItemTranform(transformID);
-
+            // Do not load transform, which position is point zero.
             if (loadedTransform.position == Vector3.zero)
             {
                 return;
             }
 
+            // Finally load the position.
             transform.position = loadedTransform.position;
             transform.rotation = loadedTransform.rotation;
         }

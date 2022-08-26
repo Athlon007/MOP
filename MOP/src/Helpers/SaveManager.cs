@@ -75,7 +75,7 @@ namespace MOP.Helpers
             return ES2.Load<bool>(path, setting);
         }
 
-        static Transform ReadTransform(string tag)
+        public static Transform ReadTransform(string tag)
         {
             string path = $"{SavePath}?tag={tag}";
             if (!ES2.Exists(path, setting))
@@ -156,13 +156,18 @@ namespace MOP.Helpers
             ES2.Save(value, $"{ItemsPath}?tag={tag}");
         }
 
-        static bool IsSaveTagPresent(string tag)
+        public static bool IsSaveTagPresent(string tag)
         {
             return ES2.Exists($"{SavePath}?tag={tag}");
         }
 
         public static bool IsItemTagPresent(string tag)
         {
+            if (string.IsNullOrEmpty(tag))
+            {
+                return false;
+            }
+
             return ES2.Exists($"{ItemsPath}?tag={tag}");
         }
 
