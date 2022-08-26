@@ -5,6 +5,7 @@
 ### Changes
 
 - Error message in the console will now also show the error code
+- Optimisation in rule file data loading
 
 ### Bug Fixes
 
