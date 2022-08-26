@@ -760,7 +760,6 @@ namespace MOP.Items
 
             // Read object's save transform ID from Use PlayMaker.
             string transformID = gameObject.GetPlayMaker("Use")?.FsmVariables.GetFsmString("UniqueTagTransform").Value;
-
             Transform loadedTransform;
 
             // Check if transformID is exists in the save or items file.
