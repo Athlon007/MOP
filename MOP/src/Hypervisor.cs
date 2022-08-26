@@ -511,64 +511,32 @@ namespace MOP
             {
                 try
                 {
-                    switch (v.ToggleMode)
+                    GameObject g = GameObject.Find(v.ObjectName);
+                    if (g == null)
                     {
-                        default:
-                            ModConsole.LogError($"[MOP] Unrecognized toggle mode for {v.ObjectName}: {v.ToggleMode}.");
-                            break;
-                        case ToggleModes.Simple:
-                            if (GameObject.Find(v.ObjectName) == null)
-                            {
-                                ModConsole.LogError($"[MOP] Couldn't find world object {v.ObjectName}");
-                                continue;
-                            }
+                        ModConsole.LogError($"[MOP] Couldn't find {v.ToggleMode} {v.ObjectName}");
+                        continue;
+                    }
 
-                            worldObjectManager.Add(v.ObjectName, DisableOn.Distance);
-                            break;
-                        case ToggleModes.Renderer:
-                            if (GameObject.Find(v.ObjectName) == null)
-                            {
-                                ModConsole.LogError($"[MOP] Couldn't find world object {v.ObjectName}");
-                                continue;
-                            }
-
-                            worldObjectManager.Add(v.ObjectName, DisableOn.Distance, 200, ToggleModes.Renderer);
-                            break;
-                        case ToggleModes.Item:
-                            GameObject g = GameObject.Find(v.ObjectName);
-
-                            if (g == null)
-                            {
-                                ModConsole.LogError($"[MOP] Couldn't find item {v.ObjectName}");
-                                continue;
-                            }
-
-                            if (g.GetComponent<ItemBehaviour>() == null)
-                                g.AddComponent<ItemBehaviour>();
-                            break;
-                        case ToggleModes.Vehicle:
-                            if (RulesManager.Instance.SpecialRules.IgnoreModVehicles) continue;
-
-                            if (GameObject.Find(v.ObjectName) == null)
-                            {
-                                ModConsole.LogError($"[MOP] Couldn't find vehicle {v.ObjectName}");
-                                continue;
-                            }
-
-                            vehicleManager.Add(new Vehicle(v.ObjectName));
-                            break;
-                        case ToggleModes.VehiclePhysics:
-                            if (RulesManager.Instance.SpecialRules.IgnoreModVehicles) continue;
-
-                            if (GameObject.Find(v.ObjectName) == null)
-                            {
-                                ModConsole.LogError($"[MOP] Couldn't find vehicle {v.ObjectName}");
-                                continue;
-                            }
-                            vehicleManager.Add(new Vehicle(v.ObjectName));
-                            Vehicle veh = vehicleManager[vehicleManager.Count - 1];
+                    if (v.ToggleMode == ToggleModes.Simple || v.ToggleMode == ToggleModes.Renderer)
+                    {
+                        worldObjectManager.Add(g, DisableOn.Distance, 200, v.ToggleMode);
+                    }
+                    else if (v.ToggleMode == ToggleModes.Item)
+                    {
+                        if (g.GetComponent<ItemBehaviour>() == null)
+                        {
+                            g.AddComponent<ItemBehaviour>();
+                        }
+                    }
+                    else if (v.ToggleMode == ToggleModes.Vehicle || v.ToggleMode == ToggleModes.VehiclePhysics)
+                    {
+                        Vehicle veh = new Vehicle(v.ObjectName);
+                        vehicleManager.Add(veh);
+                        if (v.ToggleMode == ToggleModes.VehiclePhysics)
+                        {
                             veh.Toggle = veh.ToggleUnityCar;
-                            break;
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -606,7 +574,6 @@ namespace MOP
                 {
                     ExceptionManager.New(ex, false, "CHANGE_PARENT_RULE_ERROR");
                 }
-
             }
 
             ModConsole.Log("[MOP] Rules loading complete!");
