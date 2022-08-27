@@ -1,13 +1,9 @@
-### Added
+### Changes
 
-- Added command "mop debug_monitor", which shows debug stats of MOP
+- Error message in the console will now also show the error code
+- Optimisation in rule file data loading
 
 ### Bug Fixes
 
-- MOP won't show errors during save file verification, if the new save file has been created, but  the game hasn't been saved, which made certain save tags missing
-- Improved R20 Battery Box transform loading - now it's done when MOP is running, instead of during MOP loading
-
-### Removed
-
-- Removed unused code
-- Removed custom rule file flag: "show_garbage_memory_usage"
+- Fixed a warning error, when unpacking R20 Battery Box
+- Fixed logs not being included in the bug report
