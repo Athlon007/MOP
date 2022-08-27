@@ -9,7 +9,7 @@
 
 ### Bug Fixes
 
-- Fixed a warning error, when purchasing R20 Battery Box
+- Fixed a warning error, when unpacking R20 Battery Box
 - Fixed logs not being included in the bug report
 
 ## 3.8.3 (23.08.2022)
