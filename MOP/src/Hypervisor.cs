@@ -12,6 +12,7 @@
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
+
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using System;
@@ -91,7 +92,7 @@ namespace MOP
             // Load loadscreen.
             try
             {
-                GameObject loadscreenObj = GameObject.Instantiate(MOP.MopLoadScreenPrefab);
+                GameObject loadscreenObj = GameObject.Instantiate(MOP.LoadAssetBundle());
                 loadScreen = loadscreenObj.AddComponent<LoadScreen>();
                 loadScreen.Activate();
                 loadScreenWorkaround = InfiniteLoadscreenWorkaround();

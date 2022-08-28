@@ -54,9 +54,6 @@ namespace MOP
         public static string ModVersion { get => modVersion + (SubVersion != "" ? "_" + SubVersion : ""); }
         public static string ModVersionShort { get => modVersion; }
 
-
-        public GameObject MopBundle { get; private set; }
-
         // Settings
 #if PRO
         public override string UpdateLink => "https://github.com/Athlon007/MOP";
@@ -90,7 +87,7 @@ namespace MOP
                                              "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n" +
                                              "Consider supporting the project using <color=#3687D7>PayPal</color>, or on <color=orange>NexusMods</color>.";
 
-        public static GameObject MopLoadScreenPrefab { get; private set; }
+        private static GameObject MopLoadScreenPrefab { get; set; }
 #if PRO
         public MOP()
         {
@@ -567,7 +564,7 @@ namespace MOP
         }
 #endif
 
-        private void LoadAssetBundle()
+        public static GameObject LoadAssetBundle()
         {
             if (MopLoadScreenPrefab == null)
             {
@@ -579,6 +576,8 @@ namespace MOP
                 MopLoadScreenPrefab = bundle.LoadAsset<GameObject>("MOP_Canvas.prefab");
                 bundle.Unload(false);
             }
+
+            return MopLoadScreenPrefab;
         }
 
         private string GetSupporters()

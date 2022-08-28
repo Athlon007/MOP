@@ -364,7 +364,7 @@ namespace MOP.Helpers
             {
                 ModUI.ShowYesNoMessage($"MOP has found <color=yellow>{saveBugs.Count}</color> problem{(saveBugs.Count > 1 ? "s" : "")} with your save:\n\n" +
                                        $"<color=yellow>{string.Join(", ", saveBugs.Select(f => f.BugName).ToArray())}</color>\n\n" +
-                                       $"Would you like MOP to try and fix {((saveBugs.Count > 1) ? "them" : "it")}?", "MOP - Save Integrity Verification", FixAllProblems);
+                                       $"Do you want the MOP to try to fix {((saveBugs.Count > 1) ? "these problems" : "this problem")}?", "MOP - Save Integrity Verification", FixAllProblems);
             }
             else
             {

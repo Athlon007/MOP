@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.8.5 (TBA)
+
+### Changes
+
+- Changed the wording in MOP Save fixing
+
+### Bug Fixes
+
+- Fixed Load Screen unable to load, if MOP had to force-restart the game
+
 ## 3.8.4 (27.08.2022)
 
 ### Changes
