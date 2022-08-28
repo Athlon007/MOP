@@ -38,8 +38,10 @@ namespace MOP.Common
                                         "Incorrectly filled bug and/or pirate-game-copy reports WILL BE IGNORED.\n\n" +
                                         "Alternatively, you can send an e-mail to bugreport@kkmr.pl";
 
-        const string FileBugReportMessage = "It is recommended to start the game at least once before filing the bug report.\n\n" +
-                                            "If you can't load the game, press <color=yellow>CONTINUE</color> to generate the mod report anyway.";
+        //const string FileBugReportMessage = "It is recommended to start the game at least once before filing the bug report.\n\n" +
+        //                                    "If you can't load the game, press <color=yellow>CONTINUE</color> to generate the mod report anyway.";
+        const string FileBugReportMessage = "It's strongly preferred to start the game at least once, before generating the bug report.\n\n" +
+                                            "If you can't load the game, press <color=yellow>CONTINUE</color>, to generate the mod report anyway.";
 
         public BugReporter()
         {
