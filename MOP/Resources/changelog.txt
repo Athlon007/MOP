@@ -1,9 +1,13 @@
+### Added
+
+- MOP will check if the car has been assembled using Satsuma, as it tends to cause issues with the mod not working correctly
+
 ### Changes
 
-- Error message in the console will now also show the error code
-- Optimisation in rule file data loading
+- Bug reports now include logs from the past 7 days
+- Added the MOP version stamp to crash logs
+- Changed the wording in MOP Save fixing window
 
 ### Bug Fixes
 
-- Fixed a warning error, when unpacking R20 Battery Box
-- Fixed logs not being included in the bug report
+- (MSCLoader) Fixed Load Screen unable to load, if MOP had to force-restart the game
