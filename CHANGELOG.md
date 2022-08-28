@@ -2,13 +2,19 @@
 
 ## 3.8.5 (TBA)
 
+### Added
+
+- MOP will check if the car has been assembled using Satsuma, as it tends to cause issues with the mod not working correctly
+
 ### Changes
 
+- Bug reports now include logs from the past 7 days
+- Added the MOP version stamp to crash logs
 - Changed the wording in MOP Save fixing window
 
 ### Bug Fixes
 
-- Fixed Load Screen unable to load, if MOP had to force-restart the game
+- (MSCLoader) Fixed Load Screen unable to load, if MOP had to force-restart the game
 
 ## 3.8.4 (27.08.2022)
 

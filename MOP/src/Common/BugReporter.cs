@@ -87,10 +87,14 @@ namespace MOP.Common
 
             // Now we are getting logs generated today.
             string today = DateTime.Now.ToString("yyyy-MM-dd");
-            foreach (string log in Directory.GetFiles(Paths.LogFolder, $"*{today}*.txt"))
+            foreach (string log in Directory.GetFiles(Paths.LogFolder, $"MOP_Crash_*.txt"))
             {
-                string[] pathArray = log.Replace("\\", "/").Split('/');
-                File.Copy(log, Path.Combine(Paths.BugReportPath, pathArray[pathArray.Length - 1]));
+                FileInfo fi = new FileInfo(log);
+                if (fi.CreationTime > DateTime.Today.AddDays(-7))
+                {
+                    string[] pathArray = log.Replace("\\", "/").Split('/');
+                    File.Copy(log, Path.Combine(Paths.BugReportPath, pathArray[pathArray.Length - 1]));
+                }
             }
 
             // Generate a MOP report.
@@ -100,7 +104,6 @@ namespace MOP.Common
             }
 
             // Now we are packing up everything.
-            //string lastZipFilePath = $"{Paths.BugReportPath}/MOP Bug Report - {DateTime.Now:yyyy-MM-dd_HH-mm}.zip";
             string lastZipFilePath = Path.Combine(Paths.BugReportPath, $"MOP Bug Report - {DateTime.Now:yyyy-MM-dd_HH-mm}.zip");
             using (ZipFile zip = new ZipFile())
             {

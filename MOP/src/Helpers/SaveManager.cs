@@ -21,6 +21,7 @@ using System.Linq;
 using UnityEngine;
 using MSCLoader;
 using Newtonsoft.Json;
+using HutongGames.PlayMaker;
 
 using MOP.Common;
 
@@ -472,14 +473,14 @@ namespace MOP.Helpers
             {
                 if (isCylinderHeadInstalled && !cylinderHead.transform.Path().Contains("block(Clone)"))
                 {
-                    return false;
+                    throw new Exception("Cylinder head is not a part of the engine block.");
                 }
             }
             else
             {
                 if ((cylinderHead.gameObject.activeSelf == false || cylinderHead.transform.root != satsuma.transform) && isCylinderHeadInstalled)
                 {
-                    return false;
+                    throw new Exception("Cylinder head is not active, or is not a part of Satsuma.");
                 }
             }
 
@@ -499,7 +500,7 @@ namespace MOP.Helpers
                 // Check if the spark plug is missing or not.
                 if (ReadItemInt($"spark plug{i}TriggerID") == 1 && ES2.Load<bool>($"{ItemsPath}?tag=spark plug{i}Installed") && sparkPlug1Pivot.childCount == 0)
                 {
-                    return false;
+                    throw new Exception($"Spark plug {i} is installed, but not a part of the engine.");
                 }
             }
 
@@ -541,6 +542,58 @@ namespace MOP.Helpers
         private static bool IsSaveFileAfterPermadeath()
         {
             return !ES2.Exists($"{SavePath}?tag=PlayerIsDead");
+        }
+
+        const double MSCEditorLikelihoodRatio = 0.15;
+        const int MinimumNumberOfPartsToCheckMSCEditorTampering = 40;
+
+        public static bool IsCarAssembledWithMSCEditor()
+        {
+            if (ModLoader.GetCurrentScene() != CurrentScene.Game)
+            {
+                throw new AccessViolationException("Can only be executed in-game.");
+            }
+
+            int boltedCount = 0;
+            int installedCount = 0;
+            CountBoltedAndInstalled(GameObject.Find("Database/DatabaseBody"), ref boltedCount, ref installedCount);
+            CountBoltedAndInstalled(GameObject.Find("Database/DatabaseMechanics"), ref boltedCount, ref installedCount);
+            CountBoltedAndInstalled(GameObject.Find("Database/DatabaseMotor"), ref boltedCount, ref installedCount);
+
+            // If the number of parts is too low for the game to check if car has been assembled with MSCEditor, 
+            // don't bother.
+            // It would be really weird, if someone installed a single part, not bolt it, then have that error appear.
+            if (installedCount < MinimumNumberOfPartsToCheckMSCEditorTampering)
+            {
+                ModConsole.Log($"[MOP] Only {installedCount} parts are installed.");
+                return false;
+            }
+
+            double percentageOfPartsBolted = boltedCount / (double)installedCount;
+            ModConsole.Log($"[MOP] {((1d - percentageOfPartsBolted) * 100):0.00}% of Satsuma parts are installed, but not bolted.\n" +
+                           $"{boltedCount}/{installedCount} parts are bolted and installed.");
+
+            return percentageOfPartsBolted <= MSCEditorLikelihoodRatio;
+        }
+
+        private static void CountBoltedAndInstalled(GameObject databaseObject, ref int boltedCount, ref int installedCount)
+        {
+            foreach (PlayMakerFSM fsm in databaseObject.GetComponentsInChildren<PlayMakerFSM>())
+            {
+                FsmBool installed = fsm.FsmVariables.FindFsmBool("Installed");
+                FsmBool bolted = fsm.FsmVariables.FindFsmBool("Bolted");
+                if (bolted != null && installed != null)
+                {
+                    if (installed.Value)
+                    {
+                        installedCount++;
+                        if (bolted.Value)
+                        {
+                            boltedCount++;
+                        }
+                    }
+                }
+            }
         }
     }
 }

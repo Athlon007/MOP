@@ -45,6 +45,7 @@ namespace MOP.Common
                 return;
             }
 
+            bool isNewFile = false;
             // Log file doens't exist? Generate a new one.
             if (string.IsNullOrEmpty(currentLogFile))
             {
@@ -59,13 +60,18 @@ namespace MOP.Common
 
                     fileName += $"_{crashesInFolder}"; 
                 }
-
+                
+                isNewFile = true;
                 currentLogFile = fileName + ".txt";
             }
 
-
             string logFilePath = Path.Combine(Paths.LogFolder, currentLogFile).Replace("\\", "/");
             string errorInfo = $"({DateTime.Now:HH:mm:ss.fff})\n  Code: {message}\n  Type: {ex.GetType().Name}\n  Message: {ex.Message}{ex.StackTrace}\n  Target Site: {ex.TargetSite}";
+            // Add version stamp, to the new log file.
+            if (isNewFile)
+            {
+                errorInfo = $"MOP {MOP.ModVersion}\n" + errorInfo;
+            }
 
             using (StreamWriter sw = new StreamWriter(logFilePath, true))
             {

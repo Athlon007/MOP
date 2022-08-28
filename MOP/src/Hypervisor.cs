@@ -152,33 +152,40 @@ namespace MOP
         {
             bool satsumaIsLoaded = false;
 
-            try
+            if (SaveManager.IsCarAssembledWithMSCEditor())
             {
-                satsumaIsLoaded = SaveManager.IsSatsumaLoadedCompletely();
+                MSCLoader.ModUI.ShowMessage("MSCEditor (or another third-party software) has been used to assemble the car. This might cause MOP to not work as intended.");
             }
-            catch (Exception ex)
+            else
             {
-                ExceptionManager.New(ex, true, "SATSUMA_IS_LOADED_ERROR");
-            }
-
-            // For testing purposes.
-            if (MopSettings.ForceLoadRestart)
-            {
-                satsumaIsLoaded = false;
-            }
-
-            if (!satsumaIsLoaded)
-            {
-                if (MopSettings.GameFixStatus == GameFixStatus.None)
+                try
                 {
-                    StartCoroutine(GameRestartCoroutine());
-                    return;
+                    satsumaIsLoaded = SaveManager.IsSatsumaLoadedCompletely();
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, true, "SATSUMA_IS_LOADED_ERROR");
                 }
 
-                // Fix already has been attempted? Show error!
-                MSCLoader.ModUI.ShowMessage("Satsuma has not been fully loaded by the game!\n\n" +
-                                            "Consider restarting the game in order to avoid any issues.",
-                                            "MOP");
+                // For testing purposes.
+                if (MopSettings.ForceLoadRestart)
+                {
+                    satsumaIsLoaded = false;
+                }
+
+                if (!satsumaIsLoaded)
+                {
+                    if (MopSettings.GameFixStatus == GameFixStatus.None)
+                    {
+                        StartCoroutine(GameRestartCoroutine());
+                        return;
+                    }
+
+                    // Fix already has been attempted? Show error!
+                    MSCLoader.ModUI.ShowMessage("Satsuma has not been fully loaded by the game!\n\n" +
+                                                "Consider restarting the game in order to avoid any issues.",
+                                                "MOP");
+                }
             }
 
             isFinishedCheckingSatsuma = true;
