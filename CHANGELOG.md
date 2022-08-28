@@ -4,7 +4,7 @@
 
 ### Changes
 
-- Changed the wording in MOP Save fixing
+- Changed the wording in MOP Save fixing window
 
 ### Bug Fixes
 
