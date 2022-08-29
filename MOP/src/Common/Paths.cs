@@ -24,6 +24,8 @@ namespace MOP.Common
         public const string LogFolderName = "MOP_Logs";
         public const string DefaultErrorLogName = "MOP_Crash";
         public const string DefaultReportLogName = "MOP_Report";
+        public const string BugReportFileName = "MOP Bug Report";
+        public static string MopSettingsFile = Path.Combine(MOP.ModConfigPath, "settings.json");
 
         public static string LogFolder
         {

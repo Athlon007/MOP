@@ -38,10 +38,10 @@ namespace MOP.Common
                                         "Incorrectly filled bug and/or pirate-game-copy reports WILL BE IGNORED.\n\n" +
                                         "Alternatively, you can send an e-mail to bugreport@kkmr.pl";
 
-        //const string FileBugReportMessage = "It is recommended to start the game at least once before filing the bug report.\n\n" +
-        //                                    "If you can't load the game, press <color=yellow>CONTINUE</color> to generate the mod report anyway.";
         const string FileBugReportMessage = "It's strongly preferred to start the game at least once, before generating the bug report.\n\n" +
                                             "If you can't load the game, press <color=yellow>CONTINUE</color>, to generate the mod report anyway.";
+
+
 
         public BugReporter()
         {
@@ -89,7 +89,7 @@ namespace MOP.Common
 
             // Now we are getting logs generated today.
             string today = DateTime.Now.ToString("yyyy-MM-dd");
-            foreach (string log in Directory.GetFiles(Paths.LogFolder, $"MOP_Crash_*.txt"))
+            foreach (string log in Directory.GetFiles(Paths.LogFolder, $"{Paths.DefaultErrorLogName}_*.txt"))
             {
                 FileInfo fi = new FileInfo(log);
                 if (fi.CreationTime > DateTime.Today.AddDays(-7))
@@ -100,13 +100,13 @@ namespace MOP.Common
             }
 
             // Generate a MOP report.
-            using (StreamWriter sw = new StreamWriter($"{Paths.BugReportPath}/MOP_REPORT.txt"))
+            using (StreamWriter sw = new StreamWriter(Path.Combine(Paths.BugReportPath, Paths.DefaultReportLogName + ".txt")))
             {
                 sw.WriteLine(ExceptionManager.GetGameInfo());
             }
 
             // Now we are packing up everything.
-            string lastZipFilePath = Path.Combine(Paths.BugReportPath, $"MOP Bug Report - {DateTime.Now:yyyy-MM-dd_HH-mm}.zip");
+            string lastZipFilePath = Path.Combine(Paths.BugReportPath, $"{Paths.BugReportFileName} - {DateTime.Now:yyyy-MM-dd_HH-mm}.zip");
             using (ZipFile zip = new ZipFile())
             {
                 // Include all text files from BugReportPath.
@@ -115,11 +115,11 @@ namespace MOP.Common
                     zip.AddFile(file, "");
                 }
 
-                // Output Log Path
+                // Output Log Path 
                 zip.AddFile(Paths.OutputLogPath, "");
 
-                // MOP config file.
-                string mopConfigPath = Path.Combine(MOP.ModConfigPath, "MOP.json");
+                // MOP settings file.
+                string mopConfigPath = Paths.MopSettingsFile;
                 if (File.Exists(mopConfigPath))
                 {
                     zip.AddFile(mopConfigPath, "");
@@ -131,6 +131,7 @@ namespace MOP.Common
                     zip.AddFile(MopSettings.DataFile, "");
                 }
 
+                // MOP save-specific file.
                 zip.AddDirectoryByName("Save");
                 string mopSave = SaveManager.GetMopSavePath();
                 if (File.Exists(mopSave))
