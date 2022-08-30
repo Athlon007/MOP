@@ -1,14 +1,23 @@
 $MSBuildPath = 'C:\Program Files\Microsoft Visual Studio\2022\Community\Msbuild\Current\Bin\MSBuild.exe'
 $SLNFile = '..\MOP.sln'
+$BuildFolder = '..\build'
 
-Write-Host "BUILDING MOP FOR MSCLOADER...`n`n" -ForegroundColor red
-Invoke-Expression -Command "& '$MSBuildPath' '$SLNFile' /property:Configuration=Release"
-Write-Host "`n`nBUILDING MOP FOR MOD LOADER PRO...`n`n" -ForegroundColor red
-Invoke-Expression -Command "& '$MSBuildPath' '$SLNFile' /property:Configuration=ProRelease"
+function Build-Mop{
+    param(
+        [Parameter (Mandatory = $true)] [String]$Configuration,
+        [Parameter (Mandatory = $true)] [String]$ModLoader,
+        [Parameter (Mandatory = $true)] [String]$OutputArchive
+    )
 
-Write-Host "`n`nBuilding done! Packing MOP..."
-Compress-Archive -Path "..\MOP\bin\Release\MOP.dll" -DestinationPath "..\build\MOP.zip" -Force
-Compress-Archive -Path "..\MOP\bin\ProRelease\MOP.dll" -DestinationPath "..\build\MOP.pro.zip" -Force
-Write-Host "Done!"
+    Write-Host "BUILDING MOP FOR $ModLoader...`n`n" -ForegroundColor red
+    Invoke-Expression -Command "& '$MSBuildPath' '$SLNFile' /property:Configuration=$Configuration"
 
-Invoke-Item "..\build"
+    Write-Host "PACKING..."
+    Compress-Archive -Path "..\MOP\bin\$Configuration\MOP.dll" -DestinationPath "$BuildFolder\$OutputArchive" -Force
+    Write-Host "DONE!`n`n"
+}
+
+Build-Mop 'Release' 'MSCLoader' 'MOP.zip'
+Build-Mop 'ProRelease' 'Mod Loader Pro' 'MOP.pro.zip'
+
+Invoke-Item $BuildFolder
