@@ -1,7 +1,7 @@
 ---
 name: Template Bug Report
 about: Create a report to help us improve
-title: ''
+title: "[A short bug description]"
 labels: ''
 assignees: ''
 
