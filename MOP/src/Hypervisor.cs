@@ -154,7 +154,8 @@ namespace MOP
 
             if (SaveManager.IsCarAssembledWithMSCEditor())
             {
-                MSCLoader.ModUI.ShowMessage("MSCEditor (or another third-party software) has been used to assemble the car. This might cause MOP to not work as intended.");
+                MSCLoader.ModUI.ShowMessage("MSCEditor (or another third-party software) has been used to assemble the car. " +
+                    "This might cause MOP to not work as intended.", "MOP - Warning");
             }
             else
             {

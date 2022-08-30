@@ -7,6 +7,7 @@
 - Bug reports now include logs from the past 7 days
 - Added the MOP version stamp to crash logs
 - Changed the wording in MOP Save fixing window
+- Changed the "I FOUND A BUG" button text, if it was clicked without loading the game first
 
 ### Bug Fixes
 

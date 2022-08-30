@@ -40,6 +40,13 @@ namespace MOP.Helpers
         static string mopSavePath => Path.Combine(Application.persistentDataPath, "MopSave.json");
         static bool SaveFileExists => File.Exists(mopSavePath);
 
+        // Minimum percentage of bolts, that must be screwed in,
+        // in order for MOP to assume the save hasn't been tampered with.
+        const double MSCEditorLikelihoodRatio = 0.15;
+        // Minimum number of parts that must be installed to the car,
+        // in order to check for MSCEditor save tampering.
+        const int MinimumNumberOfPartsToCheckMSCEditorTampering = 40;
+
         /// <summary>
         /// For some reason, the save files get marked as read only files, not allowing MSC to save the game.
         /// This script is ran in PreSaveGame() script and removes ReadOnly attribute.
@@ -543,9 +550,6 @@ namespace MOP.Helpers
         {
             return !ES2.Exists($"{SavePath}?tag=PlayerIsDead");
         }
-
-        const double MSCEditorLikelihoodRatio = 0.15;
-        const int MinimumNumberOfPartsToCheckMSCEditorTampering = 40;
 
         public static bool IsCarAssembledWithMSCEditor()
         {
