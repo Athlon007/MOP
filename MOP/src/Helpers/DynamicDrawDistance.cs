@@ -55,6 +55,11 @@ namespace MOP.Helpers
 
                     float targetDistance = CalculateDrawDistance();
 
+                    if (mainCamera == null)
+                    {
+                        throw new NullReferenceException("Main camera is null.");
+                    }
+
                     // Finally, we set the render distance.
                     mainCamera.farClipPlane = targetDistance;
                 }
