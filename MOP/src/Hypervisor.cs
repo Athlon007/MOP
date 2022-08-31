@@ -604,7 +604,7 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                ExceptionManager.New(ex, false, "DYNAMIC_DRAW_DISTANCE_ERROR");
+                ExceptionManager.New(ex, false, "DYNAMIC_DRAW_DISTANCE_LOAD_ERROR");
             }
 
             if (MopSettings.Mode != PerformanceMode.Safe)
