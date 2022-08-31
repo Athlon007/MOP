@@ -2,6 +2,10 @@
 
 ## TBA (TBA)
 
+### Changes
+
+- Improvements to dyanmic draw distance stability
+
 ## 3.8.5 (30.08.2022)
 
 ### Added

@@ -42,7 +42,7 @@ namespace MOP.Helpers
 
         IEnumerator UpdateDrawDistance()
         {
-            while (true)
+            while (MopSettings.IsModActive)
             {
                 yield return new WaitForSeconds(0.5f);
 
@@ -53,27 +53,7 @@ namespace MOP.Helpers
                         continue;
                     }
 
-                    float targetDistance = FsmManager.GetDrawDistance();
-                    if (IsFarRenderDistanceApplicable())
-                    {
-                        // Player is at high elevation (ski jump hill)?
-                        // Set render distance to far.
-                        targetDistance = MaxDrawDistance;
-                    }
-                    else if (SectorManager.Instance.IsPlayerInSector())
-                    {
-                        // Player in sector?
-                        // Set the render distance to sector's prefered distance..
-                        targetDistance = SectorManager.Instance.GetCurrentSectorDrawDistance();
-                    }
-
-                    if (targetDistance > FsmManager.GetDrawDistance() && !IsFarRenderDistanceApplicable())
-                    {
-                        // Is the target distance HIGHER than the player's prefered render distance,
-                        // AND far render distance IS NOT applicable?
-                        // Set the render distance to the player's prefered render distance.
-                        targetDistance = FsmManager.GetDrawDistance();
-                    }
+                    float targetDistance = CalculateDrawDistance();
 
                     // Finally, we set the render distance.
                     mainCamera.farClipPlane = targetDistance;
@@ -81,6 +61,8 @@ namespace MOP.Helpers
                 catch (Exception ex)
                 {
                     ExceptionManager.New(ex, false, "DRAW_DISTANCE_ERROR");
+                    ResetFarClip();
+                    break;
                 }
             }
         }
@@ -93,6 +75,50 @@ namespace MOP.Helpers
         private bool IsFarRenderDistanceApplicable()
         {
             return MopSettings.Mode >= Common.Enumerations.PerformanceMode.Balanced && player.position.y > FarRenderDistanceY;
+        }
+
+        private float CalculateDrawDistance()
+        {
+            float targetDistance = FsmManager.GetDrawDistance();
+            if (IsFarRenderDistanceApplicable())
+            {
+                // Player is at high elevation (ski jump hill)?
+                // Set render distance to far.
+                targetDistance = MaxDrawDistance;
+            }
+            else if (SectorManager.Instance.IsPlayerInSector())
+            {
+                // Player in sector?
+                // Set the render distance to sector's prefered distance..
+                targetDistance = SectorManager.Instance.GetCurrentSectorDrawDistance();
+            }
+
+            if (targetDistance > FsmManager.GetDrawDistance() && !IsFarRenderDistanceApplicable())
+            {
+                // Is the target distance HIGHER than the player's prefered render distance,
+                // AND far render distance IS NOT applicable?
+                // Set the render distance to the player's prefered render distance.
+                targetDistance = FsmManager.GetDrawDistance();
+            }
+
+            return targetDistance;
+        }
+
+        private void ResetFarClip()
+        {
+            try
+            {
+                if (mainCamera == null)
+                {
+                    throw new Exception("Main Camera does not exist.");
+                }
+
+                mainCamera.farClipPlane = FsmManager.GetDrawDistance();
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "RESET_FAR_CLIP_ERROR");
+            }
         }
     }
 }

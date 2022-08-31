@@ -259,6 +259,11 @@ namespace MOP.Managers
 
         public int GetCurrentSectorDrawDistance()
         {
+            if (activeSectors.Count == 0)
+            {
+                throw new System.Exception("No sector is active.");
+            }
+
             return activeSectors[0].DrawDistance;
         }
 
