@@ -4,7 +4,7 @@
 
 ### Changes
 
-- Improvements to dyanmic draw distance stability
+- Improvements to dynamic draw distance stability
 
 ## 3.8.5 (30.08.2022)
 
