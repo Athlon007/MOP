@@ -113,12 +113,12 @@ namespace MOP.Helpers
         {
             try
             {
-                if (mainCamera == null)
+                if (Camera.main == null)
                 {
                     throw new Exception("Main Camera does not exist.");
                 }
 
-                mainCamera.farClipPlane = FsmManager.GetDrawDistance();
+                Camera.main.farClipPlane = FsmManager.GetDrawDistance();
             }
             catch (Exception ex)
             {
