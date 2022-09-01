@@ -19,6 +19,7 @@ using System.Collections;
 using UnityEngine;
 
 using MOP.Common;
+using MOP.Common.Enumerations;
 using MOP.FSM;
 using MOP.Managers;
 
@@ -79,7 +80,7 @@ namespace MOP.Helpers
         /// <returns></returns>
         private bool IsFarRenderDistanceApplicable()
         {
-            return MopSettings.Mode >= Common.Enumerations.PerformanceMode.Balanced && player.position.y > FarRenderDistanceY;
+            return MopSettings.Mode >= PerformanceMode.Balanced && player.position.y > FarRenderDistanceY;
         }
 
         private float CalculateDrawDistance()
