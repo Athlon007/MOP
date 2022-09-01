@@ -102,6 +102,21 @@ namespace MOP
 
         public override void ModSettings()
         {
+            // Get resoultions.
+            List<string> resolutions = new List<string>();
+            int selected = 0;
+            int i = 0;
+            foreach (var res in Screen.resolutions)
+            {
+                resolutions.Add(res.width + "x" + res.height);
+                if (res.width == Screen.width && res.height == Screen.height)
+                {
+                    selected = i;
+                }
+                ++i;
+            }
+
+            // Set modVersion and other.
             modVersion = Version;
             modConfigPath = ModLoader.GetModSettingsFolder(this);
 
@@ -144,18 +159,7 @@ namespace MOP
             DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", true);
             DynamicDrawDistance.AddTooltip("MOP will adjust the draw distance according to the current situation\n(ex. lower it while inside of a building).");
             modSettings.AddButton("changeResolution", "RESOLUTION", () => { Resolution.gameObject.SetActive(!Resolution.gameObject.activeSelf); });
-            List<string> resolutions = new List<string>();
-            int selected = 0;
-            int i = 0;
-            foreach (var res in Screen.resolutions)
-            {
-                resolutions.Add(res.width + "x" + res.height);
-                if (res.width == Screen.width && res.height == Screen.height)
-                {
-                    selected = i;
-                }
-                ++i;
-            }
+
             Resolution = modSettings.AddRadioButtons("resolution", "RESOLUTION", selected, () =>
             {
                 string s = Resolution.GetButtonLabelText(Resolution.Value);
@@ -235,19 +239,7 @@ namespace MOP
             Settings.AddText(this, "If unchecked, the game will be paused when the game's window looses focus.");
             DynamicDrawDistance = Settings.AddCheckBox(this, "dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", true);
             Settings.AddText(this, "MOP will adjust the draw distance, according to the current situation\n(ex. lower it while inside of a building).");
-            
-            List<string> resolutions = new List<string>();
-            int selected = 0;
-            int i = 0;
-            foreach (var res in Screen.resolutions)
-            {
-                resolutions.Add(res.width + "x" + res.height);
-                if (res.width == Screen.width && res.height == Screen.height)
-                {
-                    selected = i;
-                }
-                ++i;
-            }
+           
             GameResolution = Settings.AddDropDownList(this, "", "RESOLUTION", resolutions.ToArray(), selected, () =>
             {
                 // Can't use resolution.GetSelectedItemName(), as the selected item name gets updated AFTER the OnSelectionChanged is called.
