@@ -1,14 +1,3 @@
-### Added
-
-- MOP will check if the car has been assembled using Satsuma, as it tends to cause issues with the mod not working correctly
-
 ### Changes
 
-- Bug reports now include logs from the past 7 days
-- Added the MOP version stamp to crash logs
-- Changed the wording in MOP Save fixing window
-- Changed the "I FOUND A BUG" button text, if it was clicked without loading the game first
-
-### Bug Fixes
-
-- (MSCLoader) Fixed Load Screen unable to load, if MOP had to force-restart the game
+- Improvements to dynamic draw distance stability

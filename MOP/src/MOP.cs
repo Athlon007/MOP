@@ -33,8 +33,8 @@ namespace MOP
         public override string ID => "MOP";
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.8.5"; //Version
-        public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public override string Version => "3.8.6"; //Version
+        public const string SubVersion = "BETA_1"; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public const string Edition = "Mod Loader Pro";
 #else
@@ -309,7 +309,13 @@ namespace MOP
                 MopSettings.WriteData(MopSettings.Data);
                 string message = DateTime.Now.Month == 12 && DateTime.Now.Day >= 20 ? WelcomeMessageFestive : WelcomeMessage;
                 message = string.Format(message, Version, DateTime.Now.Year + 1);
-                ModUI.ShowMessage(message, "MOP");
+                //ModUI.ShowMessage(message, "MOP");
+                ModUI.ShowCustomMessage(message, "MOP", new MsgBoxBtn[] { ModUI.CreateMessageBoxBtn("OK") },
+                    new MsgBoxBtn[] { 
+                        ModUI.CreateMessageBoxBtn("DONATE", 
+                        () => System.Diagnostics.Process.Start("https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y"),
+                        new Color32(37, 59, 128, 255), new Color(1, 1, 1)) 
+                    });
             }
 
             FsmManager.ResetAll();

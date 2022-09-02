@@ -1,6 +1,10 @@
 # Changelog
 
-## TBA (TBA)
+## 3.8.6 (TBA)
+
+### Added
+
+- Added a donate button to the Welcome message
 
 ### Changes
 
