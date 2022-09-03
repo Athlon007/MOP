@@ -287,7 +287,7 @@ namespace MOP
 
             // Changelog
             Settings.AddHeader(this, "CHANGELOG");
-            Settings.AddText(this, GetChangelog());
+            Settings.AddText(this, GetChangelog(false));
 
             // Info
             Settings.AddHeader(this, "INFO");
@@ -303,14 +303,20 @@ namespace MOP
 #endif
             RemoveUnusedFiles();
 
-            if (!Version.Contains(MopSettings.Data.Version.ToString()))
+            //if (!Version.Contains(MopSettings.Data.Version.ToString()))
             {
                 MopSettings.Data.Version = Version;
                 MopSettings.WriteData(MopSettings.Data);
                 string message = DateTime.Now.Month == 12 && DateTime.Now.Day >= 20 ? WelcomeMessageFestive : WelcomeMessage;
                 message = string.Format(message, Version, DateTime.Now.Year + 1);
                 //ModUI.ShowMessage(message, "MOP");
-                ModUI.ShowCustomMessage(message, "MOP", new MsgBoxBtn[] { ModUI.CreateMessageBoxBtn("OK") },
+                ModUI.ShowCustomMessage(message, "MOP", 
+                    new MsgBoxBtn[] {
+                        ModUI.CreateMessageBoxBtn("OK"),
+                        ModUI.CreateMessageBoxBtn("CHANGELOG", () =>
+                        {
+                            ModUI.ShowMessage(GetChangelog(true), $"MOP {ModVersion.Replace("_", " ")} - Changelog ");
+                        }, true) },
                     new MsgBoxBtn[] { 
                         ModUI.CreateMessageBoxBtn("DONATE", 
                         () => System.Diagnostics.Process.Start("https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y"),
@@ -423,7 +429,7 @@ namespace MOP
         /// Gets changelog from changelog.txt and adds rich text elements.
         /// </summary>
         /// <returns></returns>
-        string GetChangelog()
+        string GetChangelog(bool useWelcomeScreenFormatting)
         {
             if (string.IsNullOrEmpty(Properties.Resources.changelog))
             {
@@ -433,15 +439,29 @@ namespace MOP
             string[] changelog = Properties.Resources.changelog.Split('\n');
 
             string output = "";
+            bool skipNext = false;
             for (int i = 0; i < changelog.Length; i++)
             {
+                if (skipNext)
+                {
+                    skipNext = false;
+                    continue;
+                }
                 string line = changelog[i];
 
                 // If line starts with ###, make it look like a header of section.
                 if (line.StartsWith("###"))
                 {
                     line = line.Replace("###", "");
-                    line = $"<color=yellow><size=24>{line}</size></color>";
+                    if (useWelcomeScreenFormatting)
+                    {
+                        line = $"<color=yellow>{line}</color>";
+                        skipNext = true;
+                    }
+                    else
+                    {
+                        line = $"<color=yellow><size=24>{line}</size></color>";
+                    }
                 }
 
                 // Replace - with bullet.

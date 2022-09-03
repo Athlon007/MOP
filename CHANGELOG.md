@@ -4,7 +4,9 @@
 
 ### Added
 
-- Added a donate button to the Welcome message
+- Changes to welcome screen:
+  - Added a donate button
+  - Added a changelog button
 
 ### Changes
 
