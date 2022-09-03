@@ -34,7 +34,7 @@ namespace MOP
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.8.6"; //Version
-        public const string SubVersion = "BETA_1"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public const string SubVersion = "BETA_2"; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public const string Edition = "Mod Loader Pro";
 #else
@@ -80,12 +80,13 @@ namespace MOP
         const string WarningMode = "Some changes will be applied after the game restart.";
         readonly string[] activeDistanceText = { "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
         readonly string[] rulesAutoUpdateFrequencyText = { "Every launch", "Daily", "Every 2 days", "Weekly" };
-        const string WelcomeMessage = "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n\n" +
-                                      "Consider supporting the project using <color=#3687D7>PayPal</color>, or on <color=orange>NexusMods</color>.\n\n" +
-                                      "<b><color=yellow>BACKUP YOUR SAVE FILES!</color></b>";
+        
+        const string WelcomeMessage = "Welcome to Modern Optimization Plugin {0}!\n" +
+                                      "Consider supporting the project using PayPal, or on NexusMods.\n\n" +
+                                      "<b>BACKUP YOUR SAVE FILES!</b>";
         const string WelcomeMessageFestive = "Merry Christmas and Happy New Year {1}!\n\n" +
-                                             "Welcome to Modern Optimization Plugin <color=yellow>{0}</color>!\n" +
-                                             "Consider supporting the project using <color=#3687D7>PayPal</color>, or on <color=orange>NexusMods</color>.";
+                                             "Welcome to Modern Optimization Plugin{0}!\n" +
+                                             "Consider supporting the project using PayPal, or on NexusMods.";
 
         private static GameObject MopLoadScreenPrefab { get; set; }
 #if PRO
@@ -200,11 +201,11 @@ namespace MOP
             // Supporters
             modSettings.AddHeader("SUPPORTERS");
             modSettings.AddText("<color=yellow>" + GetSupporters() + "</color>" +
-                "\n\nDo you want to see your name here? Send a donate and proof of transaction to MOP's author.");
+                "\n\nDo you want to see your name here? Send a donate!");
 
             // Changelog
             modSettings.AddHeader("CHANGELOG");
-            modSettings.AddText(GetChangelog());
+            modSettings.AddText(GetChangelog(false));
 
             // Info
             modSettings.AddHeader("INFO");
@@ -283,7 +284,7 @@ namespace MOP
             // Supporters
             Settings.AddHeader(this, "SUPPORTERS");
             Settings.AddText(this, "<color=yellow>" + GetSupporters() + "</color>" +
-                "\n\nDo you want to see your name here? Send a donate and the proof of transaction to MOP's author.");
+                "\n\nDo you want to see your name here? Send a donate!");
 
             // Changelog
             Settings.AddHeader(this, "CHANGELOG");
@@ -303,25 +304,40 @@ namespace MOP
 #endif
             RemoveUnusedFiles();
 
-            //if (!Version.Contains(MopSettings.Data.Version.ToString()))
+            if (!Version.Contains(MopSettings.Data.Version.ToString()))
             {
                 MopSettings.Data.Version = Version;
                 MopSettings.WriteData(MopSettings.Data);
                 string message = DateTime.Now.Month == 12 && DateTime.Now.Day >= 20 ? WelcomeMessageFestive : WelcomeMessage;
                 message = string.Format(message, Version, DateTime.Now.Year + 1);
-                //ModUI.ShowMessage(message, "MOP");
-                ModUI.ShowCustomMessage(message, "MOP", 
+#if PRO
+                ModPrompt prompt = ModPrompt.CreateCustomPrompt();
+                prompt.DestroyOnDisable = false;
+                prompt.Text = $"{message}\n\nSUPPORTERS\n{GetSupporters()}";
+                prompt.Title = "MOP";
+                prompt.AddButton("OK", () => { GameObject.Destroy(prompt.gameObject); });
+                var btnDonate = prompt.AddButton("<color=#169BD7>DONATE</color>", () => { OnWelcomeDonateClick(); GameObject.Destroy(prompt.gameObject); });
+                var btnChangelog = prompt.AddButton("CHANGELOG", () => { 
+                    ModPrompt.CreatePrompt(GetChangelog(true), $"MOP {ModVersion.Replace("_", " ")} - Changelog", () => { prompt.gameObject.SetActive(true); }); 
+                });
+#else
+                ModUI.ShowCustomMessage(message + "\n\nSUPPORTERS\n" + GetSupporters(), "MOP", 
                     new MsgBoxBtn[] {
                         ModUI.CreateMessageBoxBtn("OK"),
+                        ModUI.CreateMessageBoxBtn(
+                            "DONATE",
+                            OnWelcomeDonateClick,
+                            new Color32(37, 59, 128, 255), 
+                            new Color(1, 1, 1)),
                         ModUI.CreateMessageBoxBtn("CHANGELOG", () =>
                         {
                             ModUI.ShowMessage(GetChangelog(true), $"MOP {ModVersion.Replace("_", " ")} - Changelog ");
                         }, true) },
-                    new MsgBoxBtn[] { 
-                        ModUI.CreateMessageBoxBtn("DONATE", 
-                        () => System.Diagnostics.Process.Start("https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y"),
-                        new Color32(37, 59, 128, 255), new Color(1, 1, 1)) 
-                    });
+                    new MsgBoxBtn[] { }); 
+                // We must add an extra empty MsgBoxBtn array,
+                // as the MSCLoader's ShowCustomMessage is so shit,
+                // the buttons won't work otherwise. 
+#endif
             }
 
             FsmManager.ResetAll();
@@ -486,6 +502,12 @@ namespace MOP
                 line = line.Replace("(Mod Loader Pro)", "<color=yellow>Mod Loader Pro:</color>");
 
                 output += line + "\n";
+
+                if (i >= 20 && useWelcomeScreenFormatting)
+                {
+                    output += "...and more.";
+                    break;
+                }
             }
 
             return output;
@@ -601,6 +623,11 @@ namespace MOP
         private string GetSupporters()
         {
             return Properties.Resources.donates;
+        }
+
+        private void OnWelcomeDonateClick()
+        {
+            System.Diagnostics.Process.Start("https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y");
         }
     }
 }

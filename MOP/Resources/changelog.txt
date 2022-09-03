@@ -1,3 +1,9 @@
+### Added
+
+- Changes to welcome screen:
+  - Added a donate button
+  - Added a changelog button
+
 ### Changes
 
 - Improvements to dynamic draw distance stability
