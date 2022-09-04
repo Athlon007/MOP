@@ -3,24 +3,32 @@ $SLNFile = '..\MOP.sln'
 $BuildFolder = '..\build'
 
 function Build-Mop{
-    $PathToTheDll = '..\MOP\bin\$Configuration\MOP.dll';
-
-    if (Test-Path $PathToTheDll) {
-        Remove-Item $PathToTheDll
-    }
-
     param(
         [Parameter (Mandatory = $true)] [String]$Configuration,
         [Parameter (Mandatory = $true)] [String]$ModLoader,
         [Parameter (Mandatory = $true)] [String]$OutputArchive
     )
 
+    $PathToTheDll = "..\MOP\bin\$Configuration\MOP.dll";
+
+    if (Test-Path $PathToTheDll) {
+        Remove-Item $PathToTheDll
+    }
+
+    if (Test-Path "$BuildFolder\$OutputArchive") {
+        Remove-Item "$BuildFolder\$OutputArchive"
+    }
+
     Write-Host "BUILDING MOP FOR $ModLoader...`n`n" -ForegroundColor red
     Invoke-Expression -Command "& '$MSBuildPath' '$SLNFile' /property:Configuration=$Configuration"
 
-    Write-Host "PACKING..."
-    Compress-Archive -Path "$PathToTheDll" -DestinationPath "$BuildFolder\$OutputArchive" -Force
-    Write-Host "DONE!`n`n"
+    if (Test-Path "$PathToTheDll") {
+        Write-Host "PACKING..."
+        Compress-Archive -Path "$PathToTheDll" -DestinationPath "$BuildFolder\$OutputArchive" -Force
+        Write-Host "DONE!`n`n"
+    } else {
+        Write-Host "=== COULD NOT BUILD MOP FOR $ModLoader! ===" -ForegroundColor red
+    }
 }
 
 Build-Mop 'Release' 'MSCLoader' 'MOP.zip'
