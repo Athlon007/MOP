@@ -49,6 +49,11 @@ namespace MOP.Helpers
 
                 try
                 {
+                    if (mainCamera == null)
+                    {
+                        mainCamera = Camera.main;
+                    }
+
                     if (!MOP.DynamicDrawDistance.GetValue())
                     {
                         continue;

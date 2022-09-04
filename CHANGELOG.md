@@ -12,6 +12,10 @@
 
 - Improvements to dynamic draw distance stability
 
+### Bug Fixes
+
+- Fixed a bug, which would cause the dynamic draw distance to crash, if Main Camera became null
+
 ## 3.8.5 (30.08.2022)
 
 ### Added
