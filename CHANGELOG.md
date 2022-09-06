@@ -15,6 +15,7 @@
 ### Bug Fixes
 
 - Fixed a bug, which would cause the dynamic draw distance to crash, if Main Camera became null
+- Fixed an error related to Winter Overhaul mod
 
 ## 3.8.5 (30.08.2022)
 

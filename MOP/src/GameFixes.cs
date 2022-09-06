@@ -136,8 +136,8 @@ namespace MOP
                 GameObject.Find("FishAreaGOOD2").transform.parent = null;
 
                 // Fix for strawberry field mailboxes
-                GameObject.Find("StrawberryField").transform.Find("LOD/MailBox").parent = null;
-                GameObject.Find("StrawberryField").transform.Find("LOD/MailBox").parent = null;
+                GameObject.Find("JOBS").transform.Find("StrawberryField/LOD/MailBox").parent = null;
+                GameObject.Find("JOBS").transform.Find("StrawberryField/LOD/MailBox").parent = null;
 
                 // Fix for items left on cottage chimney clipping through it on first load of cottage
                 GameObject.Find("COTTAGE").transform.Find("MESH/Cottage_chimney").parent = null;
