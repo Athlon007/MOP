@@ -2,14 +2,11 @@
 
 ## 3.8.6 (TBA)
 
-### Added
+### Changes
 
 - Changes to welcome screen:
   - Added a donate button
   - Added a changelog button
-
-### Changes
-
 - Improvements to dynamic draw distance stability
 
 ### Bug Fixes
