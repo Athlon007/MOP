@@ -39,8 +39,6 @@ Got any questions? Please refer to the [FAQ](http://athlon.kkmr.pl/mop/wiki/#/fa
 
 Beta builds are going to be released on GitHub with a tag "pre-release".
 
-For [nightly builds](https://en.wikipedia.org/wiki/Neutral_build), visit <a href="https://mega.nz/folder/WnYUiJ5Y#Yriz9ltnpHpVOxbYjo8hFw" target="_blank">this link</a>.
-
 ## Reporting Issues
 
 If you found a bug in MOP and you would like to report it, the first thing you should do is to go into MSC, go to MOP settings and click "**I FOUND A BUG**".
