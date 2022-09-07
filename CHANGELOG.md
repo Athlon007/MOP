@@ -13,6 +13,8 @@
 
 - Fixed a bug, which would cause the dynamic draw distance to crash, if Main Camera became null
 - Fixed an error related to Winter Overhaul mod
+- Fixed reading rule file flags from Custom.txt
+- Fixed a bug, which prevented "mop rules" command from displaying the list of rules, if Custom.txt was used
 
 ## 3.8.5 (30.08.2022)
 

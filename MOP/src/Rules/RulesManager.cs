@@ -113,16 +113,14 @@ namespace MOP.Rules
 
             foreach (Rule rule in Rules)
             {
-                if (rule.Mod == null)
+                if (rule.Filename != "Custom.txt")
                 {
-                    continue;
-                }
-
 #if PRO
-                if (!rule.Mod.Enabled) continue;
+                    if (!rule.Mod.Enabled) continue;
 #else
-                if (rule.Mod.isDisabled) continue;
+                    if (rule.Mod.isDisabled) continue;
 #endif
+                }
 
                 if (rule.GetType() == typeof(T))
                 {

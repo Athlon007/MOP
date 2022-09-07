@@ -110,21 +110,21 @@ namespace MOP.Common
                     {
                         ModConsole.Log("<color=yellow><b>Ignore Rules</b></color>");
                         foreach (IgnoreRule r in RulesManager.Instance.IgnoreRules)
-                            ModConsole.Log($"<b>Object:</b> {r.ObjectName}" + (r.TotalIgnore ? " <i>(Full Ignore)</i>" : "") + $" <b>By</b> {r.Mod.ID}");
+                            ModConsole.Log($"<b>Object:</b> {r.ObjectName}" + (r.TotalIgnore ? " <i>(Full Ignore)</i>" : "") + $" <b>By</b> {r.Mod?.ID}");
                     }
 
                     if (RulesManager.Instance.IgnoreRulesAtPlaces.Count > 0)
                     {
                         ModConsole.Log("\n<color=yellow><b>Ignore Rules At Place</b></color>");
                         foreach (IgnoreRuleAtPlace r in RulesManager.Instance.IgnoreRulesAtPlaces)
-                            ModConsole.Log($"<b>Place:</b> {r.Place} <b>Object:</b> {r.ObjectName}" + $" <b>By</b> {r.Mod.ID}");
+                            ModConsole.Log($"<b>Place:</b> {r.Place} <b>Object:</b> {r.ObjectName}" + $" <b>By</b> {r.Mod?.ID}");
                     }
 
                     if (RulesManager.Instance.ToggleRules.Count > 0)
                     {
                         ModConsole.Log("\n<color=yellow><b>Toggle Rules</b></color>");
                         foreach (ToggleRule r in RulesManager.Instance.ToggleRules)
-                            ModConsole.Log($"<b>Object:</b> {r.ObjectName} <b>Toggle Mode:</b> {r.ToggleMode}" + $" <b>By</b> {r.Mod.ID}");
+                            ModConsole.Log($"<b>Object:</b> {r.ObjectName} <b>Toggle Mode:</b> {r.ToggleMode}" + $" <b>By</b> {r.Mod?.ID}");
                     }
 
                     if (RulesManager.Instance.NewSectors.Count > 0)
@@ -132,14 +132,14 @@ namespace MOP.Common
                         ModConsole.Log("\n<color=yellow><b>New Sectors</b></color>");
                         foreach (NewSector r in RulesManager.Instance.NewSectors)
                             ModConsole.Log($"<b>Pos:</b> {r.Position} <b>Scale:</b> {r.Scale} <b>Rot:</b> {r.Rotation} " +
-                                $"<b>Ignore:</b> {string.Join(", ", r.Whitelist)}" + $" <b>By</b> {r.Mod.ID}");
+                                $"<b>Ignore:</b> {string.Join(", ", r.Whitelist)}" + $" <b>By</b> {r.Mod?.ID}");
                     }
 
                     if (RulesManager.Instance.ChangeParentRules.Count > 0)
                     {
                         ModConsole.Log("\n<color=yellow><b>Change Parent</b></color>");
                         foreach (ChangeParentRule r in RulesManager.Instance.ChangeParentRules)
-                            ModConsole.Log($"<b>Object:</b> {r.ObjectName} <b>New Parent:</b> {r.NewParentName}" + $" <b>By</b> {r.Mod.ID}");
+                            ModConsole.Log($"<b>Object:</b> {r.ObjectName} <b>New Parent:</b> {r.NewParentName}" + $" <b>By</b> {r.Mod?.ID}");
                     }
 
                     ModConsole.Log("\n<color=yellow><b>Special Rules</b></color>");
@@ -156,10 +156,14 @@ namespace MOP.Common
                     List<string> files = new List<string>();
                     foreach (Rule ruleFile in RulesManager.Instance.Rules)
                     {
-                        if (!files.Contains(ruleFile.ToString()))
+                        try
                         {
-                            files.Add(ruleFile.ToString());
+                            if (!files.Contains(ruleFile.ToString()))
+                            {
+                                files.Add(ruleFile.ToString());
+                            }
                         }
+                        catch { }
                     }
                     ModConsole.Log(string.Join("\n", files.ToArray()));
                     break;
