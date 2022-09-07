@@ -156,6 +156,7 @@ namespace MOP.Common
                     List<string> files = new List<string>();
                     foreach (Rule ruleFile in RulesManager.Instance.Rules)
                     {
+                        // A very lazy fix.
                         try
                         {
                             if (!files.Contains(ruleFile.ToString()))
