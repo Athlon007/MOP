@@ -34,7 +34,7 @@ namespace MOP
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.8.6"; //Version
-        public const string SubVersion = "BETA_3"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public const string Edition = "Mod Loader Pro";
 #else
@@ -82,7 +82,7 @@ namespace MOP
         readonly string[] rulesAutoUpdateFrequencyText = { "Every launch", "Daily", "Every 2 days", "Weekly" };
         
         const string WelcomeMessage = "Welcome to Modern Optimization Plugin {0}!\n" +
-                                      "Consider supporting the project using PayPal, or on NexusMods.\n\n" +
+                                      "Consider supporting the project using PayPal, or NexusMods.\n\n" +
                                       "<b>BACKUP YOUR SAVE FILES!</b>";
         const string WelcomeMessageFestive = "Merry Christmas and Happy New Year {1}!\n\n" +
                                              "Welcome to Modern Optimization Plugin{0}!\n" +
@@ -313,15 +313,15 @@ namespace MOP
 #if PRO
                 ModPrompt prompt = ModPrompt.CreateCustomPrompt();
                 prompt.DestroyOnDisable = false;
-                prompt.Text = $"{message}\n\nSUPPORTERS\n{GetSupporters()}";
+                prompt.Text = $"{message}";
                 prompt.Title = "MOP";
                 prompt.AddButton("OK", () => { GameObject.Destroy(prompt.gameObject); });
                 var btnDonate = prompt.AddButton("<color=#169BD7>DONATE</color>", () => { OnWelcomeDonateClick(); GameObject.Destroy(prompt.gameObject); });
                 var btnChangelog = prompt.AddButton("CHANGELOG", () => { 
                     ModPrompt.CreatePrompt(GetChangelog(true), $"MOP {ModVersion.Replace("_", " ")} - Changelog", () => { prompt.gameObject.SetActive(true); }); 
-                });
+                }); 
 #else
-                ModUI.ShowCustomMessage(message + "\n\nSUPPORTERS\n" + GetSupporters(), "MOP", 
+                ModUI.ShowCustomMessage(message, "MOP", 
                     new MsgBoxBtn[] {
                         ModUI.CreateMessageBoxBtn("OK"),
                         ModUI.CreateMessageBoxBtn(
