@@ -29,6 +29,8 @@ function Build-Mop{
     } else {
         Write-Host "=== COULD NOT BUILD MOP FOR $ModLoader! ===" -ForegroundColor red
     }
+
+    Get-FileHash "$BuildFolder\$OutputArchive" -Algorithm SHA256 | Select-Object Hash | Out-File -FilePath "$BuildFolder\$OutputArchive.sha256.txt"
 }
 
 Build-Mop 'Release' 'MSCLoader' 'MOP.zip'
