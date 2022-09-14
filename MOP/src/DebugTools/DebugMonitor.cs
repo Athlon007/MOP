@@ -5,6 +5,7 @@ using UnityEngine;
 using MOP.Items;
 using MOP.Managers;
 using MOP.Vehicles;
+using MOP.Vehicles.Cases;
 
 namespace MOP.DebugTools
 {
@@ -13,14 +14,16 @@ namespace MOP.DebugTools
         // GUI
         private TextMesh fps;
         private TextMesh fpsShadow;
+        private enum DebugPage { MopInfo, SatsumaInfo } 
+        private DebugPage debugPage = DebugPage.MopInfo;
         
         // DATA
         private long lastMemoryUsage;
         private long[] differenceAverage = new long[128];
         private int differenceCounter;
         // SATSUMA
-        private Transform subFrame, carMotorPivot, block;
-        private Vector3 subFrameInitRot, carMotorPivotInitRot, blockInitRot; 
+        private Transform satsuma, subFrame, block;
+        private Vector3 lastSatsumaPosition, subFrameInitRot, blockInitRot; 
 
         private void Start()
         {
@@ -35,18 +38,18 @@ namespace MOP.DebugTools
             fps = fpsObject.GetComponent<TextMesh>();
             fpsShadow = fpsObject.transform.Find("HUDValueShadow").GetComponent<TextMesh>();
 
-            if (GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Chassis/sub frame(xxxxx)") != null)
+            satsuma = GameObject.Find("SATSUMA(557kg, 248)").transform;
+            lastSatsumaPosition = satsuma.position;
+            if (satsuma.Find("Chassis/sub frame(xxxxx)") != null)
             {
-                subFrame = GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Chassis/sub frame(xxxxx)");
-                carMotorPivot = GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Chassis/sub frame(xxxxx)/CarMotorPivot");
-                if (GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Chassis/sub frame(xxxxx)/CarMotorPivot/block(Clone)") != null)
+                subFrame = satsuma.Find("Chassis/sub frame(xxxxx)");
+                if (satsuma.Find("Chassis/sub frame(xxxxx)/CarMotorPivot/block(Clone)") != null)
                 {
-                    block = GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Chassis/sub frame(xxxxx)/CarMotorPivot/block(Clone)");
+                    block = satsuma.Find("Chassis/sub frame(xxxxx)/CarMotorPivot/block(Clone)");
                     blockInitRot = block.localEulerAngles;
                 }
 
                 subFrameInitRot = subFrame.localEulerAngles;
-                carMotorPivotInitRot = carMotorPivot.localEulerAngles;
             }
         }
 
@@ -54,20 +57,53 @@ namespace MOP.DebugTools
         {
             long gcUsage = GC.GetTotalMemory(false);
             long averageDiff = CalculateAverageMemoryUsage(gcUsage);
+            float satsumaVelocity = (lastSatsumaPosition - satsuma.position).magnitude / Time.deltaTime;
 
-            string text = $"<color=yellow>Tick</color> {Hypervisor.Instance.Tick}\n" +
-                          $"<color=yellow>GC</color> {gcUsage} ({averageDiff})\n" +
-                          $"<color=yellow>Items</color> {CalculateEnabledItems()} / {ItemsManager.Instance.Count}\n" +
-                          $"<color=yellow>Vehicles</color> {CalculateEnabledVehicles()} / {VehicleManager.Instance.Count}\n" +
-                          $"<color=yellow>World Obj</color> {CalculateEnabledWorldObjects()} / {WorldObjectManager.Instance.Count}\n" +
-                          $"<color=yellow>Places</color> {CalculateEnabledPlaces()} / {PlaceManager.Instance.Count}\n\n" +
-                          $"<color=yellow>DIFFERENCES</color>\n" +
-                          $"<color=yellow>SubFrame</color> {Difference(subFrameInitRot, subFrame.localEulerAngles)}\n" +
-                          $"<color=yellow>CarMotorPivot</color> {Difference(carMotorPivotInitRot, carMotorPivot.localEulerAngles)}\n";
-            if (block != null)
+            if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                text += $"<color=yellow>Block</color> {Difference(blockInitRot, block.localEulerAngles)}\n";
+                if ((int)(debugPage + 1) >= Enum.GetNames(typeof(DebugPage)).Length)
+                {
+                    debugPage = (DebugPage)0;
+                }
+                else
+                {
+                    debugPage += 1;
+                }
             }
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                if (debugPage <= 0)
+                {
+                    debugPage = (DebugPage)(Enum.GetNames(typeof(DebugPage)).Length - 1);
+                }
+                else
+                {
+                    debugPage -= 1;
+                }
+            }
+
+            string text = $"<- {debugPage} ->\n"; 
+            
+            switch (debugPage)
+            {
+                case DebugPage.MopInfo:
+                    text += $"<color=yellow>Tick</color> {Hypervisor.Instance.Tick}\n" +
+                            $"<color=yellow>GC</color> {gcUsage} ({averageDiff})\n" +
+                            $"<color=yellow>Items</color> {CalculateEnabledItems()} / {ItemsManager.Instance.Count}\n" +
+                            $"<color=yellow>Vehicles</color> {CalculateEnabledVehicles()} / {VehicleManager.Instance.Count}\n" +
+                            $"<color=yellow>World Obj</color> {CalculateEnabledWorldObjects()} / {WorldObjectManager.Instance.Count}\n" +
+                            $"<color=yellow>Places</color> {CalculateEnabledPlaces()} / {PlaceManager.Instance.Count}";
+                    break;
+                case DebugPage.SatsumaInfo:
+                    text += $"<color=yellow>Velocity</color> {satsumaVelocity}\n" +
+                            $"<color=yellow>SubFrame</color> {Difference(subFrameInitRot, subFrame.localEulerAngles)}\n";
+                            if (block != null)
+                            {
+                                text += $"<color=yellow>Block</color> {Difference(blockInitRot, block.localEulerAngles)}";
+                            }
+                    break;
+            }                 
+
             SetDebugGuiText(text);
         }
 

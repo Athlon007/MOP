@@ -6,6 +6,7 @@
 
 - Changes the message displayed, if MOP could not reach the rule file server
 - Improvements to SatsumaHingeManager
+- Improvements to debug monitor
 
 ### Bug Fixes
 
