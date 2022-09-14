@@ -394,7 +394,6 @@ namespace MOP.Rules.Configuration
         {
             try
             {
-                throw new Exception("Fuck you");
                 if (serverContent == null)
                 {
                     WebClient web = new WebClient();
