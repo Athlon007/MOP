@@ -1,6 +1,6 @@
 # Changelog
 
-## TBA (TBA)
+## 3.8.7 (TBA)
 
 ### Changes
 

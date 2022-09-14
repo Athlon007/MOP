@@ -1,13 +1,8 @@
 ### Changes
 
-- Changes to welcome screen:
-  - Added a donate button
-  - Added a changelog button
-- Improvements to dynamic draw distance stability
+- Changes the message displayed, if MOP could not reach the rule file server
+- Improvements to SatsumaHingeManager
 
 ### Bug Fixes
 
-- Fixed a bug, which would cause the dynamic draw distance to crash, if Main Camera became null
-- Fixed an error related to Winter Overhaul mod
-- Fixed reading rule file flags from Custom.txt
-- Fixed a bug, which prevented "mop rules" command from displaying the list of rules, if Custom.txt was used
+- Fixed a bug, due to which the installed engine block would slowly rotate, when car engine block is repeatedly enabled and disabled
