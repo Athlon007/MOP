@@ -37,7 +37,7 @@ namespace MOP.Common
         /// Creates then new error dump file
         /// </summary>
         /// <param name="ex"></param>
-        public static void New(Exception ex, bool isCritical, string message, string messageBoxText = "")
+        public static void New(Exception ex, bool isCritical, string message)
         {
             // Don't save errors that already occured.
             if (erorrsContainer.Contains(message))
@@ -91,14 +91,6 @@ namespace MOP.Common
             else
             {
                 ModConsole.LogWarning(errorMessage + "\n<b>You can continue playing.</b>");
-            }
-
-            erorrsContainer.Add(message);
-
-            if (messageBoxText != "")
-            {
-                message += $"\n\nError Code: {message}";
-                ModUI.ShowMessage(message);
             }
         }
 

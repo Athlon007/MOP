@@ -48,6 +48,13 @@ namespace MOP.Rules.Configuration
 
         TextMesh message, shadow;
 
+        string failureMessage = "MOP could not obtain rule files server content. " +
+                                "In order to fix that:\n" +
+                                "- Check your firewall configuraiton\n" +
+                                "- Check your router DNS configuration\n" +
+                                "- Disable 'UPDATE RULES AUTOMATICALLY' option in the settings\n\n" +
+                                "If you still can't download rule files, you can download rule files manually at athlon.kkmr.pl/mop";
+
         public void Initialize(bool overrideUpdateCheck, bool loadAll = false)
         {
             this.overrideUpdateCheck = overrideUpdateCheck;
@@ -387,6 +394,7 @@ namespace MOP.Rules.Configuration
         {
             try
             {
+                throw new Exception("Fuck you");
                 if (serverContent == null)
                 {
                     WebClient web = new WebClient();
@@ -407,13 +415,25 @@ namespace MOP.Rules.Configuration
             }
             catch (Exception ex)
             {
-                ExceptionManager.New(ex, false, "SERVER_CONTENT_DOWNLOAD_ERROR",
-                    "MOP could not obtain rule files server content. " +
-                    "In order to fix that:\n" +
-                    "- Check your firewall configuraiton\n" +
-                    "- Check your router DNS configuration\n" +
-                    "- Disable 'UPDATE RULES AUTOMATICALLY' option in the settings");
+                ExceptionManager.New(ex, false, "SERVER_CONTENT_DOWNLOAD_ERROR");
+
+#if PRO
+                ModPrompt prompt = ModPrompt.CreateCustomPrompt();
+                prompt.Title = "MOP - Server Content Error";
+                prompt.Text = failureMessage;
+                prompt.AddButton("OK", null);
+                prompt.AddButton("OPEN WEBSITE", OpenManualRuleFilesWebsite);
+#else
+                ModUI.ShowCustomMessage(failureMessage, "MOP - Server Content Error",
+                    new MsgBoxBtn[] { ModUI.CreateMessageBoxBtn("OK"), ModUI.CreateMessageBoxBtn("OPEN WEBSITE", OpenManualRuleFilesWebsite) },
+                    new MsgBoxBtn[] { });
+#endif
             }
+        }
+
+        private void OpenManualRuleFilesWebsite()
+        {
+            System.Diagnostics.Process.Start("http://athlon.kkmr.pl/mop");
         }
 
         /// <summary>

@@ -1,5 +1,11 @@
 # Changelog
 
+## TBA (TBA)
+
+### Changes
+
+- Changes the message displayed, if MOP could not reach the rule file server
+
 ## 3.8.6 (08.09.2022)
 
 ### Changes
