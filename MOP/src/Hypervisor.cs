@@ -116,6 +116,10 @@ namespace MOP
 
             ExceptionManager.SessionTimeStart = DateTime.Now;
 
+#if DEBUG
+            ToggleDebugMode();
+#endif
+
             // Start the delayed initialization routine
             StartCoroutine(DelayedInitializaitonRoutine());
         }

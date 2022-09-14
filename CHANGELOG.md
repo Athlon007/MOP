@@ -5,6 +5,11 @@
 ### Changes
 
 - Changes the message displayed, if MOP could not reach the rule file server
+- Improvements to SatsumaHingeManager
+
+### Bug Fixes
+
+- Fixed a bug, due to which the installed engine block would slowly rotate, when car engine block is repeatedly enabled and disabled
 
 ## 3.8.6 (08.09.2022)
 

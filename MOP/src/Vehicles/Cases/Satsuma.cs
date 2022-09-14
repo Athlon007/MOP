@@ -107,6 +107,9 @@ namespace MOP.Vehicles.Cases
         internal Vector3 lastGoodPosition;
         bool lastGoodRotationSaved;
 
+        // Block hinge joint.
+        private GameObject block;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -600,6 +603,17 @@ namespace MOP.Vehicles.Cases
             catch (System.Exception ex)
             {
                 ExceptionManager.New(ex, false, "EXHAUST_MUFFLER_FIX_ERROR");
+            }
+
+            try
+            {
+                block = GameObject.Find("block(Clone)");
+                block.AddComponent<SatsumaHingeManager>();
+
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, false, "SATSUMA_BLOCK_FIND_FAILURE");
             }
 
 

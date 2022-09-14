@@ -18,6 +18,9 @@ namespace MOP.DebugTools
         private long lastMemoryUsage;
         private long[] differenceAverage = new long[128];
         private int differenceCounter;
+        // SATSUMA
+        private Transform subFrame, carMotorPivot, block;
+        private Vector3 subFrameInitRot, carMotorPivotInitRot, blockInitRot; 
 
         private void Start()
         {
@@ -31,6 +34,20 @@ namespace MOP.DebugTools
 
             fps = fpsObject.GetComponent<TextMesh>();
             fpsShadow = fpsObject.transform.Find("HUDValueShadow").GetComponent<TextMesh>();
+
+            if (GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Chassis/sub frame(xxxxx)") != null)
+            {
+                subFrame = GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Chassis/sub frame(xxxxx)");
+                carMotorPivot = GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Chassis/sub frame(xxxxx)/CarMotorPivot");
+                if (GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Chassis/sub frame(xxxxx)/CarMotorPivot/block(Clone)") != null)
+                {
+                    block = GameObject.Find("SATSUMA(557kg, 248)").transform.Find("Chassis/sub frame(xxxxx)/CarMotorPivot/block(Clone)");
+                    blockInitRot = block.localEulerAngles;
+                }
+
+                subFrameInitRot = subFrame.localEulerAngles;
+                carMotorPivotInitRot = carMotorPivot.localEulerAngles;
+            }
         }
 
         private void Update()
@@ -43,7 +60,14 @@ namespace MOP.DebugTools
                           $"<color=yellow>Items</color> {CalculateEnabledItems()} / {ItemsManager.Instance.Count}\n" +
                           $"<color=yellow>Vehicles</color> {CalculateEnabledVehicles()} / {VehicleManager.Instance.Count}\n" +
                           $"<color=yellow>World Obj</color> {CalculateEnabledWorldObjects()} / {WorldObjectManager.Instance.Count}\n" +
-                          $"<color=yellow>Places</color> {CalculateEnabledPlaces()} / {PlaceManager.Instance.Count}";
+                          $"<color=yellow>Places</color> {CalculateEnabledPlaces()} / {PlaceManager.Instance.Count}\n\n" +
+                          $"<color=yellow>DIFFERENCES</color>\n" +
+                          $"<color=yellow>SubFrame</color> {Difference(subFrameInitRot, subFrame.localEulerAngles)}\n" +
+                          $"<color=yellow>CarMotorPivot</color> {Difference(carMotorPivotInitRot, carMotorPivot.localEulerAngles)}\n";
+            if (block != null)
+            {
+                text += $"<color=yellow>Block</color> {Difference(blockInitRot, block.localEulerAngles)}\n";
+            }
             SetDebugGuiText(text);
         }
 
@@ -116,6 +140,15 @@ namespace MOP.DebugTools
         {
             Destroy(fpsShadow.gameObject);
             Destroy(fps.gameObject);
+        }
+
+        private Vector3 Difference(Vector3 a, Vector3 b)
+        {
+            float x = Mathf.Abs(a.x - b.x);
+            float y = Mathf.Abs(a.y - b.y);
+            float z = Mathf.Abs(a.z - b.z);
+
+            return new Vector3(x, y, z);
         }
     }
 }

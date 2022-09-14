@@ -17,6 +17,9 @@
 using System.Collections;
 using UnityEngine;
 
+using MOP.Vehicles;
+using MOP.Vehicles.Cases;
+
 namespace MOP.Vehicles.Managers.SatsumaManagers
 {
     class SatsumaHingeManager : MonoBehaviour
@@ -80,7 +83,7 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
 
         bool IsAssembledToTheCar()
         {
-            return transform.parent != null && transform.parent?.name != "PartsCar";
+            return transform.root != null && transform.root == Satsuma.Instance.transform;
         }
 
         IEnumerator HingeFix()
