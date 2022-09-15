@@ -14,7 +14,7 @@ namespace MOP.DebugTools
         // GUI
         private TextMesh fps;
         private TextMesh fpsShadow;
-        private enum DebugPage { MopInfo, SatsumaInfo } 
+        private enum DebugPage { MopInfo, SatsumaInfo, PlayerInfo } 
         private DebugPage debugPage = DebugPage.MopInfo;
         
         // DATA
@@ -22,8 +22,8 @@ namespace MOP.DebugTools
         private long[] differenceAverage = new long[128];
         private int differenceCounter;
         // SATSUMA
-        private Transform satsuma, subFrame, block;
-        private Vector3 lastSatsumaPosition, subFrameInitRot, blockInitRot; 
+        private Transform satsuma, block;
+        private Vector3 lastSatsumaPosition, blockInitRot; 
 
         private void Start()
         {
@@ -42,14 +42,11 @@ namespace MOP.DebugTools
             lastSatsumaPosition = satsuma.position;
             if (satsuma.Find("Chassis/sub frame(xxxxx)") != null)
             {
-                subFrame = satsuma.Find("Chassis/sub frame(xxxxx)");
                 if (satsuma.Find("Chassis/sub frame(xxxxx)/CarMotorPivot/block(Clone)") != null)
                 {
                     block = satsuma.Find("Chassis/sub frame(xxxxx)/CarMotorPivot/block(Clone)");
                     blockInitRot = block.localEulerAngles;
                 }
-
-                subFrameInitRot = subFrame.localEulerAngles;
             }
         }
 
@@ -90,15 +87,23 @@ namespace MOP.DebugTools
                             $"<color=yellow>Items</color> {CalculateEnabledItems()} / {ItemsManager.Instance.Count}\n" +
                             $"<color=yellow>Vehicles</color> {CalculateEnabledVehicles()} / {VehicleManager.Instance.Count}\n" +
                             $"<color=yellow>World Obj</color> {CalculateEnabledWorldObjects()} / {WorldObjectManager.Instance.Count}\n" +
-                            $"<color=yellow>Places</color> {CalculateEnabledPlaces()} / {PlaceManager.Instance.Count}";
+                            $"<color=yellow>Places</color> {CalculateEnabledPlaces()} / {PlaceManager.Instance.Count}\n";
                     break;
                 case DebugPage.SatsumaInfo:
                     float satsumaVelocity = (lastSatsumaPosition - satsuma.position).magnitude / Time.deltaTime;
-                    text += $"<color=yellow>Velocity</color> {satsumaVelocity}\n" +
+                    text += $"<color=yellow>Velocity</color> {satsumaVelocity}\n";
                             if (block != null)
                             {
-                                text += $"<color=yellow>Block_rot</color> {Difference(blockInitRot, block.localEulerAngles)}";
+                                text += $"<color=yellow>Block_rot</color> {Difference(blockInitRot, block.localEulerAngles)}\n";
                             }
+                    text += $"<color=yellow>inspection area</color> {Satsuma.Instance.IsSatsumaInInspectionArea}\n" +
+                            $"<color=yellow>parcferme</color> {Satsuma.Instance.IsSatsumaInParcFerme}\n";
+                    break;
+                case DebugPage.PlayerInfo:
+                    text += $"<color=yellow>PlayerPos</color> {Hypervisor.Instance.GetPlayer().position}\n" +
+                            $"<color=yellow>InSector</color> {Hypervisor.Instance.IsInSector()}\n" +
+                            $"<color=yellow>SectorDrawDistance</color> " +
+                            $"{(SectorManager.Instance.IsPlayerInSector() ? SectorManager.Instance.GetCurrentSectorDrawDistance().ToString() : "-")}\n";
                     break;
             }                 
 

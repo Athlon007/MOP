@@ -107,9 +107,6 @@ namespace MOP.Vehicles.Cases
         internal Vector3 lastGoodPosition;
         bool lastGoodRotationSaved;
 
-        // Block hinge joint.
-        private GameObject block;
-
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -607,7 +604,7 @@ namespace MOP.Vehicles.Cases
 
             try
             {
-                block = GameObject.Find("block(Clone)");
+                GameObject block = GameObject.Find("block(Clone)");
                 block.AddComponent<SatsumaHingeManager>();
 
             }
@@ -760,7 +757,7 @@ namespace MOP.Vehicles.Cases
         /// Returns true, if any hood is attached to the car.
         /// </summary>
         /// <returns></returns>
-        bool IsHoodAttached()
+        private bool IsHoodAttached()
         {
             return pivotHood.childCount > 0;
         }
@@ -769,7 +766,7 @@ namespace MOP.Vehicles.Cases
         /// Toggles all renderers of the Satsuma,
         /// </summary>
         /// <param name="enabled">If set to true, the renderers are enabled.</param>
-        void RenderersCulling(bool enabled)
+        private void RenderersCulling(bool enabled)
         {
             if (RulesManager.Instance.SpecialRules.SatsumaIgnoreRenderers) enabled = true;
 
@@ -932,7 +929,7 @@ namespace MOP.Vehicles.Cases
         /// Toggles Satsuma's dashboard illumination.
         /// </summary>
         /// <param name="enabled"></param>
-        void ToggleDashIllumination(bool enabled)
+        private void ToggleDashIllumination(bool enabled)
         {
             if ((dashboardMaterials == null) || (dashboardMaterials[0].GetFloat("_Intensity") == 0 && !enabled) || (dashboardMaterials[0].GetFloat("_Intensity") == 0.2f && enabled))
             {
@@ -960,7 +957,7 @@ namespace MOP.Vehicles.Cases
             satsumaBoltsAntiReloads.Add(i);
         }
 
-        void UnglueAll()
+        private void UnglueAll()
         {
             if (partsUnglued) return;
             partsUnglued = true;
@@ -991,7 +988,7 @@ namespace MOP.Vehicles.Cases
             ModConsole.Log("[MOP] Glued all Satsuma parts.");
         }
 
-        List<Renderer> GetRenderersToDisable()
+        private List<Renderer> GetRenderersToDisable()
         {
             List<Renderer> renderers = gameObject.transform.GetComponentsInChildren<Renderer>(true).Where(r => !r.gameObject.name.ContainsAny(ignoredRendererNames)).ToList();
 
