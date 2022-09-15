@@ -55,10 +55,6 @@ namespace MOP.DebugTools
 
         private void Update()
         {
-            long gcUsage = GC.GetTotalMemory(false);
-            long averageDiff = CalculateAverageMemoryUsage(gcUsage);
-            float satsumaVelocity = (lastSatsumaPosition - satsuma.position).magnitude / Time.deltaTime;
-
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 if ((int)(debugPage + 1) >= Enum.GetNames(typeof(DebugPage)).Length)
@@ -87,6 +83,8 @@ namespace MOP.DebugTools
             switch (debugPage)
             {
                 case DebugPage.MopInfo:
+                    long gcUsage = GC.GetTotalMemory(false);
+                    long averageDiff = CalculateAverageMemoryUsage(gcUsage);
                     text += $"<color=yellow>Tick</color> {Hypervisor.Instance.Tick}\n" +
                             $"<color=yellow>GC</color> {gcUsage} ({averageDiff})\n" +
                             $"<color=yellow>Items</color> {CalculateEnabledItems()} / {ItemsManager.Instance.Count}\n" +
@@ -95,6 +93,7 @@ namespace MOP.DebugTools
                             $"<color=yellow>Places</color> {CalculateEnabledPlaces()} / {PlaceManager.Instance.Count}";
                     break;
                 case DebugPage.SatsumaInfo:
+                    float satsumaVelocity = (lastSatsumaPosition - satsuma.position).magnitude / Time.deltaTime;
                     text += $"<color=yellow>Velocity</color> {satsumaVelocity}\n" +
                             $"<color=yellow>SubFrame</color> {Difference(subFrameInitRot, subFrame.localEulerAngles)}\n";
                             if (block != null)
