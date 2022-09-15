@@ -91,6 +91,7 @@ namespace MOP.DebugTools
                     break;
                 case DebugPage.SatsumaInfo:
                     float satsumaVelocity = (lastSatsumaPosition - satsuma.position).magnitude / Time.deltaTime;
+                    lastSatsumaPosition = satsuma.position;
                     text += $"<color=yellow>Velocity</color> {satsumaVelocity}\n";
                             if (block != null)
                             {
