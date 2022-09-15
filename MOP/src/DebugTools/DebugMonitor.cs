@@ -95,10 +95,9 @@ namespace MOP.DebugTools
                 case DebugPage.SatsumaInfo:
                     float satsumaVelocity = (lastSatsumaPosition - satsuma.position).magnitude / Time.deltaTime;
                     text += $"<color=yellow>Velocity</color> {satsumaVelocity}\n" +
-                            $"<color=yellow>SubFrame</color> {Difference(subFrameInitRot, subFrame.localEulerAngles)}\n";
                             if (block != null)
                             {
-                                text += $"<color=yellow>Block</color> {Difference(blockInitRot, block.localEulerAngles)}";
+                                text += $"<color=yellow>Block_rot</color> {Difference(blockInitRot, block.localEulerAngles)}";
                             }
                     break;
             }                 
