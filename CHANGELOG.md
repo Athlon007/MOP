@@ -11,6 +11,7 @@
 ### Bug Fixes
 
 - Fixed a bug, due to which the installed engine block would slowly rotate, when car engine block is repeatedly enabled and disabled
+- Fixed MOP not starting, if the "envelope(xxxxx)Paid" was set to true manually with MSCEditor
 
 ## 3.8.6 (08.09.2022)
 

@@ -20,6 +20,8 @@ using UnityEngine;
 
 using MOP.FSM;
 using MOP.Places.Cases.Misc;
+using System;
+using MOP.Common;
 
 namespace MOP.Places
 {
@@ -65,27 +67,43 @@ namespace MOP.Places
         /// </summary>
         public Teimo() : base("STORE")
         {
-            BoxesFix();
-            AdvertFix();
-            InjectVideoPoker();
+            RunInitialActions(
+                BoxesFix, 
+                InjectVideoPoker, 
+                () => GameObjectBlackList.AddRange(blackList),
+                () => DisableableChilds = GetDisableableChilds(),
+                FixSlotAndPoker,
+                TeimoShitFix,
+                FixWindowBreaking,
+                CheckMicrowaveDistanceFix,
+                UncleRagdollFix,
+                GrillBoxFix,
+                Compress);
+        }
 
-            GameObjectBlackList.AddRange(blackList);
-            DisableableChilds = GetDisableableChilds();
-
-            FixSlotAndPoker();
-            TeimoShitFix();
-            FixWindowBreaking();
-            CheckMicrowaveDistanceFix();
-            UncleRagdollFix();
-            GrillBoxFix();
-
-            Compress();
+        private void RunInitialActions(params Action[] actions)
+        {
+            foreach (Action action in actions)
+            {
+                try
+                {
+                    action();
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, false, "ACTION_FAIL_" + action.Method.Name);
+                }
+            }
         }
 
         private void BoxesFix()
         {
             // Fix for items bought via envelope
-            transform.Find("Boxes").parent = null;
+            Transform boxes = transform.Find("Boxes");
+            if (boxes != null)
+            {
+                boxes.parent = null;
+            }
         }
 
         private void AdvertFix()

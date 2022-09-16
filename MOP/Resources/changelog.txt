@@ -2,7 +2,9 @@
 
 - Changes the message displayed, if MOP could not reach the rule file server
 - Improvements to SatsumaHingeManager
+- Improvements to debug monitor
 
 ### Bug Fixes
 
 - Fixed a bug, due to which the installed engine block would slowly rotate, when car engine block is repeatedly enabled and disabled
+- Fixed MOP not starting, if the "envelope(xxxxx)Paid" was set to true manually with MSCEditor
