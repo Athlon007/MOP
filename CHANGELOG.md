@@ -1,6 +1,15 @@
 # Changelog
 
-## 3.8.7 (TBA)
+## 3.9 (TBA)
+
+### Added
+
+- Improvements to MOP - Save Integrity Verification
+  - MOP will now attempt to fix corrupted items.txt file
+    - This may fix items not spawning upon purchase (if you're experiencing that issue)
+  - MOP will back-up your save file, before attempting to fix the problems
+  - The dialogue will now show only first 4 issues
+  - You can generate a report of all save file problems, which is saved into a text file
 
 ### Changes
 

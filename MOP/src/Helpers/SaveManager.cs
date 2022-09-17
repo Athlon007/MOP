@@ -18,6 +18,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using MSCLoader;
 using Newtonsoft.Json;
@@ -46,6 +47,8 @@ namespace MOP.Helpers
         // Minimum number of parts that must be installed to the car,
         // in order to check for MSCEditor save tampering.
         const int MinimumNumberOfPartsToCheckMSCEditorTampering = 40;
+
+        const int MaximumSaveBugsDisplayed = 4;
 
         /// <summary>
         /// For some reason, the save files get marked as read only files, not allowing MSC to save the game.
@@ -368,11 +371,88 @@ namespace MOP.Helpers
                 ExceptionManager.New(ex, false, "VERIFY_FUELLINE_TIGHTNESS");
             }
 
+            foreach (KeyValuePair<string, string> entry in ReadItemCounterToTransformDictionary())
+            {
+                try
+                {
+                    string key = entry.Key;
+                    string xVariant = key.Split(new string[] { "ID" }, StringSplitOptions.None)[0] + "xID";
+                    bool useXVariant = false;
+                    if (!IsItemTagPresent(key))
+                    {
+                        key = xVariant;
+                        if (!IsItemTagPresent(key))
+                        {
+                            continue;
+                        }
+
+                        useXVariant = true;
+                    }
+                    string value = entry.Value;
+                    if (useXVariant)
+                    {
+                        value += "x";
+                    }
+
+                    int savedItemCount = ReadItemInt(key);
+                    int counter = 1;
+                    while (IsItemTagPresent($"{value}{counter}Transform"))
+                    {
+                        counter++;
+                    }
+
+                    if (counter > 0)
+                    {
+                        counter--;
+                    }
+
+                    if (savedItemCount < counter)
+                    {
+                        saveBugs.Add(SaveBugs.New($"{key} is not a correct value.\nExpected: {counter}. Actual: {savedItemCount}\n", () =>
+                        SaveToItem(key, counter)));
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    ExceptionManager.New(ex, false, $"VERIFY_ITEMS_COUNTER_{entry.Key}/{entry.Value}");
+                }
+            }
+
             if (saveBugs.Count > 0)
             {
-                ModUI.ShowYesNoMessage($"MOP has found <color=yellow>{saveBugs.Count}</color> problem{(saveBugs.Count > 1 ? "s" : "")} with your save:\n\n" +
-                                       $"<color=yellow>{string.Join(", ", saveBugs.Select(f => f.BugName).ToArray())}</color>\n\n" +
-                                       $"Do you want the MOP to try to fix {((saveBugs.Count > 1) ? "these problems" : "this problem")}?", "MOP - Save Integrity Verification", FixAllProblems);
+                string message = "";
+                if (saveBugs.Count > 4)
+                {
+                    message = $"MOP has found <color=yellow>{saveBugs.Count}</color> problem{(saveBugs.Count > 1 ? "s" : "")} with your save:\n\n" +
+                                       $"<color=yellow>{string.Join("\n", saveBugs.Select(f => f.BugName).Take(MaximumSaveBugsDisplayed).ToArray())}</color>\n" +
+                                       $"...and <color=yellow>{saveBugs.Count - MaximumSaveBugsDisplayed}</color> more.\n\n" +
+                                       $"Do you want the MOP to try to fix {((saveBugs.Count > 1) ? "these problems" : "this problem")}?";
+                }
+                else
+                {
+                    message = $"MOP has found <color=yellow>{saveBugs.Count}</color> problem{(saveBugs.Count > 1 ? "s" : "")} with your save:\n\n" +
+                   $"<color=yellow>{string.Join("\n", saveBugs.Select(f => f.BugName).ToArray())}</color>\n\n" +
+                   $"Do you want the MOP to try to fix {((saveBugs.Count > 1) ? "these problems" : "this problem")}?";
+                }
+
+
+#if PRO
+                ModPrompt prompt = ModPrompt.CreateCustomPrompt();
+                prompt.Title = "MOP - Save Integrity Verification";
+                prompt.Text = message;
+                prompt.DestroyOnDisable = false;
+                prompt.AddButton("YES", () => { FixAllProblems(); GameObject.Destroy(prompt.gameObject); });
+                prompt.AddButton("SHOW REPORT", () => { ShowReport(); prompt.gameObject.SetActive(true); });
+                prompt.AddButton("NO", () => { GameObject.Destroy(prompt.gameObject); });
+#else
+                ModUI.ShowCustomMessage(message, "MOP - Save Integrity Verification", new MsgBoxBtn[]
+                {
+                    ModUI.CreateMessageBoxBtn("YES", FixAllProblems),
+                    ModUI.CreateMessageBoxBtn("SHOW REPORT", ShowReport, true),
+                    ModUI.CreateMessageBoxBtn("NO")
+                }, new MsgBoxBtn[] { });
+#endif
             }
             else
             {
@@ -382,6 +462,7 @@ namespace MOP.Helpers
 
         static void FixAllProblems()
         {
+            BackupSave();
             int success = 0, fail = 0;
 
             foreach (SaveBugs bug in saveBugs)
@@ -402,6 +483,8 @@ namespace MOP.Helpers
             {
                 msg += $"\n<color=red>{fail}</color> issue{(fail > 1 ? "s" : "")} couldn't be fixed.";
             }
+
+            msg += "\n\nYour save file has been backed up into <color=yellow>defaultES2Save.txt.mopbackup</color> and <color=yellow>items.txt.mopbackup</color>.";
 
             ModUI.ShowMessage(msg, "MOP - Save Integrity Check");
         }
@@ -597,6 +680,61 @@ namespace MOP.Helpers
                         }
                     }
                 }
+            }
+        }
+
+        private static Dictionary<string, string> ReadItemCounterToTransformDictionary()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            string resourceName = assembly.GetManifestResourceNames().Single(str => str.EndsWith("itemcounter_to_transform.csv"));
+
+            Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        string line = reader.ReadLine();
+                        string[] arr = line.Split(',');
+                        keyValuePairs.Add(arr[0], arr[1]);
+                    }
+                }
+            }
+
+            return keyValuePairs;
+        }
+
+        private static void ShowReport()
+        {
+            if (!Paths.LogDirectoryExists)
+            {
+                Directory.CreateDirectory(Paths.LogFolder);
+            }
+
+            string path = Path.Combine(Paths.LogFolder, Paths.SaveFileBugsReport + ".txt");
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                writer.WriteLine("=== Generated with MOP " + MOP.ModVersion + " ===\n\n");
+                foreach (SaveBugs bug in saveBugs)
+                {
+                    writer.WriteLine($"{bug.BugName}");
+                }
+            }
+
+            System.Diagnostics.Process.Start(path);
+        }
+
+        private static void BackupSave()
+        {
+            if (File.Exists(SavePath))
+            {
+                File.Copy(SavePath, SavePath + ".mopbackup", true);
+            }
+
+            if (File.Exists(ItemsPath))
+            {
+                File.Copy(SavePath, ItemsPath + ".mopbackup", true);
             }
         }
     }

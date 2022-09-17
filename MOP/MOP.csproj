@@ -227,6 +227,7 @@
   <ItemGroup>
     <None Include="Resources\changelog.txt" />
     <None Include="Resources\icon" />
+    <EmbeddedResource Include="Resources\itemcounter_to_transform.csv" />
     <None Include="Resources\mop.bundle" />
   </ItemGroup>
   <ItemGroup>

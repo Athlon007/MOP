@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using System.CodeDom;
 using System.IO;
 using UnityEngine;
 
@@ -25,6 +26,7 @@ namespace MOP.Common
         public const string DefaultErrorLogName = "MOP_Crash";
         public const string DefaultReportLogName = "MOP_Report";
         public const string BugReportFileName = "MOP Bug Report";
+        public const string SaveFileBugsReport = "SaveFileBugsReport";
         public static string MopSettingsFile = Path.Combine(MOP.ModConfigPath, "settings.json");
 
         public static string LogFolder

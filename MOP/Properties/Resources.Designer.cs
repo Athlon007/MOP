@@ -61,7 +61,16 @@ namespace MOP.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to ### Changes
+        ///
+        ///- Changes the message displayed, if MOP could not reach the rule file server
+        ///- Improvements to SatsumaHingeManager
+        ///- Improvements to debug monitor
+        ///
+        ///### Bug Fixes
+        ///
+        ///- Fixed a bug, due to which the installed engine block would slowly rotate, when car engine block is repeatedly enabled and disabled
+        ///- Fixed MOP not starting, if the &quot;envelope(xxxxx)Paid&quot; was set to true manually with MSCEditor.
         /// </summary>
         internal static string changelog {
             get {
@@ -70,7 +79,10 @@ namespace MOP.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Bruno Salgado
+        ///Crate Fondler 6000
+        ///Tom Johansson
+        ///Donal Magrane.
         /// </summary>
         internal static string donates {
             get {
@@ -85,6 +97,36 @@ namespace MOP.Properties {
             get {
                 object obj = ResourceManager.GetObject("icon", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to alternatorbeltID,alternator belt
+        ///batteryID,battery
+        ///BeerCaseID,beercase
+        ///BoozeID,booze
+        ///brakefluidID,brakefluid
+        ///cigarettesID,cigarettes
+        ///coolantID,coolant
+        ///fireextinguisherID,fireextinguisher
+        ///grillcharcoalID,grillcharcoal
+        ///groundcoffeeID,groundcoffee
+        ///juiceconcentrateID,juiceconcentrate
+        ///lightbulbID,light bulb
+        ///lightbulbboxID,light bulb box
+        ///macaronboxID,macaronbox
+        ///milkID,milk,
+        ///mosquitosprayID,mosquitospray
+        ///motoroilID,motoroil
+        ///oilfilterID,oil filter
+        ///pikeID,pike
+        ///pizzaID,pizza
+        ///SausagesID,sausages
+        ///shoppingbagID,shopping [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string itemcounter_to_transform {
+            get {
+                return ResourceManager.GetString("itemcounter_to_transform", resourceCulture);
             }
         }
         
