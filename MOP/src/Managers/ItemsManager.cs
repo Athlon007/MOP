@@ -352,6 +352,10 @@ namespace MOP.Managers
                 for (int i = 0; i < cds.childCount; i++)
                     cds.GetChild(i).parent = null;
             }
+
+            // Find the initial beer case and hook it.
+            GameObject beerCaseInitial = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "beer case(itemx)" && g.GetComponent<ItemBehaviour>() == null).FirstOrDefault();
+            beerCaseInitial.AddComponent<ItemBehaviour>();
         }
 
         GameObject canTrigger;
