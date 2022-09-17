@@ -33,8 +33,8 @@ namespace MOP
         public override string ID => "MOP";
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.8.7"; //Version
-        public const string SubVersion = "BETA_2"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public override string Version => "3.9"; //Version
+        public const string SubVersion = "BETA_1"; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public const string Edition = "Mod Loader Pro";
 #else
@@ -63,7 +63,7 @@ namespace MOP
         static internal SettingToggle EnableShadowAdjusting, KeepRunningInBackground,
                                       DynamicDrawDistance, RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
                                       DestroyEmptyBottles, DisableEmptyItems,
-                                      AlwaysDisableSkidmarks, FastLoading;
+                                      AlwaysDisableSkidmarks;
         SettingText modeWarningText;
 #else
         static internal SettingsSliderInt ActiveDistance, FramerateLimiter, RulesAutoUpdateFrequency, ShadowDistance;
@@ -71,7 +71,7 @@ namespace MOP
         static internal SettingsCheckBox KeepRunningInBackground, LimitFramerate, DynamicDrawDistance,
                                           RulesAutoUpdate, VerifyRuleFiles, DeleteUnusedRules,
                                           DestroyEmptyBottles, DisableEmptyItems,
-                                          AlwaysDisableSkidmarks, FastLoading;
+                                          AlwaysDisableSkidmarks;
         static internal SettingsDropDownList GameResolution;
         SettingsDynamicText modeWarningText;
 #endif
@@ -156,7 +156,7 @@ namespace MOP
             ShadowDistance.ValueSuffix = "00 Meters";
             ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value);
             KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN GAME IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
-            KeepRunningInBackground.AddTooltip("If unchecked, game will be paused when the game's window looses focus.");
+            KeepRunningInBackground.AddTooltip("If unchecked, the game will be paused when the game's window looses focus.");
             DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", true);
             DynamicDrawDistance.AddTooltip("MOP will adjust the draw distance according to the current situation\n(ex. lower it while inside of a building).");
             modSettings.AddButton("changeResolution", "RESOLUTION", () => { Resolution.gameObject.SetActive(!Resolution.gameObject.activeSelf); });
@@ -185,11 +185,11 @@ namespace MOP
             // Other
             modSettings.AddHeader("OTHER");
             DestroyEmptyBottles = modSettings.AddToggle("destroyEmptyBottles", "DESTROY EMPTY BOTTLES", false);
+            DestroyEmptyBottles.AddTooltip("Empty bottles, created by player drinking, won't spawn.");
             DisableEmptyItems = modSettings.AddToggle("disableEmptyItems", "DISABLE EMPTY ITEMS", false);
+            DisableEmptyItems.AddTooltip("Items, which status changes to 'EMPTY', will be automatically disabled, in order to save on PC resources.");
             AlwaysDisableSkidmarks = modSettings.AddToggle("alwaysDisableSkidmarks", "DISABLE SKIDMARKS", false);
             AlwaysDisableSkidmarks.AddTooltip("Skidmarks cause a massive memory leak,\nevery time you brake/accelerate hard.\nDisabling them mitigates that problem.");
-            FastLoading = modSettings.AddToggle("fastLoading", "FAST LOADING", false);
-            FastLoading.AddTooltip("Decreases the time it takes for MOP to load.\nThis can lead to engine parts\nor textures not loading as intended.");
 
             // Logging
             modSettings.AddHeader("LOGGING");
@@ -271,8 +271,6 @@ namespace MOP
             Settings.AddText(this, "Items, which status changes to 'EMPTY', will be automatically disabled, in order to save on PC resources.");
             AlwaysDisableSkidmarks = Settings.AddCheckBox(this, "alwaysDisableSkidmarks", "DISABLE SKIDMARKS", false);
             Settings.AddText(this, "Skidmarks cause a massive memory leak, every time you brake/accelerate hard. Disabling them mitigates that problem.");
-            FastLoading = Settings.AddCheckBox(this, "fastLoading", "FAST LOADING", false);
-            Settings.AddText(this, "Decreases the time it takes for MOP to load. This can lead to engine parts or textures not loading as intended.");
 
             // Logging
             Settings.AddHeader(this, "LOGGING");

@@ -10,6 +10,7 @@
   - MOP will back-up your save file, before attempting to fix the problems
   - The dialogue will now show only first 4 issues
   - You can generate a report of all save file problems, which is saved into a text file
+- (Mod Loader Pro) Added missing tooltips into the settings
 
 ### Changes
 
@@ -22,6 +23,10 @@
 - Fixed a bug, due to which the installed engine block would slowly rotate, when car engine block is repeatedly enabled and disabled
 - Fixed MOP not starting, if the "envelope(xxxxx)Paid" was set to true manually with MSCEditor
 - Fixed the starting beer case sometimes not being hooked with ItemBehaviour class
+
+### Removed
+
+- Removed "Fast Loading" from the settings
 
 ## 3.8.6 (08.09.2022)
 
