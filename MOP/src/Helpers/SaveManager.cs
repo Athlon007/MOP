@@ -371,7 +371,56 @@ namespace MOP.Helpers
                 ExceptionManager.New(ex, false, "VERIFY_FUELLINE_TIGHTNESS");
             }
 
-            foreach (KeyValuePair<string, string> entry in ReadItemCounterToTransformDictionary())
+            var dictionaryDb = ReadItemCounterToTransformDictionary();
+            if (dictionaryDb != null)
+            {
+                FixItemsSaveFile(dictionaryDb);
+            }
+
+            if (saveBugs.Count > 0)
+            {
+                string message = "";
+                if (saveBugs.Count > 4)
+                {
+                    message = $"MOP has found <color=yellow>{saveBugs.Count}</color> problem{(saveBugs.Count > 1 ? "s" : "")} with your save:\n\n" +
+                                       $"<color=yellow>{string.Join("\n", saveBugs.Select(f => f.BugName).Take(MaximumSaveBugsDisplayed).ToArray())}</color>\n" +
+                                       $"...and <color=yellow>{saveBugs.Count - MaximumSaveBugsDisplayed}</color> more.\n\n" +
+                                       $"Do you want the MOP to try to fix {((saveBugs.Count > 1) ? "these problems" : "this problem")}?";
+                }
+                else
+                {
+                    message = $"MOP has found <color=yellow>{saveBugs.Count}</color> problem{(saveBugs.Count > 1 ? "s" : "")} with your save:\n\n" +
+                   $"<color=yellow>{string.Join("\n", saveBugs.Select(f => f.BugName).ToArray())}</color>\n\n" +
+                   $"Do you want the MOP to try to fix {((saveBugs.Count > 1) ? "these problems" : "this problem")}?";
+                }
+
+
+#if PRO
+                ModPrompt prompt = ModPrompt.CreateCustomPrompt();
+                prompt.Title = "MOP - Save Integrity Verification";
+                prompt.Text = message;
+                prompt.DestroyOnDisable = false;
+                prompt.AddButton("YES", () => { FixAllProblems(); GameObject.Destroy(prompt.gameObject); });
+                prompt.AddButton("SHOW REPORT", () => { ShowReport(); prompt.gameObject.SetActive(true); });
+                prompt.AddButton("NO", () => { GameObject.Destroy(prompt.gameObject); });
+#else
+                ModUI.ShowCustomMessage(message, "MOP - Save Integrity Verification", new MsgBoxBtn[]
+                {
+                    ModUI.CreateMessageBoxBtn("YES", FixAllProblems),
+                    ModUI.CreateMessageBoxBtn("SHOW REPORT", ShowReport, true),
+                    ModUI.CreateMessageBoxBtn("NO")
+                }, new MsgBoxBtn[] { });
+#endif
+            }
+            else
+            {
+                ModConsole.Log("[MOP] MOP hasn't found any problems with your save :)");
+            }
+        }
+
+        private static void FixItemsSaveFile(Dictionary<string, string> db)
+        {
+            foreach (KeyValuePair<string, string> entry in db)
             {
                 try
                 {
@@ -417,46 +466,6 @@ namespace MOP.Helpers
                 {
                     ExceptionManager.New(ex, false, $"VERIFY_ITEMS_COUNTER_{entry.Key}/{entry.Value}");
                 }
-            }
-
-            if (saveBugs.Count > 0)
-            {
-                string message = "";
-                if (saveBugs.Count > 4)
-                {
-                    message = $"MOP has found <color=yellow>{saveBugs.Count}</color> problem{(saveBugs.Count > 1 ? "s" : "")} with your save:\n\n" +
-                                       $"<color=yellow>{string.Join("\n", saveBugs.Select(f => f.BugName).Take(MaximumSaveBugsDisplayed).ToArray())}</color>\n" +
-                                       $"...and <color=yellow>{saveBugs.Count - MaximumSaveBugsDisplayed}</color> more.\n\n" +
-                                       $"Do you want the MOP to try to fix {((saveBugs.Count > 1) ? "these problems" : "this problem")}?";
-                }
-                else
-                {
-                    message = $"MOP has found <color=yellow>{saveBugs.Count}</color> problem{(saveBugs.Count > 1 ? "s" : "")} with your save:\n\n" +
-                   $"<color=yellow>{string.Join("\n", saveBugs.Select(f => f.BugName).ToArray())}</color>\n\n" +
-                   $"Do you want the MOP to try to fix {((saveBugs.Count > 1) ? "these problems" : "this problem")}?";
-                }
-
-
-#if PRO
-                ModPrompt prompt = ModPrompt.CreateCustomPrompt();
-                prompt.Title = "MOP - Save Integrity Verification";
-                prompt.Text = message;
-                prompt.DestroyOnDisable = false;
-                prompt.AddButton("YES", () => { FixAllProblems(); GameObject.Destroy(prompt.gameObject); });
-                prompt.AddButton("SHOW REPORT", () => { ShowReport(); prompt.gameObject.SetActive(true); });
-                prompt.AddButton("NO", () => { GameObject.Destroy(prompt.gameObject); });
-#else
-                ModUI.ShowCustomMessage(message, "MOP - Save Integrity Verification", new MsgBoxBtn[]
-                {
-                    ModUI.CreateMessageBoxBtn("YES", FixAllProblems),
-                    ModUI.CreateMessageBoxBtn("SHOW REPORT", ShowReport, true),
-                    ModUI.CreateMessageBoxBtn("NO")
-                }, new MsgBoxBtn[] { });
-#endif
-            }
-            else
-            {
-                ModConsole.Log("[MOP] MOP hasn't found any problems with your save :)");
             }
         }
 
@@ -686,7 +695,12 @@ namespace MOP.Helpers
         private static Dictionary<string, string> ReadItemCounterToTransformDictionary()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            string resourceName = assembly.GetManifestResourceNames().Single(str => str.EndsWith("itemcounter_to_transform.csv"));
+            string resourceName = assembly.GetManifestResourceNames().SingleOrDefault(str => str.EndsWith("itemcounter_to_transform.csv"));
+
+            if (string.IsNullOrEmpty(resourceName))
+            {
+                return null;
+            }
 
             Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
