@@ -350,7 +350,7 @@ namespace MOP.Common
 
                 reader.Close();
             }
-            else if (Directory.Exists("Z:/AppleInternal"))
+            else if (Directory.Exists("Z:/Applications"))
             {
                 output = "macOS";
             }
