@@ -425,6 +425,7 @@ namespace MOP.Helpers
                 try
                 {
                     string key = entry.Key;
+                    // Sometimes the items are saved in "itemnamex" format, instead of "itemname".
                     string xVariant = key.Split(new string[] { "ID" }, StringSplitOptions.None)[0] + "xID";
                     bool useXVariant = false;
                     if (!IsItemTagPresent(key))
@@ -457,8 +458,8 @@ namespace MOP.Helpers
 
                     if (savedItemCount < counter)
                     {
-                        saveBugs.Add(SaveBugs.New($"{key} is not a correct value.\nExpected: {counter}. Actual: {savedItemCount}\n", () =>
-                        SaveToItem(key, counter)));
+                        saveBugs.Add(SaveBugs.New($"{key} is not a correct value.\nExpected: {counter}. Actual: {savedItemCount}\n", 
+                            () => SaveToItem(key, counter)));
                     }
 
                 }
