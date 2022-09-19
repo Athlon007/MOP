@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.9 (TBA)
+## 3.9 (19.09.2022)
 
 ### Added
 
@@ -23,10 +23,12 @@
 - Fixed a bug, due to which the installed engine block would slowly rotate, when car engine block is repeatedly enabled and disabled
 - Fixed MOP not starting, if the "envelope(xxxxx)Paid" was set to true manually with MSCEditor
 - Fixed the starting beer case sometimes not being hooked with ItemBehaviour class
+- Save Integrity Verification window will not overflow beyond the game window
 
 ### Removed
 
 - Removed "Fast Loading" from the settings
+- Removed redundant code
 
 ## 3.8.6 (08.09.2022)
 

@@ -152,17 +152,12 @@ namespace MOP.Helpers
             return ES2.Load<int>(path, setting);
         }
 
-        static void WriteSavePath<T>(string tag, T value)
+        public static void WriteSaveTag<T>(string tag, T value)
         {
             ES2.Save(value, $"{SavePath}?tag={tag}", setting);
         }
 
-        public static void SaveToDefault<T>(string tag, T value)
-        {
-            WriteSavePath<T>(tag, value);
-        }
-
-        public static void SaveToItem<T>(string tag, T value)
+        public static void WriteItemTag<T>(string tag, T value)
         {
             ES2.Save(value, $"{ItemsPath}?tag={tag}");
         }
@@ -210,8 +205,8 @@ namespace MOP.Helpers
                 {
                     saveBugs.Add(SaveBugs.New("Bucket Seats", () =>
                     {
-                        WriteSavePath("bucket seat passenger(Clone)Purchased", true);
-                        WriteSavePath("bucket seat driver(Clone)Purchased", true); 
+                        WriteSaveTag("bucket seat passenger(Clone)Purchased", true);
+                        WriteSaveTag("bucket seat driver(Clone)Purchased", true); 
                     }));
                 }
             }
@@ -236,7 +231,7 @@ namespace MOP.Helpers
                     {
                         saveBugs.Add(SaveBugs.New("Flatbed Trailer Attached", () =>
                         {
-                            WriteSavePath("TractorTrailerAttached", false);
+                            WriteSaveTag("TractorTrailerAttached", false);
                         }));
                     }
                 }
@@ -257,8 +252,8 @@ namespace MOP.Helpers
                     float bumperTightness = ReadFloat("Bumper_RearTightness");
                     if (bumperRearInstalled && bumperTightness != save.rearBumperTightness)
                     {
-                        WriteSavePath("Bumper_RearTightness", save.rearBumperTightness);
-                        WriteSavePath("Bumper_RearBolts", save.rearBumperBolts);
+                        WriteSaveTag("Bumper_RearTightness", save.rearBumperTightness);
+                        WriteSaveTag("Bumper_RearBolts", save.rearBumperBolts);
                     }
                 }
                 catch (Exception ex)
@@ -280,8 +275,8 @@ namespace MOP.Helpers
                         {
                             saveBugs.Add(SaveBugs.New("Halfshaft (FL) Mismateched Bolt Stages", () =>
                             {
-                                WriteSavePath("Halfshaft_FLTightness", save.halfshaft_FLTightness);
-                                WriteSavePath("Halfshaft_FLBolts", save.halfshaft_FLBolts);
+                                WriteSaveTag("Halfshaft_FLTightness", save.halfshaft_FLTightness);
+                                WriteSaveTag("Halfshaft_FLBolts", save.halfshaft_FLBolts);
                             }));
                         }
                     }
@@ -305,8 +300,8 @@ namespace MOP.Helpers
                         {
                             saveBugs.Add(SaveBugs.New("Halfshaft (FR) Mismateched Bolt Stages", () =>
                             {
-                                WriteSavePath("Halfshaft_FRTightness", save.halfshaft_FRTightness);
-                                WriteSavePath("Halfshaft_FRBolts", save.halfshaft_FRBolts);
+                                WriteSaveTag("Halfshaft_FRTightness", save.halfshaft_FRTightness);
+                                WriteSaveTag("Halfshaft_FRBolts", save.halfshaft_FRBolts);
                             }));
                         }
                     }
@@ -330,8 +325,8 @@ namespace MOP.Helpers
                         {
                             saveBugs.Add(SaveBugs.New("Battery terminal minus bolt is not tightened.", () =>
                             {
-                                WriteSavePath("WiringBatteryMinusTightness", save.wiringBatteryMinusTightness);
-                                WriteSavePath("WiringBatteryMinusBolts", save.wiringBatteryMinusBolts);
+                                WriteSaveTag("WiringBatteryMinusTightness", save.wiringBatteryMinusTightness);
+                                WriteSaveTag("WiringBatteryMinusBolts", save.wiringBatteryMinusBolts);
                             }));
                         }
                     }
@@ -361,7 +356,7 @@ namespace MOP.Helpers
                         saveBugs.Add(SaveBugs.New($"Fuel Line tightness is not a correct value." +
                                                   $"\n\nValue is <b>{fuelLineTightness}</b>.\n<b>{boltOneValue}</b> is expected", () =>
                         {
-                            WriteSavePath("FuelLineTightness", (float)boltOneValue);
+                            WriteSaveTag("FuelLineTightness", (float)boltOneValue);
                         }));
                     }
                 }
@@ -459,7 +454,7 @@ namespace MOP.Helpers
                     if (savedItemCount < counter)
                     {
                         saveBugs.Add(SaveBugs.New($"{key} is not a correct value.\nExpected: {counter}. Actual: {savedItemCount}\n", 
-                            () => SaveToItem(key, counter)));
+                            () => WriteItemTag(key, counter)));
                     }
 
                 }
@@ -504,14 +499,9 @@ namespace MOP.Helpers
             return ES2.Load<Transform>(SavePath + "?tag=radiator hose3(xxxxx)", setting);
         }
 
-        static bool TagExists(string tag)
-        {
-            return ES2.Exists($"{SavePath}?tag={tag}");
-        }
-
         internal static void AddSaveFlag()
         {
-            if (TagExists("Bumper_RearTightness") && TagExists("Bumper_RearBolts"))
+            if (IsSaveTagPresent("Bumper_RearTightness") && IsSaveTagPresent("Bumper_RearBolts"))
             {
                 MopSaveFileData save = new MopSaveFileData
                 {

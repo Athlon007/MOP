@@ -693,12 +693,12 @@ namespace MOP.Items
 
                 if (gameObject.name.StartsWith("wheel"))
                 {
-                    SaveManager.SaveToDefault(id + "Transform", gameObject.transform);
+                    SaveManager.WriteSaveTag(id + "Transform", gameObject.transform);
                 }
                 else
                 {
-                    SaveManager.SaveToItem(id + "Transform", gameObject.transform);
-                    SaveManager.SaveToItem(id + "Consumed", useFSM.FsmVariables.GetFsmBool("Consumed").Value);
+                    SaveManager.WriteItemTag(id + "Transform", gameObject.transform);
+                    SaveManager.WriteItemTag(id + "Consumed", useFSM.FsmVariables.GetFsmBool("Consumed").Value);
 
                     if (id.Contains("juiceconcentrate"))
                     {
@@ -712,12 +712,12 @@ namespace MOP.Items
                             useFSM.FsmVariables.GetFsmBool("ContainsKilju").Value = true;
                         }
 
-                        SaveManager.SaveToItem(id + "ContainsJuice", useFSM.FsmVariables.GetFsmBool("ContainsJuice").Value);
-                        SaveManager.SaveToItem(id + "ContainsKilju", useFSM.FsmVariables.GetFsmBool("ContainsKilju").Value);
-                        SaveManager.SaveToItem(id + "KiljuAlc", useFSM.FsmVariables.GetFsmFloat("KiljuAlc").Value);
-                        SaveManager.SaveToItem(id + "KiljuSweetness", useFSM.FsmVariables.GetFsmFloat("KiljuSweetness").Value);
-                        SaveManager.SaveToItem(id + "KiljuVinegar", useFSM.FsmVariables.GetFsmFloat("KiljuVinegar").Value);
-                        SaveManager.SaveToItem(id + "KiljuYeast", useFSM.FsmVariables.GetFsmFloat("KiljuYeast").Value);
+                        SaveManager.WriteItemTag(id + "ContainsJuice", useFSM.FsmVariables.GetFsmBool("ContainsJuice").Value);
+                        SaveManager.WriteItemTag(id + "ContainsKilju", useFSM.FsmVariables.GetFsmBool("ContainsKilju").Value);
+                        SaveManager.WriteItemTag(id + "KiljuAlc", useFSM.FsmVariables.GetFsmFloat("KiljuAlc").Value);
+                        SaveManager.WriteItemTag(id + "KiljuSweetness", useFSM.FsmVariables.GetFsmFloat("KiljuSweetness").Value);
+                        SaveManager.WriteItemTag(id + "KiljuVinegar", useFSM.FsmVariables.GetFsmFloat("KiljuVinegar").Value);
+                        SaveManager.WriteItemTag(id + "KiljuYeast", useFSM.FsmVariables.GetFsmFloat("KiljuYeast").Value);
                         useFSM.enabled = false;
                     }
                 }
