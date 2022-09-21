@@ -23,6 +23,7 @@ using UnityEngine;
 
 using MOP.Rules;
 using MOP.Rules.Types;
+using System.Text;
 
 namespace MOP.Common
 {
@@ -148,83 +149,101 @@ namespace MOP.Common
         /// <returns></returns>
         internal static string GetGameInfo()
         {
-            string output = $"Modern Optimization Plugin\nVersion: {MOP.ModVersion}\n";
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Modern Optimization Plugin");
+            sb.Append($"Version: ").AppendLine(MOP.ModVersion);
 #if PRO
-            output += $"MSC Mod Loader Pro Version: {ModLoader.Version}\n";
+            sb.AppendLine($"MSC Mod Loader Pro Version: {ModLoader.Version}");
 #else
-            output += $"MSC Mod Loader Version: {ModLoader.MSCLoader_Ver}\n";
+            sb.Append($"MSC Mod Loader Version: ").AppendLine(ModLoader.MSCLoader_Ver);
 #endif
-            output += $"Date and Time: {DateTime.Now:yyyy-MM-ddTHH:mm:ssZ}\n";
-            output += $"{GetSystemInfo()}\n";
-            output += $"Game Restarts: {MopSettings.Restarts}\n";
-            output += $"Game resolution: {Screen.width}x{Screen.height}\n";
-            output += $"Screen resolution: {Screen.currentResolution.width}x{Screen.currentResolution.height}\n";
+            sb.Append($"Date and Time: ").AppendLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            sb.AppendLine(GetSystemInfo());
+            sb.Append($"Game restarts: ").Append(MopSettings.Restarts).AppendLine();
+            sb.Append($"Game resolution: ").Append(Screen.width).Append("x").Append(Screen.height).AppendLine();
+            sb.Append($"Screen resolution: ").Append(Screen.currentResolution.width).Append("x").Append(Screen.currentResolution.height).AppendLine();
             if (ModLoader.CurrentScene == CurrentScene.Game)
             {
                 var elapsed = DateTime.Now.Subtract(SessionTimeStart);
-                output += $"Session Time: {elapsed.Hours} Hours {elapsed.Minutes} Minutes {elapsed.Seconds} Seconds\n";
+                sb.Append("Session time: ").Append(elapsed.Hours).Append(" Hours ").Append(elapsed.Minutes).Append(" Minutes ").Append(elapsed.Seconds).AppendLine(" Seconds");
             }
-            output += $"CPU: {SystemInfo.processorType} ({SystemInfo.processorCount} cores)\n";
-            output += $"RAM: {SystemInfo.systemMemorySize} MB\n";
-            output += $"GPU: {SystemInfo.graphicsDeviceName} ({SystemInfo.graphicsMemorySize} MB VRAM)";
-
-            output += "\n\n=== MOP SETTINGS ===\n\n";
-            output += $"ActiveDistance: {MOP.ActiveDistance.GetValue()}\n";
-            output += $"ActiveDistanceMultiplier: {MopSettings.ActiveDistanceMultiplicationValue}\n";
-            output += $"PerformanceMode: {MopSettings.Mode}\n";
+            sb.Append("CPU: ").Append(SystemInfo.processorType).Append(" (").Append(SystemInfo.processorCount).AppendLine(" cores)");
+            sb.Append($"RAM: ").Append(SystemInfo.systemMemorySize).AppendLine();
+            sb.Append($"GPU: ").Append(SystemInfo.graphicsDeviceName).Append(" (").Append(SystemInfo.graphicsMemorySize).AppendLine(" MB VRAM)");
+            sb.AppendLine();
+            sb.AppendLine("=== MOP SETTINGS ===");
+            sb.AppendLine(); 
+            sb.Append($"ActiveDistance: ").Append(MOP.ActiveDistance.GetValue()).AppendLine();
+            sb.Append($"ActiveDistanceMultiplier: ").Append(MopSettings.ActiveDistanceMultiplicationValue).AppendLine();
+            sb.Append($"PerformanceMode: ").Append(MopSettings.Mode).AppendLine();
 #if !PRO
-            output += $"LimitFramerate: {MOP.LimitFramerate.GetValue()}\n";
+            sb.Append($"LimitFramerate: ").Append(MOP.LimitFramerate.GetValue()).AppendLine();
 #endif
-            output += $"FramerateLimiter: {MOP.FramerateLimiter.GetValue()}\n";
-            output += $"ShadowDistance: {MOP.ShadowDistance.GetValue()}\n";
-            output += $"RunInBackground: {MOP.KeepRunningInBackground.GetValue()}\n";
-            output += $"DynamicDrawDistance: {MOP.DynamicDrawDistance.GetValue()}\n";
-            output += $"RulesAutoUpdate: {MOP.RulesAutoUpdate.GetValue()}\n";
-            output += $"VerifyRules: {MOP.VerifyRuleFiles.GetValue()}\n";
-            output += $"RulesAutoUpdateFrequency: {MopSettings.GetRuleFilesUpdateDaysFrequency()}\n";
-            output += $"RuledDeleteAutomatically: {MOP.DeleteUnusedRules.GetValue()}\n";
-            output += $"DestroyEmptyBottles: {MOP.DestroyEmptyBottles.GetValue()}\n";
-            output += $"DisableEmptyItems: {MOP.DisableEmptyItems.GetValue()}\n";
-            output += $"NoSkidmarks: {MOP.AlwaysDisableSkidmarks.GetValue()}\n";
-            output += $"ToggleVehiclePhysicsOnly: {RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly}\n";
-            output += $"IgnoreModVehicles: {RulesManager.Instance.SpecialRules.IgnoreModVehicles}\n";
-            output += $"CustomRuleFile: {File.Exists($"{MOP.ModConfigPath}/Custom.txt")}\n";
-
+            sb.Append($"FramerateLimiter: ").Append(MOP.FramerateLimiter.GetValue()).AppendLine();
+            sb.Append($"ShadowDistance: ").Append(MOP.ShadowDistance.GetValue()).AppendLine();
+            sb.Append($"RunInBackground: ").Append(MOP.KeepRunningInBackground.GetValue()).AppendLine();
+            sb.Append($"DynamicDrawDistance: ").Append(MOP.DynamicDrawDistance.GetValue()).AppendLine();
+            sb.Append($"RulesAutoUpdate: ").Append(MOP.RulesAutoUpdate.GetValue()).AppendLine();
+            sb.Append($"DynamicDrawDistance: ").Append(MOP.DynamicDrawDistance.GetValue()).AppendLine();
+            sb.Append($"RulesAutoUpdate: ").Append(MOP.RulesAutoUpdate.GetValue()).AppendLine();
+            sb.Append($"VerifyRules: ").Append(MOP.VerifyRuleFiles.GetValue()).AppendLine();
+            sb.Append($"RulesAutoUpdateFrequency: ").Append(MopSettings.GetRuleFilesUpdateDaysFrequency()).AppendLine();
+            sb.Append($"RuledDeleteAutomatically: ").Append(MOP.DeleteUnusedRules.GetValue()).AppendLine();
+            sb.Append($"DestroyEmptyBottles: ").Append(MOP.DestroyEmptyBottles.GetValue()).AppendLine();
+            sb.Append($"DestroyEmptyBottles: ").Append(MOP.DestroyEmptyBottles.GetValue()).AppendLine();
+            sb.Append($"DisableEmptyItems: ").Append(MOP.DisableEmptyItems.GetValue()).AppendLine();
+            sb.Append($"NoSkidmarks: ").Append(MOP.AlwaysDisableSkidmarks.GetValue()).AppendLine();
+            sb.Append($"ToggleVehiclePhysicsOnly: ").Append(RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly).AppendLine();
+            sb.Append($"IgnoreModVehicles: ").Append(RulesManager.Instance.SpecialRules.IgnoreModVehicles).AppendLine();
+            sb.Append($"CustomRuleFile: ").Append(File.Exists(Path.Combine(MOP.ModConfigPath, "Custom.txt"))).AppendLine();
+         
             // Game data
             if (ModLoader.CurrentScene == CurrentScene.Game)
             {
-                output += "\n=== GAME DATA ===\n\n";
-                output += GetGameData("PlayerPosition");
-                output += GetGameData("PlayerHasHayosikoKey");
-                output += GetGameData("IsPlayerInCar");
-                output += GetGameData("IsPlayerInSatsuma");
-                output += GetGameData("DrawDistance");
-                output += GetGameData("CanTriggerStatus");
-                output += GetGameData("IsTrailerAttached");
+                sb.AppendLine();
+                sb.AppendLine("=== GAME DATA ===");
+                sb.AppendLine();
+                sb.AppendLine(GetGameData("PlayerPosition"));
+                sb.AppendLine(GetGameData("PlayerHasHayosikoKey"));
+                sb.AppendLine(GetGameData("IsPlayerInCar"));
+                sb.AppendLine(GetGameData("IsPlayerInSatsuma"));
+                sb.AppendLine(GetGameData("DrawDistance"));
+                sb.AppendLine(GetGameData("CanTriggerStatus"));
+                sb.AppendLine(GetGameData("IsTrailerAttached"));
             }
 
-            output += "\n=== MESSAGES ===\n\n";
-            output += string.Join("\n", ModConsole.GetMessages().ToArray());
+            sb.AppendLine();
+            sb.AppendLine("=== MESSAGES ===");
+            sb.AppendLine();
+            sb.AppendLine(string.Join("\n", ModConsole.GetMessages().ToArray()));
 
             // List installed mods.
-            output += $"\n\n=== MODS ({ModLoader.LoadedMods.Count - 1}) ===\n\n";
+            sb.AppendLine();
+            sb.Append("=== MODS (").Append(ModLoader.LoadedMods.Count - 1).AppendLine(") ===");
+            sb.AppendLine();
             foreach (var mod in ModLoader.LoadedMods)
             {
                 // Ignore MSCLoader or MOP.
                 if (mod.ID.Equals("MOP"))
                     continue;
 
-                output += $"{mod.Name}:\n  ID: {mod.ID}\n  Version: {mod.Version}\n  Author: {mod.Author}\n\n";
+                sb.AppendLine(mod.Name);
+                sb.Append("  ID: ").AppendLine(mod.ID);
+                sb.Append("  Version: ").AppendLine(mod.Version);
+                sb.Append("  Author: ").AppendLine(mod.Author);
+                sb.AppendLine();
             }
 
             // If only 3 mods have been found, that means the only mods active are MOP and two ModLoader modules.
             if (ModLoader.LoadedMods.Count <= 3)
             {
-                output += "No other mods found!\n\n";
+                sb.AppendLine("No other mods found");
             }
 
             // List rule files.
-            output += "=== RULE FILES ===\n\n";
+            sb.AppendLine();
+            sb.AppendLine("=== RULE FILES ===");
+            sb.AppendLine();
             List<string> files = new List<string>();
             foreach (Rule ruleFile in RulesManager.Instance.Rules)
             {
@@ -233,20 +252,22 @@ namespace MOP.Common
                     files.Add(ruleFile.Filename);
                 }
             }
-            output += string.Join("\n", files.ToArray());
+            sb.AppendLine(string.Join("\n", files.ToArray()));
 
             if (RulesManager.Instance.Rules.Count == 0)
             {
-                output += $"No rule files loaded!\n";
+                sb.AppendLine("No rule files loaded!");
             }
 
             if (File.Exists($"{MOP.ModConfigPath}/Custom.txt"))
             {
-                output += "\n\n=== CUSTOM.TXT CONTENT ===\n\n";
-                output += File.ReadAllText($"{MOP.ModConfigPath}/Custom.txt") + "\n\n";
+                sb.AppendLine();
+                sb.AppendLine("=== CUSTOM.TXT CONTENT ===");
+                sb.AppendLine();
+                sb.Append(File.ReadAllText(Path.Combine(MOP.ModConfigPath, "Custom.txt")));                
             }
 
-            return output;
+            return sb.ToString();
         }
 
         static string GetGameData(string name)
@@ -275,7 +296,10 @@ namespace MOP.Common
                         output += FSM.FsmManager.GetDrawDistance();
                         break;
                     case "CanTriggerStatus":
-                        output += (Managers.ItemsManager.Instance == null ? "manager_null" : Managers.ItemsManager.Instance.GetCanTrigger() == null ? "null" : $"Found ({Managers.ItemsManager.Instance.GetCanTrigger().Path()})");
+                        output += (Managers.ItemsManager.Instance == null 
+                            ? "manager_null" 
+                            : Managers.ItemsManager.Instance.GetCanTrigger() == null ? "null" 
+                            : $"Found ({Managers.ItemsManager.Instance.GetCanTrigger().Path()})");
                         break;
                     case "IsTrailerAttached":
                         output += FSM.FsmManager.IsTrailerAttached();
