@@ -1,27 +1,8 @@
-### Added
-
-- Improvements to MOP - Save Integrity Verification
-  - MOP will now attempt to fix corrupted items.txt file
-    - This may fix items not spawning upon purchase (if you're experiencing that issue)
-  - MOP will back-up your save file, before attempting to fix the problems
-  - The dialogue will now show only first 4 issues
-  - You can generate a report of all save file problems, which is saved into a text file
-- (Mod Loader Pro) Added missing tooltips into the settings
-
 ### Changes
 
-- Changes the message displayed, if MOP could not reach the rule file server
-- Improvements to SatsumaHingeManager
-- Improvements to debug monitor
+- Improved MOP_Log generation
+- MOP will now detect, if engine was assembled using third-party tools (I mean, it's really weird when the save file says that the engine block is assembled, and it's bolted, but all bolts have a value of 0)
 
 ### Bug Fixes
 
-- Fixed a bug, due to which the installed engine block would slowly rotate, when car engine block is repeatedly enabled and disabled
-- Fixed MOP not starting, if the "envelope(xxxxx)Paid" was set to true manually with MSCEditor
-- Fixed the starting beer case sometimes not being hooked with ItemBehaviour class
-- Save Integrity Verification window will not overflow beyond the game window
-
-### Removed
-
-- Removed "Fast Loading" from the settings
-- Removed redundant code
+- Fixed driver head pivot, which caused driver head pivot in Satsuma to slowly rotate forward, if repeatedly enabled and disabled
