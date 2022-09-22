@@ -660,8 +660,13 @@ namespace MOP.Helpers
             ModConsole.Log($"[MOP] {((1d - percentageOfPartsBolted) * 100):0.00}% of Satsuma parts are installed, but not bolted.\n" +
                            $"{boltedCount}/{installedCount} parts are bolted and installed.");
 
-            return percentageOfPartsBolted <= MSCEditorLikelihoodRatio;
+            if (percentageOfPartsBolted <= MSCEditorLikelihoodRatio)
+                return true;
+
+            return IsEngineStupidlyAssembled();
         }
+
+
 
         private static void CountBoltedAndInstalled(GameObject databaseObject, ref int boltedCount, ref int installedCount)
         {
@@ -741,6 +746,28 @@ namespace MOP.Helpers
             {
                 File.Copy(SavePath, ItemsPath + ".mopbackup", true);
             }
+        }
+
+        /// <summary>
+        /// Checks if engine has been assembled in using MSCEditor (aka: engine is installed, bolted, but the arrays are 0).
+        /// </summary>
+        /// <returns></returns>
+        private static bool IsEngineStupidlyAssembled()
+        {
+            List<string> blockBolts = ReadStringList("BlockBolts");
+            bool blockInstalled = ReadBoolean("block(Clone)Installed");
+            bool blockBolted = ReadBoolean("block(Clone)Bolted");
+
+            bool areAllbolted = true;
+            foreach (string block in blockBolts)
+            {
+                if(int.Parse(block.Replace("int(", "").Replace(")", "")) == 0)
+                { 
+                    areAllbolted = false;
+                }
+            }
+
+            return blockInstalled && blockBolted && !areAllbolted;
         }
     }
 }
