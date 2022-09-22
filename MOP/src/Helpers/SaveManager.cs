@@ -757,6 +757,7 @@ namespace MOP.Helpers
             List<string> blockBolts = ReadStringList("BlockBolts");
             bool blockInstalled = ReadBoolean("block(Clone)Installed");
             bool blockBolted = ReadBoolean("block(Clone)Bolted");
+            bool blockInHoist = ReadBoolean("block(Clone)InHoist");
 
             bool areAllbolted = true;
             foreach (string block in blockBolts)
@@ -767,7 +768,7 @@ namespace MOP.Helpers
                 }
             }
 
-            return blockInstalled && blockBolted && !areAllbolted;
+            return blockInstalled && blockBolted && !areAllbolted && !blockInHoist;
         }
     }
 }
