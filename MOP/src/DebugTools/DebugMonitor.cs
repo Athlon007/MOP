@@ -22,8 +22,8 @@ namespace MOP.DebugTools
         private long[] differenceAverage = new long[128];
         private int differenceCounter;
         // SATSUMA
-        private Transform satsuma, block;
-        private Vector3 lastSatsumaPosition, blockInitRot; 
+        private Transform satsuma, block, driverHeadPivot;
+        private Vector3 lastSatsumaPosition, blockInitRot, driverHeadPivotRot; 
 
         private void Start()
         {
@@ -48,6 +48,9 @@ namespace MOP.DebugTools
                     blockInitRot = block.localEulerAngles;
                 }
             }
+            
+            driverHeadPivot = satsuma.Find("DriverHeadPivot");
+            driverHeadPivotRot = driverHeadPivot.localEulerAngles;
         }
 
         private void Update()
@@ -98,7 +101,8 @@ namespace MOP.DebugTools
                                 text += $"<color=yellow>Block_rot</color> {Difference(blockInitRot, block.localEulerAngles)}\n";
                             }
                     text += $"<color=yellow>inspection area</color> {Satsuma.Instance.IsSatsumaInInspectionArea}\n" +
-                            $"<color=yellow>parcferme</color> {Satsuma.Instance.IsSatsumaInParcFerme}\n";
+                            $"<color=yellow>parcferme</color> {Satsuma.Instance.IsSatsumaInParcFerme}\n" +
+                            $"<color=yellow>DriverHeadPivot_Rot</color> {Difference(driverHeadPivotRot, driverHeadPivot.localEulerAngles)}\n";
                     break;
                 case DebugPage.PlayerInfo:
                     text += $"<color=yellow>PlayerPos</color> {Hypervisor.Instance.GetPlayer().position}\n" +

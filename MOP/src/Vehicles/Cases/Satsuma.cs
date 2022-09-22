@@ -613,6 +613,14 @@ namespace MOP.Vehicles.Cases
                 ExceptionManager.New(ex, false, "SATSUMA_BLOCK_FIND_FAILURE");
             }
 
+            try
+            {
+                transform.Find("DriverHeadPivot").gameObject.AddComponent<SatsumaHingeManager>();
+            }
+            catch (System.Exception ex)
+            {
+                ExceptionManager.New(ex, false, "SATSUMA_DRIVER_HEAD_PIVOT_FAILURE");
+            }
 
             if (MopSettings.Mode != PerformanceMode.Safe && this.IsActive)
             {
