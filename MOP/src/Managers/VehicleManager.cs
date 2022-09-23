@@ -29,7 +29,7 @@ namespace MOP.Managers
 {
     class VehicleManager : IManager<Vehicle>
     {
-        static VehicleManager instance;
+        private static VehicleManager instance;
         public static VehicleManager Instance { get => instance; }
 
         public Vehicle this[int index] => vehicles[index];
@@ -49,7 +49,7 @@ namespace MOP.Managers
             "COMBINE(350-400psi)"
         };
 
-        List<Vehicle> vehicles;
+        private List<Vehicle> vehicles;
 
         public VehicleManager()
         {
@@ -157,7 +157,7 @@ namespace MOP.Managers
                 int enabled = 0;
                 foreach (Vehicle veh in vehicles)
                 {
-                    if (veh.IsActive)
+                    if (veh.gameObject.activeSelf)
                     {
                         enabled++;
                     }

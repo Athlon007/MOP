@@ -42,9 +42,9 @@ namespace MOP.Managers
 
         public GameObject PlayerCheck { get; private set; }
 
-        public int Count => throw new System.NotImplementedException();
+        public int Count => sectors.Count;
 
-        public List<Sector> GetAll => throw new System.NotImplementedException();
+        public List<Sector> GetAll => sectors;
 
         public SectorManager()
         {
