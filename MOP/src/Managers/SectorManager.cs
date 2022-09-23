@@ -182,7 +182,8 @@ namespace MOP.Managers
             }
         }
 
-        void CreateNewSector(Vector3 position, Vector3 size, int renderDistance, params string[] ignoreList) => CreateNewSector(position, size, Vector3.zero, renderDistance, ignoreList);
+        void CreateNewSector(Vector3 position, Vector3 size, int renderDistance, params string[] ignoreList) 
+            => CreateNewSector(position, size, Vector3.zero, renderDistance, ignoreList);
         void CreateNewSector(Vector3 position, Vector3 size, Vector3 rotation, int renderDistance, params string[] ignoreList)
         {
             GameObject newSector = new GameObject("MOP_Sector");
