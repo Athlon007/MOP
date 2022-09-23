@@ -65,7 +65,7 @@ namespace MOP.Places
             PlayMakers = new List<PlayMakerFSM>();
             LightSources = new List<Light>();
 
-            IgnoreRuleAtPlace[] ignoreRulesAtThisPlace = RulesManager.Instance.IgnoreRulesAtPlaces.Where(r => r.Place == placeName).ToArray();
+            IgnoreRuleAtPlace[] ignoreRulesAtThisPlace = RulesManager.Instance.GetList<IgnoreRuleAtPlace>().Where(r => r.Place == placeName).ToArray();
             if (ignoreRulesAtThisPlace.Length > 0)
                 foreach (IgnoreRuleAtPlace rule in ignoreRulesAtThisPlace)
                     GameObjectBlackList.Add(rule.ObjectName);

@@ -28,5 +28,10 @@ namespace MOP.Rules.Types
             this.ObjectName = ObjectName;
             this.TotalIgnore = TotalIgnore;
         }
+
+        public override string ToString()
+        {
+            return base.ToString() + $"ObjectName: {ObjectName} TotalIgnore: {TotalIgnore}";
+        }
     }
 }

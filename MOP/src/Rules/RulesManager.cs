@@ -99,7 +99,7 @@ namespace MOP.Rules
 
         public bool IsObjectInIgnoreList(GameObject gm)
         {
-            return IgnoreRules.Find(g => g.ObjectName == gm.name) != null;
+            return GetList<IgnoreRule>().Find(g => g.ObjectName == gm.name) != null;
         }
 
         public void AddRule(Rule rule)
@@ -107,7 +107,12 @@ namespace MOP.Rules
             Rules.Add(rule);
         }
 
-        List<T> GetList<T>() where T : class
+        public List<Rule> GetList()
+        {
+            return Rules;
+        }
+
+        public List<T> GetList<T>() where T : class
         {
             List<T> list = new List<T>();
 
@@ -130,11 +135,5 @@ namespace MOP.Rules
 
             return list;
         }
-
-        public List<IgnoreRule> IgnoreRules => GetList<IgnoreRule>();
-        public List<IgnoreRuleAtPlace> IgnoreRulesAtPlaces => GetList<IgnoreRuleAtPlace>();
-        public List<ToggleRule> ToggleRules => GetList<ToggleRule>();
-        public List<NewSector> NewSectors => GetList<NewSector>();
-        public List<ChangeParentRule> ChangeParentRules => GetList<ChangeParentRule>();
     }
 }

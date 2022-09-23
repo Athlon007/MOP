@@ -40,7 +40,7 @@ namespace MOP.Vehicles.Cases
             rb = this.gameObject.GetComponent<Rigidbody>();
 
             // Ignore Rule
-            IgnoreRule vehicleRule = RulesManager.Instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
+            IgnoreRule vehicleRule = RulesManager.Instance.GetList<IgnoreRule>().Find(v => v.ObjectName == this.gameObject.name);
             if (vehicleRule != null)
             {
                 if (vehicleRule.TotalIgnore)

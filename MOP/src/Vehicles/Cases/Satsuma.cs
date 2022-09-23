@@ -126,7 +126,7 @@ namespace MOP.Vehicles.Cases
             renderers = GetRenderersToDisable();
 
             // Ignore Rule
-            IgnoreRule vehicleRule = RulesManager.Instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
+            IgnoreRule vehicleRule = RulesManager.Instance.GetList<IgnoreRule>().Find(v => v.ObjectName == this.gameObject.name);
             if (vehicleRule != null)
             {
                 Toggle = IgnoreToggle;
@@ -753,7 +753,7 @@ namespace MOP.Vehicles.Cases
         {
             Transform[] childs = gameObject.GetComponentsInChildren<Transform>(true).Where(t => t.gameObject.name.ContainsAny(whiteList)).ToArray();
 
-            if (RulesManager.Instance.IgnoreRules.Count > 0)
+            if (RulesManager.Instance.GetList<IgnoreRule>().Count > 0)
             {
                 childs = childs.Where(t => !RulesManager.Instance.IsObjectInIgnoreList(t.gameObject)).ToArray();
             }
@@ -1000,7 +1000,7 @@ namespace MOP.Vehicles.Cases
         {
             List<Renderer> renderers = gameObject.transform.GetComponentsInChildren<Renderer>(true).Where(r => !r.gameObject.name.ContainsAny(ignoredRendererNames)).ToList();
 
-            if (RulesManager.Instance.IgnoreRules.Count > 0)
+            if (RulesManager.Instance.GetList<IgnoreRule>().Count > 0)
             {
                 renderers = renderers.Where(r => !RulesManager.Instance.IsObjectInIgnoreList(r.gameObject)).ToList();
             }

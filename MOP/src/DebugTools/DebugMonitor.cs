@@ -109,7 +109,7 @@ namespace MOP.DebugTools
                 case DebugPage.PlayerInfo:
                     sb.Append("<color=yellow>PlayerPos</color> ").Append(Hypervisor.Instance.GetPlayer().position).AppendLine();
                     sb.Append("<color=yellow>InSector</color> ").Append(Hypervisor.Instance.IsInSector()).AppendLine();
-                    sb.Append("<color=yellow>SectorDrawDistance</color>")
+                    sb.Append("<color=yellow>SectorDrawDistance</color> ")
                         .Append(SectorManager.Instance.IsPlayerInSector() ? SectorManager.Instance.GetCurrentSectorDrawDistance().ToString() : "-").AppendLine();
                     break;
             }                 

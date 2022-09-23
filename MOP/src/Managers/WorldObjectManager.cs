@@ -91,7 +91,7 @@ namespace MOP.Managers
                 throw new NullReferenceException($"WorldObjectManager: gameObject is null.");
             }
 
-            IgnoreRule rule = RulesManager.Instance.IgnoreRules.Find(f => f.ObjectName == gameObject.name);
+            IgnoreRule rule = RulesManager.Instance.GetList<IgnoreRule>().Find(f => f.ObjectName == gameObject.name);
             if (rule != null)
             {
                 if (rule.TotalIgnore)

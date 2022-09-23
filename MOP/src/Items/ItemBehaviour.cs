@@ -587,7 +587,7 @@ namespace MOP.Items
         {
             Toggle = ToggleActive;
 
-            IgnoreRule rule = RulesManager.Instance.IgnoreRules.Find(f => f.ObjectName == this.gameObject.name);
+            IgnoreRule rule = RulesManager.Instance.GetList<IgnoreRule>().Find(f => f.ObjectName == this.gameObject.name);
             if (rule != null)
             {
                 Toggle = TogglePhysicsOnly;

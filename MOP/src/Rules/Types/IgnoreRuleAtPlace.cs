@@ -28,5 +28,10 @@ namespace MOP.Rules.Types
             this.Place = Place;
             this.ObjectName = ObjectName;
         }
+
+        public override string ToString()
+        {
+            return base.ToString() + $"Place: {Place} ObjectName: {ObjectName}";
+        }
     }
 }

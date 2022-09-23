@@ -33,5 +33,10 @@ namespace MOP.Rules.Types
             this.Rotation = Rotation;
             this.Whitelist = Whitelist;
         }
+
+        public override string ToString()
+        {
+            return base.ToString() + $"Position: {Position} Rotation: {Rotation} Scale: {Scale} WhiteList: {string.Join(", ", Whitelist)}";
+        }
     }
 }

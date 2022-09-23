@@ -520,7 +520,7 @@ namespace MOP
             HookPreSaveGame();
 
             ModConsole.Log("[MOP] Loading rules...");
-            foreach (ToggleRule v in RulesManager.Instance.ToggleRules)
+            foreach (ToggleRule v in RulesManager.Instance.GetList<ToggleRule>())
             {
                 try
                 {
@@ -558,7 +558,7 @@ namespace MOP
                 }
             }
 
-            foreach (ChangeParentRule rule in RulesManager.Instance.ChangeParentRules)
+            foreach (ChangeParentRule rule in RulesManager.Instance.GetList<ChangeParentRule>())
             {
                 try
                 {

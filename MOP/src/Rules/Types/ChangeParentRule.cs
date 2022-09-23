@@ -28,5 +28,10 @@ namespace MOP.Rules.Types
             ObjectName = objectName;
             NewParentName = newParentName;
         }
+
+        public override string ToString()
+        {
+            return base.ToString() + $"ObjectName: {ObjectName} NewParentName: {NewParentName}";
+        }
     }
 }

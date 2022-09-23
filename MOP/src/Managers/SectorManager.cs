@@ -97,7 +97,7 @@ namespace MOP.Managers
             sectors = new List<GameObject>();
 
             // Load rule files
-            if (RulesManager.Instance.IgnoreRules.Count > 0)
+            if (RulesManager.Instance.GetList<IgnoreRule>().Count > 0)
             {
                 List<GameObject> newList = new List<GameObject>();
                 foreach (GameObject obj in objectsToDisable)
@@ -107,7 +107,7 @@ namespace MOP.Managers
                         if (obj == null)
                             continue;
 
-                        if (!RulesManager.Instance.IgnoreRules.Any(f => f.ObjectName == obj.name))
+                        if (!RulesManager.Instance.GetList<IgnoreRule>().Any(f => f.ObjectName == obj.name))
                             newList.Add(obj);
                     }
                     catch (System.Exception ex)
@@ -155,9 +155,9 @@ namespace MOP.Managers
                     "TREES_SMALL1", "BUSHES7", "BUSHES3", "BUSHES6", "TREES_MEDIUM3", "YARD", "LakeNice", "Tile", "PierHome");
 
             // Generating sectors from rule files.
-            if (RulesManager.Instance.NewSectors.Count > 0)
+            if (RulesManager.Instance.GetList<NewSector>().Count > 0)
             {
-                foreach (NewSector sector in RulesManager.Instance.NewSectors)
+                foreach (NewSector sector in RulesManager.Instance.GetList<NewSector>())
                 {
                     try
                     {

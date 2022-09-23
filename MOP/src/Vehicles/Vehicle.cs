@@ -157,7 +157,7 @@ namespace MOP.Vehicles
         private void LoadRules()
         {
             // Ignore Rules.
-            IgnoreRule vehicleRule = RulesManager.Instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
+            IgnoreRule vehicleRule = RulesManager.Instance.GetList<IgnoreRule>().Find(v => v.ObjectName == this.gameObject.name);
             if (vehicleRule != null)
             {
                 Toggle = IgnoreToggle;
@@ -167,7 +167,7 @@ namespace MOP.Vehicles
             }
 
             // Prevent Toggle On Object Rule.
-            IgnoreRuleAtPlace[] preventToggleOnObjectRule = RulesManager.Instance.IgnoreRulesAtPlaces
+            IgnoreRuleAtPlace[] preventToggleOnObjectRule = RulesManager.Instance.GetList<IgnoreRuleAtPlace>()
                 .Where(v => v.Place == this.gameObject.name).ToArray();
             if (preventToggleOnObjectRule.Length > 0)
             {

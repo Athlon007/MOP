@@ -30,7 +30,7 @@ namespace MOP.Vehicles.Cases
             Toggle = ToggleCombineActive;
 
             // Ignore Rule
-            IgnoreRule vehicleRule = RulesManager.Instance.IgnoreRules.Find(v => v.ObjectName == this.gameObject.name);
+            IgnoreRule vehicleRule = RulesManager.Instance.GetList<IgnoreRule>().Find(v => v.ObjectName == this.gameObject.name);
             if (vehicleRule != null)
             {
                 Toggle = IgnoreToggle;
