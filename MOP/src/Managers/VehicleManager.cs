@@ -23,10 +23,11 @@ using MOP.Vehicles;
 using MOP.Vehicles.Cases;
 using MOP.Common;
 using MOP.Common.Enumerations;
+using MOP.Common.Interfaces;
 
 namespace MOP.Managers
 {
-    class VehicleManager
+    class VehicleManager : IManager<Vehicle>
     {
         static VehicleManager instance;
         public static VehicleManager Instance { get => instance; }
@@ -124,7 +125,7 @@ namespace MOP.Managers
 
         public int Count => vehicles.Count;
 
-        public List<Vehicle> GetList => vehicles;
+        public List<Vehicle> GetAll => vehicles;
 
         public void RemoveAt(int i)
         {
@@ -141,9 +142,28 @@ namespace MOP.Managers
             return vehicles.FirstOrDefault(f => f.VehicleType == vehicleType);
         }
 
-        public Vehicle GetVehicle(string name)
+        public void Remove(Vehicle vehicle)
         {
-            return vehicles.FirstOrDefault(f => f.gameObject.name == name);
+            if (vehicles.Contains(vehicle))
+            {
+                vehicles.Remove(vehicle);
+            }
+        }
+
+        public int EnabledCount
+        {
+            get
+            {
+                int enabled = 0;
+                foreach (Vehicle veh in vehicles)
+                {
+                    if (veh.IsActive)
+                    {
+                        enabled++;
+                    }
+                }
+                return enabled;
+            }
         }
     }
 }

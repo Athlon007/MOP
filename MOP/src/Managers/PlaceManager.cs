@@ -19,12 +19,13 @@ using System.Collections.Generic;
 
 using MOP.Places;
 using MOP.Common;
+using MOP.Common.Interfaces;
 
 namespace MOP.Managers
 {
-    class PlaceManager
+    class PlaceManager : IManager<Place>
     {
-        static PlaceManager instance;
+        private static PlaceManager instance;
         public static PlaceManager Instance { get => instance; }
 
         public Place this[int index] => places[index];
@@ -37,14 +38,12 @@ namespace MOP.Managers
 
             try
             {
-                places = new List<Place>
-                {
-                    new Yard(),
-                    new Teimo(),
-                    new RepairShop(),
-                    new Inspection(),
-                    new Farm()
-                };
+                places = new List<Place>();
+                places.Add(new Yard());
+                places.Add(new Teimo());
+                places.Add(new RepairShop());
+                places.Add(new Inspection());
+                places.Add(new Farm());
 
                 ModConsole.Log("[MOP] Places initialized");
             }
@@ -56,9 +55,40 @@ namespace MOP.Managers
 
         public int Count => places.Count;
 
-        public List<Place> GetList()
+        public List<Place> GetAll => places;
+
+        public void Add(Place obj)
         {
-            return places;
+            places.Add(obj);
+        }
+
+        public void Remove(Place obj)
+        {
+            if (places.Contains(obj))
+            {
+                places.Remove(obj);
+            }
+        }
+
+        public void RemoveAt(int index)
+        {
+            places.RemoveAt(index);
+        }
+
+        public int EnabledCount
+        {
+            get
+            {
+                int enabled = 0;
+                foreach (Place place in places)
+                {
+                    if (place.IsActive)
+                    {
+                        enabled++;
+                    }
+                }
+                return enabled;
+            }
         }
     }
 }

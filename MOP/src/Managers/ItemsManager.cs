@@ -27,10 +27,11 @@ using MOP.Items.Cases;
 using MOP.Items.Helpers;
 using MOP.Helpers;
 using MOP.FSM.Actions;
+using MOP.Common.Interfaces;
 
 namespace MOP.Managers
 {
-    class ItemsManager
+    class ItemsManager : IManager<ItemBehaviour>
     {
         static ItemsManager instance;
         public static ItemsManager Instance { get => instance; }
@@ -263,7 +264,7 @@ namespace MOP.Managers
         /// Lists all the game objects in the game's world and that are on the whitelist,
         /// then it adds ObjectHook to them
         /// </summary>
-        void InitializeList()
+        private void InitializeList()
         {
             // Find shopping bags in the list
             GameObject[] items = UnityEngine.Object.FindObjectsOfType<GameObject>()
@@ -387,7 +388,6 @@ namespace MOP.Managers
 
         internal void OnSave()
         {
-            // Fuck you ToplessGun.
             try
             {
                 if (radiatorHose3Database)
@@ -399,9 +399,9 @@ namespace MOP.Managers
             }
         }
 
-        internal List<ItemBehaviour> GetList => itemHooks;
+        public List<ItemBehaviour> GetAll => itemHooks;
 
-        void InjectSpawnScripts(GameObject gm)
+        private void InjectSpawnScripts(GameObject gm)
         {
             PlayMakerFSM[] createFSMs = gm.GetComponents<PlayMakerFSM>();
             for (int i = 0; i < createFSMs.Length; i++)
@@ -443,5 +443,20 @@ namespace MOP.Managers
             return bucket;
         }
 
+        public int EnabledCount
+        {
+            get
+            {
+                int enabled = 0;
+                foreach (ItemBehaviour item in GetAll)
+                {
+                    if (item.ActiveSelf)
+                    {
+                        enabled++;
+                    }
+                }
+                return enabled;
+            }
+        }
     }
 }

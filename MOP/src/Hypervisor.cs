@@ -655,10 +655,10 @@ namespace MOP
             // If generate-list command is set to true, generate the list of items that are disabled by MOP.
             if (MopSettings.GenerateToggledItemsListDebug)
             {
-                ToggledItemsListGenerator.CreateWorldList(WorldObjectManager.Instance.GetList());
-                ToggledItemsListGenerator.CreateVehicleList(VehicleManager.Instance.GetList);
-                ToggledItemsListGenerator.CreateItemsList(ItemsManager.Instance.GetList);
-                ToggledItemsListGenerator.CreatePlacesList(PlaceManager.Instance.GetList());
+                ToggledItemsListGenerator.CreateWorldList(WorldObjectManager.Instance.GetAll);
+                ToggledItemsListGenerator.CreateVehicleList(VehicleManager.Instance.GetAll);
+                ToggledItemsListGenerator.CreateItemsList(ItemsManager.Instance.GetAll);
+                ToggledItemsListGenerator.CreatePlacesList(PlaceManager.Instance.GetAll);
             }
         }
 
@@ -1066,7 +1066,7 @@ namespace MOP
 
             if (Input.GetKeyDown(KeyCode.F7))
             {
-                List<ItemBehaviour> b = ItemsManager.Instance.GetList;
+                List<ItemBehaviour> b = ItemsManager.Instance.GetAll;
                 foreach (ItemBehaviour i in b)
                 {
                     if (i.name.Contains("r20 battery box"))

@@ -22,18 +22,18 @@ using MOP.Common;
 using MOP.Common.Enumerations;
 using MOP.Rules;
 using MOP.Rules.Types;
-using System.Collections;
+using MOP.Common.Interfaces;
 
 namespace MOP.Managers
 {
-    class SectorManager : MonoBehaviour
+    class SectorManager : MonoBehaviour, IManager<Sector>
     {
         static SectorManager instance;
         public static SectorManager Instance { get => instance; }
 
         List<GameObject> objectsToDisable;
         
-        List<GameObject> sectors;
+        List<Sector> sectors;
         List<Sector> activeSectors;
 
         readonly string[] qualityModeIgnore = { "RadioMast", "Tile", "LakeNice", "BUSHES", "PierHome", "TREES" };
@@ -41,6 +41,10 @@ namespace MOP.Managers
         const int FramesWaitOnSectorEnter = 15;
 
         public GameObject PlayerCheck { get; private set; }
+
+        public int Count => throw new System.NotImplementedException();
+
+        public List<Sector> GetAll => throw new System.NotImplementedException();
 
         public SectorManager()
         {
@@ -94,7 +98,7 @@ namespace MOP.Managers
             if (lakeNice != null)
                 objectsToDisable.Add(lakeNice);
 
-            sectors = new List<GameObject>();
+            sectors = new List<Sector>();
 
             // Load rule files
             if (RulesManager.Instance.GetList<IgnoreRule>().Count > 0)
@@ -190,7 +194,7 @@ namespace MOP.Managers
                 ignoreList = new string[0];
 
             sectorInfo.Initialize(size, renderDistance, ignoreList);
-            sectors.Add(newSector);
+            Add(sectorInfo);
         }
 
         public void ToggleActive()
@@ -270,6 +274,32 @@ namespace MOP.Managers
         public bool IsPlayerInSector(Sector sector)
         {
             return activeSectors.Contains(sector);
+        }
+
+        public void Add(Sector obj)
+        {
+            sectors.Add(obj);
+        }
+
+        public void Remove(Sector obj)
+        {
+            if (sectors.Contains(obj))
+            {
+                sectors.Remove(obj);
+            }
+        }
+
+        public void RemoveAt(int index)
+        {
+            sectors.RemoveAt(index);
+        }
+
+        public int EnabledCount
+        {
+            get
+            {
+                return activeSectors.Count;
+            }
         }
     }
 }

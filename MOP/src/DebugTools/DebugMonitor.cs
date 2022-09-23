@@ -89,10 +89,11 @@ namespace MOP.DebugTools
                     long averageDiff = CalculateAverageMemoryUsage(gcUsage);
                     sb.Append("<color=yellow>Tick</color> ").Append(Hypervisor.Instance.Tick).AppendLine();
                     sb.Append("<color=yellow>GC</color> ").Append(gcUsage).Append(" (").Append(averageDiff).AppendLine(")");
-                    sb.Append("<color=yellow>Items</color> ").Append(CalculateEnabledItems()).Append(" / ").Append(ItemsManager.Instance.Count).AppendLine();
-                    sb.Append("<color=yellow>Vehicles</color> ").Append(CalculateEnabledVehicles()).Append(" / ").Append(VehicleManager.Instance.Count).AppendLine();
-                    sb.Append("<color=yellow>WorldObj</color> ").Append(CalculateEnabledWorldObjects()).Append(" / ").Append(WorldObjectManager.Instance.Count).AppendLine();
-                    sb.Append("<color=yellow>Places</color> ").Append(CalculateEnabledPlaces()).Append(" / ").Append(PlaceManager.Instance.Count).AppendLine();
+                    sb.Append("<color=yellow>Items</color> ").Append(ItemsManager.Instance.EnabledCount).Append(" / ").Append(ItemsManager.Instance.Count).AppendLine();
+                    sb.Append("<color=yellow>Vehicles</color> ").Append(VehicleManager.Instance.EnabledCount).Append(" / ").Append(VehicleManager.Instance.Count).AppendLine();
+                    sb.Append("<color=yellow>WorldObj</color> ").Append(WorldObjectManager.Instance.EnabledCount).Append(" / ").Append(WorldObjectManager.Instance.Count).AppendLine();
+                    sb.Append("<color=yellow>Places</color> ").Append(PlaceManager.Instance.EnabledCount).Append(" / ").Append(PlaceManager.Instance.Count).AppendLine();
+                    sb.Append("<color=yellow>Sectors</color> ").Append(SectorManager.Instance.EnabledCount).Append(" / ").Append(SectorManager.Instance.Count).AppendLine();
                     break;
                 case DebugPage.SatsumaInfo:
                     float satsumaVelocity = (lastSatsumaPosition - satsuma.position).magnitude / Time.deltaTime;
@@ -142,44 +143,6 @@ namespace MOP.DebugTools
         {
             fps.text = text;
             fpsShadow.text = text.Replace("<color=yellow>", "").Replace("</color>", "");
-        }
-
-        private int CalculateEnabledItems()
-        {
-            int i = 0;
-            foreach (ItemBehaviour item in ItemsManager.Instance.GetList)
-            {
-                if (item.ActiveSelf)
-                {
-                    i++;
-                }
-            }
-
-            return i;
-        }
-
-        private int CalculateEnabledVehicles()
-        {
-            int i = 0;
-            foreach (Vehicle item in VehicleManager.Instance.GetList)
-            {
-                if (item.gameObject.activeSelf)
-                {
-                    i++;
-                }
-            }
-
-            return i;
-        }
-
-        private int CalculateEnabledPlaces()
-        {
-            return PlaceManager.Instance.GetList().Where(g => g.isActive).Count();
-        }
-
-        private int CalculateEnabledWorldObjects()
-        {
-            return WorldObjectManager.Instance.GetList().Where(g => g.GameObject.activeSelf).Count();
         }
 
         private void OnDestroy()

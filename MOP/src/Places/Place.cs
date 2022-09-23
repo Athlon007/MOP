@@ -45,7 +45,7 @@ namespace MOP.Places
         /// <summary>
         /// Saves what value has been last used, to prevent unnescesary launch of loop.
         /// </summary>
-        internal bool isActive = true;
+        protected bool isActive = true;
 
         /// <summary>
         /// Initialize the Store class

@@ -23,10 +23,11 @@ using MOP.Rules;
 using MOP.Rules.Types;
 using MOP.Common.Enumerations;
 using MOP.WorldObjects;
+using MOP.Common.Interfaces;
 
 namespace MOP.Managers
 {
-    class WorldObjectManager
+    class WorldObjectManager : IManager<GenericObject>
     {
         // This script manages the list of WorldObjects.
         // Basically, objects that are static, such as buildings.
@@ -125,10 +126,7 @@ namespace MOP.Managers
             worldObjects.Add(generic);
         }
 
-        public List<GenericObject> GetList()
-        {
-            return worldObjects;
-        }
+        public List<GenericObject> GetAll => worldObjects;
 
         public void Remove(GenericObject worldObject)
         {
@@ -138,6 +136,27 @@ namespace MOP.Managers
         public GameObject Get(string name)
         {
             return worldObjects.FirstOrDefault(g => g.GetName() == name)?.GameObject;
+        }
+
+        public void RemoveAt(int index)
+        {
+            worldObjects.RemoveAt(index);
+        }
+
+        public int EnabledCount
+        {
+            get
+            {
+                int enabled = 0;
+                foreach (GenericObject obj in GetAll)
+                {
+                    if (obj.GameObject.activeSelf)
+                    {
+                        enabled++;
+                    }
+                }
+                return enabled;
+            }
         }
     }
 }

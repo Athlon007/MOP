@@ -104,6 +104,7 @@
     <Compile Include="src\Common\Enumerations\ToggleModes.cs" />
     <Compile Include="src\Common\Enumerations\VehiclesTypes.cs" />
     <Compile Include="src\Common\Interfaces\IDisableUnderCondition.cs" />
+    <Compile Include="src\Common\Interfaces\IManager.cs" />
     <Compile Include="src\Common\LoadScreen.cs" />
     <Compile Include="src\Common\Paths.cs" />
     <Compile Include="src\Common\SaveSlotsSupport.cs" />

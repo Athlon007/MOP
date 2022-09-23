@@ -8,6 +8,7 @@
 - MOP will now detect, if engine was assembled using third-party tools (I mean, it's really weird when the save file says that the engine block is assembled, and it's bolted, but all bolts have a value of 0)
 - Optimization of Debug Monitor
 - Optimization of MOP rules
+- Refactoring of all managers
 
 ### Bug Fixes
 
