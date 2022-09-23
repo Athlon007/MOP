@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 
 using MOP.Items;
@@ -59,7 +60,7 @@ namespace MOP.DebugTools
             {
                 if ((int)(debugPage + 1) >= Enum.GetNames(typeof(DebugPage)).Length)
                 {
-                    debugPage = (DebugPage)0;
+                    debugPage = 0;
                 }
                 else
                 {
@@ -78,41 +79,42 @@ namespace MOP.DebugTools
                 }
             }
 
-            string text = $"<- {debugPage} ->\n"; 
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<- ").Append(debugPage).AppendLine(" ->");
             
             switch (debugPage)
             {
                 case DebugPage.MopInfo:
                     long gcUsage = GC.GetTotalMemory(false);
                     long averageDiff = CalculateAverageMemoryUsage(gcUsage);
-                    text += $"<color=yellow>Tick</color> {Hypervisor.Instance.Tick}\n" +
-                            $"<color=yellow>GC</color> {gcUsage} ({averageDiff})\n" +
-                            $"<color=yellow>Items</color> {CalculateEnabledItems()} / {ItemsManager.Instance.Count}\n" +
-                            $"<color=yellow>Vehicles</color> {CalculateEnabledVehicles()} / {VehicleManager.Instance.Count}\n" +
-                            $"<color=yellow>World Obj</color> {CalculateEnabledWorldObjects()} / {WorldObjectManager.Instance.Count}\n" +
-                            $"<color=yellow>Places</color> {CalculateEnabledPlaces()} / {PlaceManager.Instance.Count}\n";
+                    sb.Append("<color=yellow>Tick</color> ").Append(Hypervisor.Instance.Tick).AppendLine();
+                    sb.Append("<color=yellow>GC</color> ").Append(gcUsage).Append(" (").Append(averageDiff).AppendLine(")");
+                    sb.Append("<color=yellow>Items</color> ").Append(CalculateEnabledItems()).Append(" / ").Append(ItemsManager.Instance.Count).AppendLine();
+                    sb.Append("<color=yellow>Vehicles</color> ").Append(CalculateEnabledVehicles()).Append(" / ").Append(VehicleManager.Instance.Count).AppendLine();
+                    sb.Append("<color=yellow>WorldObj</color> ").Append(CalculateEnabledWorldObjects()).Append(" / ").Append(WorldObjectManager.Instance.Count).AppendLine();
+                    sb.Append("<color=yellow>Places</color> ").Append(CalculateEnabledPlaces()).Append(" / ").Append(PlaceManager.Instance.Count).AppendLine();
                     break;
                 case DebugPage.SatsumaInfo:
                     float satsumaVelocity = (lastSatsumaPosition - satsuma.position).magnitude / Time.deltaTime;
                     lastSatsumaPosition = satsuma.position;
-                    text += $"<color=yellow>Velocity</color> {satsumaVelocity}\n";
-                            if (block != null)
-                            {
-                                text += $"<color=yellow>Block_rot</color> {Difference(blockInitRot, block.localEulerAngles)}\n";
-                            }
-                    text += $"<color=yellow>inspection area</color> {Satsuma.Instance.IsSatsumaInInspectionArea}\n" +
-                            $"<color=yellow>parcferme</color> {Satsuma.Instance.IsSatsumaInParcFerme}\n" +
-                            $"<color=yellow>DriverHeadPivot_Rot</color> {Difference(driverHeadPivotRot, driverHeadPivot.localEulerAngles)}\n";
+                    sb.Append("<color=yellow>Velocity</color> ").Append(satsumaVelocity).AppendLine();
+                    if (block != null)
+                    {
+                        sb.Append("<color=yellow>BlockRot</color> ").Append(Difference(blockInitRot, block.localEulerAngles)).AppendLine();
+                    }
+                    sb.Append("<color=yellow>InspectionArea</color> ").Append(Satsuma.Instance.IsSatsumaInInspectionArea).AppendLine();
+                    sb.Append("<color=yellow>ParcFerme</color> ").Append(Satsuma.Instance.IsSatsumaInParcFerme).AppendLine();
+                    sb.Append("<color=yellow>DriverHeadPivotRot</color> ").Append(Difference(driverHeadPivotRot, driverHeadPivot.localEulerAngles)).AppendLine();
                     break;
                 case DebugPage.PlayerInfo:
-                    text += $"<color=yellow>PlayerPos</color> {Hypervisor.Instance.GetPlayer().position}\n" +
-                            $"<color=yellow>InSector</color> {Hypervisor.Instance.IsInSector()}\n" +
-                            $"<color=yellow>SectorDrawDistance</color> " +
-                            $"{(SectorManager.Instance.IsPlayerInSector() ? SectorManager.Instance.GetCurrentSectorDrawDistance().ToString() : "-")}\n";
+                    sb.Append("<color=yellow>PlayerPos</color> ").Append(Hypervisor.Instance.GetPlayer().position).AppendLine();
+                    sb.Append("<color=yellow>InSector</color> ").Append(Hypervisor.Instance.IsInSector()).AppendLine();
+                    sb.Append("<color=yellow>SectorDrawDistance</color>")
+                        .Append(SectorManager.Instance.IsPlayerInSector() ? SectorManager.Instance.GetCurrentSectorDrawDistance().ToString() : "-").AppendLine();
                     break;
             }                 
 
-            SetDebugGuiText(text);
+            SetDebugGuiText(sb.ToString());
         }
 
         private long CalculateAverageMemoryUsage(long memoryUsage)
