@@ -398,7 +398,7 @@ namespace MOP.Common
             ModUI.ShowYesNoMessage($"Are you sure you want to delete <color=yellow>{files.Length}</color> log{(files.Length > 1 ? "s" : "")}?", "MOP", () => DeleteLogFiles(files));
         }
 
-        static void DeleteLogFiles(string[] files)
+        private static void DeleteLogFiles(string[] files)
         {
             foreach (string file in files)
             {

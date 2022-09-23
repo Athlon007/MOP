@@ -21,7 +21,7 @@ namespace MOP.Common
 {
     class SaveSlotsSupport : MonoBehaviour
     {
-        void OnDisable()
+        private void OnDisable()
         {
             SaveManager.VerifySave();
         }
