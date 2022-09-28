@@ -123,9 +123,9 @@ namespace MOP
 
 #if PRO
             modSettings.AddButton("iFoundABug", "<color=red>I FOUND A BUG</color>", BugReporter.FileBugReport);
-            modSettings.AddButton("faq", "FAQ", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/faq"));
-            modSettings.AddButton("wiki", "WIKI", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/"));
-            modSettings.AddButton("homepage", "HOMEPAGE", () => ShowDialog("http://athlon.kkmr.pl/"));
+            modSettings.AddButton("faq", "FAQ", () => ShowDialog("http://kfigura.nl/mop/wiki/#/faq"));
+            modSettings.AddButton("wiki", "WIKI", () => ShowDialog("http://kfigura.nl/mop/wiki/#/"));
+            modSettings.AddButton("homepage", "HOMEPAGE", () => ShowDialog("http://kfigura.nl/"));
             modSettings.AddButton("github", "GITHUB", () => ShowDialog("https://github.com/Athlon007/MOP"));
             modSettings.AddButton("homepage", "NEXUSMODS", () => ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
             modSettings.AddButton("paypal", "<color=#254280>DONATE</color>", () => ShowDialog("https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y"));
@@ -172,7 +172,7 @@ namespace MOP
 
             // Rules
             modSettings.AddHeader("RULES");
-            SettingButton learnMore = modSettings.AddButton("rulesLearnMore", "LEARN MORE", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/rulefiles"));
+            SettingButton learnMore = modSettings.AddButton("rulesLearnMore", "LEARN MORE", () => ShowDialog("http://kfigura.nl/mop/wiki/#/rulefiles"));
             learnMore.AddTooltip("Learn about how rules work.");
             RulesAutoUpdate = modSettings.AddToggle("rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true, WarningDisableAutoUpdate);
             RulesAutoUpdateFrequency = modSettings.AddSlider("ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 2, 0, 3);
@@ -214,9 +214,9 @@ namespace MOP
             UpdateSettingsUI();
 #else
             Settings.AddButton(this, "iFoundABug", "<color=red>I FOUND A BUG</color>", BugReporter.FileBugReport);
-            Settings.AddButton(this, "linkFAQ", "FAQ", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/faq"));
-            Settings.AddButton(this, "linkWiki", "WIKI", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/"));
-            Settings.AddButton(this, "linkHomepage", "HOMEPAGE", () => ShowDialog("http://athlon.kkmr.pl/"));
+            Settings.AddButton(this, "linkFAQ", "FAQ", () => ShowDialog("http://kfigura.nl/mop/wiki/#/faq"));
+            Settings.AddButton(this, "linkWiki", "WIKI", () => ShowDialog("http://kfigura.nl/mop/wiki/#/"));
+            Settings.AddButton(this, "linkHomepage", "HOMEPAGE", () => ShowDialog("http://kfigura.nl/"));
             Settings.AddButton(this, "linkGithub", "GITHUB", () => ShowDialog("https://github.com/Athlon007/MOP"));
             Settings.AddButton(this, "linkNexusmods", "NEXUSMODS", () => ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
             Settings.AddButton(this, "linkDonate", "DONATE", () => ShowDialog("https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y"), new Color32(37, 59, 128, 255), new Color(1, 1, 1));
@@ -255,7 +255,7 @@ namespace MOP
 
             // Rules
             Settings.AddHeader(this, "RULES");
-            Settings.AddButton(this, "rulesLearnMore", "LEARN MORE", () => ShowDialog("http://athlon.kkmr.pl/mop/wiki/#/rulefiles"));
+            Settings.AddButton(this, "rulesLearnMore", "LEARN MORE", () => ShowDialog("http://kfigura.nl/mop/wiki/#/rulefiles"));
             RulesAutoUpdate = Settings.AddCheckBox(this, "rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true, WarningDisableAutoUpdate);
             RulesAutoUpdateFrequency = Settings.AddSlider(this, "ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 0, 3, 2, textValues: rulesAutoUpdateFrequencyText);
             VerifyRuleFiles = Settings.AddCheckBox(this, "verifyRuleFiles", "VERIFY RULE FILES", true);

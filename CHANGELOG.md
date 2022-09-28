@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.9.2 (TBA)
+
+### Changes
+
+- Updated links
+
 ## 3.9.1 (26.09.2022)
 
 ### Changes
