@@ -166,7 +166,7 @@ namespace MOP.Common
 
                     File.WriteAllText(path, "## Every line which starts with '##' will be ignored.\n" +
                                             "## All new flags MUST be written in a new line.\n" +
-                                            "## Visit http://kfigura.nl/mop/wiki/#/rulefiles_commands for documentation.\n" +
+                                            "## Visit http://athlon.kkmr.pl/mop/wiki/#/rulefiles_commands for documentation.\n" +
                                             "## WARNING: Using custom rule files may cause issues. Use only at your own risk!");
 
                     Process.Start(path);
