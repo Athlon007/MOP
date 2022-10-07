@@ -267,23 +267,10 @@ namespace MOP.Managers
         private void InitializeList()
         {
             // Find shopping bags in the list
-            GameObject[] items = UnityEngine.Object.FindObjectsOfType<GameObject>()
-                                .Where(gm => gm.name.ContainsAny(NameList) && gm.name.ContainsAny("(itemx)", "(Clone)") & gm.GetComponent<ItemBehaviour>() == null)
-                                .ToArray();
+            UnityEngine.Object.FindObjectsOfType<GameObject>()
+                    .Where(gm => gm.name.ContainsAny(NameList) && gm.name.ContainsAny("(itemx)", "(Clone)") & gm.GetComponent<ItemBehaviour>() == null)
+                    .All(gm => gm.AddComponent<ItemBehaviour>());
 
-            if (items.Length > 0)
-            {
-                for (int i = 0; i < items.Length; i++)
-                {
-                    if (items[i] == null) continue;
-
-                    try
-                    {
-                        items[i].AddComponent<ItemBehaviour>();
-                    }
-                    catch { }
-                }
-            }
 
             // CD Player Enhanced compatibility
             if (MSCLoader.ModLoader.GetMod("CDPlayer") != null)
@@ -356,7 +343,7 @@ namespace MOP.Managers
 
             // Find the initial beer case and hook it.
             GameObject beerCaseInitial = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "beer case(itemx)" && g.GetComponent<ItemBehaviour>() == null).FirstOrDefault();
-            beerCaseInitial.AddComponent<ItemBehaviour>();
+            beerCaseInitial?.AddComponent<ItemBehaviour>();
         }
 
         GameObject canTrigger;

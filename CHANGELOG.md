@@ -1,10 +1,14 @@
 # Changelog
 
-## 3.9.2 (TBA)
+## 3.9.2 (07.10.2022)
 
 ### Changes
 
 - Updated links
+
+### Bug Fixed
+
+- Fixed an error when loading items list
 
 ## 3.9.1 (26.09.2022)
 
