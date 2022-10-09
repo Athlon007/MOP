@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.9.3 (TBA)
+
+### Bug Fixes
+
+- Fixed a rare bug, where sometimes MOP would not have access to the save file
+
 ## 3.9.2 (07.10.2022)
 
 ### Changes
