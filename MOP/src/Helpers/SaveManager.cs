@@ -61,6 +61,10 @@ namespace MOP.Helpers
                 RemoveAttribute(SavePath);
                 RemoveAttribute(ItemsPath);
             }
+            catch (UnauthorizedAccessException)
+            {
+                ModConsole.Log("<color=red>MOP: MOP could not gain access to the save file at this moment.</color>");
+            }
             catch (Exception ex)
             {
                 ExceptionManager.New(ex, true, "ATTRIBUTES_REMOVAL_ERROR");
