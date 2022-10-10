@@ -63,14 +63,11 @@ namespace MOP.Properties {
         /// <summary>
         ///   Looks up a localized string similar to ### Changes
         ///
-        ///- Changes the message displayed, if MOP could not reach the rule file server
-        ///- Improvements to SatsumaHingeManager
-        ///- Improvements to debug monitor
+        ///- Updated links
         ///
-        ///### Bug Fixes
+        ///### Bug Fixed
         ///
-        ///- Fixed a bug, due to which the installed engine block would slowly rotate, when car engine block is repeatedly enabled and disabled
-        ///- Fixed MOP not starting, if the &quot;envelope(xxxxx)Paid&quot; was set to true manually with MSCEditor.
+        ///- Fixed an error when loading items list.
         /// </summary>
         internal static string changelog {
             get {
@@ -82,7 +79,8 @@ namespace MOP.Properties {
         ///   Looks up a localized string similar to Bruno Salgado
         ///Crate Fondler 6000
         ///Tom Johansson
-        ///Donal Magrane.
+        ///Donal Magrane
+        ///Claudiu Rossi.
         /// </summary>
         internal static string donates {
             get {
@@ -136,6 +134,16 @@ namespace MOP.Properties {
         internal static byte[] mop {
             get {
                 object obj = ResourceManager.GetObject("mop", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] sources {
+            get {
+                object obj = ResourceManager.GetObject("sources", resourceCulture);
                 return ((byte[])(obj));
             }
         }

@@ -2,6 +2,11 @@
 
 ## 3.9.3 (TBA)
 
+## Added
+
+- Added multiple sources of rule files
+  - MOP will test connection to each one of them, and pick the first one that is online
+
 ### Bug Fixes
 
 - Fixed a rare bug, where sometimes MOP would not have access to the save file

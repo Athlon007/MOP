@@ -149,6 +149,7 @@
     <Compile Include="src\Helpers\SaveManager.cs" />
     <Compile Include="src\ModConsole.cs" />
     <Compile Include="src\Places\Cases\Misc\SausageInMicrowaveBehaviour.cs" />
+    <Compile Include="src\Rules\Configuration\ServerSources.cs" />
     <Compile Include="src\Rules\Types\ChangeParentRule.cs" />
     <Compile Include="src\Rules\Types\Rule.cs" />
     <Compile Include="src\Stacks\ItemStack.cs" />
@@ -230,6 +231,7 @@
     <None Include="Resources\icon" />
     <EmbeddedResource Include="Resources\itemcounter_to_transform.csv" />
     <None Include="Resources\mop.bundle" />
+    <EmbeddedResource Include="Resources\sources.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\donates.txt" />

@@ -24,16 +24,19 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using Newtonsoft.Json;
 
 using MOP.Common;
 using MOP.Common.Enumerations;
 using MOP.Rules.Types;
+using System.Reflection;
 
 namespace MOP.Rules.Configuration
 {
     class Loader : MonoBehaviour
     {
-        const string RemoteServer = "http://athlon.kkmr.pl/mop/rulefiles";
+        //const string RemoteServer = "http://athlon.kkmr.pl/mop/rulefiles";
+        private string RemoteServer;
         const string ServerContent = "servercontent.mop";
         const string CustomFile = "Custom.txt";
         const string RuleExtension = ".mopconfig";
@@ -93,10 +96,11 @@ namespace MOP.Rules.Configuration
                 issue = "[MOP] Update check has already been done.";
             }
 
-            // If server or user is offline, skip downloading and simply load available files.
-            if (!IsServerOnline())
+            RemoteServer = GetSourceServer();
+
+            if (string.IsNullOrEmpty(RemoteServer))
             {
-                issue = "<color=red>[MOP] Connection error. Check your Internet connection.</color>";
+                issue = "[MOP] Connection error. Unable to reach the server. Either check your connection, or the server is down.";
             }
 
             if (issue.Length > 0)
@@ -112,6 +116,7 @@ namespace MOP.Rules.Configuration
 
         IEnumerator DownloadAndUpdateRoutine()
         {
+
             MopData rulesInfo = MopSettings.Data;
             Mod[] mods = ModLoader.LoadedMods.Where(m => !m.ID.ContainsAny("MSCLoader_", "MOP")).ToArray();
 
@@ -352,25 +357,6 @@ namespace MOP.Rules.Configuration
             }
 
             return serverContent.Where(t => t.ID == modId).ToArray().Length > 0;
-        }
-
-        /// <summary>
-        /// Checks if the server is online
-        /// </summary>
-        bool IsServerOnline()
-        {
-            TcpClient tcpClient = new TcpClient();
-            try
-            {
-                tcpClient.Connect("193.143.77.46", 80);
-                ModConsole.Log("[MOP] Server Status: Online");
-                return true;
-            }
-            catch (Exception)
-            {
-                ModConsole.Log("[MOP] Server Status: Offline");
-                return false;
-            }
         }
 
         /// <summary>
@@ -760,6 +746,58 @@ namespace MOP.Rules.Configuration
             }
 
             return false;
+        }
+
+        private string GetSourceServer()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            string resourceName = assembly.GetManifestResourceNames().SingleOrDefault(str => str.EndsWith("sources.json"));
+            Stream stream = assembly.GetManifestResourceStream(resourceName);
+            StreamReader reader = new StreamReader(stream);
+
+            try
+            {
+                string content = reader.ReadToEnd();
+                ServerSources sources = JsonConvert.DeserializeObject<ServerSources>(content);
+
+                foreach (string source in sources.Sources)
+                {
+                    if (IsServerOnline(source))
+                    {
+                        ModConsole.Log("[MOP] Using server: " + source);
+                        return source;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ExceptionManager.New(e, true, "NO_SERVER_FOUND");
+                reader.Close();
+                stream.Close();
+            }
+
+            return "";
+        }
+
+        private bool IsServerOnline(string url)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url + "/" + ServerContent);
+                request.Timeout = 3000;
+                request.AllowAutoRedirect = false;
+                request.Method = "HEAD";
+
+                using (var response = request.GetResponse() as HttpWebResponse)
+                {
+                    HttpStatusCode code = response.StatusCode;
+                    return code == HttpStatusCode.OK;
+                }
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
