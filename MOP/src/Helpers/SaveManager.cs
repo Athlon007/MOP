@@ -50,16 +50,23 @@ namespace MOP.Helpers
 
         const int MaximumSaveBugsDisplayed = 4;
 
+        private static SaveManagerBehaviour saveManagerBehaviour;
+
         /// <summary>
         /// For some reason, the save files get marked as read only files, not allowing MSC to save the game.
         /// This script is ran in PreSaveGame() script and removes ReadOnly attribute.
         /// </summary>
         public static void RemoveReadOnlyAttribute()
         {
+            if (saveManagerBehaviour == null)
+            {
+                GameObject saveManagerObject = new GameObject("MOP_SaveAttributeRemoval");
+                saveManagerBehaviour = saveManagerObject.AddComponent<SaveManagerBehaviour>();
+            }
+
             try
             {
-                RemoveAttribute(SavePath);
-                RemoveAttribute(ItemsPath);
+                saveManagerBehaviour.Run();
             }
             catch (UnauthorizedAccessException)
             {
@@ -68,14 +75,6 @@ namespace MOP.Helpers
             catch (Exception ex)
             {
                 ExceptionManager.New(ex, true, "ATTRIBUTES_REMOVAL_ERROR");
-            }
-        }
-
-        static void RemoveAttribute(string filename)
-        {
-            if (File.Exists(filename))
-            {
-                File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
             }
         }
 

@@ -126,6 +126,7 @@
     <Compile Include="src\Helpers\MopPauseMenuHandler.cs" />
     <Compile Include="src\Helpers\MopSaveFileData.cs" />
     <Compile Include="src\Helpers\SaveBugs.cs" />
+    <Compile Include="src\Helpers\SaveManagerBehaviour.cs" />
     <Compile Include="src\Items\Cases\GrillTriggerBehaviour.cs" />
     <Compile Include="src\Items\Cases\RearBumperBehaviour.cs" />
     <Compile Include="src\Items\Cases\SuitcaseMoneyBehaviour.cs" />

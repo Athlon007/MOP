@@ -7,6 +7,10 @@
 - Added multiple sources of rule files
   - MOP will test connection to each one of them, and pick the first one that is online
 
+### Changes
+
+- If the save file read-only attribute removal has failed, MOP will retry couple more times
+
 ### Bug Fixes
 
 - Fixed a rare bug, where sometimes MOP would not have access to the save file
