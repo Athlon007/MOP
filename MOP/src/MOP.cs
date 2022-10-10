@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using MSCLoader;
@@ -24,7 +25,6 @@ using MOP.Common.Enumerations;
 using MOP.FSM;
 using MOP.Helpers;
 using MOP.Rules;
-using System.Collections.Generic;
 
 namespace MOP
 {
