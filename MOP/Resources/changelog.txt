@@ -12,3 +12,4 @@
 ### Bug Fixes
 
 - Fixed a rare bug, where sometimes MOP would not have access to the save file
+- Fixed not attached fuel tank getting toggled on and off repeatedly

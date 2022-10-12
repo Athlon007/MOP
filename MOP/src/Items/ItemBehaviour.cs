@@ -246,6 +246,11 @@ namespace MOP.Items
                     return;
                 }
 
+                if (this.transform.position.y < -50 && !CompatibilityManager.IsInBackpack(this))
+                {
+                    this.transform.position = ItemsManager.Instance.LostSpawner.position;
+                }
+
                 // Disable empty items function.
                 // Items that are marked as empty are disabled by the game.
                 if (MOP.DisableEmptyItems.GetValue() && this.gameObject.name == "empty(itemx)" && this.gameObject.transform.parent == null)
@@ -600,7 +605,7 @@ namespace MOP.Items
             }
 
             // This items cannot be fully disabled, for one reason or another.
-            if (this.gameObject.name.EqualsAny("fish trap(itemx)", "bucket(itemx)", "pike(itemx)", "envelope(xxxxx)", "lottery ticket(xxxxx)"))
+            if (this.gameObject.name.EqualsAny("fish trap(itemx)", "bucket(itemx)", "pike(itemx)", "envelope(xxxxx)", "lottery ticket(xxxxx)", "fuel tank(Clone)"))
             {
                 Toggle = TogglePhysicsOnly;
             }

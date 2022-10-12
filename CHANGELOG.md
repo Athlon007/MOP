@@ -11,11 +11,12 @@
 
 - If the save file read-only attribute removal has failed, MOP will retry couple more times
 - Optimization and general code improvements
-- Array of items to enable, disable, and remove now use a generic C#'s Stack implementation
+- Array of items to enable, disable, and remove now use a generic C#'s Queue implementation
 
 ### Bug Fixes
 
 - Fixed a rare bug, where sometimes MOP would not have access to the save file
+- Fixed not attached fuel tank getting toggled on and off repeatedly
 
 ## 3.9.2 (07.10.2022)
 

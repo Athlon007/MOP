@@ -65,8 +65,8 @@ namespace MOP
         readonly LoadScreen loadScreen;
         #endregion
 
-        readonly Stack<ItemBehaviour> itemsToRemove = new Stack<ItemBehaviour>();
-        readonly Stack<ItemBehaviour> itemsToEnable = new Stack<ItemBehaviour>();
+        readonly Queue<ItemBehaviour> itemsToRemove = new Queue<ItemBehaviour>();
+        readonly Queue<ItemBehaviour> itemsToEnable = new Queue<ItemBehaviour>();
         
         private GameObject computerSystem;
         private float distance;
@@ -908,7 +908,7 @@ namespace MOP
 
                         if (item == null || item.gameObject == null)
                         {
-                            itemsToRemove.Push(item);
+                            itemsToRemove.Enqueue(item);
                             continue;
                         }
 
@@ -936,7 +936,7 @@ namespace MOP
                             }
 
                             if (item.ActiveSelf) continue;
-                            itemsToEnable.Push(item);
+                            itemsToEnable.Enqueue(item);
                         }
                         else
                         {
@@ -1003,7 +1003,7 @@ namespace MOP
                 {
                     try
                     {
-                        itemsToEnable.Pop().Toggle(true);
+                        itemsToEnable.Dequeue().Toggle(true);
                     }
                     catch (Exception ex)
                     {
@@ -1037,7 +1037,7 @@ namespace MOP
                 // Remove items that don't exist anymore.
                 while (itemsToRemove.Count > 0)
                 {
-                    ItemsManager.Instance.Remove(itemsToRemove.Pop());
+                    ItemsManager.Instance.Remove(itemsToRemove.Dequeue());
                 }
 
                 yield return new WaitForSeconds(.7f);
