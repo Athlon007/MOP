@@ -33,7 +33,6 @@ using MOP.Helpers;
 using MOP.Rules;
 using MOP.Rules.Types;
 using MOP.WorldObjects;
-using MOP.Stacks;
 
 namespace MOP
 {
