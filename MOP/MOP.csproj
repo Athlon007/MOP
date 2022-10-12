@@ -153,7 +153,6 @@
     <Compile Include="src\Rules\Configuration\ServerSources.cs" />
     <Compile Include="src\Rules\Types\ChangeParentRule.cs" />
     <Compile Include="src\Rules\Types\Rule.cs" />
-    <Compile Include="src\Stacks\ItemStack.cs" />
     <Compile Include="src\Vehicles\Cases\Ferndale.cs" />
     <Compile Include="src\Vehicles\Cases\Flatbed.cs" />
     <Compile Include="src\Vehicles\Cases\Gifu.cs" />

@@ -39,7 +39,7 @@ namespace MOP
     /// <summary>
     /// Controls all objects in the game world.
     /// </summary>
-    class Hypervisor : MonoBehaviour
+    internal class Hypervisor : MonoBehaviour
     {
         static Hypervisor instance;
         public static Hypervisor Instance => instance;

@@ -206,7 +206,7 @@ namespace MOP.Helpers
 
                 if (bucketDriverSeat != bucketPassengerSeat)
                 {
-                    saveBugs.Add(SaveBugs.New("Bucket Seats", () =>
+                    saveBugs.Add(new SaveBugs("Bucket Seats", () =>
                     {
                         WriteSaveTag("bucket seat passenger(Clone)Purchased", true);
                         WriteSaveTag("bucket seat driver(Clone)Purchased", true); 
@@ -232,7 +232,7 @@ namespace MOP.Helpers
 
                     if (tractorTrailerAttached && Vector3.Distance(flatbedTransform.position, kekmetTransform.position) > 5.5f)
                     {
-                        saveBugs.Add(SaveBugs.New("Flatbed Trailer Attached", () =>
+                        saveBugs.Add(new SaveBugs("Flatbed Trailer Attached", () =>
                         {
                             WriteSaveTag("TractorTrailerAttached", false);
                         }));
@@ -276,7 +276,7 @@ namespace MOP.Helpers
                         float halfshaft_FLTightness = ReadFloat("Halfshaft_FLTightness");
                         if (halfshaft_FLInstalled && halfshaft_FLTightness != save.halfshaft_FLTightness)
                         {
-                            saveBugs.Add(SaveBugs.New("Halfshaft (FL) Mismateched Bolt Stages", () =>
+                            saveBugs.Add(new SaveBugs("Halfshaft (FL) Mismateched Bolt Stages", () =>
                             {
                                 WriteSaveTag("Halfshaft_FLTightness", save.halfshaft_FLTightness);
                                 WriteSaveTag("Halfshaft_FLBolts", save.halfshaft_FLBolts);
@@ -301,7 +301,7 @@ namespace MOP.Helpers
                         float halfshaft_FRTightness = ReadFloat("Halfshaft_FRTightness");
                         if (halfshaft_FRInstalled && halfshaft_FRTightness != save.halfshaft_FRTightness)
                         {
-                            saveBugs.Add(SaveBugs.New("Halfshaft (FR) Mismateched Bolt Stages", () =>
+                            saveBugs.Add(new SaveBugs("Halfshaft (FR) Mismateched Bolt Stages", () =>
                             {
                                 WriteSaveTag("Halfshaft_FRTightness", save.halfshaft_FRTightness);
                                 WriteSaveTag("Halfshaft_FRBolts", save.halfshaft_FRBolts);
@@ -326,7 +326,7 @@ namespace MOP.Helpers
                         float wiringBatteryMinusTightness = ReadFloat("WiringBatteryMinusTightness");
                         if (wiringBatteryMinusInstalled && wiringBatteryMinusTightness != save.wiringBatteryMinusTightness)
                         {
-                            saveBugs.Add(SaveBugs.New("Battery terminal minus bolt is not tightened.", () =>
+                            saveBugs.Add(new SaveBugs("Battery terminal minus bolt is not tightened.", () =>
                             {
                                 WriteSaveTag("WiringBatteryMinusTightness", save.wiringBatteryMinusTightness);
                                 WriteSaveTag("WiringBatteryMinusBolts", save.wiringBatteryMinusBolts);
@@ -356,7 +356,7 @@ namespace MOP.Helpers
 
                     if (boltOneValue != fuelLineTightness)
                     {
-                        saveBugs.Add(SaveBugs.New($"Fuel Line tightness is not a correct value." +
+                        saveBugs.Add(new SaveBugs($"Fuel Line tightness is not a correct value." +
                                                   $"\n\nValue is <b>{fuelLineTightness}</b>.\n<b>{boltOneValue}</b> is expected", () =>
                         {
                             WriteSaveTag("FuelLineTightness", (float)boltOneValue);
@@ -456,7 +456,7 @@ namespace MOP.Helpers
 
                     if (savedItemCount < counter)
                     {
-                        saveBugs.Add(SaveBugs.New($"{key} is not a correct value.\nExpected: {counter}. Actual: {savedItemCount}\n", 
+                        saveBugs.Add(new SaveBugs($"{key} is not a correct value.\nExpected: {counter}. Actual: {savedItemCount}\n", 
                             () => WriteItemTag(key, counter)));
                     }
 

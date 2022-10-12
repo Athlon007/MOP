@@ -6,6 +6,8 @@
 ### Changes
 
 - If the save file read-only attribute removal has failed, MOP will retry couple more times
+- Optimization and general code improvements
+- Array of items to enable, disable, and remove now use a generic C#'s Stack implementation
 
 ### Bug Fixes
 

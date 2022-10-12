@@ -24,7 +24,7 @@ namespace MOP.Items
         Vector3 position;
         Quaternion rotation;
 
-        Rigidbody rb;
+        private readonly Rigidbody rb;
 
         // This fixes a problem of items that have been moving going to stop, and teleporting back to the position initialy saved.
         bool hasBeenMoving;

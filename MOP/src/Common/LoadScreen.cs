@@ -24,11 +24,11 @@ namespace MOP.Common
 {
     class LoadScreen : MonoBehaviour
     {
-        private Sprite[] frames;
-        private Image img;
+        private readonly Sprite[] frames;
+        private readonly Image img;
         private IEnumerator currentLoadingRoutine;
 
-        private PlayMakerFSM cursorFSM;
+        private readonly PlayMakerFSM cursorFSM;
         private bool doDisplay;
 
         public LoadScreen()
@@ -38,20 +38,23 @@ namespace MOP.Common
             img = transform.Find("Icon/Frame1").GetComponent<Image>();
         }
 
-        private IEnumerator LoadingRoutine()
+        private IEnumerator LoadingRoutine
         {
-            int spriteCount = 0;
-            while (true)
+            get
             {
-                yield return new WaitForSeconds(.5f);
-                
-                spriteCount++;
-                if (spriteCount >= frames.Length)
+                int spriteCount = 0;
+                while (true)
                 {
-                    spriteCount = 0;
-                }
+                    yield return new WaitForSeconds(.5f);
 
-                img.sprite = frames[spriteCount];
+                    spriteCount++;
+                    if (spriteCount >= frames.Length)
+                    {
+                        spriteCount = 0;
+                    }
+
+                    img.sprite = frames[spriteCount];
+                }
             }
         }
 
@@ -69,7 +72,7 @@ namespace MOP.Common
             {
                 StopCoroutine(currentLoadingRoutine);
             }
-            currentLoadingRoutine = LoadingRoutine();
+            currentLoadingRoutine = LoadingRoutine;
             StartCoroutine(currentLoadingRoutine);
 
             this.enabled = true;
