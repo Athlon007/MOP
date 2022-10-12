@@ -21,13 +21,24 @@ using UnityEngine;
 
 using MOP.Rules.Configuration;
 using MOP.Rules.Types;
+using System;
 
 namespace MOP.Rules
 {
     class RulesManager
     {
         static RulesManager instance;
-        public static RulesManager Instance { get => instance; }
+        public static RulesManager Instance 
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new RulesManager();
+                }
+                return instance;
+            }
+        }
 
         public List<Rule> Rules { get; private set; }
         public SpecialRules SpecialRules;
@@ -39,10 +50,8 @@ namespace MOP.Rules
 
         public List<string> UnusedRules;
 
-        public RulesManager(bool overrideUpdateCheck = false)
+        private RulesManager()
         {
-            instance = this;
-            WipeAll(overrideUpdateCheck);
         }
 
         public void ResetLists()
@@ -59,7 +68,7 @@ namespace MOP.Rules
             // Destroy old rule files loader object, if it exists.
             GameObject oldRuleFilesLoader = GameObject.Find("MOP_RuleFilesLoader");
             if (oldRuleFilesLoader != null)
-                Object.Destroy(oldRuleFilesLoader);
+                UnityEngine.Object.Destroy(oldRuleFilesLoader);
 
             GameObject ruleFileDownloader = new GameObject("MOP_RuleFilesLoader");
             Loader ruleFilesLoader = ruleFileDownloader.AddComponent<Loader>();
@@ -71,7 +80,6 @@ namespace MOP.Rules
             if (Instance.UnusedRules.Count == 0)
             {
                 ModUI.ShowMessage("No unused rule files found.", "MOP");
-                return;
             }
             else
             {
@@ -121,9 +129,15 @@ namespace MOP.Rules
                 if (rule.Filename != "Custom.txt")
                 {
 #if PRO
-                    if (!rule.Mod.Enabled) continue;
+                    if (!rule.Mod.Enabled)
+                    {
+                        continue;
+                    }
 #else
-                    if (rule.Mod.isDisabled) continue;
+                    if (rule.Mod.isDisabled)
+                    {
+                        continue;
+                    }
 #endif
                 }
 

@@ -51,9 +51,8 @@ namespace MOP
         VehicleManager vehicleManager;
         PlaceManager placeManager;
         WorldObjectManager worldObjectManager;
-
-        bool isPlayerAtYard;
-        bool inSectorMode;
+        private bool isPlayerAtYard;
+        private bool inSectorMode;
 
         #region Loading Variables
         readonly CharacterController playerController;
@@ -67,8 +66,8 @@ namespace MOP
         readonly LoadScreen loadScreen;
         #endregion
 
-        ItemStack itemsToRemove = new ItemStack();
-        ItemStack itemsToEnable = new ItemStack();
+        readonly ItemStack itemsToRemove = new ItemStack();
+        readonly ItemStack itemsToEnable = new ItemStack();
         GameObject computerSystem;
         float distance;
         float toggleDistance;
@@ -77,7 +76,7 @@ namespace MOP
         public string[] TrafficVehicleRoots => trafficVehicleRoots;
         GameObject traffic, trafficHighway, trafficDirt;
 
-        public Hypervisor()
+        private Hypervisor()
         {
             instance = this;
 
@@ -249,7 +248,6 @@ namespace MOP
                 worldObjectManager.Add("PERAJARVI", DisableOn.Distance | DisableOn.IgnoreInQualityMode, 400);
                 worldObjectManager.Add("SOCCER", DisableOn.Distance);
                 worldObjectManager.Add("WATERFACILITY", DisableOn.Distance, 300);
-                //worldObjectManager.Add("DRAGRACE", DisableOn.Distance | DisableOn.AlwaysUse1xDistance, 1100);
                 worldObjectManager.Add("StrawberryField", DisableOn.Distance, 400);
                 worldObjectManager.Add("MAP/Buildings/DINGONBIISI", DisableOn.Distance | DisableOn.IgnoreInBalancedAndAbove, 400);
                 worldObjectManager.Add("RALLY/PartsSalesman", DisableOn.Distance, 400);

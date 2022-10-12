@@ -25,6 +25,7 @@ using MOP.Common.Enumerations;
 using MOP.FSM;
 using MOP.Helpers;
 using MOP.Rules;
+using System.Text;
 
 namespace MOP
 {
@@ -87,6 +88,14 @@ namespace MOP
         const string WelcomeMessageFestive = "Merry Christmas and Happy New Year {1}!\n\n" +
                                              "Welcome to Modern Optimization Plugin{0}!\n" +
                                              "Consider supporting the project using PayPal, or on NexusMods.";
+        
+        private const string FaqLink = "http://kfigura.nl/mop/wiki/#/faq";
+        private const string DonateLink = "https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y";
+        private const string WikiLink = "http://kfigura.nl/mop/wiki/#/";
+        private const string HomepageLink = "http://kfigura.nl/";
+        private const string GitHubLink = "https://github.com/Athlon007/MOP";
+        private const string NexusModsLink = "https://www.nexusmods.com/mysummercar/mods/146";
+        private const string RuleFilesWikiLink = "http://kfigura.nl/mop/wiki/#/rulefiles";
 
         private static GameObject MopLoadScreenPrefab { get; set; }
 #if PRO
@@ -123,12 +132,12 @@ namespace MOP
 
 #if PRO
             modSettings.AddButton("iFoundABug", "<color=red>I FOUND A BUG</color>", BugReporter.FileBugReport);
-            modSettings.AddButton("faq", "FAQ", () => ShowDialog("http://kfigura.nl/mop/wiki/#/faq"));
-            modSettings.AddButton("wiki", "WIKI", () => ShowDialog("http://kfigura.nl/mop/wiki/#/"));
-            modSettings.AddButton("homepage", "HOMEPAGE", () => ShowDialog("http://kfigura.nl/"));
-            modSettings.AddButton("github", "GITHUB", () => ShowDialog("https://github.com/Athlon007/MOP"));
-            modSettings.AddButton("homepage", "NEXUSMODS", () => ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
-            modSettings.AddButton("paypal", "<color=#254280>DONATE</color>", () => ShowDialog("https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y"));
+            modSettings.AddButton("faq", "FAQ", () => ShowDialog(FaqLink));
+            modSettings.AddButton("wiki", "WIKI", () => ShowDialog(WikiLink));
+            modSettings.AddButton("homepage", "HOMEPAGE", () => ShowDialog(HomepageLink));
+            modSettings.AddButton("github", "GITHUB", () => ShowDialog(GitHubLink));
+            modSettings.AddButton("homepage", "NEXUSMODS", () => ShowDialog(NexusModsLink));
+            modSettings.AddButton("paypal", "<color=#254280>DONATE</color>", () => ShowDialog(DonateLink));
 
             // Activating objects.
             modSettings.AddHeader("DESPAWNING");
@@ -172,7 +181,7 @@ namespace MOP
 
             // Rules
             modSettings.AddHeader("RULES");
-            SettingButton learnMore = modSettings.AddButton("rulesLearnMore", "LEARN MORE", () => ShowDialog("http://kfigura.nl/mop/wiki/#/rulefiles"));
+            SettingButton learnMore = modSettings.AddButton("rulesLearnMore", "LEARN MORE", () => ShowDialog(RuleFilesWikiLink));
             learnMore.AddTooltip("Learn about how rules work.");
             RulesAutoUpdate = modSettings.AddToggle("rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true, WarningDisableAutoUpdate);
             RulesAutoUpdateFrequency = modSettings.AddSlider("ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 2, 0, 3);
@@ -214,12 +223,12 @@ namespace MOP
             UpdateSettingsUI();
 #else
             Settings.AddButton(this, "iFoundABug", "<color=red>I FOUND A BUG</color>", BugReporter.FileBugReport);
-            Settings.AddButton(this, "linkFAQ", "FAQ", () => ShowDialog("http://kfigura.nl/mop/wiki/#/faq"));
-            Settings.AddButton(this, "linkWiki", "WIKI", () => ShowDialog("http://kfigura.nl/mop/wiki/#/"));
-            Settings.AddButton(this, "linkHomepage", "HOMEPAGE", () => ShowDialog("http://kfigura.nl/"));
-            Settings.AddButton(this, "linkGithub", "GITHUB", () => ShowDialog("https://github.com/Athlon007/MOP"));
-            Settings.AddButton(this, "linkNexusmods", "NEXUSMODS", () => ShowDialog("https://www.nexusmods.com/mysummercar/mods/146"));
-            Settings.AddButton(this, "linkDonate", "DONATE", () => ShowDialog("https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y"), new Color32(37, 59, 128, 255), new Color(1, 1, 1));
+            Settings.AddButton(this, "linkFAQ", "FAQ", () => ShowDialog(FaqLink));
+            Settings.AddButton(this, "linkWiki", "WIKI", () => ShowDialog(WikiLink));
+            Settings.AddButton(this, "linkHomepage", "HOMEPAGE", () => ShowDialog(HomepageLink));
+            Settings.AddButton(this, "linkGithub", "GITHUB", () => ShowDialog(GitHubLink));
+            Settings.AddButton(this, "linkNexusmods", "NEXUSMODS", () => ShowDialog(NexusModsLink));
+            Settings.AddButton(this, "linkDonate", "DONATE", () => ShowDialog(DonateLink), new Color32(37, 59, 128, 255), new Color(1, 1, 1));
 
             // Activating objects.
             Settings.AddHeader(this, "DESPAWNING");
@@ -255,7 +264,7 @@ namespace MOP
 
             // Rules
             Settings.AddHeader(this, "RULES");
-            Settings.AddButton(this, "rulesLearnMore", "LEARN MORE", () => ShowDialog("http://kfigura.nl/mop/wiki/#/rulefiles"));
+            Settings.AddButton(this, "rulesLearnMore", "LEARN MORE", () => ShowDialog(RuleFilesWikiLink));
             RulesAutoUpdate = Settings.AddCheckBox(this, "rulesAutoUpdate", "UPDATE RULES AUTOMATICALLY", true, WarningDisableAutoUpdate);
             RulesAutoUpdateFrequency = Settings.AddSlider(this, "ruleAutoUpdateFrequendy", "AUTO-UPDATE FREQUENCY", 0, 3, 2, textValues: rulesAutoUpdateFrequencyText);
             VerifyRuleFiles = Settings.AddCheckBox(this, "verifyRuleFiles", "VERIFY RULE FILES", true);
@@ -382,7 +391,7 @@ namespace MOP
             MopSettings.UpdateShadows();
             MopSettings.UpdateMiscSettings();
 
-            new RulesManager();
+            _ = RulesManager.Instance;
             ConsoleCommand.Add(new ConsoleCommands());
 
             if (CompatibilityManager.IsConfilctingModPresent(out string modName))
@@ -436,7 +445,7 @@ namespace MOP
                 return;
             }
 
-            new RulesManager(true);
+            RulesManager.Instance.WipeAll(true);
         }
 
         /// <summary>
@@ -450,9 +459,10 @@ namespace MOP
                 return "Dog ate my changelog :(";
             }
 
+            StringBuilder sb = new StringBuilder();
+
             string[] changelog = Properties.Resources.changelog.Split('\n');
 
-            string output = "";
             bool skipNext = false;
             for (int i = 0; i < changelog.Length; i++)
             {
@@ -499,16 +509,16 @@ namespace MOP
                 line = line.Replace("(MSCLoader)", "<color=yellow>MSCLoader:</color>");
                 line = line.Replace("(Mod Loader Pro)", "<color=yellow>Mod Loader Pro:</color>");
 
-                output += line + "\n";
+                sb.AppendLine(line);
 
                 if (i >= 20 && useWelcomeScreenFormatting)
                 {
-                    output += "...and more.";
+                    sb.Append("..and more.");
                     break;
                 }
             }
 
-            return output;
+            return sb.ToString();
         }
 
         public static void ShowDialog(string url)
@@ -585,7 +595,7 @@ namespace MOP
 
         void WarningDisableAutoUpdate()
         {
-            if (RulesAutoUpdate.GetValue() == false)
+            if (!RulesAutoUpdate.GetValue())
             {
                 ModUI.ShowMessage("<color=yellow>Warning!</color>\n\n" +
                                   "Disabling rule files auto update means newly installed mods might not work, or MOP might break.", "MOP");
@@ -625,7 +635,7 @@ namespace MOP
 
         private void OnWelcomeDonateClick()
         {
-            System.Diagnostics.Process.Start("https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y");
+            System.Diagnostics.Process.Start(DonateLink);
         }
     }
 }

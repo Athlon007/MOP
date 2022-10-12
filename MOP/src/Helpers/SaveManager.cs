@@ -28,7 +28,7 @@ using MOP.Common;
 
 namespace MOP.Helpers
 {
-    class SaveManager
+    static class SaveManager
     {
         public static string SavePath => Path.Combine(Application.persistentDataPath, "defaultES2File.txt").Replace('\\', '/');
         public static string ItemsPath => Path.Combine(Application.persistentDataPath, "items.txt").Replace("\\", "/");
@@ -259,9 +259,9 @@ namespace MOP.Helpers
                         WriteSaveTag("Bumper_RearBolts", save.rearBumperBolts);
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
-                    //ExceptionManager.New(ex, false, "VERIFY_BUMPER_REAR");
+                    ModConsole.LogSilentError("[MOP] MOP");
                 }
 
                 try
@@ -558,7 +558,6 @@ namespace MOP.Helpers
                 throw new NullReferenceException("Block is missing");
             }
 
-            MopSaveFileData save = new MopSaveFileData();
             bool isCylinderHeadInstalled = ReadBoolean("cylinder head(Clone)Installed");
             bool isEngineBlockInstalled = ReadBoolean("block(Clone)Installed");
 
@@ -571,7 +570,7 @@ namespace MOP.Helpers
             }
             else
             {
-                if ((cylinderHead.gameObject.activeSelf == false || cylinderHead.transform.root != satsuma.transform) && isCylinderHeadInstalled)
+                if ((!cylinderHead.gameObject.activeSelf || cylinderHead.transform.root != satsuma.transform) && isCylinderHeadInstalled)
                 {
                     throw new Exception("Cylinder head is not active, or is not a part of Satsuma.");
                 }
@@ -698,7 +697,7 @@ namespace MOP.Helpers
 
             if (string.IsNullOrEmpty(resourceName))
             {
-                return null;
+                return new Dictionary<string, string>();
             }
 
             Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();

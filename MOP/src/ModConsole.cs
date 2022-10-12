@@ -45,6 +45,12 @@ namespace MOP
             MSCLoader.ModConsole.LogWarning(message);
         }
 
+        public static void LogSilentError(string message)
+        {
+            Add($"[SILENT_ERROR] {message}");
+            MSCLoader.ModConsole.Log($"<color=red>{message}</color>");
+        }
+
         static void Add(string message)
         {
             message = message.Replace("[MOP] ", "");
