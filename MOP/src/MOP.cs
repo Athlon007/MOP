@@ -391,7 +391,7 @@ namespace MOP
             MopSettings.UpdateShadows();
             MopSettings.UpdateMiscSettings();
 
-            _ = RulesManager.Instance;
+            new RulesManager();
             ConsoleCommand.Add(new ConsoleCommands());
 
             if (CompatibilityManager.IsConfilctingModPresent(out string modName))
@@ -445,7 +445,7 @@ namespace MOP
                 return;
             }
 
-            RulesManager.Instance.WipeAll(true);
+            new RulesManager(true);
         }
 
         /// <summary>
@@ -502,12 +502,12 @@ namespace MOP
                     line = $"    • {line}";
                 }
 
-                line = line.Replace("(Beta)", "<color=orange>Beta: </color>");
-                line = line.Replace("(My Summer Car Bug)", "<color=green>My Summer Car Bug: </color>");
-                line = line.Replace("(My Summer Car)", "<color=green>My Summer Car: </color>");
-                line = line.Replace("Rule Files API:", "<color=cyan>Rule Files API:</color>");
-                line = line.Replace("(MSCLoader)", "<color=yellow>MSCLoader:</color>");
-                line = line.Replace("(Mod Loader Pro)", "<color=yellow>Mod Loader Pro:</color>");
+                line = line.Replace("(Beta)", "<color=orange>Beta: </color>")
+                        .Replace("(My Summer Car Bug)", "<color=green>My Summer Car Bug: </color>")
+                        .Replace("(My Summer Car)", "<color=green>My Summer Car: </color>")
+                        .Replace("Rule Files API:", "<color=cyan>Rule Files API:</color>")
+                        .Replace("(MSCLoader)", "<color=yellow>MSCLoader:</color>")
+                        .Replace("(Mod Loader Pro)", "<color=yellow>Mod Loader Pro:</color>");
 
                 sb.AppendLine(line);
 

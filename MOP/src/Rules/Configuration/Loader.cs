@@ -35,7 +35,6 @@ namespace MOP.Rules.Configuration
 {
     class Loader : MonoBehaviour
     {
-        //const string RemoteServer = "http://athlon.kkmr.pl/mop/rulefiles";
         private string RemoteServer;
         const string ServerContent = "servercontent.mop";
         const string CustomFile = "Custom.txt";

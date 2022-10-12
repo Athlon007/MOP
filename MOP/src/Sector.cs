@@ -21,7 +21,7 @@ namespace MOP
 {
     class Sector : MonoBehaviour
     {        
-        string[] ignoreList;
+        private string[] ignoreList;
         public string[] IgnoreList { get => ignoreList; }
         public int DrawDistance { get; private set; }
 

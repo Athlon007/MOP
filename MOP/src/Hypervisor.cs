@@ -66,11 +66,12 @@ namespace MOP
         readonly LoadScreen loadScreen;
         #endregion
 
-        readonly ItemStack itemsToRemove = new ItemStack();
-        readonly ItemStack itemsToEnable = new ItemStack();
-        GameObject computerSystem;
-        float distance;
-        float toggleDistance;
+        readonly Stack<ItemBehaviour> itemsToRemove = new Stack<ItemBehaviour>();
+        readonly Stack<ItemBehaviour> itemsToEnable = new Stack<ItemBehaviour>();
+        
+        private GameObject computerSystem;
+        private float distance;
+        private float toggleDistance;
 
         readonly string[] trafficVehicleRoots = { "NPC_CARS", "TRAFFIC", "RALLY" };
         public string[] TrafficVehicleRoots => trafficVehicleRoots;
@@ -697,7 +698,7 @@ namespace MOP
                         savegame.SetActive(true);
                     }
 
-                    if (savegame.transform.parent != null && savegame.transform.parent.name == "JAIL" && savegame.transform.parent.gameObject.activeSelf == false)
+                    if (savegame.transform.parent != null && savegame.transform.parent.name == "JAIL" && !savegame.transform.parent.gameObject.activeSelf)
                     {
                         useInnactiveFix = true;
                         isJail = true;
@@ -908,14 +909,21 @@ namespace MOP
 
                         if (item == null || item.gameObject == null)
                         {
-                            itemsToRemove.Pull(item);
+                            itemsToRemove.Push(item);
                             continue;
                         }
 
                         // Check the mode in what MOP is supposed to run and adjust to it.
-                        bool toEnable = MopSettings.Mode == PerformanceMode.Performance 
-                            ? IsEnabled(item.transform, FsmManager.IsPlayerInCar() && !isPlayerAtYard ? 20 : 150) 
-                            : IsEnabled(item.transform, 150);
+                        bool toEnable;
+                        if (MopSettings.Mode == PerformanceMode.Performance)
+                        {
+                            toEnable = IsEnabled(item.transform, FsmManager.IsPlayerInCar() && !isPlayerAtYard ? 20 : 150);
+                        }
+                        else
+                        {
+                            toEnable = IsEnabled(item.transform, 150);
+                        }
+
 
                         if (toEnable)
                         {
@@ -929,7 +937,7 @@ namespace MOP
                             }
 
                             if (item.ActiveSelf) continue;
-                            itemsToEnable.Pull(item);
+                            itemsToEnable.Push(item);
                         }
                         else
                         {
@@ -992,7 +1000,7 @@ namespace MOP
                 }
 
                 // Items To Enable
-                while (!itemsToEnable.IsEmpty)
+                while (itemsToEnable.Count > 0)
                 {
                     try
                     {
@@ -1028,7 +1036,7 @@ namespace MOP
                 }
 
                 // Remove items that don't exist anymore.
-                while (!itemsToRemove.IsEmpty)
+                while (itemsToRemove.Count > 0)
                 {
                     ItemsManager.Instance.Remove(itemsToRemove.Pop());
                 }
@@ -1129,13 +1137,12 @@ namespace MOP
 
         bool IsGenericObjectEnabled(GenericObject obj)
         {
-            float toggleDistance = obj.Distance;
-
             if (obj.Distance == -1)
             {
                 return false;
             }
 
+            float toggleDistance = obj.Distance;
             if (obj.DisableOn.HasFlag(DisableOn.AlwaysUse1xDistance))
             {
                 toggleDistance *= MOP.ActiveDistance.GetValue() == 0 ? 0.5f : 0.1f;
@@ -1358,7 +1365,14 @@ namespace MOP
             // ToggleElements class of Satsuma.
             try
             {
-                Satsuma.Instance.ToggleElements((mode == ToggleAllMode.OnSave) ? 0 : (enabled ? 0 : 10000));
+                if (mode == ToggleAllMode.OnSave)
+                {
+                    Satsuma.Instance.ToggleElements(0);
+                }
+                else
+                {
+                    Satsuma.Instance.ToggleElements(enabled ? 0 : 10000);
+                }
             }
             catch (Exception ex)
             {

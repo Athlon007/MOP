@@ -21,24 +21,13 @@ using UnityEngine;
 
 using MOP.Rules.Configuration;
 using MOP.Rules.Types;
-using System;
 
 namespace MOP.Rules
 {
     class RulesManager
     {
-        static RulesManager instance;
-        public static RulesManager Instance 
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new RulesManager();
-                }
-                return instance;
-            }
-        }
+        private static RulesManager instance;
+        public static RulesManager Instance => instance;
 
         public List<Rule> Rules { get; private set; }
         public SpecialRules SpecialRules;
@@ -50,8 +39,10 @@ namespace MOP.Rules
 
         public List<string> UnusedRules;
 
-        private RulesManager()
+        public RulesManager(bool overrideUpdateCheck = false)
         {
+            instance = this;
+            WipeAll(overrideUpdateCheck);
         }
 
         public void ResetLists()

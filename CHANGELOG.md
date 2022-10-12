@@ -2,7 +2,7 @@
 
 ## 3.9.3 (TBA)
 
-## Added
+### Added
 
 - Added multiple sources of rule files
   - MOP will test connection to each one of them, and pick the first one that is online
@@ -10,6 +10,8 @@
 ### Changes
 
 - If the save file read-only attribute removal has failed, MOP will retry couple more times
+- Optimization and general code improvements
+- Array of items to enable, disable, and remove now use a generic C#'s Stack implementation
 
 ### Bug Fixes
 
