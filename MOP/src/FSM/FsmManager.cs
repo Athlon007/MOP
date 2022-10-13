@@ -59,7 +59,7 @@ namespace MOP.FSM
             if (gtGrilleInstalled == null)
                 gtGrilleInstalled = GameObject.Find("Database").transform.Find("DatabaseOrders/GrilleGT").gameObject.GetComponent<PlayMakerFSM>().FsmVariables.GetFsmBool("Installed");
 
-            return gtGrilleInstalled.Value == true;
+            return gtGrilleInstalled.Value;
         }
 
         static FsmBool order;
