@@ -25,7 +25,7 @@ namespace MOP.Vehicles.Cases
 {
     internal class Kekmet : Vehicle
     {
-        Flatbed flatbed;
+        private readonly Flatbed flatbed;
 
         public Kekmet(string gameObjectName) : base(gameObjectName)
         {
