@@ -372,12 +372,12 @@ namespace MOP.Common
                 case "FORCE-LOAD-RESTART":
                     if (args.Length == 2)
                     {
-                        string var = args[1].ToLower();
-                        if (var == "true")
+                        string var = args[1].ToUpper();
+                        if (var == "TRUE")
                         {
                             MopSettings.ForceLoadRestart = true;
                         }
-                        else if (var == "false")
+                        else if (var == "FALSE")
                         {
                             MopSettings.ForceLoadRestart = false;
                         }
@@ -397,7 +397,7 @@ namespace MOP.Common
                         return;
                     }
 
-                    if (MopSettings.IsModActive == false)
+                    if (!MopSettings.IsModActive)
                     {
                         ModConsole.Log("[MOP] MOP is not running.");
                         return;
@@ -424,6 +424,7 @@ namespace MOP.Common
                     Hypervisor.Instance.ToggleAll(false, Enumerations.ToggleAllMode.OnLoad);
                     Hypervisor.Instance.Startup();
                     break;
+                case "DB":
                 case "DEBUG_MONITOR":
                     if (ModLoader.CurrentScene != CurrentScene.Game)
                     {

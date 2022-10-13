@@ -22,17 +22,17 @@ using System.IO;
 using UnityEngine;
 
 using MOP.Rules;
-using MOP.Rules.Types;
 using System.Text;
+using System.Linq;
 
 namespace MOP.Common
 {
     class ExceptionManager
     {
-        static readonly List<string> erorrsContainer = new List<string>();
+        private static readonly List<string> erorrsContainer = new List<string>();
 
-        public static DateTime SessionTimeStart;
-        static string currentLogFile;
+        public static DateTime SessionTimeStart { get; set; }
+        private static string currentLogFile;
 
         /// <summary>
         /// Creates then new error dump file
@@ -128,15 +128,15 @@ namespace MOP.Common
 
             int reportsInFolder = 0;
             while (File.Exists($"{Paths.LogFolder}/{Paths.DefaultReportLogName}_{reportsInFolder}.txt"))
+            {
                 reportsInFolder++;
+            }
 
             string path = $"{Paths.LogFolder}/{Paths.DefaultReportLogName}_{reportsInFolder}.txt";
 
             using (StreamWriter sw = new StreamWriter(path))
             {
                 sw.Write(gameInfo);
-                sw.Close();
-                sw.Dispose();
             }
 
             ModConsole.Log("[MOP] Mod report has been successfully generated.");
@@ -241,18 +241,11 @@ namespace MOP.Common
             }
 
             // List rule files.
-            sb.AppendLine();
-            sb.AppendLine("=== RULE FILES ===");
-            sb.AppendLine();
-            List<string> files = new List<string>();
-            foreach (Rule ruleFile in RulesManager.Instance.Rules)
-            {
-                if (!files.Contains(ruleFile.Filename))
-                {
-                    files.Add(ruleFile.Filename);
-                }
-            }
-            sb.AppendLine(string.Join("\n", files.ToArray()));
+            sb.AppendLine()
+                .AppendLine("=== RULE FILES ===")
+                .AppendLine();
+            string[] rulefiles = RulesManager.Instance.Rules.Select(f => f.Filename).Distinct().ToArray();
+            sb.AppendLine(string.Join("\n", rulefiles));
 
             if (RulesManager.Instance.Rules.Count == 0)
             {
@@ -332,7 +325,7 @@ namespace MOP.Common
             }
         }
 
-        static string GetWindowsName(string fullOS)
+        private static string GetWindowsName(string fullOS)
         {
             int build = int.Parse(fullOS.Split('(')[1].Split(')')[0].Split('.')[2]);
             if (build > 9600)
@@ -353,7 +346,7 @@ namespace MOP.Common
             return fullOS;
         }
 
-        static string GetLinuxName()
+        private static string GetLinuxName()
         {
             string linuxInfoFile = "Z:/etc/os-release";
             string output = "Linux";
