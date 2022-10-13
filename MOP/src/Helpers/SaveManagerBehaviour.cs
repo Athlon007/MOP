@@ -42,16 +42,17 @@ namespace MOP.Helpers
                 retries++;
                 yield return new WaitForSeconds(0.5f);
             }
-            ModConsole.Error("[MOP] Failed to remove attributes from the save file.");
+            ModConsole.Error("[MOP] Failed to remove attributes from the save file. Try removing it manually form defaultSaveES2.txt, and items.txt.");
 
             currentRoutine = null;
         }
 
-        static void RemoveAttribute(string filename)
+        private void RemoveAttribute(string filename)
         {
             if (File.Exists(filename))
             {
-                File.SetAttributes(filename, File.GetAttributes(filename) & ~FileAttributes.ReadOnly);
+                FileInfo fi = new FileInfo(filename);
+                fi.IsReadOnly = false;
             }
         }
     }

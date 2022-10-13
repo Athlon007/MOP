@@ -6,6 +6,7 @@
 
 - Added multiple sources of rule files
   - MOP will test connection to each one of them, and pick the first one that is online
+- MOP will remove "read-only" flag from the save files, as soon as you look at the save game toilet
 
 ### Changes
 

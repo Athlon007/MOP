@@ -2,12 +2,13 @@
 
 - Added multiple sources of rule files
   - MOP will test connection to each one of them, and pick the first one that is online
+- MOP will remove "read-only" flag from the save files, as soon as you look at the save game toilet
 
 ### Changes
 
 - If the save file read-only attribute removal has failed, MOP will retry couple more times
 - Optimization and general code improvements
-- Array of items to enable, disable, and remove now use a generic C#'s Stack implementation
+- Array of items to enable, disable, and remove now use a generic C#'s Queue implementation
 
 ### Bug Fixes
 

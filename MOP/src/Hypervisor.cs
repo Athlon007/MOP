@@ -705,6 +705,7 @@ namespace MOP
                     }
 
                     savegame.FsmInject("Mute audio", PreSaveGame);
+                    savegame.FsmInject("Wait for click", SaveManager.RemoveReadOnlyAttribute);
 
                     if (useInnactiveFix)
                     {
@@ -744,14 +745,14 @@ namespace MOP
         /// <summary>
         /// This void is initialized before the player decides to save the game.
         /// </summary>
-        void PreSaveGame()
+        private void PreSaveGame()
         {
             ModConsole.Log("[MOP] Initializing Pre-Save Actions...");
             SaveManager.ReleaseSave();
             MopSettings.IsModActive = false;
             StopCoroutine(currentLoop);
             StopCoroutine(currentControlCoroutine);
-
+            
             SaveManager.RemoveReadOnlyAttribute();
             ItemsManager.Instance.OnSave();
 
@@ -1062,6 +1063,11 @@ namespace MOP
             if (Input.GetKeyDown(KeyCode.F6))
             {
                 PreSaveGame();
+            }
+
+            if (Input.GetKeyDown(KeyCode.F7))
+            {
+                SaveManager.RemoveReadOnlyAttribute();
             }
             
             if (Input.GetKeyDown(KeyCode.PageUp))
