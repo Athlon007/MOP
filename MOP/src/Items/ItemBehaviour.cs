@@ -30,6 +30,7 @@ using MOP.Rules;
 using MOP.Rules.Types;
 using MOP.Helpers;
 using MOP.Places;
+using System.Collections;
 
 namespace MOP.Items
 {
@@ -90,6 +91,8 @@ namespace MOP.Items
         bool isObjectOnGrill;
 
         PlayMakerFSM removalFSM;
+
+        private EventSounds eventSound;
 
         public ItemBehaviour()
         {
@@ -156,9 +159,14 @@ namespace MOP.Items
             {
                 gameObject.MakePickable();
             }
+
+            if (gameObject.name.EqualsAny("beer case(itemx)"))
+            {
+                this.eventSound = GetComponent<EventSounds>();
+            }
         }
 
-        void Awake()
+            void Awake()
         {
             // Add self to the MinorObjects.objectHooks list
             ItemsManager.Instance.Add(this);
@@ -329,7 +337,17 @@ namespace MOP.Items
                     return;
                 }
 
+                if (!enabled && eventSound != null)
+                {
+                    StartCoroutine(ToggleEventSound(false));
+                }
+
                 gameObject.SetActive(enabled);
+
+                if (enabled)
+                {
+                    StartCoroutine(ToggleEventSound(true));
+                }
             }
             catch { }
         }
@@ -794,5 +812,14 @@ namespace MOP.Items
         }
 
         public bool WasTransformLoaded { get; private set; }
+
+        private IEnumerator ToggleEventSound(bool enabled)
+        {
+            if (enabled)
+            {
+                yield return new WaitForSeconds(2f);
+            }
+            eventSound.useCollisionSound = enabled;
+        }
     }
 }
