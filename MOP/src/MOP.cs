@@ -79,7 +79,7 @@ namespace MOP
 
         // Constant text.
         const string WarningMode = "Some changes will be applied after the game restart.";
-        readonly string[] activeDistanceText = { "Very Close(0.5x)", "Close (0.75x)", "Normal (1x)", "Far (2x)", "Very Far (4x)" };
+        readonly string[] activeDistanceText = { "Very Close(0.5x)", "Close (0.75x)", "Default (1x)", "Far (2x)", "Very Far (4x)" };
         readonly string[] rulesAutoUpdateFrequencyText = { "Every launch", "Daily", "Every 2 days", "Weekly" };
         
         const string WelcomeMessage = "Welcome to Modern Optimization Plugin {0}!\n" +
@@ -141,7 +141,7 @@ namespace MOP
 
             // Activating objects.
             modSettings.AddHeader("DESPAWNING");
-            ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 1, -1, 3);
+            ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 2, 0, 4);
             ActiveDistance.AddTooltip("Distance uppon which objects will spawn.");
             ActiveDistance.TextValues = activeDistanceText;
             ActiveDistance.ChangeValueText();
