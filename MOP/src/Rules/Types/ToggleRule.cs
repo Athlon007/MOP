@@ -29,7 +29,7 @@ namespace MOP.Rules.Types
             this.ObjectName = ObjectName;
             this.ToggleMode = ToggleMode;
         }
-
+        
         public override string ToString()
         {
             return base.ToString() + $" Object: {ObjectName} Mode: {ToggleMode}";

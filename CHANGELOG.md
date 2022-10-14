@@ -18,6 +18,7 @@
 
 - Fixed a rare bug, where sometimes MOP would not have access to the save file
 - Fixed not attached fuel tank getting toggled on and off repeatedly
+- Fixed "mop rules" command displaying the info about the rules incorrectly
 
 ## 3.9.2 (07.10.2022)
 

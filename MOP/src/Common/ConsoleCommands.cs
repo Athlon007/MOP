@@ -24,6 +24,7 @@ using MSCLoader;
 
 using MOP.Rules;
 using MOP.Rules.Types;
+using System.Linq;
 
 namespace MOP.Common
 {
@@ -122,20 +123,8 @@ namespace MOP.Common
 
                     // List rule files.
                     ModConsole.Log("\n<color=yellow><b>Rule Files</b></color>");
-                    List<string> files = new List<string>();
-                    foreach (Rule ruleFile in RulesManager.Instance.Rules)
-                    {
-                        // A very lazy fix.
-                        try
-                        {
-                            if (!files.Contains(ruleFile.ToString()))
-                            {
-                                files.Add(ruleFile.ToString());
-                            }
-                        }
-                        catch { }
-                    }
-                    ModConsole.Log(string.Join("\n", files.ToArray()));
+                    string[] files = RulesManager.Instance.Rules.Select(r => r.ToString()).Distinct().ToArray();
+                    ModConsole.Log(string.Join("\n", files));
                     break;
                 case "RELOAD":
                     if (ModLoader.CurrentScene != CurrentScene.MainMenu)

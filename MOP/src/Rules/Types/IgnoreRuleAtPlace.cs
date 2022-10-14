@@ -31,7 +31,7 @@ namespace MOP.Rules.Types
 
         public override string ToString()
         {
-            return base.ToString() + $"Place: {Place} ObjectName: {ObjectName}";
+            return base.ToString() + $" Place: {Place} ObjectName: {ObjectName}";
         }
     }
 }

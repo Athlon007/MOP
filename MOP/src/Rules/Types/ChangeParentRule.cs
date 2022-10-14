@@ -31,7 +31,7 @@ namespace MOP.Rules.Types
 
         public override string ToString()
         {
-            return base.ToString() + $"ObjectName: {ObjectName} NewParentName: {NewParentName}";
+            return base.ToString() + $" ObjectName: {ObjectName} NewParentName: {NewParentName}";
         }
     }
 }

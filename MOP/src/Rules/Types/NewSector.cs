@@ -36,7 +36,7 @@ namespace MOP.Rules.Types
 
         public override string ToString()
         {
-            return base.ToString() + $"Position: {Position} Rotation: {Rotation} Scale: {Scale} WhiteList: {string.Join(", ", Whitelist)}";
+            return base.ToString() + $" Position: {Position} Rotation: {Rotation} Scale: {Scale} WhiteList: {string.Join(", ", Whitelist)}";
         }
     }
 }
