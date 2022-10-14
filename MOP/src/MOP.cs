@@ -142,7 +142,7 @@ namespace MOP
             // Activating objects.
             modSettings.AddHeader("DESPAWNING");
             ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 2, 0, 4);
-            ActiveDistance.AddTooltip("Distance uppon which objects will spawn.");
+            ActiveDistance.AddTooltip("Distance upon which objects will spawn.");
             ActiveDistance.TextValues = activeDistanceText;
             ActiveDistance.ChangeValueText();
             PerformanceModes = modSettings.AddRadioButtons("performanceModes", "PERFORMANCE MODE", 1,

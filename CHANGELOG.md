@@ -28,6 +28,7 @@
 - Fixed a bug, in which MOP would fail to locate correct Satsuma key object
 - Fixed masked elements enabling causing error, if the referenced masked element was null
 - Beer cases won't play the rattling sound, when enabled and disabled
+- Fixed a few typos
 
 ## 3.9.2 (07.10.2022)
 
