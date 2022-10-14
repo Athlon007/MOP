@@ -250,7 +250,8 @@ namespace MOP
                 var perajarvi = worldObjectManager.Add("PERAJARVI", DisableOn.Distance | DisableOn.IgnoreInQualityMode, 600);
                 perajarvi.MinimumToggleDistance = 600;
                 worldObjectManager.Add("SOCCER", DisableOn.Distance);
-                worldObjectManager.Add("WATERFACILITY", DisableOn.Distance, 300);
+                var waterfacility = worldObjectManager.Add("WATERFACILITY", DisableOn.Distance, 300);
+                waterfacility.MinimumToggleDistance = 300;
                 worldObjectManager.Add("StrawberryField", DisableOn.Distance, 400);
                 worldObjectManager.Add("MAP/Buildings/DINGONBIISI", DisableOn.Distance | DisableOn.IgnoreInBalancedAndAbove, 400);
                 worldObjectManager.Add("RALLY/PartsSalesman", DisableOn.Distance, 400);
@@ -1209,7 +1210,7 @@ namespace MOP
             }
 
             toggleDistance *= MopSettings.ActiveDistanceMultiplicationValue;
-            if (toggleDistance < obj.MinimumToggleDistance)
+            if (toggleDistance < obj.MinimumToggleDistance && !inSectorMode)
             {
                 toggleDistance = obj.MinimumToggleDistance;
             }
