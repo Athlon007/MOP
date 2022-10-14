@@ -9,8 +9,8 @@
 - Added multiple sources of rule files
   - MOP will test connection to each one of them, and pick the first one that is online
 - MOP will remove "read-only" flag from the save files, as soon as you look at the save game toilet
-- Vehicles are now affected by the active distance slider
-- Certain objects can now have a minimum toggle distance (ex: Perajarvi's minimum distance is always 600 meters)
+- Vehicles are now affected by the activate distance slider
+- Certain objects can now have a minimum toggle distance (ex: Perajarvi's minimum distance is always 600 meters, no matter the activate distance slider)
 
 ### Changes
 
