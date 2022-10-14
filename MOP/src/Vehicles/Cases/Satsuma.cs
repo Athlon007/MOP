@@ -343,7 +343,7 @@ namespace MOP.Vehicles.Cases
 
             try
             {
-                key = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "steering_column2").transform.Find("Ignition/Keys/Key").gameObject;
+                key = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "steering_column2" && g.transform.root == this.transform).transform.Find("Ignition/Keys/Key").gameObject;
             }
             catch
             {
@@ -819,6 +819,11 @@ namespace MOP.Vehicles.Cases
         /// <returns></returns>
         public bool IsKeyInserted()
         {
+            if (key == null)
+            {
+                return true;
+            }
+
             return key.activeSelf;
         }
 
