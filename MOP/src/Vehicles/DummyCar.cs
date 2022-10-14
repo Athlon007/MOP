@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using MOP.Common;
+using System.Linq;
 using UnityEngine;
 
 namespace MOP.Vehicles
@@ -77,8 +78,8 @@ namespace MOP.Vehicles
 
 
             // Remove useleess objects.
-            DestroyGameObjects("LOD", "FuelTank", "DeadBody", "CoG", "Hose", 
-                "Dashboard", "Simulation", "ShitTank", "audio", "StagingWheel", 
+            DestroyGameObjects("LOD", "FuelTank", "DeadBody", "CoG", "Hose",
+                "Dashboard", "Simulation", "ShitTank", "audio", "StagingWheel",
                 "TrafficTrigger", "HookRear", "HookFront", "RadioPivot",
                 "IKTarget", "PistonIK", "PlayerTrigger", "CarSimulation",
                 "Interior", "Body/car body(xxxxx)/shadow_body", "MiscParts",
@@ -127,6 +128,8 @@ namespace MOP.Vehicles
 
         private void DisableShadowCasting()
         {
+            if (MopSettings.Mode == Common.Enumerations.PerformanceMode.Quality) return;
+
             foreach (var mesh in dumbCar.GetComponentsInChildren<MeshRenderer>(true))
             {
                 mesh.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
