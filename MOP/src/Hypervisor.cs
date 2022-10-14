@@ -1142,10 +1142,14 @@ namespace MOP
         #endregion
         #region Item enabling checks
         const int MinimumItemDistance = 10;
+        const int MinimumItemOutsideDistance = 30;
         const int DefaultItemToggleDistance = 75;
+        // 0.25 = 18 | 0.5 = 37 | 0.75 = 56 | 1 = 75 | 2 = 150 | 4 = 300
 
         const int MinimumVehicleDistance = 20;
+        const int MinimumVehicleOutsideDistance = 50;
         const int DefaultVehicleDistance = 125;
+        // 0.25 = 31 | 0.5 = 62 | 0.75 = 93 | 1 = 125 | 2 = 250 | 4 = 500
 
         const int MinimumPlaceDistance = 175;
 
@@ -1166,10 +1170,21 @@ namespace MOP
 
             toggleDistance *= MopSettings.ActiveDistanceMultiplicationValue;
 
-            if (toggleDistance < MinimumItemDistance)
+            if (inSectorMode)
             {
-                toggleDistance = MinimumItemDistance;
+                if (toggleDistance < MinimumItemDistance)
+                {
+                    toggleDistance = MinimumItemDistance;
+                }
             }
+            else
+            {
+                if (toggleDistance < MinimumItemOutsideDistance)
+                {
+                    toggleDistance = MinimumItemOutsideDistance;
+                }
+            }
+            
 
             return Vector3.Distance(player.transform.position, target.position) < toggleDistance;
         }
@@ -1211,9 +1226,19 @@ namespace MOP
 
             toggleDistance *= MopSettings.ActiveDistanceMultiplicationValue;
 
-            if (toggleDistance < MinimumVehicleDistance)
+            if (inSectorMode)
             {
-                toggleDistance = MinimumVehicleDistance;
+                if (toggleDistance < MinimumVehicleDistance)
+                {
+                    toggleDistance = MinimumVehicleDistance;
+                }
+            }
+            else
+            {
+                if (toggleDistance < MinimumVehicleOutsideDistance)
+                {
+                    toggleDistance = MinimumVehicleOutsideDistance;
+                }
             }
 
             return distance < toggleDistance;
