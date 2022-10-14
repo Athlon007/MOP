@@ -894,16 +894,23 @@ namespace MOP.Vehicles.Cases
                     // This script fixes the issue with bolts staying unbolted, with parts internally being fully bolted.
                     if (maskedFixStages < 2)
                     {
-                        switch (maskedFixStages)
+                        for (int i = 0; i < maskedElements.Count; i++)
                         {
-                            case 0:
-                                for (int i = 0; i < maskedElements.Count; i++)
-                                    maskedElements.ElementAt(i).Key.SetActive(true);
-                                break;
-                            case 1:
-                                for (int i = 0; i < maskedElements.Count; i++)
-                                    maskedElements.ElementAt(i).Key.SetActive(maskedElements.ElementAt(i).Value);
-                                break;
+                            GameObject gm = maskedElements.ElementAt(i).Key;
+                            if (gm == null)
+                            {
+                                continue;
+                            }
+
+                            switch (maskedFixStages)
+                            {
+                                case 0:
+                                    gm.SetActive(true);
+                                    break;
+                                case 1:
+                                    gm.SetActive(maskedElements.ElementAt(i).Value);
+                                    break;
+                            }
                         }
                         maskedFixStages++;
                     }

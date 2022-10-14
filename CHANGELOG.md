@@ -20,6 +20,7 @@
 - Fixed not attached fuel tank getting toggled on and off repeatedly
 - Fixed "mop rules" command displaying the info about the rules incorrectly
 - Fixed a bug, in which MOP would fail to locate correct Satsuma key object
+- Fixed masked elements enabling causing error, if the referenced masked element was null
 
 ## 3.9.2 (07.10.2022)
 
