@@ -57,7 +57,7 @@ namespace MOP.Managers
         /// <param name="distance">Distance after which the object gets toggled.</param>
         /// <param name="rendererOnly">If true, only game object's renderer will get toggled.</param>
         /// <param name="silent">Skips the error message.</param>
-        public void Add(string gameObjectName, DisableOn disableOn, int distance = 200, ToggleModes toggleMode = ToggleModes.Simple, bool silent = false)
+        public GenericObject Add(string gameObjectName, DisableOn disableOn, int distance = 200, ToggleModes toggleMode = ToggleModes.Simple, bool silent = false)
         {
             GameObject gm = GameObject.Find(gameObjectName);
 
@@ -73,10 +73,10 @@ namespace MOP.Managers
                     throw new Exception($"WorldObjectManager: Couldn't find gameObjectName: \"{gameObjectName}\".");
                 }
 
-                return;
+                return null;
             }
 
-            Add(gm, disableOn, distance, toggleMode);
+            return Add(gm, disableOn, distance, toggleMode);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace MOP.Managers
         /// <param name="gameObject">Game object that will be toggled.</param>
         /// <param name="distance">Distance after which the object gets toggled.</param>
         /// <param name="rendererOnly">If true, only game object's renderer will get toggled.</param>
-        public void Add(GameObject gameObject, DisableOn disableOn, int distance = 200, ToggleModes toggleMode = ToggleModes.Simple)
+        public GenericObject Add(GameObject gameObject, DisableOn disableOn, int distance = 200, ToggleModes toggleMode = ToggleModes.Simple)
         {
             if (!gameObject)
             {
@@ -96,7 +96,7 @@ namespace MOP.Managers
             if (rule != null)
             {
                 if (rule.TotalIgnore)
-                    return;
+                    return null;
 
                 toggleMode = ToggleModes.Renderer;
             }
@@ -118,12 +118,13 @@ namespace MOP.Managers
                     break;
             }
 
-            Add(obj);
+            return Add(obj);
         }
 
-        public void Add(GenericObject generic)
+        public GenericObject Add(GenericObject generic)
         {
             worldObjects.Add(generic);
+            return generic;
         }
 
         public List<GenericObject> GetAll => worldObjects;

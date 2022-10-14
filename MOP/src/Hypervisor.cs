@@ -242,10 +242,13 @@ namespace MOP
             // World Objects
             try
             {
-                worldObjectManager.Add("CABIN", DisableOn.Distance | DisableOn.IgnoreInQualityMode);
-                worldObjectManager.Add("COTTAGE", DisableOn.Distance, 400);
+                var cabin = worldObjectManager.Add("CABIN", DisableOn.Distance | DisableOn.IgnoreInQualityMode);
+                cabin.MinimumToggleDistance = 300;
+                var cottage = worldObjectManager.Add("COTTAGE", DisableOn.Distance, 400);
+                cottage.MinimumToggleDistance = 400;
                 worldObjectManager.Add("DANCEHALL", DisableOn.Distance | DisableOn.IgnoreInQualityMode, 500);
-                worldObjectManager.Add("PERAJARVI", DisableOn.Distance | DisableOn.IgnoreInQualityMode, 400);
+                var perajarvi = worldObjectManager.Add("PERAJARVI", DisableOn.Distance | DisableOn.IgnoreInQualityMode, 600);
+                perajarvi.MinimumToggleDistance = 600;
                 worldObjectManager.Add("SOCCER", DisableOn.Distance);
                 worldObjectManager.Add("WATERFACILITY", DisableOn.Distance, 300);
                 worldObjectManager.Add("StrawberryField", DisableOn.Distance, 400);
@@ -395,7 +398,10 @@ namespace MOP
             try
             {
                 foreach (GameObject wall in Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "LogwallLarge"))
-                    worldObjectManager.Add(wall, DisableOn.Distance, 300);
+                {
+                    var logWall = worldObjectManager.Add(wall, DisableOn.Distance, 300);
+                    logWall.MinimumToggleDistance = 200;
+                }
             }
             catch (Exception ex)
             {
@@ -411,7 +417,8 @@ namespace MOP
                     church.transform.parent = null;
                     GameObject churchLOD = church.transform.Find("LOD").gameObject;
                     church.GetComponent<PlayMakerFSM>().enabled = false;
-                    worldObjectManager.Add(churchLOD, DisableOn.Distance, 300);
+                    var churchObject = worldObjectManager.Add(churchLOD, DisableOn.Distance, 300);
+                    churchObject.MinimumToggleDistance = 200;
                 }
             }
             catch (Exception ex)
@@ -438,7 +445,8 @@ namespace MOP
                 Transform vehiclesHighway = GameObject.Find("TRAFFIC").transform.Find("VehiclesHighway");
                 foreach (var f in vehiclesHighway.GetComponentsInChildren<Transform>(true).Where(f => f.parent == vehiclesHighway))
                 {
-                    worldObjectManager.Add(f.gameObject, DisableOn.Distance, 600, ToggleModes.MultipleRenderers);
+                    var traffic = worldObjectManager.Add(f.gameObject, DisableOn.Distance, 600, ToggleModes.MultipleRenderers);
+                    traffic.MinimumToggleDistance = 400;
                 }
 
                 // Also we gonna fix the lag on initial traffic load.
@@ -452,7 +460,8 @@ namespace MOP
             // FITTAN renderers.
             try
             {
-                worldObjectManager.Add(GameObject.Find("TRAFFIC").transform.Find("VehiclesDirtRoad/Rally/FITTAN").gameObject, DisableOn.Distance, 600, ToggleModes.MultipleRenderers);
+                var fittan = worldObjectManager.Add(GameObject.Find("TRAFFIC").transform.Find("VehiclesDirtRoad/Rally/FITTAN").gameObject, DisableOn.Distance, 600, ToggleModes.MultipleRenderers);
+                fittan.MinimumToggleDistance = 400;
             }
             catch (Exception ex)
             {
@@ -659,7 +668,7 @@ namespace MOP
                 ToggledItemsListGenerator.CreatePlacesList(PlaceManager.Instance.GetAll);
             }
         }
-
+        
         public void Startup()
         {
             currentLoop = LoopRoutine();
@@ -806,7 +815,7 @@ namespace MOP
                     }
                 }
 
-                isPlayerAtYard = MOP.ActiveDistance.GetValue() == 0 ? Vector3.Distance(player.position, placeManager[0].transform.position) < 100
+                isPlayerAtYard = MOP.ActiveDistance.GetValue() <= 1 ? Vector3.Distance(player.position, placeManager[0].transform.position) < 100
                     : Vector3.Distance(player.position, placeManager[0].transform.position) < 100 * MopSettings.ActiveDistanceMultiplicationValue;
 
                 // When player is in any of the sectors, MOP will act like the player is at yard.
@@ -917,11 +926,11 @@ namespace MOP
                         bool toEnable;
                         if (MopSettings.Mode == PerformanceMode.Performance)
                         {
-                            toEnable = IsEnabled(item.transform, FsmManager.IsPlayerInCar() && !isPlayerAtYard ? 20 : 150);
+                            toEnable = IsEnabled(item.transform, FsmManager.IsPlayerInCar() && !isPlayerAtYard ? 20 : 50);
                         }
                         else
                         {
-                            toEnable = IsEnabled(item.transform, 150);
+                            toEnable = IsEnabled(item.transform);
                         }
 
 
@@ -958,7 +967,7 @@ namespace MOP
                     }
                 }
 
-                // Vehicles (new)
+                // Vehicles
                 half = vehicleManager.Count >> 1;
                 for (i = 0; i < vehicleManager.Count; ++i)
                 {
@@ -975,7 +984,7 @@ namespace MOP
                         }
 
                         distance = Vector3.Distance(player.transform.position, vehicle.transform.position);
-                        toggleDistance = MOP.ActiveDistance.GetValue() == 0
+                        toggleDistance = MOP.ActiveDistance.GetValue() <= 1
                             ? MopSettings.UnityCarActiveDistance : MopSettings.UnityCarActiveDistance * MopSettings.ActiveDistanceMultiplicationValue;
 
                         switch (vehicle.VehicleType)
@@ -990,8 +999,18 @@ namespace MOP
                         }
 
 
+                        bool isVehicleEnabled = IsVehicleEnabled(distance);
                         vehicle.ToggleUnityCar(IsVehiclePhysicsEnabled(distance, toggleDistance));
-                        vehicle.Toggle(IsVehicleEnabled(distance));
+                        vehicle.Toggle(isVehicleEnabled);
+
+                        if (!isVehicleEnabled)
+                        {
+                            vehicle.ToggleDummyCar(distance < 300);
+                        }
+                        else
+                        {
+                            vehicle.ToggleDummyCar(false);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -1120,14 +1139,22 @@ namespace MOP
             }
         }
 
-#endregion
-#region Item enabling checks
+        #endregion
+        #region Item enabling checks
+        const int MinimumItemDistance = 10;
+        const int DefaultItemToggleDistance = 75;
+
+        const int MinimumVehicleDistance = 20;
+        const int DefaultVehicleDistance = 125;
+
+        const int MinimumPlaceDistance = 175;
+
         /// <summary>
         /// Checks if the object is supposed to be enabled by calculating the distance between player and target.
         /// </summary>
         /// <param name="target">Target object.</param>
         /// <param name="toggleDistance">Distance below which the object should be enabled (default 200 units).</param>
-        bool IsEnabled(Transform target, float toggleDistance = 200)
+        bool IsEnabled(Transform target, float toggleDistance = DefaultItemToggleDistance)
         {
             if (toggleDistance == 0)
             {
@@ -1135,9 +1162,16 @@ namespace MOP
             }
 
             if (inSectorMode)
-                toggleDistance *= MOP.ActiveDistance.GetValue() == 0 ? 0.5f : 0.1f;
+                toggleDistance = 20;
 
-            return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
+            toggleDistance *= MopSettings.ActiveDistanceMultiplicationValue;
+
+            if (toggleDistance < MinimumItemDistance)
+            {
+                toggleDistance = MinimumItemDistance;
+            }
+
+            return Vector3.Distance(player.transform.position, target.position) < toggleDistance;
         }
 
         bool IsGenericObjectEnabled(GenericObject obj)
@@ -1150,22 +1184,37 @@ namespace MOP
             float toggleDistance = obj.Distance;
             if (obj.DisableOn.HasFlag(DisableOn.AlwaysUse1xDistance))
             {
-                toggleDistance *= MOP.ActiveDistance.GetValue() == 0 ? 0.5f : 0.1f;
+                toggleDistance *= MOP.ActiveDistance.GetValue() <= 0 ? 0.5f : 0.1f;
                 return Vector3.Distance(player.transform.position, obj.transform.position) < toggleDistance;
             }
 
             if (inSectorMode)
             {
-                toggleDistance *= MOP.ActiveDistance.GetValue() == 0 ? 0.5f : 0.1f;
+                toggleDistance *= MOP.ActiveDistance.GetValue() <= 0 ? 0.5f : 0.1f;
             }
 
-            return Vector3.Distance(player.transform.position, obj.transform.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
+            toggleDistance *= MopSettings.ActiveDistanceMultiplicationValue;
+            if (toggleDistance < obj.MinimumToggleDistance)
+            {
+                toggleDistance = obj.MinimumToggleDistance;
+            }
+
+            return Vector3.Distance(player.transform.position, obj.transform.position) < toggleDistance;
         }
 
-        bool IsVehicleEnabled(float distance, float toggleDistance = 200)
+        bool IsVehicleEnabled(float distance, float toggleDistance = DefaultVehicleDistance)
         {
             if (inSectorMode)
-                toggleDistance = 30;
+            {
+                toggleDistance = MinimumVehicleDistance;
+            }
+
+            toggleDistance *= MopSettings.ActiveDistanceMultiplicationValue;
+
+            if (toggleDistance < MinimumVehicleDistance)
+            {
+                toggleDistance = MinimumVehicleDistance;
+            }
 
             return distance < toggleDistance;
         }
@@ -1177,7 +1226,12 @@ namespace MOP
 
         bool IsPlaceEnabled(Transform target, float toggleDistance = 200)
         {
-            return Vector3.Distance(player.transform.position, target.position) < toggleDistance * MopSettings.ActiveDistanceMultiplicationValue;
+            toggleDistance *= MopSettings.ActiveDistanceMultiplicationValue;
+            if (toggleDistance < MinimumPlaceDistance)
+            {
+                toggleDistance = MinimumPlaceDistance;
+            }
+            return Vector3.Distance(player.transform.position, target.position) < toggleDistance;
         }
 #endregion
 #region System Control & Crash Protection

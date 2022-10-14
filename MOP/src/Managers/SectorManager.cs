@@ -277,9 +277,10 @@ namespace MOP.Managers
             return activeSectors.Contains(sector);
         }
 
-        public void Add(Sector obj)
+        public Sector Add(Sector obj)
         {
             sectors.Add(obj);
+            return obj;
         }
 
         public void Remove(Sector obj)

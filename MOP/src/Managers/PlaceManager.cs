@@ -57,9 +57,10 @@ namespace MOP.Managers
 
         public List<Place> GetAll => places;
 
-        public void Add(Place obj)
+        public Place Add(Place obj)
         {
             places.Add(obj);
+            return obj;
         }
 
         public void Remove(Place obj)

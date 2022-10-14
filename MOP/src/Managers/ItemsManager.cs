@@ -236,9 +236,10 @@ namespace MOP.Managers
         /// Add object hook to the list
         /// </summary>
         /// <param name="newHook"></param>
-        public void Add(ItemBehaviour newHook)
+        public ItemBehaviour Add(ItemBehaviour newHook)
         {
             itemHooks.Add(newHook);
+            return newHook;
         }
 
         /// <summary>

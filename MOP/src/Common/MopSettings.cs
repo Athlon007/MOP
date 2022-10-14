@@ -139,12 +139,14 @@ namespace MOP.Common
                 switch (MOP.ActiveDistance.GetValue())
                 {
                     case 0:
+                        return 0.5f;
+                    case 1:
                         return 0.75f;
                     default: // 1
                         return 1;
-                    case 2:
-                        return 2;
                     case 3:
+                        return 2;
+                    case 4:
                         return 4;
                 }
             }

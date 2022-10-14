@@ -209,7 +209,8 @@ namespace MOP
                     if (t.gameObject.name.EqualsAny("HUMANS", "Fighter2", "Farmer", "FighterPub"))
                         continue;
 
-                    WorldObjectManager.Instance.Add(t.gameObject, DisableOn.Distance);
+                    var human = WorldObjectManager.Instance.Add(t.gameObject, DisableOn.Distance);
+                    human.MinimumToggleDistance = 150;
                 }
             }
             catch (Exception ex)

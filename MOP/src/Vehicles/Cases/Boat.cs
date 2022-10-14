@@ -51,6 +51,8 @@ namespace MOP.Vehicles.Cases
 
                 Toggle = ToggleBoatPhysics;
             }
+
+            this.dummyCar = new DummyCar(this.gameObject);
         }
 
         /// <summary>
@@ -67,6 +69,7 @@ namespace MOP.Vehicles.Cases
                 MoveNonDisableableObjects(temporaryParent);
 
                 colliders.parent = temporaryParent;
+                dummyCar?.ToggleActive(true, transform);
             }
 
             gameObject.SetActive(enabled);

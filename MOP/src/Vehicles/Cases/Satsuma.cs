@@ -984,7 +984,7 @@ namespace MOP.Vehicles.Cases
 
             for (int i = 0; i < satsumaBoltsAntiReloads.Count; ++i)
             {
-                satsumaBoltsAntiReloads[i].Unglue();
+                satsumaBoltsAntiReloads[i]?.Unglue();
             }
         }
 

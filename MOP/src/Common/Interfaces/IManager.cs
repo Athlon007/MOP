@@ -20,7 +20,7 @@ namespace MOP.Common.Interfaces
 {
     interface IManager<T>
     {
-        void Add(T obj);
+        T Add(T obj);
         void Remove(T obj);
         int Count { get; }
         void RemoveAt(int index);

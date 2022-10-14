@@ -1,18 +1,24 @@
 # Changelog
 
-## 3.9.3 (TBA)
+## 3.10 (TBA)
 
 ### Added
 
+- Disabled vehicle models will now be visible from much further
+- Added new value to active distance slider: Very Close (0.5x)
 - Added multiple sources of rule files
   - MOP will test connection to each one of them, and pick the first one that is online
 - MOP will remove "read-only" flag from the save files, as soon as you look at the save game toilet
+- Vehicles are now affected by the active distance slider
+- Certain objects can now have a minimum toggle distance (ex: Perajarvi's minimum distance is always 600 meters)
 
 ### Changes
 
 - If the save file read-only attribute removal has failed, MOP will retry couple more times
 - Optimization and general code improvements
 - Array of items to enable, disable, and remove now use a generic C#'s Queue implementation
+- MOP by default will now toggle items much closer (125 meters for cars, 75 for items)
+-
 
 ### Bug Fixes
 
@@ -21,6 +27,7 @@
 - Fixed "mop rules" command displaying the info about the rules incorrectly
 - Fixed a bug, in which MOP would fail to locate correct Satsuma key object
 - Fixed masked elements enabling causing error, if the referenced masked element was null
+- Beer cases won't play the rattling sound, when enabled and disabled
 
 ## 3.9.2 (07.10.2022)
 

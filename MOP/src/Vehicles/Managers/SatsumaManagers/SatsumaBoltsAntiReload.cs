@@ -116,7 +116,11 @@ namespace MOP.Vehicles.Managers.SatsumaManagers
             }
 
             // This script is no longer needed. Disable it.
-            this.enabled = false;
+            // Yeah, somehow this object itself can become null?
+            if (this != null)
+            {
+                this.enabled = false;
+            }
         }
 
         public void Glue()

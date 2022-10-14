@@ -118,9 +118,10 @@ namespace MOP.Managers
             ModConsole.Log("[MOP] Vehicles initialized");
         }
 
-        public void Add(Vehicle vehicle)
+        public Vehicle Add(Vehicle vehicle)
         {
             vehicles.Add(vehicle);
+            return vehicle;
         }
 
         public int Count => vehicles.Count;

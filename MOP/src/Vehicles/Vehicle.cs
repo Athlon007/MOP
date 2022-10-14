@@ -62,6 +62,8 @@ namespace MOP.Vehicles
         protected Transform colliders;
         protected Vector3 colliderPosition;
 
+        protected DummyCar dummyCar;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -149,6 +151,8 @@ namespace MOP.Vehicles
             // Get one of the wheels.
             wheel = axles.allWheels[0];
             drivetrain = gameObject.GetComponent<Drivetrain>();
+
+            dummyCar = new DummyCar(this.gameObject);
         }
 
         /// <summary>
@@ -434,6 +438,14 @@ namespace MOP.Vehicles
             }
 
             colliderPosition = colliders.localPosition;
+        }
+
+        /// <summary>
+        /// Sets the dummy LOD car on or off.
+        /// </summary>
+        public void ToggleDummyCar(bool enabled)
+        {
+            dummyCar?.ToggleActive(enabled, transform);
         }
     }
 }

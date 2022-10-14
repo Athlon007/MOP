@@ -46,5 +46,7 @@ namespace MOP.WorldObjects
         {
             return gameObject.name;
         }
+
+        public int MinimumToggleDistance { get; set; } 
     }
 }
