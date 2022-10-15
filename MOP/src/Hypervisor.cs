@@ -1402,9 +1402,16 @@ namespace MOP
                 }
             }
 
-            if (mode == ToggleAllMode.OnSave)
+            try
             {
-                Satsuma.Instance.OnSaveGlueAll();
+                if (mode == ToggleAllMode.OnSave)
+                {
+                    Satsuma.Instance.OnSaveGlueAll();
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "TOGGLE_SATSUMA_GLUE_ALL_ERROR");
             }
 
             ModConsole.Log("[MOP] Toggled VEHICLES");

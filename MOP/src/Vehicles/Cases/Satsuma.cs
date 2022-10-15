@@ -982,9 +982,22 @@ namespace MOP.Vehicles.Cases
             if (partsUnglued) return;
             partsUnglued = true;
 
+            List<SatsumaBoltsAntiReload> brokens = new List<SatsumaBoltsAntiReload>();
+
             for (int i = 0; i < satsumaBoltsAntiReloads.Count; ++i)
             {
+                if (satsumaBoltsAntiReloads[i] == null)
+                {
+                    brokens.Add(satsumaBoltsAntiReloads[i]);
+                    continue;
+                }
                 satsumaBoltsAntiReloads[i]?.Unglue();
+            }
+
+            ModConsole.Log($"[MOP] Found {brokens.Count} broken SatsumaBoltsAntiReload.");
+            foreach (var broken in brokens)
+            {
+                satsumaBoltsAntiReloads.Remove(broken);
             }
         }
 
@@ -995,6 +1008,11 @@ namespace MOP.Vehicles.Cases
         {
             for (int i = 0; i < satsumaBoltsAntiReloads.Count; ++i)
             {
+                if (satsumaBoltsAntiReloads[i] == null)
+                {
+                    continue;
+                }
+
                 satsumaBoltsAntiReloads[i].enabled = true;
                 satsumaBoltsAntiReloads[i].Glue();
 

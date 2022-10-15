@@ -29,6 +29,7 @@
 - Fixed masked elements enabling causing error, if the referenced masked element was null
 - Beer cases won't play the rattling sound, when enabled and disabled
 - Fixed a few typos
+- Fixed MOP sometimes preventing you from saving the game
 
 ## 3.9.2 (07.10.2022)
 

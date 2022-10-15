@@ -128,11 +128,16 @@ namespace MOP.Vehicles
 
         private void DisableShadowCasting()
         {
-            if (MopSettings.Mode == Common.Enumerations.PerformanceMode.Quality) return;
+            if (MopSettings.Mode >= Common.Enumerations.PerformanceMode.Balanced) return;
 
             foreach (var mesh in dumbCar.GetComponentsInChildren<MeshRenderer>(true))
             {
                 mesh.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            }
+
+            foreach (var projector in dumbCar.GetComponentsInChildren<Projector>(true))
+            {
+                Object.Destroy(projector);
             }
         }
 
@@ -158,5 +163,6 @@ namespace MOP.Vehicles
                 GameObject.Destroy(dumbCar);
             }
         }
+
     }
 }
