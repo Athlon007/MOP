@@ -11,6 +11,8 @@
 - MOP will remove "read-only" flag from the save files, as soon as you look at the save game toilet
 - Vehicles are now affected by the activate distance slider
 - Certain objects can now have a minimum toggle distance (ex: Perajarvi's minimum distance is always 600 meters, no matter the activate distance slider)
+- Large items (such as garbage barell) will be visible from a further distance (in Balanced mode or above)
+- In Performance mode, if you enter a vehicle, other vehicles will be disabled sooner
 
 ### Changes
 
