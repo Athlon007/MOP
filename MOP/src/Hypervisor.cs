@@ -76,6 +76,8 @@ namespace MOP
         public string[] TrafficVehicleRoots => trafficVehicleRoots;
         GameObject traffic, trafficHighway, trafficDirt;
 
+        private GameObject dumbObjectsParent;
+
         private Hypervisor()
         {
             instance = this;
@@ -219,6 +221,9 @@ namespace MOP
         void Initialize()
         {
             ModConsole.Log("[MOP] Loading MOP...");
+
+            dumbObjectsParent = new GameObject("MOP_DumbObjects");
+            dumbObjectsParent.transform.SetParent(this.transform);
 
             // Initialize the worldObjectManager list
             worldObjectManager = new WorldObjectManager();
@@ -951,6 +956,7 @@ namespace MOP
                         }
                         else
                         {
+                            item.ToggleDummy(Vector3.Distance(item.transform.position, player.position) < DummyItemDistane);
                             if (!item.ActiveSelf) continue;
                             item.Toggle(false);
                         }
@@ -1024,7 +1030,9 @@ namespace MOP
                 {
                     try
                     {
-                        itemsToEnable.Dequeue().Toggle(true);
+                        ItemBehaviour behaviour = itemsToEnable.Dequeue();
+                        behaviour.Toggle(true);
+                        behaviour.ToggleDummy(false);
                     }
                     catch (Exception ex)
                     {
@@ -1145,11 +1153,13 @@ namespace MOP
         const int MinimumItemDistance = 10;
         const int MinimumItemOutsideDistance = 30;
         const int DefaultItemToggleDistance = 75;
+        const int DummyItemDistane = 200;
         // 0.25 = 18 | 0.5 = 37 | 0.75 = 56 | 1 = 75 | 2 = 150 | 4 = 300
 
         const int MinimumVehicleDistance = 20;
         const int MinimumVehicleOutsideDistance = 50;
         const int DefaultVehicleDistance = 125;
+        const int PerformanceModeVehicleDistance = 30;
         // 0.25 = 31 | 0.5 = 62 | 0.75 = 93 | 1 = 125 | 2 = 250 | 4 = 500
 
         const int MinimumPlaceDistance = 175;
@@ -1223,6 +1233,10 @@ namespace MOP
             if (inSectorMode)
             {
                 toggleDistance = MinimumVehicleDistance;
+            }
+            else if (MopSettings.Mode == PerformanceMode.Performance)
+            {
+                toggleDistance = PerformanceModeVehicleDistance;
             }
 
             toggleDistance *= MopSettings.ActiveDistanceMultiplicationValue;
@@ -1534,5 +1548,7 @@ namespace MOP
                 Destroy(GetComponent<DebugTools.DebugMonitor>());
             }
         }
+
+        public Transform DumbObjectParent => dumbObjectsParent.transform;
     }
 }

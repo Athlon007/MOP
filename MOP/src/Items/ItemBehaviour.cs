@@ -31,6 +31,7 @@ using MOP.Rules.Types;
 using MOP.Helpers;
 using MOP.Places;
 using System.Collections;
+using MOP.Vehicles;
 
 namespace MOP.Items
 {
@@ -93,6 +94,8 @@ namespace MOP.Items
         PlayMakerFSM removalFSM;
 
         private EventSounds eventSound;
+
+        private DummyCar dummy;
 
         public ItemBehaviour()
         {
@@ -164,9 +167,11 @@ namespace MOP.Items
             {
                 this.eventSound = GetComponent<EventSounds>();
             }
+
+            LoadDummyObject();
         }
 
-            void Awake()
+        void Awake()
         {
             // Add self to the MinorObjects.objectHooks list
             ItemsManager.Instance.Add(this);
@@ -820,6 +825,40 @@ namespace MOP.Items
                 yield return new WaitForSeconds(2f);
             }
             eventSound.useCollisionSound = enabled;
+        }
+
+        public void ToggleDummy(bool enabled)
+        {
+            if (dummy != null)
+            {
+                if (this.transform.root == Satsuma.Instance.transform)
+                {
+                    enabled = false;
+                }
+                dummy.ToggleActive(enabled, this.transform);
+            }
+        }
+
+        private void LoadDummyObject()
+        {
+            if (MopSettings.Mode == Common.Enumerations.PerformanceMode.Performance) return;
+
+            Vector3 size;
+
+            switch (gameObject.name)
+            {
+                default:
+                    size = GetComponent<Renderer>().bounds.size;
+                    break;
+                case "motor hoist(itemx)":
+                    size = transform.Find("motorhoist_frame").GetComponent<Renderer>().bounds.size;
+                    break;
+            }
+            float volume = size.x * size.y * size.z;
+            if (volume > (MopSettings.Mode == Common.Enumerations.PerformanceMode.Quality ? 0.01f : 0.05f))
+            {
+                dummy = new DummyCar(this.gameObject);
+            }
         }
     }
 }

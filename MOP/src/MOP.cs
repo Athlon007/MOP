@@ -34,8 +34,8 @@ namespace MOP
         public override string ID => "MOP";
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
-        public override string Version => "3.10.0"; //Version
-        public const string SubVersion = "BETA_1"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public override string Version => "3.10"; //Version
+        public const string SubVersion = "BETA_2"; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public const string Edition = "Mod Loader Pro";
 #else
@@ -141,7 +141,7 @@ namespace MOP
 
             // Activating objects.
             modSettings.AddHeader("DESPAWNING");
-            ActiveDistance = modSettings.AddSlider("activateDistance", "ACTIVATE DISTANCE", 2, 0, 4);
+            ActiveDistance = modSettings.AddSlider("activateDistanceNew", "ACTIVATE DISTANCE", 2, 0, 4);
             ActiveDistance.AddTooltip("Distance upon which objects will spawn.");
             ActiveDistance.TextValues = activeDistanceText;
             ActiveDistance.ChangeValueText();
@@ -232,7 +232,7 @@ namespace MOP
 
             // Activating objects.
             Settings.AddHeader(this, "DESPAWNING");
-            ActiveDistance = Settings.AddSlider(this, "activateDistance", "ACTIVATE DISTANCE", 0, 4, 2, textValues: activeDistanceText);
+            ActiveDistance = Settings.AddSlider(this, "activateDistanceNew", "ACTIVATE DISTANCE", 0, 4, 2, textValues: activeDistanceText);
             Settings.AddText(this, "PERFORMANCE MODE");
             ModePerformance = Settings.AddCheckBoxGroup(this, "modePerformance", "PERFORMANCE", false, "performanceMode", MopSettings.UpdatePerformanceMode);
             ModeBalanced = Settings.AddCheckBoxGroup(this, "modeBalanced", "BALANCED", true, "performanceMode", MopSettings.UpdatePerformanceMode);

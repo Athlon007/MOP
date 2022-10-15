@@ -13,6 +13,7 @@ namespace MOP.Vehicles
             dumbCar = GameObject.Instantiate(vehicle);
             dumbCar.name = "MOP_Dumb" + vehicle.name;
             dumbCar.transform.position = new Vector3(0, -100, 0);
+            dumbCar.transform.SetParent(Hypervisor.Instance.DumbObjectParent);
 
             CleanDumbCarOfCrap();
             dumbCar.SetActive(false);
@@ -84,7 +85,7 @@ namespace MOP.Vehicles
                 "IKTarget", "PistonIK", "PlayerTrigger", "CarSimulation",
                 "Interior", "Body/car body(xxxxx)/shadow_body", "MiscParts",
                 "Electricity", "Wiring", "Wipers", "Colliders", "Chassis",
-                "Sounds");
+                "Sounds", "Bottle");
 
             // Rename all children - to not confuse other mods and MOP.
             // Also delete the ones that are useless.
@@ -109,6 +110,10 @@ namespace MOP.Vehicles
 
         public void ToggleActive(bool enabled, Transform transform)
         {
+            if (enabled == dumbCar.activeSelf)
+            {
+                return;
+            }
             dumbCar.SetActive(enabled);
             dumbCar.transform.position = transform.position;
             dumbCar.transform.eulerAngles = transform.eulerAngles;
