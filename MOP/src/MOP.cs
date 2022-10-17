@@ -196,7 +196,7 @@ namespace MOP
             DestroyEmptyBottles = modSettings.AddToggle("destroyEmptyBottles", "DESTROY EMPTY BOTTLES", false);
             DestroyEmptyBottles.AddTooltip("Empty bottles, created by player drinking, won't spawn.");
             DisableEmptyItems = modSettings.AddToggle("disableEmptyItems", "DISABLE EMPTY ITEMS", false);
-            DisableEmptyItems.AddTooltip("Items, which status changes to 'EMPTY', will be automatically disabled, in order to save on PC resources.");
+            DisableEmptyItems.AddTooltip("Items, which status changes to 'EMPTY',\nwill be automatically disabled,\nin order to save on PC resources.");
             AlwaysDisableSkidmarks = modSettings.AddToggle("alwaysDisableSkidmarks", "DISABLE SKIDMARKS", false);
             AlwaysDisableSkidmarks.AddTooltip("Skidmarks cause a massive memory leak,\nevery time you brake/accelerate hard.\nDisabling them mitigates that problem.");
 
