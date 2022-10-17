@@ -21,6 +21,7 @@ using UnityEngine;
 
 using MOP.FSM;
 using MOP.Common;
+using MOP.Common.Enumerations;
 using MOP.FSM.Actions;
 using MOP.Managers;
 using MOP.Vehicles.Cases;
@@ -841,7 +842,7 @@ namespace MOP.Items
 
         private void LoadDummyObject()
         {
-            if (MopSettings.Mode == Common.Enumerations.PerformanceMode.Performance) return;
+            if (MopSettings.Mode == PerformanceMode.Performance || !ItemsManager.Instance.IsVanillaItem(this)) return;
 
             Vector3 size;
 
@@ -855,7 +856,7 @@ namespace MOP.Items
                     break;
             }
             float volume = size.x * size.y * size.z;
-            if (volume > (MopSettings.Mode == Common.Enumerations.PerformanceMode.Quality ? 0.01f : 0.05f))
+            if (volume > (MopSettings.Mode == PerformanceMode.Quality ? 0.01f : 0.05f))
             {
                 dummy = new DummyCar(this.gameObject);
             }

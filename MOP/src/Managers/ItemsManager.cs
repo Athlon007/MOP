@@ -38,7 +38,7 @@ namespace MOP.Managers
 
         public ItemBehaviour this[int index] => itemHooks[index];
 
-        public readonly string[] NameList =
+        private readonly string[] nameList =
         {
             "airfilter", "alternator", "alternator belt", "amplifier", "antenna", "ax",
             "back panel", "basketball", "battery", "beer case", "berry box",
@@ -269,7 +269,7 @@ namespace MOP.Managers
         {
             // Find shopping bags in the list
             UnityEngine.Object.FindObjectsOfType<GameObject>()
-                    .Where(gm => gm.name.ContainsAny(NameList) && gm.name.ContainsAny("(itemx)", "(Clone)") & gm.GetComponent<ItemBehaviour>() == null)
+                    .Where(gm => gm.name.ContainsAny(nameList) && gm.name.ContainsAny("(itemx)", "(Clone)") & gm.GetComponent<ItemBehaviour>() == null)
                     .All(gm => gm.AddComponent<ItemBehaviour>());
 
 
@@ -445,6 +445,11 @@ namespace MOP.Managers
                 }
                 return enabled;
             }
+        }
+
+        public bool IsVanillaItem(ItemBehaviour item)
+        {
+            return nameList.Contains(item.gameObject.name.Replace("(itemx)", "").Replace("(Clone)", ""));
         }
     }
 }
