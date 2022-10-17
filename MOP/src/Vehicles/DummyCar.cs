@@ -1,5 +1,7 @@
 ﻿using MOP.Common;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace MOP.Vehicles
@@ -11,7 +13,7 @@ namespace MOP.Vehicles
         public DummyCar(GameObject vehicle)
         {
             dumbCar = GameObject.Instantiate(vehicle);
-            dumbCar.name = "MOP_Dumb" + vehicle.name;
+            dumbCar.name = "MOP_Dumb-" + vehicle.name;
             dumbCar.transform.position = new Vector3(0, -100, 0);
             dumbCar.transform.SetParent(Hypervisor.Instance.DumbObjectParent);
 

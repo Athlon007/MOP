@@ -166,5 +166,10 @@ namespace MOP.Managers
                 return enabled;
             }
         }
+
+        public bool IsInVanilaGame(Vehicle veh)
+        {
+            return vehicleArrayMSC.Contains(veh.gameObject.name);
+        }
     }
 }

@@ -25,6 +25,7 @@ using MOP.Items;
 using MOP.Rules;
 using MOP.Rules.Types;
 using MOP.Vehicles.Managers;
+using MOP.Managers;
 
 namespace MOP.Vehicles
 {
@@ -152,7 +153,10 @@ namespace MOP.Vehicles
             wheel = axles.allWheels[0];
             drivetrain = gameObject.GetComponent<Drivetrain>();
 
-            dummyCar = new DummyCar(this.gameObject);
+            if (VehicleManager.Instance.IsInVanilaGame(this))
+            {
+                this.dummyCar = new DummyCar(this.gameObject);
+            }
         }
 
         /// <summary>

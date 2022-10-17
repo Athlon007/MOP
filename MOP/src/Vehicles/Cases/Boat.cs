@@ -51,8 +51,6 @@ namespace MOP.Vehicles.Cases
 
                 Toggle = ToggleBoatPhysics;
             }
-
-            this.dummyCar = new DummyCar(this.gameObject);
         }
 
         /// <summary>
