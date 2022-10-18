@@ -28,8 +28,6 @@ using MOP.Items.Helpers;
 using MOP.Helpers;
 using MOP.FSM.Actions;
 using MOP.Common.Interfaces;
-using System.IO;
-using System.Reflection;
 
 namespace MOP.Managers
 {
@@ -112,7 +110,7 @@ namespace MOP.Managers
 
         // "Radiator hose3" stuff.
         private PlayMakerFSM radiatorHose3Database;
-        GameObject realRadiatorHose;
+        private GameObject realRadiatorHose;
 
         /// <summary>
         /// Initialize Items class.
@@ -337,10 +335,10 @@ namespace MOP.Managers
 
                 try
                 {
-                    if (item.GetComponent<ItemBehaviour>() != null)
-                        continue;
-
-                    item.AddComponent<ItemBehaviour>();
+                    if (item.GetComponent<ItemBehaviour>() == null)
+                    {
+                        item.AddComponent<ItemBehaviour>();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -352,8 +350,11 @@ namespace MOP.Managers
             itemsObject.GetComponent<PlayMakerFSM>().Fsm.RestartOnEnable = false;
 
             // Fucking wheels.
-            foreach (GameObject wheel in UnityEngine.Object.FindObjectsOfType<GameObject>().Where(gm => gm.name.EqualsAny("wheel_regula", "wheel_offset") && gm.activeSelf).ToArray())
+            foreach (GameObject wheel in UnityEngine.Object.FindObjectsOfType<GameObject>()
+                .Where(gm => gm.name.EqualsAny("wheel_regula", "wheel_offset") && gm.activeSelf))
+            {
                 wheel.AddComponent<ItemBehaviour>();
+            }
 
             // Tires trigger at Fleetari's.
             GameObject wheelTrigger = new GameObject("MOP_WheelTrigger");
@@ -362,19 +363,24 @@ namespace MOP.Managers
             wheelTrigger.AddComponent<WheelRepairJobTrigger>();
 
             // Hook up the envelope.
-            foreach (var g in Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name.EqualsAny("envelope(xxxxx)", "lottery ticket(xxxxx)")).ToArray())
+            foreach (var g in Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name.EqualsAny("envelope(xxxxx)", "lottery ticket(xxxxx)")))
+            {
                 g.AddComponent<ItemBehaviour>();
+            }
 
             // Unparent all childs of CDs object.
             Transform cds = GameObject.Find("ITEMS").transform.Find("CDs");
             if (cds)
             {
                 for (int i = 0; i < cds.childCount; i++)
+                {
                     cds.GetChild(i).parent = null;
+                }
             }
 
             // Find the initial beer case and hook it.
-            GameObject beerCaseInitial = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "beer case(itemx)" && g.GetComponent<ItemBehaviour>() == null).FirstOrDefault();
+            GameObject beerCaseInitial = Resources.FindObjectsOfTypeAll<GameObject>
+                ().FirstOrDefault(g => g.name == "beer case(itemx)" && g.GetComponent<ItemBehaviour>() == null);
             beerCaseInitial?.AddComponent<ItemBehaviour>();
         }
 
