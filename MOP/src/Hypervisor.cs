@@ -33,6 +33,7 @@ using MOP.Helpers;
 using MOP.Rules;
 using MOP.Rules.Types;
 using MOP.WorldObjects;
+using HutongGames.PlayMaker;
 
 namespace MOP
 {
@@ -927,15 +928,17 @@ namespace MOP
                             continue;
                         }
 
+                        float distance = Vector3.Distance(player.position, item.transform.position);
+
                         // Check the mode in what MOP is supposed to run and adjust to it.
                         bool toEnable;
                         if (MopSettings.Mode == PerformanceMode.Performance)
                         {
-                            toEnable = IsEnabled(item.transform, FsmManager.IsPlayerInCar() && !isPlayerAtYard ? 20 : 50);
+                            toEnable = IsEnabled(distance, FsmManager.IsPlayerInCar() && !isPlayerAtYard ? 20 : 50);
                         }
                         else
                         {
-                            toEnable = IsEnabled(item.transform);
+                            toEnable = IsEnabled(distance);
                         }
 
 
@@ -955,7 +958,7 @@ namespace MOP
                         }
                         else
                         {
-                            item.ToggleLOD(Vector3.Distance(item.transform.position, player.position) < DummyItemDistane);
+                            item.ToggleLOD(distance < DummyItemDistane);
                             if (!item.ActiveSelf) continue;
                             item.Toggle(false);
                         }
@@ -1169,7 +1172,7 @@ namespace MOP
         /// </summary>
         /// <param name="target">Target object.</param>
         /// <param name="toggleDistance">Distance below which the object should be enabled (default 200 units).</param>
-        bool IsEnabled(Transform target, float toggleDistance = DefaultItemToggleDistance)
+        bool IsEnabled(float distance, float toggleDistance = DefaultItemToggleDistance)
         {
             if (toggleDistance == 0)
             {
@@ -1197,7 +1200,7 @@ namespace MOP
             }
             
 
-            return Vector3.Distance(player.transform.position, target.position) < toggleDistance;
+            return distance < toggleDistance;
         }
 
         bool IsGenericObjectEnabled(GenericObject obj)
