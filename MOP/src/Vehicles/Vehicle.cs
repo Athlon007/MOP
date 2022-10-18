@@ -21,15 +21,17 @@ using UnityEngine;
 using MOP.Common;
 using MOP.Common.Enumerations;
 using MOP.FSM;
+using MOP.LOD;
 using MOP.Items;
 using MOP.Rules;
 using MOP.Rules.Types;
 using MOP.Vehicles.Managers;
 using MOP.Managers;
+using MOP.Common.Interfaces;
 
 namespace MOP.Vehicles
 {
-    class Vehicle
+    class Vehicle : ILod
     {
         public bool IsActive = true;
 
@@ -63,7 +65,7 @@ namespace MOP.Vehicles
         protected Transform colliders;
         protected Vector3 colliderPosition;
 
-        protected DummyCar dummyCar;
+        protected LodObject dummyCar;
 
         /// <summary>
         /// Initialize class
@@ -155,7 +157,7 @@ namespace MOP.Vehicles
 
             if (VehicleManager.Instance.IsInVanilaGame(this))
             {
-                this.dummyCar = new DummyCar(this.gameObject);
+                this.dummyCar = new LodObject(this.gameObject);
             }
         }
 
@@ -447,7 +449,7 @@ namespace MOP.Vehicles
         /// <summary>
         /// Sets the dummy LOD car on or off.
         /// </summary>
-        public void ToggleDummyCar(bool enabled)
+        public void ToggleLOD(bool enabled)
         {
             dummyCar?.ToggleActive(enabled, transform);
         }

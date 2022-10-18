@@ -506,7 +506,6 @@ namespace MOP
             // Initialize Items class
             try
             {
-                new ItemsManager();
                 ItemsManager.Instance.Initialize();
                 ModConsole.Log("[MOP] Items class initialized");
             }
@@ -956,7 +955,7 @@ namespace MOP
                         }
                         else
                         {
-                            item.ToggleDummy(Vector3.Distance(item.transform.position, player.position) < DummyItemDistane);
+                            item.ToggleLOD(Vector3.Distance(item.transform.position, player.position) < DummyItemDistane);
                             if (!item.ActiveSelf) continue;
                             item.Toggle(false);
                         }
@@ -1012,11 +1011,11 @@ namespace MOP
 
                         if (!isVehicleEnabled)
                         {
-                            vehicle.ToggleDummyCar(distance < 300);
+                            vehicle.ToggleLOD(distance < 300);
                         }
                         else
                         {
-                            vehicle.ToggleDummyCar(false);
+                            vehicle.ToggleLOD(false);
                         }
                     }
                     catch (Exception ex)
@@ -1032,7 +1031,7 @@ namespace MOP
                     {
                         ItemBehaviour behaviour = itemsToEnable.Dequeue();
                         behaviour.Toggle(true);
-                        behaviour.ToggleDummy(false);
+                        behaviour.ToggleLOD(false);
                     }
                     catch (Exception ex)
                     {

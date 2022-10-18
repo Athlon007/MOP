@@ -24,6 +24,7 @@
 - Array of items to enable, disable, and remove now use a generic C#'s Queue implementation
 - MOP by default will now toggle items much closer (125 meters for cars, 75 for items)
 - Renamed "Normal" active distance to "Default"
+- General code improvements and enhancements
 
 ### Bug Fixes
 

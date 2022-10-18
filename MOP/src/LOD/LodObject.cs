@@ -1,27 +1,26 @@
-﻿using MOP.Common;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Linq;
 using UnityEngine;
 
-namespace MOP.Vehicles
+using MOP.Common;
+
+namespace MOP.LOD
 {
-    internal class DummyCar
+    internal class LodObject
     {
         private readonly GameObject dumbCar;
 
-        public DummyCar(GameObject vehicle)
+        public LodObject(GameObject vehicle)
         {
             dumbCar = GameObject.Instantiate(vehicle);
             dumbCar.name = "MOP_Dumb-" + vehicle.name;
             dumbCar.transform.position = new Vector3(0, -100, 0);
             dumbCar.transform.SetParent(Hypervisor.Instance.DumbObjectParent);
 
-            CleanDumbCarOfCrap();
+            RemoveLogic();
             dumbCar.SetActive(false);
         }
 
-        private void CleanDumbCarOfCrap()
+        private void RemoveLogic()
         {
             // Remove FSMs.
             foreach (var fsm in dumbCar.GetComponentsInChildren<PlayMakerFSM>(true))
@@ -110,6 +109,11 @@ namespace MOP.Vehicles
             DisableShadowCasting();
         }
 
+        /// <summary>
+        /// If it's meant to be enabled, it will teleport to the object it inherits from, and enable itself.
+        /// </summary>
+        /// <param name="enabled"></param>
+        /// <param name="transform"></param>
         public void ToggleActive(bool enabled, Transform transform)
         {
             if (enabled == dumbCar.activeSelf)
@@ -117,6 +121,10 @@ namespace MOP.Vehicles
                 return;
             }
             dumbCar.SetActive(enabled);
+            if (!enabled)
+            {
+                return;
+            }
             dumbCar.transform.position = transform.position;
             dumbCar.transform.eulerAngles = transform.eulerAngles;
         }
@@ -170,6 +178,5 @@ namespace MOP.Vehicles
                 GameObject.Destroy(dumbCar);
             }
         }
-
     }
 }

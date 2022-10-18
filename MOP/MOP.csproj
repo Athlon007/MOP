@@ -104,6 +104,7 @@
     <Compile Include="src\Common\Enumerations\ToggleModes.cs" />
     <Compile Include="src\Common\Enumerations\VehiclesTypes.cs" />
     <Compile Include="src\Common\Interfaces\IDisableUnderCondition.cs" />
+    <Compile Include="src\Common\Interfaces\ILod.cs" />
     <Compile Include="src\Common\Interfaces\IManager.cs" />
     <Compile Include="src\Common\LoadScreen.cs" />
     <Compile Include="src\Common\Paths.cs" />
@@ -159,7 +160,7 @@
     <Compile Include="src\Vehicles\Cases\Jonnez.cs" />
     <Compile Include="src\Vehicles\Cases\Kekmet.cs" />
     <Compile Include="src\Vehicles\Cases\Ruscko.cs" />
-    <Compile Include="src\Vehicles\DummyCar.cs" />
+    <Compile Include="src\LOD\LodObject.cs" />
     <Compile Include="src\Vehicles\Managers\SatsumaManagers\SatsumaExhaustMufflerFix.cs" />
     <Compile Include="src\WorldObjects\SkidmarkObject.cs" />
     <Compile Include="src\zModLoad.cs" />
@@ -223,8 +224,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

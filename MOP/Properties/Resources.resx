@@ -128,7 +128,7 @@
     <value>..\Resources\icon;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="itemcounter_to_transform" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\itemcounter_to_transform.csv;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\itemcounter_to_transform.csv;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;iso-8859-1</value>
   </data>
   <data name="mop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\mop.bundle;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

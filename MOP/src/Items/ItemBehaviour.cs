@@ -15,6 +15,7 @@
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
 using HutongGames.PlayMaker;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -31,12 +32,12 @@ using MOP.Rules;
 using MOP.Rules.Types;
 using MOP.Helpers;
 using MOP.Places;
-using System.Collections;
-using MOP.Vehicles;
+using MOP.LOD;
+using MOP.Common.Interfaces;
 
 namespace MOP.Items
 {
-    class ItemBehaviour : MonoBehaviour
+    class ItemBehaviour : MonoBehaviour, ILod
     {
         // This class is an absolute disaster and must be rewritten.
 
@@ -96,7 +97,7 @@ namespace MOP.Items
 
         private EventSounds eventSound;
 
-        private DummyCar dummy;
+        private LodObject dummy;
 
         public ItemBehaviour()
         {
@@ -828,7 +829,7 @@ namespace MOP.Items
             eventSound.useCollisionSound = enabled;
         }
 
-        public void ToggleDummy(bool enabled)
+        public void ToggleLOD(bool enabled)
         {
             if (dummy != null)
             {
@@ -840,12 +841,17 @@ namespace MOP.Items
             }
         }
 
+        /// <summary>
+        /// Initializes the LOD model.
+        /// </summary>
         private void LoadDummyObject()
         {
-            if (MopSettings.Mode == PerformanceMode.Performance || !ItemsManager.Instance.IsVanillaItem(this)) return;
+            if (MopSettings.Mode == PerformanceMode.Performance || !ItemsManager.Instance.IsVanillaItem(this))
+            {
+                return;
+            }
 
             Vector3 size;
-
             switch (gameObject.name)
             {
                 default:
@@ -855,10 +861,11 @@ namespace MOP.Items
                     size = transform.Find("motorhoist_frame").GetComponent<Renderer>().bounds.size;
                     break;
             }
+
             float volume = size.x * size.y * size.z;
             if (volume > (MopSettings.Mode == PerformanceMode.Quality ? 0.01f : 0.05f))
             {
-                dummy = new DummyCar(this.gameObject);
+                dummy = new LodObject(this.gameObject);
             }
         }
     }

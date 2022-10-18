@@ -28,13 +28,24 @@ using MOP.Items.Helpers;
 using MOP.Helpers;
 using MOP.FSM.Actions;
 using MOP.Common.Interfaces;
+using System.IO;
+using System.Reflection;
 
 namespace MOP.Managers
 {
     class ItemsManager : IManager<ItemBehaviour>
     {
         static ItemsManager instance;
-        public static ItemsManager Instance { get => instance; }
+        public static ItemsManager Instance {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new ItemsManager();
+                }
+                return instance;
+            }
+        }
 
         public ItemBehaviour this[int index] => itemHooks[index];
 
@@ -97,29 +108,23 @@ namespace MOP.Managers
         // List of ItemHooks that are a child of objects.
         readonly List<ItemBehaviour> itemHooks = new List<ItemBehaviour>();
 
-        CashRegisterBehaviour cashRegisterHook;
-        readonly Transform lostSpawner, landfillSpawn;
+        private Transform lostSpawner, landfillSpawn;
 
         // "Radiator hose3" stuff.
-        PlayMakerFSM radiatorHose3Database;
+        private PlayMakerFSM radiatorHose3Database;
         GameObject realRadiatorHose;
 
         /// <summary>
         /// Initialize Items class.
         /// </summary>
-        public ItemsManager()
-        {
-            instance = this;
-            lostSpawner = GameObject.Find("LostSpawner").transform;
-            landfillSpawn = GameObject.Find("LANDFILL").transform.Find("LandfillSpawn");
-        }
+        private ItemsManager() { }
 
         internal void Initialize()
         {
-            cashRegisterHook = GameObject.Find("STORE/StoreCashRegister/Register").AddComponent<CashRegisterBehaviour>();
+            lostSpawner = GameObject.Find("LostSpawner").transform;
+            landfillSpawn = GameObject.Find("LANDFILL").transform.Find("LandfillSpawn");
 
             Transform spawner = GameObject.Find("Spawner").transform;
-
             InjectSpawnScripts(spawner.Find("CreateItems").gameObject);
             InjectSpawnScripts(spawner.Find("CreateSpraycans").gameObject);
             InjectSpawnScripts(spawner.Find("CreateShoppingbag").gameObject);
@@ -131,35 +136,75 @@ namespace MOP.Managers
             // Car parts order bill hook.
             try
             {
-                GameObject storeLOD = GameObject.Find("STORE").transform.Find("LOD").gameObject;
-                GameObject activateStore = storeLOD.transform.Find("ActivateStore").gameObject;
-                bool lodLastState = storeLOD.activeSelf;
-                bool activeStore = activateStore.activeSelf;
-
-                if (!lodLastState)
-                    storeLOD.SetActive(true);
-
-                if (!activeStore)
-                    activateStore.SetActive(true);
-
-                GameObject postOrder = GameObject.Find("STORE").transform.Find("LOD/ActivateStore/PostOffice/PostOrderBuy").gameObject;
-                bool isPostOrderActive = postOrder.activeSelf;
-                postOrder.SetActive(true);
-                MSCLoader.FsmHook.FsmInject(postOrder, "State 3", cashRegisterHook.Packages);
-                if (!isPostOrderActive)
-                    postOrder.SetActive(false);
-
-                storeLOD.SetActive(lodLastState);
-                activateStore.SetActive(activateStore);
+                LoadStoreHook();
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Couldn't inject PostOrderBuy object.");
+                ExceptionManager.New(ex, true, "HOOK_STORE_ERROR");
             }
 
             InitializeList();
 
             // Hooks all bottles and adds adds BeerBottle script to them, which deletes the object and adds the ItemHook to them.
+            HookThrowableBottles();
+
+            // Hook the prefab of firewood.
+            HookFirewood();
+
+            // Hook the prefab of log.
+            HookPrefabLog();
+
+            // Fix for radiator hose 3.
+            CreateRadiatorHoseFix();
+        }
+
+        private void CreateRadiatorHoseFix()
+        {
+            radiatorHose3Database = GameObject.Find("Database/DatabaseMechanics/RadiatorHose3").GetPlayMaker("Data");
+            GameObject attachedHose = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(xxxxx)");
+            realRadiatorHose = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(Clone)");
+            GameObject dummy = GameObject.Instantiate(realRadiatorHose); // used for spawning the radiator hose3 after it gets detached.
+
+            UnityEngine.Object.Destroy(dummy.GetComponent<ItemBehaviour>());
+            dummy.SetActive(false);
+            dummy.name = dummy.name.Replace("(Clone)(Clone)", "(Clone)");
+
+            Transform t = SaveManager.GetRadiatorHose3Transform();
+
+            if (!attachedHose.activeSelf)
+            {
+                realRadiatorHose.transform.position = t.position;
+                realRadiatorHose.transform.rotation = t.rotation;
+                realRadiatorHose.SetActive(true);
+            }
+            radiatorHose3Database.FsmVariables.GameObjectVariables.First(g => g.Name == "SpawnThis").Value = realRadiatorHose;
+        }
+
+        private static void HookPrefabLog()
+        {
+            GameObject logPrefab = Resources.FindObjectsOfTypeAll<GameObject>()
+                .FirstOrDefault(f => f.name.EqualsAny("log") && f.GetComponent<PlayMakerFSM>() == null).gameObject;
+            if (logPrefab)
+            {
+                logPrefab.AddComponent<ItemBehaviour>();
+                logPrefab.transform.Find("log(Clone)").gameObject.AddComponent<ItemBehaviour>();
+            }
+
+                        foreach (var f in Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "log(Clone)"))
+            {
+                f.AddComponent<ItemBehaviour>();
+            }
+        }
+
+        private static void HookFirewood()
+        {
+            GameObject firewoodPrefab = Resources.FindObjectsOfTypeAll<GameObject>()
+                .FirstOrDefault(f => f.name.EqualsAny("firewood") && f.GetComponent<PlayMakerFSM>() == null).gameObject;
+            firewoodPrefab?.AddComponent<ItemBehaviour>();
+        }
+
+        private static void HookThrowableBottles()
+        {
             Dictionary<string, string> names = new Dictionary<string, string>()
             {
                 {
@@ -187,49 +232,35 @@ namespace MOP.Managers
                     "empty glass(Clone)"
                 }
             };
-            foreach (GameObject gameObject in Resources.FindObjectsOfTypeAll<GameObject>().Where(obj => names.ContainsKey(obj.name) && obj.GetComponent<PlayMakerFSM>() != null))
+            foreach (GameObject gameObject in Resources.FindObjectsOfTypeAll<GameObject>()
+                .Where(obj => names.ContainsKey(obj.name) && obj.GetComponent<PlayMakerFSM>() != null))
             {
                 gameObject.AddComponent<ThrowableJunkBehaviour>();
             }
+        }
 
-            // Hook the prefab of firewood.
-            GameObject firewoodPrefab = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(f => f.name.EqualsAny("firewood") && f.GetComponent<PlayMakerFSM>() == null).gameObject;
-            if (firewoodPrefab)
-            {
-                firewoodPrefab.AddComponent<ItemBehaviour>();
-            }
+        private static void LoadStoreHook()
+        {
+            GameObject storeLOD = GameObject.Find("STORE").transform.Find("LOD").gameObject;
+            GameObject activateStore = storeLOD.transform.Find("ActivateStore").gameObject;
+            bool lodLastState = storeLOD.activeSelf;
+            bool activeStore = activateStore.activeSelf;
 
-            // Hook the prefab of log.
-            GameObject logPrefab = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(f => f.name.EqualsAny("log") && f.GetComponent<PlayMakerFSM>() == null).gameObject;
-            if (logPrefab)
-            {
-                logPrefab.AddComponent<ItemBehaviour>();
-                logPrefab.transform.Find("log(Clone)").gameObject.AddComponent<ItemBehaviour>();
-            }
+            if (!lodLastState)
+                storeLOD.SetActive(true);
 
-            foreach (var f in Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "log(Clone)"))
-            {
-                f.AddComponent<ItemBehaviour>();
-            }
+            if (!activeStore)
+                activateStore.SetActive(true);
 
-            radiatorHose3Database = GameObject.Find("Database/DatabaseMechanics/RadiatorHose3").GetPlayMaker("Data");
-            GameObject attachedHose = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(xxxxx)");
-            realRadiatorHose = Resources.FindObjectsOfTypeAll<GameObject>().First(g => g.name == "radiator hose3(Clone)");
-            GameObject dummy = GameObject.Instantiate(realRadiatorHose); // used for spawning the radiator hose3 after it gets detached.
+            GameObject postOrder = GameObject.Find("STORE").transform.Find("LOD/ActivateStore/PostOffice/PostOrderBuy").gameObject;
+            bool isPostOrderActive = postOrder.activeSelf;
+            postOrder.SetActive(true);
+            MSCLoader.FsmHook.FsmInject(postOrder, "State 3", GameObject.Find("STORE/StoreCashRegister/Register").AddComponent<CashRegisterBehaviour>().Packages);
+            if (!isPostOrderActive)
+                postOrder.SetActive(false);
 
-            UnityEngine.Object.Destroy(dummy.GetComponent<ItemBehaviour>());
-            dummy.SetActive(false);
-            dummy.name = dummy.name.Replace("(Clone)(Clone)", "(Clone)");
-
-            Transform t = SaveManager.GetRadiatorHose3Transform();
-
-            if (!attachedHose.activeSelf)
-            {
-                realRadiatorHose.transform.position = t.position;
-                realRadiatorHose.transform.rotation = t.rotation;
-                realRadiatorHose.SetActive(true);
-            }
-            radiatorHose3Database.FsmVariables.GameObjectVariables.First(g => g.Name == "SpawnThis").Value = realRadiatorHose;
+            storeLOD.SetActive(lodLastState);
+            activateStore.SetActive(activateStore);
         }
 
         /// <summary>
@@ -269,7 +300,7 @@ namespace MOP.Managers
         {
             // Find shopping bags in the list
             UnityEngine.Object.FindObjectsOfType<GameObject>()
-                    .Where(gm => gm.name.ContainsAny(nameList) && gm.name.ContainsAny("(itemx)", "(Clone)") & gm.GetComponent<ItemBehaviour>() == null)
+                    .Where(gm => gm.name.ContainsAny(nameList) && gm.name.ContainsAny("(itemx)", "(Clone)") && gm.GetComponent<ItemBehaviour>() == null)
                     .All(gm => gm.AddComponent<ItemBehaviour>());
 
 
@@ -421,7 +452,7 @@ namespace MOP.Managers
             }
         }
 
-        ItemBehaviour bucket;
+        private ItemBehaviour bucket;        
         public ItemBehaviour GetBucket()
         {
             if (bucket == null)

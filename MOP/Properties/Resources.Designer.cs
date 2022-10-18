@@ -61,13 +61,16 @@ namespace MOP.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ### Changes
+        ///   Looks up a localized string similar to ### Added
         ///
-        ///- Updated links
-        ///
-        ///### Bug Fixed
-        ///
-        ///- Fixed an error when loading items list.
+        ///- Disabled vehicle models will now be visible from much further
+        ///  - Does not apply for mod vehicles
+        ///- Added new value to active distance slider: Very Close (0.5x)
+        ///- Added multiple sources of rule files
+        ///  - MOP will test connection to each one of them, and pick the first one that is online
+        ///- MOP will remove &quot;read-only&quot; flag from the save files, as soon as you look at the save game toilet
+        ///- Vehicles are now affected by the activate distance slider
+        ///- Certain objects can now have a minimum t [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string changelog {
             get {

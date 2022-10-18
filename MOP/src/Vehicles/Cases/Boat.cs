@@ -52,7 +52,7 @@ namespace MOP.Vehicles.Cases
                 Toggle = ToggleBoatPhysics;
             }
 
-            this.dummyCar = new DummyCar(this.gameObject);
+            this.dummyCar = new LOD.LodObject(this.gameObject);
         }
 
         /// <summary>
@@ -104,18 +104,17 @@ namespace MOP.Vehicles.Cases
         /// <param name="enabled"></param>
         public override void ToggleUnityCar(bool enabled)
         {
-            return;
+            // Method intentionally left empty.
         }
 
         public override void ForceToggleUnityCar(bool enabled)
         {
-            return;
+            // Method intentionally left empty.
         }
 
         protected override void LoadCarElements()
         {
-            // Boat car has no car elements.
-            return;
+            // Method intentionally left empty.
         }
 
         protected override void LoadColliders()
