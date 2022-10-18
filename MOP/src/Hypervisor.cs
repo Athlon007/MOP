@@ -1004,7 +1004,6 @@ namespace MOP
                                 break;
                         }
 
-
                         bool isVehicleEnabled = IsVehicleEnabled(distance);
                         vehicle.ToggleUnityCar(IsVehiclePhysicsEnabled(distance, toggleDistance));
                         vehicle.Toggle(isVehicleEnabled);
@@ -1039,7 +1038,7 @@ namespace MOP
                     }
                 }
 
-                // Places (New)
+                // Places
                 int full = placeManager.Count;
                 half = full >> 1;
                 for (i = 0; i < full; ++i)
@@ -1139,10 +1138,12 @@ namespace MOP
                     if (!vehicleManager[i].IsActive) continue;
                     // Vehicle is not on the dirt road, nor on highway.
                     // It's very unlikely that it will be hit by anything.
-                    if (Vector3.Distance(Vector3.zero, vehicleManager[i].transform.position) < 1000) continue; 
+                    if (Vector3.Distance(Vector3.zero, vehicleManager[i].transform.position) < 1000) continue;
 
                     if (vehicleManager[i].IsTrafficCarInArea())
+                    {
                         vehicleManager[i].ToggleUnityCar(true);
+                    }
                 }
             }
         }
