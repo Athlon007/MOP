@@ -48,7 +48,6 @@ namespace MOP
         Transform player;
 
         // Managers
-        VehicleManager vehicleManager;
         PlaceManager placeManager;
         WorldObjectManager worldObjectManager;
         private bool isPlayerAtYard;
@@ -243,7 +242,7 @@ namespace MOP
             }
 
             // Loading vehicles
-            vehicleManager = new VehicleManager();
+            VehicleManager.Instance.Initialize();
 
             // World Objects
             try
@@ -558,7 +557,7 @@ namespace MOP
                     else if (v.ToggleMode == ToggleModes.Vehicle || v.ToggleMode == ToggleModes.VehiclePhysics)
                     {
                         Vehicle veh = new Vehicle(v.ObjectName);
-                        vehicleManager.Add(veh);
+                        VehicleManager.Instance.Add(veh);
                         if (v.ToggleMode == ToggleModes.VehiclePhysics)
                         {
                             veh.Toggle = veh.ToggleUnityCar;
@@ -977,18 +976,18 @@ namespace MOP
                 }
 
                 // Vehicles
-                half = vehicleManager.Count >> 1;
-                for (i = 0; i < vehicleManager.Count; ++i)
+                half = VehicleManager.Instance.Count >> 1;
+                for (i = 0; i < VehicleManager.Instance.Count; ++i)
                 {
                     if (i == half)
                         yield return null;
 
                     try
                     {
-                        Vehicle vehicle = vehicleManager[i];
+                        Vehicle vehicle = VehicleManager.Instance[i];
                         if (vehicle == null)
                         {
-                            vehicleManager.RemoveAt(i);
+                            VehicleManager.Instance.RemoveAt(i);
                             continue;
                         }
 
@@ -1135,17 +1134,17 @@ namespace MOP
                     return;
                 }
 
-                for (int i = 0; i < vehicleManager.Count; ++i)
+                for (int i = 0; i < VehicleManager.Instance.Count; ++i)
                 {
-                    if (vehicleManager[i] == null) continue;
-                    if (!vehicleManager[i].IsActive) continue;
+                    if (VehicleManager.Instance[i] == null) continue;
+                    if (!VehicleManager.Instance[i].IsActive) continue;
                     // Vehicle is not on the dirt road, nor on highway.
                     // It's very unlikely that it will be hit by anything.
-                    if (Vector3.Distance(Vector3.zero, vehicleManager[i].transform.position) < 1000) continue;
+                    if (Vector3.Distance(Vector3.zero, VehicleManager.Instance[i].transform.position) < 1000) continue;
 
-                    if (vehicleManager[i].IsTrafficCarInArea())
+                    if (VehicleManager.Instance[i].IsTrafficCarInArea())
                     {
-                        vehicleManager[i].ToggleUnityCar(true);
+                        VehicleManager.Instance[i].ToggleUnityCar(true);
                     }
                 }
             }
@@ -1397,20 +1396,20 @@ namespace MOP
             ModConsole.Log("[MOP] Toggled KILJU");
 
             // Vehicles
-            for (int i = 0; i < vehicleManager.Count; i++)
+            for (int i = 0; i < VehicleManager.Instance.Count; i++)
             {
                 try
                 {
-                    vehicleManager[i].Toggle(enabled);
+                    VehicleManager.Instance[i].Toggle(enabled);
 
                     if (mode == ToggleAllMode.OnLoad)
                     {
-                        vehicleManager[i].ForceToggleUnityCar(false);
+                        VehicleManager.Instance[i].ForceToggleUnityCar(false);
                     }
                     else if (mode == ToggleAllMode.OnSave)
                     {
-                        vehicleManager[i].ToggleUnityCar(enabled);
-                        vehicleManager[i].Freeze();
+                        VehicleManager.Instance[i].ToggleUnityCar(enabled);
+                        VehicleManager.Instance[i].Freeze();
                     }
                 }
                 catch (Exception ex)

@@ -30,7 +30,17 @@ namespace MOP.Managers
     class VehicleManager : IManager<Vehicle>
     {
         private static VehicleManager instance;
-        public static VehicleManager Instance { get => instance; }
+        public static VehicleManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new VehicleManager();
+                }
+                return instance;
+            }
+        }
 
         public Vehicle this[int index] => vehicles[index];
 
@@ -51,10 +61,10 @@ namespace MOP.Managers
 
         private List<Vehicle> vehicles;
 
-        public VehicleManager()
-        {
-            instance = this;
+        private VehicleManager() { }
 
+        public void Initialize()
+        {
             // Loading vehicles
             vehicles = new List<Vehicle>();
             string[] activeVehicleArray = vehicleArrayMSC;
@@ -128,16 +138,16 @@ namespace MOP.Managers
 
         public List<Vehicle> GetAll => vehicles;
 
-        public void RemoveAt(int i)
+        public void RemoveAt(int index)
         {
-            vehicles.RemoveAt(i);
+            vehicles.RemoveAt(index);
         }
 
         public Vehicle GetVehicle(VehiclesTypes vehicleType)
         {
             if (vehicleType == VehiclesTypes.Generic)
             {
-                throw new Exception("Can't get generic type.");
+                return null;
             }
 
             return vehicles.FirstOrDefault(f => f.VehicleType == vehicleType);

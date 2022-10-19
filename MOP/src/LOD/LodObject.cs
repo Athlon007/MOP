@@ -11,9 +11,9 @@ namespace MOP.LOD
 
         public LodObject(GameObject vehicle)
         {
-            dumbCar = GameObject.Instantiate(vehicle);
+            dumbCar = (GameObject)Object.Instantiate(vehicle, new Vector3(0, -100, 0), Quaternion.Euler(0,0,0));
             dumbCar.name = "MOP_Dumb-" + vehicle.name;
-            dumbCar.transform.position = new Vector3(0, -100, 0);
+            //dumbCar.transform.position = new Vector3(0, -100, 0);
             dumbCar.transform.SetParent(Hypervisor.Instance.DumbObjectParent);
 
             RemoveLogic();
@@ -86,7 +86,10 @@ namespace MOP.LOD
                 "IKTarget", "PistonIK", "PlayerTrigger", "CarSimulation",
                 "Interior", "Body/car body(xxxxx)/shadow_body", "MiscParts",
                 "Electricity", "Wiring", "Wipers", "Colliders", "Chassis",
-                "Sounds", "Bottle");
+                "Sounds", "Bottle", "Body/Windshield", "Body/rear_windows",
+                "Body/wiper_base", "Body/body masse(xxxxx)", "Body/cowl_parts",
+                "Odometer", "HydraulicCylinder", "Automatic", "MESH/panel",
+                "MESH/panel 1", "MESH/muscle_Scoop");
 
             // Rename all children - to not confuse other mods and MOP.
             // Also delete the ones that are useless.
