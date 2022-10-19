@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.If not, see<http://www.gnu.org/licenses/>.
 
+using MOP.Vehicles.Cases;
 using MSCLoader;
 using System.Collections;
 using UnityEngine;
@@ -58,6 +59,8 @@ namespace MOP.Vehicles.Managers
 
         void OnDisable()
         {
+            if (!IsAttachedToVehicle()) return;
+
             this.localRotationOnDisable = this.transform.localRotation;
             this.transform.localRotation = this.initialLocalRotation;
 
@@ -69,6 +72,7 @@ namespace MOP.Vehicles.Managers
 
         void Update()
         {
+            if (!IsAttachedToVehicle()) return;
             if (this.hasDisabled)
             {
                 this.hasDisabled = false;
@@ -88,6 +92,17 @@ namespace MOP.Vehicles.Managers
             {
                 gameObject.GetComponent<FixedJoint>().breakForce = 0;
             }
+        }
+
+        protected bool IsAttachedToVehicle()
+        {
+            Transform root = transform.root;
+            if (root == null)
+            {
+                return false;
+            }
+
+            return root.gameObject.name != "CARPARTS";
         }
     }
 }

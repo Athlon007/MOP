@@ -1365,6 +1365,7 @@ namespace MOP
                         item.gameObject.SetActive(true);
                         item.Freeze();
                         item.SaveGame();
+                        item.ToggleLOD(false);
                     }
                 }
                 catch (Exception ex)

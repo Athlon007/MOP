@@ -20,6 +20,7 @@
 - Array of items to enable, disable, and remove now use a generic C#'s Queue implementation
 - MOP by default will now toggle items much closer (125 meters for cars, 75 for items)
 - Renamed "Normal" active distance to "Default"
+- General code improvements and enhancements
 
 ### Bug Fixes
 
@@ -32,3 +33,4 @@
 - Fixed a few typos
 - Fixed MOP sometimes preventing you from saving the game
 - (Mod Loader Pro) Fixed Disable Empty Items tooltip
+- Fixed a bug, where the hood would teleport around when saving, if not attached to the Satsuma, and it being in "disabled" state while saving

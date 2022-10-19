@@ -37,6 +37,7 @@
 - Fixed a few typos
 - Fixed MOP sometimes preventing you from saving the game
 - (Mod Loader Pro) Fixed Disable Empty Items tooltip
+- Fixed a bug, where the hood would teleport around when saving, if not attached to the Satsuma, and it being in "disabled" state while saving
 
 ## 3.9.2 (07.10.2022)
 
