@@ -132,14 +132,7 @@ namespace MOP.Managers
             GetCanTrigger();
 
             // Car parts order bill hook.
-            try
-            {
-                LoadStoreHook();
-            }
-            catch (Exception ex)
-            {
-                ExceptionManager.New(ex, true, "HOOK_STORE_ERROR");
-            }
+            LoadStoreHook();
 
             InitializeList();
 
@@ -181,14 +174,14 @@ namespace MOP.Managers
         private static void HookPrefabLog()
         {
             GameObject logPrefab = Resources.FindObjectsOfTypeAll<GameObject>()
-                .FirstOrDefault(f => f.name.EqualsAny("log") && f.GetComponent<PlayMakerFSM>() == null).gameObject;
-            if (logPrefab)
+                .FirstOrDefault(f => f.name.EqualsAny("log") && f.GetComponent<PlayMakerFSM>() == null)?.gameObject;
+            if (logPrefab != null)
             {
                 logPrefab.AddComponent<ItemBehaviour>();
                 logPrefab.transform.Find("log(Clone)").gameObject.AddComponent<ItemBehaviour>();
             }
 
-                        foreach (var f in Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "log(Clone)"))
+            foreach (var f in Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.name == "log(Clone)"))
             {
                 f.AddComponent<ItemBehaviour>();
             }
@@ -241,24 +234,25 @@ namespace MOP.Managers
         {
             GameObject storeLOD = GameObject.Find("STORE").transform.Find("LOD").gameObject;
             GameObject activateStore = storeLOD.transform.Find("ActivateStore").gameObject;
+
+            // Check what is the current state of the LOD and Store logic, and store it.
             bool lodLastState = storeLOD.activeSelf;
             bool activeStore = activateStore.activeSelf;
 
-            if (!lodLastState)
-                storeLOD.SetActive(true);
+            // Activate the store and LOD, if it's disabled.
+            storeLOD.SetActive(true);
+            activateStore.SetActive(true);
 
-            if (!activeStore)
-                activateStore.SetActive(true);
-
+            // Finally we FsmInject the CashRegisterBehaviour.
             GameObject postOrder = GameObject.Find("STORE").transform.Find("LOD/ActivateStore/PostOffice/PostOrderBuy").gameObject;
             bool isPostOrderActive = postOrder.activeSelf;
             postOrder.SetActive(true);
             MSCLoader.FsmHook.FsmInject(postOrder, "State 3", GameObject.Find("STORE/StoreCashRegister/Register").AddComponent<CashRegisterBehaviour>().Packages);
-            if (!isPostOrderActive)
-                postOrder.SetActive(false);
-
+            
+            // Restore previous states of the stuff.
+            postOrder.SetActive(isPostOrderActive);
             storeLOD.SetActive(lodLastState);
-            activateStore.SetActive(activateStore);
+            activateStore.SetActive(activeStore);
         }
 
         /// <summary>
