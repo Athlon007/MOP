@@ -35,7 +35,7 @@ namespace MOP
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.10"; //Version
-        public const string SubVersion = "BETA_2"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public const string SubVersion = "BETA_3"; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public const string Edition = "Mod Loader Pro";
 #else
