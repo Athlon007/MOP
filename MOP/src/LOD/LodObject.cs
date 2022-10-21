@@ -7,70 +7,69 @@ namespace MOP.LOD
 {
     internal class LodObject
     {
-        private readonly GameObject dumbCar;
+        private readonly GameObject lodObject;
 
         public LodObject(GameObject vehicle)
         {
-            dumbCar = (GameObject)Object.Instantiate(vehicle, new Vector3(0, -100, 0), Quaternion.Euler(0,0,0));
-            dumbCar.name = "MOP_Dumb-" + vehicle.name;
-            //dumbCar.transform.position = new Vector3(0, -100, 0);
-            dumbCar.transform.SetParent(Hypervisor.Instance.DumbObjectParent);
+            lodObject = (GameObject)Object.Instantiate(vehicle, new Vector3(0, -100, 0), Quaternion.Euler(0,0,0));
+            lodObject.name = "MOP_Dumb-" + vehicle.name;
+            lodObject.transform.SetParent(Hypervisor.Instance.DumbObjectParent);
 
             RemoveLogic();
-            dumbCar.SetActive(false);
+            lodObject.SetActive(false);
         }
 
         private void RemoveLogic()
         {
             // Remove FSMs.
-            foreach (var fsm in dumbCar.GetComponentsInChildren<PlayMakerFSM>(true))
+            foreach (var fsm in lodObject.GetComponentsInChildren<PlayMakerFSM>(true))
             {
                 Object.Destroy(fsm);
             }
 
             // Remove any mono behaviours.
-            foreach (var fsm in dumbCar.GetComponentsInChildren<MonoBehaviour>(true))
+            foreach (var fsm in lodObject.GetComponentsInChildren<MonoBehaviour>(true))
             {
                 Object.Destroy(fsm);
             }
 
             // Remove colliders.
-            foreach (var collider in dumbCar.GetComponentsInChildren<Collider>(true))
+            foreach (var collider in lodObject.GetComponentsInChildren<Collider>(true))
             {
                 Object.Destroy(collider);
             }
 
-            foreach (var joint in dumbCar.GetComponentsInChildren<Joint>(true))
+            foreach (var joint in lodObject.GetComponentsInChildren<Joint>(true))
             {
                 Object.Destroy(joint);
             }
 
             // Rigidbodies.
-            foreach (var rb in dumbCar.GetComponentsInChildren<Rigidbody>(true))
+            foreach (var rb in lodObject.GetComponentsInChildren<Rigidbody>(true))
             {
                 Object.Destroy(rb);
             }
 
             // Audio sources.
-            foreach (var audio in dumbCar.GetComponentsInChildren<AudioSource>(true))
+            foreach (var audio in lodObject.GetComponentsInChildren<AudioSource>(true))
             {
                 Object.Destroy(audio);
             }
 
             // Audio sources.
-            foreach (var animation in dumbCar.GetComponentsInChildren<Animation>(true))
+            foreach (var animation in lodObject.GetComponentsInChildren<Animation>(true))
             {
                 Object.Destroy(animation);
             }
 
             // Remove axles and rigidbody objects from the root.
-            Axles axle = dumbCar.GetComponent<Axles>();
+            Axles axle = lodObject.GetComponent<Axles>();
             if (axle)
             {
                 Object.Destroy(axle);
             }
 
-            Rigidbody rigidbody = dumbCar.GetComponent<Rigidbody>();
+            Rigidbody rigidbody = lodObject.GetComponent<Rigidbody>();
             if (rigidbody)
             {
                 Object.Destroy(rigidbody);
@@ -93,9 +92,9 @@ namespace MOP.LOD
 
             // Rename all children - to not confuse other mods and MOP.
             // Also delete the ones that are useless.
-            foreach (Transform t in dumbCar.GetComponentsInChildren<Transform>(true))
+            foreach (Transform t in lodObject.GetComponentsInChildren<Transform>(true))
             {
-                if (t.gameObject == dumbCar)
+                if (t.gameObject == lodObject)
                 {
                     continue;
                 }
@@ -119,24 +118,24 @@ namespace MOP.LOD
         /// <param name="transform"></param>
         public void ToggleActive(bool enabled, Transform transform)
         {
-            if (enabled == dumbCar.activeSelf)
+            if (enabled == lodObject.activeSelf)
             {
                 return;
             }
-            dumbCar.SetActive(enabled);
+            lodObject.SetActive(enabled);
             if (!enabled)
             {
                 return;
             }
-            dumbCar.transform.position = transform.position;
-            dumbCar.transform.eulerAngles = transform.eulerAngles;
+            lodObject.transform.position = transform.position;
+            lodObject.transform.eulerAngles = transform.eulerAngles;
         }
 
         private void DestroyGameObjects(params string[] names)
         {
             foreach (string objectName in names)
             {
-                Transform t = dumbCar.transform.Find(objectName);
+                Transform t = lodObject.transform.Find(objectName);
                 if (t != null)
                 {
                     GameObject.Destroy(t.gameObject);
@@ -148,12 +147,12 @@ namespace MOP.LOD
         {
             if (MopSettings.Mode >= Common.Enumerations.PerformanceMode.Balanced) return;
 
-            foreach (var mesh in dumbCar.GetComponentsInChildren<MeshRenderer>(true))
+            foreach (var mesh in lodObject.GetComponentsInChildren<MeshRenderer>(true))
             {
                 mesh.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             }
 
-            foreach (var projector in dumbCar.GetComponentsInChildren<Projector>(true))
+            foreach (var projector in lodObject.GetComponentsInChildren<Projector>(true))
             {
                 Object.Destroy(projector);
             }
@@ -164,7 +163,7 @@ namespace MOP.LOD
         /// </summary>
         private void DestroyMaskedElements()
         {
-            var objects = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.transform.root == dumbCar.transform && g.name.StartsWith("Masked"));
+            var objects = Resources.FindObjectsOfTypeAll<GameObject>().Where(g => g.transform.root == lodObject.transform && g.name.StartsWith("Masked"));
             foreach (GameObject obj in objects)
             {
                 GameObject.Destroy(obj);
@@ -176,9 +175,9 @@ namespace MOP.LOD
         /// </summary>
         public void Destroy()
         {
-            if (dumbCar != null)
+            if (lodObject != null)
             {
-                GameObject.Destroy(dumbCar);
+                GameObject.Destroy(lodObject);
             }
         }
     }
