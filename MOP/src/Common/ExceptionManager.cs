@@ -168,7 +168,7 @@ namespace MOP.Common
                 sb.Append("Session time: ").Append(elapsed.Hours).Append(" Hours ").Append(elapsed.Minutes).Append(" Minutes ").Append(elapsed.Seconds).AppendLine(" Seconds");
             }
             sb.Append("CPU: ").Append(SystemInfo.processorType).Append(" (").Append(SystemInfo.processorCount).AppendLine(" cores)");
-            sb.Append($"RAM: ").Append(SystemInfo.systemMemorySize).AppendLine();
+            sb.Append($"RAM: ").Append(SystemInfo.systemMemorySize).AppendLine(" MB");
             sb.Append($"GPU: ").Append(SystemInfo.graphicsDeviceName).Append(" (").Append(SystemInfo.graphicsMemorySize).AppendLine(" MB VRAM)");
             sb.AppendLine();
             sb.AppendLine("=== MOP SETTINGS ===");
@@ -298,8 +298,6 @@ namespace MOP.Common
                         output += FSM.FsmManager.IsTrailerAttached();
                         break;
                 }
-
-                output += "\n";
             }
             catch
             {
