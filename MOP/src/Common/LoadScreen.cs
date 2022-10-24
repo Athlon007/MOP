@@ -113,7 +113,7 @@ namespace MOP.Common
 
         private string GetLoadText()
         {
-            //if (DateTime.Today.Day == 1 && DateTime.Today.Month == 4)
+            if (DateTime.Today.Day == 1 && DateTime.Today.Month == 4)
             {
                 string[] foolish = new string[]
                 {
