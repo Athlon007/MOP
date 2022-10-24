@@ -25,6 +25,7 @@
 - MOP by default will now toggle items much closer (125 meters for cars, 75 for items)
 - Renamed "Normal" active distance to "Default"
 - General code improvements and enhancements
+- Dance hall will be visible from the lake (on Balanced mode and above)
 
 ### Bug Fixes
 

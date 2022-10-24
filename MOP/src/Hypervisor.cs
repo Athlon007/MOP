@@ -247,11 +247,11 @@ namespace MOP
             // World Objects
             try
             {
-                var cabin = worldObjectManager.Add("CABIN", DisableOn.Distance | DisableOn.IgnoreInQualityMode);
+                var cabin = worldObjectManager.Add("CABIN", DisableOn.Distance);
                 cabin.MinimumToggleDistance = 300;
                 var cottage = worldObjectManager.Add("COTTAGE", DisableOn.Distance, 400);
                 cottage.MinimumToggleDistance = 400;
-                worldObjectManager.Add("DANCEHALL", DisableOn.Distance | DisableOn.IgnoreInQualityMode, 500);
+                worldObjectManager.Add("DANCEHALL", DisableOn.Distance, 500);
                 var perajarvi = worldObjectManager.Add("PERAJARVI", DisableOn.Distance | DisableOn.IgnoreInQualityMode, 600);
                 perajarvi.MinimumToggleDistance = 600;
                 worldObjectManager.Add("SOCCER", DisableOn.Distance);
@@ -500,7 +500,20 @@ namespace MOP
             }
             catch (Exception ex)
             {
-                ExceptionManager.New(ex, false, "CABIN_DETAILS_QUALITY");
+                ExceptionManager.New(ex, false, "COTTAGE_DETAILS_QUALITY");
+            }
+
+            // DANCEHALL: Visible from the distance.
+            try
+            {
+                if (MopSettings.Mode >= PerformanceMode.Balanced)
+                {
+                    GameObject.Find("DANCEHALL").transform.Find("Building").parent = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionManager.New(ex, false, "DANCEHALL_BULDINGS_VISIBILITY_ERROR");
             }
 
             // Initialize Items class
