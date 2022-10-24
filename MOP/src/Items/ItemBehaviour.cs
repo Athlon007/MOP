@@ -427,7 +427,7 @@ namespace MOP.Items
                 rb.isKinematic = !enabled;
                 rb.useGravity = enabled;
 
-                if (!gameObject.name.EqualsAny("lottery ticket(xxxxx)", "envelope(xxxxx)"))
+                if (!gameObject.name.EqualsAny("lottery ticket(xxxxx)", "envelope(xxxxx)", "teimo advert pile(itemx)"))
                 {
                     if (enabled)
                     {

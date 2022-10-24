@@ -21,6 +21,9 @@
 - MOP by default will now toggle items much closer (125 meters for cars, 75 for items)
 - Renamed "Normal" active distance to "Default"
 - General code improvements and enhancements
+- Improved how the dance hall is enabled, on Quality mode
+- Dance hall is now visible on Balanced mode, as well as Quality mode
+- Cottage is now visible on Balanced mode, as well as Quality mode
 
 ### Bug Fixes
 
@@ -34,3 +37,6 @@
 - Fixed MOP sometimes preventing you from saving the game
 - (Mod Loader Pro) Fixed Disable Empty Items tooltip
 - Fixed a bug, where the hood would teleport around when saving, if not attached to the Satsuma, and it being in "disabled" state while saving
+- Fixed the envelope not spawning
+- Fixed the game data formatting in the bug report
+- Fixed the Teimo's advert pile sometimes not spawning
