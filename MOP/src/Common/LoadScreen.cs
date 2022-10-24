@@ -27,7 +27,6 @@ namespace MOP.Common
     {
         private readonly Sprite[] frames;
         private readonly Image img;
-        private readonly Text loadText;
         private IEnumerator currentLoadingRoutine;
 
         private readonly PlayMakerFSM cursorFSM;
@@ -38,9 +37,8 @@ namespace MOP.Common
             cursorFSM = GameObject.Find("PLAYER").GetPlayMaker("Update Cursor");
             frames = GetLoadingIconFrames();
             img = transform.Find("Icon/Frame1").GetComponent<Image>();
-            loadText = transform.Find("Text").GetComponent<Text>();
 
-            loadText.text = GetLoadText();
+            transform.Find("Text").GetComponent<Text>().text = GetLoadText();
         }
 
         private IEnumerator LoadingRoutine
