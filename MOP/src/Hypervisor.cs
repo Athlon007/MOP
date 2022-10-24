@@ -492,7 +492,7 @@ namespace MOP
             // Cottage: Do not disable main renderer in Quality mode.
             try
             {
-                if (MopSettings.Mode >= PerformanceMode.Quality)
+                if (MopSettings.Mode >= PerformanceMode.Balanced)
                 {
                     Transform cottage = GameObject.Find("COTTAGE").transform;
                     cottage.Find("MESH").parent = null;
