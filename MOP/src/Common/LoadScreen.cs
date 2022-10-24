@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using MOP.FSM;
 using UnityEngine;
+using System;
 
 namespace MOP.Common
 {
@@ -26,6 +27,7 @@ namespace MOP.Common
     {
         private readonly Sprite[] frames;
         private readonly Image img;
+        private readonly Text loadText;
         private IEnumerator currentLoadingRoutine;
 
         private readonly PlayMakerFSM cursorFSM;
@@ -36,6 +38,9 @@ namespace MOP.Common
             cursorFSM = GameObject.Find("PLAYER").GetPlayMaker("Update Cursor");
             frames = GetLoadingIconFrames();
             img = transform.Find("Icon/Frame1").GetComponent<Image>();
+            loadText = transform.Find("Text").GetComponent<Text>();
+
+            loadText.text = GetLoadText();
         }
 
         private IEnumerator LoadingRoutine
@@ -104,6 +109,37 @@ namespace MOP.Common
             }
 
             return sprites.ToArray();
+        }
+
+        private string GetLoadText()
+        {
+            //if (DateTime.Today.Day == 1 && DateTime.Today.Month == 4)
+            {
+                string[] foolish = new string[]
+                {
+                    "MOADING LOP...",
+                    "LOADINP MOG...",
+                    "...POM GNIDAOL",
+                    "LDNG MP...",
+                    "WOADING MOP UWU",
+                    "MOP?",
+                    "UNLOADING MOP...",
+                    "ŁADOWANIE MOP...", // Polish
+                    "MOP LADEN...", // Dutch
+                    "LADEN VON MOP...", // German
+                    "MOP-I LAADIMINE...", // Estonian
+                    "LADATAAN MOP..." // Finnish
+                };
+                return foolish[UnityEngine.Random.Range(0, foolish.Length)];
+            }
+
+            int random = UnityEngine.Random.Range(0, 100);
+            if (random == 0)
+            {
+                return "HAVE A NICE DAY :)";
+            }
+
+            return "LOADING MOP...";
         }
     }
 }
