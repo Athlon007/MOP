@@ -6,7 +6,7 @@
 
 - Disabled vehicle models will now be visible from much further
   - Does not apply for mod vehicles
-- Added new value to active distance slider: Very Close (0.5x)
+- Added new value to active distance slider value: Very Close (0.5x)
 - Added multiple sources of rule files
   - MOP will test connection to each one of them, and pick the first one that is online
 - MOP will remove "read-only" flag from the save files, as soon as you look at the save game toilet
