@@ -68,4 +68,6 @@ This program is distributed under GNU General Public License v3. Feel free to us
 
 Do you like MOP? Consider buying me a pizza :)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/O4O2FZ220)
+
 [![](http://athlon.kkmr.pl/images/svg/paypal.svg)](https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y)
