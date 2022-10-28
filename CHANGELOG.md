@@ -16,6 +16,7 @@
   - The higher the quality level, the smaller items will be visible from further distance
   - Does not apply for mod items
 - In Performance mode, if you enter a vehicle, other vehicles will be disabled sooner
+- Added Ko-Fi donation link
 
 ### Changes
 

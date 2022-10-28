@@ -26,6 +26,7 @@ using MOP.FSM;
 using MOP.Helpers;
 using MOP.Rules;
 using System.Text;
+using System.Diagnostics;
 
 namespace MOP
 {
@@ -91,6 +92,7 @@ namespace MOP
         
         private const string FaqLink = "http://kfigura.nl/mop/wiki/#/faq";
         private const string DonateLink = "https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y";
+        private const string KofiLink = "https://ko-fi.com/athlon";
         private const string WikiLink = "http://kfigura.nl/mop/wiki/#/";
         private const string HomepageLink = "http://kfigura.nl/";
         private const string GitHubLink = "https://github.com/Athlon007/MOP";
@@ -137,7 +139,7 @@ namespace MOP
             modSettings.AddButton("homepage", "HOMEPAGE", () => ShowDialog(HomepageLink));
             modSettings.AddButton("github", "GITHUB", () => ShowDialog(GitHubLink));
             modSettings.AddButton("homepage", "NEXUSMODS", () => ShowDialog(NexusModsLink));
-            modSettings.AddButton("paypal", "<color=#254280>DONATE</color>", () => ShowDialog(DonateLink));
+            modSettings.AddButton("paypal", "<color=#254280>DONATE</color>", OnDonateButtonClick);
 
             // Activating objects.
             modSettings.AddHeader("DESPAWNING");
@@ -228,7 +230,7 @@ namespace MOP
             Settings.AddButton(this, "linkHomepage", "HOMEPAGE", () => ShowDialog(HomepageLink));
             Settings.AddButton(this, "linkGithub", "GITHUB", () => ShowDialog(GitHubLink));
             Settings.AddButton(this, "linkNexusmods", "NEXUSMODS", () => ShowDialog(NexusModsLink));
-            Settings.AddButton(this, "linkDonate", "DONATE", () => ShowDialog(DonateLink), new Color32(37, 59, 128, 255), new Color(1, 1, 1));
+            Settings.AddButton(this, "linkDonate", "DONATE", OnDonateButtonClick, new Color32(37, 59, 128, 255), new Color(1, 1, 1));
 
             // Activating objects.
             Settings.AddHeader(this, "DESPAWNING");
@@ -635,7 +637,28 @@ namespace MOP
 
         private void OnWelcomeDonateClick()
         {
-            System.Diagnostics.Process.Start(DonateLink);
+            OnDonateButtonClick();
+        }
+
+        private void OnDonateButtonClick()
+        {
+#if PRO
+            ModPrompt prompt = ModPrompt.CreateCustomPrompt();
+            prompt.Title = "DONATE";
+            prompt.Text = "Choose your donation method:";
+            prompt.AddButton("PAYPAL", () => Process.Start(DonateLink));
+            prompt.AddButton("KO-FI", () => Process.Start(KofiLink));
+            prompt.AddButton("CANCEL", null);
+#else
+            ModUI.ShowCustomMessage("Choose your donation method:", "DONATE", new MsgBoxBtn[]
+            {
+                ModUI.CreateMessageBoxBtn("PAYPAL", () => Process.Start(DonateLink)),
+                ModUI.CreateMessageBoxBtn("KO-FI", () => Process.Start(KofiLink))
+            }, new MsgBoxBtn[] 
+            { 
+                ModUI.CreateMessageBoxBtn("CANCEL")
+            });
+#endif
         }
     }
 }
