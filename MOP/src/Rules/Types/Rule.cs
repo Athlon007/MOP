@@ -31,10 +31,15 @@ namespace MOP.Rules.Types
 
         public override string ToString()
         {
+            if (Mod == null)
+            {
+                return "Custom.txt";
+            }
+
 #if PRO
             return $"{Filename}" + (!Mod.Enabled ? " (Disabled)" : "");
 #else
-            return $"{Filename}" + (Mod.isDisabled ? " (Disabled)" : "");
+            return $"{this.GetType()} {Filename}" + (Mod.isDisabled ? " [Disabled]" : "");
 #endif
         }
     }

@@ -153,6 +153,7 @@
     <Compile Include="src\Places\Cases\Misc\SausageInMicrowaveBehaviour.cs" />
     <Compile Include="src\Rules\Configuration\ServerSources.cs" />
     <Compile Include="src\Rules\Types\ChangeParentRule.cs" />
+    <Compile Include="src\Rules\Types\NoLod.cs" />
     <Compile Include="src\Rules\Types\Rule.cs" />
     <Compile Include="src\Vehicles\Cases\Ferndale.cs" />
     <Compile Include="src\Vehicles\Cases\Flatbed.cs" />

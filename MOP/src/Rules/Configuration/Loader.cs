@@ -586,6 +586,9 @@ namespace MOP.Rules.Configuration
                         case "skip_fury_collider_fix":
                             RulesManager.Instance.SpecialRules.SkipFuryColliderFix = true;
                             break;
+                        case "no_lod":
+                            RulesManager.Instance.AddRule(new NoLod(mod, fileName, objects[0]));
+                            break;
                         // Custom.txt exclusives.
                         case "ignore_mod_vehicles":
                             if (fileName != CustomFile)

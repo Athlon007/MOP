@@ -2,6 +2,8 @@
 using UnityEngine;
 
 using MOP.Common;
+using MOP.Rules;
+using MOP.Rules.Types;
 
 namespace MOP.LOD
 {
@@ -9,10 +11,16 @@ namespace MOP.LOD
     {
         private readonly GameObject lodObject;
 
-        public LodObject(GameObject vehicle)
+        public LodObject(GameObject prototype)
         {
-            lodObject = (GameObject)Object.Instantiate(vehicle, new Vector3(0, -100, 0), Quaternion.Euler(0,0,0));
-            lodObject.name = "MOP_Dumb-" + vehicle.name;
+            // Do not create the LOD object, if "no_lod" flag was set for it.
+            if (RulesManager.Instance.GetList<NoLod>().FirstOrDefault(r => r.ObjectName == prototype.name) != null)
+            {
+                return;
+            }
+
+            lodObject = (GameObject)Object.Instantiate(prototype, new Vector3(0, -100, 0), Quaternion.Euler(0,0,0));
+            lodObject.name = "MOP_Dumb-" + prototype.name;
             lodObject.transform.SetParent(Hypervisor.Instance.DumbObjectParent);
 
             RemoveLogic();
@@ -118,6 +126,11 @@ namespace MOP.LOD
         /// <param name="transform"></param>
         public void ToggleActive(bool enabled, Transform transform)
         {
+            if (lodObject == null)
+            {
+                return;
+            }
+
             if (enabled == lodObject.activeSelf)
             {
                 return;
