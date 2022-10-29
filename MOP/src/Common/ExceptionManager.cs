@@ -190,7 +190,6 @@ namespace MOP.Common
             sb.Append($"RulesAutoUpdateFrequency: ").Append(MopSettings.GetRuleFilesUpdateDaysFrequency()).AppendLine();
             sb.Append($"RuledDeleteAutomatically: ").Append(MOP.DeleteUnusedRules.GetValue()).AppendLine();
             sb.Append($"DestroyEmptyBottles: ").Append(MOP.DestroyEmptyBottles.GetValue()).AppendLine();
-            sb.Append($"DestroyEmptyBottles: ").Append(MOP.DestroyEmptyBottles.GetValue()).AppendLine();
             sb.Append($"DisableEmptyItems: ").Append(MOP.DisableEmptyItems.GetValue()).AppendLine();
             sb.Append($"NoSkidmarks: ").Append(MOP.AlwaysDisableSkidmarks.GetValue()).AppendLine();
             sb.Append($"ToggleVehiclePhysicsOnly: ").Append(RulesManager.Instance.SpecialRules.ToggleAllVehiclesPhysicsOnly).AppendLine();
