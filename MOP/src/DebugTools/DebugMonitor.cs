@@ -144,8 +144,8 @@ namespace MOP.DebugTools
 
         private void OnDestroy()
         {
-            Destroy(fpsShadow.gameObject);
-            Destroy(fps.gameObject);
+            Destroy(fpsShadow?.gameObject);
+            Destroy(fps?.gameObject);
         }
 
         private Vector3 Difference(Vector3 a, Vector3 b)

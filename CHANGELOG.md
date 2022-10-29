@@ -17,9 +17,12 @@
   - Does not apply for mod items
 - In Performance mode, if you enter a vehicle, other vehicles will be disabled sooner
 - Added Ko-Fi donation link
+- "mop rules" command will now show the type of rule used, in front of its entry
 - (Rule Files API) Added "no_lod: [object_name]" rule files flag
   - If set, LOD object for the given game object name will not be created
-- "mop rules" command will now show the type of rule used, in front of its entry
+- (Rule Files API) Added "no_logs" custom rule files flag
+  - Disables LOD system completely
+  - For Custom.txt rule files only
 
 ### Changes
 
@@ -49,7 +52,8 @@
 - Fixed the game data formatting in the bug report
 - Fixed the Teimo's advert pile sometimes not spawning
 - Fixed double occurence of "DestroyEmptyBottles" in the MOP log file
-- Fixes "mop rules" command not working, if Custom.txt rule file is used
+- Fixed "mop rules" command not working, if Custom.txt rule file is used
+- Fixed an error spam, caused by MOP trying to enable/disable EventSound object, while the object did not have one
 
 ## 3.9.2 (07.10.2022)
 

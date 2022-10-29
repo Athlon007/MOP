@@ -13,6 +13,11 @@ namespace MOP.LOD
 
         public LodObject(GameObject prototype)
         {
+            if (RulesManager.Instance.SpecialRules.NoLods)
+            {
+                return;
+            }
+
             // Do not create the LOD object, if "no_lod" flag was set for it.
             if (RulesManager.Instance.GetList<NoLod>().FirstOrDefault(r => r.ObjectName == prototype.name) != null)
             {

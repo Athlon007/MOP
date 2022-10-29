@@ -351,7 +351,7 @@ namespace MOP.Items
 
                 gameObject.SetActive(enabled);
 
-                if (enabled)
+                if (enabled && eventSound != null)
                 {
                     StartCoroutine(ToggleEventSound(true));
                 }
@@ -826,6 +826,12 @@ namespace MOP.Items
             {
                 yield return new WaitForSeconds(2f);
             }
+
+            if (eventSound == null)
+            {
+                yield break;
+            }
+
             eventSound.useCollisionSound = enabled;
         }
 
