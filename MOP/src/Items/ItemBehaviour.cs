@@ -101,6 +101,11 @@ namespace MOP.Items
 
         public ItemBehaviour()
         {
+            if (this.position == LodObject.LodStoragePosition)
+            {
+                return;
+            }
+
             if (gameObject.GetComponents<ItemBehaviour>().Length > 1)
             {
                 Destroy(this);

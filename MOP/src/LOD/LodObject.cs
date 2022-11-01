@@ -11,6 +11,7 @@ namespace MOP.LOD
     {
         private readonly GameObject lodObject;
         public const string Prefix = "MOP_Dumb-";
+        public static readonly Vector3 LodStoragePosition = new Vector3(0, -100, 2137);
 
         public LodObject(GameObject prototype)
         {
@@ -25,7 +26,7 @@ namespace MOP.LOD
                 return;
             }
 
-            lodObject = (GameObject)Object.Instantiate(prototype, new Vector3(0, -100, 0), Quaternion.Euler(0,0,0));
+            lodObject = (GameObject)Object.Instantiate(prototype, LodStoragePosition, Quaternion.Euler(0,0,0));
             lodObject.name = Prefix + prototype.name;
             lodObject.transform.SetParent(Hypervisor.Instance.DumbObjectParent);
 
@@ -113,7 +114,7 @@ namespace MOP.LOD
                     continue;
                 }
 
-                if (!t.gameObject.activeSelf || (t.gameObject.GetComponent<Renderer>() == null && t.childCount == 0))
+                if (!t.gameObject.activeSelf || (t.gameObject.GetComponentsInChildren<Renderer>(true).Length == 0))
                 {
                     GameObject.Destroy(t.gameObject);
                     continue;
