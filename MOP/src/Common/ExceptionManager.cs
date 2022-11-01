@@ -184,8 +184,6 @@ namespace MOP.Common
             sb.Append($"RunInBackground: ").Append(MOP.KeepRunningInBackground.GetValue()).AppendLine();
             sb.Append($"DynamicDrawDistance: ").Append(MOP.DynamicDrawDistance.GetValue()).AppendLine();
             sb.Append($"RulesAutoUpdate: ").Append(MOP.RulesAutoUpdate.GetValue()).AppendLine();
-            sb.Append($"DynamicDrawDistance: ").Append(MOP.DynamicDrawDistance.GetValue()).AppendLine();
-            sb.Append($"RulesAutoUpdate: ").Append(MOP.RulesAutoUpdate.GetValue()).AppendLine();
             sb.Append($"VerifyRules: ").Append(MOP.VerifyRuleFiles.GetValue()).AppendLine();
             sb.Append($"RulesAutoUpdateFrequency: ").Append(MopSettings.GetRuleFilesUpdateDaysFrequency()).AppendLine();
             sb.Append($"RuledDeleteAutomatically: ").Append(MOP.DeleteUnusedRules.GetValue()).AppendLine();
