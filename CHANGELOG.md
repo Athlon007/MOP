@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.10 (TBA)
+## 3.10 (02.11.2022)
 
 ### Added
 
@@ -20,7 +20,7 @@
 - "mop rules" command will now show the type of rule used, in front of its entry
 - (Rule Files API) Added "no_lod: [object_name]" rule files flag
   - If set, LOD object for the given game object name will not be created
-- (Rule Files API) Added "no_logs" custom rule files flag
+- (Rule Files API) Added "no_lods" custom rule files flag
   - Disables LOD system completely
   - For Custom.txt rule files only
 

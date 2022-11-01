@@ -36,7 +36,7 @@ namespace MOP
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.10"; //Version
-        public const string SubVersion = "BETA_6"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public const string Edition = "Mod Loader Pro";
 #else
@@ -162,14 +162,14 @@ namespace MOP
             FramerateLimiter = modSettings.AddSlider("framerateLimiterUpdated", "FRAMERATE LIMITER", 21, 2, 21, () => { MopSettings.UpdateFramerateLimiter(); UpdateSettingsUI(); });
             FramerateLimiter.ValueSuffix = "0 FPS";
             EnableShadowAdjusting = modSettings.AddToggle("enableShadowAdjusting", "ADJUST SHADOWS", false, () => { MopSettings.UpdateShadows(); ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value); });
-            EnableShadowAdjusting.AddTooltip("Allows you to set the shadow render distance with the slider below.");
+            EnableShadowAdjusting.AddTooltip("Allows you to set the shadow render\ndistance with the slider below.");
             ShadowDistance = modSettings.AddSlider("shadowDistance", "SHADOW DISTANCE", 2, 0, 20, () => { MopSettings.UpdateShadows(); UpdateSettingsUI(); });
             ShadowDistance.ValueSuffix = "00 Meters";
             ShadowDistance.gameObject.SetActive(EnableShadowAdjusting.Value);
             KeepRunningInBackground = modSettings.AddToggle("keepRunningInBackground", "RUN GAME IN BACKGROUND", true, MopSettings.ToggleBackgroundRunning);
-            KeepRunningInBackground.AddTooltip("If unchecked, the game will be paused when the game's window looses focus.");
+            KeepRunningInBackground.AddTooltip("If unchecked, the game will\nbe paused when the game's\nwindow looses focus.");
             DynamicDrawDistance = modSettings.AddToggle("dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", true);
-            DynamicDrawDistance.AddTooltip("MOP will adjust the draw distance according to the current situation\n(ex. lower it while inside of a building).");
+            DynamicDrawDistance.AddTooltip("MOP will adjust the draw distance\naccording to the current situation\n(ex. lower it while inside of a building).");
             modSettings.AddButton("changeResolution", "RESOLUTION", () => { Resolution.gameObject.SetActive(!Resolution.gameObject.activeSelf); });
 
             Resolution = modSettings.AddRadioButtons("resolution", "RESOLUTION", selected, () =>
