@@ -861,6 +861,11 @@ namespace MOP.Items
             switch (gameObject.name)
             {
                 default:
+                    if (GetComponent<Renderer>() == null)
+                    {
+                        return;
+                    }
+
                     size = GetComponent<Renderer>().bounds.size;
                     break;
                 case "motor hoist(itemx)":
