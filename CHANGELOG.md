@@ -54,6 +54,8 @@
 - Fixed double occurence of "DestroyEmptyBottles" in the MOP log file
 - Fixed "mop rules" command not working, if Custom.txt rule file is used
 - Fixed an error spam, caused by MOP trying to enable/disable EventSound object, while the object did not have one
+- Fixed double occurence of "RulesAutoUpdate" and "DynamicDrawDistance" in the exception log
+- Fixed much of MOP's output_log.txt spam
 
 ## 3.9.2 (07.10.2022)
 

@@ -48,4 +48,5 @@
 - Fixed the game data formatting in the bug report
 - Fixed the Teimo's advert pile sometimes not spawning
 - Fixed double occurence of "DestroyEmptyBottles" in the MOP log file
-- Fixes "mop rules" command not working, if Custom.txt rule file is used
+- Fixed "mop rules" command not working, if Custom.txt rule file is used
+- Fixed an error spam, caused by MOP trying to enable/disable EventSound object, while the object did not have one

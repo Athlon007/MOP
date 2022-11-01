@@ -10,6 +10,7 @@ namespace MOP.LOD
     internal class LodObject
     {
         private readonly GameObject lodObject;
+        public const string Prefix = "MOP_Dumb-";
 
         public LodObject(GameObject prototype)
         {
@@ -25,7 +26,7 @@ namespace MOP.LOD
             }
 
             lodObject = (GameObject)Object.Instantiate(prototype, new Vector3(0, -100, 0), Quaternion.Euler(0,0,0));
-            lodObject.name = "MOP_Dumb-" + prototype.name;
+            lodObject.name = Prefix + prototype.name;
             lodObject.transform.SetParent(Hypervisor.Instance.DumbObjectParent);
 
             RemoveLogic();

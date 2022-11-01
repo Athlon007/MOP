@@ -29,11 +29,11 @@ Originates from [KruFPS](https://github.com/Krutonium/KruFPS).
 
 ## Mod compatibility
 
-Visit [Compatibility Wiki](http://athlon.kkmr.pl/mop/wiki/#/compatibility) to see if your mod is supported.
+Visit [Compatibility Wiki](http://nl/mop/wiki/#/compatibility) to see if your mod is supported.
 
 ## Questions
 
-Got any questions? Please refer to the [FAQ](http://athlon.kkmr.pl/mop/wiki/#/faq) first!
+Got any questions? Please refer to the [FAQ](http://kfigura.nl/mop/wiki/#/faq) first!
 
 ## Preview builds
 
@@ -44,6 +44,8 @@ Beta builds are going to be released on GitHub with a tag "pre-release".
 If you found a bug in MOP and you would like to report it, the first thing you should do is to go into MSC, go to MOP settings and click "**I FOUND A BUG**".
 
 To send a bug report, please either [use GitHub](https://github.com/Athlon007/MOP/issues/new?assignees=&labels=bug&template=template-bug-report.md&title=Bug%20Report), or send an e-mail to [bugreport@kkmr.pl](mailto:bugreport@kkmr.pl).
+
+Note: Don't even bother if you use a pirated copy of the game, as pirated game copies are NOT SUPPORTED.
 
 ## License
 
@@ -70,4 +72,4 @@ Do you like MOP? Consider buying me a pizza :)
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/O4O2FZ220)
 
-[![](http://athlon.kkmr.pl/images/svg/paypal.svg)](https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y)
+[![](http://kfigura.nl/images/svg/paypal.svg)](https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y)

@@ -4,6 +4,7 @@ using UnityEngine;
 
 using MOP.Managers;
 using MOP.Vehicles.Cases;
+using MOP.Common;
 
 namespace MOP.DebugTools
 {
@@ -53,6 +54,11 @@ namespace MOP.DebugTools
 
         private void Update()
         {
+            if (!MopSettings.IsModActive)
+            {
+                return;
+            }
+
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 if ((int)(debugPage + 1) >= Enum.GetNames(typeof(DebugPage)).Length)
