@@ -31,6 +31,7 @@
 - Improved how the dance hall is enabled, on Quality mode
 - Dance hall is now visible on Balanced mode, as well as Quality mode
 - Cottage is now visible on Balanced mode, as well as Quality mode
+- (MSCLoader) Updated to MSCLoader 1.2.8
 
 ### Bug Fixes
 
