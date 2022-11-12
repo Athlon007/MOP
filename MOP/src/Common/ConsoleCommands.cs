@@ -53,7 +53,8 @@ namespace MOP.Common
                                 "<color=yellow>stop</color> - Stops MOP. MIGHT BREAK THE GAME!\n" +
                                 "<color=yellow>start</color> - Starts MOP back again\n" +
                                 "<color=yellow>quality [0-5]</color> - Set quality setting\n" +
-                                "<color=yellow>debug_montior</color> - Shows/hides the MOP debug monitor";
+                                "<color=yellow>debug_montior</color> - Shows/hides the MOP debug monitor\n" +
+                                "<color=yellow>presave</color> - Runs pre-save script";
 
         public override void Run(string[] args)
         {
@@ -422,7 +423,15 @@ namespace MOP.Common
                     }
 
                     Hypervisor.Instance.ToggleDebugMode();
-
+                    break;
+                case "PRESAVE":
+                    if (ModLoader.CurrentScene != CurrentScene.Game)
+                    {
+                        ModConsole.Log("[MOP] Can only be used in-game.");
+                        return;
+                    }
+                    ModConsole.Log("[MOP] Running pre-save...");
+                    Hypervisor.Instance?.PreSaveGame();
                     break;
             }
         }

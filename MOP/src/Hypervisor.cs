@@ -757,7 +757,7 @@ namespace MOP
         /// <summary>
         /// This void is initialized before the player decides to save the game.
         /// </summary>
-        private void PreSaveGame()
+        public void PreSaveGame()
         {
             ModConsole.Log("[MOP] Initializing Pre-Save Actions...");
             SaveManager.ReleaseSave();
@@ -767,7 +767,7 @@ namespace MOP
             
             SaveManager.RemoveReadOnlyAttribute();
             ItemsManager.Instance.OnSave();
-
+            
             ToggleAll(true, ToggleAllMode.OnSave);
             ModConsole.Log("[MOP] Pre-Save Actions Completed!");
         }

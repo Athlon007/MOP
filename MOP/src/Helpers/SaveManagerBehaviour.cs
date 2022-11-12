@@ -1,10 +1,5 @@
-﻿using MSCLoader;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.IO;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace MOP.Helpers

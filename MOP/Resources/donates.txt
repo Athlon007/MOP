@@ -3,3 +3,4 @@ Crate Fondler 6000
 Tom Johansson
 Donal Magrane
 Claudiu Rossi
+Catharine Pierce
