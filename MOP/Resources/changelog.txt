@@ -1,55 +1,9 @@
 ### Added
 
-- Disabled vehicle models will now be visible from much further
-  - Does not apply for mod vehicles
-- Added new value to active distance slider value: Very Close (0.5x)
-- Added multiple sources of rule files
-  - MOP will test connection to each one of them, and pick the first one that is online
-- MOP will remove "read-only" flag from the save files, as soon as you look at the save game toilet
-- Vehicles are now affected by the activate distance slider
-- Certain objects can now have a minimum toggle distance (ex: Perajarvi's minimum distance is always 600 meters, no matter the activate distance slider)
-- Large items (such as garbage barell) will be visible from a further distance (in Balanced mode or above)
-  - The higher the quality level, the smaller items will be visible from further distance
-  - Does not apply for mod items
-- In Performance mode, if you enter a vehicle, other vehicles will be disabled sooner
-- Added Ko-Fi donation link
-- "mop rules" command will now show the type of rule used, in front of its entry
-- (Rule Files API) Added "no_lod: [object_name]" rule files flag
-  - If set, LOD object for the given game object name will not be created
-- (Rule Files API) Added "no_lods" custom rule files flag
-  - Disables LOD system completely
-  - For Custom.txt rule files only
+- Added "mop presave" command, for testing the pre-save functionality
 
 ### Changes
 
-- If the save file read-only attribute removal has failed, MOP will retry couple more times
-- Optimization and general code improvements
-- Array of items to enable, disable, and remove now use a generic C#'s Queue implementation
-- MOP by default will now toggle items much closer (125 meters for cars, 75 for items)
-- Renamed "Normal" active distance to "Default"
-- General code improvements and enhancements
-- Improved how the dance hall is enabled, on Quality mode
-- Dance hall is now visible on Balanced mode, as well as Quality mode
-- Cottage is now visible on Balanced mode, as well as Quality mode
-- (MSCLoader) Updated to MSCLoader 1.2.8
-
-### Bug Fixes
-
-- Fixed a rare bug, where sometimes MOP would not have access to the save file
-- Fixed not attached fuel tank getting toggled on and off repeatedly
-- Fixed "mop rules" command displaying the info about the rules incorrectly
-- Fixed a bug, in which MOP would fail to locate correct Satsuma key object
-- Fixed masked elements enabling causing error, if the referenced masked element was null
-- Beer cases won't play the rattling sound, when enabled and disabled
-- Fixed a few typos
-- Fixed MOP sometimes preventing you from saving the game
-- (Mod Loader Pro) Fixed Disable Empty Items tooltip
-- Fixed a bug, where the hood would teleport around when saving, if not attached to the Satsuma, and it being in "disabled" state while saving
-- Fixed the envelope not spawning
-- Fixed the game data formatting in the bug report
-- Fixed the Teimo's advert pile sometimes not spawning
-- Fixed double occurence of "DestroyEmptyBottles" in the MOP log file
-- Fixed "mop rules" command not working, if Custom.txt rule file is used
-- Fixed an error spam, caused by MOP trying to enable/disable EventSound object, while the object did not have one
-- Fixed double occurence of "RulesAutoUpdate" and "DynamicDrawDistance" in the exception log
-- Fixed much of MOP's output_log.txt spam
+- Haybales are now toggled as items (instead of world objects)
+- Haybales are now visible from much furter distance
+- Large item's LODs will be toggled from larger distance in Balanced mode or above
