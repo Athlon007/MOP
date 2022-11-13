@@ -69,6 +69,8 @@ namespace MOP.Common
                 default:
                     ModConsole.Log("Invalid command. Type \"mop help\" for command list.");
                     break;
+                case "?":
+                case "H":
                 case "HELP":
                     string[] helpList = HelpList.Split('\n');
                     Array.Sort(helpList, StringComparer.InvariantCulture);

@@ -12,6 +12,7 @@ namespace MOP.LOD
         private readonly GameObject lodObject;
         public const string Prefix = "MOP_Dumb-";
         public static readonly Vector3 LodStoragePosition = new Vector3(0, -100, 2137);
+        public const int DefaultToggleDistance = 200;
 
         public LodObject(GameObject prototype)
         {
@@ -200,5 +201,10 @@ namespace MOP.LOD
                 GameObject.Destroy(lodObject);
             }
         }
+
+        /// <summary>
+        /// The distance after which this item is toggled.
+        /// </summary>
+        public float ToggleDistance { get; set; } = DefaultToggleDistance;
     }
 }

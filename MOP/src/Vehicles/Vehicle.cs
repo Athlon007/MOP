@@ -453,5 +453,7 @@ namespace MOP.Vehicles
         {
             dummyCar?.ToggleActive(enabled, transform);
         }
+
+        public LodObject LodObject => dummyCar;
     }
 }

@@ -480,6 +480,11 @@ namespace MOP.Managers
 
         public bool IsVanillaItem(ItemBehaviour item)
         {
+            if (item.gameObject.name.Contains("haybale"))
+            {
+                return true;
+            }
+
             return nameList.Contains(item.gameObject.name.Replace("(itemx)", "").Replace("(Clone)", ""));
         }
     }

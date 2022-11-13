@@ -865,6 +865,9 @@ namespace MOP.Items
             Vector3 size;
             switch (gameObject.name)
             {
+                case "motor hoist(itemx)":
+                    size = transform.Find("motorhoist_frame").GetComponent<Renderer>().bounds.size;
+                    break;
                 default:
                     if (GetComponent<Renderer>() == null)
                     {
@@ -873,9 +876,6 @@ namespace MOP.Items
 
                     size = GetComponent<Renderer>().bounds.size;
                     break;
-                case "motor hoist(itemx)":
-                    size = transform.Find("motorhoist_frame").GetComponent<Renderer>().bounds.size;
-                    break;
             }
 
             float volume = size.x * size.y * size.z;
@@ -883,6 +883,13 @@ namespace MOP.Items
             {
                 dummy = new LodObject(this.gameObject);
             }
+
+            if (volume > 1 && MopSettings.Mode >= PerformanceMode.Balanced)
+            {
+                dummy.ToggleDistance *= 2;
+            }
         }
+
+        public LodObject LodObject => dummy;
     }
 }

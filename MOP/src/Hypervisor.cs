@@ -391,7 +391,8 @@ namespace MOP
                     // And now we add all child haybale to world objects.
                     foreach (Transform haybale in haybalesParent.transform.GetComponentInChildren<Transform>())
                     {
-                        worldObjectManager.Add(haybale.gameObject.name, DisableOn.Distance | DisableOn.IgnoreInQualityMode, 120);
+                        //worldObjectManager.Add(haybale.gameObject.name, DisableOn.Distance | DisableOn.IgnoreInQualityMode, 120);
+                        ItemBehaviour t = haybale.gameObject.AddComponent<ItemBehaviour>();
                     }
                 }
             }
@@ -955,7 +956,10 @@ namespace MOP
                         }
                         else
                         {
-                            item.ToggleLOD(distance < DummyItemDistane);
+                            if (item.LodObject != null)
+                            {
+                                item.ToggleLOD(distance < item.LodObject.ToggleDistance);
+                            }
                             if (!item.ActiveSelf) continue;
                             item.Toggle(false);
                         }

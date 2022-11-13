@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.10.1 (TBA)
+
+### Added
+
+- Added "mop presave" command, for testing the pre-save functionality
+
+### Changes
+
+- Haybales are now toggled as items (instead of world objects)
+- Haybales are now visible from much furter distance
+- Large item's LODs will be toggled from larger distance in Balanced mode or above
+
 ## 3.10 (02.11.2022)
 
 ### Added
