@@ -59,7 +59,7 @@ namespace MOP.Places
             "PlayerRigid", "GrillboxMicro", "PhysHead", "Shades", "hat", "glasses", "FighterFist", "GameLogic",
             "Buttons", "Bet", "Double", "Hold", "InsertCoin", "Deal", "TakeWin", "Pokeri", "CashSound", "videopoker_on",
             "Hatch", "HookSlot", "Disabled", "slot_machine_off", "Money", "Lock", "Cash", "Accessories", "VideoPoker", "videopoker",
-            "Monitor", "screen", "button_", "BreakableWindows", "BreakableWindows"
+            "Monitor", "screen", "button_", "BreakableWindows", "BreakableWindows", "teimo advert pile(itemx)"
         };
 
         /// <summary>
@@ -70,6 +70,7 @@ namespace MOP.Places
             RunInitialActions(
                 BoxesFix, 
                 InjectVideoPoker, 
+                AdvertFix,
                 () => GameObjectBlackList.AddRange(blackList),
                 () => DisableableChilds = GetDisableableChilds(),
                 FixSlotAndPoker,

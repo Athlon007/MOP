@@ -12,6 +12,10 @@
 - Haybales are now visible from much furter distance
 - Large item's LODs will be toggled from larger distance in Balanced mode or above
 
+### Bug Fixes
+
+- Fixed the advert pile disappearing, if taken away from Perajarvi
+
 ## 3.10 (02.11.2022)
 
 ### Added
