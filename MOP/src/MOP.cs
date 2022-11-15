@@ -36,7 +36,7 @@ namespace MOP
         public override string Name => "MODERN OPTIMIZATION PLUGIN";
         public override string Author => "Athlon"; //Your Username
         public override string Version => "3.10.1"; //Version
-        public const string SubVersion = "BETA_2"; // NIGHTLY-yyyymmdd | BETA_x | RC_
+        public const string SubVersion = ""; // NIGHTLY-yyyymmdd | BETA_x | RC_
 #if PRO
         public const string Edition = "Mod Loader Pro";
 #else
@@ -46,7 +46,7 @@ namespace MOP
 #endif
         public override byte[] Icon => Properties.Resources.icon;
 
-#region Settings & Configuration
+        #region Settings & Configuration
         // Stores the config path of mod.
         static string modConfigPath;
         public static string ModConfigPath { get => modConfigPath; }
@@ -82,14 +82,14 @@ namespace MOP
         const string WarningMode = "Some changes will be applied after the game restart.";
         readonly string[] activeDistanceText = { "Very Close (0.5x)", "Close (0.75x)", "Default (1x)", "Far (2x)", "Very Far (4x)" };
         readonly string[] rulesAutoUpdateFrequencyText = { "Every launch", "Daily", "Every 2 days", "Weekly" };
-        
+
         const string WelcomeMessage = "Welcome to Modern Optimization Plugin {0}!\n" +
                                       "Consider supporting the project using PayPal, or NexusMods.\n\n" +
                                       "<b>BACKUP YOUR SAVE FILES!</b>";
         const string WelcomeMessageFestive = "Merry Christmas and Happy New Year {1}!\n\n" +
                                              "Welcome to Modern Optimization Plugin{0}!\n" +
                                              "Consider supporting the project using PayPal, or on NexusMods.";
-        
+
         private const string FaqLink = "http://kfigura.nl/mop/wiki/#/faq";
         private const string DonateLink = "https://www.paypal.com/donate/?hosted_button_id=8VASR9RLLS76Y";
         private const string KofiLink = "https://ko-fi.com/athlon";
@@ -251,7 +251,7 @@ namespace MOP
             Settings.AddText(this, "If unchecked, the game will be paused when the game's window looses focus.");
             DynamicDrawDistance = Settings.AddCheckBox(this, "dynamicDrawDistance", "DYNAMIC DRAW DISTANCE", true);
             Settings.AddText(this, "MOP will adjust the draw distance, according to the current situation\n(ex. lower it while inside of a building).");
-           
+
             GameResolution = Settings.AddDropDownList(this, "", "RESOLUTION", resolutions.ToArray(), selected, () =>
             {
                 // Can't use resolution.GetSelectedItemName(), as the selected item name gets updated AFTER the OnSelectionChanged is called.
@@ -301,10 +301,10 @@ namespace MOP
 
             // Info
             Settings.AddHeader(this, "INFO");
-            Settings.AddText(this,  GetFooter());
+            Settings.AddText(this, GetFooter());
 #endif
         }
-#endregion
+        #endregion
 
         public override void MenuOnLoad()
         {
@@ -326,26 +326,26 @@ namespace MOP
                 prompt.Title = "MOP";
                 prompt.AddButton("OK", () => { GameObject.Destroy(prompt.gameObject); });
                 var btnDonate = prompt.AddButton("<color=#169BD7>DONATE</color>", () => { OnWelcomeDonateClick(); GameObject.Destroy(prompt.gameObject); });
-                var btnChangelog = prompt.AddButton("CHANGELOG", () => { 
-                    ModPrompt.CreatePrompt(GetChangelog(true), $"MOP {ModVersion.Replace("_", " ")} - Changelog", () => { prompt.gameObject.SetActive(true); }); 
-                }); 
+                var btnChangelog = prompt.AddButton("CHANGELOG", () => {
+                    ModPrompt.CreatePrompt(GetChangelog(true), $"MOP {ModVersion.Replace("_", " ")} - Changelog", () => { prompt.gameObject.SetActive(true); });
+                });
 #else
-                ModUI.ShowCustomMessage(message, "MOP", 
+                ModUI.ShowCustomMessage(message, "MOP",
                     new MsgBoxBtn[] {
                         ModUI.CreateMessageBoxBtn("OK"),
                         ModUI.CreateMessageBoxBtn(
                             "DONATE",
                             OnWelcomeDonateClick,
-                            new Color32(37, 59, 128, 255), 
+                            new Color32(37, 59, 128, 255),
                             new Color(1, 1, 1)),
                         ModUI.CreateMessageBoxBtn("CHANGELOG", () =>
                         {
                             ModUI.ShowMessage(GetChangelog(true), $"MOP {ModVersion.Replace("_", " ")} - Changelog ");
                         }, true) },
-                    new MsgBoxBtn[] { }); 
+                    new MsgBoxBtn[] { });
                 // We must add an extra empty MsgBoxBtn array,
                 // as the MSCLoader's ShowCustomMessage is so shit,
-                // the buttons won't work otherwise. 
+                // the buttons won't work otherwise.
 #endif
             }
 
@@ -369,7 +369,7 @@ namespace MOP
                 BugReporter.Instance.RestartGame();
                 return;
             }
-            
+
             MopSettings.GameFixStatus = GameFixStatus.None;
 
             modeWarningText.SetValue("");
@@ -585,7 +585,7 @@ namespace MOP
 
         string GetFooter()
         {
-            return  $"<color=yellow>MOP</color> {ModVersion.Replace("_", " ")}\n" +
+            return $"<color=yellow>MOP</color> {ModVersion.Replace("_", " ")}\n" +
 #if PRO
                     $"<color=yellow>Mod Loader Pro</color> {ModLoader.Version}\n" +
 #else
@@ -654,8 +654,8 @@ namespace MOP
             {
                 ModUI.CreateMessageBoxBtn("PAYPAL", () => Process.Start(DonateLink)),
                 ModUI.CreateMessageBoxBtn("KO-FI", () => Process.Start(KofiLink))
-            }, new MsgBoxBtn[] 
-            { 
+            }, new MsgBoxBtn[]
+            {
                 ModUI.CreateMessageBoxBtn("CANCEL")
             });
 #endif
