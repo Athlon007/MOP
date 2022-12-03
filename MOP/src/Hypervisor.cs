@@ -1105,7 +1105,7 @@ namespace MOP
                 FinishLoading();
             }
 
-            if (Input.GetKeyDown(KeyCode.F7))
+            if (Input.GetKeyDown(KeyCode.F8))
             {
                 List<ItemBehaviour> b = ItemsManager.Instance.GetAll;
                 foreach (ItemBehaviour i in b)

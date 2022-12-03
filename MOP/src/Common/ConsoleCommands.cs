@@ -25,6 +25,7 @@ using MSCLoader;
 using MOP.Rules;
 using MOP.Rules.Types;
 using System.Linq;
+using MOP.Vehicles.Cases;
 
 namespace MOP.Common
 {
@@ -434,6 +435,22 @@ namespace MOP.Common
                     }
                     ModConsole.Log("[MOP] Running pre-save...");
                     Hypervisor.Instance?.PreSaveGame();
+                    break;
+                case "YEET":
+                    // yeet.
+                    if (ModLoader.CurrentScene != CurrentScene.Game)
+                    {
+                        ModConsole.Log("[MOP] Can only be used in-game.");
+                        return;
+                    }
+
+                    float force = 10000;
+                    if (args.Length > 1)
+                    {
+                        force = int.Parse(args[1]);
+                    }
+
+                    Satsuma.Instance.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up * force, ForceMode.Impulse);
                     break;
             }
         }

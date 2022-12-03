@@ -42,7 +42,6 @@ namespace MOP
         public static GameFixes Instance { get => instance; }
 
         public bool HoodFixDone { get; private set; }
-        public bool RearBumperFixDone { get; private set; }
 
         public GameFixes()
         {

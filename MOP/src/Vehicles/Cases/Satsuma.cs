@@ -75,10 +75,6 @@ namespace MOP.Vehicles.Cases
         // Key object.
         readonly GameObject key;
 
-        // Rear bumper transform.
-        readonly GameObject rearBumper;
-        readonly GameObject databaseBumper;
-
         // Elements that are toggled uppon some situation.
         readonly List<SatsumaOnActionObjects> satsumaOnActionObjects;
 
@@ -295,8 +291,8 @@ namespace MOP.Vehicles.Cases
             // Rear bumper detachng fix.
             try
             {
-                rearBumper = GameObject.Find("bumper rear(Clone)");
-                databaseBumper = GameObject.Find("Database/DatabaseBody/Bumper_Rear");
+                GameObject rearBumper = GameObject.Find("bumper rear(Clone)");
+                GameObject databaseBumper = GameObject.Find("Database/DatabaseBody/Bumper_Rear");
                 databaseBumper.SetActive(false);
                 databaseBumper.SetActive(true);
                 RearBumperBehaviour behaviour = rearBumper.AddComponent<RearBumperBehaviour>();
@@ -673,9 +669,11 @@ namespace MOP.Vehicles.Cases
             }
 
             // Don't run the code, if the value is the same
-            if (gameObject == null || disableableObjects[0].gameObject.activeSelf == enabled) return;
-
-            if (!GameFixes.Instance.HoodFixDone && !GameFixes.Instance.RearBumperFixDone) return;
+            if (gameObject == null || disableableObjects[0].gameObject.activeSelf == enabled)
+            {
+                //ModConsole.Log("no");
+                return;
+            }
 
             if (!enabled)
             {
@@ -702,7 +700,7 @@ namespace MOP.Vehicles.Cases
         {
             // Satsuma in inspection zone and mod wants to disable it?
             // Set enabled to true, so it won't be disabled.
-            if (!enabled && IsSatsumaInInspectionArea || IsRopeHooked())
+            if (!enabled && IsSatsumaInInspectionArea || IsRopeHooked() || !IsOnGround())
                 enabled = true;
 
             base.ToggleUnityCar(enabled);
@@ -736,10 +734,26 @@ namespace MOP.Vehicles.Cases
             rb.constraints = enabled ? RigidbodyConstraints.None : RigidbodyConstraints.FreezePosition;
         }
 
+        private int framesLeftToSkipForGroundCheckDueToFlight;
+        private const int FramesToSkip = 30;
+
         public override bool IsOnGround()
         {
             if (!wheel.enabled)
-                return drivetrain.torque == 0;
+            {
+                if (rb.velocity.magnitude > 0.2)
+                {
+                    framesLeftToSkipForGroundCheckDueToFlight = FramesToSkip;
+                }
+
+                if (framesLeftToSkipForGroundCheckDueToFlight > 0)
+                {
+                    framesLeftToSkipForGroundCheckDueToFlight--;
+                    return false;
+                }
+
+                return drivetrain.torque == 0 && rb.velocity.sqrMagnitude == 0;
+            }
 
             return wheel.onGroundDown;
         }

@@ -5,6 +5,8 @@
 ### Bug Fixes
 
 - Fixed bare car body moving, if player attempted to put floor jack under it
+- Fixed a bug, which would cause the car body not fall, if it was (somehow) sent flying in the air
+- Fixed Satsuma not entirely getting disabled
 
 ## 3.10.1 (15.11.2022)
 
