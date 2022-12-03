@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.10.2 (TBA)
+
+### Bug Fixes
+
+- Fixed bare car body moving, if player attempted to put floor jack under it
+
 ## 3.10.1 (15.11.2022)
 
 ### Added

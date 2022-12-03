@@ -578,6 +578,9 @@ namespace MOP.Items
                         grillTrigger = transform.Find("Fireplace/GrillTrigger").gameObject;
                         transform.Find("Fireplace/SausageTrigger").gameObject.AddComponent<GrillTriggerBehaviour>();
                         break;
+                    case "floor jack(itemx)":
+                        gameObject.AddComponent<FloorJackGrabBehaviour>();
+                        break;
                 }
                 
                 PlayMakerFSM dataFsm = gameObject.GetPlayMaker("Data");
