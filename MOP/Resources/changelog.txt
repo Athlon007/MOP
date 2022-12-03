@@ -1,13 +1,5 @@
-### Added
-
-- Added "mop presave" command, for testing the pre-save functionality
-
-### Changes
-
-- Haybales are now toggled as items (instead of world objects)
-- Haybales are now visible from much furter distance
-- Large item's LODs will be toggled from larger distance in Balanced mode or above
-
 ### Bug Fixes
 
-- Fixed the advert pile disappearing, if taken away from Perajarvi
+- Fixed bare car body moving, if player attempted to put floor jack under it
+- Fixed a bug, which would cause the car body not fall, if it was (somehow) sent flying in the air
+- Fixed Satsuma not entirely getting disabled

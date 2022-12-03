@@ -671,7 +671,6 @@ namespace MOP.Vehicles.Cases
             // Don't run the code, if the value is the same
             if (gameObject == null || disableableObjects[0].gameObject.activeSelf == enabled)
             {
-                //ModConsole.Log("no");
                 return;
             }
 
