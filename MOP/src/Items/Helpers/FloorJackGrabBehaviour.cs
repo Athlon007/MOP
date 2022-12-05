@@ -22,6 +22,7 @@ namespace MOP.Items.Helpers
     internal class FloorJackGrabBehaviour : MonoBehaviour
     {
         private Rigidbody rb;
+        // Minimal distance to Satsuma needed, to consider the floor jack to be close to the Satsuma. 
         private const float MinimalDistanceToSatsuma = 2.5f;
 
         private bool isActionApplied;
@@ -48,16 +49,25 @@ namespace MOP.Items.Helpers
             }
         }
 
+        /// <summary>
+        /// Returns true, if the floor jack is held by the player.
+        /// </summary>
         private bool IsGrabbed()
         {
             return rb.velocity.magnitude > 0;
         }
 
+        /// <summary>
+        /// Returns true, if the floor jack is close to the Satsuma.
+        /// </summary>
         private bool IsCloseToSatsuma()
         {
             return Vector3.Distance(Satsuma.Instance.transform.position, this.transform.position) < MinimalDistanceToSatsuma;
         }
 
+        /// <summary>
+        /// Called when floor jack is being moved.
+        /// </summary>
         private void OnMove()
         {
             if (!isActionApplied)
@@ -70,6 +80,9 @@ namespace MOP.Items.Helpers
             }
         }
 
+        /// <summary>
+        /// Called when floor jack moving stops.
+        /// </summary>
         private void OnMoveStop()
         {
             if (isActionApplied)

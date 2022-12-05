@@ -103,6 +103,14 @@ namespace MOP.Vehicles.Cases
         internal Vector3 lastGoodPosition;
         bool lastGoodRotationSaved;
 
+        // AIR TIME CHECKS
+        // Frames left, where the game assumes that the car is still mid-air.
+        private int framesLeftToSkipForGroundCheckDueToFlight;
+        // Frames to skip when air-time has started.
+        private const int FramesToSkip = 30;
+        // Velocity magnitude above which the car body is considered as moving.
+        private const float VelocityCheckDeadzone = 0.2f;
+
         /// <summary>
         /// Initialize class
         /// </summary>
@@ -732,26 +740,26 @@ namespace MOP.Vehicles.Cases
 
             rb.constraints = enabled ? RigidbodyConstraints.None : RigidbodyConstraints.FreezePosition;
         }
-
-        private int framesLeftToSkipForGroundCheckDueToFlight;
-        private const int FramesToSkip = 30;
-
+        
         public override bool IsOnGround()
         {
+            // Wheel not attached? Check for drivetrain torque and rigidbody velocity.
             if (!wheel.enabled)
             {
-                if (rb.velocity.magnitude > 0.2)
+                // Car body is moving? Reset the time where we assume that the car body is moving.
+                if (rb.velocity.magnitude > VelocityCheckDeadzone)
                 {
                     framesLeftToSkipForGroundCheckDueToFlight = FramesToSkip;
                 }
 
+                // If we're still asuming the car body is moving, return FALSE, and decrease the counter by 1.
                 if (framesLeftToSkipForGroundCheckDueToFlight > 0)
                 {
                     framesLeftToSkipForGroundCheckDueToFlight--;
                     return false;
                 }
 
-                return drivetrain.torque == 0 && rb.velocity.sqrMagnitude == 0;
+                return drivetrain.torque == 0 && rb.velocity.sqrMagnitude <= VelocityCheckDeadzone;
             }
 
             return wheel.onGroundDown;
