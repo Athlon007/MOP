@@ -16,10 +16,10 @@ jobs:
         run: |
           ISSUE_TEMPLATE=$(cat .github/ISSUE_TEMPLATE/template-bug-report.md)
 
-      # Read the contents of the newly submitted issue
+      # Read the contents of the newly submitted issue, removing the title
       - name: Read issue
         run: |
-          ISSUE=$(cat $GITHUB_EVENT_PATH)
+          ISSUE=$(cat $GITHUB_EVENT_PATH | sed -n '3,$p')
 
       # Compare the contents of the template-bug-report.md and the newly submitted issue
       - name: Compare issues
