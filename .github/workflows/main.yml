@@ -35,7 +35,7 @@ jobs:
 
       # If the issue should be closed, close it with the "invalid" tag
       - if: ${{ env.CLOSE_ISSUE }}
-        uses: octokit/request-action@v2
+        uses: octokit/request-action@v2.1.0
         with:
           route: PATCH /repos/:owner/:repo/issues/:issue_number
           data: '{"state": "closed", "labels": ["invalid"]}'
