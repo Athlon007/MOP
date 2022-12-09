@@ -25,7 +25,7 @@ jobs:
       - name: Compare issues
         run: |
           if [ "$ISSUE_TEMPLATE" == "$ISSUE" ]; then
-            echo "The issue matches the template-bug-report.md"
+            echo "The issue ${{ github.event.issue.number }} matches the template-bug-report.md"
             # Set a variable indicating that the issue should be closed
             CLOSE_ISSUE=true
           else
