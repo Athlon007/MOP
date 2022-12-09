@@ -33,9 +33,18 @@ jobs:
             exit 1
           fi
 
-      # If the issue should be closed, close it with the "invalid" tag
+      # If the issue should be closed, close it with the "invalid" tag and post a comment
       - if: ${{ env.CLOSE_ISSUE }}
         uses: octokit/request-action@v2.1.0
         with:
-          route: PATCH /repos/:owner/:repo/issues/:issue_number
-          data: '{"state": "closed", "labels": ["invalid"]}'
+          route: POST /repos/:owner/:repo/issues/:issue_number/comments
+          data: '{"body": "Closed automatically, due to issue being a template."}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - if: ${{ env.CLOSE_ISSUE }}
+        uses: peter-evans/close-issue@v2
+        with:
+          issue-number: :issue_number
+          comment: Auto-closing issue
+          labels: |
+            invalid
