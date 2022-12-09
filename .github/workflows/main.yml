@@ -1,0 +1,41 @@
+name: Issue Check
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  issue-check:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v2
+
+      # Read the contents of the template-bug-report.md file
+      - name: Read ISSUE_TEMPLATE.md
+        run: |
+          ISSUE_TEMPLATE=$(cat .github/ISSUE_TEMPLATE/template-bug-report.md)
+
+      # Read the contents of the newly submitted issue
+      - name: Read issue
+        run: |
+          ISSUE=$(cat $GITHUB_EVENT_PATH)
+
+      # Compare the contents of the template-bug-report.md and the newly submitted issue
+      - name: Compare issues
+        run: |
+          if [ "$ISSUE_TEMPLATE" == "$ISSUE" ]; then
+            echo "The issue matches the template-bug-report.md"
+            # Set a variable indicating that the issue should be closed
+            CLOSE_ISSUE=true
+          else
+            echo "The issue does not match the template-bug-report.md"
+            exit 1
+          fi
+
+      # If the issue should be closed, close it with the "invalid" tag
+      - if: ${{ env.CLOSE_ISSUE }}
+        uses: octokit/request-action@v2
+        with:
+          route: PATCH /repos/:owner/:repo/issues/:issue_number
+          data: '{"state": "closed", "labels": ["invalid"]}'
