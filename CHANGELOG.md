@@ -1,6 +1,12 @@
 # Changelog
 
-## 3.10.2 (05.11.2022)
+## 3.10.3 (09.12.2022)
+
+### Bug Fixes
+
+- Fixed warnings caused by the latest My Summer Car update
+
+## 3.10.2 (05.12.2022)
 
 ### Bug Fixes
 

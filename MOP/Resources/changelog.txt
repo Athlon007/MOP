@@ -1,5 +1,3 @@
 ### Bug Fixes
 
-- Fixed bare car body moving, if player attempted to put floor jack under it
-- Fixed a bug, which would cause the car body not fall, if it was (somehow) sent flying in the air
-- Fixed Satsuma not entirely getting disabled
+- Fixed warnings caused by the latest My Summer Car update

@@ -78,12 +78,11 @@ namespace MOP
 
             if (buildings != null && perajarvi != null)
             {
-                SetParent(perajarvi, buildings, "HouseRintama4");
-                SetParent(perajarvi, buildings, "ChickenHouse");
-                SetParent(perajarvi, buildings, "HouseOld5");
+                //SetParent(perajarvi, buildings, "HouseRintama4");
+                //SetParent(perajarvi, buildings, "ChickenHouse");
+                //SetParent(perajarvi, buildings, "HouseOld5");
                 SetParent(perajarvi, buildings, "HouseRintama3");
                 SetParent(perajarvi, buildings, "HouseSmall3");
-                SetParent(buildings, null, "ChickenHouse"); // Home barn.
                 SetParent(null, "CHURCHWALL");
                 SetParent(null, "DINGONBIISI");
 
@@ -124,20 +123,15 @@ namespace MOP
                 GameObject.Find("lantern(itemx)").transform.parent = null;
                 GameObject.Find("coffee cup(itemx)").transform.parent = null;
                 GameObject.Find("camera(itemx)").transform.parent = null;
-                GameObject.Find("COTTAGE/ax(itemx)").transform.parent = null;
-
                 GameObject.Find("fireworks bag(itemx)").transform.parent = null;
-
                 // Fix for fishing areas
                 GameObject.Find("FishAreaAVERAGE").transform.parent = null;
                 GameObject.Find("FishAreaBAD").transform.parent = null;
                 GameObject.Find("FishAreaGOOD").transform.parent = null;
                 GameObject.Find("FishAreaGOOD2").transform.parent = null;
-
                 // Fix for strawberry field mailboxes
-                GameObject.Find("JOBS").transform.Find("StrawberryField/LOD/MailBox").parent = null;
-                GameObject.Find("JOBS").transform.Find("StrawberryField/LOD/MailBox").parent = null;
-
+                //GameObject.Find("JOBS").transform.Find("StrawberryField/LOD/MailBox").parent = null;
+                //GameObject.Find("JOBS").transform.Find("StrawberryField/LOD/MailBox").parent = null;
                 // Fix for items left on cottage chimney clipping through it on first load of cottage
                 GameObject.Find("COTTAGE").transform.Find("MESH/Cottage_chimney").parent = null;
             }
