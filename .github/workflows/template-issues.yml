@@ -41,10 +41,11 @@ jobs:
           data: '{"body": "Closed automatically, due to issue being a template."}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # If the issue should be closed, close it with the "invalid" tag
       - if: ${{ env.CLOSE_ISSUE }}
-        uses: peter-evans/close-issue@v2
+        uses: octokit/request-action@v2.1.0
         with:
-          issue-number: :issue_number
-          comment: Auto-closing issue
-          labels: |
-            invalid
+          route: PATCH /repos/:owner/:repo/issues/:issue_number
+          data: '{"state": "closed", "labels": ["invalid"]}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
