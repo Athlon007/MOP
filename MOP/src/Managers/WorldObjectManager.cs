@@ -59,6 +59,15 @@ namespace MOP.Managers
         /// <param name="silent">Skips the error message.</param>
         public GenericObject Add(string gameObjectName, DisableOn disableOn, int distance = 200, ToggleModes toggleMode = ToggleModes.Simple, bool silent = false)
         {
+            IgnoreRule rule = RulesManager.Instance.GetList<IgnoreRule>().Find(f => f.ObjectName == gameObjectName);
+            if (rule != null)
+            {
+                if (rule.TotalIgnore)
+                    return null;
+
+                toggleMode = ToggleModes.Renderer;
+            }
+
             GameObject gm = GameObject.Find(gameObjectName);
 
             if (gm == null)

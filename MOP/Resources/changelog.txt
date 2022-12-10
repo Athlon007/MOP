@@ -1,3 +1,4 @@
 ### Bug Fixes
 
-- Fixed warnings caused by the latest My Summer Car update
+- Fixed MOP rules not applying the Ignore rule for WorldObjectManager.Add by object name
+- Fixed compatibility with the Expanded Winter Features mod

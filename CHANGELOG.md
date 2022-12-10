@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.10.4 (10.12.2022)
+
+### Bug Fixes
+
+- Fixed MOP rules not applying the Ignore rule for WorldObjectManager.Add by object name
+- Fixed compatibility with the Expanded Winter Features mod
+
 ## 3.10.3 (09.12.2022)
 
 ### Bug Fixes
