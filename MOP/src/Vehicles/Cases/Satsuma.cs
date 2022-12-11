@@ -27,6 +27,7 @@ using MOP.Items.Cases;
 using MOP.Vehicles.Managers.SatsumaManagers;
 using MOP.Rules;
 using MOP.Rules.Types;
+using System;
 
 namespace MOP.Vehicles.Cases
 {
@@ -288,9 +289,28 @@ namespace MOP.Vehicles.Cases
             // Apply hood fix.
             try
             {
-                GameFixes.Instance.HoodFix(transform.Find("Body/pivot_hood"),
-                                           transform.Find("MiscParts/trigger_battery"),
-                                           transform.Find("MiscParts/pivot_battery"));
+                Transform pivotHood = transform.Find("Body/pivot_hood");
+                Transform pivotTriggerBattery = transform.Find("MiscParts/trigger_battery");
+                Transform pivotBattery = transform.Find("MiscParts/pivot_battery");
+
+                if (pivotHood == null)
+                {
+                    throw new NullReferenceException("Pivot Hood is not found.");
+                }
+
+                if (pivotTriggerBattery == null)
+                {
+                    throw new NullReferenceException("Pivot Trigger Battery is not found.");
+                }
+
+                if (pivotBattery == null)
+                {
+                    throw new NullReferenceException("Pivot battery is not found.");
+                }
+
+                GameFixes.Instance.HoodFix(pivotHood,
+                                           pivotTriggerBattery,
+                                           pivotBattery);
             }
             catch (System.Exception ex)
             {
