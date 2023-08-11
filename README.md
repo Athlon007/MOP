@@ -45,14 +45,6 @@ Got any questions? Please refer to the [FAQ](http://kfigura.nl/mop/wiki/#/faq) f
 
 Beta builds are going to be released on GitHub with a tag "pre-release".
 
-## Reporting Issues
-
-If you found a bug in MOP and you would like to report it, the first thing you should do is to go into MSC, go to MOP settings and click "**I FOUND A BUG**".
-
-To send a bug report, please either [use GitHub](https://github.com/Athlon007/MOP/issues/new?assignees=&labels=bug&template=template-bug-report.md&title=Bug%20Report), or send an e-mail to [bugreport@kkmr.pl](mailto:bugreport@kkmr.pl).
-
-Note: Don't even bother if you use a pirated copy of the game, as pirated game copies are NOT SUPPORTED.
-
 ## License
 
 This program is distributed under GNU General Public License v3. Feel free to use its source code as long as you mention the author and state the changes. You can also modify, share and distribute it, as long as you state changes. For more, see [LICENSE](LICENSE.md) file.
