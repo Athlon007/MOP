@@ -1,3 +1,9 @@
+# THIS PROJECT IS NO LONGER MAINTAINED
+
+Feel free to still use it, but I won't be providing any support for it. MOP should still work fine with the latest version of MSC, but if it doesn't, you're on your own.
+
+Feel free to fork the project and continue development on your own.
+
 # Modern Optimization Plugin
 
 [![](https://img.shields.io/github/downloads/Athlon007/MOP/total?style=for-the-badge)](https://github.com/Athlon007/MOP/releases)
